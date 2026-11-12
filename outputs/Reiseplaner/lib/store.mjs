@@ -27,7 +27,7 @@ export function initialState(trip) {
     people: Array.from({ length: trip.travellers }, (_, i) => ({ id: 'p' + (i + 1), name: 'Person ' + (i + 1), age: null })),
     edits: {}, manual: [], expenses: [], favorites: [], deadlines: [], localRoutes: {},
     pass: { from: trip.from, to: trip.to, days: 7, cost: null, rides: 0, purchased: false, budgetMode: 'tickets', includeReferences: false },
-    mobility: {},
+    mobility: {}, groceryOverrides: {},
     budgetLimit: null, title: null,
   };
 }
@@ -44,6 +44,14 @@ export function validateState(state, trip, imported) {
   if (state.mobility != null && (!object(state.mobility) || Object.entries(state.mobility).some(([city, count]) =>
     !['genoa', 'nice', 'venice'].includes(city) || !trip.route.includes(city) || !Number.isInteger(count) || count < 0 || count > 100))) {
     error('Ungültige Nahverkehrsplanung.');
+  }
+  if (state.groceryOverrides != null
+    && (!object(state.groceryOverrides) || Object.keys(state.groceryOverrides).length > 200
+      || Object.entries(state.groceryOverrides).some(([key, value]) =>
+        !/^[a-z0-9_-]{1,50}:[a-z0-9_-]{1,120}:[0-9]{1,7}:[0-9]{1,8}$/i.test(key)
+        || !object(value) || !Number.isSafeInteger(value.packs) || value.packs < 1 || value.packs > 100
+        || !Number.isSafeInteger(value.unitCents) || value.unitCents < 0 || value.unitCents > 100000))) {
+    error('Ungültiger gemeinsamer Einkaufswarenkorb.');
   }
   if (state.title != null && !goodText(state.title, 160)) error('Ungültiger Variantentitel.');
   if (state.budgetLimit != null && (!Number.isSafeInteger(state.budgetLimit) || state.budgetLimit < 0 || state.budgetLimit > 100_000_000)) error('Ungültiges Budgetlimit.');
@@ -62,6 +70,15 @@ export function validateState(state, trip, imported) {
         || (i.buffer != null && (!Number.isInteger(i.buffer) || i.buffer < 0 || i.buffer > 1440))) error('Ungültiger Planeintrag.');
     if (i.end && i.start && Date.parse(i.end) <= Date.parse(i.start)) error('Das Ende muss nach dem Beginn liegen.');
     if (i.kind === 'transport' && i.toCity && !trip.route.includes(i.toCity)) error('Der Zielort gehört nicht zur ursprünglichen Route.');
+    if (i.basketProducts != null
+      && (!i.requiresKitchen || !Array.isArray(i.basketProducts) || i.basketProducts.length > 30
+        || i.basketProducts.some(product => !goodText(product?.name, 160)
+          || !goodText(product?.source, 120) || !/^[a-z0-9_-]+$/i.test(product.source)
+          || !Number.isSafeInteger(product.pack) || product.pack < 1 || product.pack > 100000
+          || !Number.isSafeInteger(product.need) || product.need < 1 || product.need > 100000
+          || !Number.isSafeInteger(product.cents) || product.cents < 0 || product.cents > 100000))) {
+      error('Ungültiger Zutatenplan.');
+    }
     if (i.mealSlot != null && (i.kind !== 'activity' || !['breakfast', 'lunch', 'dinner'].includes(i.mealSlot)
       || !validDay(mealDate(i)) || mealDate(i) < trip.from || mealDate(i) > trip.to)) error('Ungültige Mahlzeit oder Reisetag.');
   };
