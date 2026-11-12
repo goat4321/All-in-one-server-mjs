@@ -91,3 +91,5 @@ Drei zusätzliche Barcelona-Suchbeobachtungen (03.–06.09.2027, drei Erwachsene
 Im **Planungs-Check** und der **Karte** wird sichtbar, dass Barcelonas lokale Fahrplanpakete am 18.06.2027 enden und somit keine minutengenauen September-2027-Verbindungen liefern. Externe Fußweg- und ÖPNV-Planer bleiben über ihre vorhandenen Links nutzbar.
 
 Testbefehle: `npm run test:portable` für Modell/Sicherheit, `node test/portable-browser.mjs` für echte Chrome-Bedienung, `npm test` und `npm run test:browser` für die vollständige Originalabnahme auf dem lokalen Windows-Rechner mit privaten `data/tripsy-*.json`.
+
+Unter **Übersicht → Offizielle Reiseregeln für 2027** findest du jetzt für die jeweilige Reisevariante den Venedig-Zugangsentgelt-Kalender, die veröffentlichten Oeschinensee-Gondelbetriebszeiten, die Mindestalter-/Führerscheinanforderung für SIXT Schweiz (bei der vierköpfigen Seenreise) sowie die Eiffelturm-2027-Tarifwarnung. Jeder Eintrag hat einen konkreten Link zur offiziellen Quelle. Termine sind publizierte Regel-/Saisonangaben, **keine** garantierte Ticket- oder Fahrzeugverfügbarkeit. Preisunbekannt bleibt Preisunbekannt und wird nicht auf 0 € gesetzt.
