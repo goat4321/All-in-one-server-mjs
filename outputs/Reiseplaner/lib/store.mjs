@@ -1,6 +1,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import { randomUUID, createHash } from 'node:crypto';
 import { activeItems, fxAmount, groupPrice, mealDate, minor } from '../public/model.mjs';
+import { VERIFICATION_FIELDS } from '../public/verification.mjs';
 
 const object = v => v !== null && typeof v === 'object' && !Array.isArray(v);
 const goodText = (v, limit = 600) => typeof v === 'string' && v.length <= limit;
@@ -27,7 +28,7 @@ export function initialState(trip) {
     people: Array.from({ length: trip.travellers }, (_, i) => ({ id: 'p' + (i + 1), name: 'Person ' + (i + 1), age: null })),
     edits: {}, manual: [], expenses: [], favorites: [], deadlines: [], localRoutes: {},
     pass: { from: trip.from, to: trip.to, days: 7, cost: null, rides: 0, purchased: false, budgetMode: 'tickets', includeReferences: false },
-    mobility: {}, groceryOverrides: {},
+    mobility: {}, groceryOverrides: {}, verifications: {},
     budgetLimit: null, title: null,
   };
 }
@@ -61,6 +62,26 @@ export function validateState(state, trip, imported) {
       || (p.budgetMode != null && !['tickets', 'interrail'].includes(p.budgetMode))
       || (p.cost != null && (!Number.isSafeInteger(p.cost) || p.cost < 0 || p.cost > 100_000_000))) error('Ungültige Passangaben.');
   const itemMap = new Map([...trip.items, ...imported, ...state.manual].map(i => [i.id, i]));
+  if (state.verifications != null) {
+    if (!object(state.verifications) || Object.keys(state.verifications).length > 400)
+      error('Ungültiges Prüfarchiv.');
+    for (const [id, entry] of Object.entries(state.verifications)) {
+      const source = itemMap.get(id);
+      if (!source || !['lodging', 'transport'].includes(source.kind) || !object(entry)
+        || entry.kind !== source.kind || !object(entry.checks)
+        || Object.entries(entry.checks).some(([name, checked]) =>
+          !VERIFICATION_FIELDS[source.kind].includes(name) || typeof checked !== 'boolean')
+        || !validDay(entry.checkedAt)
+        || (entry.evidenceUrl != null && (typeof entry.evidenceUrl !== 'string'
+          || entry.evidenceUrl.length > 1200 || !/^https?:\/\/[^\s]+$/i.test(entry.evidenceUrl)))
+        || !goodText(entry.note ?? '', 600)
+        || (entry.groupSize != null && (!group(entry.groupSize) || entry.groupSize !== state.people.length))
+        || (entry.quotedCents != null && (!Number.isSafeInteger(entry.quotedCents)
+          || entry.quotedCents < 0 || entry.quotedCents > 100_000_000))) {
+        error('Ungültiger manueller Prüfstatus.');
+      }
+    }
+  }
   const validateItem = i => {
     if (!object(i) || !goodText(i.id, 180) || !goodText(i.name, 240) || !i.name.trim() || !trip.route.includes(i.city)
         || !['activity', 'lodging', 'transport', 'note'].includes(i.kind) || !validTime(i.start) || !validTime(i.end)
