@@ -105,7 +105,7 @@ try {
   await save();
   await click('.sidebar [data-action=page][data-value=food]');
   await text('#main', '6,50');
-  await text('#main', 'Packungen wegen Gruppengröße automatisch erhöht');
+  await text('#main', 'Packungen an den gesamten Bedarf angepasst');
   assert.equal(store.current('interrail_classic').state.manual.filter(i => i.mealPlanId === 'pasta').length, 2);
   await click('.sidebar [data-action=page][data-value=budget]');
   await text('#main', '6,50');
