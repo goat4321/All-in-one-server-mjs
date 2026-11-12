@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { calendarMonthsBefore, railSalesStatus, reviewProgress } from '../public/verification.mjs';
+import { official2027Notices, veniceAccessStatus } from '../public/official-rules-2027.mjs';
 import { loadCatalog } from '../lib/catalog.mjs';
 import { initialState, validateState } from '../lib/store.mjs';
 import { activeItems, calculateBudget } from '../public/model.mjs';
@@ -75,4 +76,24 @@ test('Unsupported item, future data shape, invalid URL, wrong party and negative
     ...state.verifications[firstLeg.id], groupSize: 4,
   }, 3).description, 'Andere Gruppengröße · neu prüfen');
   assert.throws(() => validateState(corrupt({ quotedCents: -1 }), classic, []), /Prüfstatus/);
+});
+
+test('Official Venice 2027 charge calendar is represented without adding charges to August/September budget', () => {
+  assert.equal(veniceAccessStatus('2027-08-15'), 'published_charge_day');
+  assert.equal(veniceAccessStatus('2027-08-16'), 'not_in_published_calendar');
+  assert.equal(veniceAccessStatus('2027-09-11'), 'not_in_published_calendar');
+  assert.equal(veniceAccessStatus('2028-03-28'), 'unknown');
+  const note = official2027Notices(classic).find(row => row.id === 'venice-2027');
+  assert.ok(note && note.message.includes('keine Gratiszusage'));
+  assert.equal(calculateBudget(activeItems(classic, initialState(classic)), initialState(classic))
+    .rows.some(row => row.id.includes('venice-access')), false);
+});
+
+test('Swiss SIXT age restriction, Oeschinensee 2027 summer hours and Eiffel price validity are flagged', () => {
+  const swissNotes = official2027Notices(swiss);
+  assert.equal(swissNotes.find(note => note.id === 'swiss-car-2027')?.source.includes('sixt.ch'), true);
+  assert.match(swissNotes.find(note => note.id === 'swiss-car-2027').message, /19 Jahren/);
+  assert.match(swissNotes.find(note => note.id === 'oeschi-2027').message, /08:30–18:00/);
+  const parisNotes = official2027Notices(classic);
+  assert.match(parisNotes.find(note => note.id === 'eiffel-2027').message, /2026-Referenzpreise/);
 });
