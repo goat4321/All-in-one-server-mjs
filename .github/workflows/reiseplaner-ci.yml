@@ -1,0 +1,52 @@
+name: Reiseplaner · Branch-Qualitätsprüfung
+
+on:
+  push:
+    branches: [feature/v7-resilient-seed-fallback]
+  pull_request:
+    paths:
+      - "outputs/Reiseplaner/**"
+      - ".github/workflows/reiseplaner-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  portable:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: outputs/Reiseplaner
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Syntaxprüfungen aller JavaScript-Module
+        run: find . -name '*.mjs' -not -path './node_modules/*' -print0 | xargs -0 -n1 node --check
+      - name: Isolierte Seed- und Readiness-Tests
+        run: npm run test:portable
+      - name: Server-Smoke-Test ohne private Tripsy-Dateien
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { createApp } from './server.mjs';
+          const { server } = await createApp({ database: ':memory:', upstream: false });
+          await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+          try {
+            const base = 'http://127.0.0.1:' + server.address().port;
+            const res = await fetch(base + '/api/bootstrap');
+            assert.equal(res.status, 200);
+            const data = await res.json();
+            assert.equal(data.trips.length, 4);
+            assert.ok(data.trips.every(trip => trip.dataMode === 'research_seed_fallback'));
+            const page = await fetch(base + '/');
+            assert.equal(page.status, 200);
+            assert.match(await page.text(), /<html/i);
+            console.log('PASS: four separate trips, offline fallback, HTML');
+          } finally {
+            await new Promise(resolve => server.close(resolve));
+          }
+          NODE
