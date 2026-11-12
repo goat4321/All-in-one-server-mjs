@@ -20,3 +20,5 @@
 | 12.11.2026 | Hoch | Aktuelle Barcelona-2027-Suchpreise zusätzlich prüfen, historische Angebote erhalten | Unterkunftsvergleich | 3 weitere datierte, ungebuchte Provider-Beobachtungen für 3 Erwachsene/03.–06.09.2027 separat angelegt; genaue Tarif-/Zimmerzuordnung noch offen. |
 | 12.11.2026 | Kritisch | GTFS-Nutzungsgrenze für 2027 auf Karten/Tageswegen anzeigen | Karten, ÖPNV | Barcelona nur bis 18.06.2027: Warnung im Kartenpanel und alte Abfahrten ausdrücklich als Referenz bezeichnet. |
 | 12.11.2026 | Hoch | Privaten Tripsy-Livebestand gegen Research-Transportbestand abgleichen | Quellenintegrität, Regression | Vier Reisen rein lesend abgeglichen; 35 Referenzzug-IDs + eine bereits dokumentierte Dublette; vollständiger privater Original-End-to-End-Test lokal noch offen. |
+
+| 12.11.2026 | Hoch | Veröffentlichte 2027er Venedig-/Alpen-/Mietwagen-Regeln aufgreifen, ohne unsichere Preise zu erfinden | Übersicht, offizielle Quellen | Implementiert: Venedig-Gebührenkalender, Oeschinensee-Sommerzeiten, SIXT-CH-Alter/Führerschein, Eiffelturm-2027-Tarifwarnung; Node- und Chrome-Tests. |
