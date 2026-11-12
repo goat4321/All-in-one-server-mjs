@@ -28,6 +28,8 @@ jobs:
         run: find . -name '*.mjs' -not -path './node_modules/*' -print0 | xargs -0 -n1 node --check
       - name: Isolierte Seed- und Readiness-Tests
         run: npm run test:portable
+      - name: Echter Chrome-Browsertest für Warenkorb und Mobilansicht
+        run: node test/portable-browser.mjs
       - name: Server-Smoke-Test ohne private Tripsy-Dateien
         run: |
           node --input-type=module <<'NODE'
