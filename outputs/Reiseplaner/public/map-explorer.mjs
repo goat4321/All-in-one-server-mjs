@@ -29,7 +29,18 @@ export function explorerData(items, trip, { city = null, group = 'all', search =
   const norm = text => String(text ?? '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('de');
   const needle = norm(search).trim().slice(0, 100);
   const dedup = new Map();
-  for (const item of items) {
+  const entries = items.flatMap(item => {
+    const arrivals = item.kind === 'transport' && validCities.has(item.toCity) && validPoint(item.toPoint)
+      ? [{ ...item, id: 'arrival:' + item.id, explorerParent: item.id,
+        name: 'Ankunft · ' + (item.arrival ?? item.toCity),
+        city: item.toCity, point: item.toPoint, address: item.arrivalAddress,
+        detail: 'Zielbahnhof / Ankunftspunkt der bestehenden Verbindung ' + item.name
+          + '. Fahrplan, Umstiege und Tarif für 2027 gesondert prüfen.',
+        price: null, effectivePrice: null, role: 'Ankunft', duplicateOf: null }]
+      : [];
+    return [item, ...arrivals];
+  });
+  for (const item of entries) {
     if (!validCities.has(item.city) || item.duplicateOf || item.removed || item.positionIssue && !validPoint(item.point)) continue;
     if (!['activity', 'transport', 'lodging'].includes(item.kind)) continue;
     if (city && item.city !== city) continue;
