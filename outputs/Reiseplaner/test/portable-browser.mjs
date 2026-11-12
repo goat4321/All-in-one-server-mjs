@@ -32,7 +32,7 @@ async function until(fn, label, timeout = 12000) {
 let socket;
 try {
   const port = await until(async () => (await readFile(join(profile, 'DevToolsActivePort'), 'utf8')).split('\n')[0],
-    'Chrome CDP Port', 16000);
+    'Chrome CDP Port', 30000);
   const targets = await (await fetch('http://127.0.0.1:' + port + '/json/list')).json();
   socket = new WebSocket(targets.find(target => target.type === 'page').webSocketDebuggerUrl);
   await once(socket, 'open');
