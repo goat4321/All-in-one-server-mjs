@@ -1,0 +1,49 @@
+{
+  "version": "0.1.0",
+  "created_on": "2026-11-09",
+  "language": "de",
+  "default_currency": "EUR",
+  "time_representation": "local times with destination timezone; 2027 provisional times are not timetable confirmations",
+  "statuses": {
+    "origin": [
+      "imported",
+      "researched",
+      "manual"
+    ],
+    "verification_status": [
+      "verified_tariff_at_source",
+      "source_context_only",
+      "unverified",
+      "unverified_for_dates",
+      "published_from_price",
+      "unverified_option"
+    ],
+    "booking_status": [
+      "unbooked",
+      "requested",
+      "booked",
+      "cancelled"
+    ],
+    "payment_status": [
+      "unpaid",
+      "paid",
+      "refunded"
+    ]
+  },
+  "financial_rules": [
+    "All shared accommodation prices are group totals, never per-person amounts unless explicitly scoped",
+    "A comparison_candidate is NOT active and is not automatically included in cost totals",
+    "Use integer cents or Decimal for money; split remaining cents deterministically by stable traveller ID",
+    "Preserve original currency and dated FX conversion rate",
+    "Pass cost and seat reservations are separate",
+    "A zero reported by Tripsy train placeholder is missing price, not free fare"
+  ],
+  "import_identity": "source_system + trip external_trip_id + entity external_id; use within-variant fuzzy checks only if external ID missing",
+  "alternatives": "Do not combine variants or auto-select researched options. Preserve original Tripsy exactly.",
+  "source_definitions": {
+    "tripsy": "Private authenticated Tripsy connector read-only on 2026-11-09",
+    "published_tariff": "Published provider reference, not 2027 live booking quote",
+    "historic_or_plan_total": "old user-planned value, cannot be used as sale quote"
+  },
+  "privacy": "Do not publish contact details, emails, booking codes or traveler identity from Tripsy in a public frontend."
+}

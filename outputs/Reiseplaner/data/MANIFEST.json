@@ -1,0 +1,128 @@
+{
+  "package": "reiseplaner-data-seed",
+  "version": "0.1.0",
+  "generated_at_utc": "2026-11-09T14:50:31.228634+00:00",
+  "source_data_date": "2026-11-09",
+  "files": [
+    {
+      "path": "accommodations.json",
+      "sha256": "843d86914ce3f7a9383280960916662c75b6f4d731d5f0598acb700f63f64cd4",
+      "bytes": 27271
+    },
+    {
+      "path": "transport.csv",
+      "sha256": "1c753bf195caaf4e9d74a9dec65185731462ae43afdd221d65349c44c985ff1a",
+      "bytes": 12430
+    },
+    {
+      "path": "data_quality.json",
+      "sha256": "6ff31224c8fe62d243a9c724e1504eda523deb70dd4c6c8bea24e02cf9c6a363",
+      "bytes": 7490
+    },
+    {
+      "path": "sources.json",
+      "sha256": "535259b47667036129ff522f256f495c02ee1f96c48af5a8bc2c7237569ee70f",
+      "bytes": 11754
+    },
+    {
+      "path": "data_quality.csv",
+      "sha256": "9a5ed7e787b5cc675167e7e25c57252cd35e024b49a848eee11004fd3d7518ef",
+      "bytes": 4580
+    },
+    {
+      "path": "accommodations.csv",
+      "sha256": "398da808a1492e559d59ad8a1d6186886dcf77352b9c9a41d8baea8c0c0c3240",
+      "bytes": 8057
+    },
+    {
+      "path": "fares.json",
+      "sha256": "ce4801641172e045f6ccb54e7b82234520c4e6374c4a2fbb38c870fdbdda1ff5",
+      "bytes": 14199
+    },
+    {
+      "path": "sources.csv",
+      "sha256": "f4da71eb6e5ed5127d29656a70f870be06c0b91e897419ce0eb34dfebce3e765",
+      "bytes": 5499
+    },
+    {
+      "path": "fares.csv",
+      "sha256": "278f8f51e7eccaf8301eba39fb434114c6e5697969634619451034e76a3df9bc",
+      "bytes": 5510
+    },
+    {
+      "path": "budgets.json",
+      "sha256": "b3a16bb64171ff87f9730c4ef772db275903779d97076360eea17f649b9bbe09",
+      "bytes": 8494
+    },
+    {
+      "path": "budgets.csv",
+      "sha256": "4279ad02ed84b8282678989159e5b11e574bc33fc5271836eb29bb950ff33ea6",
+      "bytes": 4985
+    },
+    {
+      "path": "trips.csv",
+      "sha256": "3ff0fbe2c55a77bc66644ee93b9f864b9337d1a7ac111912a388b702859e1a03",
+      "bytes": 1723
+    },
+    {
+      "path": "destinations.json",
+      "sha256": "92e635688e97e0d39ef02a6962acc505e0abc33f48a3fa7edfc1e9a26313d9a1",
+      "bytes": 9474
+    },
+    {
+      "path": "activities.json",
+      "sha256": "1d7d2a90b80bf1791a9ff6a9be68fe613dfc96bf50511a6d3c742b645a50f5ce",
+      "bytes": 52117
+    },
+    {
+      "path": "activities.csv",
+      "sha256": "9914352abb92b227652d9fcb40816ce264c37956b2f696b06021100ffdc17507",
+      "bytes": 17872
+    },
+    {
+      "path": "schema_notes.json",
+      "sha256": "87eda8a489798f900c87968c168ed2c1dbfc55383404449e7245cd9b6a1b7fdf",
+      "bytes": 1907
+    },
+    {
+      "path": "MANIFEST.json",
+      "sha256": "5e575f4643ee25fc99712ef974e7fbb9b38f4c2b5a18672b0ae2ed9715c0dbd7",
+      "bytes": 3496
+    },
+    {
+      "path": "validate.py",
+      "sha256": "88bae9821e2eed8e82ad2693c4e1df288895ec83a841399e2abc6aa2bb2b3c7a",
+      "bytes": 1963
+    },
+    {
+      "path": "README.md",
+      "sha256": "2a476a764c1bfe6b6d8b2fcb453923960315caa1a461d200aca0577924c2ebb4",
+      "bytes": 2573
+    },
+    {
+      "path": "trips.json",
+      "sha256": "8ca6e7ffae2167b5c9cb4ca64c0b80bc4537be1ec3a39d12947df57ee9bbcdd8",
+      "bytes": 3105
+    },
+    {
+      "path": "destinations.csv",
+      "sha256": "b783bcfadfee467c812695068cfe6b8bc685b4c9bce7ccda1bca81f6818fe74f",
+      "bytes": 4050
+    },
+    {
+      "path": "transport.json",
+      "sha256": "e65ed2d9598ec6484a0ee61c8aca702408d7457b092ccb4fd0168e8e6b0ddc21",
+      "bytes": 31519
+    }
+  ],
+  "counts": {
+    "trips": 4,
+    "destinations": 21,
+    "transport_segments": 35,
+    "accommodations": 26,
+    "activities": 73,
+    "fares": 28,
+    "sources": 34,
+    "quality_findings": 20
+  }
+}

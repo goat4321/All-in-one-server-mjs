@@ -1,0 +1,570 @@
+import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, localParts, minor, priceForParty } from './model.mjs';
+import { renderShell, mapDetail } from './views.mjs';
+import { TripMap } from './map.mjs';
+import { transitFares } from './transit.mjs';
+import { btn, empty, esc, icon } from './ui.mjs';
+import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, mealForm, openDialog, routeForm, simpleField, timetableForm } from './forms.mjs';
+
+const app = document.querySelector('#app');
+const toast = document.querySelector('#toast');
+let catalog, variant, currentMap, context, toastTimer, undo, revisionToken = 0, dragged, timetableSearch;
+let saving = false, loading = false;
+const query = new URLSearchParams(location.search);
+const view = {
+  page: 'plan', date: null, city: null, wholeDay: null, total: false, selected: null, mobile: 'plan', menu: false, timetablePreview: null,
+  theme: localStorage.getItem('reiseplan-theme') ?? 'light',
+  filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
+  optionFilter: 'all', sort: 'source', compareIds: new Set(),
+};
+const walks = new Map();
+const pendingWalks = new Map();
+const optionPages = ['lodging', 'discover'];
+
+async function api(url, method = 'GET', data) {
+  const response = await fetch(url, { method, ...(data === undefined ? {} : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }) });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error ?? 'Der lokale Server antwortet nicht.');
+  return result;
+}
+
+const variantUrl = () => '/api/variant/' + encodeURIComponent(variant.id);
+const dayOf = (item, end = false) => localParts(end ? item.end : item.start, end ? item.endZone ?? item.zone : item.zone).date ?? (end ? item.stayTo : item.date ?? item.stayFrom);
+const pointKey = point => point?.map(n => n.toFixed(5)).join(',') ?? 'unknown';
+const segmentKey = (a, b) => [a.id, pointKey(a.point), b.id, pointKey(b.point)].join('|');
+const walkKey = (a, b) => [pointKey(a), pointKey(b)].join(';');
+
+function buildContext() {
+  const trip = catalog.trips.find(t => t.id === variant.base);
+  const { state, imported } = variant;
+  const people = state.people;
+  const actualMeals = new Map(state.expenses.filter(expense => expense.forItem).map(expense => [expense.forItem, expense]));
+  const withPrice = i => ({ ...i, effectivePrice: priceForParty(actualMeals.get(i.id) ?? i, people) });
+  const all = [...trip.items, ...imported, ...state.manual].map(i => withPrice({ ...i, ...state.edits[i.id] }));
+  const active = activeItems(trip, state, imported).map(withPrice);
+  const activeSet = new Set(active.map(i => i.id));
+  const dates = dateRange(trip.from, trip.to);
+  const cityForDay = date => {
+    const arrival = trip.arrivalByDay[date];
+    if (arrival) return arrival;
+    const stay = Object.entries(trip.stayByCity).find(([, s]) => s.from <= date && date < s.to);
+    if (stay) return stay[0];
+    return active.find(i => i.kind === 'activity' && dayOf(i) === date)?.city ?? trip.route[0];
+  };
+  const date = view.date ?? (trip.id === 'interrail_classic' || trip.id === 'interrail_swiss' ? '2027-09-04' : dates[0]);
+  const city = view.city ?? cityForDay(date);
+  const overnight = active.filter(item => item.kind === 'lodging' && dayOf(item) <= date && date < dayOf(item, true));
+  const mealHotel = overnight.find(item => item.city === city);
+  const mapKitchen = item => {
+    if (!item.requiresKitchen) return item;
+    const kitchen = overnight.find(hotel => hotel.city === item.city);
+    return { ...item, point: kitchen?.point ?? null, address: kitchen?.address,
+      kitchenReady: ['shared', 'private'].includes(kitchen?.kitchenMode) };
+  };
+  const fullDay = dayEntries(active, date).map(mapKitchen);
+  const dayCities = [...new Set(fullDay.map(i => i.placeCity).filter(Boolean))];
+  const wholeDay = dayCities.length > 1 && (view.wholeDay ?? trip.id === 'swiss_lakes');
+  const day = wholeDay ? fullDay : dayEntries(active, date, city).map(mapKitchen);
+  const arrivals = new Map(day.filter(i => i.role === 'Ankunft' && i.point).map(i => [i.id, i]));
+  const dayTravel = wholeDay ? day.filter(i => i.role === 'Abfahrt' && i.point && arrivals.has(i.id))
+    .map(departure => [departure, arrivals.get(departure.id)]) : [];
+  const hotel = active.find(i => i.kind === 'lodging' && i.city === city && dayOf(i) <= date && date <= dayOf(i, true));
+  const stops = [...day];
+  const airportOrStation = stops.some(i => i.kind === 'transport' && i.role === 'Ankunft');
+  const firstLodging = stops.some(i => i.kind === 'lodging');
+  const anchor = !wholeDay && hotel && !firstLodging ? { ...hotel, anchor: true, placeCity: hotel.city } : null;
+  if (anchor && !airportOrStation) stops.unshift(anchor);
+  if (anchor && stops.length > 1 && !stops.some(i => i.kind === 'transport' && i.role === 'Abfahrt')) stops.push(anchor);
+  const segments = stops.slice(1).flatMap((to, i) => {
+    const from = stops[i];
+    const access = alpineAccess(from, to);
+    if (from.id === to.id || (from.point && to.point && pointKey(from.point) === pointKey(to.point))
+      || (from.placeCity !== to.placeCity && !access?.source)) return [];
+    const key = segmentKey(from, to);
+    return [{ from, to, access, key, datedKey: date + '|' + key }];
+  });
+  const routes = segments.map(seg => {
+    const manual = state.localRoutes[seg.datedKey] ?? state.localRoutes[seg.key];
+    if (manual && (!manual.date || manual.date === date)) return manual;
+    return (!seg.access && walks.get(walkKey(seg.from.point, seg.to.point))) || null;
+  });
+  const conflictRoutes = day.map((d, i) => routes[segments.findIndex(s => s.from.entryKey === d.entryKey && s.to.entryKey === day[i + 1]?.entryKey)]);
+  const station = active.find(i => i.kind === 'transport' && i.toCity === city && i.toPoint)?.toPoint;
+  const hotelWalks = Object.fromEntries(all.filter(i => i.city === city && i.kind === 'lodging' && i.point)
+    .map(i => [i.id, walks.get(walkKey(i.localStation?.point ?? station, i.point))]));
+  const foodPlaces = all.filter(i => i.city === city && i.category === 'food' && i.kind === 'activity'
+    && !i.mealPlanId && !i.duplicateOf && !i.removed);
+  const foodWalks = Object.fromEntries(foodPlaces.map(item => [item.id, walks.get(walkKey(mealHotel?.point, item.point))]));
+  const detail = day.find(i => i.entryKey === view.selected) ?? all.find(i => i.id === view.selected);
+  const preview = view.timetablePreview;
+  const timetablePreview = preview?.variantId === variant.id && preview.planDate === date && segments.some(s => s.key === preview.key) ? preview : null;
+  return {
+    ...view, catalog, variant, variants: catalog.variants, trip, cities: catalog.cities, state, people, all, active, activeSet,
+    budget: calculateBudget(active, state), day, fullDay, dates, date, city, cityForDay, dayCities, wholeDay, dayTravel, detail, hotelWalks, station,
+    mealHotel, foodPlaces, foodWalks,
+    stops: stops.filter((item, i) => stops.indexOf(item) === i), segments, routes, conflictRoutes, saving, timetablePreview,
+    options: all.filter(i => i.city === city && !activeSet.has(i.id) && !i.duplicateOf && !i.removed),
+  };
+}
+
+function mapVisible(ctx) {
+  return ctx.page === 'map' || ctx.page === 'plan' && (!matchMedia('(max-width:910px)').matches || ctx.mobile === 'map');
+}
+
+function paintMap(fit = false) {
+  if (!currentMap) return;
+  currentMap.paint({ trip: context.trip, city: context.city, cities: context.cities, entries: context.day, stops: context.stops,
+    dayTravel: context.dayTravel, routes: context.routes, options: context.options, total: context.total,
+    filters: context.filters, focused: context.selected, timetablePreview: context.timetablePreview });
+  if (fit) currentMap.fit();
+}
+
+function selectPoint(id, focusMap = true) {
+  view.selected = id;
+  context = buildContext();
+  const container = document.querySelector('#detail-container');
+  if (container) container.innerHTML = mapDetail(context);
+  app.querySelectorAll('.event-content').forEach(button => {
+    const pressed = button.dataset.value === id;
+    button.setAttribute('aria-pressed', pressed);
+    button.closest('.event-card').classList.toggle('selected', pressed);
+  });
+  paintMap();
+  if (focusMap) currentMap?.focus(id);
+  if (focusMap && matchMedia('(max-width:910px)').matches && context.mobile === 'plan') {
+    const item = context.detail;
+    if (item?.point) {
+      view.mobile = 'map';
+      render({ focusMap: true });
+    } else if (item) itemDetails(context, item);
+  }
+}
+
+function render({ restoreView = false, focusMap = false, fetchRoutes = true } = {}) {
+  if (!variant) return;
+  const previous = currentMap && restoreView ? [currentMap.map.getCenter(), currentMap.map.getZoom()] : null;
+  const active = document.activeElement;
+  const focusAction = app.contains(active) ? active.dataset?.action : null;
+  const focusValue = active?.dataset?.value;
+  const sideScroll = app.querySelector('.sidebar-inner')?.scrollTop;
+  const dateScroll = app.querySelector('.days')?.scrollLeft;
+  currentMap?.destroy();
+  currentMap = null;
+  context = buildContext();
+  document.documentElement.dataset.theme = view.theme;
+  app.innerHTML = renderShell(context);
+  const sidebar = app.querySelector('.sidebar-inner');
+  if (sidebar && sideScroll) sidebar.scrollTop = sideScroll;
+  const days = app.querySelector('.days');
+  if (days) {
+    if (dateScroll && restoreView) days.scrollLeft = dateScroll;
+    else {
+      const picked = days.querySelector('[aria-pressed=true]');
+      if (picked) days.scrollLeft = Math.max(0, picked.offsetLeft - days.offsetLeft - 92);
+    }
+  }
+  if (focusAction) {
+    const replacement = [...app.querySelectorAll('[data-action]')].find(b => b.dataset.action === focusAction && b.dataset.value === focusValue && b.offsetParent);
+    replacement?.focus({ preventScroll: true });
+  }
+  const element = document.querySelector('#map');
+  if (element && mapVisible(context) && window.L) {
+    currentMap = new TripMap(element, {
+      select: id => selectPoint(id, false), leg: index => action('leg', index), visitCity: id => action('city', id),
+      report: message => {
+        const hint = document.querySelector('#map-hint');
+        if (hint) { hint.textContent = message; hint.hidden = !message; }
+      },
+    });
+    paintMap(true);
+    if (previous) currentMap.map.setView(previous[0], previous[1], { animate: false });
+    if (focusMap) currentMap.focus(context.selected);
+  }
+  if (fetchRoutes) void fetchCachedRoutes(context);
+}
+
+async function fetchCachedRoutes(ctx) {
+  if (!['plan', 'map', 'lodging', 'food'].includes(ctx.page) || ctx.total) return;
+  const token = ++revisionToken;
+  const tasks = [
+    ...ctx.segments.filter(s => !s.access).map(s => [s.from.point, s.to.point]),
+    ...ctx.all.filter(i => i.city === ctx.city && i.kind === 'lodging').map(i => [i.localStation?.point ?? ctx.station, i.point]),
+    ...(ctx.page === 'food' ? ctx.foodPlaces.map(i => [ctx.mealHotel?.point, i.point]) : []),
+  ];
+  const unique = new Map(tasks.filter(([a, b]) => a && b && pointKey(a) !== pointKey(b)).map(([a, b]) => [walkKey(a, b), [a, b]]));
+  const requests = [...unique.entries()].flatMap(([key, points]) => {
+    if (walks.has(key)) return [];
+    if (!pendingWalks.has(key)) {
+      const pending = api('/api/walk', 'POST', { points, cachedOnly: true })
+        .catch(() => null)
+        .then(result => {
+          if (!walks.has(key)) walks.set(key, result);
+          return walks.get(key);
+        }).finally(() => pendingWalks.delete(key));
+      pendingWalks.set(key, pending);
+    }
+    return [pendingWalks.get(key)];
+  });
+  const results = await Promise.all(requests);
+  if (results.some(Boolean) && token === revisionToken) render({ restoreView: true, fetchRoutes: false });
+}
+
+function say(message, reversible = false) {
+  clearTimeout(toastTimer);
+  toast.innerHTML = icon('check') + '<span>' + esc(message) + '</span>' + (reversible ? '<button type="button" data-action="undo">Rückgängig</button>' : '');
+  toastTimer = setTimeout(() => { toast.textContent = ''; }, reversible ? 8500 : 4800);
+}
+
+async function save(next, message, recordUndo = true) {
+  if (saving || loading) throw new Error('Eine Änderung wird bereits verarbeitet.');
+  const before = variant.state;
+  const id = variant.id;
+  saving = true;
+  const label = app.querySelector('.status-icon');
+  if (label) label.textContent = 'Speichert …';
+  try {
+    const response = await api(variantUrl(), 'PUT', { state: next, revision: variant.revision });
+    if (recordUndo) undo = { id, state: before };
+    Object.assign(variant, { state: next, revision: response.revision });
+    Object.assign(catalog.variants.find(v => v.id === id), { state: next, revision: response.revision });
+    say(message, recordUndo);
+  } finally {
+    saving = false;
+    render({ restoreView: true });
+  }
+}
+
+async function switchVariant(id) {
+  if (loading || saving || !catalog.variants.some(v => v.id === id)) return;
+  loading = true;
+  try {
+    variant = await api('/api/variant/' + encodeURIComponent(id));
+    localStorage.setItem('reiseplan-variant', id);
+    view.city = view.date = view.selected = view.wholeDay = null;
+    view.total = view.menu = false;
+    view.compareIds.clear();
+    render();
+  } finally { loading = false; }
+}
+
+function showCity(id, date, wholeDay = false) {
+  if (!context.trip.route.includes(id)) return;
+  view.city = id;
+  view.timetablePreview = null;
+  view.wholeDay = wholeDay;
+  view.date = date || (context.city === id ? context.date : context.dates.find(d => context.cityForDay(d) === id)
+    ?? context.trip.stayByCity[id]?.from ?? context.dates.find(d => dayEntries(context.active, d, id).length) ?? context.date);
+  view.selected = null;
+  view.total = view.menu = false;
+  view.compareIds.clear();
+  render();
+}
+
+function showTimetable(ctx, search) {
+  timetableSearch = search;
+  const segment = ctx.segments[search.index];
+  timetableForm(ctx, search, async data => {
+    const dialog = document.querySelector('#dialog');
+    const form = dialog.querySelector('#modal-form');
+    const date = String(data.get('serviceDate'));
+    const time = String(data.get('time'));
+    const excluded = String(data.get('excluded') ?? '').split(',').map(line => line.trim()).filter(Boolean);
+    const result = await api('/api/transit', 'POST', { city: search.city, points: [segment.from.point, segment.to.point], date, time, excluded });
+    if (!dialog.open || dialog.querySelector('#modal-form') !== form || variant.id !== ctx.variant.id) return;
+    showTimetable(ctx, { ...search, date, time, excluded, result });
+  });
+}
+
+function changePage(page) {
+  if (!['overview', 'plan', 'map', 'rail', 'lodging', 'discover', 'food', 'budget', 'group', 'data'].includes(page)) return;
+  view.page = page;
+  view.menu = false;
+  view.optionFilter = 'all';
+  if (page !== 'map') view.total = false;
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  render();
+}
+
+async function withEdit(item, edit, message) {
+  if (!item) return;
+  const { state } = variant;
+  await save({ ...state, edits: { ...state.edits, [item.id]: { ...state.edits[item.id], ...edit } } }, message);
+}
+
+async function reorder(fromId, toId) {
+  const from = context.day.find(i => i.id === fromId);
+  const to = context.day.find(i => i.id === toId);
+  const can = i => i && !i.locked && !i.booked && i.kind === 'activity';
+  if (!can(from) || !can(to) || from === to || from.city !== to.city) throw new Error('Nur flexible Aktivitäten am selben Ort und Tag lassen sich tauschen.');
+  const updates = { ...context.state.edits };
+  for (const [item, dest] of [[from, to], [to, from]]) {
+    const delta = item.start && item.end ? Date.parse(item.end) - Date.parse(item.start) : null;
+    updates[item.id] = { ...updates[item.id], date: context.date, start: dest.start ?? null,
+      end: delta && dest.start ? new Date(Date.parse(dest.start) + delta).toISOString() : null,
+      order: context.day.indexOf(dest) };
+  }
+  await save({ ...context.state, edits: updates }, 'Aktivitäten getauscht');
+}
+
+function optimize() {
+  const candidates = context.day.filter(i => i.kind === 'activity' && i.city === context.city && i.point && i.start && !i.locked && !i.booked);
+  if (candidates.length < 2) {
+    openDialog('Tag prüfen', '<p>Zwei flexible Aktivitäten mit Zeiten und Koordinaten sind für einen Tausch nötig.</p>');
+    return;
+  }
+  const [first, second] = candidates;
+  const forward = walks.get(walkKey(first.point, second.point));
+  const backward = walks.get(walkKey(second.point, first.point));
+  openDialog('Reihenfolge prüfen', '<p>Vorschau für einen Tausch der Startzeiten. Gesperrte Einträge behalten ihren Platz.</p>'
+    + '<div class="stack"><p><strong>Aktuell</strong> ' + esc(first.name + ' → ' + second.name)
+    + (forward ? ' · ' + forward.minutes + ' Min.' : ' · Wegzeit offen') + '</p><p><strong>Vorschlag</strong> '
+    + esc(second.name + ' → ' + first.name) + (backward ? ' · ' + backward.minutes + ' Min.' : ' · Wegzeit offen')
+    + '</p></div><div class="dialog-foot">' + btn('close', 'Abbrechen') + btn('reorder', 'Tausch übernehmen', 'check', JSON.stringify([first.id, second.id]), 'primary') + '</div>');
+}
+
+function download(name, content, type) {
+  const url = URL.createObjectURL(new Blob([content], { type }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = name;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function exportCalendar() {
+  const escape = value => String(value ?? '').replace(/[\\,;]/g, s => '\\' + s).replace(/\r?\n/g, '\\n');
+  const stamp = date => new Date(date).toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z');
+  const rows = [
+    ...context.active.filter(i => i.start).map(i => ({ id: i.id, start: i.start, end: i.end, title: i.name })),
+    ...context.state.deadlines.filter(d => d.when && !d.done).map(d => ({ id: d.id, start: d.when, title: d.title })),
+  ];
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Reiseplaner lokal//DE', ...rows.flatMap(i => [
+    'BEGIN:VEVENT', 'UID:' + escape(variant.id + '-' + i.id) + '@reiseplan.local', 'DTSTAMP:' + stamp(Date.now()),
+    'DTSTART:' + stamp(i.start), ...(i.end ? ['DTEND:' + stamp(i.end)] : []), 'SUMMARY:' + escape(i.title), 'END:VEVENT',
+  ]), 'END:VCALENDAR'];
+  download('reiseplan.ics', lines.join('\r\n') + '\r\n', 'text/calendar;charset=utf-8');
+}
+
+async function action(name, value = '') {
+  if (!context) return;
+  const ctx = context;
+  const item = ctx.all.find(i => i.id === value);
+  switch (name) {
+    case 'page': changePage(value); break;
+    case 'menu': view.menu = !view.menu; render({ restoreView: true }); break;
+    case 'theme':
+      view.theme = view.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('reiseplan-theme', view.theme); render({ restoreView: true }); break;
+    case 'variant': await switchVariant(value); break;
+    case 'city':
+      if (view.page === 'map' && view.total) view.page = 'plan';
+      showCity(value); break;
+    case 'day': showCity(ctx.cityForDay(value), value, view.wholeDay === true || ctx.trip.id === 'swiss_lakes'); break;
+    case 'day-place':
+      showCity(value === 'all' ? ctx.cityForDay(ctx.date) : value, ctx.date, value === 'all'); break;
+    case 'mobile': view.mobile = value; render(); break;
+    case 'show-route': view.total = true; changePage('map'); break;
+    case 'map-mode': view.total = value === 'total'; render(); break;
+    case 'fit': currentMap?.fit(); break;
+    case 'filter': view.filters[value] = !view.filters[value]; render({ restoreView: true }); break;
+    case 'transit': view.filters.transit[value] = !view.filters.transit[value]; render({ restoreView: true }); break;
+    case 'layers': layerForm(ctx); break;
+    case 'select': selectPoint(value); break;
+    case 'details': if (item) itemDetails(ctx, item); break;
+    case 'option-map':
+      if (item) { view.filters.options = true; view.selected = value; view.page = 'map'; view.total = view.wholeDay = false; render({ focusMap: true }); }
+      break;
+    case 'leg': routeForm(ctx, Number(value), null, save); break;
+    case 'scheduled-route': {
+      const index = Number(value);
+      const segment = ctx.segments[index];
+      const city = segment?.from.placeCity ?? ctx.city;
+      if (!catalog.transitSchedules?.[city] || !segment?.from.point || !segment.to.point || segment.access) break;
+      const from = segment.from;
+      const instant = from.kind === 'activity' && from.instant ? from.end ?? Date.parse(from.instant) + (from.duration ?? 0) * 60_000 : from.instant;
+      const time = localParts(instant, catalog.transitSchedules[city].zone).time ?? '17:00';
+      showTimetable(ctx, { index, key: segment.key, city, date: ctx.date, time, excluded: [], variantId: variant.id, planDate: ctx.date, result: null });
+      break;
+    }
+    case 'transit-reference': {
+      const form = document.querySelector('#dialog #modal-form');
+      if (form?.elements.serviceDate) { form.elements.serviceDate.value = value; form.requestSubmit(); }
+      break;
+    }
+    case 'transit-preview':
+    case 'transit-adopt': {
+      const search = timetableSearch;
+      const route = search?.result?.routes[Number(value)];
+      const segment = ctx.segments.find(s => s.key === search?.key);
+      if (!route || !segment || search.variantId !== variant.id || search.planDate !== ctx.date) break;
+      if (name === 'transit-adopt') {
+        if (search.date !== ctx.date || route.date !== ctx.date) throw new Error('Nur Fahrten am Reisetag lassen sich übernehmen.');
+        const next = { ...route, source: search.result.meta.source, line: route.line, date: ctx.date };
+        await save({ ...ctx.state, localRoutes: { ...ctx.state.localRoutes, [segment.datedKey]: next } }, 'Fahrplanweg übernommen');
+        view.timetablePreview = null;
+      } else {
+        view.timetablePreview = { route, key: segment.key, planDate: ctx.date, variantId: variant.id };
+        view.mobile = 'map';
+      }
+      closeDialog();
+      render();
+      break;
+    }
+    case 'transit-clear': view.timetablePreview = null; render({ restoreView: true }); break;
+    case 'calculate': {
+      const index = Number(value);
+      const s = ctx.segments[index];
+      if (!s?.from.point || !s?.to.point || s.access) break;
+      routeForm(ctx, index, null, save, 'loading');
+      const button = document.querySelector('dialog [data-action=calculate]');
+      if (button) button.disabled = true;
+      let error = '';
+      try {
+        const result = await api('/api/walk', 'POST', { points: [s.from.point, s.to.point] });
+        walks.set(walkKey(s.from.point, s.to.point), result);
+      } catch (e) { error = e.message; }
+      const open = document.querySelector('dialog').open;
+      render({ restoreView: true, fetchRoutes: false });
+      if (open && ctx.date === context.date && ctx.city === context.city) routeForm(context, index, null, save, error);
+      break;
+    }
+    case 'add': editItem(ctx, null, 'activity', save); break;
+    case 'add-rail': editItem(ctx, null, 'transport', save); break;
+    case 'edit': if (item) editItem(ctx, item, item.kind, save); break;
+    case 'choose': if (item) chooseItem(ctx, item, save, (city, date) => {
+      view.page = 'plan'; showCity(city, date); view.selected = item.id; render({ focusMap: true });
+    }); break;
+    case 'remove':
+      if (item && !item.locked && !item.booked) { await withEdit(item, { removed: true, selected: false }, 'Aus dem Plan entfernt'); closeDialog(); }
+      break;
+    case 'clone-item':
+      if (item) {
+        const { id, externalId, originalName, ...source } = item;
+        const clone = { ...source, id: 'manual:' + crypto.randomUUID(), name: source.name + ' (Kopie)', locked: false, booked: false,
+          removed: false, selected: false, origin: 'manuell' };
+        await save({ ...ctx.state, manual: [...ctx.state.manual, clone] }, 'Kopie angelegt');
+        editItem(context, clone, clone.kind, save);
+      }
+      break;
+    case 'favorite': {
+      const fav = ctx.state.favorites;
+      await save({ ...ctx.state, favorites: fav.includes(value) ? fav.filter(id => id !== value) : [...fav, value] }, 'Merkliste aktualisiert');
+      break;
+    }
+    case 'compare':
+      if (view.compareIds.has(value)) view.compareIds.delete(value);
+      else if (view.compareIds.size < 4) view.compareIds.add(value);
+      else { say('Bis zu vier Optionen gleichzeitig vergleichen.'); break; }
+      render({ restoreView: true }); break;
+    case 'option-filter': view.optionFilter = value; render({ restoreView: true }); break;
+    case 'optimize': optimize(); break;
+    case 'reorder': await reorder(...JSON.parse(value)); closeDialog(); break;
+    case 'expense': expenseForm(ctx, ctx.state.expenses.find(e => e.id === value), save); break;
+    case 'meal-cost':
+      if (item?.mealSlot && ctx.activeSet.has(item.id)) expenseForm(ctx, ctx.state.expenses.find(e => e.forItem === item.id), save, item);
+      break;
+    case 'meal-choose': {
+      const option = catalog.mealPlans?.[ctx.city]?.find(plan => plan.id === value);
+      if (option) mealForm(ctx, option, save, id => {
+        view.page = 'plan';
+        view.mobile = 'plan';
+        showCity(ctx.city, ctx.date);
+        if (context.day.some(entry => entry.id === id)) selectPoint(id, false);
+      });
+      break;
+    }
+    case 'expense-remove':
+      await save({ ...ctx.state, expenses: ctx.state.expenses.filter(e => e.id !== value) }, 'Ausgabe gelöscht'); closeDialog(); break;
+    case 'deadline': deadlineForm(ctx, ctx.state.deadlines.find(d => d.id === value), save); break;
+    case 'deadline-remove':
+      await save({ ...ctx.state, deadlines: ctx.state.deadlines.filter(d => d.id !== value) }, 'Frist gelöscht'); closeDialog(); break;
+    case 'people': editPeople(ctx, save); break;
+    case 'pass': editPass(ctx, save); break;
+    case 'budget-limit':
+      simpleField('Budgetrahmen', 'Maximalbetrag für die Gruppe · EUR', ctx.state.budgetLimit == null ? '' : (ctx.state.budgetLimit / 100).toFixed(2),
+        v => save({ ...ctx.state, budgetLimit: minor(v) }, 'Budgetrahmen gespeichert'), 'text', 'inputmode="decimal"'); break;
+    case 'rides':
+      simpleField('T-casual vergleichen', 'Geplante gültige Fahrten pro Person', ctx.state.pass.rides,
+        v => save({ ...ctx.state, pass: { ...ctx.state.pass, rides: Number(v) } }, 'Fahrten gespeichert'), 'number', 'min="0" max="100" required'); break;
+    case 'mobility': {
+      const fare = transitFares[ctx.city];
+      if (!fare) break;
+      simpleField(fare.passName + ' vergleichen', 'Benötigte Einzeltickets je Person im Gültigkeitsfenster',
+        ctx.state.mobility?.[ctx.city] ?? 0, v => save({ ...ctx.state,
+          mobility: { ...ctx.state.mobility, [ctx.city]: Number(v) } }, 'Vergleich gespeichert'),
+        'number', 'min="0" max="100" required');
+      break;
+    }
+    case 'copy':
+      simpleField('Variante duplizieren', 'Name', (ctx.state.title ?? ctx.trip.title).slice(0, 145) + ' – Kopie', async title => {
+        const result = await api(variantUrl() + '/copy', 'POST', { title });
+        catalog = await api('/api/bootstrap');
+        await switchVariant(result.id);
+        say('Variante dupliziert');
+      }); break;
+    case 'export':
+      download('reiseplan-sicherung.json', JSON.stringify({ trip: ctx.trip, state: ctx.state, imported: variant.imported, sources: catalog.sources }, null, 2), 'application/json'); break;
+    case 'ics': exportCalendar(); break;
+    case 'undo':
+      if (undo?.id === variant.id) {
+        const previous = undo.state;
+        await save(previous, 'Änderung rückgängig gemacht', false);
+        undo = null;
+      } else say('Für diese Variante liegt keine rückgängig machbare Änderung vor.');
+      break;
+    case 'close': closeDialog(); break;
+  }
+}
+
+document.addEventListener('click', event => {
+  const button = event.target.closest('[data-action]');
+  if (button) void action(button.dataset.action, button.dataset.value).catch(error => say(error.message));
+});
+app.addEventListener('change', event => {
+  if (event.target.id === 'variant') void switchVariant(event.target.value).catch(error => say(error.message));
+  if (event.target.id === 'sort') { view.sort = event.target.value; render({ restoreView: true }); }
+  if (event.target.id === 'meal-date' && context.dates.includes(event.target.value)) showCity(context.city, event.target.value);
+});
+app.addEventListener('submit', async event => {
+  if (event.target.id !== 'import-form') return;
+  event.preventDefault();
+  const file = new FormData(event.target).get('file');
+  const button = event.target.querySelector('button[type=submit]');
+  const error = event.target.querySelector('.form-error');
+  error.textContent = '';
+  if (!file?.size || file.size > 1_000_000) { error.textContent = 'Bitte wähle eine Datei bis 1 MB.'; return; }
+  button.disabled = true;
+  try {
+    const result = await api(variantUrl() + '/import', 'POST', { filename: file.name, content: await file.text() });
+    variant = await api(variantUrl());
+    catalog.variants.find(v => v.id === variant.id).imported = variant.imported;
+    say(result.inserted + ' neu · ' + result.existing + ' vorhanden · ' + result.conflicts + ' Konflikte');
+    render();
+  } catch (e) { error.textContent = e.message; button.disabled = false; }
+});
+app.addEventListener('dragstart', event => {
+  const target = event.target.closest('[draggable=true]');
+  if (!target) return;
+  dragged = target.dataset.eventId;
+  event.dataTransfer.setData('text/plain', dragged);
+  event.dataTransfer.effectAllowed = 'move';
+});
+app.addEventListener('dragover', event => {
+  if (dragged && event.target.closest('[draggable=true]')) event.preventDefault();
+});
+app.addEventListener('drop', event => {
+  const target = event.target.closest('[draggable=true]');
+  if (!dragged || !target) return;
+  event.preventDefault();
+  const to = target.dataset.eventId;
+  if (to !== dragged) void reorder(dragged, to).catch(error => say(error.message));
+  dragged = null;
+});
+app.addEventListener('dragend', () => { dragged = null; });
+matchMedia('(max-width:910px)').addEventListener('change', () => render());
+
+try {
+  catalog = await api('/api/bootstrap');
+  const preferred = query.get('variant') ?? localStorage.getItem('reiseplan-variant');
+  await switchVariant(catalog.variants.find(v => v.id === preferred)?.id ?? catalog.variants[0].id);
+} catch (error) {
+  app.innerHTML = '<main class="workspace">' + empty('Reiseplaner konnte nicht starten', error.message) + '</main>';
+}

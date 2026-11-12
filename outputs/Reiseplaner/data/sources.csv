@@ -1,0 +1,35 @@
+﻿id;publisher;url;source_type;validity;accessed_on;is_live_availability;independent_price_quote_for_2027
+tripsy;Tripsy (privater, lesender Import);;user_connected_source;user_test_plan;2026-11-09;False;False
+interrail_res;Interrail;https://www.interrail.com/en/book-reservations/reservation-fees/international-train-reservation-fees;official_provider;current_indicative;2026-11-09;False;False
+interrail_pass;Interrail;https://www.interrail.com/en/interrail-passes/global-pass;official_provider;current_indicative;2026-11-09;False;False
+interrail_days;Interrail;https://www.interrail.com/en/support/interested-in-interrailing/what-is-a-travel-day;official_provider;current_rule;2026-11-09;False;False
+interrail_home;Interrail;https://www.interrail.com/en/interrail-passes/what-is-interrail/travel-your-own-country;official_provider;current_rule;2026-11-09;False;False
+interrail_fr_es;Interrail Help;https://help.interrail.com/hc/en-001/articles/18055734561053-How-do-I-book-trains-between-France-and-Spain;official_provider;current_rule;2026-11-09;False;False
+sncf_window;SNCF Connect;https://www.sncf-connect.com/en-en/help/ticket-sales-opening;official_provider;current_rule;2026-11-09;False;False
+discovereu;EU Youth Portal;https://youth.europa.eu/discovereu/;government;current_rule;2026-11-09;False;False
+louvre;Musée du Louvre;https://www.louvre.fr/en/visit/hours-admission/tickets-and-prices/;official_provider;reference_2026;2026-11-09;False;False
+eiffel;Tour Eiffel;https://www.toureiffel.paris/en/rates-opening-times;official_provider;reference_2026;2026-11-09;False;False
+sagrada;Sagrada Família;https://sagradafamilia.org/en/prices?inheritRedirect=true;official_provider;reference_2026;2026-11-09;False;False
+parkguell;Park Güell;https://parkguell.barcelona/index.php/en/planning-your-visit/prices-and-times;official_provider;reference_2026;2026-11-09;False;False
+tmb;TMB Barcelona;https://www.tmb.cat/en/barcelona-fares-metro-bus/transport-ticket-fares;official_provider;reference_2026;2026-11-09;False;False
+ratp;RATP Paris;https://www.ratp.fr/en/titres-et-tarifs/ticket-metro-train-rer;official_provider;reference_2026;2026-11-09;False;False
+nice_tram;Lignes d’Azur;https://www.lignesdazur.com/en/travel-tickets;official_provider;current_indicative;2026-11-09;False;False
+actv;AVM Venezia;https://avm.avmspa.it/en/content/venice-urban-services-0;official_provider;current_indicative;2026-11-09;False;False
+rolling;Venezia Unica;https://www.veneziaunica.it/en/buy-tickets/public-trasport-in-venice/actv-3-days-transport-rolling-venice;official_provider;current_indicative;2026-11-09;False;False
+venice_access;Comune di Venezia;https://live.comune.venezia.it/it/2026/10/contributo-di-accesso-il-calendario-2027;government;announced_2027;2026-11-09;False;False
+first;Jungfrau Bahnen;https://www.jungfrau.ch/en-gb/grindelwaldfirst/;official_provider;reference_2026;2026-11-09;False;False
+oesch;Oeschinensee;https://www.oeschinensee.ch/tarife-fahrplan/;official_provider;2027_hours_2026_prices;2026-11-09;False;False
+seealp;Appenzellerland Tourismus;https://www.appenzell.ch/en/summer/hiking/hiking-tour-suggestions.html?cHash=3676d92113ab42494b1be2b8e71ae7b6&tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Bcontroller%5D=Tour&tx_wstourismus_tourismus%5Btour%5D=39;tourism_authority;trail_reference;2026-11-09;False;False
+sbb_half;SBB;https://sbbswiss.org/en/offers/half-fare-travelcard;official_provider;reference_2026;2026-11-09;False;False
+vignette;Schweizerische Eidgenossenschaft;https://www.ch.ch/de/fahrzeuge-und-verkehr/autos-und-andere-fahrzeuge/autobahnvignette/;government;reference_2026;2026-11-09;False;False
+sixt_de;Sixt Deutschland;https://www.sixt.de/help-center/articles/welchen-fuehrerschein-brauche-ich-fuer-eine-anmietung-bei-sixt-in-deutschland/;official_provider;current_rule;2026-11-09;False;False
+sixt_ch;Sixt Schweiz;https://www.sixt.ch/help-center/articles/wie-alt-muss-ich-sein-um-bei-sixt-in-der-schweiz-einen-mietwagen-zu-mieten/;official_provider;current_rule;2026-11-09;False;False
+ibis;Accor/Booking: Tripsy-Hinweis;https://www.booking.com/hotel/fr/appart-39-odalys-paris-xvii.html;legacy_link;not_checked;2026-11-09;False;False
+birdhouse;Bird House Barcelona;https://www.birdhouse.es/barcelona/rooms/;official_provider;amenities_verified;2026-11-09;False;False
+georges;Georges Hostel / Office de Tourisme Sète;https://en.tourisme-sete.com/georges-hostel-cafe-sete.html;tourism_authority;reference_2026;2026-11-09;False;False
+antares;Antares Hostel Nice;https://antareshostel.com/room/triple-room/;official_provider;amenities_verified;2026-11-09;False;False
+altemetzg;Appenzellerland Tourismus;https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/boutique-pension-hostel-alte-metzg.html;tourism_authority;reference_2026;2026-11-09;False;False
+blattenheimat;Appenzellerland Tourismus;https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/ferienwohnung-blattenheimat-6og3.html;tourism_authority;reference_2026;2026-11-09;False;False
+stchristophers;St Christopher Barcelona;https://www.st-christophers.co.uk/barcelona/;official_provider;amenities_partial;2026-11-09;False;False
+stchristophers_kitchen;St Christopher Help;https://support.st-christophers.co.uk/hc/en-us/articles/4406403285009-Is-there-a-kitchen;official_provider;current_rule;2026-11-09;False;False
+georges_official;Georges Hostel;https://georgeshostel.com/en/rooms/;official_provider;amenities_verified;2026-11-09;False;False

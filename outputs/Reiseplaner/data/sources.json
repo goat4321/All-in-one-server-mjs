@@ -1,0 +1,342 @@
+[
+  {
+    "id": "tripsy",
+    "publisher": "Tripsy (privater, lesender Import)",
+    "url": null,
+    "source_type": "user_connected_source",
+    "validity": "user_test_plan",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "interrail_res",
+    "publisher": "Interrail",
+    "url": "https://www.interrail.com/en/book-reservations/reservation-fees/international-train-reservation-fees",
+    "source_type": "official_provider",
+    "validity": "current_indicative",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "interrail_pass",
+    "publisher": "Interrail",
+    "url": "https://www.interrail.com/en/interrail-passes/global-pass",
+    "source_type": "official_provider",
+    "validity": "current_indicative",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "interrail_days",
+    "publisher": "Interrail",
+    "url": "https://www.interrail.com/en/support/interested-in-interrailing/what-is-a-travel-day",
+    "source_type": "official_provider",
+    "validity": "current_rule",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "interrail_home",
+    "publisher": "Interrail",
+    "url": "https://www.interrail.com/en/interrail-passes/what-is-interrail/travel-your-own-country",
+    "source_type": "official_provider",
+    "validity": "current_rule",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "interrail_fr_es",
+    "publisher": "Interrail Help",
+    "url": "https://help.interrail.com/hc/en-001/articles/18055734561053-How-do-I-book-trains-between-France-and-Spain",
+    "source_type": "official_provider",
+    "validity": "current_rule",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "sncf_window",
+    "publisher": "SNCF Connect",
+    "url": "https://www.sncf-connect.com/en-en/help/ticket-sales-opening",
+    "source_type": "official_provider",
+    "validity": "current_rule",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "discovereu",
+    "publisher": "EU Youth Portal",
+    "url": "https://youth.europa.eu/discovereu/",
+    "source_type": "government",
+    "validity": "current_rule",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "louvre",
+    "publisher": "Musée du Louvre",
+    "url": "https://www.louvre.fr/en/visit/hours-admission/tickets-and-prices/",
+    "source_type": "official_provider",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "eiffel",
+    "publisher": "Tour Eiffel",
+    "url": "https://www.toureiffel.paris/en/rates-opening-times",
+    "source_type": "official_provider",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "sagrada",
+    "publisher": "Sagrada Família",
+    "url": "https://sagradafamilia.org/en/prices?inheritRedirect=true",
+    "source_type": "official_provider",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "parkguell",
+    "publisher": "Park Güell",
+    "url": "https://parkguell.barcelona/index.php/en/planning-your-visit/prices-and-times",
+    "source_type": "official_provider",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "tmb",
+    "publisher": "TMB Barcelona",
+    "url": "https://www.tmb.cat/en/barcelona-fares-metro-bus/transport-ticket-fares",
+    "source_type": "official_provider",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "ratp",
+    "publisher": "RATP Paris",
+    "url": "https://www.ratp.fr/en/titres-et-tarifs/ticket-metro-train-rer",
+    "source_type": "official_provider",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "nice_tram",
+    "publisher": "Lignes d’Azur",
+    "url": "https://www.lignesdazur.com/en/travel-tickets",
+    "source_type": "official_provider",
+    "validity": "current_indicative",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "actv",
+    "publisher": "AVM Venezia",
+    "url": "https://avm.avmspa.it/en/content/venice-urban-services-0",
+    "source_type": "official_provider",
+    "validity": "current_indicative",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "rolling",
+    "publisher": "Venezia Unica",
+    "url": "https://www.veneziaunica.it/en/buy-tickets/public-trasport-in-venice/actv-3-days-transport-rolling-venice",
+    "source_type": "official_provider",
+    "validity": "current_indicative",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "venice_access",
+    "publisher": "Comune di Venezia",
+    "url": "https://live.comune.venezia.it/it/2026/10/contributo-di-accesso-il-calendario-2027",
+    "source_type": "government",
+    "validity": "announced_2027",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "first",
+    "publisher": "Jungfrau Bahnen",
+    "url": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/",
+    "source_type": "official_provider",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "oesch",
+    "publisher": "Oeschinensee",
+    "url": "https://www.oeschinensee.ch/tarife-fahrplan/",
+    "source_type": "official_provider",
+    "validity": "2027_hours_2026_prices",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "seealp",
+    "publisher": "Appenzellerland Tourismus",
+    "url": "https://www.appenzell.ch/en/summer/hiking/hiking-tour-suggestions.html?cHash=3676d92113ab42494b1be2b8e71ae7b6&tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Bcontroller%5D=Tour&tx_wstourismus_tourismus%5Btour%5D=39",
+    "source_type": "tourism_authority",
+    "validity": "trail_reference",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "sbb_half",
+    "publisher": "SBB",
+    "url": "https://sbbswiss.org/en/offers/half-fare-travelcard",
+    "source_type": "official_provider",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "vignette",
+    "publisher": "Schweizerische Eidgenossenschaft",
+    "url": "https://www.ch.ch/de/fahrzeuge-und-verkehr/autos-und-andere-fahrzeuge/autobahnvignette/",
+    "source_type": "government",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "sixt_de",
+    "publisher": "Sixt Deutschland",
+    "url": "https://www.sixt.de/help-center/articles/welchen-fuehrerschein-brauche-ich-fuer-eine-anmietung-bei-sixt-in-deutschland/",
+    "source_type": "official_provider",
+    "validity": "current_rule",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "sixt_ch",
+    "publisher": "Sixt Schweiz",
+    "url": "https://www.sixt.ch/help-center/articles/wie-alt-muss-ich-sein-um-bei-sixt-in-der-schweiz-einen-mietwagen-zu-mieten/",
+    "source_type": "official_provider",
+    "validity": "current_rule",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "ibis",
+    "publisher": "Accor/Booking: Tripsy-Hinweis",
+    "url": "https://www.booking.com/hotel/fr/appart-39-odalys-paris-xvii.html",
+    "source_type": "legacy_link",
+    "validity": "not_checked",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "birdhouse",
+    "publisher": "Bird House Barcelona",
+    "url": "https://www.birdhouse.es/barcelona/rooms/",
+    "source_type": "official_provider",
+    "validity": "amenities_verified",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "georges",
+    "publisher": "Georges Hostel / Office de Tourisme Sète",
+    "url": "https://en.tourisme-sete.com/georges-hostel-cafe-sete.html",
+    "source_type": "tourism_authority",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "antares",
+    "publisher": "Antares Hostel Nice",
+    "url": "https://antareshostel.com/room/triple-room/",
+    "source_type": "official_provider",
+    "validity": "amenities_verified",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "altemetzg",
+    "publisher": "Appenzellerland Tourismus",
+    "url": "https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/boutique-pension-hostel-alte-metzg.html",
+    "source_type": "tourism_authority",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "blattenheimat",
+    "publisher": "Appenzellerland Tourismus",
+    "url": "https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/ferienwohnung-blattenheimat-6og3.html",
+    "source_type": "tourism_authority",
+    "validity": "reference_2026",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "stchristophers",
+    "publisher": "St Christopher Barcelona",
+    "url": "https://www.st-christophers.co.uk/barcelona/",
+    "source_type": "official_provider",
+    "validity": "amenities_partial",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "stchristophers_kitchen",
+    "publisher": "St Christopher Help",
+    "url": "https://support.st-christophers.co.uk/hc/en-us/articles/4406403285009-Is-there-a-kitchen",
+    "source_type": "official_provider",
+    "validity": "current_rule",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  },
+  {
+    "id": "georges_official",
+    "publisher": "Georges Hostel",
+    "url": "https://georgeshostel.com/en/rooms/",
+    "source_type": "official_provider",
+    "validity": "amenities_verified",
+    "accessed_on": "2026-11-09",
+    "is_live_availability": false,
+    "independent_price_quote_for_2027": false
+  }
+]
