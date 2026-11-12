@@ -1,5 +1,6 @@
 import { transitNetworks } from './transit.mjs';
 import { localParts } from './model.mjs';
+import { explorerCategory } from './map-explorer.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
@@ -98,10 +99,12 @@ export class TripMap {
       const byPoint = Map.groupBy(visible, ({ item }) => item.point.map(value => value.toFixed(5)).join(','));
       for (const colocated of byPoint.values()) for (const [i, { item, alt }] of colocated.entries()) {
         const key = item.entryKey ?? item.id;
-        const color = [alt ? 'alt' : item.kind === 'transport' ? 'train' : '', key === focused ? 'focused' : ''].join(' ');
+        const color = [explorer ? 'place-' + explorerCategory(item) : alt ? 'alt' : item.kind === 'transport' ? 'train' : '', key === focused ? 'focused' : ''].join(' ');
         const offset = (i - (colocated.length - 1) / 2) * 24;
-        this.marker(item.point, key, item.role ? item.role + ' · ' + item.name : item.name, alt ? '+' : item.anchor ? 'H'
-          : (entries.findIndex(entry => entry.entryKey === key) + 1 || '•'), color, () => this.handlers.select(key), offset);
+        this.marker(item.point, key, item.role ? item.role + ' · ' + item.name : item.name,
+          explorer ? ({lodging:'H',food:'R',shop:'S',activity:'A',transport:'B'}[explorerCategory(item)])
+            : alt ? '+' : item.anchor ? 'H' : (entries.findIndex(entry => entry.entryKey === key) + 1 || '•'),
+          color, () => this.handlers.select(key), offset);
         if (!alt) area.push(item.point);
       }
     }
@@ -128,6 +131,9 @@ export class TripMap {
           .bindTooltip(labelNode('Berechneter Fußweg · ' + route.minutes + ' Min. · ' + route.metres + ' m'));
         area.push(...points);
       }
+    }
+    if (explorer?.connection?.route?.legs?.length) {
+      area.push(...this.paintJourney(explorer.connection.route, true));
     }
     if (explorer?.connection?.from?.point && explorer?.connection?.to?.point) {
       for (const [point, color, title] of [
@@ -219,6 +225,12 @@ export class TripMap {
     this.map.invalidateSize({ pan: false });
     if (this.bounds?.length > 1) this.map.fitBounds(this.bounds, { padding: [35, 35], maxZoom: 15, animate: false });
     else if (this.bounds?.length) this.map.setView(this.bounds[0], 13, { animate: false });
+  }
+
+  focusConnection(a, b) {
+    if (!a || !b) return;
+    this.map.invalidateSize({pan: false});
+    this.map.fitBounds([a,b], { padding: [58,58], maxZoom: 15, animate: false });
   }
 
   focus(id) {
