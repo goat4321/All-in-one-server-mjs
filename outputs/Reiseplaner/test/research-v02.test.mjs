@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { loadCatalog } from '../lib/catalog.mjs';
 import { loadResearchV02, scopedQuote, validateResearchV02 } from '../lib/research-v02.mjs';
-import { activeItems, allocate, calculateBudget, groupPrice } from '../public/model.mjs';
+import { activeItems, allocate, budgetBreakdown, calculateBudget, groupPrice } from '../public/model.mjs';
 import { initialState } from '../lib/store.mjs';
 
 const read = async name => JSON.parse(await readFile(new URL('../data/' + name + '.json', import.meta.url), 'utf8'));
@@ -95,6 +95,8 @@ test('Search snapshots are not booked or added to any budget without an explicit
   assert.equal(quote.payment ?? 'open', 'open');
   assert.equal(quote.price.cents % 1, 0);
   assert.ok(chosen.total >= base.total);
+  assert.ok(budgetBreakdown(chosen.rows, 'date').some(row =>
+    row.key === quote.stayFrom && row.cents >= quote.price.cents));
   assert.deepEqual(allocate(10_000, [1, 1, 1]), [3334, 3333, 3333]);
 });
 
