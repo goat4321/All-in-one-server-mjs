@@ -84,8 +84,10 @@ try {
   await text('#main', 'Alle passenden Orte');
   await until(() => js('document.querySelectorAll("#map .pin.place-activity, #map .pin.place-food, #map .pin.place-lodging").length > 0'),
     'Kategorie-Pins im Reiseatlas');
+  await text('#main', 'Tagesideen aus deinem älteren Reiseprofil');
   await click('[data-action=explorer-scope][data-value=city]');
   await click('[data-action=explorer-group][data-value=food]');
+  await until(() => js('document.querySelectorAll("#map .pin.place-food").length > 0 && document.querySelectorAll("#map .pin.place-lodging").length === 0'), 'Nur Restaurantkategorie im Städtefilter');
   await text('#main', 'Bormuth');
   await set('#map-search', 'Bormuth');
   await click('[data-action=explorer-search]');
