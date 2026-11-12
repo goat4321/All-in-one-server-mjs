@@ -3,6 +3,8 @@ import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn
 import { transitFares, transitNetworks } from './transit.mjs';
 import { railSalesStatus, reviewProgress } from './verification.mjs';
 import { official2027Notices } from './official-rules-2027.mjs';
+import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
+import { explorerToolbar, explorerList } from './explorer-ui.mjs';
 
 const tabs = [
   ['overview', 'Übersicht', 'compass'], ['plan', 'Tagesplan', 'calendar'], ['map', 'Karte', 'map'],
@@ -52,8 +54,8 @@ export function renderShell(ctx) {
 function content(ctx, city) {
   switch (ctx.page) {
     case 'overview': return overview(ctx);
-    case 'map': return heading('Karte', ctx.total ? 'Gesamtroute der gewählten Variante' : (ctx.wholeDay ? 'Ganzer Tag' : city) + ' · ' + longDay(ctx.date))
-      + (ctx.total ? '' : dayPlaces(ctx)) + mapPanel(ctx, true);
+    case 'map': return heading('Karten-Explorer', 'Alle Orte, Unterkünfte, Restaurants und Aktivitäten der Reise auf einer Karte')
+      + explorerToolbar(ctx) + mapPanel(ctx, true) + explorerList(ctx);
     case 'rail': return rail(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
@@ -133,6 +135,7 @@ function connector(segment, route, index, label, peopleCount) {
 export function mapDetail(ctx) {
   const item = ctx.detail;
   if (!item) return '';
+  const extra = explorerDetail(item, ctx.people.length);
   const rows = ctx.segments.flatMap((segment, index) => [segment.from, segment.to].some(stop => item.entryKey ? stop.entryKey === item.entryKey : stop.id === item.id)
     ? [connector(segment, ctx.routes[index], index, segment.from.name + ' → ' + segment.to.name, ctx.people.length)] : []);
   const info = item.kind === 'transport' ? timeText(item) : item.duration ? item.duration + ' Min. geplant' : 'Besuchsdauer offen';
@@ -140,12 +143,16 @@ export function mapDetail(ctx) {
   ${status(item.selected ? 'Im Plan' : 'Alternative', item.selected ? 'green' : '')}</div>
   <p>${esc(info)} · ${esc(cost(item, ctx.people.length))} gesamt · ${esc(unit(item, ctx.people.length))}</p>
   ${item.address ? '<p>' + esc(item.address) + '</p>' : ''}
-  ${item.detail ? '<p>' + esc(item.detail) + '</p>' : ''}
+  ${extra ? '<p>' + esc(extra.description) + '</p><p><strong>Öffnungszeiten:</strong> ' + esc(extra.hours) + '</p>' + extra.extra.map(line => '<p>' + esc(line) + '</p>').join('') : ''}
+  ${item.price?.label ? '<p>Preisreferenz: ' + esc(item.price.label) + '</p>' : ''}
+  <p class="muted">Quellenstand: ${esc(extra?.sourceStatus ?? 'unbestätigt')}</p>
+  ${item.website ? urlLink(item.website, 'Anbieter und weitere Details') : ''}
   ${item.access ? '<p>' + esc(item.access) + '</p>' : ''}
   ${item.positionIssue ? alert(item.positionIssue) : ''}
   ${rows.length ? '<div class="local-routes">' + rows.join('').replaceAll('class="connector"', 'class="connector detail-connector"') + '</div>' : ''}
   <div class="row-actions">${btn('details', 'Quellen & Details', 'folder', item.id)}
-  ${item.selected ? btn('edit', 'Bearbeiten', 'edit', item.id) : btn('choose', item.kind === 'lodging' ? 'Aufenthalt wählen' : 'In Tagesplan', 'plus', item.id, 'subtle')}</div></div>`;
+  ${ctx.explorer && item.point ? btn('explorer-start', 'Start hier', 'pin', item.id) + btn('explorer-end', 'Ziel hier', 'arrow', item.id) : ''}
+  ${item.selected ? btn('edit', 'Bearbeiten', 'edit', item.id) : item.kind !== 'transport' ? btn('choose', item.kind === 'lodging' ? 'Aufenthalt wählen' : 'In Tagesplan', 'plus', item.id, 'subtle') : ''}</div></div>`;
 }
 
 function mapPanel(ctx, full = false) {
@@ -160,6 +167,7 @@ function mapPanel(ctx, full = false) {
     <div class="inline">${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div></div>
     <div class="map-tools" aria-label="Kartenebenen">
       ${chip('map-mode', 'Tag', !ctx.total, 'day')}${chip('map-mode', 'Gesamt', ctx.total, 'total')}
+      ${ctx.explorer ? '<span class="muted">Alle vorhandenen Orte · farbige Kategorien · keine erfundenen Positionen</span>' : ''}
       ${!ctx.total ? chip('filter', 'Fußwege', t.walk, 'walk', 'walk') + chip('filter', 'Alternativen', t.options, 'options', 'pin')
         + (quickLayer ? chip('transit', network.groups[quickLayer].title, t.transit[quickLayer], quickLayer, 'train') : '')
         + (ctx.cities[ctx.city].country === 'CH' ? chip('filter', 'Wanderwege', t.hiking, 'hiking', 'walk') : '') : ''}
@@ -170,6 +178,7 @@ function mapPanel(ctx, full = false) {
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
     <div class="map-wrap"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div><div class="map-hint" id="map-hint" hidden></div></div>
     <div class="map-legend"><span><i class="legend-line ${ctx.total ? 'dashed' : ''}"></i> ${ctx.total ? 'Städtefolge · Schema' : 'Berechneter Fußweg'}</span>
+    ${ctx.explorer ? Object.entries(EXPLORER_GROUPS).map(([id, group]) => '<span><i class="category-swatch ' + id + '"></i>' + esc(group.label) + '</span>').join('') : ''}
     ${!ctx.total && t.stations && ctx.dayTravel.length ? '<span><i class="legend-line dashed"></i> Tagesfahrt · Schema</span>' : ''}
     ${!ctx.total && (ctx.timetablePreview || ctx.routes.some(route => route?.legs?.length)) ? '<span>ÖPNV · gespeicherter / referenzierter Fahrplan, Reisedatum prüfen</span>' : ''}
     ${!ctx.total ? '<span><i class="legend-dot"></i> Alternative</span>' : ''}
