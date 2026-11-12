@@ -246,7 +246,7 @@ function options(ctx, lodging) {
     const active = activeSet.has(item.id);
     const highlighted = compareIds.has(item.id);
     const meal = ctx.catalog.mealPlans?.[city]?.find(plan => plan.venue === item.id);
-    const verification = lodging ? reviewProgress('lodging', state.verifications?.[item.id]) : null;
+    const verification = lodging ? reviewProgress('lodging', state.verifications?.[item.id], people.length) : null;
     const rank = !lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3 ? item.preference : null;
     const prefs = lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3
       ? ctx.catalog.research?.groupPreferences?.nightly_accommodation_targets_eur_per_person : null;
@@ -392,7 +392,7 @@ function rail(ctx) {
   const researchRows = researchQueue.map(row => {
     const window = railSalesStatus(row);
     const match = legs.find(leg => leg.researchTask?.id === row.id);
-    const progress = match ? reviewProgress('transport', state.verifications?.[match.id]) : null;
+    const progress = match ? reviewProgress('transport', state.verifications?.[match.id], people.length) : null;
     return [
     esc(row.route), esc(dateText(row.date_local)),
     esc(row.operator_query_status ?? 'nicht bestätigt'),
@@ -419,7 +419,7 @@ function rail(ctx) {
     const gap = l.end && next?.start ? (Date.parse(next.start) - Date.parse(l.end)) / 60_000 : null;
     const duration = l.start && l.end ? Math.round((Date.parse(l.end) - Date.parse(l.start)) / 60_000) : null;
     const sameDay = next && localParts(l.end, l.endZone ?? l.zone).date === localParts(next.start, next.zone).date;
-    const evidence = reviewProgress('transport', state.verifications?.[l.id]);
+    const evidence = reviewProgress('transport', state.verifications?.[l.id], people.length);
     return `<article class="panel rail-card">
       <div class="inline">${status(l.mode === 'train' ? 'Zug' : l.mode)}${status(l.verification ?? 'Planung', 'warn')}
       <small>${dateText(localParts(l.start, l.zone).date)} · ${esc(l.operator ?? 'Betreiber offen')}${l.number ? ' · ' + esc(l.number) : ''}</small></div>
