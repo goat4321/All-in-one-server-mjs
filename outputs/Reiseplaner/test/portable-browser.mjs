@@ -75,6 +75,11 @@ try {
   await cdp('Page.enable');
   await cdp('Page.navigate', { url: address });
   await text('h1', 'Barcelona');
+  await click('.sidebar [data-action=page][data-value=overview]');
+  await text('#main', 'Varianten im Vergleich');
+  await text('#main', 'Personenanteile');
+  await text('#main', 'Pass-Tage');
+  await text('#main', 'Preise offen');
   await click('.sidebar [data-action=page][data-value=food]');
   await text('#main', 'Selbst kochen oder auswärts essen');
   await click('.meal-card [data-action=meal-choose][data-value=pasta]');
