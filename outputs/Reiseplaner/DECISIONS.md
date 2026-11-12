@@ -51,3 +51,12 @@ Gesichtet wurden die offiziellen Produktdarstellungen, Wanderlogs öffentliche T
 - Die amtlichen Adressen für Antares, Alte Metzg und Blattenheimat 6OG3 erlauben Fußwege zum jeweiligen Bahnhof. Es liegen keine bestätigten Angebote oder Stornofristen für die konkreten Daten vor. Die Bezeichnung „Blattenheimat6“ allein reicht für eine Zusammenführung mit 6OG3 nicht aus.
 
 [Lignes d’Azur GTFS](https://transport.data.gouv.fr/datasets/donnees-statiques-et-dynamiques-du-reseau-de-transport-lignes-dazur?locale=fr) · [Oeschinensee Betriebszeiten](https://www.oeschinensee.ch/tarife-fahrplan/) · [Oeschinensee Gehzeiten](https://www.oeschinensee.ch/wandern/) · [swisstopo-Wanderwegenetz](https://api3.geo.admin.ch/rest/services/api/MapServer/ch.swisstopo.swisstlm3d-wanderwege/legend)
+
+## 12.11.2026 – Datensparsame GitHub-Fortsetzung ohne Tripsy-Rohdaten
+
+- Die lokale App enthält private Tripsy-Snapshots, die ausdrücklich per `.gitignore` aus dem GitHub-Upload ausgeschlossen sind. Dieser Schutz bleibt bestehen, obwohl das Repository privat ist.
+- Statt Quellkopien hochzuladen, verwendet ein frischer Checkout bei fehlenden Rohdateien eine klar als eingeschränkt bezeichnete Projektion aus dem vorhandenen Forschungs-Seed. Dies ist **kein** vollständiger Tripsy-Import und kein Ersatz für die Originaldaten. Vorhandene Originaldateien haben immer Vorrang.
+- Fehlende Buchungsdetails, Positionen oder Aktivitätsdaten werden nicht erfunden. Zeilen mit Uhrzeit tragen weiterhin den Status *vorläufig / 2027 nicht bestätigt*. Das explizite `(+1)` einer Nachtzugankunft wird für die lokale Datumsrechnung berücksichtigt. Es findet keine Buchung statt.
+- Die UI zeigt im Ersatzmodus einen unübersehbaren Hinweis und benennt den Datensatz im Quellenbereich als **Recherchearchiv** statt als vollständigen Tripsy-Import. Alle Zustandsänderungen werden weiterhin ausschließlich lokal pro Variante in SQLite gespeichert.
+- Für die UX orientieren wir uns weiter an Wanderlogs tagweise organisierter Karten-/Listenansicht und Tripsys Smart-Routes-Vorschau und horizontaler Datumsnavigation, statt die Oberfläche neu zu kopieren. <https://wanderlog.com/home> · <https://tripsy.app/updates>.
+- Der vollständige Testlauf mit originalen Tripsy-Daten und Browser-Abnahme bleibt Voraussetzung vor der Freigabe dieses Branches für den Hauptstand.
