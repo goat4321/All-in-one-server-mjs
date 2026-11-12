@@ -3,6 +3,7 @@ import { localParts, minor, utcFromLocal } from '../public/model.mjs';
 import { italyLodgings, italyPlaces, italySources, italyStations } from './italy.mjs';
 import { rivieraAlpsLodgings, rivieraAlpsPlaces, rivieraAlpsSources, rivieraAlpsStations } from './riviera-alps.mjs';
 import { barcelonaFoodPlaces, mealPlans, mealSources } from './barcelona-meals.mjs';
+import { seedSnapshot } from './seed-fallback.mjs';
 
 const file = name => readFile(new URL('../data/' + name + '.json', import.meta.url), 'utf8')
   .then(content => JSON.parse(content.replace(/^\uFEFF/, '')));
@@ -234,7 +235,13 @@ function flagDuplicates(items, identity) {
 export async function loadCatalog() {
   const [trips, destinations, activities, accommodations, transport, fares, budgets, sources, quality] =
     await Promise.all(['trips', 'destinations', 'activities', 'accommodations', 'transport', 'fares', 'budgets', 'sources', 'data_quality'].map(file));
-  const snapshots = await Promise.all(trips.map(trip => file('tripsy-' + trip.external_trip_id)));
+  const snapshots = await Promise.all(trips.map(async trip => {
+    try { return await file('tripsy-' + trip.external_trip_id); }
+    catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+      return seedSnapshot(trip, { transport, activities, accommodations, cities });
+    }
+  }));
   const cities = Object.fromEntries(destinations.map(city => [city.id, { ...city, point: point(city.latitude_approx, city.longitude_approx) }]));
   const fareMap = Object.fromEntries(fares.map(fare => [fare.id, fare]));
   const output = trips.map((trip, index) => {
@@ -250,8 +257,8 @@ export async function loadCatalog() {
       ?? cityOnDate(date) ?? allowed[0];
     const legs = snapshot.resources.transportations.items.map(raw => {
       const seed = transport.find(t => String(t.external_id) === String(raw.id) && t.trip_id === trip.id);
-      const city = cityName(raw.departure_description, allowed);
-      const toCity = cityName(raw.arrival_description, allowed);
+      const city = raw.seedDepartureCity ?? cityName(raw.departure_description, allowed);
+      const toCity = raw.seedArrivalCity ?? cityName(raw.arrival_description, allowed);
       const mode = raw.transportation_type;
       const departure = raw.departure_description || seed?.from || 'Abfahrt offen';
       const arrival = raw.arrival_description || seed?.to || 'Ankunft offen';
@@ -281,7 +288,7 @@ export async function loadCatalog() {
     const planned = snapshot.resources.activities.items.map(raw => {
       const localZone = raw.timezone ?? zone;
       const date = localParts(raw.starts_at, localZone).date;
-      const city = locate(raw, date);
+      const city = raw.seedDestinationId ?? locate(raw, date);
       const facts = factsFor(city, raw.name);
       const isOptional = optional.test(raw.name ?? '');
       const coords = checkedPoint(point(raw.latitude, raw.longitude), city, cities);
@@ -296,7 +303,7 @@ export async function loadCatalog() {
         zone: localZone, category: /restaurant|foodMarket|cafe/.test(raw.activity_type) ? 'food' : 'activity',
         name: String(raw.name ?? 'Aktivität').replace(/^[^·]+ · /, ''), tags: [raw.activity_type],
         date, start: raw.all_day ? null : raw.starts_at, originalStart: raw.starts_at,
-        selected: !isOptional && !facts?.requiresKitchen, originalName: raw.name,
+        selected: raw.fromSeed ? raw.seedSelected && !facts?.requiresKitchen : !isOptional && !facts?.requiresKitchen, originalName: raw.name,
         ...coords, website: raw.website, ...displayFacts, positionIssue,
         address: displayFacts?.address ?? (coords.positionIssue ? null : raw.address),
         price: null, source: ['tripsy-refresh', ...(displayFacts?.addedSources ?? [])],
@@ -305,9 +312,9 @@ export async function loadCatalog() {
     flagDuplicates(planned, item => item.originalStart ? [item.originalName, item.originalStart, item.point].join('|') : null);
     const hotels = snapshot.resources.hostings.items.map(raw => {
       const localZone = raw.timezone ?? zone;
-      const from = localParts(raw.starts_at, localZone).date;
-      const to = localParts(raw.ends_at, localZone).date;
-      const city = locate(raw, from);
+      const from = raw.seedFrom ?? localParts(raw.starts_at, localZone).date;
+      const to = raw.seedTo ?? localParts(raw.ends_at, localZone).date;
+      const city = raw.seedDestinationId ?? locate(raw, from);
       const seed = accommodations.find(h => h.trip_id === trip.id && h.destination_id === city && h.origin === 'imported');
       const facts = lodgingFacts(raw.name);
       if (!stayByCity[city]) stayByCity[city] = { from, to };
@@ -350,6 +357,7 @@ export async function loadCatalog() {
       id: trip.id, title: trip.title, from: trip.start_date, to: trip.end_date, travellers: trip.travellers, zone,
       route: trip.ordered_destination_ids, externalId: trip.external_trip_id, group: trip.variant_group,
       description: snapshot.description, remarks: trip.remarks, importedOn: snapshot.imported_on,
+      dataMode: snapshot.seedFallback ? 'research_seed_fallback' : 'tripsy_snapshot',
       importCounts: Object.fromEntries(Object.entries(snapshot.resources).map(([k, v]) => [k, v.count])),
       referenceExpenses: snapshot.resources.expenses.items,
       budgetReference: budgets.find(b => b.trip_id === trip.id),
