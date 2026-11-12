@@ -50,8 +50,8 @@ export function explorerData(items, trip, { city = null, group = 'all', search =
 export function explorerDetail(item, people = 3) {
   if (!item) return null;
   const group = EXPLORER_GROUPS[explorerCategory(item)];
-  const money = cents => new Intl.NumberFormat('de-DE', { style: 'currency', currency: item.price?.currency ?? 'EUR' }).format(cents / 100);
   const price = item.effectivePrice ?? item.price;
+  const money = cents => new Intl.NumberFormat('de-DE', { style: 'currency', currency: price?.currency ?? 'EUR' }).format(cents / 100);
   const amount = price?.cents;
   const priceText = !Number.isSafeInteger(amount) ? 'Preis offen' : price.scope === 'person'
     ? money(amount) + ' je Person · ' + money(amount * people) + ' für ' + people
@@ -95,6 +95,13 @@ export function explorerRouteInput(from, to) {
   const a = Math.sin(dLat/2)**2 + Math.cos(rad(from.point[0])) * Math.cos(rad(to.point[0])) * Math.sin(dLon/2)**2;
   const km = earth * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   return { points: [from.point, to.point], km, canWalk: km <= 25, sameCity: from.city === to.city };
+}
+
+export function externalTransitUrl(from, to) {
+  if (!validPoint(from?.point) || !validPoint(to?.point)) return null;
+  return 'https://www.google.com/maps/dir/?api=1&origin='
+    + encodeURIComponent(from.point.join(',')) + '&destination='
+    + encodeURIComponent(to.point.join(',')) + '&travelmode=transit';
 }
 
 export function externalFootUrl(from, to) {
