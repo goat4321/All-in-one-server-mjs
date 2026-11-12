@@ -1,0 +1,3202 @@
+[
+  {
+    "id": "cl-paris",
+    "trip_id": "interrail_classic",
+    "destination_id": "paris",
+    "name": "ibis Porte de Montreuil",
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 178.08,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "3 Personen; Triple Room nur auf Planung, 2027 Zimmer/Steuern nicht geprüft"
+  },
+  {
+    "id": "cl-barcelona",
+    "trip_id": "interrail_classic",
+    "destination_id": "barcelona",
+    "name": "Bird House",
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 435.24,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy",
+      "birdhouse"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "Proportionaler Altpreis aus 4 Nächten, NICHT aktueller Drei-Nächte-Preis; Zimmer nach Belegung prüfen"
+  },
+  {
+    "id": "cl-sete",
+    "trip_id": "interrail_classic",
+    "destination_id": "sete",
+    "name": "Saint Camille Apartment",
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 183.31,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "Preissuche galt für andere Daten; 2027 September nicht verifiziert; 3 Gäste; Küche und eigenes Bad laut Tripsy"
+  },
+  {
+    "id": "cl-nice",
+    "trip_id": "interrail_classic",
+    "destination_id": "nice",
+    "name": "Appartement Vieux-Nice",
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 269.5,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "Aus 3 Nächten proportional gerechnet, kein buchbarer 2-Nächte-Preis"
+  },
+  {
+    "id": "cl-genoa",
+    "trip_id": "interrail_classic",
+    "destination_id": "genoa",
+    "name": "Ca’ du Pitta Apartment",
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 218.1,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "Alte Unterkunftsoption; 3-Personen-Belegung und Preise unbestätigt"
+  },
+  {
+    "id": "cl-venice",
+    "trip_id": "interrail_classic",
+    "destination_id": "venice",
+    "name": "Casa Venezia Stazione Mestre",
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 139.1,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "Mestre: Pendelkosten nach Venezia einkalkulieren, keine verfügbare Rate bestätigt"
+  },
+  {
+    "id": "iv-paris",
+    "trip_id": "interrail_swiss",
+    "destination_id": "paris",
+    "name": "ibis Porte de Montreuil",
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 178.08,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "Tripsy-Angebotsindikator; nicht neu mit 3 Gästen/2027 verifiziert."
+  },
+  {
+    "id": "iv-barcelona",
+    "trip_id": "interrail_swiss",
+    "destination_id": "barcelona",
+    "name": "Bird House",
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 435.24,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "Tripsy-Angebotsindikator; nicht neu mit 3 Gästen/2027 verifiziert."
+  },
+  {
+    "id": "iv-sete",
+    "trip_id": "interrail_swiss",
+    "destination_id": "sete",
+    "name": "Saint Camille Apartment",
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 183.31,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "Tripsy-Angebotsindikator; nicht neu mit 3 Gästen/2027 verifiziert."
+  },
+  {
+    "id": "iv-nice",
+    "trip_id": "interrail_swiss",
+    "destination_id": "nice",
+    "name": "Appartement Vieux-Nice",
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 269.5,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "Tripsy-Angebotsindikator; nicht neu mit 3 Gästen/2027 verifiziert."
+  },
+  {
+    "id": "iv-kandersteg",
+    "trip_id": "interrail_swiss",
+    "destination_id": "kandersteg",
+    "name": "Alpina Appartment 2",
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 417.95,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "Tripsy-Angebotsindikator; nicht neu mit 3 Gästen/2027 verifiziert."
+  },
+  {
+    "id": "iv-appenzell",
+    "trip_id": "interrail_swiss",
+    "destination_id": "appenzell",
+    "name": "Alte Metzg Hostel",
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 408.15,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy",
+      "altemetzg"
+    ],
+    "price_validity": "historical_plan_not_live",
+    "note": "Tripsy-Angebotsindikator; nicht neu mit 3 Gästen/2027 verifiziert."
+  },
+  {
+    "id": "aug-barcelona",
+    "trip_id": "interrail_august",
+    "destination_id": "barcelona",
+    "name": "Unterkunft offen Barcelona",
+    "check_in_date": "2027-08-18",
+    "check_out_date": "2027-08-20",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": false,
+    "historic_or_plan_total": 240,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "budget_estimate_only",
+    "note": "Platzhalterbudget für 3 Personen: Nähe Sants/Eixample"
+  },
+  {
+    "id": "aug-sete",
+    "trip_id": "interrail_august",
+    "destination_id": "sete",
+    "name": "Unterkunft offen Sète",
+    "check_in_date": "2027-08-20",
+    "check_out_date": "2027-08-22",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": false,
+    "historic_or_plan_total": 210,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "budget_estimate_only",
+    "note": "Platzhalterbudget für 3 Personen: Küche bevorzugt, Bahnhof + Strand"
+  },
+  {
+    "id": "aug-nice",
+    "trip_id": "interrail_august",
+    "destination_id": "nice",
+    "name": "Unterkunft offen Nizza",
+    "check_in_date": "2027-08-22",
+    "check_out_date": "2027-08-24",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": false,
+    "historic_or_plan_total": 285,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "budget_estimate_only",
+    "note": "Platzhalterbudget für 3 Personen: Nice-Ville/Tram"
+  },
+  {
+    "id": "aug-genoa",
+    "trip_id": "interrail_august",
+    "destination_id": "genoa",
+    "name": "Unterkunft offen Genua",
+    "check_in_date": "2027-08-24",
+    "check_out_date": "2027-08-25",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": false,
+    "historic_or_plan_total": 120,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "budget_estimate_only",
+    "note": "Platzhalterbudget für 3 Personen: Nähe Piazza Principe/Brignole"
+  },
+  {
+    "id": "aug-venice",
+    "trip_id": "interrail_august",
+    "destination_id": "venice",
+    "name": "Unterkunft offen Venedig/Mestre",
+    "check_in_date": "2027-08-25",
+    "check_out_date": "2027-08-27",
+    "travellers": 3,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": false,
+    "historic_or_plan_total": 300,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "budget_estimate_only",
+    "note": "Platzhalterbudget für 3 Personen: Mestre günstig, Fahrkarte zusätzlich"
+  },
+  {
+    "id": "ch-appenzell",
+    "trip_id": "swiss_lakes",
+    "destination_id": "appenzell",
+    "name": "Blattenheimat6 (Tripsy-Option)",
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 737.93,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_price_not_live",
+    "note": "Alte 4er Preisindikation; spezifische Wohnung/4-Betten-Konfiguration erneut verifizieren"
+  },
+  {
+    "id": "ch-glarus",
+    "trip_id": "swiss_lakes",
+    "destination_id": "glarus",
+    "name": "Hotel Post Glarnerhof",
+    "check_in_date": "2027-09-07",
+    "check_out_date": "2027-09-08",
+    "travellers": 4,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 392.86,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_price_not_live",
+    "note": "Alte Preisindikation"
+  },
+  {
+    "id": "ch-grindelwald",
+    "trip_id": "swiss_lakes",
+    "destination_id": "grindelwald",
+    "name": "Unterkunft OFFEN",
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-09",
+    "travellers": 4,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": false,
+    "historic_or_plan_total": 300,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "budget_placeholder",
+    "note": "Nur Budget-Platzhalter, KEIN EXISTIERENDES ANGEBOT"
+  },
+  {
+    "id": "ch-kandersteg",
+    "trip_id": "swiss_lakes",
+    "destination_id": "kandersteg",
+    "name": "Wohnung Kanderfirn",
+    "check_in_date": "2027-09-09",
+    "check_out_date": "2027-09-11",
+    "travellers": 4,
+    "origin": "imported",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": 530.89,
+    "historic_or_plan_currency": "EUR",
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": null,
+    "source_ids": [
+      "tripsy"
+    ],
+    "price_validity": "historical_price_not_live",
+    "note": "Alte Preisindikation; 4 Personen und Schlafplätze prüfen"
+  },
+  {
+    "id": "opt-barcelona-stchristophers",
+    "trip_id": "interrail_classic",
+    "destination_id": "barcelona",
+    "name": "St Christopher’s Barcelona",
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "origin": "researched",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": null,
+    "historic_or_plan_currency": null,
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": "https://www.st-christophers.co.uk/barcelona/",
+    "source_ids": [
+      "stchristophers"
+    ],
+    "price_validity": "property_exists_price_unknown",
+    "note": "Am Plaça Catalunya; keine vollwertige Küche bei St Christopher Hostels laut FAQ. Drei separate Schlafplätze/Preis offen."
+  },
+  {
+    "id": "opt-sete-georges",
+    "trip_id": "interrail_classic",
+    "destination_id": "sete",
+    "name": "Georges Hostel & Café",
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "origin": "researched",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": null,
+    "historic_or_plan_currency": null,
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": "https://georgeshostel.com/en/rooms/",
+    "source_ids": [
+      "georges_official"
+    ],
+    "price_validity": "property_exists_price_unknown",
+    "note": "Gemeinschaftsküche, Privatzimmer oder Dorm, zentrums- und bahnhofsnah; Preisbereiche für 2026 unter fares.json."
+  },
+  {
+    "id": "opt-nice-antares",
+    "trip_id": "interrail_classic",
+    "destination_id": "nice",
+    "name": "Antares Hostel Triple Room",
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "origin": "researched",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": null,
+    "historic_or_plan_currency": null,
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": "https://antareshostel.com/room/triple-room/",
+    "source_ids": [
+      "antares"
+    ],
+    "price_validity": "property_exists_price_unknown",
+    "note": "Doppelbett + Einzelbett, privates Bad, Gemeinschaftsküche, 5 Avenue Thiers; auf 3 Personen ausgelegt; Endpreis offen."
+  },
+  {
+    "id": "opt-appenzell-altemetzg",
+    "trip_id": "swiss_lakes",
+    "destination_id": "appenzell",
+    "name": "Alte Metzg Mehrbettzimmer",
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "origin": "researched",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": null,
+    "historic_or_plan_currency": null,
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": "https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/boutique-pension-hostel-alte-metzg.html",
+    "source_ids": [
+      "altemetzg"
+    ],
+    "price_validity": "indicative_2026",
+    "note": "2 Mehrbettzimmer, 9 Zimmer gesamt; Preise CHF 40–110 p.P./Nacht laut Tourismus, 2027 noch nicht geprüft."
+  },
+  {
+    "id": "opt-appenzell-blattenheimat-6og3",
+    "trip_id": "swiss_lakes",
+    "destination_id": "appenzell",
+    "name": "Ferienwohnung Blattenheimat 6OG3",
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "origin": "researched",
+    "verification_status": "unverified_for_dates",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "historic_or_plan_total": null,
+    "historic_or_plan_currency": null,
+    "live_quote_total": null,
+    "live_quote_currency": null,
+    "live_quote_verified_at": null,
+    "fees_included": null,
+    "free_cancellation": null,
+    "room_beds_verified_for_party": null,
+    "private_bathroom": null,
+    "kitchen": null,
+    "check_in_time": null,
+    "check_out_time": null,
+    "travel_time_from_station_min": null,
+    "url": "https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/ferienwohnung-blattenheimat-6og3.html",
+    "source_ids": [
+      "blattenheimat"
+    ],
+    "price_validity": "indicative_2026",
+    "note": "4 Schlafplätze: 1 Doppelbett + 2 Einzelbetten; Küche; amtlicher Referenzpreis CHF 150/Nacht + CHF 260 Reinigung = CHF 560 für zwei Nächte, ohne Kurtaxe. Prüfen, ob identisch mit altem Tripsy-Eintrag."
+  },
+  {
+    "id": "bcom_12814471",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "barcelona",
+    "name": "HeyLola! Hostel",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "observed_total_eur": 285.9,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 285.9,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/es/heylola-hostel.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-e64fb96ff5ce47e9",
+    "source_ids": [
+      "booking_barcelona_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_386244",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "barcelona",
+    "name": "Generator Barcelona",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "observed_total_eur": 448.8,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 448.8,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/es/generator-hostel-barcelona.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-e64fb96ff5ce47e9",
+    "source_ids": [
+      "booking_barcelona_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_576580",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "barcelona",
+    "name": "The Central House Barcelona Gracia",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "observed_total_eur": 388.59,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 388.59,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/es/rodama3n-barcelona-centre.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-e64fb96ff5ce47e9",
+    "source_ids": [
+      "booking_barcelona_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_11571362",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "barcelona",
+    "name": "AMISTAT City Hostel Barcelona",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "observed_total_eur": 430.92,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 430.92,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/es/amistat-city-hostel-barcelona.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-e64fb96ff5ce47e9",
+    "source_ids": [
+      "booking_barcelona_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_482405",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "barcelona",
+    "name": "Urbany Hostel BCN GO!",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "observed_total_eur": 381.6,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 381.6,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/es/urbany-hostel-bcn-go.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-e64fb96ff5ce47e9",
+    "source_ids": [
+      "booking_barcelona_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_13970",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "barcelona",
+    "name": "Barcelona Pere Tarrés Youth Hostel",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "observed_total_eur": 403.11,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 403.11,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/es/albergue-pere-tarres.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-e64fb96ff5ce47e9",
+    "source_ids": [
+      "booking_barcelona_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_93600",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "barcelona",
+    "name": "Inout",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "observed_total_eur": 383.4,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 383.4,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/es/inout.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-e64fb96ff5ce47e9",
+    "source_ids": [
+      "booking_barcelona_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_427235",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "barcelona",
+    "name": "Sant Jordi Hostels Gracia",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "observed_total_eur": 436.5,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 436.5,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/es/sant-jordi-gracia.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-e64fb96ff5ce47e9",
+    "source_ids": [
+      "booking_barcelona_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_175889",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "barcelona",
+    "name": "Sant Jordi Hostels Sagrada Familia",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "observed_total_eur": 430.5,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 430.5,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/es/sant-jordi-sagrada-familia.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-e64fb96ff5ce47e9",
+    "source_ids": [
+      "booking_barcelona_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_1010034",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "barcelona",
+    "name": "Malacuna Barcelona",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-03",
+    "check_out_date": "2027-09-06",
+    "travellers": 3,
+    "observed_total_eur": 404.25,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 404.25,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/es/ideal-youth-hostel.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-e64fb96ff5ce47e9",
+    "source_ids": [
+      "booking_barcelona_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_1549960",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "paris",
+    "name": "hotelF1 Paris Porte de Châtillon",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "observed_total_eur": 139.92,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 139.92,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/hotelf1-paris-porte-de-chatillon-paris.html?aid=2438770&checkin=2027-09-01&checkout=2027-09-03&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-b401bef8f44da477",
+    "source_ids": [
+      "booking_paris_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_250976",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "paris",
+    "name": "Altona",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "observed_total_eur": 307.5,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 307.5,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/altona-paris.html?aid=2438770&checkin=2027-09-01&checkout=2027-09-03&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-b401bef8f44da477",
+    "source_ids": [
+      "booking_paris_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_882071",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "paris",
+    "name": "Kyriad Paris 18 Porte de Clignancourt",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "observed_total_eur": 278.18,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 278.18,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/kyriad-paris-18-porte-de-clignancourt-montmartre-xml.html?aid=2438770&checkin=2027-09-01&checkout=2027-09-03&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-b401bef8f44da477",
+    "source_ids": [
+      "booking_paris_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_6532164",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "paris",
+    "name": "Auberge de Jeunesse HI Paris Yves Robert",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "observed_total_eur": 197.6,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 197.6,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/auberge-de-jeunesse-hi-paris-yves-robert.html?aid=2438770&checkin=2027-09-01&checkout=2027-09-03&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-b401bef8f44da477",
+    "source_ids": [
+      "booking_paris_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_230783",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "paris",
+    "name": "Libertel Montmartre Opéra",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "observed_total_eur": 343.18,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 343.18,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/libertel-amiral-duperre.html?aid=2438770&checkin=2027-09-01&checkout=2027-09-03&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-b401bef8f44da477",
+    "source_ids": [
+      "booking_paris_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_51591",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "paris",
+    "name": "Campanile Paris 12 Bercy Village",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "observed_total_eur": 337.38,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 337.38,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/parisbercyvillage.html?aid=2438770&checkin=2027-09-01&checkout=2027-09-03&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-b401bef8f44da477",
+    "source_ids": [
+      "booking_paris_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_1105489",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "paris",
+    "name": "Les Patios du Marais 1",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "observed_total_eur": 351.5,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 351.5,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/les-patios-du-marais.html?aid=2438770&checkin=2027-09-01&checkout=2027-09-03&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-b401bef8f44da477",
+    "source_ids": [
+      "booking_paris_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_13179599",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "paris",
+    "name": "Studio Paris Centre République",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "observed_total_eur": 268.49,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 268.49,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/studio-paris-centre-republique.html?aid=2438770&checkin=2027-09-01&checkout=2027-09-03&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-b401bef8f44da477",
+    "source_ids": [
+      "booking_paris_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_2592525",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "paris",
+    "name": "Appart'hôtel Odalys City Paris XVII",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "observed_total_eur": 282.18,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 282.18,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/appart-39-odalys-paris-xvii.html?aid=2438770&checkin=2027-09-01&checkout=2027-09-03&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-b401bef8f44da477",
+    "source_ids": [
+      "booking_paris_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_5163757",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "paris",
+    "name": "MEININGER Hotel Paris Porte de Vincennes",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-01",
+    "check_out_date": "2027-09-03",
+    "travellers": 3,
+    "observed_total_eur": 285.9,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 285.9,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/meininger-paris-porte-de-vincennes.html?aid=2438770&checkin=2027-09-01&checkout=2027-09-03&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-b401bef8f44da477",
+    "source_ids": [
+      "booking_paris_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_9923338",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "sete",
+    "name": "Jolie maison de pêcheur - La Pointe Courte",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "observed_total_eur": 220.69,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 220.69,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/jolie-maison-de-pecheur-la-pointe-courte.html?aid=2438770&checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-8b948ebd0c7c7ddb",
+    "source_ids": [
+      "booking_sete_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_12769785",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "sete",
+    "name": "Le Chic-Cadre Royal-Centre ville",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "observed_total_eur": 178.43,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 178.43,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/le-chic-cadre-royal-centre-ville.html?aid=2438770&checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-8b948ebd0c7c7ddb",
+    "source_ids": [
+      "booking_sete_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_4664508",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "sete",
+    "name": "LOFT COCON EN PLEIN CENTRE DE SETE",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "observed_total_eur": 218.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 218.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/loft-cocon-en-plein-centre-de-sete.html?aid=2438770&checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-8b948ebd0c7c7ddb",
+    "source_ids": [
+      "booking_sete_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_4231096",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "sete",
+    "name": "L'Eternel Estivant",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "observed_total_eur": 246.47,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 246.47,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/l-39-eternel-estivant.html?aid=2438770&checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-8b948ebd0c7c7ddb",
+    "source_ids": [
+      "booking_sete_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_4032998",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "sete",
+    "name": "Le Pouffre maison de pêcheur",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "observed_total_eur": 264.6,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 264.6,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/le-pouffre.html?aid=2438770&checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-8b948ebd0c7c7ddb",
+    "source_ids": [
+      "booking_sete_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_16577964",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "sete",
+    "name": "Charmant T2 avec terrasse au coeur de Sète",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "observed_total_eur": 172.6,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 172.6,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/charming-two-rooms-appartment-with-terrace-and-view.html?aid=2438770&checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-8b948ebd0c7c7ddb",
+    "source_ids": [
+      "booking_sete_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_10404998",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "sete",
+    "name": "Maison quartier pointe-courte à Sète",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "observed_total_eur": 192.31,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 192.31,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/maison-quartier-pointe-courte-a-sete.html?aid=2438770&checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-8b948ebd0c7c7ddb",
+    "source_ids": [
+      "booking_sete_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_12902044",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "sete",
+    "name": "Appartement au cœur de la Marina",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "observed_total_eur": 172.07,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 172.07,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/appartement-au-coeur-de-la-marina-sete.html?aid=2438770&checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-8b948ebd0c7c7ddb",
+    "source_ids": [
+      "booking_sete_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_11377820",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "sete",
+    "name": "Appart à 200m de la plage",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "observed_total_eur": 189.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 189.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/appart-a-200m-de-la-plage.html?aid=2438770&checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-8b948ebd0c7c7ddb",
+    "source_ids": [
+      "booking_sete_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_11977245",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "sete",
+    "name": "Sète climatisé 200m plage parking",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-06",
+    "check_out_date": "2027-09-08",
+    "travellers": 3,
+    "observed_total_eur": 182.7,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 182.7,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/sete-climatise-200-m-plage-parking.html?aid=2438770&checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-8b948ebd0c7c7ddb",
+    "source_ids": [
+      "booking_sete_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_11815614",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "nice",
+    "name": "APPARTEMENT-NICE 01 VUE MER - PANORAMIQUE",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "observed_total_eur": 314.9,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 314.9,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/appartement-vue-mer-panoramique-wifi-parking.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-10&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-bc3defc3539aeb24",
+    "source_ids": [
+      "booking_nice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_535627",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "nice",
+    "name": "ibis budget Nice Californie Lenval",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "observed_total_eur": 318.54,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 318.54,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/ibis-budget-nice-californie-lenval.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-10&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-bc3defc3539aeb24",
+    "source_ids": [
+      "booking_nice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_51188",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "nice",
+    "name": "Greet Hotel Nice Aéroport Promenade des Anglais",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "observed_total_eur": 279.99,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 279.99,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/greet-hotel-nice.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-10&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-bc3defc3539aeb24",
+    "source_ids": [
+      "booking_nice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_10900187",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "nice",
+    "name": "B&B HOTEL Nice Stade Riviera",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "observed_total_eur": 262.08,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 262.08,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/b-amp-b-nice-stade.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-10&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-bc3defc3539aeb24",
+    "source_ids": [
+      "booking_nice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_17509626",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "nice",
+    "name": "Cocooning - Wifi Parking",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "observed_total_eur": 298.4,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 298.4,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/cocooning-wifi-parking.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-10&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-bc3defc3539aeb24",
+    "source_ids": [
+      "booking_nice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_16735626",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "nice",
+    "name": "designer",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "observed_total_eur": 286.45,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 286.45,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/designer.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-10&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-bc3defc3539aeb24",
+    "source_ids": [
+      "booking_nice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_16577016",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "nice",
+    "name": "Charmant studio au coeur du Vieux Nice",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "observed_total_eur": 267.35,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 267.35,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/charment-petit-studio-au-coeur-du-vieux-nice-et-a-5-min-de-la-mer.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-10&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-bc3defc3539aeb24",
+    "source_ids": [
+      "booking_nice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_15322595",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "nice",
+    "name": "Gite Maïoun Cremat",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "observed_total_eur": 275.61,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 275.61,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/gite-maioun-cremat.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-10&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-bc3defc3539aeb24",
+    "source_ids": [
+      "booking_nice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_674278",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "nice",
+    "name": "Hotel Ibis Budget Nice Palais Nikaia",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "observed_total_eur": 181.48,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 181.48,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/ibis-budget-nice-palais-nikaia.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-10&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-bc3defc3539aeb24",
+    "source_ids": [
+      "booking_nice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_11560151",
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss"
+    ],
+    "destination_id": "nice",
+    "name": "Appartement T2",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-10",
+    "travellers": 3,
+    "observed_total_eur": 309.87,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 309.87,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/fr/appartement-t2-nice1.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-10&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-bc3defc3539aeb24",
+    "source_ids": [
+      "booking_nice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_16827286",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "genoa",
+    "name": "Ca' du Pitta Old Town Genoa apartment",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "observed_total_eur": 218.1,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 218.1,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/ca-du-pitta-a-stay-in-the-heart-of-genoa.html?aid=2438770&checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-0f95576a8ff6bc9c",
+    "source_ids": [
+      "booking_genoa_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_1897944",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "genoa",
+    "name": "Hotel Genova Liberty",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "observed_total_eur": 290.7,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 290.7,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/genova-genoa.html?aid=2438770&checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-0f95576a8ff6bc9c",
+    "source_ids": [
+      "booking_genoa_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_16984449",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "genoa",
+    "name": "Frappi house front of the aquarium",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "observed_total_eur": 242.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 242.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/frappi-house.html?aid=2438770&checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-0f95576a8ff6bc9c",
+    "source_ids": [
+      "booking_genoa_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_787203",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "genoa",
+    "name": "Palazzo Cambiaso Albergo Etico Genova",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "observed_total_eur": 264.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 264.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/my-place-apartments.html?aid=2438770&checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-0f95576a8ff6bc9c",
+    "source_ids": [
+      "booking_genoa_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_3955394",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "genoa",
+    "name": "Le stanze della Lanterna",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "observed_total_eur": 224.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 224.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/le-stanze-della-lanterna.html?aid=2438770&checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-0f95576a8ff6bc9c",
+    "source_ids": [
+      "booking_genoa_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_12257788",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "genoa",
+    "name": "A due passi dalla Lanterna",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "observed_total_eur": 159.6,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 159.6,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/a-due-passi-dalla-lanterna.html?aid=2438770&checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-0f95576a8ff6bc9c",
+    "source_ids": [
+      "booking_genoa_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_9743748",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "genoa",
+    "name": "Appartamento in centro",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "observed_total_eur": 240.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 240.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/appartamento-in-centro-genova.html?aid=2438770&checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-0f95576a8ff6bc9c",
+    "source_ids": [
+      "booking_genoa_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_13963152",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "genoa",
+    "name": "Cittadella 3",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "observed_total_eur": 256.1,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 256.1,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/cittadella-3.html?aid=2438770&checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-0f95576a8ff6bc9c",
+    "source_ids": [
+      "booking_genoa_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_4482736",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "genoa",
+    "name": "Colombo House e L'isola che non c'è",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "observed_total_eur": 292.3,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 292.3,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/colombo-house-genova.html?aid=2438770&checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-0f95576a8ff6bc9c",
+    "source_ids": [
+      "booking_genoa_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_85890",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "genoa",
+    "name": "Hotel Britannia",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-10",
+    "check_out_date": "2027-09-12",
+    "travellers": 3,
+    "observed_total_eur": 285.57,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 285.57,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/cit-hotel-britannia.html?aid=2438770&checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-0f95576a8ff6bc9c",
+    "source_ids": [
+      "booking_genoa_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_14807211",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "venice",
+    "name": "Ca' Mercati Mestre Una camera",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "observed_total_eur": 264.83,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 264.83,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/appartamento-x-vacanze-ca-mercati.html?aid=2438770&checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-aa028ad120d5fba0",
+    "source_ids": [
+      "booking_venice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_16054934",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "venice",
+    "name": "Angela's Rooms - 10 minutes from VENICE",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "observed_total_eur": 284.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 284.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/angelas-rooms.html?aid=2438770&checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-aa028ad120d5fba0",
+    "source_ids": [
+      "booking_venice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_12284646",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "venice",
+    "name": "Alloggi Ca'Vignotto Sant Erasmo Venezia",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "observed_total_eur": 249.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 249.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/alloggio-a-sant-erasmo-venezia.html?aid=2438770&checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-aa028ad120d5fba0",
+    "source_ids": [
+      "booking_venice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_17205591",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "venice",
+    "name": "4 Venice rooms Hotel Piazza Ferretto",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "observed_total_eur": 288.24,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 288.24,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/4-venice-rooms-piazza-ferretto-m9-museum-duomo-teatro-toniolo-airport-wi-fi-cent.html?aid=2438770&checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-aa028ad120d5fba0",
+    "source_ids": [
+      "booking_venice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_6592678",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "venice",
+    "name": "CASA MODERNA A DUE PASSI DA RIALTO",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "observed_total_eur": 364.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 364.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/casa-moderna-a-due-passi-da-rialto.html?aid=2438770&checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-aa028ad120d5fba0",
+    "source_ids": [
+      "booking_venice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_6206017",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "venice",
+    "name": "beautiful house in Venice",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "observed_total_eur": 394.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 394.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/beautiful-house-in-venice.html?aid=2438770&checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-aa028ad120d5fba0",
+    "source_ids": [
+      "booking_venice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_16062567",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "venice",
+    "name": "Ca' Parco",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "observed_total_eur": 321.6,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 321.6,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/ca-parco-venezia.html?aid=2438770&checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-aa028ad120d5fba0",
+    "source_ids": [
+      "booking_venice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_504469",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "venice",
+    "name": "Best Holidays Venice",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "observed_total_eur": 349.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 349.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/b-amp-b-best-holidays-venice.html?aid=2438770&checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-aa028ad120d5fba0",
+    "source_ids": [
+      "booking_venice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_368523",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "venice",
+    "name": "Antica Raffineria",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "observed_total_eur": 424.2,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 424.2,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/b-venezia15.html?aid=2438770&checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-aa028ad120d5fba0",
+    "source_ids": [
+      "booking_venice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_84103",
+    "trip_ids": [
+      "interrail_classic"
+    ],
+    "destination_id": "venice",
+    "name": "Hotel Guerrini",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-12",
+    "check_out_date": "2027-09-14",
+    "travellers": 3,
+    "observed_total_eur": 409.92,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 409.92,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/it/guerrini.html?aid=2438770&checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-aa028ad120d5fba0",
+    "source_ids": [
+      "booking_venice_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_1123553",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "grindelwald",
+    "name": "Hotel Eigerblick",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-09",
+    "travellers": 4,
+    "observed_total_eur": 345.38,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 345.38,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/eigerblick.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-09&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-eb1e5c6f603fdb0a",
+    "source_ids": [
+      "booking_grindelwald_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_287460",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "grindelwald",
+    "name": "Berggasthaus First - Only Accessible by Cable Car",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-09",
+    "travellers": 4,
+    "observed_total_eur": 311.82,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 311.82,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/berggasthaus-first.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-09&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-eb1e5c6f603fdb0a",
+    "source_ids": [
+      "booking_grindelwald_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_307250",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "grindelwald",
+    "name": "Naturfreunde Hostel Grindelwald",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-09",
+    "travellers": 4,
+    "observed_total_eur": 374.4,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 374.4,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/naturfreundehaus.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-09&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-eb1e5c6f603fdb0a",
+    "source_ids": [
+      "booking_grindelwald_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_3199845",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "grindelwald",
+    "name": "Hotel Gletscherblick Grindelwald",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-09",
+    "travellers": 4,
+    "observed_total_eur": 485.37,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 485.37,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/gletscherblick-grindelwald123.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-09&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-eb1e5c6f603fdb0a",
+    "source_ids": [
+      "booking_grindelwald_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_16340567",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "grindelwald",
+    "name": "Chalet Amaryllis Eiger View Apartment",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-09",
+    "travellers": 4,
+    "observed_total_eur": 461.01,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 461.01,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/chalet-amaryllis-grindelwald.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-09&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-eb1e5c6f603fdb0a",
+    "source_ids": [
+      "booking_grindelwald_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_238721",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "grindelwald",
+    "name": "Alpinhotel Bort",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-09",
+    "travellers": 4,
+    "observed_total_eur": 504.1,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 504.1,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/berghaus-bort.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-09&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-eb1e5c6f603fdb0a",
+    "source_ids": [
+      "booking_grindelwald_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_719905",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "grindelwald",
+    "name": "Fantastic view flat chalet Bergfink",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-09",
+    "travellers": 4,
+    "observed_total_eur": 551.09,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 551.09,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/bergfink.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-09&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-eb1e5c6f603fdb0a",
+    "source_ids": [
+      "booking_grindelwald_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_68664",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "grindelwald",
+    "name": "Hotel Grindelwalderhof",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-09",
+    "travellers": 4,
+    "observed_total_eur": 572.86,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 572.86,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/grindelwalderhof-grindelwald.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-09&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-eb1e5c6f603fdb0a",
+    "source_ids": [
+      "booking_grindelwald_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_789575",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "grindelwald",
+    "name": "Ferienwohnung im Grünen",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-09",
+    "travellers": 4,
+    "observed_total_eur": 515.05,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 515.05,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/ferienwohnung-im-roth.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-09&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-eb1e5c6f603fdb0a",
+    "source_ids": [
+      "booking_grindelwald_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_65960",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "grindelwald",
+    "name": "Hotel Hirschen Grindelwald",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-08",
+    "check_out_date": "2027-09-09",
+    "travellers": 4,
+    "observed_total_eur": 509.74,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 509.74,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/hirschen.html?aid=2438770&checkin=2027-09-08&checkout=2027-09-09&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-eb1e5c6f603fdb0a",
+    "source_ids": [
+      "booking_grindelwald_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_66280",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "kandersteg",
+    "name": "Hotel Alpina",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-09",
+    "check_out_date": "2027-09-11",
+    "travellers": 4,
+    "observed_total_eur": 579.89,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 579.89,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/alpina-kandersteg.html?aid=2438770&checkin=2027-09-09&checkout=2027-09-11&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-796853504a78c4c2",
+    "source_ids": [
+      "booking_kandersteg_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_14757947",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "kandersteg",
+    "name": "Cute chalet in Kandersteg",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-09",
+    "check_out_date": "2027-09-11",
+    "travellers": 4,
+    "observed_total_eur": 459.71,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 459.71,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/cute-chalet-in-kandersteg.html?aid=2438770&checkin=2027-09-09&checkout=2027-09-11&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-796853504a78c4c2",
+    "source_ids": [
+      "booking_kandersteg_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_68845",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "kandersteg",
+    "name": "Belle Epoque Hotel Victoria Apartments",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-09",
+    "check_out_date": "2027-09-11",
+    "travellers": 4,
+    "observed_total_eur": 869.19,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 869.19,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/victoria-ritter.html?aid=2438770&checkin=2027-09-09&checkout=2027-09-11&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-796853504a78c4c2",
+    "source_ids": [
+      "booking_kandersteg_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_5391301",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "kandersteg",
+    "name": "Büelbad Relax Holiday Apartment",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-09",
+    "check_out_date": "2027-09-11",
+    "travellers": 4,
+    "observed_total_eur": 828.91,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 828.91,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/buelbad-relax-holiday-apartment.html?aid=2438770&checkin=2027-09-09&checkout=2027-09-11&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-796853504a78c4c2",
+    "source_ids": [
+      "booking_kandersteg_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_65168",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "kandersteg",
+    "name": "Bernerhof Swiss Quality Hotel",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-09",
+    "check_out_date": "2027-09-11",
+    "travellers": 4,
+    "observed_total_eur": 1028.13,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 1028.13,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/swissqbernerhof.html?aid=2438770&checkin=2027-09-09&checkout=2027-09-11&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-796853504a78c4c2",
+    "source_ids": [
+      "booking_kandersteg_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_69880",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "kandersteg",
+    "name": "Typically Swiss Hotel Ermitage",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-09",
+    "check_out_date": "2027-09-11",
+    "travellers": 4,
+    "observed_total_eur": 970.97,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 970.97,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/ermitage.html?aid=2438770&checkin=2027-09-09&checkout=2027-09-11&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-796853504a78c4c2",
+    "source_ids": [
+      "booking_kandersteg_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_9893804",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "kandersteg",
+    "name": "Swiss Alps Lodge",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-09",
+    "check_out_date": "2027-09-11",
+    "travellers": 4,
+    "observed_total_eur": 943.57,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 943.57,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/swiss-alps-lodge.html?aid=2438770&checkin=2027-09-09&checkout=2027-09-11&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-796853504a78c4c2",
+    "source_ids": [
+      "booking_kandersteg_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_15315821",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "kandersteg",
+    "name": "Gemmi Hotel Spa",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-09",
+    "check_out_date": "2027-09-11",
+    "travellers": 4,
+    "observed_total_eur": 994.78,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 994.78,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/gemmi-kandersteg.html?aid=2438770&checkin=2027-09-09&checkout=2027-09-11&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-796853504a78c4c2",
+    "source_ids": [
+      "booking_kandersteg_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_75669",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "kandersteg",
+    "name": "Seilers Vintage Hotel Spa",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-09",
+    "check_out_date": "2027-09-11",
+    "travellers": 4,
+    "observed_total_eur": 1278.14,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 1278.14,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/alfa-soleil.html?aid=2438770&checkin=2027-09-09&checkout=2027-09-11&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-796853504a78c4c2",
+    "source_ids": [
+      "booking_kandersteg_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_356588",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "kandersteg",
+    "name": "Alpen Chalet",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-09",
+    "check_out_date": "2027-09-11",
+    "travellers": 4,
+    "observed_total_eur": 813.76,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 813.76,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/chalets-adler.html?aid=2438770&checkin=2027-09-09&checkout=2027-09-11&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-796853504a78c4c2",
+    "source_ids": [
+      "booking_kandersteg_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_12518316",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "appenzell",
+    "name": "Ferienwohnung Bärli Appenzell",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "observed_total_eur": 757.89,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 757.89,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/ferienwohnung-barli-appenzell-appenzell.html?aid=2438770&checkin=2027-09-05&checkout=2027-09-07&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-1f8d3eaa9b8aeb04",
+    "source_ids": [
+      "booking_appenzell_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_5763718",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "appenzell",
+    "name": "Traube Restaurant & Hotel",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "observed_total_eur": 779.54,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 779.54,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/traube-restaurant-amp.html?aid=2438770&checkin=2027-09-05&checkout=2027-09-07&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-1f8d3eaa9b8aeb04",
+    "source_ids": [
+      "booking_appenzell_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_7867225",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "appenzell",
+    "name": "Alte Metzg Hostel",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "observed_total_eur": 498.04,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 498.04,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/alte-metzg-hostel-appenzell1.html?aid=2438770&checkin=2027-09-05&checkout=2027-09-07&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-1f8d3eaa9b8aeb04",
+    "source_ids": [
+      "booking_appenzell_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_7304669",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "appenzell",
+    "name": "Alte Metzg Boutique Pension",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "observed_total_eur": 569.5,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 569.5,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/alte-metzg-boutique-pension.html?aid=2438770&checkin=2027-09-05&checkout=2027-09-07&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-1f8d3eaa9b8aeb04",
+    "source_ids": [
+      "booking_appenzell_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_7584624",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "appenzell",
+    "name": "Blattenheimat traditionelles Appenzeller Haus",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "observed_total_eur": 801.0,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 801.0,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/eg-47-og-wohnen-im-traditionellen-appenzeller-haus.html?aid=2438770&checkin=2027-09-05&checkout=2027-09-07&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-1f8d3eaa9b8aeb04",
+    "source_ids": [
+      "booking_appenzell_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_286916",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "appenzell",
+    "name": "Hotel Appenzell",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "observed_total_eur": 1234.28,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 1234.28,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/cafe-appenzell.html?aid=2438770&checkin=2027-09-05&checkout=2027-09-07&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-1f8d3eaa9b8aeb04",
+    "source_ids": [
+      "booking_appenzell_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_12608769",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "appenzell",
+    "name": "Hotel Kaubad",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "observed_total_eur": 844.51,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 844.51,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/kaubad-appenzell.html?aid=2438770&checkin=2027-09-05&checkout=2027-09-07&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-1f8d3eaa9b8aeb04",
+    "source_ids": [
+      "booking_appenzell_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_300148",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "appenzell",
+    "name": "Hotel Landgasthof Eischen",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "observed_total_eur": 1181.87,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 1181.87,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/landgasthof-eischen.html?aid=2438770&checkin=2027-09-05&checkout=2027-09-07&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-1f8d3eaa9b8aeb04",
+    "source_ids": [
+      "booking_appenzell_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_14072122",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "appenzell",
+    "name": "Wohnhaus Münzmühle in Appenzell",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "observed_total_eur": 1963.15,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 1963.15,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/wohnhaus-munzmuhle-in-appenzell.html?aid=2438770&checkin=2027-09-05&checkout=2027-09-07&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-1f8d3eaa9b8aeb04",
+    "source_ids": [
+      "booking_appenzell_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_8142569",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "appenzell",
+    "name": "Hotel B&B Stossplatz anytime and easy self Check-in",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-05",
+    "check_out_date": "2027-09-07",
+    "travellers": 4,
+    "observed_total_eur": 964.69,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 964.69,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/b-amp-b-stossplatz.html?aid=2438770&checkin=2027-09-05&checkout=2027-09-07&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-1f8d3eaa9b8aeb04",
+    "source_ids": [
+      "booking_appenzell_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_11269934",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "glarus",
+    "name": "Hotel Post Glarnerhof",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-07",
+    "check_out_date": "2027-09-08",
+    "travellers": 4,
+    "observed_total_eur": 378.95,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 378.95,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/post-glarnerhof.html?aid=2438770&checkin=2027-09-07&checkout=2027-09-08&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-4f9b1f07abc103c6",
+    "source_ids": [
+      "booking_glarus_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  },
+  {
+    "id": "bcom_1727768",
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "destination_id": "glarus",
+    "name": "Hotel Rhodannenberg AG",
+    "origin": "booking_com_search_2026-11-12",
+    "verification_status": "date_specific_search_display_only",
+    "booking_status": "unbooked",
+    "is_selected": false,
+    "is_comparison_candidate": true,
+    "check_in_date": "2027-09-07",
+    "check_out_date": "2027-09-08",
+    "travellers": 4,
+    "observed_total_eur": 517.1,
+    "live_quote_total": null,
+    "displayed_search_total_eur": 517.1,
+    "room_layout_verified": false,
+    "url": "https://www.booking.com/hotel/ch/rhodannenberg-ag.html?aid=2438770&checkin=2027-09-07&checkout=2027-09-08&no_rooms=1&group_adults=4&selected_currency=EUR&label=mcp_rid-4f9b1f07abc103c6",
+    "source_ids": [
+      "booking_glarus_20261112"
+    ],
+    "note": "Do not auto-merge with old Tripsy hotel; search snapshot, fees and beds need revalidation"
+  }
+]
