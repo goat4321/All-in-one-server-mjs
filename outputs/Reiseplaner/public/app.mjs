@@ -3,7 +3,7 @@ import { renderShell, mapDetail } from './views.mjs';
 import { TripMap } from './map.mjs';
 import { transitFares } from './transit.mjs';
 import { btn, empty, esc, icon } from './ui.mjs';
-import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm } from './forms.mjs';
+import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
 const app = document.querySelector('#app');
 const toast = document.querySelector('#toast');
@@ -369,6 +369,7 @@ async function action(name, value = '') {
     case 'layers': layerForm(ctx); break;
     case 'select': selectPoint(value); break;
     case 'details': if (item) itemDetails(ctx, item); break;
+    case 'verify-item': if (item && ['lodging', 'transport'].includes(item.kind)) verificationForm(ctx, item, save); break;
     case 'option-map':
       if (item) { view.filters.options = true; view.selected = value; view.page = 'map'; view.total = view.wholeDay = false; render({ focusMap: true }); }
       break;
