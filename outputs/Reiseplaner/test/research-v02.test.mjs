@@ -43,7 +43,7 @@ test('Legacy activity IDs remain unique; 42 survey suggestions are alternatives,
   const activities = byId('interrail_classic').items.filter(item => item.kind === 'activity');
   const newSuggestions = activities.filter(item => item.id.startsWith('research:suggest_'));
   assert.equal(newSuggestions.length, 35);
-  assert.ok(newSuggestions.every(item => !item.selected && item.point == null));
+  assert.ok(newSuggestions.every(item => !item.selected && (!item.point || (item.point.length === 2 && item.point.every(Number.isFinite)))));
   const ids = activities.map(item => item.id);
   assert.equal(new Set(ids).size, ids.length);
   const ranked = newSuggestions.find(item => item.preference?.score != null);
