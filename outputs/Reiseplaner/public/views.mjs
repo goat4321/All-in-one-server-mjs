@@ -1,4 +1,4 @@
-import { categories, calculateBudget, activeItems, conflicts, groupPrice, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange, planReadiness } from './model.mjs';
+import { categories, calculateBudget, activeItems, conflicts, groupPrice, groceryBasket, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange, planReadiness } from './model.mjs';
 import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn, chip, empty, alert, categoryIcon, cost, unit, urlLink, timeText, transitPlanners } from './ui.mjs';
 import { transitFares, transitNetworks } from './transit.mjs';
 
@@ -264,6 +264,18 @@ function food(ctx) {
   const dates = ctx.dates.filter(d => d === date || (stay ? stay.from <= d && d <= stay.to : ctx.cityForDay(d) === city));
   const planDate = '<label class="field meal-day"><span>Reisetag</span><select id="meal-date">' + dates.map(d =>
     '<option value="' + d + '"' + (d === date ? ' selected' : '') + '>' + esc(longDay(d)) + '</option>').join('') + '</select></label>';
+  const plannedCooking = ctx.active.filter(item => !state.expenses.some(expense => expense.forItem === item.id));
+  const basket = groceryBasket(plannedCooking, count, state.groceryOverrides ?? {}).filter(row => row.city === city);
+  const basketTotal = basket.reduce((sum, row) => sum + row.total, 0);
+  const basketTable = basket.length ? table(['Zutat', 'Benötigte Menge', 'Packungen', 'Packungspreis', 'Gruppe', ''],
+    basket.map(row => [
+      esc(row.name) + '<br><small>' + esc(row.modified ? 'Preis/Menge selbst angepasst' : 'Preisreferenz, kein Filialangebot') + '</small>',
+      esc(row.required + ' g'), esc(row.packs + ' × ' + row.pack + ' g'),
+      money(row.unitCents), money(row.total),
+      btn('grocery-edit', 'Anpassen', 'edit', row.key)
+        + (row.modified ? btn('grocery-reset', 'Zurücksetzen', 'reset', row.key) : '')
+        + urlLink(catalog.sources[row.source]?.url, 'Quelle'),
+    ])) : '';
   const planCards = plans.map(plan => {
     const estimate = mealEstimate(plan, count);
     const venue = ctx.all.find(i => i.id === (plan.venue ?? plan.shop));
@@ -310,11 +322,16 @@ function food(ctx) {
     + '<section class="section panel panel-pad"><h2>Abendessen am ' + dateText(date) + '</h2><p>'
     + (planned.length ? planned.map(i => {
       const actual = budget.rows.find(row => row.forItem === i.id);
-      return esc(i.name) + ' · ' + esc(cost(i, count)) + ' ' + (actual ? 'erfasst' : 'geplant') + ' '
+      return esc(i.name) + ' · ' + esc(cost(i, count)) + ' ' + (actual ? 'erfasst' : i.requiresKitchen && i.basketProducts ? 'Einzelschätzung, gemeinsamer Einkauf unten' : 'geplant') + ' '
         + btn('meal-cost', actual ? 'Ausgabe bearbeiten' : 'Ausgabe erfassen', 'wallet', i.id);
     }).join(' ') : 'Für den Tag ist noch kein Abendessen ausgewählt.')
     + '</p><p class="muted">' + (mealHotel ? esc(mealHotel.name + ' · ' + (mealHotel.kitchen ?? 'Küchenzugang offen'))
       : 'Unterkunft für diese Nacht offen. Küchenzugang und Ausstattung bei der Auswahl prüfen.') + '</p></section>'
+    + (basket.length ? '<section class="section"><h2>Gemeinsamer Einkaufswarenkorb · ' + money(basketTotal)
+      + '</h2><p class="muted">Für alle aktiven Koch-Mahlzeiten in dieser Stadt zusammengefasst. '
+      + 'Packungen werden nur einmal im aktiven Budget gezählt, nicht pro Mahlzeit. '
+      + 'Die Preise sind Planreferenzen oder von dir geänderte Annahmen; sie sind keine Kassenzettel. '
+      + 'Bereits als echte Ausgabe erfasste Mahlzeiten sind aus dieser Planung ausgenommen.</p>' + basketTable + '</section>' : '')
     + (planCards ? '<section class="section"><h2>Selbst kochen oder auswärts essen</h2><div class="grid-cards">' + planCards + '</div></section>' : '')
     + (scenarios.length ? '<section class="section"><h2>Unterkunft und ein Abendessen</h2><p class="muted">Szenarien mit den vorhandenen Unterkunftspreisen für den gesamten Aufenthalt.</p>'
       + table(['Unterkunft', 'Küche', 'Aufenthalt', 'Mit Kochen', 'Mit Restaurant innen'], scenarios) + '</section>' : '')
