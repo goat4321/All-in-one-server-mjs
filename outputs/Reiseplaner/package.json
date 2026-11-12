@@ -10,6 +10,6 @@
     "start": "node server.mjs",
     "test": "node --test --test-isolation=none test/*.test.mjs",
     "test:browser": "node test/browser.mjs",
-    "test:portable": "node --test test/seed-fallback.test.mjs test/readiness.test.mjs test/grocery-basket.test.mjs test/research-v02.test.mjs test/verification.test.mjs"
+    "test:portable": "node --test test/seed-fallback.test.mjs test/readiness.test.mjs test/grocery-basket.test.mjs test/research-v02.test.mjs test/verification.test.mjs test/map-explorer.test.mjs"
   }
 }
