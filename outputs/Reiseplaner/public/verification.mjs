@@ -17,7 +17,7 @@ export function calendarMonthsBefore(date, count) {
   return first.getUTCFullYear() + '-' + String(first.getUTCMonth() + 1).padStart(2, '0') + '-' + String(Math.min(day, last)).padStart(2, '0');
 }
 
-export function railSalesStatus(task, asOf = '2026-11-12') {
+export function railSalesStatus(task, asOf = new Date().toISOString().slice(0,10)) {
   const route = task?.route ?? ((task?.from ?? '') + ' → ' + (task?.to ?? ''));
   const date = task?.date_local;
   if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return {
