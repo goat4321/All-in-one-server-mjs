@@ -75,7 +75,7 @@ export function validateState(state, trip, imported) {
         || (entry.evidenceUrl != null && (typeof entry.evidenceUrl !== 'string'
           || entry.evidenceUrl.length > 1200 || !/^https?:\/\/[^\s]+$/i.test(entry.evidenceUrl)))
         || !goodText(entry.note ?? '', 600)
-        || (entry.groupSize != null && (!group(entry.groupSize) || entry.groupSize !== state.people.length))
+        || (entry.groupSize != null && !group(entry.groupSize))
         || (entry.quotedCents != null && (!Number.isSafeInteger(entry.quotedCents)
           || entry.quotedCents < 0 || entry.quotedCents > 100_000_000))) {
         error('Ungültiger manueller Prüfstatus.');
