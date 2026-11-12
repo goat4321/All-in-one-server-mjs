@@ -75,6 +75,34 @@ try {
   await cdp('Page.enable');
   await cdp('Page.navigate', { url: address });
   await text('h1', 'Barcelona');
+  // Global trip explorer: all source-backed categories, geographic scope,
+  // search, real routing attempt and explicitly adding a restaurant to a day.
+  await click('.sidebar [data-action=page][data-value=map]');
+  await text('h1', 'Karten-Explorer');
+  await text('#main', 'Alle passenden Orte');
+  await until(() => js('document.querySelectorAll("#map .pin.place-activity, #map .pin.place-food, #map .pin.place-lodging").length > 0'),
+    'Kategorie-Pins im Reiseatlas');
+  await click('[data-action=explorer-scope][data-value=city]');
+  await click('[data-action=explorer-group][data-value=food]');
+  await text('#main', 'Bormuth');
+  await set('#map-search', 'Bormuth');
+  await click('[data-action=explorer-search]');
+  await until(() => js('document.querySelectorAll(".explorer-place").length === 1'), 'Restaurantsuche');
+  await text('.explorer-place', 'Bormuth');
+  await set('#map-search', '');
+  await click('[data-action=explorer-search]');
+  await text('#main', 'Taberna Nardi');
+  await click('[data-action=explorer-start][data-value="local:bormuth"]');
+  await click('[data-action=explorer-end][data-value="local:nardi"]');
+  await until(() => js('document.querySelector(".explorer-status")?.textContent.includes("Fußweg")'),
+    'Fußroute oder ehrliche Router-Fehlermeldung');
+  await text('#main', 'ÖPNV-Route extern ansehen');
+  await click('[data-action=choose][data-value="local:nardi"]');
+  await text('dialog', 'Aktivität einplanen');
+  await save();
+  assert.equal(store.current('interrail_classic').state.edits['local:nardi'].selected, true);
+  assert.equal(store.current('interrail_swiss').state.edits['local:nardi'], undefined);
+  await text('h1', 'Barcelona');
   // All archived research areas are exposed in the actual UI, read-only by default.
   await click('.sidebar [data-action=page][data-value=group]');
   await text('#main', 'Umfrage · drei Personen');
