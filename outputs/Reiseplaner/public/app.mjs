@@ -3,6 +3,7 @@ import { renderShell, mapDetail } from './views.mjs';
 import { TripMap } from './map.mjs';
 import { transitFares } from './transit.mjs';
 import { railSalesStatus } from './verification.mjs';
+import { explorerData, explorerRouteInput } from './map-explorer.mjs';
 import { btn, empty, esc, icon } from './ui.mjs';
 import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
@@ -16,6 +17,8 @@ const view = {
   theme: localStorage.getItem('reiseplan-theme') ?? 'light',
   filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
   optionFilter: 'all', sort: 'source', compareIds: new Set(),
+  mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60,
+  mapFrom: null, mapTo: null, mapRouteMode: 'walk', mapRouteTime: '10:00', mapRouteResult: null,
 };
 const walks = new Map();
 const pendingWalks = new Map();
@@ -96,12 +99,26 @@ function buildContext() {
     && !i.mealPlanId && !i.duplicateOf && !i.removed);
   const foodWalks = Object.fromEntries(foodPlaces.map(item => [item.id, walks.get(walkKey(mealHotel?.point, item.point))]));
   const detail = day.find(i => i.entryKey === view.selected) ?? all.find(i => i.id === view.selected);
+  const explorer = view.page === 'map' ? {
+    ...explorerData(all, trip, {
+      city: view.mapScope === 'city' ? city : null,
+      group: view.mapGroup, search: view.mapSearch,
+    }),
+    scope: view.mapScope, group: view.mapGroup, search: view.mapSearch,
+    limit: view.mapListLimit, routeMode: view.mapRouteMode, routeTime: view.mapRouteTime,
+    connection: {
+      from: all.find(i => i.id === view.mapFrom) ?? null,
+      to: all.find(i => i.id === view.mapTo) ?? null,
+      status: view.mapRouteResult?.status ?? null,
+      route: view.mapRouteResult?.route ?? null,
+    },
+  } : null;
   const preview = view.timetablePreview;
   const timetablePreview = preview?.variantId === variant.id && preview.planDate === date && segments.some(s => s.key === preview.key) ? preview : null;
   return {
     ...view, catalog, variant, variants: catalog.variants, trip, cities: catalog.cities, state, people, all, active, activeSet,
     budget: calculateBudget(active, state), day, fullDay, dates, date, city, cityForDay, dayCities, wholeDay, dayTravel, detail, hotelWalks, station,
-    mealHotel, foodPlaces, foodWalks,
+    mealHotel, foodPlaces, foodWalks, explorer,
     stops: stops.filter((item, i) => stops.indexOf(item) === i), segments, routes, conflictRoutes, saving, timetablePreview,
     options: all.filter(i => i.city === city && !activeSet.has(i.id) && !i.duplicateOf && !i.removed),
   };
@@ -115,7 +132,8 @@ function paintMap(fit = false) {
   if (!currentMap) return;
   currentMap.paint({ trip: context.trip, city: context.city, cities: context.cities, entries: context.day, stops: context.stops,
     dayTravel: context.dayTravel, routes: context.routes, options: context.options, total: context.total,
-    filters: context.filters, focused: context.selected, timetablePreview: context.timetablePreview });
+    filters: context.filters, focused: context.selected, timetablePreview: context.timetablePreview,
+    explorer: context.explorer });
   if (fit) currentMap.fit();
 }
 
@@ -241,6 +259,7 @@ async function switchVariant(id) {
     variant = await api('/api/variant/' + encodeURIComponent(id));
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
+    view.mapFrom = view.mapTo = view.mapRouteResult = null;
     view.total = view.menu = false;
     view.compareIds.clear();
     render();
@@ -281,6 +300,7 @@ function changePage(page) {
   view.menu = false;
   view.optionFilter = 'all';
   if (page !== 'map') view.total = false;
+  if (page === 'map' && view.mapScope === 'trip') view.total = true;
   window.scrollTo({ top: 0, behavior: 'instant' });
   render();
 }
@@ -356,7 +376,7 @@ async function action(name, value = '') {
       view.theme = view.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('reiseplan-theme', view.theme); render({ restoreView: true }); break;
     case 'variant': await switchVariant(value); break;
     case 'city':
-      if (view.page === 'map' && view.total) view.page = 'plan';
+      if (view.page === 'map') { view.mapScope = 'city'; view.total = false; }
       showCity(value); break;
     case 'day': showCity(ctx.cityForDay(value), value, view.wholeDay === true || ctx.trip.id === 'swiss_lakes'); break;
     case 'day-place':
