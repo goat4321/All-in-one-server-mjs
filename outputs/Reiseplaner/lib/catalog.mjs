@@ -175,6 +175,10 @@ function catalogActivity(entry, fareMap, cities, trip) {
     price: cost, eligibility: fare?.id === 'sagrada_under30' ? 'Ermäßigung nur mit Nachweis. Bei unbekanntem Alter wird der Standardpreis gerechnet.' : fare?.eligibility,
     origin: 'übernommen', verification: fare?.price_type === 'source_minimum' ? 'Mindestpreis · Gesamtpreis offen' : fare ? 'Tarifreferenz' : 'ungeprüft',
     source: entry.source_ids, detail: entry.note, duration: entry.estimated_duration_min,
+    openingHoursNote: typeof entry.opening_hours_on_trip_date === 'string' ? entry.opening_hours_on_trip_date : null,
+    estimatedCostNote: entry.cost_estimate == null ? null : String(entry.cost_estimate),
+    eligibilityOrRisk: entry.eligibility_or_risk ?? null,
+    priorityFit: entry.priority_fit ?? null,
     ...enrichment, source: [...new Set([...entry.source_ids, ...(enrichment?.addedSources ?? [])])],
   };
 }
@@ -216,7 +220,9 @@ function housingFromSeed(entry, trip, cities, stay) {
     stayFrom: from, stayTo: to, point: null, origin: 'übernommen', verification: 'ungeprüft',
     price: price(amount, entry.live_quote_currency ?? entry.historic_or_plan_currency, 'group',
       entry.live_quote_total != null ? 'Importierter Angebotspreis' : 'Historischer Planwert', entry.travellers),
-    kitchen: entry.kitchen, room: entry.room_beds_verified_for_party, fees: entry.fees_included,
+    kitchen: entry.kitchen, room: entry.room_beds_verified_for_party, bathroom: entry.private_bathroom,
+    checkInTime: entry.check_in_time, checkOutTime: entry.check_out_time,
+    priceValidity: entry.price_validity, fees: entry.fees_included,
     cancellation: entry.free_cancellation, detail: entry.note, website: entry.url,
     ...facts, source: [...new Set([...entry.source_ids, ...(facts.addedSources ?? [])])],
   };
