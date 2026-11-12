@@ -2,7 +2,7 @@ name: Reiseplaner · Branch-Qualitätsprüfung
 
 on:
   push:
-    branches: [feature/v7-resilient-seed-fallback]
+    branches: [feature/v7-resilient-seed-fallback, feature/v7-curated-research-v02]
   pull_request:
     paths:
       - "outputs/Reiseplaner/**"
@@ -26,6 +26,8 @@ jobs:
           node-version: "24"
       - name: Syntaxprüfungen aller JavaScript-Module
         run: find . -name '*.mjs' -not -path './node_modules/*' -print0 | xargs -0 -n1 node --check
+      - name: Alle 16 kanonischen Research-v0.2-Datensätze prüfen
+        run: python3 data/research-v02/validate_subset.py
       - name: Isolierte Seed- und Readiness-Tests
         run: npm run test:portable
       - name: Echter Chrome-Browsertest für Warenkorb und Mobilansicht
