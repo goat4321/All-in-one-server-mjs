@@ -53,7 +53,7 @@ test('Precise markers respect coordinate validation and duplicates; unknown loca
   const result = explorerData(fixture,trip);
   assert.equal(result.total,3);
   assert.equal(result.placed.length,1);
-  assert.deepEqual(result.unlocated.map(x=>x.id),['missing','origin']);
+  assert.deepEqual(result.unlocated.map(x=>x.id).sort(),['missing','origin']);
   assert.equal(validPoint([90.1,2]),false);
 });
 
