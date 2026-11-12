@@ -67,7 +67,9 @@ export function explorerDetail(item, people = 3) {
   const priceText = !Number.isSafeInteger(amount) ? 'Preis offen' : price.scope === 'person'
     ? money(amount) + ' je Person · ' + money(amount * people) + ' für ' + people
     : price.scope === 'group' ? money(amount) + ' für die Gruppe' : money(amount) + ' · Bezugsgröße prüfen';
-  const hours = Array.isArray(item.hours) && item.hours.length === 2
+  const hours = item.kind === 'lodging' && (item.checkInTime || item.checkOutTime)
+    ? 'Check-in ' + (item.checkInTime ?? 'offen') + ' · Check-out ' + (item.checkOutTime ?? 'offen') + ' · beim Anbieter prüfen'
+    : Array.isArray(item.hours) && item.hours.length === 2
     ? item.hours.join('–') + ' Uhr · am Reisetag prüfen'
     : item.weekly?.days?.length && item.weekly?.hours
       ? 'Wochentage ' + item.weekly.days.join(', ') + ': ' + item.weekly.hours.join('–') + ' Uhr · Ausnahmen prüfen'
@@ -79,11 +81,23 @@ export function explorerDetail(item, people = 3) {
     extra.push('Gebühren: ' + (item.fees === true ? 'laut Quelle eingeschlossen' : 'nicht vollständig bestätigt'));
     extra.push('Stornierung: ' + (item.cancellation === true ? 'laut Quelle möglich, Tarif prüfen' : 'Tarif und Frist offen'));
     if (item.stayFrom && item.stayTo) extra.push('Aufenthalt: ' + item.stayFrom + ' bis ' + item.stayTo);
+    if (item.bathroom != null) extra.push('Privates Bad: ' + (item.bathroom ? 'laut Quelle ja' : 'laut Quelle nein'));
+    if (item.quote?.nights && Number.isSafeInteger(amount) && item.price?.scope === 'group')
+      extra.push('Rechnerisch pro Person/Nacht: ' + money(Math.round(amount/(people * item.quote.nights)))
+        + ' · unverbindlicher Such- oder Planwert');
+    if (item.priceValidity) extra.push('Preisgültigkeit: ' + ({
+      historical_plan_not_live: 'alter Planwert, kein verifiziertes Angebot 2027',
+      date_specific_search_display_only: 'unbestätigter Suchpreis für das gewählte Datum',
+      indicative_2026: 'Referenzwert 2026', property_exists_price_unknown: 'Objekt bekannt, Preis offen',
+    }[item.priceValidity] ?? item.priceValidity));
   } else if (item.kind === 'activity') {
     if (item.duration) extra.push('Geplante Dauer: ' + item.duration + ' Min.');
     if (item.tags?.length) extra.push('Art: ' + item.tags.join(', '));
     if (item.mealSlot) extra.push('Mahlzeit: ' + item.mealSlot);
-    if (item.menuNote) extra.push('Speisekarte: ' + item.menuNote);
+    if (item.menuNote) extra.push('Speisen / Speisekarte: ' + item.menuNote);
+    if (item.estimatedCostNote != null && amount == null)
+      extra.push('Unbestätigte Kostenreferenz: ' + item.estimatedCostNote);
+    if (item.eligibilityOrRisk) extra.push('Zu prüfen: ' + item.eligibilityOrRisk);
     if (item.minAge) extra.push('Einlass: ab ' + item.minAge + ' Jahren · konkreten Termin prüfen');
   } else {
     extra.push('Betreiber: ' + (item.operator || 'noch nicht bestätigt'));
