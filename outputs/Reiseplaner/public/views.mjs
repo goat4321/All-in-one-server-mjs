@@ -378,6 +378,22 @@ function rail(ctx) {
   const singles = legs.map(l => groupPrice(l.price, people.length));
   const knownSingles = singles.reduce((sum, p) => sum + (p ?? 0), 0);
   const ticketUnknown = singles.filter(p => p == null).length;
+  const researchQueue = (catalog.research?.transportQueue ?? []).filter(row => row.trip_id === trip.id);
+  const suggestions = (catalog.research?.transportCandidates ?? []).filter(row => row.trip_id === trip.id);
+  const researchRows = researchQueue.map(row => [
+    esc(row.route), esc(dateText(row.date_local)),
+    esc(row.operator_query_status ?? 'nicht bestätigt'),
+    row.quote_cents == null ? 'Preis offen' : money(row.quote_cents),
+    esc((row.must_check ?? []).slice(0, 3).join(' · ') || 'Betreiber und Bedingungen prüfen'),
+    urlLink(row.research_providers?.[0], 'Anbieter prüfen'),
+  ]);
+  const candidateRows = suggestions.map(row => [
+    esc(row.from + ' → ' + row.to), esc(dateText(row.date_local)),
+    esc(row.routing_hypothesis),
+    row.indicative_seat_reservation_eur_per_person == null ? 'Reservierung offen'
+      : esc(money(Math.round(row.indicative_seat_reservation_eur_per_person * 100))) + ' p. P. · Referenz',
+    'Keine bestätigte Abfahrt · nicht buchbar',
+  ]);
   const candidates = ['Bahnverbindungen 2027 sind Planwerte. Buchungsfenster, Sitzplätze und Preise vor der Reise beim Betreiber prüfen.'];
   const reference = catalog.fares.pass_7d;
   if (pass.remaining < 0) candidates.push('Die geplanten Fahrten übersteigen die hinterlegte Zahl an Pass-Tagen.');
@@ -408,7 +424,15 @@ function rail(ctx) {
     + (state.pass.budgetMode === 'interrail' ? 'Interrail mit Reservierungen.' : 'Einzeltickets.') + '</p>'
     + (reference ? '<small>Recherchewert ' + esc(reference.tariff_year) + ' · ' + money(reference.amount * 100) + ' Jugendpass p. P. · für 2027 offen.</small>' : '')
     + candidates.map(alert).join('') + pass.issues.map(i => alert(i.text)).join('') + '</div>'
-    + '<section class="section"><h2>Verbindungen in Reihenfolge</h2><div class="stack">' + (connections || empty('Keine Verbindungen', 'Ergänze eine Fahrt oder wähle eine andere Variante.')) + '</div></section>';
+    + '<section class="section"><h2>Verbindungen in Reihenfolge</h2><div class="stack">' + (connections || empty('Keine Verbindungen', 'Ergänze eine Fahrt oder wähle eine andere Variante.')) + '</div></section>'
+    + '<section class="section"><h2>Fahrplan- und Preisrecherche · 2027</h2>'
+    + '<p class="muted">Offene Aufgaben, keine Echtzeitverbindungen. Jede Abfahrt und jeder Ticketpreis muss später für das konkrete Reisedatum beim Anbieter bestätigt werden.</p>'
+    + (researchRows.length ? table(['Originalabschnitt', 'Reisedatum', 'Recherchestatus', 'Ticketpreis', 'Noch prüfen', 'Anbieter'], researchRows)
+      : empty('Noch keine Rechercheaufgaben', 'Für diese Variante enthält das Paket keine Bahnaufgaben.'))
+    + '</section>'
+    + (candidateRows.length ? '<section class="section"><h2>Alternative Bahnverbindungen · Hypothesen</h2>'
+      + '<p class="muted">Nicht automatisch im Tagesplan oder Budget aktiv. Fehlende Dauer, Umstiege und Livepreise sind unbekannt, nicht null Minuten oder kostenlos.</p>'
+      + table(['Route', 'Datum', 'Verlauf', 'Reservierungsreferenz', 'Status'], candidateRows) + '</section>' : '');
 }
 
 function budget(ctx) {
