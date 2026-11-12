@@ -34,10 +34,10 @@ export function seedSnapshot(trip, { transport, activities, accommodations, citi
     const arrivalCity = seedCity(row.to, allowed);
     const departureZone = cities[departureCity]?.timezone ?? 'Europe/Berlin';
     const arrivalZone = cities[arrivalCity]?.timezone ?? departureZone;
-    const departureTime = row.departure_local?.match(/^([01]\\d|2[0-3]):[0-5]\\d/)?.[0];
-    const arrivalTime = row.arrival_local?.match(/^([01]\\d|2[0-3]):[0-5]\\d/)?.[0];
+    const departureTime = row.departure_local?.match(/^([01]\d|2[0-3]):[0-5]\d/)?.[0];
+    const arrivalTime = row.arrival_local?.match(/^([01]\d|2[0-3]):[0-5]\d/)?.[0];
     const start = departureTime ? utcFromLocal(row.date_local, departureTime, departureZone) : null;
-    const arrivesNextDay = /\\(\\+1\\)/.test(row.arrival_local ?? '');
+    const arrivesNextDay = /\(\+1\)/.test(row.arrival_local ?? '');
     let arrivalDate = arrivesNextDay ? plusDay(row.date_local) : row.date_local;
     let end = arrivalTime ? utcFromLocal(arrivalDate, arrivalTime, arrivalZone) : null;
     // A marked overnight trip or an earlier clock on the same itinerary day.
