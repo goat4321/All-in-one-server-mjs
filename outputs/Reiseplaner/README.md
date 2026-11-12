@@ -77,3 +77,17 @@ Alle 20 gelieferten Dateien liegen unter `data/research-v02/`. Zur fachlichen Na
 **Quellenstatus:** Kein Suchpreis ist automatisch eine bestätigte Buchung. Keine Zugzeit ist automatisch für 2027 buchbar. Kostenlose/Null-Euro-Angaben werden nicht aus fehlenden Preisen abgeleitet. Die vierköpfige `swiss_lakes`-Reise verwendet bewusst nicht die Interessen- und Unterkunftsziele der Interrail-Dreiergruppe.
 
 **Validierung:** `python3 data/research-v02/validate_subset.py` prüft den gelieferten Datensatz. `npm run test:portable` umfasst die neuen Recherche-/Scope-Tests; `node test/portable-browser.mjs` überprüft die Nutzung im Browser. Beide laufen automatisiert über GitHub Actions auf dem separaten Forschungs-Branch. Für die vollständige bestehende Tripsy-/Kartenabnahme die originalen lokalen `data/tripsy-*.json`-Dateien auf dem Rechner bereithalten und die alten `npm test`/`npm run test:browser`-Suiten zusätzlich ausführen.
+
+## Provider-Prüfungen, 2027-Verkaufsfenster und neue Preis-Snapshots
+
+Der Branch `feature/v7-verification-sources-2027` ergänzt die im Research-v0.2-Paket enthaltenen Referenzen um **nachprüfbare Schritte**. `NEXT_CHECKS_2027.md` erklärt, welche Anbieterinformationen zum 12.11.2026 tatsächlich vorliegen und was für August/September 2027 noch nicht veröffentlicht bzw. nicht unabhängig geprüft ist.
+
+Unter **Bahn & Interrail** stehen neben jeder ursprünglichen Verbindung die offiziellen SNCF-/DB-/Interrail-Verkaufsregelungen und ein datumsbezogenes **Orientierungsdatum** (kein zugesagter Ticketstart). Unter `Prüfung vormerken` kannst du bewusst eine lokale Wiedervorlage erzeugen und später unter `Daten & Fristen` bearbeiten.
+
+Unter **Unterkünfte → Anbieter prüfen** beziehungsweise **Bahn → Eigene Prüfung** kannst du Checkliste, Datum, Beleglink, eigene Notizen und einen beobachteten EUR-Preis lokal und variantenbezogen speichern. Das Dokumentieren ist **keine externe Buchung**. Nur bei aktiver gewählter Unterkunft, Beleglink und vollständiger selbst dokumentierter Prüfung kann ein neuer Preis ausdrücklich als **Planbetrag** übernommen werden; der alte Such-Snapshot bleibt erhalten. Bei Änderung der Personenanzahl wird eine zuvor für andere Gruppengröße dokumentierte Eigenprüfung als veraltet angezeigt.
+
+Drei zusätzliche Barcelona-Suchbeobachtungen (03.–06.09.2027, drei Erwachsene) liegen in `data/provider-checks/booking-barcelona-20261112.json`. Sie werden nur für exakt passende September-Dreiergruppen als alternative Unterkünfte angezeigt und sind nicht automatisch aktiv. Die genaue Tarif-/Zimmerzuordnung, Steuern und Endpreise wurden **nicht** als bestätigter Checkout ausgegeben.
+
+Im **Planungs-Check** und der **Karte** wird sichtbar, dass Barcelonas lokale Fahrplanpakete am 18.06.2027 enden und somit keine minutengenauen September-2027-Verbindungen liefern. Externe Fußweg- und ÖPNV-Planer bleiben über ihre vorhandenen Links nutzbar.
+
+Testbefehle: `npm run test:portable` für Modell/Sicherheit, `node test/portable-browser.mjs` für echte Chrome-Bedienung, `npm test` und `npm run test:browser` für die vollständige Originalabnahme auf dem lokalen Windows-Rechner mit privaten `data/tripsy-*.json`.
