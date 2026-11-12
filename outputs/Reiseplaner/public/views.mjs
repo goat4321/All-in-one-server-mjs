@@ -147,6 +147,7 @@ export function mapDetail(ctx) {
   ${item.price?.label ? '<p>Preisreferenz: ' + esc(item.price.label) + '</p>' : ''}
   <p class="muted">Quellenstand: ${esc(extra?.sourceStatus ?? 'unbestätigt')}</p>
   ${item.website ? urlLink(item.website, 'Anbieter und weitere Details') : ''}
+  <details class="map-source-details"><summary>Quellen, Abrufdaten und Datenqualität anzeigen</summary>${sourceList(item, ctx.catalog.sources)}</details>
   ${item.access ? '<p>' + esc(item.access) + '</p>' : ''}
   ${item.positionIssue ? alert(item.positionIssue) : ''}
   ${rows.length ? '<div class="local-routes">' + rows.join('').replaceAll('class="connector"', 'class="connector detail-connector"') + '</div>' : ''}
