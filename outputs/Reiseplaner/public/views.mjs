@@ -270,7 +270,7 @@ function food(ctx) {
   const basketTotal = basket.reduce((sum, row) => sum + row.total, 0);
   const basketTable = basket.length ? table(['Zutat', 'Benötigte Menge', 'Packungen', 'Packungspreis', 'Gruppe', ''],
     basket.map(row => [
-      esc(row.name) + '<br><small>' + esc(row.adjustedForGroup ? 'Packungen wegen Gruppengröße automatisch erhöht'
+      esc(row.name) + '<br><small>' + esc(row.adjustedForGroup ? 'Packungen an den gesamten Bedarf angepasst'
         : row.modified ? 'Preis/Menge selbst angepasst' : 'Preisreferenz, kein Filialangebot') + '</small>',
       esc(row.required + ' g'), esc(row.packs + ' × ' + row.pack + ' g'),
       money(row.unitCents), money(row.total),
