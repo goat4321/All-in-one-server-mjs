@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mealPlans } from '../lib/barcelona-meals.mjs';
-import { allocate, calculateBudget, groceryBasket, mealEstimate } from '../public/model.mjs';
+import { allocate, budgetBreakdown, calculateBudget, groceryBasket, mealEstimate } from '../public/model.mjs';
 import { initialState, validateState } from '../lib/store.mjs';
 
 const recipe = mealPlans.barcelona.find(plan => plan.id === 'pasta');
@@ -97,4 +97,21 @@ test('Store validates editable groceries and rejects invalid overrides or recipe
   assert.throws(() => validateState({ ...state, manual: [{
     ...first, basketProducts: [{ ...basketProducts[0], pack: 0 }],
   }] }, trip, []), /Zutatenplan/);
+});
+
+test('Budget city/day breakdown counts known amounts exactly once and keeps unknown prices visible', () => {
+  const state = initialState(trip);
+  const budget = calculateBudget([first, second, third], state);
+  const city = budgetBreakdown(budget.rows, 'city');
+  const day = budgetBreakdown(budget.rows, 'date');
+  assert.equal(city.find(row => row.key === 'barcelona').cents, 760);
+  assert.equal(day.find(row => row.key === '2027-09-03').cents, 760);
+  assert.equal(day.find(row => row.key === '2027-09-04'), undefined);
+  const rows = [...budget.rows, { name: 'Unpriced train', city: 'barcelona',
+    date: '2027-09-04', euros: null }, { name: 'Unknown city', euros: 125 }];
+  assert.equal(budgetBreakdown(rows, 'city').find(row => row.key === 'barcelona').unknown, 1);
+  assert.equal(budgetBreakdown(rows, 'date').find(row => row.key === '2027-09-04').unknown, 1);
+  assert.equal(budgetBreakdown(rows, 'city').find(row => row.key === 'unassigned').cents, 125);
+  assert.equal(budgetBreakdown(rows, 'date').reduce((sum, row) => sum + row.cents, 0), 885);
+  assert.throws(() => budgetBreakdown(rows, 'unknown'), /Budgetauswertung/);
 });
