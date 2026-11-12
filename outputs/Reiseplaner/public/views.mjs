@@ -437,6 +437,17 @@ function rail(ctx) {
 
 function budget(ctx) {
   const { budget: b, trip, state, people, catalog } = ctx;
+  const scenarios = (catalog.research?.budgetScenarios ?? []).filter(item => item.trip_id === trip.id);
+  const scenarioRows = scenarios.map(item => {
+    const total = item.grand_total_group_cents_without_pass;
+    const scenarioPeople = item.persons;
+    const perPerson = total == null ? 'Gesamtsumme unbekannt' : Array.from({ length: scenarioPeople },
+      (_, i) => Math.floor(total / scenarioPeople) + (i < total % scenarioPeople ? 1 : 0)).map(cents => money(cents)).join(' / ');
+    return [esc(item.id.replaceAll('_', ' ')), money(item.lodging_group_cents),
+      total == null ? 'Offen · nur Unterkunftsanteil' : money(total),
+      esc(perPerson), esc(item.lodging_ids.length + ' ungeprüfte Suchangebote'),
+      status('Hypothese · nicht ausgewählt', 'warn')];
+  });
   const rows = b.rows.map(i => [esc(i.name), esc(categories[i.category] ?? i.category ?? 'Sonstiges'),
     esc(i.date ?? localParts(i.start, i.zone).date ?? '—'), esc(money(i.original, i.currency)), esc(money(i.euros)),
     status(i.payment === 'paid' ? 'Bezahlt' : i.payment === 'refund' ? 'Erstattet' : i.euros == null ? 'Preis offen' : 'Geplant', i.euros == null ? 'warn' : ''),
@@ -479,6 +490,10 @@ function budget(ctx) {
       + stat(be.savings >= 0 ? 'Ersparnis' : 'Mehrkosten', money(Math.abs(be.savings)), 'Vorteil ab ' + (be.firstSaving ?? '—') + ' Fahrten p. P.')
       + '</div>' + btn('rides', 'Geplante Fahrten eingeben', 'edit') + ' ' + urlLink('https://www.tmb.cat/en/barcelona-fares-metro-bus/single-and-integrated', 'Tarife prüfen')
       + '<p class="muted">Manuelle Fahrtenzahl. Nur abgedeckte 1-Zonen-Fahrten eintragen. T-casual wird je Person gerechnet. Flughafenmetro separat prüfen.</p></section>' : '')
+    + (scenarioRows.length ? '<section class="section"><h2>Was-wäre-wenn-Szenarien · Research v0.2</h2>'
+      + '<p class="muted">Nur rechnerische Vergleiche aus Suche vom 12.11.2026. Keine der Unterkünfte ist gebucht, vollständig steuer- und zimmergeprüft oder automatisch im aktiven Budget enthalten. Interrail-Pass, DiscoverEU-Status und Gebühren sind gesondert zu verifizieren.</p>'
+      + table(['Szenario', 'Unterkünfte · Gruppe', 'Gruppe ohne Pass', 'Anteile je Person', 'Basis', 'Status'], scenarioRows)
+      + '</section>' : '')
     + localMobility(ctx);
 }
 
