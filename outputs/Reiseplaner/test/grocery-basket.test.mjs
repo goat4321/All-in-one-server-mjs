@@ -52,6 +52,17 @@ test('Edited pack count and reference price update budget once, without changing
   assert.throws(() => groceryBasket([first], 3, { [pasta.key]: { packs: 0, unitCents: 0 } }), /Ungültige/);
 });
 
+test('A group increase automatically raises manually saved pack counts when necessary', () => {
+  const pasta = groceryBasket([first, second, third], 3)[0];
+  const rows = groceryBasket([first, second, third], 4, {
+    [pasta.key]: { packs: 2, unitCents: 80 },
+  });
+  assert.equal(rows[0].minPacks, 3);
+  assert.equal(rows[0].packs, 3);
+  assert.equal(rows[0].adjustedForGroup, true);
+  assert.equal(rows.reduce((sum, row) => sum + row.total, 0), 1040);
+});
+
 test('A paid meal receipt replaces only that meal forecast and does not create a duplicate', () => {
   const state = {
     ...initialState(trip),
