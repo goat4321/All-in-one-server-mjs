@@ -19,6 +19,9 @@ export function renderShell(ctx) {
   const tabTitle = tabs.find(t => t[0] === page)?.[1];
   const places = [...new Set(trip.route)];
   const currentTitle = variant.state.title ?? trip.title;
+  const sourceNotice = trip.dataMode === 'research_seed_fallback'
+    ? '<div class="alert" role="status">Nur Forschungsdaten verfügbar: Die privaten Tripsy-Originaldateien fehlen in diesem Projektordner. Termine, Quellenbezüge und Buchungsdetails sind unvollständig. Es wurden keine Buchungen oder Live-Fahrpläne importiert.</div>'
+    : '';
   const activeNav = tabs.map(([id, label, symbol]) => '<button type="button" class="nav-btn" data-action="page" data-value="' + id
     + '" aria-current="' + (page === id ? 'page' : 'false') + '">' + icon(symbol) + esc(label) + '</button>').join('');
   return `<div class="shell"><aside class="sidebar ${menu ? 'open' : ''}" aria-label="Reisenavigation">
@@ -41,7 +44,7 @@ export function renderShell(ctx) {
     ${iconBtn('theme', theme === 'dark' ? 'Helles Design' : 'Dunkles Design', theme === 'dark' ? 'sun' : 'moon')}
     ${iconBtn('undo', 'Letzte Änderung rückgängig', 'reset')}
     ${iconBtn('page', 'Daten importieren', 'upload', 'data')}</div>
-  </header><main class="workspace" id="main">${content(ctx, cityName)}</main></div></div>`;
+  </header><main class="workspace" id="main">${sourceNotice}${content(ctx, cityName)}</main></div></div>`;
 }
 
 function content(ctx, city) {
@@ -424,7 +427,7 @@ function data(ctx) {
     + (variant.logs?.length ? table(['Import', 'Neu', 'Vorhanden', 'Konflikte'], variant.logs.map(l => [esc(l.filename), l.inserted, l.existing, l.conflicts])) : '')
     + '<section class="section"><div class="subheading compact"><h2>Buchungen & Fristen</h2>' + btn('deadline', 'Frist erfassen', 'plus') + '</div>'
     + (deadlineRows.length ? table(['Eintrag', 'Ortszeit', 'Status', ''], deadlineRows) : empty('Keine bestätigten Fristen', 'Buchungsfenster und Stornierungsbedingungen sind für diese Reise offen.')) + '</section>'
-    + '<section class="section"><h2>Tripsy-Import · ' + esc(dateText(trip.importedOn)) + '</h2>' + table(['Quelle', 'Lesend erhalten'], imported) + '</section>'
+    + '<section class="section"><h2>' + (trip.dataMode === 'research_seed_fallback' ? 'Lokales Recherchearchiv · reduzierter Bestand' : 'Tripsy-Import') + ' · ' + esc(dateText(trip.importedOn)) + '</h2>' + (trip.dataMode === 'research_seed_fallback' ? alert('Kein vollständiger Tripsy-Snapshot. Angezeigte Datensätze sind nur aus dem Forschungs-Seed rekonstruiert; die ursprünglichen Buchungen werden nicht ersetzt.') : '') + table(['Quelle', 'Verfügbar'], imported) + '</section>'
     + (issues.length ? '<section class="section panel panel-pad"><h2>Importhinweise</h2><ul class="sources-list">' + issues.join('') + '</ul></section>' : '')
     + '<section class="section panel panel-pad"><h2>Recherchequellen</h2><ul class="sources-list">'
     + Object.values(catalog.sources).map(s => '<li>' + (urlLink(s.url, s.publisher) || esc(s.publisher)) + ' · ' + esc(s.accessed_on || 'Prüfdatum offen') + '</li>').join('') + '</ul></section>';
