@@ -112,14 +112,16 @@ export function groceryBasket(meals, peopleCount, overrides = {}) {
   return [...rows.values()].map(row => {
     const minPacks = Math.ceil(row.required / row.pack);
     const override = overrides?.[row.key];
-    const packs = override?.packs ?? minPacks;
+    // A group-size increase can require more packs than an earlier manual override.
+    // Preserve the user's price but never budget insufficient package quantities.
+    const packs = override?.packs == null ? minPacks : Math.max(minPacks, override.packs);
     const unitCents = override?.unitCents ?? row.referenceCents;
     if (!Number.isSafeInteger(packs) || packs < minPacks || packs > 100
       || !Number.isSafeInteger(unitCents) || unitCents < 0 || unitCents > 100000) {
       throw new Error('Ungültige Mengen- oder Preisänderung im Warenkorb.');
     }
     return { ...row, minPacks, packs, unitCents, total: packs * unitCents,
-      modified: Boolean(override) };
+      modified: Boolean(override), adjustedForGroup: Boolean(override && packs > override.packs) };
   });
 }
 
@@ -152,7 +154,8 @@ export function calculateBudget(items, state) {
   });
   for (const city of new Set(baskets.map(row => row.city))) {
     const basketTotal = baskets.filter(row => row.city === city).reduce((sum, row) => sum + row.total, 0);
-    const firstMeal = plannedCooking.find(item => item.city === city);
+    const firstMeal = plannedCooking.filter(item => item.city === city)
+      .toSorted((a, b) => (mealDate(a) ?? '').localeCompare(mealDate(b) ?? ''))[0];
     railCosts.push({
       id: 'grocery-budget:' + city, name: 'Gruppeneinkauf · ' + city, city,
       date: firstMeal ? mealDate(firstMeal) : null, category: 'food',
