@@ -151,6 +151,8 @@ function mapPanel(ctx, full = false) {
   const t = ctx.filters;
   const network = transitNetworks[ctx.city];
   const quickLayer = network?.quick;
+  const timetable = ctx.catalog.transitSchedules?.[ctx.city];
+  const outside = timetable && (ctx.date < timetable.from || ctx.date > timetable.to);
   return `<section class="panel map-panel ${full ? 'map-full' : ''}" aria-label="Interaktive Karte">
     <div class="panel-head"><div><h2>${ctx.total ? 'Gesamtroute' : 'Karte'}</h2>
     <p>${ctx.total ? 'Originale Reihenfolge · Trassen schematisch' : esc(ctx.wholeDay ? 'Alle Tagesorte' : ctx.cities[ctx.city].name) + ' · ' + esc(shortDay(ctx.date))}</p></div>
@@ -161,13 +163,14 @@ function mapPanel(ctx, full = false) {
         + (quickLayer ? chip('transit', network.groups[quickLayer].title, t.transit[quickLayer], quickLayer, 'train') : '')
         + (ctx.cities[ctx.city].country === 'CH' ? chip('filter', 'Wanderwege', t.hiking, 'hiking', 'walk') : '') : ''}
     </div>
+    ${!ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
     ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
     <div class="map-wrap"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div><div class="map-hint" id="map-hint" hidden></div></div>
     <div class="map-legend"><span><i class="legend-line ${ctx.total ? 'dashed' : ''}"></i> ${ctx.total ? 'Städtefolge · Schema' : 'Berechneter Fußweg'}</span>
     ${!ctx.total && t.stations && ctx.dayTravel.length ? '<span><i class="legend-line dashed"></i> Tagesfahrt · Schema</span>' : ''}
-    ${!ctx.total && (ctx.timetablePreview || ctx.routes.some(route => route?.legs?.length)) ? '<span>ÖPNV · veröffentlichter Fahrplan</span>' : ''}
+    ${!ctx.total && (ctx.timetablePreview || ctx.routes.some(route => route?.legs?.length)) ? '<span>ÖPNV · gespeicherter / referenzierter Fahrplan, Reisedatum prüfen</span>' : ''}
     ${!ctx.total ? '<span><i class="legend-dot"></i> Alternative</span>' : ''}
     ${!ctx.total && network?.dateLabel ? '<span>' + esc(network.dateLabel) + ' · Netzreferenz</span>' : ''}
     ${!ctx.total && ctx.cities[ctx.city].country === 'CH' && t.hiking ? '<span>Signalisiertes Netz · ab Zoomstufe 10</span>' : ''}
