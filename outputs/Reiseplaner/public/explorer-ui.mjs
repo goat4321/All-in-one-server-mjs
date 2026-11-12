@@ -1,4 +1,4 @@
-import { EXPLORER_GROUPS, explorerDetail, externalFootUrl } from './map-explorer.mjs';
+import { EXPLORER_GROUPS, explorerDetail, externalFootUrl, externalTransitUrl } from './map-explorer.mjs';
 import { esc, btn, chip, status, urlLink, empty, transitPlanners } from './ui.mjs';
 
 export function explorerToolbar(ctx) {
@@ -30,11 +30,13 @@ export function explorerToolbar(ctx) {
     + esc(from?.name ?? 'Startpunkt wählen') + ' → ' + esc(to?.name ?? 'Zielpunkt wählen') + '</p></div>'
     + '<div class="inline">' + chip('explorer-mode', 'Zu Fuß', ex.routeMode === 'walk', 'walk', 'walk')
       + chip('explorer-mode', 'ÖPNV', ex.routeMode === 'transit', 'transit', 'train')
+      + '<label for="explorer-time">Abfahrt</label><input id="explorer-time" type="time" value="' + esc(ex.routeTime) + '">'
       + btn('explorer-route', 'Verbindung prüfen', 'arrow')
       + btn('explorer-clear-route', 'Zurücksetzen', 'reset') + '</div>'
     + '<p role="status" class="explorer-status">' + esc(statusLine) + '</p>'
-    + (from && to ? '<div class="inline">' + (urlLink(externalFootUrl(from, to), 'Fußweg in OpenStreetMap') || '')
-      + (urlLink(transitUrl, 'ÖPNV beim Betreiber prüfen') || '') + '</div>' : '')
+    + (from && to ? '<div class="inline">' + (ex.routeMode === 'walk' ? (urlLink(externalFootUrl(from, to), 'Fußweg in OpenStreetMap') || '') : '')
+      + (urlLink(externalTransitUrl(from, to), 'ÖPNV-Route extern ansehen') || '')
+      + (urlLink(transitUrl, 'Verkehrsbetrieb / Tarife prüfen') || '') + '</div>' : '')
     + '<p class="muted">Nur berechnete Fußwege werden als reale Straßen dargestellt. Fehlende oder außerhalb des Datenzeitraums liegende ÖPNV-Fahrten werden nicht geschätzt.</p>'
     + '</div></section>';
 }
