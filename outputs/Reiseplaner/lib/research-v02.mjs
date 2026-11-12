@@ -70,8 +70,15 @@ export function validateResearchV02(data, originals) {
   for (const row of data.budget_scenarios) {
     ensure(!row.is_booked && !row.is_approved && !row.active_plan_mutated
       && row.lodging_ids.every(id => quotes.has(id)), 'Szenario darf keine Buchung aktivieren: ' + row.id);
-    const total = row.lodging_group_cents + Object.values(row.other_costs_group_cents).reduce((a, b) => a + b, 0);
-    ensure(total === row.grand_total_group_cents_without_pass, 'Budget-Cent-Summe stimmt nicht: ' + row.id);
+    // Swiss lakes deliberately ships only a lodging subtotal; other category
+    // costs and an overall trip total are unknown, not zero.
+    if (row.other_costs_group_cents && row.grand_total_group_cents_without_pass != null) {
+      const total = row.lodging_group_cents + Object.values(row.other_costs_group_cents).reduce((a, b) => a + b, 0);
+      ensure(total === row.grand_total_group_cents_without_pass, 'Budget-Cent-Summe stimmt nicht: ' + row.id);
+    } else {
+      ensure(row.other_costs_group_cents == null && row.grand_total_group_cents_without_pass == null,
+        'Unvollständiges Szenario muss als offener Gesamtpreis markiert sein: ' + row.id);
+    }
   }
   ensure(data.group_preferences.travellers.length === 3, 'Umfragegruppe darf nicht auf Schweizer Viererreise angewendet werden.');
   return true;
