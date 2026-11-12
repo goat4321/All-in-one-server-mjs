@@ -185,6 +185,12 @@ try {
   await click('.sidebar [data-action=page][data-value=rail]');
   await text('#main', 'Verkaufsregel');
   await text('#main', 'Orientierungsfenster');
+  await click('[data-action=rail-reminder][data-value="research_interrail_classic-t01"]');
+  await text('dialog', 'kein garantierter Verkaufsbeginn');
+  await save();
+  const reminder = store.current('interrail_classic').state.deadlines.find(
+    row => row.id === 'deadline:rail:research_interrail_classic-t01');
+  assert.ok(reminder && reminder.when.startsWith('2027-03-01T08:00'));
   await click('[data-action=verify-item][data-value="tripsy:transport:3842725"]');
   await text('dialog', 'Abfahrt, Ankunft');
   await js('document.querySelector("dialog [name=check_operator]").checked = true');
