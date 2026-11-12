@@ -34,11 +34,16 @@ export function seedSnapshot(trip, { transport, activities, accommodations, citi
     const arrivalCity = seedCity(row.to, allowed);
     const departureZone = cities[departureCity]?.timezone ?? 'Europe/Berlin';
     const arrivalZone = cities[arrivalCity]?.timezone ?? departureZone;
-    const start = row.departure_local ? utcFromLocal(row.date_local, row.departure_local, departureZone) : null;
-    let end = row.arrival_local ? utcFromLocal(row.date_local, row.arrival_local, arrivalZone) : null;
-    // Midnight crossings are allowed, but only when suggested by the source clock values.
-    if (start && end && Date.parse(end) <= Date.parse(start)) {
-      end = utcFromLocal(plusDay(row.date_local), row.arrival_local, arrivalZone);
+    const departureTime = row.departure_local?.match(/^([01]\\d|2[0-3]):[0-5]\\d/)?.[0];
+    const arrivalTime = row.arrival_local?.match(/^([01]\\d|2[0-3]):[0-5]\\d/)?.[0];
+    const start = departureTime ? utcFromLocal(row.date_local, departureTime, departureZone) : null;
+    const arrivesNextDay = /\\(\\+1\\)/.test(row.arrival_local ?? '');
+    let arrivalDate = arrivesNextDay ? plusDay(row.date_local) : row.date_local;
+    let end = arrivalTime ? utcFromLocal(arrivalDate, arrivalTime, arrivalZone) : null;
+    // A marked overnight trip or an earlier clock on the same itinerary day.
+    if (!arrivesNextDay && start && end && Date.parse(end) <= Date.parse(start)) {
+      arrivalDate = plusDay(row.date_local);
+      end = utcFromLocal(arrivalDate, arrivalTime, arrivalZone);
     }
     return {
       id: row.external_id ?? row.id, departure_description: row.from,
