@@ -12,7 +12,7 @@ const browser = [process.env.REISEPLAN_BROWSER, '/usr/bin/google-chrome',
   'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].filter(Boolean).find(existsSync);
 assert.ok(browser, 'Chrome/Edge fehlt für den portablen Browsertest.');
 const profile = await mkdtemp(join(tmpdir(), 'reiseplan-portable-'));
-const { server, store } = await createApp({ database: join(profile, 'app.sqlite'), upstream: false });
+const { server, store, catalog } = await createApp({ database: join(profile, 'app.sqlite'), upstream: false });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const address = 'http://127.0.0.1:' + server.address().port + '/?offlineMap';
 const child = spawn(browser, ['--headless=new', '--no-sandbox', '--remote-debugging-port=0',
