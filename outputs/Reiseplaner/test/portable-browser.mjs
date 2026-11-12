@@ -159,8 +159,10 @@ try {
   assert.equal(store.current('swiss_lakes').state.people.length, 4);
   await set('#variant', 'interrail_classic');
   await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
-  await text('h1', 'Barcelona');
+  await until(() => js('Boolean(document.querySelector(".sidebar [data-action=city][data-value=barcelona]"))'), 'Barcelona navigation after variant switch');
+  await click('.sidebar [data-action=city][data-value=barcelona]');
   await click('.sidebar [data-action=page][data-value=plan]');
+  await text('h1', 'Barcelona');
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
   await until(() => js('Boolean(document.querySelector(".mobile-switch"))'), 'mobiler Schalter');
   await click('[data-action=mobile][data-value=map]');
