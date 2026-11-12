@@ -98,7 +98,7 @@ function buildContext() {
   const foodPlaces = all.filter(i => i.city === city && i.category === 'food' && i.kind === 'activity'
     && !i.mealPlanId && !i.duplicateOf && !i.removed);
   const foodWalks = Object.fromEntries(foodPlaces.map(item => [item.id, walks.get(walkKey(mealHotel?.point, item.point))]));
-  const detail = day.find(i => i.entryKey === view.selected) ?? all.find(i => i.id === view.selected);
+  let detail = day.find(i => i.entryKey === view.selected) ?? all.find(i => i.id === view.selected);
   const explorer = view.page === 'map' ? {
     ...explorerData(all, trip, {
       city: view.mapScope === 'city' ? city : null,
@@ -113,6 +113,7 @@ function buildContext() {
       route: view.mapRouteResult?.route ?? null,
     },
   } : null;
+  if (!detail && explorer) detail = [...explorer.placed, ...explorer.unlocated].find(i => i.id === view.selected) ?? null;
   const preview = view.timetablePreview;
   const timetablePreview = preview?.variantId === variant.id && preview.planDate === date && segments.some(s => s.key === preview.key) ? preview : null;
   return {
@@ -297,8 +298,9 @@ function showTimetable(ctx, search) {
 async function calculateExplorerRoute() {
   if (!context || context.page !== 'map') return;
   const ctx = context;
-  const from = ctx.all.find(item => item.id === view.mapFrom);
-  const to = ctx.all.find(item => item.id === view.mapTo);
+  const pooled = [...ctx.all, ...(ctx.explorer?.placed ?? []), ...(ctx.explorer?.unlocated ?? [])];
+  const from = pooled.find(item => item.id === view.mapFrom);
+  const to = pooled.find(item => item.id === view.mapTo);
   const input = explorerRouteInput(from, to);
   if (!input) {
     view.mapRouteResult = { status: 'Bitte zwei verschiedene Orte mit belegten Koordinaten auswählen.', route: null };
@@ -414,7 +416,9 @@ function exportCalendar() {
 async function action(name, value = '') {
   if (!context) return;
   const ctx = context;
-  const item = ctx.all.find(i => i.id === value);
+  const item = ctx.all.find(i => i.id === value)
+    ?? ctx.explorer?.placed.find(i => i.id === value)
+    ?? ctx.explorer?.unlocated.find(i => i.id === value);
   switch (name) {
     case 'page': changePage(value); break;
     case 'menu': view.menu = !view.menu; render({ restoreView: true }); break;
