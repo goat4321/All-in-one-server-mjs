@@ -236,6 +236,7 @@ function flagDuplicates(items, identity) {
 export async function loadCatalog() {
   const [trips, destinations, activities, accommodations, transport, fares, budgets, sources, quality] =
     await Promise.all(['trips', 'destinations', 'activities', 'accommodations', 'transport', 'fares', 'budgets', 'sources', 'data_quality'].map(file));
+  const cities = Object.fromEntries(destinations.map(city => [city.id, { ...city, point: point(city.latitude_approx, city.longitude_approx) }]));
   const snapshots = await Promise.all(trips.map(async trip => {
     try { return await file('tripsy-' + trip.external_trip_id); }
     catch (error) {
@@ -243,7 +244,6 @@ export async function loadCatalog() {
       return seedSnapshot(trip, { transport, activities, accommodations, cities });
     }
   }));
-  const cities = Object.fromEntries(destinations.map(city => [city.id, { ...city, point: point(city.latitude_approx, city.longitude_approx) }]));
   const fareMap = Object.fromEntries(fares.map(fare => [fare.id, fare]));
   const output = trips.map((trip, index) => {
     const snapshot = snapshots[index];
