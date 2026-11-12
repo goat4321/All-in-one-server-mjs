@@ -93,3 +93,7 @@ Im **Planungs-Check** und der **Karte** wird sichtbar, dass Barcelonas lokale Fa
 Testbefehle: `npm run test:portable` für Modell/Sicherheit, `node test/portable-browser.mjs` für echte Chrome-Bedienung, `npm test` und `npm run test:browser` für die vollständige Originalabnahme auf dem lokalen Windows-Rechner mit privaten `data/tripsy-*.json`.
 
 Unter **Übersicht → Offizielle Reiseregeln für 2027** findest du jetzt für die jeweilige Reisevariante den Venedig-Zugangsentgelt-Kalender, die veröffentlichten Oeschinensee-Gondelbetriebszeiten, die Mindestalter-/Führerscheinanforderung für SIXT Schweiz (bei der vierköpfigen Seenreise) sowie die Eiffelturm-2027-Tarifwarnung. Jeder Eintrag hat einen konkreten Link zur offiziellen Quelle. Termine sind publizierte Regel-/Saisonangaben, **keine** garantierte Ticket- oder Fahrzeugverfügbarkeit. Preisunbekannt bleibt Preisunbekannt und wird nicht auf 0 € gesetzt.
+
+## Vollständige lokale Tests mit privaten Tripsy-Dateien
+
+Für die frühere vollständige Core-/Browser-Abnahme gibt es jetzt `Pruefen.cmd` (Windows) und `TEST_LOCAL.md`. Das Skript erkennt fehlende private Originaldateien ausdrücklich als **Teilprüfung**, führt sie nur lokal aus und meldet ein fehlgeschlagenes Ergebnis ohne falsche Erfolgsmeldung. Keine Originaldateien werden automatisch nach GitHub übertragen.
