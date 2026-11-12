@@ -1,0 +1,66 @@
+{
+  "version": "0.2.0",
+  "created_on": "2026-11-12",
+  "trip_identity": "Tripsy original external_trip_id preserved; keep all variants isolated",
+  "status_axes": {
+    "source_origin": [
+      "tripsy_import",
+      "official_web_research",
+      "booking_search",
+      "survey_user_supplied"
+    ],
+    "verification": [
+      "confirmed_current_rule",
+      "published_reference_price",
+      "booking_search_observation",
+      "unverified_2027",
+      "plan_assumption"
+    ],
+    "booking": [
+      "unbooked",
+      "requested",
+      "booked",
+      "cancelled"
+    ],
+    "payment": [
+      "unpaid",
+      "paid",
+      "refunded"
+    ]
+  },
+  "quote_schema": {
+    "source_and_scope": "search property quote, NOT full room-level checkout",
+    "party_total_field": "group_stay_total_cents",
+    "party_size_field": "guests_adults",
+    "date_fields": [
+      "check_in_date",
+      "check_out_date"
+    ],
+    "person_night": "display only, not budget ledger value",
+    "price_refresh": "new quote on exact date+party+bed configuration+taxes, do not overwrite historical quote",
+    "date_exclusivity": "quotes for September 2027 must not be used for August 2027",
+    "eligibility": "3-person group survey not applicable to Switzerland 4-person variant"
+  },
+  "budget_rules": [
+    "use integer minor currency units or decimal",
+    "each shared expense stored ONCE with party amount",
+    "allocate remainder cents deterministically by stable traveller id",
+    "alternative candidate must not become selected without explicit user action",
+    "paid status distinct from price",
+    "do not count free Interrail pass unless eligibility and actual grant confirmed",
+    "N/A prices are null, never zero"
+  ],
+  "survey_rules": [
+    "0 is low interest, NOT veto",
+    "missing answer is unknown",
+    "for conflict offer optional parallel plans and rotate preferences",
+    "kitchen not explicitly required by survey",
+    "C EUR30 plus/minus not a strict cap"
+  ],
+  "travel_rule_night_train": {
+    "source_id": "nighttrain_day",
+    "flexipass": "departure day only when direct overnight service; after-midnight new train uses extra day; arrival date within pass validity"
+  },
+  "personal_source_data": "3 aliases only; do not expose emails, provider reservation codes, home addresses",
+  "reconciliation": "match by external IDs and same variant, flag fuzzy matches do not delete"
+}

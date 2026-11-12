@@ -153,6 +153,8 @@ export function chooseItem(ctx, item, save, after) {
   const unknownAge = item.minAge && ctx.people.some(p => p.age == null);
   const warning = knownMinors.length ? alert('Für ' + knownMinors.map(p => p.name).join(', ') + ' unterschreitet das hinterlegte Alter die Einlassgrenze.')
     : unknownAge ? alert('Einlass ' + item.minAge + '+. Alter und Veranstaltung sind für die Gruppe zu prüfen.') : '';
+  const quoteWarning = item.quote ? alert('Dieser Gesamtpreis wurde nur am ' + item.quote.observedOn
+    + ' als Suchergebnis für die angezeigten Daten und Gruppengröße beobachtet. Zimmeraufteilung, komplette Steuern, Endpreis und Verfügbarkeit sind nicht bestätigt. Die Übernahme ist nur eine Planentscheidung, keine Reservierung oder Zahlung.') : '';
   const preview = isLodging
     ? 'Aufenthalt ' + dateLabel(item.stayFrom, item.stayTo) + '. ' + (current ? 'Ersetzt ' + current.name + '. ' : '')
       + (oldPrice != null && newPrice != null ? 'Budgetänderung ' + money(newPrice - oldPrice) + '.' : 'Offene oder historische Preise werden im Budget ausgewiesen.')
@@ -168,7 +170,7 @@ export function chooseItem(ctx, item, save, after) {
   openDialog(isLodging ? 'Unterkunft übernehmen' : 'Aktivität einplanen',
     '<h3>' + esc(item.name) + '</h3><p class="muted">' + esc(preview) + '</p><p><strong>' + esc(cost(item, ctx.people.length)) + '</strong> gesamt · '
     + esc(unit(item, ctx.people.length)) + '</p>' + (item.price?.label ? '<p class="muted">' + esc(item.price.label) + '</p>' : '')
-    + warning + (item.requiresKitchen && !ctx.active.some(i => i.city === item.city && i.kitchen) ? alert('Für diesen Planpunkt ist eine Küche erforderlich. Küchenzugang ist offen.') : '')
+    + warning + quoteWarning + (item.requiresKitchen && !ctx.active.some(i => i.city === item.city && i.kitchen) ? alert('Für diesen Planpunkt ist eine Küche erforderlich. Küchenzugang ist offen.') : '')
     + controls(fields, 'In Plan übernehmen'), async data => {
       if (current?.booked) throw new Error('Eine gebuchte Unterkunft ist als Fixpunkt gesperrt.');
       if (knownMinors.length) throw new Error('Diese Option passt nicht zur hinterlegten Altersgrenze der Gruppe.');

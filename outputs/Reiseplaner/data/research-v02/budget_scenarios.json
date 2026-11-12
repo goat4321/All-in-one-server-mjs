@@ -1,0 +1,93 @@
+[
+  {
+    "id": "lowest_listed_each_city",
+    "trip_id": "interrail_classic",
+    "persons": 3,
+    "date": "2026-11-12",
+    "currency": "EUR",
+    "is_booked": false,
+    "is_approved": false,
+    "active_plan_mutated": false,
+    "uses_dates_as_searched": true,
+    "observation_scope": "BOOKING_SEARCH_NOT_CHECKOUT",
+    "lodging_ids": [
+      "bcom_1549960",
+      "bcom_12814471",
+      "bcom_12902044",
+      "bcom_674278",
+      "bcom_12257788",
+      "bcom_12284646"
+    ],
+    "lodging_group_cents": 118797,
+    "lodging_group_eur": 1187.97,
+    "other_costs_group_cents": {
+      "seat_reservations": 42000,
+      "food": 90000,
+      "local_transport": 24000,
+      "activities": 27000,
+      "buffer": 30000
+    },
+    "grand_total_group_cents_without_pass": 331797,
+    "grand_total_group_eur_without_pass": 3317.97,
+    "per_person_eur_without_pass_rounded": 1105.99,
+    "interrail_pass_eur_per_person_reference_2026": 286,
+    "pass_free_status_unverified": true,
+    "potential_extra_fees": "unverified",
+    "disclaimer": "illustrative scenario with independent unbooked comparison quotes; only if dates/room category/fees hold; not a booking-ready budget"
+  },
+  {
+    "id": "selected_comparison_example",
+    "trip_id": "interrail_classic",
+    "persons": 3,
+    "date": "2026-11-12",
+    "currency": "EUR",
+    "is_booked": false,
+    "is_approved": false,
+    "active_plan_mutated": false,
+    "uses_dates_as_searched": true,
+    "observation_scope": "BOOKING_SEARCH_NOT_CHECKOUT",
+    "lodging_ids": [
+      "bcom_2592525",
+      "bcom_576580",
+      "bcom_12769785",
+      "bcom_16577016",
+      "bcom_16827286",
+      "bcom_14807211"
+    ],
+    "lodging_group_cents": 159948,
+    "lodging_group_eur": 1599.48,
+    "other_costs_group_cents": {
+      "seat_reservations": 42000,
+      "food": 90000,
+      "local_transport": 24000,
+      "activities": 27000,
+      "buffer": 30000
+    },
+    "grand_total_group_cents_without_pass": 372948,
+    "grand_total_group_eur_without_pass": 3729.48,
+    "per_person_eur_without_pass_rounded": 1243.16,
+    "interrail_pass_eur_per_person_reference_2026": 286,
+    "pass_free_status_unverified": true,
+    "potential_extra_fees": "unverified",
+    "disclaimer": "illustrative scenario with independent unbooked comparison quotes; only if dates/room category/fees hold; not a booking-ready budget"
+  },
+  {
+    "id": "swiss_lakes_lowest_listed_lodging_only",
+    "trip_id": "swiss_lakes",
+    "persons": 4,
+    "date": "2026-11-12",
+    "currency": "EUR",
+    "is_booked": false,
+    "is_approved": false,
+    "active_plan_mutated": false,
+    "uses_3_person_survey": false,
+    "lodging_ids": [
+      "bcom_7867225",
+      "bcom_11269934",
+      "bcom_287460",
+      "bcom_14757947"
+    ],
+    "lodging_group_cents": 164852,
+    "note": "Lodging-only alternative; car age-18 eligibility, parking, 2027 activities and return fare NOT factored"
+  }
+]

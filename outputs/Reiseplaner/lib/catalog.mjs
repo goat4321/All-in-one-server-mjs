@@ -4,6 +4,7 @@ import { italyLodgings, italyPlaces, italySources, italyStations } from './italy
 import { rivieraAlpsLodgings, rivieraAlpsPlaces, rivieraAlpsSources, rivieraAlpsStations } from './riviera-alps.mjs';
 import { barcelonaFoodPlaces, mealPlans, mealSources } from './barcelona-meals.mjs';
 import { seedSnapshot } from './seed-fallback.mjs';
+import { loadResearchV02, scopedQuote, quoteCandidate } from './research-v02.mjs';
 
 const file = name => readFile(new URL('../data/' + name + '.json', import.meta.url), 'utf8')
   .then(content => JSON.parse(content.replace(/^\uFEFF/, '')));
@@ -236,7 +237,11 @@ function flagDuplicates(items, identity) {
 export async function loadCatalog() {
   const [trips, destinations, activities, accommodations, transport, fares, budgets, sources, quality] =
     await Promise.all(['trips', 'destinations', 'activities', 'accommodations', 'transport', 'fares', 'budgets', 'sources', 'data_quality'].map(file));
+  const research = await loadResearchV02(trips);
   const cities = Object.fromEntries(destinations.map(city => [city.id, { ...city, point: point(city.latitude_approx, city.longitude_approx) }]));
+  const researchActivityMap = new Map(research.activities_comparison_catalog.map(item => [item.id, item]));
+  const groupRank = new Map(research.group_activity_ranking.map(row => [row.activity_id, row]));
+  const researchTransport = new Map(research.transport_research_queue.map(row => [row.original_segment_id, row]));
   const snapshots = await Promise.all(trips.map(async trip => {
     try { return await file('tripsy-' + trip.external_trip_id); }
     catch (error) {
@@ -244,7 +249,7 @@ export async function loadCatalog() {
       return seedSnapshot(trip, { transport, activities, accommodations, cities });
     }
   }));
-  const fareMap = Object.fromEntries(fares.map(fare => [fare.id, fare]));
+  const fareMap = Object.fromEntries(research.fares.map(fare => [fare.id, fare]));
   const output = trips.map((trip, index) => {
     const snapshot = snapshots[index];
     const allowed = [...new Set(trip.ordered_destination_ids)];
@@ -282,6 +287,7 @@ export async function loadCatalog() {
         source: [raw.fromSeed ? 'research-seed-fallback' : 'tripsy-refresh', ...dep.sources, ...arr.sources, ...(tariff?.source_ids ?? [])],
         detail: wrongRouteNote ? 'Umstiege und Zugwahl für 2027 sind offen. Der importierte Zusatztext beschreibt eine andere Route.' : rawDetail,
         importConflict: wrongRouteNote ? 'Der Tripsy-Zusatztext nennt Schweizer Zwischenziele. Er bleibt in der unveränderten Quellkopie erhalten.' : null,
+        researchTask: seed ? researchTransport.get(seed.id) ?? null : null,
         verification: raw.fromSeed ? 'Historischer Planwert · 2027 nicht bestätigt' : 'Fahrplanentwurf',
       };
     });
@@ -331,8 +337,48 @@ export async function loadCatalog() {
     });
     const options = activities.filter(a => !a.original_itinerary_item && allowed.includes(a.destination_id) && (!a.trip_id || a.trip_id === trip.id))
       .filter(a => !a.tags.includes('transport')).map(a => catalogActivity(a, fareMap, cities, trip));
+    // The new comparison catalogue includes all 73 legacy research entries. Enrich
+    // those by stable ID instead of importing them a second time.
+    const existingActivityIds = new Set(options.map(item => item.id));
+    for (const entry of research.activities_comparison_catalog.filter(item =>
+      !item.original_itinerary_item && allowed.includes(item.destination_id)
+      && (!item.trip_id || item.trip_id === trip.id))) {
+      const id = 'research:' + entry.id;
+      if (existingActivityIds.has(id)) continue;
+      const candidate = catalogActivity(entry, fareMap, cities, trip);
+      candidate.selected = false;
+      candidate.origin = 'Recherche v0.2 · Alternative';
+      candidate.verification = entry.verification_status ?? 'ungeprüft';
+      candidate.priorityFit = entry.priority_fit;
+      options.push(candidate);
+      existingActivityIds.add(id);
+    }
+    if (trip.variant_group === 'interrail_2027' && trip.travellers === 3) {
+      for (const item of options) {
+        const key = item.id.startsWith('research:') ? item.id.slice('research:'.length) : null;
+        const ranking = groupRank.get(key);
+        const record = researchActivityMap.get(key);
+        if (!ranking) continue;
+        item.preference = {
+          score: ranking.group_score_0_100,
+          individual: ranking.individual_scores_0_5,
+          topics: ranking.matched_topics,
+          confidence: ranking.interest_match_confidence,
+          disagreement: ranking.group_low_interest_disagreement,
+        };
+        item.priorityFit = record?.priority_fit ?? item.priorityFit;
+        item.source = [...new Set([...(item.source ?? []), ...(record?.source_ids ?? [])])];
+      }
+    }
     const researchedHotels = accommodations.filter(h => h.origin === 'researched' && allowed.includes(h.destination_id))
       .map(h => housingFromSeed(h, trip, cities, stayByCity[h.destination_id]));
+    // Every price snapshot belongs to a particular party size, travel window and
+    // route variant. An August or four-person trip must never inherit a September
+    // quote for three persons.
+    for (const quote of research.accommodation_market_quotes) {
+      if (!allowed.includes(quote.destination_id) || !scopedQuote(quote, trip, stayByCity[quote.destination_id])) continue;
+      researchedHotels.push(quoteCandidate(quote, trip, cities[quote.destination_id], research.accommodation_comparison_catalog));
+    }
     for (const option of italyLodgings.filter(h => allowed.includes(h.city))) {
       const stay = stayByCity[option.city];
       researchedHotels.push({
@@ -363,9 +409,28 @@ export async function loadCatalog() {
       referenceExpenses: snapshot.resources.expenses.items,
       budgetReference: budgets.find(b => b.trip_id === trip.id),
       items: [...legs, ...planned, ...hotels, ...options, ...researchedHotels], stayByCity, arrivalByDay,
-      notes: quality.filter(q => q.trip_id === 'all' || q.trip_id === trip.id),
+      notes: research.data_quality.filter(q => q.trip_id === 'all' || q.trip_id === trip.id),
     };
   });
   return { trips: output, cities, fares: fareMap, mealPlans,
-    sources: Object.fromEntries([...sources, ...extraSources, ...italySources, ...rivieraAlpsSources, ...mealSources].map(s => [s.id, s])) };
+    research: {
+      version: research.import_rules.version,
+      observedOn: '2026-11-12',
+      groupPreferences: research.group_preferences,
+      transportQueue: research.transport_research_queue,
+      transportCandidates: research.transport_comparison_candidates,
+      budgetScenarios: research.budget_scenarios,
+      quality: research.data_quality,
+      counts: {
+        activityCandidates: research.activities_comparison_catalog.length,
+        addedActivities: research.activities_comparison_catalog.filter(a => !activities.some(old => old.id === a.id)).length,
+        lodgingCandidates: research.accommodation_comparison_catalog.length,
+        accommodationSearchQuotes: research.accommodation_market_quotes.length,
+        transportLegs: research.transport.length,
+        fares: research.fares.length,
+        sources: research.sources.length,
+        issues: research.data_quality.length,
+      },
+    },
+    sources: Object.fromEntries([...sources, ...research.sources, ...extraSources, ...italySources, ...rivieraAlpsSources, ...mealSources].map(s => [s.id, s])) };
 }

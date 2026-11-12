@@ -218,12 +218,15 @@ function options(ctx, lodging) {
     if (optionFilter === 'saved') return state.favorites.includes(item.id);
     if (optionFilter === 'known') return groupPrice(item.price, people.length) != null;
     if (optionFilter === 'kitchen') return Boolean(item.kitchen);
+    if (optionFilter === 'search') return Boolean(item.quote);
     if (optionFilter === 'evening') return Boolean(item.minAge) || item.tags?.some(t => /abend|nightlife|bar/i.test(t));
     if (optionFilter === 'food') return item.category === 'food';
     return true;
   });
   if (sort === 'price') list.sort((a, b) => (groupPrice(a.price, people.length) ?? Infinity) - (groupPrice(b.price, people.length) ?? Infinity));
   if (sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'de'));
+  if (sort === 'score' && !lodging) list.sort((a, b) =>
+    (b.preference?.score ?? -1) - (a.preference?.score ?? -1) || a.name.localeCompare(b.name, 'de'));
   const compared = found.filter(i => compareIds.has(i.id));
   const stay = ctx.trip.stayByCity[city];
   const compareRows = compared.map(item => [esc(item.name), esc(cost(item, people.length)), esc(unit(item, people.length)),
@@ -234,17 +237,35 @@ function options(ctx, lodging) {
       item.access].filter(Boolean).join(' · ') || 'Weg offen' : item.access || 'Weg im Tagesplan'),
     esc(lodging ? item.cancellation ?? 'Tarifbedingungen offen' : item.minAge ? item.minAge + '+' : 'Offen')]);
   const filters = [['all', 'Alle Optionen'], ['saved', 'Merkliste'], ['known', 'Mit Preisreferenz'],
-    ...(lodging ? [['kitchen', 'Mit Küche']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
+    ...(lodging ? [['kitchen', 'Mit Küche'], ['search', '2027-Suchpreise']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
   const cards = list.map(item => {
     const active = activeSet.has(item.id);
     const highlighted = compareIds.has(item.id);
     const meal = ctx.catalog.mealPlans?.[city]?.find(plan => plan.venue === item.id);
+    const rank = !lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3 ? item.preference : null;
+    const prefs = lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3
+      ? ctx.catalog.research?.groupPreferences?.nightly_accommodation_targets_eur_per_person : null;
+    const personNight = item.quote?.nights > 0 && item.price?.cents != null
+      ? item.price.cents / (people.length * item.quote.nights) : null;
+    const targetLine = prefs && personNight != null
+      ? '<small>Pro Person/Nacht etwa ' + esc(money(Math.round(personNight))) + ' · individuelle Zielwerte (flexibel): '
+        + Object.entries(prefs).map(([alias, info]) => {
+          const delta = Math.round(personNight - info.target * 100);
+          return esc(alias) + ': ' + (delta <= 0 ? 'unter Ziel ' : 'über Ziel ')
+            + esc(money(Math.abs(delta)));
+        }).join(' · ') + '</small>' : '';
+    const rankLine = rank
+      ? '<p class="muted">Gruppeninteresse ' + esc(String(rank.score)) + '/100 · Heuristik · '
+        + Object.entries(rank.individual ?? {}).map(([alias, score]) => esc(alias + ': ' + score + '/5')).join(' · ')
+        + (rank.disagreement ? ' · unterschiedliche Interessen' : '') + '</p>' : '';
     return `<article class="panel option-card">
       <div class="card-top"><span class="category-icon">${icon(categoryIcon(item))}</span><div class="chips">
-      ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
+      ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.quote ? status('Suchpreis · nicht gebucht', 'warn') : ''}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
       <h3>${esc(item.name)}</h3>
       <div class="chips">${(lodging ? [item.kitchen || 'Küche offen'] : item.tags?.slice(0, 3) ?? []).map(t => status(t)).join('')}</div>
-      <p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
+      ${rankLine}<p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
+      ${item.quote ? '<p class="muted">Suchstand ' + esc(item.quote.observedOn) + ' · Zimmer/Betten, Steuern, Stornierung und Checkout offen. '
+        + esc(item.quote.location ?? '') + '</p>' : ''}${targetLine}
       <div class="option-facts"><small>${esc(lodging ? (item.stayFrom && item.stayTo ? dateLabel(item.stayFrom, item.stayTo) : 'Aufenthaltsdaten offen') : item.duration ? item.duration + ' Min.' : 'Dauer offen')}
       ${lodging && ctx.hotelWalks[item.id]?.minutes ? esc(' · ' + (item.localStation?.name ?? 'Bahnhof') + ' · ' + ctx.hotelWalks[item.id].minutes + ' Min. zu Fuß') : ''}</small>
       <div class="price-line"><span><strong>${esc(cost(item, people.length))}</strong><br><small>${esc(unit(item, people.length))}</small></span>
@@ -259,7 +280,9 @@ function options(ctx, lodging) {
   return heading(lodging ? 'Unterkünfte' : 'Entdecken', cities[city].name + (lodging && stay ? ' · ' + dateLabel(stay.from, stay.to) : ' · ' + found.length + ' Einträge'),
     btn('page', 'Zum Tagesplan', 'calendar', 'plan'))
     + '<div class="filterbar">' + filters.map(([id, label]) => chip('option-filter', label, optionFilter === id, id)).join('')
-    + '<label>Sortieren <select id="sort"><option value="source">Quelle</option><option value="price"' + (sort === 'price' ? ' selected' : '') + '>Preis</option><option value="name"' + (sort === 'name' ? ' selected' : '') + '>Name</option></select></label></div>'
+    + '<label>Sortieren <select id="sort"><option value="source">Quelle</option><option value="price"' + (sort === 'price' ? ' selected' : '') + '>Preis</option><option value="name"' + (sort === 'name' ? ' selected' : '') + '>Name</option>'
+    + (lodging ? '' : '<option value="score"' + (sort === 'score' ? ' selected' : '') + '>Gruppeninteresse</option>') + '</select></label></div>'
+    + (lodging ? alert('Angebote vom 12.11.2026 sind nur Suchpreis-Snapshots. Unterkunft, vollständige Steuern, Betten, Stornierung und Verfügbarkeit vor einer Buchung prüfen. Kein automatischer Kauf.') : '')
     + (compared.length ? '<section class="section"><h2>Direkter Vergleich</h2>' + table(['Option', 'Für die Gruppe', 'Pro Person', lodging ? 'Küche' : 'Dauer', lodging ? 'Zimmer' : 'Erlebnis', 'Anbindung', lodging ? 'Storno' : 'Einlass'], compareRows) + '</section>' : '')
     + (cards ? '<div class="grid-cards">' + cards + '</div>' : empty('Keine Optionen in dieser Ansicht', 'Wechsle den Filter, wähle einen anderen Ort oder importiere deine Recherche.'));
 }
@@ -359,6 +382,22 @@ function rail(ctx) {
   const singles = legs.map(l => groupPrice(l.price, people.length));
   const knownSingles = singles.reduce((sum, p) => sum + (p ?? 0), 0);
   const ticketUnknown = singles.filter(p => p == null).length;
+  const researchQueue = (catalog.research?.transportQueue ?? []).filter(row => row.trip_id === trip.id);
+  const suggestions = (catalog.research?.transportCandidates ?? []).filter(row => row.trip_id === trip.id);
+  const researchRows = researchQueue.map(row => [
+    esc(row.route), esc(dateText(row.date_local)),
+    esc(row.operator_query_status ?? 'nicht bestätigt'),
+    row.quote_cents == null ? 'Preis offen' : money(row.quote_cents),
+    esc((row.must_check ?? []).slice(0, 3).join(' · ') || 'Betreiber und Bedingungen prüfen'),
+    urlLink(row.research_providers?.[0], 'Anbieter prüfen'),
+  ]);
+  const candidateRows = suggestions.map(row => [
+    esc(row.from + ' → ' + row.to), esc(dateText(row.date_local)),
+    esc(row.routing_hypothesis),
+    row.indicative_seat_reservation_eur_per_person == null ? 'Reservierung offen'
+      : esc(money(Math.round(row.indicative_seat_reservation_eur_per_person * 100))) + ' p. P. · Referenz',
+    'Keine bestätigte Abfahrt · nicht buchbar',
+  ]);
   const candidates = ['Bahnverbindungen 2027 sind Planwerte. Buchungsfenster, Sitzplätze und Preise vor der Reise beim Betreiber prüfen.'];
   const reference = catalog.fares.pass_7d;
   if (pass.remaining < 0) candidates.push('Die geplanten Fahrten übersteigen die hinterlegte Zahl an Pass-Tagen.');
@@ -389,13 +428,32 @@ function rail(ctx) {
     + (state.pass.budgetMode === 'interrail' ? 'Interrail mit Reservierungen.' : 'Einzeltickets.') + '</p>'
     + (reference ? '<small>Recherchewert ' + esc(reference.tariff_year) + ' · ' + money(reference.amount * 100) + ' Jugendpass p. P. · für 2027 offen.</small>' : '')
     + candidates.map(alert).join('') + pass.issues.map(i => alert(i.text)).join('') + '</div>'
-    + '<section class="section"><h2>Verbindungen in Reihenfolge</h2><div class="stack">' + (connections || empty('Keine Verbindungen', 'Ergänze eine Fahrt oder wähle eine andere Variante.')) + '</div></section>';
+    + '<section class="section"><h2>Verbindungen in Reihenfolge</h2><div class="stack">' + (connections || empty('Keine Verbindungen', 'Ergänze eine Fahrt oder wähle eine andere Variante.')) + '</div></section>'
+    + '<section class="section"><h2>Fahrplan- und Preisrecherche · 2027</h2>'
+    + '<p class="muted">Offene Aufgaben, keine Echtzeitverbindungen. Jede Abfahrt und jeder Ticketpreis muss später für das konkrete Reisedatum beim Anbieter bestätigt werden.</p>'
+    + (researchRows.length ? table(['Originalabschnitt', 'Reisedatum', 'Recherchestatus', 'Ticketpreis', 'Noch prüfen', 'Anbieter'], researchRows)
+      : empty('Noch keine Rechercheaufgaben', 'Für diese Variante enthält das Paket keine Bahnaufgaben.'))
+    + '</section>'
+    + (candidateRows.length ? '<section class="section"><h2>Alternative Bahnverbindungen · Hypothesen</h2>'
+      + '<p class="muted">Nicht automatisch im Tagesplan oder Budget aktiv. Fehlende Dauer, Umstiege und Livepreise sind unbekannt, nicht null Minuten oder kostenlos.</p>'
+      + table(['Route', 'Datum', 'Verlauf', 'Reservierungsreferenz', 'Status'], candidateRows) + '</section>' : '');
 }
 
 function budget(ctx) {
   const { budget: b, trip, state, people, catalog } = ctx;
+  const scenarios = (catalog.research?.budgetScenarios ?? []).filter(item => item.trip_id === trip.id);
+  const scenarioRows = scenarios.map(item => {
+    const total = item.grand_total_group_cents_without_pass;
+    const scenarioPeople = item.persons;
+    const perPerson = total == null ? 'Gesamtsumme unbekannt' : Array.from({ length: scenarioPeople },
+      (_, i) => Math.floor(total / scenarioPeople) + (i < total % scenarioPeople ? 1 : 0)).map(cents => money(cents)).join(' / ');
+    return [esc(item.id.replaceAll('_', ' ')), money(item.lodging_group_cents),
+      total == null ? 'Offen · nur Unterkunftsanteil' : money(total),
+      esc(perPerson), esc(item.lodging_ids.length + ' ungeprüfte Suchangebote'),
+      status('Hypothese · nicht ausgewählt', 'warn')];
+  });
   const rows = b.rows.map(i => [esc(i.name), esc(categories[i.category] ?? i.category ?? 'Sonstiges'),
-    esc(i.date ?? localParts(i.start, i.zone).date ?? '—'), esc(money(i.original, i.currency)), esc(money(i.euros)),
+    esc(i.date ?? localParts(i.start, i.zone).date ?? (i.kind === 'lodging' ? i.stayFrom : null) ?? '—'), esc(money(i.original, i.currency)), esc(money(i.euros)),
     status(i.payment === 'paid' ? 'Bezahlt' : i.payment === 'refund' ? 'Erstattet' : i.euros == null ? 'Preis offen' : 'Geplant', i.euros == null ? 'warn' : ''),
     state.expenses.some(e => e.id === i.id) ? btn('expense', 'Bearbeiten', 'edit', i.id) : '']);
   const cityRows = budgetBreakdown(b.rows, 'city').map(group => [
@@ -436,6 +494,10 @@ function budget(ctx) {
       + stat(be.savings >= 0 ? 'Ersparnis' : 'Mehrkosten', money(Math.abs(be.savings)), 'Vorteil ab ' + (be.firstSaving ?? '—') + ' Fahrten p. P.')
       + '</div>' + btn('rides', 'Geplante Fahrten eingeben', 'edit') + ' ' + urlLink('https://www.tmb.cat/en/barcelona-fares-metro-bus/single-and-integrated', 'Tarife prüfen')
       + '<p class="muted">Manuelle Fahrtenzahl. Nur abgedeckte 1-Zonen-Fahrten eintragen. T-casual wird je Person gerechnet. Flughafenmetro separat prüfen.</p></section>' : '')
+    + (scenarioRows.length ? '<section class="section"><h2>Was-wäre-wenn-Szenarien · Research v0.2</h2>'
+      + '<p class="muted">Nur rechnerische Vergleiche aus Suche vom 12.11.2026. Keine der Unterkünfte ist gebucht, vollständig steuer- und zimmergeprüft oder automatisch im aktiven Budget enthalten. Interrail-Pass, DiscoverEU-Status und Gebühren sind gesondert zu verifizieren.</p>'
+      + table(['Szenario', 'Unterkünfte · Gruppe', 'Gruppe ohne Pass', 'Anteile je Person', 'Basis', 'Status'], scenarioRows)
+      + '</section>' : '')
     + localMobility(ctx);
 }
 
@@ -454,16 +516,43 @@ function localMobility(ctx) {
 }
 
 function group(ctx) {
+  const survey = ctx.trip.group === 'interrail_2027' && ctx.people.length === 3
+    ? ctx.catalog.research?.groupPreferences : null;
+  const priorities = survey?.group_priorities ?? [];
+  const groupRows = priorities.slice(0, 12).map(p => [
+    esc(p.topic), esc(p.consensus_score_0_100 + '/100'),
+    esc(Object.entries(p.scores).map(([name, score]) => name + ': ' + score + '/5').join(' · ')),
+    esc(p.priority_class.replaceAll('_', ' ')),
+  ]);
+  const targets = survey?.nightly_accommodation_targets_eur_per_person ?? {};
   return heading('Reisegruppe', ctx.people.length + ' Personen', btn('people', 'Profile bearbeiten', 'edit'))
     + '<div class="grid-cards">' + ctx.people.map((p, i) => '<article class="panel option-card"><span class="category-icon">'
       + icon('people') + '</span><h3>' + esc(p.name) + '</h3><p>Alter zum Reisebeginn: ' + esc(p.age ?? 'Offen') + '</p>'
       + '<div class="price-line"><span>Bekannter Anteil</span><strong>' + money(ctx.budget.balances[i].share) + '</strong></div></article>').join('') + '</div>'
-    + '<section class="section panel panel-pad"><h2>Reiseprofil</h2><p>Interessen und Komfortgrenzen wurden noch nicht erfasst. Einlass- oder Ermäßigungsregeln werden nur anhand hinterlegter Angaben bewertet.</p></section>';
+    + (survey ? '<section class="section panel panel-pad"><h2>Umfrage · drei Personen</h2>'
+      + '<p>Interessen: 0 bedeutet geringe Präferenz, kein Verbot. Das Gruppenranking ist heuristisch und keine objektive Bewertung. Persönliche Unterkunftszielwerte sind flexibel, keine Kostenobergrenze.</p>'
+      + '<div class="chips">' + Object.entries(targets).map(([alias, value]) => status(alias + ': ca. ' + value.target + ' € p. P./Nacht')).join('') + '</div>'
+      + table(['Interesse', 'Konsenswert', 'Einzelbewertungen', 'Einordnung'], groupRows)
+      + '<p class="muted">Fehlende freie Antworten werden als unbekannt behandelt. Bei unterschiedlichen Vorlieben können Aktivitäten auch optional oder parallel geplant werden.</p>'
+      + '</section>'
+      : '<section class="section panel panel-pad"><h2>Eigenständige Reisegruppe</h2>'
+        + '<p>Für diese Reise liegt keine passende Gruppenbefragung vor. Die Drei-Personen-Interrail-Umfrage wird auf die vierköpfige Schweizer Seenreise ausdrücklich nicht übertragen.</p></section>');
 }
 
 function data(ctx) {
   const { trip, state, variant, all, catalog } = ctx;
   const imported = Object.entries(trip.importCounts).map(([key, value]) => [esc(({activities:'Aktivitäten',transportations:'Verbindungen',hostings:'Unterkünfte',expenses:'Budgetreferenzen',documents:'Dokumente'})[key] ?? key), esc(value ?? 'Kein Zugriff')]);
+  const research = catalog.research;
+  const quality = (research?.quality ?? []).filter(item => !item.resolved
+    && (item.trip_id === 'all' || item.trip_id === trip.id));
+  const priorities = { critical: 0, high: 1, medium: 2, low: 3 };
+  quality.sort((a, b) => (priorities[a.severity] ?? 9) - (priorities[b.severity] ?? 9));
+  const qualityRows = quality.map(item => [
+    status(item.severity === 'critical' ? 'Kritisch' : item.severity === 'high' ? 'Hoch'
+      : item.severity === 'medium' ? 'Mittel' : 'Niedrig', ['critical','high'].includes(item.severity) ? 'warn' : ''),
+    esc(item.domain), esc(item.finding), esc(item.action.replaceAll('_', ' ')),
+    (item.source_ids ?? []).map(id => urlLink(catalog.sources[id]?.url, id) || esc(id)).join(' · ') || 'Keine Direktquelle',
+  ]);
   const issues = all.filter(i => i.duplicateOf || i.positionIssue || i.importConflict)
     .map(i => '<li>' + esc(i.originalName ?? i.name) + ' · ' + esc([i.positionIssue, i.importConflict].filter(Boolean).join(' ') || 'Dublettenverdacht, Quelle erhalten') + '</li>');
   const deadlineRows = state.deadlines.slice().sort((a, b) => String(a.when ?? 'z').localeCompare(String(b.when ?? 'z'))).map(d => {
@@ -480,6 +569,16 @@ function data(ctx) {
     + '<section class="section"><div class="subheading compact"><h2>Buchungen & Fristen</h2>' + btn('deadline', 'Frist erfassen', 'plus') + '</div>'
     + (deadlineRows.length ? table(['Eintrag', 'Ortszeit', 'Status', ''], deadlineRows) : empty('Keine bestätigten Fristen', 'Buchungsfenster und Stornierungsbedingungen sind für diese Reise offen.')) + '</section>'
     + '<section class="section"><h2>' + (trip.dataMode === 'research_seed_fallback' ? 'Lokales Recherchearchiv · reduzierter Bestand' : 'Tripsy-Import') + ' · ' + esc(dateText(trip.importedOn)) + '</h2>' + (trip.dataMode === 'research_seed_fallback' ? alert('Kein vollständiger Tripsy-Snapshot. Angezeigte Datensätze sind nur aus dem Forschungs-Seed rekonstruiert; die ursprünglichen Buchungen werden nicht ersetzt.') : '') + table(['Quelle', 'Verfügbar'], imported) + '</section>'
+    + (research ? '<section class="section"><h2>Forschungsarchiv · Stand ' + esc(research.observedOn) + '</h2>'
+      + '<div class="stat-grid">' + stat('Aktivitäten gesamt', String(research.counts.activityCandidates), research.counts.addedActivities + ' neue Ideen')
+      + stat('Unterkunfts-Suchpreise', String(research.counts.accommodationSearchQuotes), 'Nicht checkoutbestätigt')
+      + stat('Zugabschnitte zur Prüfung', String(research.counts.transportLegs), 'Fahrplan 2027 offen')
+      + stat('Datenprobleme dokumentiert', String(research.counts.issues), 'Ausführliche Liste unten')
+      + '</div><p class="muted">Die 20 Quellen-Dateien sind als separate Referenz archiviert. '
+      + 'Neue Vergleichsangebote sind weder bezahlt noch automatisch ausgewählt; 2027er Zeiten und Endpreise bleiben offen.</p></section>' : '')
+    + (qualityRows.length ? '<section class="section"><h2>Offene Datenqualitätsbefunde dieser Reise</h2>'
+      + table(['Schwere', 'Bereich', 'Feststellung', 'Nötiger Schritt', 'Quelle'], qualityRows)
+      + '</section>' : '')
     + (issues.length ? '<section class="section panel panel-pad"><h2>Importhinweise</h2><ul class="sources-list">' + issues.join('') + '</ul></section>' : '')
     + '<section class="section panel panel-pad"><h2>Recherchequellen</h2><ul class="sources-list">'
     + Object.values(catalog.sources).map(s => '<li>' + (urlLink(s.url, s.publisher) || esc(s.publisher)) + ' · ' + esc(s.accessed_on || 'Prüfdatum offen') + '</li>').join('') + '</ul></section>';

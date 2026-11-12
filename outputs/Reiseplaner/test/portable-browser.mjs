@@ -75,6 +75,32 @@ try {
   await cdp('Page.enable');
   await cdp('Page.navigate', { url: address });
   await text('h1', 'Barcelona');
+  // All archived research areas are exposed in the actual UI, read-only by default.
+  await click('.sidebar [data-action=page][data-value=group]');
+  await text('#main', 'Umfrage · drei Personen');
+  await text('#main', 'Meer und Strände besuchen');
+  await text('#main', '60 €');
+  await click('.sidebar [data-action=page][data-value=lodging]');
+  await text('#main', 'Suchpreis-Snapshots');
+  await click('[data-action=option-filter][data-value=search]');
+  await text('.grid-cards', 'HeyLola! Hostel');
+  await text('.grid-cards', '31,77');
+  assert.equal(await js('document.querySelectorAll(".option-card").length'), 10);
+  assert.ok(await js('!document.querySelector(".option-card").textContent.includes("gebucht")')
+    || await js('document.querySelector(".option-card").textContent.includes("nicht gebucht")'));
+  await click('.sidebar [data-action=page][data-value=discover]');
+  await text('.grid-cards', 'Gruppeninteresse');
+  await set('#sort', 'score');
+  await js('document.querySelector("#sort").dispatchEvent(new Event("change", { bubbles: true }))');
+  await text('#main', 'Gruppeninteresse');
+  await click('.sidebar [data-action=page][data-value=rail]');
+  await text('#main', 'Fahrplan- und Preisrecherche · 2027');
+  await text('#main', 'Alternative Bahnverbindungen · Hypothesen');
+  await click('.sidebar [data-action=page][data-value=data]');
+  await text('#main', 'Forschungsarchiv');
+  await text('#main', 'Offene Datenqualitätsbefunde');
+  await click('.sidebar [data-action=page][data-value=budget]');
+  await text('#main', 'Was-wäre-wenn-Szenarien');
   await click('.sidebar [data-action=page][data-value=overview]');
   await text('#main', 'Varianten im Vergleich');
   await text('#main', 'Personenanteile');
@@ -114,7 +140,29 @@ try {
   assert.equal(store.current('interrail_classic').state.manual.filter(i => i.mealPlanId === 'pasta').length, 2);
   await click('.sidebar [data-action=page][data-value=budget]');
   await text('#main', '6,50');
+  // An explicit hotel candidate selection is local, unbooked and confined
+  // to the matching 3-person September classic variant.
+  await click('.sidebar [data-action=page][data-value=lodging]');
+  await click('[data-action=option-filter][data-value=search]');
+  await text('.grid-cards', 'HeyLola! Hostel');
+  await click('[data-action=choose][data-value="research:bcom_12814471"]');
+  await text('dialog', 'keine Reservierung oder Zahlung');
+  await save();
+  assert.equal(store.current('interrail_classic').state.edits['research:bcom_12814471'].selected, true);
+  assert.equal(store.current('interrail_swiss').state.edits['research:bcom_12814471'], undefined);
+  await click('.sidebar [data-action=page][data-value=budget]');
+  await text('#main', '285,90');
+  await set('#variant', 'swiss_lakes');
+  await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
+  await click('.sidebar [data-action=page][data-value=group]');
+  await text('#main', 'Eigenständige Reisegruppe');
+  assert.equal(store.current('swiss_lakes').state.people.length, 4);
+  await set('#variant', 'interrail_classic');
+  await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
+  await until(() => js('Boolean(document.querySelector(".sidebar [data-action=city][data-value=barcelona]"))'), 'Barcelona navigation after variant switch');
+  await click('.sidebar [data-action=city][data-value=barcelona]');
   await click('.sidebar [data-action=page][data-value=plan]');
+  await text('h1', 'Barcelona');
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
   await until(() => js('Boolean(document.querySelector(".mobile-switch"))'), 'mobiler Schalter');
   await click('[data-action=mobile][data-value=map]');
