@@ -1,9 +1,10 @@
-import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty } from './model.mjs';
+import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
 import { renderShell, mapDetail } from './views.mjs';
 import { TripMap } from './map.mjs';
 import { transitFares } from './transit.mjs';
+import { railSalesStatus } from './verification.mjs';
 import { btn, empty, esc, icon } from './ui.mjs';
-import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm } from './forms.mjs';
+import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
 const app = document.querySelector('#app');
 const toast = document.querySelector('#toast');
@@ -369,6 +370,31 @@ async function action(name, value = '') {
     case 'layers': layerForm(ctx); break;
     case 'select': selectPoint(value); break;
     case 'details': if (item) itemDetails(ctx, item); break;
+    case 'verify-item': if (item && ['lodging', 'transport'].includes(item.kind)) verificationForm(ctx, item, save); break;
+    case 'rail-reminder': {
+      const task = catalog.research?.transportQueue?.find(row => row.id === value && row.trip_id === ctx.trip.id);
+      if (!task) break;
+      const sales = railSalesStatus(task);
+      if (!sales.earliestReview) { say('Kein belastbares Orientierungsdatum vorhanden.'); break; }
+      simpleField('Bahnverkauf prüfen · nur Orientierung',
+        'Wiedervorlage für ' + task.route + ' (kein garantierter Verkaufsbeginn)',
+        sales.earliestReview, async date => {
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date))
+            || date < '2026-11-12' || date > task.date_local) {
+            throw new Error('Wähle ein gültiges Prüfdatum zwischen jetzt und Abreise.');
+          }
+          const id = 'deadline:rail:' + task.id;
+          const deadline = {
+            id, title: 'Bahnverbindung prüfen · ' + task.route,
+            when: utcFromLocal(date, '09:00', 'Europe/Berlin'),
+            zone: 'Europe/Berlin', done: false,
+          };
+          await save({ ...ctx.state, deadlines: [
+            ...ctx.state.deadlines.filter(d => d.id !== id), deadline,
+          ] }, 'Lokale Wiedervorlage gespeichert · kein zugesagter Verkaufsstart');
+        }, 'date', 'min="2026-11-12" max="' + task.date_local + '" required');
+      break;
+    }
     case 'option-map':
       if (item) { view.filters.options = true; view.selected = value; view.page = 'map'; view.total = view.wholeDay = false; render({ focusMap: true }); }
       break;

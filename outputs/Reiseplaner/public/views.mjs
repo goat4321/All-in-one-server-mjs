@@ -1,6 +1,8 @@
 import { categories, budgetBreakdown, calculateBudget, activeItems, conflicts, groupPrice, groceryBasket, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange, planReadiness } from './model.mjs';
 import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn, chip, empty, alert, categoryIcon, cost, unit, urlLink, timeText, transitPlanners } from './ui.mjs';
 import { transitFares, transitNetworks } from './transit.mjs';
+import { railSalesStatus, reviewProgress } from './verification.mjs';
+import { official2027Notices } from './official-rules-2027.mjs';
 
 const tabs = [
   ['overview', 'Übersicht', 'compass'], ['plan', 'Tagesplan', 'calendar'], ['map', 'Karte', 'map'],
@@ -150,6 +152,8 @@ function mapPanel(ctx, full = false) {
   const t = ctx.filters;
   const network = transitNetworks[ctx.city];
   const quickLayer = network?.quick;
+  const timetable = ctx.catalog.transitSchedules?.[ctx.city];
+  const outside = timetable && (ctx.date < timetable.from || ctx.date > timetable.to);
   return `<section class="panel map-panel ${full ? 'map-full' : ''}" aria-label="Interaktive Karte">
     <div class="panel-head"><div><h2>${ctx.total ? 'Gesamtroute' : 'Karte'}</h2>
     <p>${ctx.total ? 'Originale Reihenfolge · Trassen schematisch' : esc(ctx.wholeDay ? 'Alle Tagesorte' : ctx.cities[ctx.city].name) + ' · ' + esc(shortDay(ctx.date))}</p></div>
@@ -160,13 +164,14 @@ function mapPanel(ctx, full = false) {
         + (quickLayer ? chip('transit', network.groups[quickLayer].title, t.transit[quickLayer], quickLayer, 'train') : '')
         + (ctx.cities[ctx.city].country === 'CH' ? chip('filter', 'Wanderwege', t.hiking, 'hiking', 'walk') : '') : ''}
     </div>
+    ${!ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
     ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
     <div class="map-wrap"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div><div class="map-hint" id="map-hint" hidden></div></div>
     <div class="map-legend"><span><i class="legend-line ${ctx.total ? 'dashed' : ''}"></i> ${ctx.total ? 'Städtefolge · Schema' : 'Berechneter Fußweg'}</span>
     ${!ctx.total && t.stations && ctx.dayTravel.length ? '<span><i class="legend-line dashed"></i> Tagesfahrt · Schema</span>' : ''}
-    ${!ctx.total && (ctx.timetablePreview || ctx.routes.some(route => route?.legs?.length)) ? '<span>ÖPNV · veröffentlichter Fahrplan</span>' : ''}
+    ${!ctx.total && (ctx.timetablePreview || ctx.routes.some(route => route?.legs?.length)) ? '<span>ÖPNV · gespeicherter / referenzierter Fahrplan, Reisedatum prüfen</span>' : ''}
     ${!ctx.total ? '<span><i class="legend-dot"></i> Alternative</span>' : ''}
     ${!ctx.total && network?.dateLabel ? '<span>' + esc(network.dateLabel) + ' · Netzreferenz</span>' : ''}
     ${!ctx.total && ctx.cities[ctx.city].country === 'CH' && t.hiking ? '<span>Signalisiertes Netz · ab Zoomstufe 10</span>' : ''}
@@ -178,10 +183,24 @@ function mapPanel(ctx, full = false) {
 function overview(ctx) {
   const { trip, catalog } = ctx;
   const readiness = planReadiness(trip, ctx.active, ctx.budget);
+  const ruleRows = official2027Notices(trip).map(rule => [
+    esc(rule.title), esc(rule.message), esc(rule.verification), urlLink(rule.source, 'Offizielle Quelle'),
+  ]);
+  const lodgingUnchecked = ctx.active.filter(item => item.kind === 'lodging'
+    && !item.booked && !reviewProgress('lodging', ctx.state.verifications?.[item.id], ctx.people.length).complete).length;
+  const railChecks = ctx.active.filter(item => item.kind === 'transport' && item.mode === 'train');
+  const railUnchecked = railChecks.filter(item =>
+    !reviewProgress('transport', ctx.state.verifications?.[item.id], ctx.people.length).complete).length;
+  const validLocalSchedule = catalog.transitSchedules?.[ctx.city];
+  const missingLocalSchedule = validLocalSchedule
+    && (ctx.date < validLocalSchedule.from || ctx.date > validLocalSchedule.to);
   const readinessRows = [
     ['Unterkunft', readiness.missingStays.length ? readiness.missingStays.length + ' Aufenthaltsorte noch nicht vollständig gewählt' : 'Alle bekannten Aufenthalte einer aktiven Unterkunft zugeordnet',
       'lodging', 'Unterkünfte prüfen'],
     ['Bahn', readiness.uncheckedTrains + ' ausgewählte Bahnabschnitte ohne bestätigten Fahrplan', 'rail', 'Bahn prüfen'],
+    ['Zuganbieter-Prüfung', railUnchecked + ' von ' + railChecks.length + ' Bahnabschnitten ohne vollständig dokumentierte Eigenprüfung; keine echte Reservierungsbestätigung', 'rail', 'Belege dokumentieren'],
+    ['Unterkunfts-Checkout', lodgingUnchecked + ' ausgewählte, ungebuchte Unterkünfte ohne vollständigen eigenen Checkout-/Bettennachweis', 'lodging', 'Zimmer und Endpreise prüfen'],
+    ['ÖPNV-Fahrplandaten', missingLocalSchedule ? 'Lokaler Fahrplan endet ' + dateText(validLocalSchedule.to) + ', Reisetag ' + dateText(ctx.date) + ' liegt außerhalb des Datenzeitraums' : validLocalSchedule ? 'Lokales GTFS-Paket deckt den gewählten Tag ab; Betrieb und Preise weiter prüfen' : 'Nur statische Kartenreferenz, kein vollständiger lokaler Fahrplandatensatz', 'map', 'Karten-/Fahrplanstand prüfen'],
     ['Kosten', readiness.unknownPrices + ' aktive Posten ohne umrechenbaren Gruppenpreis', 'budget', 'Budget öffnen'],
     ['Datenherkunft', readiness.missingOriginalSources ? 'Nur reduziertes Recherchearchiv – Original-Snapshots fehlen' : 'Lokale Tripsy-Quelldateien vorhanden',
       'data', 'Quellen prüfen'],
@@ -205,6 +224,10 @@ function overview(ctx) {
     + '<div class="stat-grid">' + stat('Zeitraum', dateLabel(trip.from, trip.to)) + stat('Reisegruppe', ctx.people.length + ' Personen')
     + stat('Reiseorte', new Set(trip.route).size + ' Orte') + stat('Bekannte Plankosten', money(ctx.budget.total), ctx.budget.unknown + ' Posten ohne EUR-Summe') + '</div>'
     + '<section class="section"><h2>Planungs-Check</h2><p class="muted">Direkt aus den aktuell ausgewählten Einträgen berechnet. Fehlende Angaben sind keine bestätigten Buchungen.</p>' + table(['Prüffeld', 'Aktueller Stand', 'Nächster Schritt'], readinessRows) + '</section>'
+    + (ruleRows.length ? '<section class="section"><h2>Offizielle Reiseregeln für 2027</h2>'
+      + '<p class="muted">Nur belegte Saison- und Zugangsregeln, keine Garantie für aktuelle Tickets, geöffneten Betrieb oder die Gültigkeit im Reisedatum.</p>'
+      + table(['Ort / Thema', 'Bekannte Regel und offene Punkte', 'Quellenstand', 'Prüfen'], ruleRows)
+      + '</section>' : '')
     + '<section class="section panel panel-pad"><h2>Originalroute</h2><p>' + esc(trip.route.map(id => ctx.cities[id]?.name).join(' → ')) + '</p><p class="muted">' + esc(trip.description) + '</p>'
     + '<div class="row-actions section">' + btn('show-route', 'Gesamtroute öffnen', 'map') + btn('page', 'Zum Tagesplan', 'calendar', 'plan') + '</div></section>'
     + '<section class="section"><h2>Varianten im Vergleich</h2>' + table(['Variante', 'Zeitraum', 'Originalroute', 'Bekannte Plankosten', 'Personenanteile', 'Preise offen', 'Pass-Tage', 'Gruppe'], variants) + '</section>';
@@ -242,6 +265,7 @@ function options(ctx, lodging) {
     const active = activeSet.has(item.id);
     const highlighted = compareIds.has(item.id);
     const meal = ctx.catalog.mealPlans?.[city]?.find(plan => plan.venue === item.id);
+    const verification = lodging ? reviewProgress('lodging', state.verifications?.[item.id], people.length) : null;
     const rank = !lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3 ? item.preference : null;
     const prefs = lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3
       ? ctx.catalog.research?.groupPreferences?.nightly_accommodation_targets_eur_per_person : null;
@@ -260,7 +284,7 @@ function options(ctx, lodging) {
         + (rank.disagreement ? ' · unterschiedliche Interessen' : '') + '</p>' : '';
     return `<article class="panel option-card">
       <div class="card-top"><span class="category-icon">${icon(categoryIcon(item))}</span><div class="chips">
-      ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.quote ? status('Suchpreis · nicht gebucht', 'warn') : ''}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
+      ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.quote ? status('Suchpreis · nicht gebucht', 'warn') : ''}${verification ? status('Eigene Prüfung ' + verification.count + '/' + verification.total, verification.complete ? 'green' : 'warn') : ''}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
       <h3>${esc(item.name)}</h3>
       <div class="chips">${(lodging ? [item.kitchen || 'Küche offen'] : item.tags?.slice(0, 3) ?? []).map(t => status(t)).join('')}</div>
       ${rankLine}<p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
@@ -274,7 +298,7 @@ function options(ctx, lodging) {
         active ? 'edit' : 'plus', !active && meal ? meal.id : item.id, 'subtle')}
       ${iconBtn('favorite', state.favorites.includes(item.id) ? 'Aus Merkliste entfernen' : 'Merken', state.favorites.includes(item.id) ? 'check' : 'bookmark', item.id)}
       ${chip('compare', 'Vergleichen', highlighted, item.id, 'compare')}
-      ${iconBtn('details', 'Details: ' + item.name, 'folder', item.id)}${item.point ? iconBtn('option-map', 'Auf Karte: ' + item.name, 'pin', item.id) : ''}</div>
+      ${iconBtn('details', 'Details: ' + item.name, 'folder', item.id)}${lodging ? btn('verify-item', 'Anbieter prüfen', 'check', item.id) : ''}${item.point ? iconBtn('option-map', 'Auf Karte: ' + item.name, 'pin', item.id) : ''}</div>
     </article>`;
   }).join('');
   return heading(lodging ? 'Unterkünfte' : 'Entdecken', cities[city].name + (lodging && stay ? ' · ' + dateLabel(stay.from, stay.to) : ' · ' + found.length + ' Einträge'),
@@ -384,13 +408,22 @@ function rail(ctx) {
   const ticketUnknown = singles.filter(p => p == null).length;
   const researchQueue = (catalog.research?.transportQueue ?? []).filter(row => row.trip_id === trip.id);
   const suggestions = (catalog.research?.transportCandidates ?? []).filter(row => row.trip_id === trip.id);
-  const researchRows = researchQueue.map(row => [
+  const researchRows = researchQueue.map(row => {
+    const window = railSalesStatus(row);
+    const match = legs.find(leg => leg.researchTask?.id === row.id);
+    const progress = match ? reviewProgress('transport', state.verifications?.[match.id], people.length) : null;
+    return [
     esc(row.route), esc(dateText(row.date_local)),
     esc(row.operator_query_status ?? 'nicht bestätigt'),
     row.quote_cents == null ? 'Preis offen' : money(row.quote_cents),
     esc((row.must_check ?? []).slice(0, 3).join(' · ') || 'Betreiber und Bedingungen prüfen'),
-    urlLink(row.research_providers?.[0], 'Anbieter prüfen'),
-  ]);
+    (window.earliestReview ? 'Ab etwa ' + dateText(window.earliestReview) + ' prüfen (nicht garantiert)' : 'Offen')
+      + '<br><small>' + esc(window.text) + '</small>',
+    urlLink(window.url, 'Verkaufsregel'),
+    match ? btn('verify-item', 'Eigene Prüfung ' + progress.count + '/' + progress.total, 'check', match.id) : 'Tripsy-Verknüpfung offen',
+    window.earliestReview ? btn('rail-reminder', 'Prüfung vormerken', 'calendar', row.id) : 'Datum offen',
+    ];
+  });
   const candidateRows = suggestions.map(row => [
     esc(row.from + ' → ' + row.to), esc(dateText(row.date_local)),
     esc(row.routing_hypothesis),
@@ -406,6 +439,7 @@ function rail(ctx) {
     const gap = l.end && next?.start ? (Date.parse(next.start) - Date.parse(l.end)) / 60_000 : null;
     const duration = l.start && l.end ? Math.round((Date.parse(l.end) - Date.parse(l.start)) / 60_000) : null;
     const sameDay = next && localParts(l.end, l.endZone ?? l.zone).date === localParts(next.start, next.zone).date;
+    const evidence = reviewProgress('transport', state.verifications?.[l.id], people.length);
     return `<article class="panel rail-card">
       <div class="inline">${status(l.mode === 'train' ? 'Zug' : l.mode)}${status(l.verification ?? 'Planung', 'warn')}
       <small>${dateText(localParts(l.start, l.zone).date)} · ${esc(l.operator ?? 'Betreiber offen')}${l.number ? ' · ' + esc(l.number) : ''}</small></div>
@@ -413,7 +447,7 @@ function rail(ctx) {
       <span>${l.reservation ? 'Reservierungsreferenz ' + esc(cost({ price: l.reservation }, people.length)) : 'Reservierungspreis offen'}</span></div>
       ${l.via ? '<small>' + esc(l.via) + '</small>' : ''}
       ${sameDay && gap != null && gap < 25 ? alert(gap < 0 ? 'Überschneidung mit der nächsten Fahrt.' : 'Nur ' + gap + ' Min. bis zum nächsten Zug. Umstieg prüfen.') : ''}
-      <div class="row-actions">${btn('details', 'Quellen & Details', 'folder', l.id)}${btn('edit', 'Bearbeiten', 'edit', l.id)}
+      <div class="row-actions">${btn('details', 'Quellen & Details', 'folder', l.id)}${btn('edit', 'Bearbeiten', 'edit', l.id)}${btn('verify-item', 'Eigene Prüfung ' + evidence.count + '/' + evidence.total, 'check', l.id)}
       ${urlLink(l.website || 'https://int.bahn.de/de', 'Fahrplan prüfen', 'button')}</div></article>`;
   }).join('');
   return heading('Bahn & Interrail', trip.title, btn('add-rail', 'Verbindung ergänzen', 'plus'))
@@ -431,7 +465,7 @@ function rail(ctx) {
     + '<section class="section"><h2>Verbindungen in Reihenfolge</h2><div class="stack">' + (connections || empty('Keine Verbindungen', 'Ergänze eine Fahrt oder wähle eine andere Variante.')) + '</div></section>'
     + '<section class="section"><h2>Fahrplan- und Preisrecherche · 2027</h2>'
     + '<p class="muted">Offene Aufgaben, keine Echtzeitverbindungen. Jede Abfahrt und jeder Ticketpreis muss später für das konkrete Reisedatum beim Anbieter bestätigt werden.</p>'
-    + (researchRows.length ? table(['Originalabschnitt', 'Reisedatum', 'Recherchestatus', 'Ticketpreis', 'Noch prüfen', 'Anbieter'], researchRows)
+    + (researchRows.length ? table(['Originalabschnitt', 'Reisedatum', 'Recherchestatus', 'Ticketpreis', 'Noch prüfen', 'Orientierungsfenster', 'Verkaufsregel', 'Eigenprüfung', 'Wiedervorlage'], researchRows)
       : empty('Noch keine Rechercheaufgaben', 'Für diese Variante enthält das Paket keine Bahnaufgaben.'))
     + '</section>'
     + (candidateRows.length ? '<section class="section"><h2>Alternative Bahnverbindungen · Hypothesen</h2>'

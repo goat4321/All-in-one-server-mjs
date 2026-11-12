@@ -238,6 +238,15 @@ export async function loadCatalog() {
   const [trips, destinations, activities, accommodations, transport, fares, budgets, sources, quality] =
     await Promise.all(['trips', 'destinations', 'activities', 'accommodations', 'transport', 'fares', 'budgets', 'sources', 'data_quality'].map(file));
   const research = await loadResearchV02(trips);
+  const providerSearch = JSON.parse(await readFile(
+    new URL('../data/provider-checks/booking-barcelona-20261112.json', import.meta.url), 'utf8'));
+  if (providerSearch.search_scope.adults !== 3
+    || providerSearch.items.some(offer =>
+      !Number.isSafeInteger(offer.total_eur_cents) || offer.total_eur_cents < 0
+      || offer.checkout_confirmed !== false || offer.selected !== false
+      || !/^https:\/\/www\.booking\.com\//.test(offer.url))) {
+    throw new Error('Anbieter-Suchreferenzen ohne bestätigten Checkout müssen unverändert bleiben.');
+  }
   const cities = Object.fromEntries(destinations.map(city => [city.id, { ...city, point: point(city.latitude_approx, city.longitude_approx) }]));
   const researchActivityMap = new Map(research.activities_comparison_catalog.map(item => [item.id, item]));
   const groupRank = new Map(research.group_activity_ranking.map(row => [row.activity_id, row]));
@@ -379,6 +388,35 @@ export async function loadCatalog() {
       if (!allowed.includes(quote.destination_id) || !scopedQuote(quote, trip, stayByCity[quote.destination_id])) continue;
       researchedHotels.push(quoteCandidate(quote, trip, cities[quote.destination_id], research.accommodation_comparison_catalog));
     }
+    const barcelonaStay = stayByCity.barcelona;
+    if (allowed.includes('barcelona') && trip.travellers === providerSearch.search_scope.adults
+      && barcelonaStay?.from === providerSearch.search_scope.from
+      && barcelonaStay?.to === providerSearch.search_scope.to) {
+      for (const offer of providerSearch.items) {
+        researchedHotels.push({
+          id: 'provider:booking:' + offer.id + ':20261112',
+          trip: trip.id, city: 'barcelona', kind: 'lodging', category: 'lodging',
+          name: offer.name, zone: 'Europe/Madrid', selected: false, booked: false,
+          booking: 'ungebucht', payment: 'open',
+          stayFrom: barcelonaStay.from, stayTo: barcelonaStay.to, start: null, end: null,
+          point: offer.coordinates_provider, address: null,
+          positionIssue: 'Standort aus der Anbieter-Suche; Hotel-Eingang und Fußweg nicht unabhängig geprüft.',
+          price: { cents: offer.total_eur_cents, currency: 'EUR', scope: 'group',
+            party: trip.travellers, label: 'Booking-Suchergebnis vom ' + providerSearch.observed_on
+              + ' · keine Zimmer-/Steuer-/Checkoutgarantie' },
+          detail: offer.general_room_information + ' Anzeige für drei Erwachsene/ein Zimmer. Zimmeroption und Angebotspreis sind noch nicht als zusammengehöriges Checkoutangebot bestätigt.',
+          room: null, kitchen: null, fees: null, cancellation: null, website: offer.url,
+          verification: 'Anbietersuche · 2027 · Checkout ungeprüft', origin: 'Booking.com · ergänzende Suchbeobachtung',
+          source: ['booking-barcelona-20261112'], quote: {
+            id: 'provider-refreshed:' + offer.id,
+            observedOn: providerSearch.observed_on, nights: 3,
+            checkoutConfirmed: false, roomConfirmed: false, taxesConfirmed: false,
+            beds: null, location: offer.district,
+            sourceId: 'booking-barcelona-20261112', originalPriceCents: offer.total_eur_cents,
+          },
+        });
+      }
+    }
     for (const option of italyLodgings.filter(h => allowed.includes(h.city))) {
       const stay = stayByCity[option.city];
       researchedHotels.push({
@@ -426,11 +464,17 @@ export async function loadCatalog() {
         addedActivities: research.activities_comparison_catalog.filter(a => !activities.some(old => old.id === a.id)).length,
         lodgingCandidates: research.accommodation_comparison_catalog.length,
         accommodationSearchQuotes: research.accommodation_market_quotes.length,
+        newBarcelonaObservations: providerSearch.items.length,
         transportLegs: research.transport.length,
         fares: research.fares.length,
         sources: research.sources.length,
         issues: research.data_quality.length,
       },
     },
-    sources: Object.fromEntries([...sources, ...research.sources, ...extraSources, ...italySources, ...rivieraAlpsSources, ...mealSources].map(s => [s.id, s])) };
+    sources: Object.fromEntries([...sources, ...research.sources, {
+      id: 'booking-barcelona-20261112', publisher: 'Booking.com · Suchergebnis vom 12.11.2026',
+      url: 'https://www.booking.com/city/es/barcelona.html',
+      accessed_on: providerSearch.observed_on, validity: 'booking_search_observation',
+      is_live_availability: false, independent_price_quote_for_2027: false,
+    }, ...extraSources, ...italySources, ...rivieraAlpsSources, ...mealSources].map(s => [s.id, s])) };
 }

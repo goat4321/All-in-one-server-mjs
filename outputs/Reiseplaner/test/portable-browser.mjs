@@ -12,7 +12,7 @@ const browser = [process.env.REISEPLAN_BROWSER, '/usr/bin/google-chrome',
   'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].filter(Boolean).find(existsSync);
 assert.ok(browser, 'Chrome/Edge fehlt für den portablen Browsertest.');
 const profile = await mkdtemp(join(tmpdir(), 'reiseplan-portable-'));
-const { server, store } = await createApp({ database: join(profile, 'app.sqlite'), upstream: false });
+const { server, store, catalog } = await createApp({ database: join(profile, 'app.sqlite'), upstream: false });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const address = 'http://127.0.0.1:' + server.address().port + '/?offlineMap';
 const child = spawn(browser, ['--headless=new', '--no-sandbox', '--remote-debugging-port=0',
@@ -85,7 +85,7 @@ try {
   await click('[data-action=option-filter][data-value=search]');
   await text('.grid-cards', 'HeyLola! Hostel');
   await text('.grid-cards', '31,77');
-  assert.equal(await js('document.querySelectorAll(".option-card").length'), 10);
+  assert.equal(await js('document.querySelectorAll(".option-card").length'), 13);
   assert.ok(await js('!document.querySelector(".option-card").textContent.includes("gebucht")')
     || await js('document.querySelector(".option-card").textContent.includes("nicht gebucht")'));
   await click('.sidebar [data-action=page][data-value=discover]');
@@ -103,6 +103,9 @@ try {
   await text('#main', 'Was-wäre-wenn-Szenarien');
   await click('.sidebar [data-action=page][data-value=overview]');
   await text('#main', 'Varianten im Vergleich');
+  await text('#main', 'Offizielle Reiseregeln für 2027');
+  await text('#main', 'Zugangsentgelt 2027');
+  await text('#main', 'Eiffelturm · Eintritt 2027');
   await text('#main', 'Personenanteile');
   await text('#main', 'Pass-Tage');
   await text('#main', 'Preise offen');
@@ -150,17 +153,56 @@ try {
   await save();
   assert.equal(store.current('interrail_classic').state.edits['research:bcom_12814471'].selected, true);
   assert.equal(store.current('interrail_swiss').state.edits['research:bcom_12814471'], undefined);
+  // Document a five-point, user-reported provider checkout; this only changes
+  // the explicitly selected local plan price, never the supplier's booking.
+  await click('.sidebar [data-action=page][data-value=lodging]');
+  await click('[data-action=option-filter][data-value=search]');
+  await click('[data-action=verify-item][data-value="research:bcom_12814471"]');
+  await text('dialog', 'keine erfolgte Buchung');
+  await set('dialog [name=evidenceUrl]', 'https://www.booking.com/hotel/es/heylola-hostel.html');
+  await set('dialog [name=quotedTotal]', '297.20');
+  await js('document.querySelectorAll("dialog [name^=check_]").forEach(input => input.checked = true)');
+  await js('document.querySelector("dialog [name=applyPrice]").checked = true');
+  await save();
+  const reviewed = store.current('interrail_classic').state;
+  assert.equal(reviewed.verifications['research:bcom_12814471'].quotedCents, 29720);
+  assert.equal(reviewed.verifications['research:bcom_12814471'].checks.beds, true);
+  assert.equal(reviewed.edits['research:bcom_12814471'].price.cents, 29720);
+  assert.equal(catalog.trips.find(x => x.id === 'interrail_classic').items
+    .find(x => x.id === 'research:bcom_12814471').price.cents, 28590);
+  await text('#main', 'Eigene Prüfung 5/5');
   await click('.sidebar [data-action=page][data-value=budget]');
-  await text('#main', '285,90');
+  await text('#main', '297,20');
   await set('#variant', 'swiss_lakes');
   await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
   await click('.sidebar [data-action=page][data-value=group]');
   await text('#main', 'Eigenständige Reisegruppe');
+  await click('.sidebar [data-action=page][data-value=overview]');
+  await text('#main', 'Schweizer Mietwagen · Mindestalter');
+  await text('#main', 'Oeschinensee · Gondelbahn');
   assert.equal(store.current('swiss_lakes').state.people.length, 4);
   await set('#variant', 'interrail_classic');
   await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
   await until(() => js('Boolean(document.querySelector(".sidebar [data-action=city][data-value=barcelona]"))'), 'Barcelona navigation after variant switch');
   await click('.sidebar [data-action=city][data-value=barcelona]');
+  await click('.sidebar [data-action=page][data-value=plan]');
+  await text('h1', 'Barcelona');
+  assert.equal(store.current('interrail_classic').state.verifications['research:bcom_12814471'].quotedCents, 29720);
+  await click('.sidebar [data-action=page][data-value=rail]');
+  await text('#main', 'Verkaufsregel');
+  await text('#main', 'Orientierungsfenster');
+  await click('[data-action=rail-reminder][data-value="research_interrail_classic-t01"]');
+  await text('dialog', 'kein garantierter Verkaufsbeginn');
+  await save();
+  const reminder = store.current('interrail_classic').state.deadlines.find(
+    row => row.id === 'deadline:rail:research_interrail_classic-t01');
+  assert.ok(reminder && reminder.when.startsWith('2027-03-01T08:00'));
+  await click('[data-action=verify-item][data-value="tripsy:transport:3842725"]');
+  await text('dialog', 'Abfahrt, Ankunft');
+  await js('document.querySelector("dialog [name=check_operator]").checked = true');
+  await save();
+  assert.equal(store.current('interrail_classic').state.verifications['tripsy:transport:3842725'].checks.operator, true);
+  await text('#main', 'Eigene Prüfung 1/5');
   await click('.sidebar [data-action=page][data-value=plan]');
   await text('h1', 'Barcelona');
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });

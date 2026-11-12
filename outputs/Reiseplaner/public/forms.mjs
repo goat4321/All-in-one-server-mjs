@@ -1,6 +1,7 @@
 import { categories, groupPrice, localParts, mealDate, mealEstimate, minor, money, utcFromLocal } from './model.mjs';
 import { alert, btn, esc, iconBtn, dateLabel, dateText, sourceList, urlLink, cost, unit, timeText, transitPlanners } from './ui.mjs';
 import { transitNetworks } from './transit.mjs';
+import { VERIFICATION_FIELDS, reviewProgress } from './verification.mjs';
 
 const dialog = document.querySelector('#dialog');
 const field = (label, control, wide = false) => '<label class="field' + (wide ? ' wide' : '') + '"><span>' + esc(label) + '</span>' + control + '</label>';
@@ -204,6 +205,82 @@ export function itemDetails(ctx, item) {
     + btn('close', 'Schließen') + '</div>');
 }
 
+
+const checklistLabels = {
+  room: 'Die konkrete Zimmerkategorie passt für die Reisegruppe',
+  beds: 'Alle benötigten Betten und Personen sind enthalten',
+  taxes: 'Gesamtpreis einschließlich Steuern und Pflichtgebühren abgeglichen',
+  cancellation: 'Storno- und Zahlungsbedingungen des gewählten Tarifs geprüft',
+  checkout: 'Endpreis im Checkout für exakte Reisedaten und Belegung gesehen',
+  timetable: 'Abfahrt, Ankunft und Datum beim Betreiber abgeglichen',
+  operator: 'Zugnummer/Betreiber und Umsteigepunkte geprüft',
+  passCoverage: 'Interrail-Passgültigkeit und Wohnsitzland-Regeln geprüft',
+  seatAvailability: 'Passinhaber-Reservierungsplätze für die Gruppe geprüft',
+  reservationCost: 'Reservierungsentgelt und ggf. separater Ticketpreis geprüft',
+};
+
+export function verificationForm(ctx, item, save) {
+  const current = ctx.state.verifications?.[item.id] ?? null;
+  const progress = reviewProgress(item.kind, current, ctx.people.length);
+  const fields = VERIFICATION_FIELDS[item.kind];
+  if (!fields) throw new Error('Für diesen Eintrag ist keine Anbieterprüfung vorgesehen.');
+  const checked = fields.map(key => check('check_' + key, checklistLabels[key], current?.checks?.[key]));
+  const reference = item.website || (item.kind === 'transport' ? 'https://www.interrail.com/en/book-reservations' : null);
+  openDialog('Anbieterprüfung · ' + item.name,
+    '<p class="muted">Diese Angaben dokumentierst du selbst auf diesem Gerät. Sie belegen keine erfolgte Buchung. '
+    + 'Die Website kann allein durch das Ankreuzen keine Zimmer, Sitzplätze oder Preise unabhängig bestätigen.</p>'
+    + (reference ? '<p>' + urlLink(reference, 'Anbieter-/Buchungsseite öffnen') + '</p>' : '')
+    + '<p class="muted">Prüfschritte: ' + progress.count + '/' + progress.total
+    + ' · ' + esc(progress.description) + '</p>'
+    + controls([
+      field('Prüfdatum', input('checkedAt', current?.checkedAt ?? new Date().toISOString().slice(0,10),
+        'date', 'required'), true),
+      field('Beleglink zum konkreten Angebot', input('evidenceUrl', current?.evidenceUrl ?? '',
+        'url', 'placeholder="https://..." maxlength="1200"'), true),
+      ...checked,
+      field(item.kind === 'lodging' ? 'Gesamtpreis für alle Personen · EUR (optional)' :
+        'Beobachteter Preis · EUR (optional, nicht automatisch gebucht)',
+        input('quotedTotal', current?.quotedCents == null ? '' : (current.quotedCents / 100).toFixed(2),
+          'text', 'inputmode="decimal"'), true),
+      field('Notizen zum Nachweis (keine Reservierungscodes)', '<textarea name="note" rows="3" maxlength="600">'
+        + esc(current?.note ?? '') + '</textarea>', true),
+      ...(item.kind === 'lodging' && ctx.activeSet.has(item.id) ? [
+        check('applyPrice', 'Den selbst geprüften Gesamtpreis ausdrücklich als Planpreis ins Budget übernehmen '
+          + '(keine Zahlung, keine Buchung)', false),
+      ] : []),
+    ], 'Prüfung lokal speichern'), async data => {
+      const checkedAt = text(data, 'checkedAt');
+      const evidenceUrl = text(data, 'evidenceUrl');
+      const quote = minor(text(data, 'quotedTotal'));
+      if (Number.isNaN(Date.parse(checkedAt)) || !/^\d{4}-\d{2}-\d{2}$/.test(checkedAt)
+        || (evidenceUrl && (!/^https?:\/\/[^\s]+$/i.test(evidenceUrl) || evidenceUrl.length > 1200))
+        || quote != null && (quote < 0 || quote > 100_000_000)) {
+        throw new Error('Gültiges Prüfdatum, http(s)-Beleg und nichtnegativen Gesamtpreis eingeben.');
+      }
+      const checks = Object.fromEntries(fields.map(key => [key, data.has('check_' + key)]));
+      const result = {
+        kind: item.kind, checkedAt, evidenceUrl: evidenceUrl || null,
+        checks, quotedCents: quote, groupSize: ctx.people.length,
+        note: text(data, 'note'),
+      };
+      const completed = reviewProgress(item.kind, result).complete;
+      const edits = { ...ctx.state.edits };
+      if (data.has('applyPrice')) {
+        if (item.kind !== 'lodging' || !ctx.activeSet.has(item.id)
+          || !completed || quote == null) {
+          throw new Error('Für die Preisübernahme müssen exakter Endpreis, alle Prüfungen und ein Beleglink vorliegen.');
+        }
+        edits[item.id] = { ...edits[item.id],
+          price: { cents: quote, currency: 'EUR', scope: 'group', party: ctx.people.length,
+            label: 'Manuell dokumentierter Angebotspreis vom ' + checkedAt + ' · nicht gebucht/bezahlt' },
+        };
+      }
+      await save({ ...ctx.state, edits, verifications: {
+        ...ctx.state.verifications, [item.id]: result,
+      } }, data.has('applyPrice') ? 'Eigene Prüfung und Planpreis gespeichert' : 'Eigene Anbieterprüfung gespeichert');
+    });
+}
+
 export function expenseForm(ctx, item, save, meal = null) {
   const linked = Boolean(item?.forItem || meal);
   const priceSeed = item ?? (meal?.price ? { price: { ...meal.price, party: null } } : null);
@@ -394,8 +471,9 @@ export function routeForm(ctx, index, calculate, save, state = '') {
     : '';
   const schedule = !segment.access && segment.from.point && segment.to.point
     && ctx.catalog.transitSchedules?.[segment.from.placeCity ?? ctx.city];
+  const scheduleOutdated = schedule && (ctx.date < schedule.from || ctx.date > schedule.to);
   openDialog('Wegdetails', '<h3>' + esc(routeLabel) + '</h3>' + summary + (state && state !== 'loading' ? alert(state) : '')
-    + '<div class="row-actions">' + walking + (schedule ? btn('scheduled-route', 'Fahrplan durchsuchen', 'train', index) : '') + options
+    + '<div class="row-actions">' + walking + (schedule ? btn('scheduled-route', scheduleOutdated ? 'Nur historischen Referenzfahrplan prüfen' : 'Fahrplan durchsuchen', 'train', index) : '') + options
     + '</div><div class="section"><h3>Geprüften Weg manuell hinterlegen</h3>'
     + '<p>Der Weg gilt für diesen Tag. Den Preis kannst du bei Bedarf als Ausgabe im Budget erfassen.</p></div>'
     + controls([

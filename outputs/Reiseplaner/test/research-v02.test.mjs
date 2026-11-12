@@ -59,7 +59,7 @@ test('Quoted hotel candidates respect exact stay dates, original trip and party 
   };
   for (const [tripId, count] of Object.entries(expected)) {
     const trip = byId(tripId);
-    const quoted = trip.items.filter(item => item.quote);
+    const quoted = trip.items.filter(item => item.id.startsWith('research:bcom_'));
     assert.equal(quoted.length, count, tripId);
     for (const candidate of quoted) {
       assert.equal(candidate.quote.checkoutConfirmed, false);
@@ -107,4 +107,18 @@ test('Research diagnostics remain reference-only; the three-person survey does n
   assert.equal(catalog.research.budgetScenarios.length, 3);
   assert.ok(catalog.research.budgetScenarios.every(item => !item.is_approved && !item.is_booked));
   assert.ok(catalog.research.transportCandidates.every(item => !item.is_selected && !item.is_bookable_now));
+});
+
+test('Three newly observed provider searches remain unbooked and only apply to the matching 3-person Barcelona stay', () => {
+  for (const id of ['interrail_classic', 'interrail_swiss', 'interrail_august', 'swiss_lakes']) {
+    const trip = byId(id);
+    const added = trip.items.filter(item => item.id.startsWith('provider:booking:'));
+    assert.equal(added.length, ['interrail_classic','interrail_swiss'].includes(id) ? 3 : 0);
+    assert.ok(added.every(item => !item.selected && !item.booked && item.quote.checkoutConfirmed === false));
+    assert.ok(activeItems(trip, initialState(trip)).every(item => !added.some(other => other.id === item.id)));
+  }
+  const hostal = byId('interrail_classic').items.find(item => item.id.startsWith('provider:booking:275242'));
+  assert.equal(hostal.price.cents, 47430);
+  assert.ok(hostal.positionIssue);
+  assert.equal(hostal.price.party, 3);
 });
