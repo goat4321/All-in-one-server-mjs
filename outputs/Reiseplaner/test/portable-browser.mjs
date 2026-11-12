@@ -150,8 +150,26 @@ try {
   await save();
   assert.equal(store.current('interrail_classic').state.edits['research:bcom_12814471'].selected, true);
   assert.equal(store.current('interrail_swiss').state.edits['research:bcom_12814471'], undefined);
+  // Document a five-point, user-reported provider checkout; this only changes
+  // the explicitly selected local plan price, never the supplier's booking.
+  await click('.sidebar [data-action=page][data-value=lodging]');
+  await click('[data-action=option-filter][data-value=search]');
+  await click('[data-action=verify-item][data-value="research:bcom_12814471"]');
+  await text('dialog', 'keine erfolgte Buchung');
+  await set('dialog [name=evidenceUrl]', 'https://www.booking.com/hotel/es/heylola-hostel.html');
+  await set('dialog [name=quotedTotal]', '297.20');
+  await js('document.querySelectorAll("dialog [name^=check_]").forEach(input => input.checked = true)');
+  await js('document.querySelector("dialog [name=applyPrice]").checked = true');
+  await save();
+  const reviewed = store.current('interrail_classic').state;
+  assert.equal(reviewed.verifications['research:bcom_12814471'].quotedCents, 29720);
+  assert.equal(reviewed.verifications['research:bcom_12814471'].checks.beds, true);
+  assert.equal(reviewed.edits['research:bcom_12814471'].price.cents, 29720);
+  assert.equal(catalog.trips.find(x => x.id === 'interrail_classic').items
+    .find(x => x.id === 'research:bcom_12814471').price.cents, 28590);
+  await text('#main', 'Eigene Prüfung 5/5');
   await click('.sidebar [data-action=page][data-value=budget]');
-  await text('#main', '285,90');
+  await text('#main', '297,20');
   await set('#variant', 'swiss_lakes');
   await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
   await click('.sidebar [data-action=page][data-value=group]');
@@ -161,6 +179,18 @@ try {
   await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
   await until(() => js('Boolean(document.querySelector(".sidebar [data-action=city][data-value=barcelona]"))'), 'Barcelona navigation after variant switch');
   await click('.sidebar [data-action=city][data-value=barcelona]');
+  await click('.sidebar [data-action=page][data-value=plan]');
+  await text('h1', 'Barcelona');
+  assert.equal(store.current('interrail_classic').state.verifications['research:bcom_12814471'].quotedCents, 29720);
+  await click('.sidebar [data-action=page][data-value=rail]');
+  await text('#main', 'Verkaufsregel');
+  await text('#main', 'Orientierungsfenster');
+  await click('[data-action=verify-item][data-value="tripsy:transport:3842725"]');
+  await text('dialog', 'Abfahrt, Ankunft');
+  await js('document.querySelector("dialog [name=check_operator]").checked = true');
+  await save();
+  assert.equal(store.current('interrail_classic').state.verifications['tripsy:transport:3842725'].checks.operator, true);
+  await text('#main', 'Eigene Prüfung 1/5');
   await click('.sidebar [data-action=page][data-value=plan]');
   await text('h1', 'Barcelona');
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
