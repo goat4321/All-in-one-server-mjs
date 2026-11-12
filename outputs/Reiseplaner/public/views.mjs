@@ -218,12 +218,15 @@ function options(ctx, lodging) {
     if (optionFilter === 'saved') return state.favorites.includes(item.id);
     if (optionFilter === 'known') return groupPrice(item.price, people.length) != null;
     if (optionFilter === 'kitchen') return Boolean(item.kitchen);
+    if (optionFilter === 'search') return Boolean(item.quote);
     if (optionFilter === 'evening') return Boolean(item.minAge) || item.tags?.some(t => /abend|nightlife|bar/i.test(t));
     if (optionFilter === 'food') return item.category === 'food';
     return true;
   });
   if (sort === 'price') list.sort((a, b) => (groupPrice(a.price, people.length) ?? Infinity) - (groupPrice(b.price, people.length) ?? Infinity));
   if (sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'de'));
+  if (sort === 'score' && !lodging) list.sort((a, b) =>
+    (b.preference?.score ?? -1) - (a.preference?.score ?? -1) || a.name.localeCompare(b.name, 'de'));
   const compared = found.filter(i => compareIds.has(i.id));
   const stay = ctx.trip.stayByCity[city];
   const compareRows = compared.map(item => [esc(item.name), esc(cost(item, people.length)), esc(unit(item, people.length)),
@@ -234,17 +237,31 @@ function options(ctx, lodging) {
       item.access].filter(Boolean).join(' · ') || 'Weg offen' : item.access || 'Weg im Tagesplan'),
     esc(lodging ? item.cancellation ?? 'Tarifbedingungen offen' : item.minAge ? item.minAge + '+' : 'Offen')]);
   const filters = [['all', 'Alle Optionen'], ['saved', 'Merkliste'], ['known', 'Mit Preisreferenz'],
-    ...(lodging ? [['kitchen', 'Mit Küche']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
+    ...(lodging ? [['kitchen', 'Mit Küche'], ['search', '2027-Suchpreise']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
   const cards = list.map(item => {
     const active = activeSet.has(item.id);
     const highlighted = compareIds.has(item.id);
     const meal = ctx.catalog.mealPlans?.[city]?.find(plan => plan.venue === item.id);
+    const rank = !lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3 ? item.preference : null;
+    const prefs = lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3
+      ? ctx.catalog.research?.groupPreferences?.nightly_accommodation_targets_eur_per_person : null;
+    const personNight = item.quote?.nights > 0 && item.price?.cents != null
+      ? item.price.cents / (people.length * item.quote.nights) : null;
+    const targetLine = prefs && personNight != null
+      ? '<small>Pro Person/Nacht etwa ' + esc(money(Math.round(personNight))) + ' · persönliche Ziele: '
+        + Object.entries(prefs).map(([alias, info]) => esc(alias + ' ' + info.target + ' €')).join(' · ') + '</small>' : '';
+    const rankLine = rank
+      ? '<p class="muted">Gruppeninteresse ' + esc(String(rank.score)) + '/100 · Heuristik · '
+        + Object.entries(rank.individual ?? {}).map(([alias, score]) => esc(alias + ': ' + score + '/5')).join(' · ')
+        + (rank.disagreement ? ' · unterschiedliche Interessen' : '') + '</p>' : '';
     return `<article class="panel option-card">
       <div class="card-top"><span class="category-icon">${icon(categoryIcon(item))}</span><div class="chips">
-      ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
+      ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.quote ? status('Suchpreis · nicht gebucht', 'warn') : ''}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
       <h3>${esc(item.name)}</h3>
       <div class="chips">${(lodging ? [item.kitchen || 'Küche offen'] : item.tags?.slice(0, 3) ?? []).map(t => status(t)).join('')}</div>
-      <p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
+      ${rankLine}<p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
+      ${item.quote ? '<p class="muted">Suchstand ' + esc(item.quote.observedOn) + ' · Zimmer/Betten, Steuern, Stornierung und Checkout offen. '
+        + esc(item.quote.location ?? '') + '</p>' : ''}${targetLine}
       <div class="option-facts"><small>${esc(lodging ? (item.stayFrom && item.stayTo ? dateLabel(item.stayFrom, item.stayTo) : 'Aufenthaltsdaten offen') : item.duration ? item.duration + ' Min.' : 'Dauer offen')}
       ${lodging && ctx.hotelWalks[item.id]?.minutes ? esc(' · ' + (item.localStation?.name ?? 'Bahnhof') + ' · ' + ctx.hotelWalks[item.id].minutes + ' Min. zu Fuß') : ''}</small>
       <div class="price-line"><span><strong>${esc(cost(item, people.length))}</strong><br><small>${esc(unit(item, people.length))}</small></span>
@@ -259,7 +276,9 @@ function options(ctx, lodging) {
   return heading(lodging ? 'Unterkünfte' : 'Entdecken', cities[city].name + (lodging && stay ? ' · ' + dateLabel(stay.from, stay.to) : ' · ' + found.length + ' Einträge'),
     btn('page', 'Zum Tagesplan', 'calendar', 'plan'))
     + '<div class="filterbar">' + filters.map(([id, label]) => chip('option-filter', label, optionFilter === id, id)).join('')
-    + '<label>Sortieren <select id="sort"><option value="source">Quelle</option><option value="price"' + (sort === 'price' ? ' selected' : '') + '>Preis</option><option value="name"' + (sort === 'name' ? ' selected' : '') + '>Name</option></select></label></div>'
+    + '<label>Sortieren <select id="sort"><option value="source">Quelle</option><option value="price"' + (sort === 'price' ? ' selected' : '') + '>Preis</option><option value="name"' + (sort === 'name' ? ' selected' : '') + '>Name</option>'
+    + (lodging ? '' : '<option value="score"' + (sort === 'score' ? ' selected' : '') + '>Gruppeninteresse</option>') + '</select></label></div>'
+    + (lodging ? alert('Angebote vom 12.11.2026 sind nur Suchpreis-Snapshots. Unterkunft, vollständige Steuern, Betten, Stornierung und Verfügbarkeit vor einer Buchung prüfen. Kein automatischer Kauf.') : '')
     + (compared.length ? '<section class="section"><h2>Direkter Vergleich</h2>' + table(['Option', 'Für die Gruppe', 'Pro Person', lodging ? 'Küche' : 'Dauer', lodging ? 'Zimmer' : 'Erlebnis', 'Anbindung', lodging ? 'Storno' : 'Einlass'], compareRows) + '</section>' : '')
     + (cards ? '<div class="grid-cards">' + cards + '</div>' : empty('Keine Optionen in dieser Ansicht', 'Wechsle den Filter, wähle einen anderen Ort oder importiere deine Recherche.'));
 }
