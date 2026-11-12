@@ -473,11 +473,27 @@ function localMobility(ctx) {
 }
 
 function group(ctx) {
+  const survey = ctx.trip.group === 'interrail_2027' && ctx.people.length === 3
+    ? ctx.catalog.research?.groupPreferences : null;
+  const priorities = survey?.group_priorities ?? [];
+  const groupRows = priorities.slice(0, 12).map(p => [
+    esc(p.topic), esc(p.consensus_score_0_100 + '/100'),
+    esc(Object.entries(p.scores).map(([name, score]) => name + ': ' + score + '/5').join(' · ')),
+    esc(p.priority_class.replaceAll('_', ' ')),
+  ]);
+  const targets = survey?.nightly_accommodation_targets_eur_per_person ?? {};
   return heading('Reisegruppe', ctx.people.length + ' Personen', btn('people', 'Profile bearbeiten', 'edit'))
     + '<div class="grid-cards">' + ctx.people.map((p, i) => '<article class="panel option-card"><span class="category-icon">'
       + icon('people') + '</span><h3>' + esc(p.name) + '</h3><p>Alter zum Reisebeginn: ' + esc(p.age ?? 'Offen') + '</p>'
       + '<div class="price-line"><span>Bekannter Anteil</span><strong>' + money(ctx.budget.balances[i].share) + '</strong></div></article>').join('') + '</div>'
-    + '<section class="section panel panel-pad"><h2>Reiseprofil</h2><p>Interessen und Komfortgrenzen wurden noch nicht erfasst. Einlass- oder Ermäßigungsregeln werden nur anhand hinterlegter Angaben bewertet.</p></section>';
+    + (survey ? '<section class="section panel panel-pad"><h2>Umfrage · drei Personen</h2>'
+      + '<p>Interessen: 0 bedeutet geringe Präferenz, kein Verbot. Das Gruppenranking ist heuristisch und keine objektive Bewertung. Persönliche Unterkunftszielwerte sind flexibel, keine Kostenobergrenze.</p>'
+      + '<div class="chips">' + Object.entries(targets).map(([alias, value]) => status(alias + ': ca. ' + value.target + ' € p. P./Nacht')).join('') + '</div>'
+      + table(['Interesse', 'Konsenswert', 'Einzelbewertungen', 'Einordnung'], groupRows)
+      + '<p class="muted">Fehlende freie Antworten werden als unbekannt behandelt. Bei unterschiedlichen Vorlieben können Aktivitäten auch optional oder parallel geplant werden.</p>'
+      + '</section>'
+      : '<section class="section panel panel-pad"><h2>Eigenständige Reisegruppe</h2>'
+        + '<p>Für diese Reise liegt keine passende Gruppenbefragung vor. Die Drei-Personen-Interrail-Umfrage wird auf die vierköpfige Schweizer Seenreise ausdrücklich nicht übertragen.</p></section>');
 }
 
 function data(ctx) {
