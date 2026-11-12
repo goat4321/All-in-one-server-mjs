@@ -59,13 +59,14 @@ export const VERIFICATION_FIELDS = Object.freeze({
   transport: ['timetable', 'operator', 'passCoverage', 'seatAvailability', 'reservationCost'],
 });
 
-export function reviewProgress(kind, review) {
+export function reviewProgress(kind, review, currentGroupSize = null) {
   const fields = VERIFICATION_FIELDS[kind] ?? [];
   const count = fields.filter(field => review?.checks?.[field] === true).length;
-  const complete = count === fields.length && fields.length > 0
+  const staleGroup = currentGroupSize != null && review?.groupSize != null && review.groupSize !== currentGroupSize;
+  const complete = !staleGroup && count === fields.length && fields.length > 0
     && typeof review?.evidenceUrl === 'string' && /^https?:\/\//i.test(review.evidenceUrl)
     && typeof review?.checkedAt === 'string' && review.checkedAt.length === 10;
   return { count, total: fields.length, complete,
-    description: complete ? 'Selbst dokumentiert · kein Buchungsnachweis'
+    description: staleGroup ? 'Andere Gruppengröße · neu prüfen' : complete ? 'Selbst dokumentiert · kein Buchungsnachweis'
       : count ? 'Teilweise selbst geprüft · nicht bestätigt' : 'Noch nicht geprüft' };
 }
