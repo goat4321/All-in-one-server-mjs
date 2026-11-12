@@ -221,7 +221,7 @@ const checklistLabels = {
 
 export function verificationForm(ctx, item, save) {
   const current = ctx.state.verifications?.[item.id] ?? null;
-  const progress = reviewProgress(item.kind, current);
+  const progress = reviewProgress(item.kind, current, ctx.people.length);
   const fields = VERIFICATION_FIELDS[item.kind];
   if (!fields) throw new Error('Für diesen Eintrag ist keine Anbieterprüfung vorgesehen.');
   const checked = fields.map(key => check('check_' + key, checklistLabels[key], current?.checks?.[key]));
