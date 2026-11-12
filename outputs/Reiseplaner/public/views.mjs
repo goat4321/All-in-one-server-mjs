@@ -189,9 +189,17 @@ function overview(ctx) {
 
   const variants = ctx.variants.map(v => {
     const base = catalog.trips.find(t => t.id === v.base);
-    const b = calculateBudget(activeItems(base, v.state, v.imported), v.state);
+    const selected = activeItems(base, v.state, v.imported);
+    const b = calculateBudget(selected, v.state);
+    const passDays = interrail(selected, v.state.pass);
+    const shares = b.balances.map(balance => balance.share);
+    const minShare = Math.min(...shares);
+    const maxShare = Math.max(...shares);
+    const shareLabel = minShare === maxShare ? money(minShare) : money(minShare) + '–' + money(maxShare);
     return [btn('variant', v.state.title ?? base.title, 'arrow', v.id), esc(dateLabel(base.from, base.to)),
-      esc(base.route.map(id => ctx.cities[id]?.name ?? id).join(' → ')), esc(money(b.total)), esc(v.state.people.length)];
+      esc(base.route.map(id => ctx.cities[id]?.name ?? id).join(' → ')), esc(money(b.total)),
+      esc(shareLabel), esc(String(b.unknown)), esc(passDays.days.length + ' / ' + v.state.pass.days),
+      esc(String(v.state.people.length))];
   });
   return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
     + '<div class="stat-grid">' + stat('Zeitraum', dateLabel(trip.from, trip.to)) + stat('Reisegruppe', ctx.people.length + ' Personen')
@@ -199,7 +207,7 @@ function overview(ctx) {
     + '<section class="section"><h2>Planungs-Check</h2><p class="muted">Direkt aus den aktuell ausgewählten Einträgen berechnet. Fehlende Angaben sind keine bestätigten Buchungen.</p>' + table(['Prüffeld', 'Aktueller Stand', 'Nächster Schritt'], readinessRows) + '</section>'
     + '<section class="section panel panel-pad"><h2>Originalroute</h2><p>' + esc(trip.route.map(id => ctx.cities[id]?.name).join(' → ')) + '</p><p class="muted">' + esc(trip.description) + '</p>'
     + '<div class="row-actions section">' + btn('show-route', 'Gesamtroute öffnen', 'map') + btn('page', 'Zum Tagesplan', 'calendar', 'plan') + '</div></section>'
-    + '<section class="section"><h2>Varianten im Vergleich</h2>' + table(['Variante', 'Zeitraum', 'Originalroute', 'Bekannte Plankosten', 'Gruppe'], variants) + '</section>';
+    + '<section class="section"><h2>Varianten im Vergleich</h2>' + table(['Variante', 'Zeitraum', 'Originalroute', 'Bekannte Plankosten', 'Personenanteile', 'Preise offen', 'Pass-Tage', 'Gruppe'], variants) + '</section>';
 }
 
 function options(ctx, lodging) {
