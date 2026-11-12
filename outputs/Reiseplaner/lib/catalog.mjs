@@ -108,6 +108,7 @@ const extraSources = [
   { id: 'pack-georges-address', publisher: 'Acceslibre · Anschrift', url: 'https://acceslibre.beta.gouv.fr/app/34-sete/a/auberge-de-jeunesse/erp/georges-hostel/', accessed_on: '2026-11-12' },
   { id: 'pack-sete-transit', publisher: 'Sète Agglopôle Mobilité · Routenplaner', url: 'https://www.mobilite.agglopole.fr/itineraire', accessed_on: '2026-11-12' },
   { id: 'tripsy-refresh', publisher: 'Tripsy · privater, lesender Abgleich', accessed_on: '2026-11-12' },
+  { id: 'research-seed-fallback', publisher: 'Nutzer-Recherchearchiv · reduzierter lokaler Fallback, kein neuer Tripsy-Import', accessed_on: '2026-11-09' },
 ];
 
 function cityName(text, allowed) {
@@ -150,7 +151,7 @@ function price(amount, currency, scope, label, party) {
 
 function pickedFields(record) {
   return { start: record.starts_at ?? null, end: record.ends_at ?? null, address: record.address,
-    detail: record.description ?? record.notes, source: ['tripsy-refresh'], origin: 'übernommen', verification: 'ungeprüft',
+    detail: record.description ?? record.notes, source: [record.fromSeed ? 'research-seed-fallback' : 'tripsy-refresh'], origin: record.fromSeed ? 'Forschungs-Seed' : 'übernommen', verification: 'ungeprüft',
     externalId: String(record.id), booking: 'offen', payment: 'open', selected: false };
 }
 
@@ -278,10 +279,10 @@ export async function loadCatalog() {
         operator: raw.company ?? seed?.operator, number: raw.transport_number, website: raw.website ?? raw.provider_url,
         via: seed?.via, passUse: seed?.interrail_travel_day_plan ?? mode === 'train', price: null,
         reservation: tariff ? price(tariff.amount, tariff.currency, 'person', 'Tarifreferenz ' + tariff.tariff_year) : null,
-        source: ['tripsy-refresh', ...dep.sources, ...arr.sources, ...(tariff?.source_ids ?? [])],
+        source: [raw.fromSeed ? 'research-seed-fallback' : 'tripsy-refresh', ...dep.sources, ...arr.sources, ...(tariff?.source_ids ?? [])],
         detail: wrongRouteNote ? 'Umstiege und Zugwahl für 2027 sind offen. Der importierte Zusatztext beschreibt eine andere Route.' : rawDetail,
         importConflict: wrongRouteNote ? 'Der Tripsy-Zusatztext nennt Schweizer Zwischenziele. Er bleibt in der unveränderten Quellkopie erhalten.' : null,
-        verification: 'Fahrplanentwurf',
+        verification: raw.fromSeed ? 'Historischer Planwert · 2027 nicht bestätigt' : 'Fahrplanentwurf',
       };
     });
     flagDuplicates(legs, item => item.start && item.end ? [item.departure, item.arrival, item.start, item.end, item.mode].join('|') : null);
@@ -306,7 +307,7 @@ export async function loadCatalog() {
         selected: raw.fromSeed ? raw.seedSelected && !facts?.requiresKitchen : !isOptional && !facts?.requiresKitchen, originalName: raw.name,
         ...coords, website: raw.website, ...displayFacts, positionIssue,
         address: displayFacts?.address ?? (coords.positionIssue ? null : raw.address),
-        price: null, source: ['tripsy-refresh', ...(displayFacts?.addedSources ?? [])],
+        price: null, source: [raw.fromSeed ? 'research-seed-fallback' : 'tripsy-refresh', ...(displayFacts?.addedSources ?? [])],
       };
     });
     flagDuplicates(planned, item => item.originalStart ? [item.originalName, item.originalStart, item.point].join('|') : null);
@@ -325,7 +326,7 @@ export async function loadCatalog() {
         room: raw.room_type, website: raw.website ?? seed?.url,
         price: price(seed?.historic_or_plan_total ?? raw.price, seed?.historic_or_plan_currency ?? raw.currency,
           'group', 'Historischer Planwert · Gebühren offen', trip.travellers),
-        booking: 'ungebucht', ...facts, source: [...new Set(['tripsy-refresh', ...(seed?.source_ids ?? []), ...(facts.addedSources ?? [])])],
+        booking: 'ungebucht', ...facts, source: [...new Set([raw.fromSeed ? 'research-seed-fallback' : 'tripsy-refresh', ...(seed?.source_ids ?? []), ...(facts.addedSources ?? [])])],
       };
     });
     const options = activities.filter(a => !a.original_itinerary_item && allowed.includes(a.destination_id) && (!a.trip_id || a.trip_id === trip.id))
