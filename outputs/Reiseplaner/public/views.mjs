@@ -1,5 +1,5 @@
 import { categories, budgetBreakdown, calculateBudget, activeItems, conflicts, groupPrice, groceryBasket, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange, planReadiness } from './model.mjs';
-import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn, chip, empty, alert, categoryIcon, cost, unit, urlLink, timeText, transitPlanners } from './ui.mjs';
+import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn, chip, empty, alert, categoryIcon, cost, unit, urlLink, sourceList, timeText, transitPlanners } from './ui.mjs';
 import { transitFares, transitNetworks } from './transit.mjs';
 import { railSalesStatus, reviewProgress } from './verification.mjs';
 import { official2027Notices } from './official-rules-2027.mjs';
