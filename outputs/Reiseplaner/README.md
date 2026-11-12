@@ -45,3 +45,11 @@ Beim Einschalten des Schweizer Wanderwegenetzes lädt der Browser nur die sichtb
 - Optional `REISEPLAN_CHECK_TILES=1` für den einzelnen Straßenkartentest und `REISEPLAN_SCREENSHOTS` für einen Screenshot-Ordner setzen.
 
 Den konkreten Funktions- und Teststand enthält **STATUS.md**. Architektur, Herkunft der Daten und UX-Entscheidungen stehen in **DECISIONS.md**.
+
+## GitHub-Checkout ohne private Tripsy-Quelldateien
+
+Auf GitHub werden die vier ursprünglichen `data/tripsy-*.json`-Dateien **absichtlich nicht** gespeichert. Sie enthalten private Reiseinformationen und sind in `.gitignore` ausgeschlossen. Beim Start prüft die App automatisch, ob diese Dateien im lokalen Projektordner liegen. Wenn sie fehlen, kann ein **reduzierter, sichtbarer Forschungsdaten-Fallback** aus den mitgelieferten JSON-Dateien geladen werden. Er ersetzt keinen echten Tripsy-Import. In den August- und September-Schweiz-Varianten fehlen dadurch beispielsweise ursprüngliche Aktivitätsdetails. Keinesfalls die GitHub-Kopie als identisch mit dem letzten lokalen Originalstand behandeln.
+
+Zum Wiederherstellen des vollständigen lokalen Stands die vier Dateien aus dem bisherigen ursprünglichen Projektordner unter `data/` in den neuen Projektordner kopieren, **nicht auf GitHub pushen**. Die Bezeichner sind `tripsy-1297194.json`, `tripsy-1312180.json`, `tripsy-1275516.json` und `tripsy-1273324.json`. Nach dem Neustart werden sie automatisch vorrangig verwendet.
+
+`npm run test:portable` prüft den reduzierten Seed-Fallback ohne private Dateien. `npm test` prüft die umfassenden Integrationsszenarien aus dem ursprünglichen Codex-Lauf und benötigt für einzelne Tests die Original-Snapshots. Für die vollständige Browser-Abnahme auf Windows mit Node 24 zusätzlich `npm run test:browser` ausführen. Ein bestandener Fallback-Test ist **keine** gleichwertige Browser-/Kartenprüfung. Neue Funktionen werden zunächst im separaten Branch `feature/v7-resilient-seed-fallback` erprobt.
