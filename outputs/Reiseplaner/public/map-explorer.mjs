@@ -80,6 +80,8 @@ export function explorerDetail(item, people = 3) {
     extra.push('Küche: ' + (typeof item.kitchen === 'string' ? item.kitchen : 'Ausstattung nicht bestätigt'));
     extra.push('Gebühren: ' + (item.fees === true ? 'laut Quelle eingeschlossen' : 'nicht vollständig bestätigt'));
     extra.push('Stornierung: ' + (item.cancellation === true ? 'laut Quelle möglich, Tarif prüfen' : 'Tarif und Frist offen'));
+    extra.push('Frühstück und sonstige Leistungen: nur bei ausdrücklich belegter Quelle enthalten, sonst offen');
+
     if (item.stayFrom && item.stayTo) extra.push('Aufenthalt: ' + item.stayFrom + ' bis ' + item.stayTo);
     if (item.bathroom != null) extra.push('Privates Bad: ' + (item.bathroom ? 'laut Quelle ja' : 'laut Quelle nein'));
     if (item.quote?.nights && Number.isSafeInteger(amount) && item.price?.scope === 'group')
@@ -95,6 +97,8 @@ export function explorerDetail(item, people = 3) {
     if (item.tags?.length) extra.push('Art: ' + item.tags.join(', '));
     if (item.mealSlot) extra.push('Mahlzeit: ' + item.mealSlot);
     if (item.menuNote) extra.push('Speisen / Speisekarte: ' + item.menuNote);
+    if (explorerCategory(item) === 'food' && !item.menuNote)
+      extra.push('Speisekarte, Einzelpreise und konkrete Gerichtsauswahl: noch nicht vollständig geprüft');
     if (item.estimatedCostNote != null && amount == null)
       extra.push('Unbestätigte Kostenreferenz: ' + item.estimatedCostNote);
     if (item.eligibilityOrRisk) extra.push('Zu prüfen: ' + item.eligibilityOrRisk);
