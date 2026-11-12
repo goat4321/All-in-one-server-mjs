@@ -1,4 +1,4 @@
-import { categories, calculateBudget, activeItems, conflicts, groupPrice, groceryBasket, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange, planReadiness } from './model.mjs';
+import { categories, budgetBreakdown, calculateBudget, activeItems, conflicts, groupPrice, groceryBasket, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange, planReadiness } from './model.mjs';
 import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn, chip, empty, alert, categoryIcon, cost, unit, urlLink, timeText, transitPlanners } from './ui.mjs';
 import { transitFares, transitNetworks } from './transit.mjs';
 
@@ -390,6 +390,16 @@ function budget(ctx) {
     esc(i.date ?? localParts(i.start, i.zone).date ?? '—'), esc(money(i.original, i.currency)), esc(money(i.euros)),
     status(i.payment === 'paid' ? 'Bezahlt' : i.payment === 'refund' ? 'Erstattet' : i.euros == null ? 'Preis offen' : 'Geplant', i.euros == null ? 'warn' : ''),
     state.expenses.some(e => e.id === i.id) ? btn('expense', 'Bearbeiten', 'edit', i.id) : '']);
+  const cityRows = budgetBreakdown(b.rows, 'city').map(group => [
+    esc(group.key === 'unassigned' ? 'Ohne Ortszuordnung' : ctx.cities[group.key]?.name ?? group.key),
+    money(group.cents), esc(group.unknown ? group.unknown + ' offene Preise' : 'Keine'),
+    esc(group.count),
+  ]);
+  const dayRows = budgetBreakdown(b.rows, 'date').map(group => [
+    esc(group.key === 'unassigned' ? 'Noch keinem Datum zugeordnet' : dateText(group.key)),
+    money(group.cents), esc(group.unknown ? group.unknown + ' offene Preise' : 'Keine'),
+    esc(group.count),
+  ]);
   const charts = Object.entries(b.byCategory).map(([key, cents]) => '<div><div class="inline"><strong>' + esc(categories[key] ?? key) + '</strong><small>'
     + esc(money(cents)) + '</small></div><div class="bar-track"><span style="width:' + (b.total > 0 ? Math.max(0, Math.min(100, cents * 100 / b.total)) : 0) + '%"></span></div></div>').join('');
   const single = catalog.fares.barcelona_single;
@@ -406,6 +416,10 @@ function budget(ctx) {
       + money(b.balances[i].share) + ' · bezahlt ' + money(b.balances[i].paid) + '</li>').join('') + '</ul>'
     + (b.transfers.length ? b.transfers.map(t => '<p>' + esc(people[t.from].name + ' → ' + people[t.to].name) + ' · ' + money(t.cents) + '</p>').join('')
       : '<p class="muted">Aus bezahlten Positionen ergibt sich kein offener Ausgleich.</p>') + '</section></div>'
+    + '<section class="section"><h2>Nach Reiseziel und Buchungstag</h2>'
+    + '<p class="muted">Nur belegte oder eingegebene Planbeträge. Eine Unterkunft wird mit ihrem Gesamtbetrag am zugeordneten Buchungs-/Aufenthaltsbeginn erfasst; nicht gleichmäßig auf Nächte verteilt. Fehlende Preise bleiben offen.</p>'
+    + '<div class="split"><div><h3>Nach Ort</h3>' + (cityRows.length ? table(['Ort', 'Bekannt', 'Preis offen', 'Posten'], cityRows) : empty('Keine Beträge', '')) + '</div>'
+    + '<div><h3>Nach Datum</h3>' + (dayRows.length ? table(['Datum', 'Bekannt', 'Preis offen', 'Posten'], dayRows) : empty('Keine Beträge', '')) + '</div></div></section>'
     + '<section class="section"><h2>Budgetpositionen</h2>' + (rows.length ? table(['Posten', 'Kategorie', 'Datum', 'Original', 'Gruppe (EUR)', 'Stand', ''], rows) : empty('Keine Budgetposten', 'Ausgewählte Optionen und manuelle Ausgaben erscheinen hier.')) + '</section>'
     + (trip.budgetReference ? '<section class="section panel panel-pad"><h2>Recherche-Referenz</h2><p><strong>' + money(Math.round(trip.budgetReference.calculated_total_eur_without_optional * 100)) + '</strong> ohne optionale Posten laut Seed · ' + dateText(trip.budgetReference.estimation_date) + '</p><small>Separates Schätzszenario ohne automatische Addition zum aktiven Budget.</small>'
       + '<details><summary>Originale Tripsy-Positionen anzeigen</summary><ul class="sources-list">' + trip.referenceExpenses.map(e => '<li>' + esc(e.title) + ' · ' + money(Math.round(e.price * 100), e.currency) + '</li>').join('') + '</ul></details></section>' : '')
