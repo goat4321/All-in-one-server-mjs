@@ -92,3 +92,29 @@ test('A→B route constraints require real points; 2027 long-distance trip is no
   assert.match(externalTransitUrl(a,b),/travelmode=transit/);
   assert.equal(externalTransitUrl(a,{point:null}),null);
 });
+
+test('Recovered original full 2026 research ZIP contributes 21 city coverage records and 14 optional planning days', () => {
+  const coverage = catalog.research.cityCoverage;
+  const days = catalog.research.daySuggestions;
+  assert.equal(Object.keys(coverage).length, 21);
+  assert.equal(days.length, 14);
+  assert.ok(days.every(day => day.isActive === false));
+  assert.equal(days[0].date,'2027-09-01');
+  assert.equal(days.at(-1).date,'2027-09-14');
+  assert.equal(days.find(day=>day.date==='2027-09-04').city,'barcelona');
+  assert.ok(days.some(day=>day.alternatives.some(x=>x.candidateId)));
+  assert.equal(coverage.barcelona.quoteCount,10);
+  assert.equal(coverage.marseille.quoteCount,0);
+  assert.equal(coverage.marseille.verified2027Timetable,false);
+  const originallyActive = activeItems(classic, initialState(classic)).map(x=>x.id);
+  assert.ok(!originallyActive.includes('research:suggest_008'));
+});
+
+test('Sourced destination station is a distinct pin without creating a second train in the active itinerary', () => {
+  const result=explorerData(classic.items,classic);
+  const arrivals=result.placed.filter(x=>x.id.startsWith('arrival:'));
+  assert.ok(arrivals.length >= 1);
+  assert.ok(arrivals.every(x=>x.kind==='transport' && x.price===null));
+  const originalTrips=activeItems(classic,initialState(classic));
+  assert.ok(originalTrips.every(x=>!x.id.startsWith('arrival:')));
+});
