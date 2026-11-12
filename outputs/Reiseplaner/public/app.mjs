@@ -294,6 +294,52 @@ function showTimetable(ctx, search) {
   });
 }
 
+async function calculateExplorerRoute() {
+  if (!context || context.page !== 'map') return;
+  const ctx = context;
+  const from = ctx.all.find(item => item.id === view.mapFrom);
+  const to = ctx.all.find(item => item.id === view.mapTo);
+  const input = explorerRouteInput(from, to);
+  if (!input) {
+    view.mapRouteResult = { status: 'Bitte zwei verschiedene Orte mit belegten Koordinaten auswählen.', route: null };
+    render({ restoreView: true, fetchRoutes: false });
+    return;
+  }
+  const selectedVariant = variant.id;
+  const fromId = from.id, toId = to.id, mode = view.mapRouteMode, when = view.mapRouteTime, date = ctx.date;
+  view.mapRouteResult = { status: 'Prüfe eine verfügbare Verbindungsquelle …', route: null };
+  render({ restoreView: true, fetchRoutes: false });
+  try {
+    if (!input.sameCity) throw new Error('Orte liegen in unterschiedlichen Städten. Nutze die externe ÖPNV-Routenansicht oder das Bahnmodul. Eine lokale Stadtverbindung wird nicht erfunden.');
+    if (!input.canWalk) throw new Error('Für diese Entfernung liegt keine belastbare lokale Wegberechnung vor. Eine externe Verkehrsplanung ist erforderlich.');
+    let route;
+    if (mode === 'walk') {
+      route = await api('/api/walk', 'POST', { points: input.points });
+      if (!route?.walkOnly || !Array.isArray(route.points) || route.points.length < 2)
+        throw new Error('Fußrouter hat keine nachvollziehbare Straßenroute geliefert.');
+    } else {
+      const meta = catalog.transitSchedules?.[from.city];
+      if (!meta || date < meta.from || date > meta.to)
+        throw new Error('Kein gültiges ÖPNV-Fahrplanpaket für ' + date + ' verfügbar. Bitte die externe ÖPNV-Verbindung beim Anbieter prüfen.');
+      const results = await api('/api/transit', 'POST', {
+        city: from.city, points: input.points, date, time: when, excluded: [],
+      });
+      route = results.routes?.[0];
+      if (!route?.legs?.length)
+        throw new Error('Im vorhandenen Fahrplanpaket keine passende Verbindung gefunden. Betreiberplaner verwenden.');
+    }
+    if (variant.id !== selectedVariant || view.mapFrom !== fromId || view.mapTo !== toId
+      || view.mapRouteMode !== mode || view.mapRouteTime !== when || context.date !== date) return;
+    view.mapRouteResult = { status: 'Routenquelle wurde geladen; Öffnungs- und Tarifbedingungen am Reisetag prüfen.', route };
+    render({ restoreView: true, fetchRoutes: false });
+    currentMap?.focusConnection(from.point, to.point);
+  } catch (error) {
+    if (variant.id !== selectedVariant || view.mapFrom !== fromId || view.mapTo !== toId) return;
+    view.mapRouteResult = { status: error.message, route: null };
+    render({ restoreView: true, fetchRoutes: false });
+  }
+}
+
 function changePage(page) {
   if (!['overview', 'plan', 'map', 'rail', 'lodging', 'discover', 'food', 'budget', 'group', 'data'].includes(page)) return;
   view.page = page;
@@ -384,6 +430,39 @@ async function action(name, value = '') {
     case 'mobile': view.mobile = value; render(); break;
     case 'show-route': view.total = true; changePage('map'); break;
     case 'map-mode': view.total = value === 'total'; render(); break;
+    case 'explorer-scope':
+      view.mapScope = value === 'city' ? 'city' : 'trip';
+      view.total = view.mapScope === 'trip';
+      view.mapListLimit = 60; render(); break;
+    case 'explorer-group':
+      if (!['all', 'lodging', 'food', 'shop', 'activity', 'transport'].includes(value)) break;
+      view.mapGroup = value; view.mapListLimit = 60; render({ restoreView: true }); break;
+    case 'explorer-search':
+      view.mapSearch = document.querySelector('#map-search')?.value?.trim().slice(0, 100) ?? '';
+      view.mapListLimit = 60; render({ restoreView: true }); break;
+    case 'explorer-more':
+      view.mapListLimit += 60; render({ restoreView: true }); break;
+    case 'explorer-focus':
+      if (item?.point) selectPoint(value, true); break;
+    case 'explorer-start':
+    case 'explorer-end':
+      if (!item?.point) { say('Für diesen Ort fehlen exakte Koordinaten.'); break; }
+      if (name === 'explorer-start') view.mapFrom = value;
+      else view.mapTo = value;
+      view.mapRouteResult = null;
+      if (view.mapFrom && view.mapTo) await calculateExplorerRoute();
+      else render({ restoreView: true }); break;
+    case 'explorer-mode':
+      view.mapRouteMode = value === 'transit' ? 'transit' : 'walk';
+      view.mapRouteResult = null;
+      if (view.mapFrom && view.mapTo) await calculateExplorerRoute();
+      else render({ restoreView: true }); break;
+    case 'explorer-route':
+      view.mapRouteTime = document.querySelector('#explorer-time')?.value ?? view.mapRouteTime;
+      await calculateExplorerRoute(); break;
+    case 'explorer-clear-route':
+      view.mapFrom = view.mapTo = view.mapRouteResult = null;
+      render({ restoreView: true }); break;
     case 'fit': currentMap?.fit(); break;
     case 'filter': view.filters[value] = !view.filters[value]; render({ restoreView: true }); break;
     case 'transit': view.filters.transit[value] = !view.filters.transit[value]; render({ restoreView: true }); break;
@@ -580,6 +659,8 @@ document.addEventListener('click', event => {
 app.addEventListener('change', event => {
   if (event.target.id === 'variant') void switchVariant(event.target.value).catch(error => say(error.message));
   if (event.target.id === 'sort') { view.sort = event.target.value; render({ restoreView: true }); }
+  if (event.target.id === 'map-search') { view.mapSearch = event.target.value.trim().slice(0, 100); view.mapListLimit = 60; render({ restoreView: true }); }
+  if (event.target.id === 'explorer-time') { view.mapRouteTime = event.target.value; view.mapRouteResult = null; render({ restoreView: true }); }
   if (event.target.id === 'meal-date' && context.dates.includes(event.target.value)) showCity(context.city, event.target.value);
 });
 app.addEventListener('submit', async event => {
