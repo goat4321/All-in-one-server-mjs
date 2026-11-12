@@ -111,16 +111,18 @@ export class TripMap {
     if (explorer?.placed?.length) {
       // Existing markers from the day view are reused instead of drawn twice.
       // In the trip-wide mode the city anchors remain separate from POIs.
-      for (const item of explorer.placed) {
-        if (!item.point || item.point.length !== 2) continue;
+      const located = explorer.placed.filter(item => Array.isArray(item.point) && item.point.length === 2
+        && !this.markers.has(item.explorerId ?? item.id));
+      const grouped = Map.groupBy(located, item => item.point.map(value => value.toFixed(5)).join(','));
+      for (const cluster of grouped.values()) cluster.forEach((item, index) => {
         const key = item.explorerId ?? item.id;
-        if (this.markers.has(key)) continue;
         const category = item.explorerCategory ?? 'activity';
+        const offset = (index - (cluster.length - 1) / 2) * 24;
         this.marker(item.point, key, item.name, {lodging:'H',food:'R',shop:'S',activity:'A',transport:'B'}[category],
           'place-' + category + ' explorer-pin' + (focused === key ? ' focused' : ''),
-          () => this.handlers.select(key));
+          () => this.handlers.select(key), offset);
         area.push(item.point);
-      }
+      });
     }
     if (explorer?.connection?.route?.points?.length > 1) {
       const route = explorer.connection.route;
