@@ -112,6 +112,11 @@ export function groceryBasket(meals, peopleCount, overrides = {}) {
   return [...rows.values()].map(row => {
     const minPacks = Math.ceil(row.required / row.pack);
     const override = overrides?.[row.key];
+    if (override && (!Number.isSafeInteger(override.packs) || override.packs < 1
+      || override.packs > 100 || !Number.isSafeInteger(override.unitCents)
+      || override.unitCents < 0 || override.unitCents > 100000)) {
+      throw new Error('Ungültige Mengen- oder Preisänderung im Warenkorb.');
+    }
     // A group-size increase can require more packs than an earlier manual override.
     // Preserve the user's price but never budget insufficient package quantities.
     const packs = override?.packs == null ? minPacks : Math.max(minPacks, override.packs);
