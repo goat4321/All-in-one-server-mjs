@@ -70,7 +70,8 @@ function plan(ctx, name) {
     if (item.kind === 'transport' && item.role === 'Ankunft') return sum;
     if (item.kind === 'lodging' && item.role === 'Check-out') return sum;
     return sum + (budget.rows.find(r => r.id === item.id || r.forItem === item.id)?.euros ?? 0);
-  }, 0);
+  }, 0) + budget.rows.filter(row => row.id === 'grocery-budget:' + city && row.date === date)
+    .reduce((sum, row) => sum + (row.euros ?? 0), 0);
   const anchor = ctx.stops.find(item => item.anchor);
   const first = ctx.segments[0];
   const last = ctx.segments.at(-1);
@@ -269,7 +270,8 @@ function food(ctx) {
   const basketTotal = basket.reduce((sum, row) => sum + row.total, 0);
   const basketTable = basket.length ? table(['Zutat', 'Benötigte Menge', 'Packungen', 'Packungspreis', 'Gruppe', ''],
     basket.map(row => [
-      esc(row.name) + '<br><small>' + esc(row.modified ? 'Preis/Menge selbst angepasst' : 'Preisreferenz, kein Filialangebot') + '</small>',
+      esc(row.name) + '<br><small>' + esc(row.adjustedForGroup ? 'Packungen wegen Gruppengröße automatisch erhöht'
+        : row.modified ? 'Preis/Menge selbst angepasst' : 'Preisreferenz, kein Filialangebot') + '</small>',
       esc(row.required + ' g'), esc(row.packs + ' × ' + row.pack + ' g'),
       money(row.unitCents), money(row.total),
       btn('grocery-edit', 'Anpassen', 'edit', row.key)
