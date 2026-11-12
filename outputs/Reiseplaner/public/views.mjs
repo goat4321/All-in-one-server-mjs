@@ -248,8 +248,12 @@ function options(ctx, lodging) {
     const personNight = item.quote?.nights > 0 && item.price?.cents != null
       ? item.price.cents / (people.length * item.quote.nights) : null;
     const targetLine = prefs && personNight != null
-      ? '<small>Pro Person/Nacht etwa ' + esc(money(Math.round(personNight))) + ' · persönliche Ziele: '
-        + Object.entries(prefs).map(([alias, info]) => esc(alias + ' ' + info.target + ' €')).join(' · ') + '</small>' : '';
+      ? '<small>Pro Person/Nacht etwa ' + esc(money(Math.round(personNight))) + ' · individuelle Zielwerte (flexibel): '
+        + Object.entries(prefs).map(([alias, info]) => {
+          const delta = Math.round(personNight - info.target * 100);
+          return esc(alias) + ': ' + (delta <= 0 ? 'unter Ziel ' : 'über Ziel ')
+            + esc(money(Math.abs(delta)));
+        }).join(' · ') + '</small>' : '';
     const rankLine = rank
       ? '<p class="muted">Gruppeninteresse ' + esc(String(rank.score)) + '/100 · Heuristik · '
         + Object.entries(rank.individual ?? {}).map(([alias, score]) => esc(alias + ': ' + score + '/5')).join(' · ')
