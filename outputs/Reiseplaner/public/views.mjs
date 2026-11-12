@@ -449,7 +449,7 @@ function budget(ctx) {
       status('Hypothese · nicht ausgewählt', 'warn')];
   });
   const rows = b.rows.map(i => [esc(i.name), esc(categories[i.category] ?? i.category ?? 'Sonstiges'),
-    esc(i.date ?? localParts(i.start, i.zone).date ?? '—'), esc(money(i.original, i.currency)), esc(money(i.euros)),
+    esc(i.date ?? localParts(i.start, i.zone).date ?? (i.kind === 'lodging' ? i.stayFrom : null) ?? '—'), esc(money(i.original, i.currency)), esc(money(i.euros)),
     status(i.payment === 'paid' ? 'Bezahlt' : i.payment === 'refund' ? 'Erstattet' : i.euros == null ? 'Preis offen' : 'Geplant', i.euros == null ? 'warn' : ''),
     state.expenses.some(e => e.id === i.id) ? btn('expense', 'Bearbeiten', 'edit', i.id) : '']);
   const cityRows = budgetBreakdown(b.rows, 'city').map(group => [
