@@ -215,7 +215,7 @@ export function budgetBreakdown(rows, dimension = 'city') {
     // A booked stay or train belongs to its posted date; nightly amortization
     // is intentionally not assumed from an old group quote.
     const key = dimension === 'city' ? row.city ?? 'unassigned'
-      : row.date ?? (row.start && row.zone ? localParts(row.start, row.zone).date : null) ?? 'unassigned';
+      : row.date ?? (row.start && row.zone ? localParts(row.start, row.zone).date : null) ?? (row.kind === 'lodging' ? row.stayFrom : null) ?? 'unassigned';
     if (!totals.has(key)) totals.set(key, { key, cents: 0, unknown: 0, count: 0 });
     const bucket = totals.get(key);
     bucket.count++;
