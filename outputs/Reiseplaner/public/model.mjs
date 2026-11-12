@@ -69,6 +69,26 @@ export function mealEstimate(option, count) {
   return { products, base, terrace };
 }
 
+
+// Informational only: a missing check never implies a real booking or fare was confirmed.
+export function planReadiness(trip, selectedItems, budget) {
+  const overnightStays = Object.entries(trip.stayByCity ?? {});
+  const missingStays = overnightStays.filter(([city, required]) =>
+    !selectedItems.some(item => item.kind === 'lodging' && item.city === city
+      && item.stayFrom <= required.from && item.stayTo >= required.to)
+  ).map(([city]) => city);
+  const trainLegs = selectedItems.filter(item => item.kind === 'transport' && item.mode === 'train');
+  const uncheckedTrains = trainLegs.filter(item =>
+    !item.booked && !['Fahrplan bestätigt', 'Fahrplan geprüft'].includes(item.verification)
+  ).length;
+  return {
+    missingStays,
+    uncheckedTrains,
+    unknownPrices: budget.unknown,
+    missingOriginalSources: trip.dataMode === 'research_seed_fallback',
+  };
+}
+
 export const mealDate = item => localParts(item.start, item.zone).date ?? item.date;
 
 export function activeItems(trip, state, imported = []) {
