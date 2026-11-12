@@ -2,6 +2,7 @@ import { categories, budgetBreakdown, calculateBudget, activeItems, conflicts, g
 import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn, chip, empty, alert, categoryIcon, cost, unit, urlLink, timeText, transitPlanners } from './ui.mjs';
 import { transitFares, transitNetworks } from './transit.mjs';
 import { railSalesStatus, reviewProgress } from './verification.mjs';
+import { official2027Notices } from './official-rules-2027.mjs';
 
 const tabs = [
   ['overview', 'Übersicht', 'compass'], ['plan', 'Tagesplan', 'calendar'], ['map', 'Karte', 'map'],
@@ -182,6 +183,9 @@ function mapPanel(ctx, full = false) {
 function overview(ctx) {
   const { trip, catalog } = ctx;
   const readiness = planReadiness(trip, ctx.active, ctx.budget);
+  const ruleRows = official2027Notices(trip).map(rule => [
+    esc(rule.title), esc(rule.message), esc(rule.verification), urlLink(rule.source, 'Offizielle Quelle'),
+  ]);
   const lodgingUnchecked = ctx.active.filter(item => item.kind === 'lodging'
     && !item.booked && !reviewProgress('lodging', ctx.state.verifications?.[item.id], ctx.people.length).complete).length;
   const railChecks = ctx.active.filter(item => item.kind === 'transport' && item.mode === 'train');
@@ -220,6 +224,10 @@ function overview(ctx) {
     + '<div class="stat-grid">' + stat('Zeitraum', dateLabel(trip.from, trip.to)) + stat('Reisegruppe', ctx.people.length + ' Personen')
     + stat('Reiseorte', new Set(trip.route).size + ' Orte') + stat('Bekannte Plankosten', money(ctx.budget.total), ctx.budget.unknown + ' Posten ohne EUR-Summe') + '</div>'
     + '<section class="section"><h2>Planungs-Check</h2><p class="muted">Direkt aus den aktuell ausgewählten Einträgen berechnet. Fehlende Angaben sind keine bestätigten Buchungen.</p>' + table(['Prüffeld', 'Aktueller Stand', 'Nächster Schritt'], readinessRows) + '</section>'
+    + (ruleRows.length ? '<section class="section"><h2>Offizielle Reiseregeln für 2027</h2>'
+      + '<p class="muted">Nur belegte Saison- und Zugangsregeln, keine Garantie für aktuelle Tickets, geöffneten Betrieb oder die Gültigkeit im Reisedatum.</p>'
+      + table(['Ort / Thema', 'Bekannte Regel und offene Punkte', 'Quellenstand', 'Prüfen'], ruleRows)
+      + '</section>' : '')
     + '<section class="section panel panel-pad"><h2>Originalroute</h2><p>' + esc(trip.route.map(id => ctx.cities[id]?.name).join(' → ')) + '</p><p class="muted">' + esc(trip.description) + '</p>'
     + '<div class="row-actions section">' + btn('show-route', 'Gesamtroute öffnen', 'map') + btn('page', 'Zum Tagesplan', 'calendar', 'plan') + '</div></section>'
     + '<section class="section"><h2>Varianten im Vergleich</h2>' + table(['Variante', 'Zeitraum', 'Originalroute', 'Bekannte Plankosten', 'Personenanteile', 'Preise offen', 'Pass-Tage', 'Gruppe'], variants) + '</section>';
