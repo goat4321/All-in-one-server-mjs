@@ -1,4 +1,4 @@
-import { categories, calculateBudget, activeItems, conflicts, groupPrice, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange } from './model.mjs';
+import { categories, calculateBudget, activeItems, conflicts, groupPrice, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange, planReadiness } from './model.mjs';
 import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn, chip, empty, alert, categoryIcon, cost, unit, urlLink, timeText, transitPlanners } from './ui.mjs';
 import { transitFares, transitNetworks } from './transit.mjs';
 
@@ -176,6 +176,16 @@ function mapPanel(ctx, full = false) {
 
 function overview(ctx) {
   const { trip, catalog } = ctx;
+  const readiness = planReadiness(trip, ctx.active, ctx.budget);
+  const readinessRows = [
+    ['Unterkunft', readiness.missingStays.length ? readiness.missingStays.length + ' Aufenthaltsorte noch nicht vollständig gewählt' : 'Alle bekannten Aufenthalte einer aktiven Unterkunft zugeordnet',
+      'lodging', 'Unterkünfte prüfen'],
+    ['Bahn', readiness.uncheckedTrains + ' ausgewählte Bahnabschnitte ohne bestätigten Fahrplan', 'rail', 'Bahn prüfen'],
+    ['Kosten', readiness.unknownPrices + ' aktive Posten ohne umrechenbaren Gruppenpreis', 'budget', 'Budget öffnen'],
+    ['Datenherkunft', readiness.missingOriginalSources ? 'Nur reduziertes Recherchearchiv – Original-Snapshots fehlen' : 'Lokale Tripsy-Quelldateien vorhanden',
+      'data', 'Quellen prüfen'],
+  ].map(([name, note, page, link]) => [esc(name), esc(note), btn('page', link, 'arrow', page)]);
+
   const variants = ctx.variants.map(v => {
     const base = catalog.trips.find(t => t.id === v.base);
     const b = calculateBudget(activeItems(base, v.state, v.imported), v.state);
@@ -185,6 +195,7 @@ function overview(ctx) {
   return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
     + '<div class="stat-grid">' + stat('Zeitraum', dateLabel(trip.from, trip.to)) + stat('Reisegruppe', ctx.people.length + ' Personen')
     + stat('Reiseorte', new Set(trip.route).size + ' Orte') + stat('Bekannte Plankosten', money(ctx.budget.total), ctx.budget.unknown + ' Posten ohne EUR-Summe') + '</div>'
+    + '<section class="section"><h2>Planungs-Check</h2><p class="muted">Direkt aus den aktuell ausgewählten Einträgen berechnet. Fehlende Angaben sind keine bestätigten Buchungen.</p>' + table(['Prüffeld', 'Aktueller Stand', 'Nächster Schritt'], readinessRows) + '</section>'
     + '<section class="section panel panel-pad"><h2>Originalroute</h2><p>' + esc(trip.route.map(id => ctx.cities[id]?.name).join(' → ')) + '</p><p class="muted">' + esc(trip.description) + '</p>'
     + '<div class="row-actions section">' + btn('show-route', 'Gesamtroute öffnen', 'map') + btn('page', 'Zum Tagesplan', 'calendar', 'plan') + '</div></section>'
     + '<section class="section"><h2>Varianten im Vergleich</h2>' + table(['Variante', 'Zeitraum', 'Originalroute', 'Bekannte Plankosten', 'Gruppe'], variants) + '</section>';
