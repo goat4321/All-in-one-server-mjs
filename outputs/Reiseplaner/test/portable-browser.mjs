@@ -140,6 +140,26 @@ try {
   assert.equal(store.current('interrail_classic').state.manual.filter(i => i.mealPlanId === 'pasta').length, 2);
   await click('.sidebar [data-action=page][data-value=budget]');
   await text('#main', '6,50');
+  // An explicit hotel candidate selection is local, unbooked and confined
+  // to the matching 3-person September classic variant.
+  await click('.sidebar [data-action=page][data-value=lodging]');
+  await click('[data-action=option-filter][data-value=search]');
+  await text('.grid-cards', 'HeyLola! Hostel');
+  await click('[data-action=choose][data-value="research:bcom_12814471"]');
+  await text('dialog', 'keine Reservierung oder Zahlung');
+  await save();
+  assert.equal(store.current('interrail_classic').state.edits['research:bcom_12814471'].selected, true);
+  assert.equal(store.current('interrail_swiss').state.edits['research:bcom_12814471'], undefined);
+  await click('.sidebar [data-action=page][data-value=budget]');
+  await text('#main', '285,90');
+  await set('#variant', 'swiss_lakes');
+  await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
+  await click('.sidebar [data-action=page][data-value=group]');
+  await text('#main', 'Eigenständige Reisegruppe');
+  assert.equal(store.current('swiss_lakes').state.people.length, 4);
+  await set('#variant', 'interrail_classic');
+  await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
+  await text('h1', 'Barcelona');
   await click('.sidebar [data-action=page][data-value=plan]');
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
   await until(() => js('Boolean(document.querySelector(".mobile-switch"))'), 'mobiler Schalter');
