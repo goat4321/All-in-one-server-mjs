@@ -402,6 +402,7 @@ function rail(ctx) {
       + '<br><small>' + esc(window.text) + '</small>',
     urlLink(window.url, 'Verkaufsregel'),
     match ? btn('verify-item', 'Eigene Prüfung ' + progress.count + '/' + progress.total, 'check', match.id) : 'Tripsy-Verknüpfung offen',
+    window.earliestReview ? btn('rail-reminder', 'Prüfung vormerken', 'calendar', row.id) : 'Datum offen',
     ];
   });
   const candidateRows = suggestions.map(row => [
@@ -445,7 +446,7 @@ function rail(ctx) {
     + '<section class="section"><h2>Verbindungen in Reihenfolge</h2><div class="stack">' + (connections || empty('Keine Verbindungen', 'Ergänze eine Fahrt oder wähle eine andere Variante.')) + '</div></section>'
     + '<section class="section"><h2>Fahrplan- und Preisrecherche · 2027</h2>'
     + '<p class="muted">Offene Aufgaben, keine Echtzeitverbindungen. Jede Abfahrt und jeder Ticketpreis muss später für das konkrete Reisedatum beim Anbieter bestätigt werden.</p>'
-    + (researchRows.length ? table(['Originalabschnitt', 'Reisedatum', 'Recherchestatus', 'Ticketpreis', 'Noch prüfen', 'Orientierungsfenster', 'Verkaufsregel', 'Eigenprüfung'], researchRows)
+    + (researchRows.length ? table(['Originalabschnitt', 'Reisedatum', 'Recherchestatus', 'Ticketpreis', 'Noch prüfen', 'Orientierungsfenster', 'Verkaufsregel', 'Eigenprüfung', 'Wiedervorlage'], researchRows)
       : empty('Noch keine Rechercheaufgaben', 'Für diese Variante enthält das Paket keine Bahnaufgaben.'))
     + '</section>'
     + (candidateRows.length ? '<section class="section"><h2>Alternative Bahnverbindungen · Hypothesen</h2>'
