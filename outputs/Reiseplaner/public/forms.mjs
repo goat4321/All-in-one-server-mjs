@@ -266,7 +266,10 @@ export function mealForm(ctx, option, save, after) {
       name: option.name + (seating === 'terrace' ? ' · Terrasse' : ''), zone, date, mealSlot: option.slot,
       mealPlanId: option.id, seating, start: utcFromLocal(date, text(data, 'start'), zone, existing?.start),
       duration: n(data, 'duration'), point: destination?.point ?? null, address: destination?.address,
-      requiresKitchen, tags: ['Abendessen', requiresKitchen ? 'Selbst kochen' : 'Restaurant'],
+      requiresKitchen, ...(requiresKitchen ? { basketProducts: option.products.map(product => ({
+        name: product.name, pack: product.pack, need: product.need, cents: product.cents, source: product.source,
+      })) } : {}),
+      tags: ['Abendessen', requiresKitchen ? 'Selbst kochen' : 'Restaurant'],
       price: { cents, currency: 'EUR', scope: 'group', party: people.length, label: option.priceNote },
       source: option.source, detail: option.note, origin: 'manuell', verification: 'Preisreferenz' };
     const edits = { ...ctx.state.edits };
@@ -274,6 +277,29 @@ export function mealForm(ctx, option, save, after) {
     await save({ ...ctx.state, edits, manual: [...ctx.state.manual, item] }, 'Abendessen eingeplant');
     after(item.id);
   });
+}
+
+export function groceryEditForm(ctx, row, save) {
+  openDialog('Gruppenwarenkorb bearbeiten', '<h3>' + esc(row.name) + '</h3>'
+    + '<p class="muted">Für alle geplanten Koch-Mahlzeiten in ' + esc(ctx.cities[row.city]?.name ?? row.city)
+    + ': ' + row.required + ' g benötigt · mindestens ' + row.minPacks + ' Packung(en) à ' + row.pack + ' g.</p>'
+    + '<p class="muted">Der eingetragene Packungspreis ist eine Planannahme, kein bestätigter Regalpreis. '
+    + 'Für bereits bezahlte Einkäufe muss ein separater Beleg als Ausgabe erfasst werden.</p>'
+    + controls([
+      field('Packungen', input('packs', row.packs, 'number', 'min="' + row.minPacks + '" max="100" step="1" required'), true),
+      field('Preis je Packung · EUR', input('unitPrice', (row.unitCents / 100).toFixed(2), 'text',
+        'inputmode="decimal" required'), true),
+    ], 'Warenkorb aktualisieren'), async data => {
+      const packs = n(data, 'packs');
+      const unitCents = minor(text(data, 'unitPrice'));
+      if (!Number.isSafeInteger(packs) || packs < row.minPacks || packs > 100
+        || unitCents == null || unitCents < 0 || unitCents > 100000) {
+        throw new Error('Mindestens die erforderliche Anzahl Packungen und einen gültigen Preis eingeben.');
+      }
+      await save({ ...ctx.state, groceryOverrides: {
+        ...ctx.state.groceryOverrides, [row.key]: { packs, unitCents },
+      } }, 'Gemeinsamen Einkauf aktualisiert');
+    });
 }
 
 export function editPeople(ctx, save) {
