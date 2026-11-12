@@ -95,6 +95,20 @@ try {
   await text('#main', '3,25');
   await click('.sidebar [data-action=page][data-value=budget]');
   await text('#main', '3,25');
+  // A second planned dinner must reuse packages and automatically increase
+  // an earlier override if the combined quantity now needs more packs.
+  await click('.sidebar [data-action=page][data-value=food]');
+  await set('#meal-date', '2027-09-05');
+  await js('document.querySelector("#meal-date").dispatchEvent(new Event("change", { bubbles: true }))');
+  await text('#main', 'Abendessen am 05.09.2027');
+  await click('.meal-card [data-action=meal-choose][data-value=pasta]');
+  await save();
+  await click('.sidebar [data-action=page][data-value=food]');
+  await text('#main', '6,50');
+  await text('#main', 'Packungen wegen Gruppengröße automatisch erhöht');
+  assert.equal(store.current('interrail_classic').state.manual.filter(i => i.mealPlanId === 'pasta').length, 2);
+  await click('.sidebar [data-action=page][data-value=budget]');
+  await text('#main', '6,50');
   await click('.sidebar [data-action=page][data-value=plan]');
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
   await until(() => js('Boolean(document.querySelector(".mobile-switch"))'), 'mobiler Schalter');
