@@ -244,6 +244,17 @@ export async function loadCatalog() {
   const [trips, destinations, activities, accommodations, transport, fares, budgets, sources, quality] =
     await Promise.all(['trips', 'destinations', 'activities', 'accommodations', 'transport', 'fares', 'budgets', 'sources', 'data_quality'].map(file));
   const research = await loadResearchV02(trips);
+  const [coverageArchive, daysArchive] = await Promise.all([
+    readFile(new URL('../data/research-v02/city-coverage-v02.json', import.meta.url), 'utf8').then(JSON.parse),
+    readFile(new URL('../data/research-v02/day-suggestions-v02.json', import.meta.url), 'utf8').then(JSON.parse),
+  ]);
+  if (coverageArchive.rows.length !== 21 || daysArchive.rows.length !== 14 ||
+    daysArchive.is_active_itinerary !== false ||
+    daysArchive.rows.some(row => row[0] < '2027-09-01' || row[0] > '2027-09-14'
+      || !research.destinations.some(city => city.id === row[1])
+      || [...row[3], ...row[4]].some(id => !research.activities_comparison_catalog.some(activity => activity.id === id)))) {
+    throw new Error('Die älteren Stadt- und Tagespakete widersprechen den aktuellen Reisequellen.');
+  }
   const providerSearch = JSON.parse(await readFile(
     new URL('../data/provider-checks/booking-barcelona-20261112.json', import.meta.url), 'utf8'));
   if (providerSearch.search_scope.adults !== 3
@@ -461,6 +472,17 @@ export async function loadCatalog() {
       version: research.import_rules.version,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
+      cityCoverage: Object.fromEntries(coverageArchive.rows.map(([id, activityCount, lodgingCount, quoteCount, newActivities]) =>
+        [id, { activityCount, lodgingCount, quoteCount, newActivities,
+          verified2027Timetable: false, confirmedHotelCheckout: false, verifiedTransitItineraries: false }])),
+      daySuggestions: daysArchive.rows.map(([date, city, theme, anchors, alternatives, note]) => ({
+        id: 'day:' + date, date, city, theme, note,
+        anchors: anchors.map(id => ({id, name: researchActivityMap.get(id)?.name ?? id,
+          candidateId: researchActivityMap.get(id)?.original_itinerary_item ? null : 'research:' + id})),
+        alternatives: alternatives.map(id => ({id, name: researchActivityMap.get(id)?.name ?? id,
+          candidateId: researchActivityMap.get(id)?.original_itinerary_item ? null : 'research:' + id})),
+        isActive: false,
+      })),
       transportQueue: research.transport_research_queue,
       transportCandidates: research.transport_comparison_candidates,
       budgetScenarios: research.budget_scenarios,
