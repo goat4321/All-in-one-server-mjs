@@ -103,6 +103,9 @@ try {
   await text('#main', 'Was-wäre-wenn-Szenarien');
   await click('.sidebar [data-action=page][data-value=overview]');
   await text('#main', 'Varianten im Vergleich');
+  await text('#main', 'Offizielle Reiseregeln für 2027');
+  await text('#main', 'Zugangsentgelt 2027');
+  await text('#main', 'Eiffelturm · Eintritt 2027');
   await text('#main', 'Personenanteile');
   await text('#main', 'Pass-Tage');
   await text('#main', 'Preise offen');
@@ -174,6 +177,9 @@ try {
   await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
   await click('.sidebar [data-action=page][data-value=group]');
   await text('#main', 'Eigenständige Reisegruppe');
+  await click('.sidebar [data-action=page][data-value=overview]');
+  await text('#main', 'Schweizer Mietwagen · Mindestalter');
+  await text('#main', 'Oeschinensee · Gondelbahn');
   assert.equal(store.current('swiss_lakes').state.people.length, 4);
   await set('#variant', 'interrail_classic');
   await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
