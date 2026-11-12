@@ -76,23 +76,23 @@ export class TripMap {
         if (ordered.indexOf(id) === i) this.marker(cities[id].point, id, cities[id].name, i + 1, 'train', () => this.handlers.visitCity(id));
       });
     } else {
-      if (filters.stations) for (const [departure, arrival] of dayTravel) {
+      if (!explorer && filters.stations) for (const [departure, arrival] of dayTravel) {
         const line = L.polyline([departure.point, arrival.point], { color: '#71598c', weight: 3, dashArray: '7 8' }).addTo(this.features);
         line.bindTooltip(labelNode(departure.name + ' · schematischer Verlauf'));
         line.on('click', () => this.handlers.select(departure.entryKey));
       }
-      if (filters.walk) routes.forEach((route, i) => {
+      if (!explorer && filters.walk) routes.forEach((route, i) => {
         if (!route?.points?.length) return;
         const line = L.polyline(route.points, { color: '#24765a', weight: 4, opacity: .86 }).addTo(this.features);
         line.bindTooltip(labelNode(route.mode + ' · ' + route.minutes + ' Min.'));
         line.on('click', () => this.handlers.leg(i));
         area.push(...route.points);
       });
-      routes.forEach((route, i) => {
+      if (!explorer) routes.forEach((route, i) => {
         if (route?.legs?.length) area.push(...this.paintJourney(route, false, () => this.handlers.leg(i)));
       });
-      if (timetablePreview) area.push(...this.paintJourney(timetablePreview.route, true));
-      const all = [...stops, ...(filters.options && !explorer ? options : [])];
+      if (!explorer && timetablePreview) area.push(...this.paintJourney(timetablePreview.route, true));
+      const all = explorer ? [] : [...stops, ...(filters.options ? options : [])];
       const visible = all.map((item, i) => ({ item, alt: i >= stops.length }))
         .filter(({ item }) => item.point && (item.kind !== 'lodging' || filters.hotels)
           && (item.kind !== 'transport' || filters.stations) && (item.kind !== 'activity' || filters.activities));
