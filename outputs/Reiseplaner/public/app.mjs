@@ -1,9 +1,9 @@
-import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, localParts, minor, priceForParty } from './model.mjs';
+import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty } from './model.mjs';
 import { renderShell, mapDetail } from './views.mjs';
 import { TripMap } from './map.mjs';
 import { transitFares } from './transit.mjs';
 import { btn, empty, esc, icon } from './ui.mjs';
-import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, mealForm, openDialog, routeForm, simpleField, timetableForm } from './forms.mjs';
+import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm } from './forms.mjs';
 
 const app = document.querySelector('#app');
 const toast = document.querySelector('#toast');
@@ -461,6 +461,19 @@ async function action(name, value = '') {
     case 'meal-cost':
       if (item?.mealSlot && ctx.activeSet.has(item.id)) expenseForm(ctx, ctx.state.expenses.find(e => e.forItem === item.id), save, item);
       break;
+    case 'grocery-edit': {
+      const row = groceryBasket(ctx.active.filter(item => !ctx.state.expenses.some(e => e.forItem === item.id)),
+        ctx.people.length, ctx.state.groceryOverrides ?? {}).find(entry => entry.key === value && entry.city === ctx.city);
+      if (row) groceryEditForm(ctx, row, save);
+      break;
+    }
+    case 'grocery-reset': {
+      const overrides = { ...ctx.state.groceryOverrides };
+      if (!Object.hasOwn(overrides, value)) break;
+      delete overrides[value];
+      await save({ ...ctx.state, groceryOverrides: overrides }, 'Warenkorb-Referenz wiederhergestellt');
+      break;
+    }
     case 'meal-choose': {
       const option = catalog.mealPlans?.[ctx.city]?.find(plan => plan.id === value);
       if (option) mealForm(ctx, option, save, id => {
