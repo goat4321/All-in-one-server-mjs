@@ -79,7 +79,7 @@ export function planReadiness(trip, selectedItems, budget) {
   ).map(([city]) => city);
   const trainLegs = selectedItems.filter(item => item.kind === 'transport' && item.mode === 'train');
   const uncheckedTrains = trainLegs.filter(item =>
-    !item.booked && !['Fahrplan bestätigt', 'Fahrplan geprüft'].includes(item.verification)
+    !['Fahrplan bestätigt', 'Fahrplan geprüft'].includes(item.verification)
   ).length;
   return {
     missingStays,
