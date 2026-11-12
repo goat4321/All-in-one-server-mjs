@@ -182,10 +182,21 @@ function mapPanel(ctx, full = false) {
 function overview(ctx) {
   const { trip, catalog } = ctx;
   const readiness = planReadiness(trip, ctx.active, ctx.budget);
+  const lodgingUnchecked = ctx.active.filter(item => item.kind === 'lodging'
+    && !item.booked && !reviewProgress('lodging', ctx.state.verifications?.[item.id], ctx.people.length).complete).length;
+  const railChecks = ctx.active.filter(item => item.kind === 'transport' && item.mode === 'train');
+  const railUnchecked = railChecks.filter(item =>
+    !reviewProgress('transport', ctx.state.verifications?.[item.id], ctx.people.length).complete).length;
+  const validLocalSchedule = catalog.transitSchedules?.[ctx.city];
+  const missingLocalSchedule = validLocalSchedule
+    && (ctx.date < validLocalSchedule.from || ctx.date > validLocalSchedule.to);
   const readinessRows = [
     ['Unterkunft', readiness.missingStays.length ? readiness.missingStays.length + ' Aufenthaltsorte noch nicht vollständig gewählt' : 'Alle bekannten Aufenthalte einer aktiven Unterkunft zugeordnet',
       'lodging', 'Unterkünfte prüfen'],
     ['Bahn', readiness.uncheckedTrains + ' ausgewählte Bahnabschnitte ohne bestätigten Fahrplan', 'rail', 'Bahn prüfen'],
+    ['Zuganbieter-Prüfung', railUnchecked + ' von ' + railChecks.length + ' Bahnabschnitten ohne vollständig dokumentierte Eigenprüfung; keine echte Reservierungsbestätigung', 'rail', 'Belege dokumentieren'],
+    ['Unterkunfts-Checkout', lodgingUnchecked + ' ausgewählte, ungebuchte Unterkünfte ohne vollständigen eigenen Checkout-/Bettennachweis', 'lodging', 'Zimmer und Endpreise prüfen'],
+    ['ÖPNV-Fahrplandaten', missingLocalSchedule ? 'Lokaler Fahrplan endet ' + dateText(validLocalSchedule.to) + ', Reisetag ' + dateText(ctx.date) + ' liegt außerhalb des Datenzeitraums' : validLocalSchedule ? 'Lokales GTFS-Paket deckt den gewählten Tag ab; Betrieb und Preise weiter prüfen' : 'Nur statische Kartenreferenz, kein vollständiger lokaler Fahrplandatensatz', 'map', 'Karten-/Fahrplanstand prüfen'],
     ['Kosten', readiness.unknownPrices + ' aktive Posten ohne umrechenbaren Gruppenpreis', 'budget', 'Budget öffnen'],
     ['Datenherkunft', readiness.missingOriginalSources ? 'Nur reduziertes Recherchearchiv – Original-Snapshots fehlen' : 'Lokale Tripsy-Quelldateien vorhanden',
       'data', 'Quellen prüfen'],
