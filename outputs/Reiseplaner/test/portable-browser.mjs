@@ -69,7 +69,9 @@ try {
   };
   const save = async () => {
     await click('dialog [type=submit]');
-    await until(() => js('document.querySelector("dialog")?.open === false'), 'Dialog wird gespeichert');
+    const result = await until(() => js('(() => { const d = document.querySelector("dialog"); return d?.open === false ? "closed" : d?.querySelector(".form-error")?.textContent || null; })()'),
+      'Dialog wird gespeichert');
+    if (result !== 'closed') throw new Error('Validierungsfehler beim Speichern: ' + result);
   };
   await cdp('Runtime.enable');
   await cdp('Page.enable');
