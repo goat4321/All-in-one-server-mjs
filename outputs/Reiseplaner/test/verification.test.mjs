@@ -70,6 +70,9 @@ test('Unsupported item, future data shape, invalid URL, wrong party and negative
   } });
   assert.throws(() => validateState(corrupt({ checks: { hacked: true } }), classic, []), /Prüfstatus/);
   assert.throws(() => validateState(corrupt({ evidenceUrl: 'javascript:alert(1)' }), classic, []), /Prüfstatus/);
-  assert.throws(() => validateState(corrupt({ groupSize: 4 }), classic, []), /Prüfstatus/);
+  assert.doesNotThrow(() => validateState(corrupt({ groupSize: 4 }), classic, []));
+  assert.equal(reviewProgress('transport', {
+    ...state.verifications[firstLeg.id], groupSize: 4,
+  }, 3).description, 'Andere Gruppengröße · neu prüfen');
   assert.throws(() => validateState(corrupt({ quotedCents: -1 }), classic, []), /Prüfstatus/);
 });
