@@ -2,7 +2,7 @@ name: Reiseplaner · Branch-Qualitätsprüfung
 
 on:
   push:
-    branches: [feature/v7-resilient-seed-fallback, feature/v7-curated-research-v02, feature/v7-verification-sources-2027]
+    branches: [feature/v7-resilient-seed-fallback, feature/v7-curated-research-v02, feature/v7-verification-sources-2027, feature/v7-unified-map-and-day-builder]
   pull_request:
     paths:
       - "outputs/Reiseplaner/**"
