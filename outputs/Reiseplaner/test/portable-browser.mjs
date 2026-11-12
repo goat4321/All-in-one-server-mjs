@@ -75,6 +75,32 @@ try {
   await cdp('Page.enable');
   await cdp('Page.navigate', { url: address });
   await text('h1', 'Barcelona');
+  // All archived research areas are exposed in the actual UI, read-only by default.
+  await click('.sidebar [data-action=page][data-value=group]');
+  await text('#main', 'Umfrage · drei Personen');
+  await text('#main', 'Meer und Strände besuchen');
+  await text('#main', '60 €');
+  await click('.sidebar [data-action=page][data-value=lodging]');
+  await text('#main', 'Suchpreis-Snapshots');
+  await click('[data-action=option-filter][data-value=search]');
+  await text('.grid-cards', 'HeyLola! Hostel');
+  await text('.grid-cards', '31,77');
+  assert.equal(await js('document.querySelectorAll(".option-card").length'), 10);
+  assert.ok(await js('!document.querySelector(".option-card").textContent.includes("gebucht")')
+    || await js('document.querySelector(".option-card").textContent.includes("nicht gebucht")'));
+  await click('.sidebar [data-action=page][data-value=discover]');
+  await text('.grid-cards', 'Gruppeninteresse');
+  await set('#sort', 'score');
+  await js('document.querySelector("#sort").dispatchEvent(new Event("change", { bubbles: true }))');
+  await text('#main', 'Gruppeninteresse');
+  await click('.sidebar [data-action=page][data-value=rail]');
+  await text('#main', 'Fahrplan- und Preisrecherche · 2027');
+  await text('#main', 'Alternative Bahnverbindungen · Hypothesen');
+  await click('.sidebar [data-action=page][data-value=data]');
+  await text('#main', 'Forschungsarchiv');
+  await text('#main', 'Offene Datenqualitätsbefunde');
+  await click('.sidebar [data-action=page][data-value=budget]');
+  await text('#main', 'Was-wäre-wenn-Szenarien');
   await click('.sidebar [data-action=page][data-value=overview]');
   await text('#main', 'Varianten im Vergleich');
   await text('#main', 'Personenanteile');
