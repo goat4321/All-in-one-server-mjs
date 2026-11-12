@@ -3,6 +3,7 @@ import { renderShell, mapDetail } from './views.mjs';
 import { TripMap } from './map.mjs';
 import { transitFares } from './transit.mjs';
 import { railSalesStatus } from './verification.mjs';
+import { explorerData, explorerRouteInput } from './map-explorer.mjs';
 import { btn, empty, esc, icon } from './ui.mjs';
 import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
@@ -16,6 +17,8 @@ const view = {
   theme: localStorage.getItem('reiseplan-theme') ?? 'light',
   filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
   optionFilter: 'all', sort: 'source', compareIds: new Set(),
+  mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60,
+  mapFrom: null, mapTo: null, mapRouteMode: 'walk', mapRouteTime: '10:00', mapRouteResult: null,
 };
 const walks = new Map();
 const pendingWalks = new Map();
@@ -95,13 +98,28 @@ function buildContext() {
   const foodPlaces = all.filter(i => i.city === city && i.category === 'food' && i.kind === 'activity'
     && !i.mealPlanId && !i.duplicateOf && !i.removed);
   const foodWalks = Object.fromEntries(foodPlaces.map(item => [item.id, walks.get(walkKey(mealHotel?.point, item.point))]));
-  const detail = day.find(i => i.entryKey === view.selected) ?? all.find(i => i.id === view.selected);
+  let detail = day.find(i => i.entryKey === view.selected) ?? all.find(i => i.id === view.selected);
+  const explorer = view.page === 'map' ? {
+    ...explorerData(all, trip, {
+      city: view.mapScope === 'city' ? city : null,
+      group: view.mapGroup, search: view.mapSearch,
+    }),
+    scope: view.mapScope, group: view.mapGroup, search: view.mapSearch,
+    limit: view.mapListLimit, routeMode: view.mapRouteMode, routeTime: view.mapRouteTime,
+    connection: {
+      from: all.find(i => i.id === view.mapFrom) ?? null,
+      to: all.find(i => i.id === view.mapTo) ?? null,
+      status: view.mapRouteResult?.status ?? null,
+      route: view.mapRouteResult?.route ?? null,
+    },
+  } : null;
+  if (!detail && explorer) detail = [...explorer.placed, ...explorer.unlocated].find(i => i.id === view.selected) ?? null;
   const preview = view.timetablePreview;
   const timetablePreview = preview?.variantId === variant.id && preview.planDate === date && segments.some(s => s.key === preview.key) ? preview : null;
   return {
     ...view, catalog, variant, variants: catalog.variants, trip, cities: catalog.cities, state, people, all, active, activeSet,
     budget: calculateBudget(active, state), day, fullDay, dates, date, city, cityForDay, dayCities, wholeDay, dayTravel, detail, hotelWalks, station,
-    mealHotel, foodPlaces, foodWalks,
+    mealHotel, foodPlaces, foodWalks, explorer,
     stops: stops.filter((item, i) => stops.indexOf(item) === i), segments, routes, conflictRoutes, saving, timetablePreview,
     options: all.filter(i => i.city === city && !activeSet.has(i.id) && !i.duplicateOf && !i.removed),
   };
@@ -115,7 +133,8 @@ function paintMap(fit = false) {
   if (!currentMap) return;
   currentMap.paint({ trip: context.trip, city: context.city, cities: context.cities, entries: context.day, stops: context.stops,
     dayTravel: context.dayTravel, routes: context.routes, options: context.options, total: context.total,
-    filters: context.filters, focused: context.selected, timetablePreview: context.timetablePreview });
+    filters: context.filters, focused: context.selected, timetablePreview: context.timetablePreview,
+    explorer: context.explorer });
   if (fit) currentMap.fit();
 }
 
@@ -241,6 +260,7 @@ async function switchVariant(id) {
     variant = await api('/api/variant/' + encodeURIComponent(id));
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
+    view.mapFrom = view.mapTo = view.mapRouteResult = null;
     view.total = view.menu = false;
     view.compareIds.clear();
     render();
@@ -275,12 +295,60 @@ function showTimetable(ctx, search) {
   });
 }
 
+async function calculateExplorerRoute() {
+  if (!context || context.page !== 'map') return;
+  const ctx = context;
+  const pooled = [...ctx.all, ...(ctx.explorer?.placed ?? []), ...(ctx.explorer?.unlocated ?? [])];
+  const from = pooled.find(item => item.id === view.mapFrom);
+  const to = pooled.find(item => item.id === view.mapTo);
+  const input = explorerRouteInput(from, to);
+  if (!input) {
+    view.mapRouteResult = { status: 'Bitte zwei verschiedene Orte mit belegten Koordinaten auswählen.', route: null };
+    render({ restoreView: true, fetchRoutes: false });
+    return;
+  }
+  const selectedVariant = variant.id;
+  const fromId = from.id, toId = to.id, mode = view.mapRouteMode, when = view.mapRouteTime, date = ctx.date;
+  view.mapRouteResult = { status: 'Prüfe eine verfügbare Verbindungsquelle …', route: null };
+  render({ restoreView: true, fetchRoutes: false });
+  try {
+    if (!input.sameCity) throw new Error('Orte liegen in unterschiedlichen Städten. Nutze die externe ÖPNV-Routenansicht oder das Bahnmodul. Eine lokale Stadtverbindung wird nicht erfunden.');
+    if (!input.canWalk) throw new Error('Für diese Entfernung liegt keine belastbare lokale Wegberechnung vor. Eine externe Verkehrsplanung ist erforderlich.');
+    let route;
+    if (mode === 'walk') {
+      route = await api('/api/walk', 'POST', { points: input.points });
+      if (!route?.walkOnly || !Array.isArray(route.points) || route.points.length < 2)
+        throw new Error('Fußrouter hat keine nachvollziehbare Straßenroute geliefert.');
+    } else {
+      const meta = catalog.transitSchedules?.[from.city];
+      if (!meta || date < meta.from || date > meta.to)
+        throw new Error('Kein gültiges ÖPNV-Fahrplanpaket für ' + date + ' verfügbar. Bitte die externe ÖPNV-Verbindung beim Anbieter prüfen.');
+      const results = await api('/api/transit', 'POST', {
+        city: from.city, points: input.points, date, time: when, excluded: [],
+      });
+      route = results.routes?.[0];
+      if (!route?.legs?.length)
+        throw new Error('Im vorhandenen Fahrplanpaket keine passende Verbindung gefunden. Betreiberplaner verwenden.');
+    }
+    if (variant.id !== selectedVariant || view.mapFrom !== fromId || view.mapTo !== toId
+      || view.mapRouteMode !== mode || view.mapRouteTime !== when || context.date !== date) return;
+    view.mapRouteResult = { status: 'Routenquelle wurde geladen; Öffnungs- und Tarifbedingungen am Reisetag prüfen.', route };
+    render({ restoreView: true, fetchRoutes: false });
+    currentMap?.focusConnection(from.point, to.point);
+  } catch (error) {
+    if (variant.id !== selectedVariant || view.mapFrom !== fromId || view.mapTo !== toId) return;
+    view.mapRouteResult = { status: error.message, route: null };
+    render({ restoreView: true, fetchRoutes: false });
+  }
+}
+
 function changePage(page) {
   if (!['overview', 'plan', 'map', 'rail', 'lodging', 'discover', 'food', 'budget', 'group', 'data'].includes(page)) return;
   view.page = page;
   view.menu = false;
   view.optionFilter = 'all';
   if (page !== 'map') view.total = false;
+  if (page === 'map' && view.mapScope === 'trip') view.total = true;
   window.scrollTo({ top: 0, behavior: 'instant' });
   render();
 }
@@ -348,7 +416,9 @@ function exportCalendar() {
 async function action(name, value = '') {
   if (!context) return;
   const ctx = context;
-  const item = ctx.all.find(i => i.id === value);
+  const item = ctx.all.find(i => i.id === value)
+    ?? ctx.explorer?.placed.find(i => i.id === value)
+    ?? ctx.explorer?.unlocated.find(i => i.id === value);
   switch (name) {
     case 'page': changePage(value); break;
     case 'menu': view.menu = !view.menu; render({ restoreView: true }); break;
@@ -356,7 +426,7 @@ async function action(name, value = '') {
       view.theme = view.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('reiseplan-theme', view.theme); render({ restoreView: true }); break;
     case 'variant': await switchVariant(value); break;
     case 'city':
-      if (view.page === 'map' && view.total) view.page = 'plan';
+      if (view.page === 'map') { view.mapScope = 'city'; view.total = false; }
       showCity(value); break;
     case 'day': showCity(ctx.cityForDay(value), value, view.wholeDay === true || ctx.trip.id === 'swiss_lakes'); break;
     case 'day-place':
@@ -364,6 +434,39 @@ async function action(name, value = '') {
     case 'mobile': view.mobile = value; render(); break;
     case 'show-route': view.total = true; changePage('map'); break;
     case 'map-mode': view.total = value === 'total'; render(); break;
+    case 'explorer-scope':
+      view.mapScope = value === 'city' ? 'city' : 'trip';
+      view.total = view.mapScope === 'trip';
+      view.mapListLimit = 60; render(); break;
+    case 'explorer-group':
+      if (!['all', 'lodging', 'food', 'shop', 'activity', 'transport'].includes(value)) break;
+      view.mapGroup = value; view.mapListLimit = 60; render({ restoreView: true }); break;
+    case 'explorer-search':
+      view.mapSearch = document.querySelector('#map-search')?.value?.trim().slice(0, 100) ?? '';
+      view.mapListLimit = 60; render({ restoreView: true }); break;
+    case 'explorer-more':
+      view.mapListLimit += 60; render({ restoreView: true }); break;
+    case 'explorer-focus':
+      if (item?.point) selectPoint(value, true); break;
+    case 'explorer-start':
+    case 'explorer-end':
+      if (!item?.point) { say('Für diesen Ort fehlen exakte Koordinaten.'); break; }
+      if (name === 'explorer-start') view.mapFrom = value;
+      else view.mapTo = value;
+      view.mapRouteResult = null;
+      if (view.mapFrom && view.mapTo) await calculateExplorerRoute();
+      else render({ restoreView: true }); break;
+    case 'explorer-mode':
+      view.mapRouteMode = value === 'transit' ? 'transit' : 'walk';
+      view.mapRouteResult = null;
+      if (view.mapFrom && view.mapTo) await calculateExplorerRoute();
+      else render({ restoreView: true }); break;
+    case 'explorer-route':
+      view.mapRouteTime = document.querySelector('#explorer-time')?.value ?? view.mapRouteTime;
+      await calculateExplorerRoute(); break;
+    case 'explorer-clear-route':
+      view.mapFrom = view.mapTo = view.mapRouteResult = null;
+      render({ restoreView: true }); break;
     case 'fit': currentMap?.fit(); break;
     case 'filter': view.filters[value] = !view.filters[value]; render({ restoreView: true }); break;
     case 'transit': view.filters.transit[value] = !view.filters.transit[value]; render({ restoreView: true }); break;
@@ -560,6 +663,8 @@ document.addEventListener('click', event => {
 app.addEventListener('change', event => {
   if (event.target.id === 'variant') void switchVariant(event.target.value).catch(error => say(error.message));
   if (event.target.id === 'sort') { view.sort = event.target.value; render({ restoreView: true }); }
+  if (event.target.id === 'map-search') { view.mapSearch = event.target.value.trim().slice(0, 100); view.mapListLimit = 60; render({ restoreView: true }); }
+  if (event.target.id === 'explorer-time') { view.mapRouteTime = event.target.value; view.mapRouteResult = null; render({ restoreView: true }); }
   if (event.target.id === 'meal-date' && context.dates.includes(event.target.value)) showCity(context.city, event.target.value);
 });
 app.addEventListener('submit', async event => {

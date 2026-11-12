@@ -32,7 +32,7 @@ async function until(fn, label, timeout = 12000) {
 let socket;
 try {
   const port = await until(async () => (await readFile(join(profile, 'DevToolsActivePort'), 'utf8')).split('\n')[0],
-    'Chrome CDP Port', 16000);
+    'Chrome CDP Port', 30000);
   const targets = await (await fetch('http://127.0.0.1:' + port + '/json/list')).json();
   socket = new WebSocket(targets.find(target => target.type === 'page').webSocketDebuggerUrl);
   await once(socket, 'open');
@@ -69,11 +69,43 @@ try {
   };
   const save = async () => {
     await click('dialog [type=submit]');
-    await until(() => js('document.querySelector("dialog")?.open === false'), 'Dialog wird gespeichert');
+    const result = await until(() => js('(() => { const d = document.querySelector("dialog"); return d?.open === false ? "closed" : d?.querySelector(".form-error")?.textContent || null; })()'),
+      'Dialog wird gespeichert');
+    if (result !== 'closed') throw new Error('Validierungsfehler beim Speichern: ' + result);
   };
   await cdp('Runtime.enable');
   await cdp('Page.enable');
   await cdp('Page.navigate', { url: address });
+  await text('h1', 'Barcelona');
+  // Global trip explorer: all source-backed categories, geographic scope,
+  // search, real routing attempt and explicitly adding a restaurant to a day.
+  await click('.sidebar [data-action=page][data-value=map]');
+  await text('h1', 'Karten-Explorer');
+  await text('#main', 'Alle passenden Orte');
+  await until(() => js('document.querySelectorAll("#map .pin.place-activity, #map .pin.place-food, #map .pin.place-lodging").length > 0'),
+    'Kategorie-Pins im Reiseatlas');
+  await text('#main', 'Tagesideen aus deinem älteren Reiseprofil');
+  await click('[data-action=explorer-scope][data-value=city]');
+  await click('[data-action=explorer-group][data-value=food]');
+  await until(() => js('document.querySelectorAll("#map .pin.place-food").length > 0 && document.querySelectorAll("#map .pin.place-lodging").length === 0'), 'Nur Restaurantkategorie im Städtefilter');
+  await text('#main', 'Bormuth');
+  await set('#map-search', 'Bormuth');
+  await click('[data-action=explorer-search]');
+  await until(() => js('document.querySelectorAll(".explorer-place").length === 1'), 'Restaurantsuche');
+  await text('.explorer-place', 'Bormuth');
+  await set('#map-search', '');
+  await click('[data-action=explorer-search]');
+  await text('#main', 'Taberna Nardi');
+  await click('[data-action=explorer-start][data-value="local:bormuth"]');
+  await click('[data-action=explorer-end][data-value="local:nardi"]');
+  await until(() => js('document.querySelector(".explorer-status")?.textContent.includes("Fußweg")'),
+    'Fußroute oder ehrliche Router-Fehlermeldung');
+  await text('#main', 'ÖPNV-Route extern ansehen');
+  await click('[data-action=choose][data-value="local:nardi"]');
+  await text('dialog', 'Aktivität einplanen');
+  await save();
+  assert.equal(store.current('interrail_classic').state.edits['local:nardi'].selected, true);
+  assert.equal(store.current('interrail_swiss').state.edits['local:nardi'], undefined);
   await text('h1', 'Barcelona');
   // All archived research areas are exposed in the actual UI, read-only by default.
   await click('.sidebar [data-action=page][data-value=group]');

@@ -97,3 +97,13 @@ Unter **Übersicht → Offizielle Reiseregeln für 2027** findest du jetzt für 
 ## Vollständige lokale Tests mit privaten Tripsy-Dateien
 
 Für die frühere vollständige Core-/Browser-Abnahme gibt es jetzt `Pruefen.cmd` (Windows) und `TEST_LOCAL.md`. Das Skript erkennt fehlende private Originaldateien ausdrücklich als **Teilprüfung**, führt sie nur lokal aus und meldet ein fehlgeschlagenes Ergebnis ohne falsche Erfolgsmeldung. Keine Originaldateien werden automatisch nach GitHub übertragen.
+
+## Vollständiger Karten-Explorer und Tagesplan aus allen bisherigen Daten
+
+Im Menü **Karte** gibt es jetzt einen gemeinsamen Karten-Explorer für **alle vier Reisevarianten und ihre jeweiligen Städte**. Hotels/Hostels sind **blau**, Restaurants/Cafés **orange**, Supermärkte/Einkauf **gelb**, Aktivitäten **grün** und Verkehrspunkte **lila**. Suche, Stadt-/Gesamtfilter und eine scrollbare Liste zeigen alle bereits recherchierten Kandidaten, auch wenn präzise Standortkoordinaten noch fehlen. Die Details enthalten die *tatsächlich vorhandenen* Tätigkeits-/Restaurantbeschreibungen, Speisen, Preise, Öffnungszeiten, Unterkünfte, Betten/Küche/Bad/Storno, Quellstatus und anklickbare Anbieterbelege; Unbekanntes bleibt ausdrücklich offen.
+
+**A nach B:** „Als Start“ und „Als Ziel“ an zwei Punkten wählen. **Zu Fuß** nutzt den bereits bestehenden OSRM-/OSM-Router mit echter Geometrie oder gibt einen offenen Wegstatus zurück. **ÖPNV** nutzt vorhandene GTFS-Fahrpläne nur im echten Gültigkeitszeitraum, ansonsten wird auf externe Betreiber-/Navigationslinks verwiesen. Abfahrten/Preise für September 2027 werden nicht aus alten Referenzen erfunden.
+
+**Tagesplan:** Reisetag oben auswählen, Vorschläge ansehen, gewünschte Aktivitäten bewusst in den vorhandenen Tagesplan übernehmen. Das frühere vollständige Forschungs-ZIP wurde nochmals abgeglichen: 21 Ortspakete und 14 optionale klassische September-Tagesideen sind als `data/research-v02/city-coverage-v02.json` und `day-suggestions-v02.json` neu berücksichtigt. Sie enthalten keine eigenständigen Buchungen und verändern keine Tripsy-Originalroute.
+
+Ausführliche Anleitung: `MAP_EXPLORER.md`. Ehrliche Einzelabdeckung pro Reise und Ort: `MAP_DATA_COVERAGE.md`. Aktuelle Auswertung: `npm run report:map` oder `node test/map-coverage.mjs --json`. Die Tests bleiben im Node-24-GitHub-Workflow; private vollständige Tripsy-Dateien müssen weiterhin auf dem Originalrechner separat mit `Pruefen.cmd` geprüft werden.

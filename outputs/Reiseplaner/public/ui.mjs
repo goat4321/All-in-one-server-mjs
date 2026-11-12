@@ -5,6 +5,7 @@ const paths = {
   car:'<path d="m5 10 2-5h10l2 5m-15 7v2m16-2v2M7 14h.01M17 14h.01"/><rect x="3" y="10" width="18" height="7" rx="2"/>',
   calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',
   map:'<path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6zm6-3v15m6-12v15"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/>',
   bed:'<path d="M3 18v-7m18 7v-5a2 2 0 0 0-2-2h-8v5m-8 0h18M7 11V8h4v3M3 12h8"/>',
   compass:'<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2z"/>',
   wallet:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M21 10h-6a2 2 0 0 0 0 4h6m-6-2h.01"/>',

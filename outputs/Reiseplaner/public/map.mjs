@@ -1,5 +1,6 @@
 import { transitNetworks } from './transit.mjs';
 import { localParts } from './model.mjs';
+import { explorerCategory } from './map-explorer.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
@@ -60,7 +61,7 @@ export class TripMap {
     return marker;
   }
 
-  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview }) {
+  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null }) {
     this.city = city;
     this.features.clearLayers();
     this.markers.clear();
@@ -75,34 +76,74 @@ export class TripMap {
         if (ordered.indexOf(id) === i) this.marker(cities[id].point, id, cities[id].name, i + 1, 'train', () => this.handlers.visitCity(id));
       });
     } else {
-      if (filters.stations) for (const [departure, arrival] of dayTravel) {
+      if (!explorer && filters.stations) for (const [departure, arrival] of dayTravel) {
         const line = L.polyline([departure.point, arrival.point], { color: '#71598c', weight: 3, dashArray: '7 8' }).addTo(this.features);
         line.bindTooltip(labelNode(departure.name + ' · schematischer Verlauf'));
         line.on('click', () => this.handlers.select(departure.entryKey));
       }
-      if (filters.walk) routes.forEach((route, i) => {
+      if (!explorer && filters.walk) routes.forEach((route, i) => {
         if (!route?.points?.length) return;
         const line = L.polyline(route.points, { color: '#24765a', weight: 4, opacity: .86 }).addTo(this.features);
         line.bindTooltip(labelNode(route.mode + ' · ' + route.minutes + ' Min.'));
         line.on('click', () => this.handlers.leg(i));
         area.push(...route.points);
       });
-      routes.forEach((route, i) => {
+      if (!explorer) routes.forEach((route, i) => {
         if (route?.legs?.length) area.push(...this.paintJourney(route, false, () => this.handlers.leg(i)));
       });
-      if (timetablePreview) area.push(...this.paintJourney(timetablePreview.route, true));
-      const all = [...stops, ...(filters.options ? options : [])];
+      if (!explorer && timetablePreview) area.push(...this.paintJourney(timetablePreview.route, true));
+      const all = explorer ? [] : [...stops, ...(filters.options ? options : [])];
       const visible = all.map((item, i) => ({ item, alt: i >= stops.length }))
         .filter(({ item }) => item.point && (item.kind !== 'lodging' || filters.hotels)
           && (item.kind !== 'transport' || filters.stations) && (item.kind !== 'activity' || filters.activities));
       const byPoint = Map.groupBy(visible, ({ item }) => item.point.map(value => value.toFixed(5)).join(','));
       for (const colocated of byPoint.values()) for (const [i, { item, alt }] of colocated.entries()) {
         const key = item.entryKey ?? item.id;
-        const color = [alt ? 'alt' : item.kind === 'transport' ? 'train' : '', key === focused ? 'focused' : ''].join(' ');
+        const color = [explorer ? 'place-' + explorerCategory(item) : alt ? 'alt' : item.kind === 'transport' ? 'train' : '', key === focused ? 'focused' : ''].join(' ');
         const offset = (i - (colocated.length - 1) / 2) * 24;
-        this.marker(item.point, key, item.role ? item.role + ' · ' + item.name : item.name, alt ? '+' : item.anchor ? 'H'
-          : (entries.findIndex(entry => entry.entryKey === key) + 1 || '•'), color, () => this.handlers.select(key), offset);
+        this.marker(item.point, key, item.role ? item.role + ' · ' + item.name : item.name,
+          explorer ? ({lodging:'H',food:'R',shop:'S',activity:'A',transport:'B'}[explorerCategory(item)])
+            : alt ? '+' : item.anchor ? 'H' : (entries.findIndex(entry => entry.entryKey === key) + 1 || '•'),
+          color, () => this.handlers.select(key), offset);
         if (!alt) area.push(item.point);
+      }
+    }
+    if (explorer?.placed?.length) {
+      // Existing markers from the day view are reused instead of drawn twice.
+      // In the trip-wide mode the city anchors remain separate from POIs.
+      const located = explorer.placed.filter(item => Array.isArray(item.point) && item.point.length === 2
+        && !this.markers.has(item.explorerId ?? item.id));
+      const grouped = Map.groupBy(located, item => item.point.map(value => value.toFixed(5)).join(','));
+      for (const cluster of grouped.values()) cluster.forEach((item, index) => {
+        const key = item.explorerId ?? item.id;
+        const category = item.explorerCategory ?? 'activity';
+        const offset = (index - (cluster.length - 1) / 2) * 24;
+        this.marker(item.point, key, item.name, {lodging:'H',food:'R',shop:'S',activity:'A',transport:'B'}[category],
+          'place-' + category + ' explorer-pin' + (focused === key ? ' focused' : ''),
+          () => this.handlers.select(key), offset);
+        area.push(item.point);
+      });
+    }
+    if (explorer?.connection?.route?.points?.length > 1) {
+      const route = explorer.connection.route;
+      const points = route.points.filter(p => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite));
+      if (points.length > 1) {
+        L.polyline(points, {color:'#0c977b',weight:6,opacity:.95,className:'explorer-walk-line'})
+          .addTo(this.features)
+          .bindTooltip(labelNode('Berechneter Fußweg · ' + route.minutes + ' Min. · ' + route.metres + ' m'));
+        area.push(...points);
+      }
+    }
+    if (explorer?.connection?.route?.legs?.length) {
+      area.push(...this.paintJourney(explorer.connection.route, true));
+    }
+    if (explorer?.connection?.from?.point && explorer?.connection?.to?.point) {
+      for (const [point, color, title] of [
+        [explorer.connection.from.point, '#15803d', 'Start'],
+        [explorer.connection.to.point, '#be123c', 'Ziel']]) {
+        L.circleMarker(point,{radius:9,color:'#ffffff',weight:3,fillColor:color,fillOpacity:1})
+          .addTo(this.features).bindTooltip(labelNode(title));
+        area.push(point);
       }
     }
     if (!total && cities[city]?.country === 'CH' && filters.hiking) this.hiking.addTo(this.map);
@@ -186,6 +227,12 @@ export class TripMap {
     this.map.invalidateSize({ pan: false });
     if (this.bounds?.length > 1) this.map.fitBounds(this.bounds, { padding: [35, 35], maxZoom: 15, animate: false });
     else if (this.bounds?.length) this.map.setView(this.bounds[0], 13, { animate: false });
+  }
+
+  focusConnection(a, b) {
+    if (!a || !b) return;
+    this.map.invalidateSize({pan: false});
+    this.map.fitBounds([a,b], { padding: [58,58], maxZoom: 15, animate: false });
   }
 
   focus(id) {
