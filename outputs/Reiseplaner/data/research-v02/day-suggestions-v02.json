@@ -1,0 +1,203 @@
+{
+  "source": "reiseplaner_codex_seed_v0_2_2026-11-12.zip / daily_group_plan_suggestions.json",
+  "version": "v0.2-derived-minimal",
+  "trip_id": "interrail_classic",
+  "columns": [
+    "date",
+    "city",
+    "day_character",
+    "anchor_ids",
+    "optional_ids",
+    "notes"
+  ],
+  "is_active_itinerary": false,
+  "is_optional_suggestion": true,
+  "rows": [
+    [
+      "2027-09-01",
+      "paris",
+      "arrive_and_explore",
+      [
+        "a001",
+        "a003"
+      ],
+      [
+        "suggest_005"
+      ],
+      "pause_after_train"
+    ],
+    [
+      "2027-09-02",
+      "paris",
+      "active_exploration",
+      [
+        "suggest_001",
+        "a004"
+      ],
+      [
+        "a032",
+        "suggest_003"
+      ],
+      "C prefers more art than Naol; choose alternative rather than mandatory visit"
+    ],
+    [
+      "2027-09-03",
+      "barcelona",
+      "arrival_beach",
+      [
+        "suggest_007",
+        "a007"
+      ],
+      [
+        "suggest_011"
+      ],
+      "night_arrival_and_sleep"
+    ],
+    [
+      "2027-09-04",
+      "barcelona",
+      "high_activity",
+      [
+        "suggest_008",
+        "suggest_010"
+      ],
+      [
+        "a011",
+        "suggest_013"
+      ],
+      "only planned club night on trip; do not force payment"
+    ],
+    [
+      "2027-09-05",
+      "barcelona",
+      "flex_day",
+      [
+        "a009",
+        "a012"
+      ],
+      [
+        "a035",
+        "a036",
+        "suggest_009"
+      ],
+      "rotate preferences, optional individual activity"
+    ],
+    [
+      "2027-09-06",
+      "sete",
+      "arrival_relaxed",
+      [
+        "a014",
+        "a015"
+      ],
+      [
+        "a016"
+      ],
+      "train buffer"
+    ],
+    [
+      "2027-09-07",
+      "sete",
+      "nature_and_water",
+      [
+        "suggest_014",
+        "suggest_015"
+      ],
+      [
+        "suggest_018",
+        "suggest_016"
+      ],
+      "allow leisure, heat-aware"
+    ],
+    [
+      "2027-09-08",
+      "nice",
+      "arrival_coast",
+      [
+        "a018",
+        "a019"
+      ],
+      [
+        "suggest_024"
+      ],
+      "train connection buffer"
+    ],
+    [
+      "2027-09-09",
+      "nice",
+      "swim_and_view",
+      [
+        "a066",
+        "suggest_019"
+      ],
+      [
+        "suggest_022",
+        "suggest_023"
+      ],
+      "2027 park closes 20:00"
+    ],
+    [
+      "2027-09-10",
+      "genoa",
+      "arrival_old_town",
+      [
+        "a023",
+        "a024"
+      ],
+      [
+        "suggest_030"
+      ],
+      "train buffer"
+    ],
+    [
+      "2027-09-11",
+      "genoa",
+      "scenic_coast",
+      [
+        "suggest_025",
+        "a025"
+      ],
+      [
+        "suggest_027",
+        "suggest_026"
+      ],
+      "check park possible closure"
+    ],
+    [
+      "2027-09-12",
+      "venice",
+      "arrival_city",
+      [
+        "a027",
+        "a028"
+      ],
+      [
+        "suggest_035"
+      ],
+      "long rail day"
+    ],
+    [
+      "2027-09-13",
+      "venice",
+      "choose_group_water",
+      [
+        "a030",
+        "a069"
+      ],
+      [
+        "suggest_033",
+        "suggest_032"
+      ],
+      "island fares can exceed cheap local visit"
+    ],
+    [
+      "2027-09-14",
+      "venice",
+      "return_train",
+      [],
+      [],
+      "no fixed attractions before train"
+    ]
+  ],
+  "warning": "These are optional research suggestions, not confirmed open hours, available activities, selected plans or bookings."
+}
