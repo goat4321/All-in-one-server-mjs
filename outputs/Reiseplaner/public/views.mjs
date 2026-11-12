@@ -538,6 +538,17 @@ function group(ctx) {
 function data(ctx) {
   const { trip, state, variant, all, catalog } = ctx;
   const imported = Object.entries(trip.importCounts).map(([key, value]) => [esc(({activities:'Aktivitäten',transportations:'Verbindungen',hostings:'Unterkünfte',expenses:'Budgetreferenzen',documents:'Dokumente'})[key] ?? key), esc(value ?? 'Kein Zugriff')]);
+  const research = catalog.research;
+  const quality = (research?.quality ?? []).filter(item => !item.resolved
+    && (item.trip_id === 'all' || item.trip_id === trip.id));
+  const priorities = { critical: 0, high: 1, medium: 2, low: 3 };
+  quality.sort((a, b) => (priorities[a.severity] ?? 9) - (priorities[b.severity] ?? 9));
+  const qualityRows = quality.map(item => [
+    status(item.severity === 'critical' ? 'Kritisch' : item.severity === 'high' ? 'Hoch'
+      : item.severity === 'medium' ? 'Mittel' : 'Niedrig', ['critical','high'].includes(item.severity) ? 'warn' : ''),
+    esc(item.domain), esc(item.finding), esc(item.action.replaceAll('_', ' ')),
+    (item.source_ids ?? []).map(id => urlLink(catalog.sources[id]?.url, id) || esc(id)).join(' · ') || 'Keine Direktquelle',
+  ]);
   const issues = all.filter(i => i.duplicateOf || i.positionIssue || i.importConflict)
     .map(i => '<li>' + esc(i.originalName ?? i.name) + ' · ' + esc([i.positionIssue, i.importConflict].filter(Boolean).join(' ') || 'Dublettenverdacht, Quelle erhalten') + '</li>');
   const deadlineRows = state.deadlines.slice().sort((a, b) => String(a.when ?? 'z').localeCompare(String(b.when ?? 'z'))).map(d => {
@@ -554,6 +565,16 @@ function data(ctx) {
     + '<section class="section"><div class="subheading compact"><h2>Buchungen & Fristen</h2>' + btn('deadline', 'Frist erfassen', 'plus') + '</div>'
     + (deadlineRows.length ? table(['Eintrag', 'Ortszeit', 'Status', ''], deadlineRows) : empty('Keine bestätigten Fristen', 'Buchungsfenster und Stornierungsbedingungen sind für diese Reise offen.')) + '</section>'
     + '<section class="section"><h2>' + (trip.dataMode === 'research_seed_fallback' ? 'Lokales Recherchearchiv · reduzierter Bestand' : 'Tripsy-Import') + ' · ' + esc(dateText(trip.importedOn)) + '</h2>' + (trip.dataMode === 'research_seed_fallback' ? alert('Kein vollständiger Tripsy-Snapshot. Angezeigte Datensätze sind nur aus dem Forschungs-Seed rekonstruiert; die ursprünglichen Buchungen werden nicht ersetzt.') : '') + table(['Quelle', 'Verfügbar'], imported) + '</section>'
+    + (research ? '<section class="section"><h2>Forschungsarchiv · Stand ' + esc(research.observedOn) + '</h2>'
+      + '<div class="stat-grid">' + stat('Aktivitäten gesamt', String(research.counts.activityCandidates), research.counts.addedActivities + ' neue Ideen')
+      + stat('Unterkunfts-Suchpreise', String(research.counts.accommodationSearchQuotes), 'Nicht checkoutbestätigt')
+      + stat('Zugabschnitte zur Prüfung', String(research.counts.transportLegs), 'Fahrplan 2027 offen')
+      + stat('Datenprobleme dokumentiert', String(research.counts.issues), 'Ausführliche Liste unten')
+      + '</div><p class="muted">Die 20 Quellen-Dateien sind als separate Referenz archiviert. '
+      + 'Neue Vergleichsangebote sind weder bezahlt noch automatisch ausgewählt; 2027er Zeiten und Endpreise bleiben offen.</p></section>' : '')
+    + (qualityRows.length ? '<section class="section"><h2>Offene Datenqualitätsbefunde dieser Reise</h2>'
+      + table(['Schwere', 'Bereich', 'Feststellung', 'Nötiger Schritt', 'Quelle'], qualityRows)
+      + '</section>' : '')
     + (issues.length ? '<section class="section panel panel-pad"><h2>Importhinweise</h2><ul class="sources-list">' + issues.join('') + '</ul></section>' : '')
     + '<section class="section panel panel-pad"><h2>Recherchequellen</h2><ul class="sources-list">'
     + Object.values(catalog.sources).map(s => '<li>' + (urlLink(s.url, s.publisher) || esc(s.publisher)) + ' · ' + esc(s.accessed_on || 'Prüfdatum offen') + '</li>').join('') + '</ul></section>';
