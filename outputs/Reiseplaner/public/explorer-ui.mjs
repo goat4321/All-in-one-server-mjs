@@ -80,3 +80,56 @@ export function explorerList(ctx) {
     + (items.length > ex.limit ? '<div class="explorer-more">' + btn('explorer-more', 'Weitere ' + Math.min(60, items.length - ex.limit) + ' anzeigen', 'plus') + '</div>' : '')
     + '</section>';
 }
+
+
+const themeNames = {
+  arrive_and_explore:'Ankommen und Erkunden', active_exploration:'Aktiv die Stadt erkunden',
+  arrival_beach:'Anreise und Strand', high_activity:'Aktiver Tag', flex_day:'Flexibler Tag',
+  arrival_relaxed:'Entspannte Anreise', nature_and_water:'Natur und Wasser',
+  arrival_coast:'Anreise an die Küste', swim_and_view:'Schwimmen und Aussicht',
+  arrival_old_town:'Ankommen in der Altstadt', scenic_coast:'Küstenpanorama',
+  arrival_city:'Ankunft und Stadtbesuch', choose_group_water:'Inseln / Wasser als Gruppe wählen',
+  return_train:'Rückfahrt – keine festen Aktivitäten',
+};
+const noteNames = {
+  pause_after_train:'Nach der Anreise Pausen einplanen.',
+  'C prefers more art than Naol; choose alternative rather than mandatory visit':'Architektur/Museum als freiwillige Paralleloption, nicht als Pflicht.',
+  night_arrival_and_sleep:'Späte Ankunft: Erholung und Schlaf priorisieren.',
+  'only planned club night on trip; do not force payment':'Optionale Clubnacht: kein Eintritt ohne bewusste Auswahl.',
+  'rotate preferences, optional individual activity':'Unterschiedliche Interessen durch freiwillige Aktivitäten ausgleichen.',
+  'train buffer':'Puffer für Umsteigen und Verspätungen lassen.',
+  'allow leisure, heat-aware':'Erholung, Hitze und Schatten berücksichtigen.',
+  'train connection buffer':'Puffer für Bahnanschluss lassen.',
+  '2027 park closes 20:00':'Parkschließung um 20:00 Uhr laut bisheriger Referenz – am Reisetag erneut prüfen.',
+  'check park possible closure':'Mögliche Parkschließung oder Öffnungszeiten erneut prüfen.',
+  'long rail day':'Längerer Bahntag – keine überfrachtete Planung.',
+  'island fares can exceed cheap local visit':'Inseltickets und Rückfahrten können einen günstig wirkenden Besuch verteuern.',
+  'no fixed attractions before train':'Vor dem Rückreisezug keine festen Aktivitäten eintragen.',
+};
+
+export function explorerDayStrip(ctx) {
+  if (!ctx.explorer) return '';
+  const idea = ctx.catalog.research?.daySuggestions?.find(x => x.date === ctx.date && x.city === ctx.cityForDay(ctx.date));
+  const info = ctx.catalog.research?.cityCoverage?.[ctx.city];
+  const suggestions = idea ? [...idea.anchors.map(x=>({...x,role:'Tagesanker'})),
+    ...idea.alternatives.map(x=>({...x,role:'Optional'}))] : [];
+  return '<section class="explorer-day"><div class="days" aria-label="Reisetag auswählen">'
+    + ctx.dates.map(date => '<button type="button" class="day" data-action="day" data-value="' + esc(date)
+      + '" aria-pressed="' + (date === ctx.date) + '"><strong>' + esc(date.split('-').reverse().slice(0,2).join('.'))
+      + '</strong><small>' + esc(ctx.cities[ctx.cityForDay(date)]?.name ?? 'Reise') + '</small></button>').join('')
+    + '</div>'
+    + (info ? '<p class="muted">Vorhandenes Stadtpaket ' + esc(ctx.cities[ctx.city]?.name ?? ctx.city)
+      + ': ' + info.activityCount + ' Aktivitäten, ' + info.lodgingCount + ' Unterkunftskandidaten, '
+      + info.quoteCount + ' Hotel-Suchpreise. Keine vollständigen 2027er Fahrpläne, finalen Zimmer-Checkouts oder verifizierten ÖPNV-Routen im alten Paket.</p>' : '')
+    + (idea ? '<div class="panel explorer-ideas"><div><strong>Tagesideen aus deinem älteren Reiseprofil · '
+      + esc(themeNames[idea.theme] ?? idea.theme) + '</strong><p class="muted">'
+      + esc(noteNames[idea.note] ?? idea.note) + '</p></div><div class="explorer-idea-list">'
+      + suggestions.map(row => '<div><span>' + esc(row.role + ': ' + row.name) + '</span>'
+        + (row.candidateId && ctx.all.some(i => i.id === row.candidateId && !ctx.activeSet.has(i.id))
+          ? btn('choose','Für diesen Tag prüfen','plus',row.candidateId) : status('Original / bereits vorhanden'))
+        + '</div>').join('')
+      + '</div><small>Nur Vorschläge. Keine Termine, Preise oder Buchungen wurden automatisch übernommen.</small></div>'
+      : '<p class="muted">Für diesen Tag liegt keine frühere Tagesvorlage vor. Nutze Karte, Filter und „Zum Tagesplan hinzufügen“, um ihn selbst zu gestalten.</p>')
+    + '</section>';
+}
+
