@@ -471,8 +471,9 @@ export function routeForm(ctx, index, calculate, save, state = '') {
     : '';
   const schedule = !segment.access && segment.from.point && segment.to.point
     && ctx.catalog.transitSchedules?.[segment.from.placeCity ?? ctx.city];
+  const scheduleOutdated = schedule && (ctx.date < schedule.from || ctx.date > schedule.to);
   openDialog('Wegdetails', '<h3>' + esc(routeLabel) + '</h3>' + summary + (state && state !== 'loading' ? alert(state) : '')
-    + '<div class="row-actions">' + walking + (schedule ? btn('scheduled-route', 'Fahrplan durchsuchen', 'train', index) : '') + options
+    + '<div class="row-actions">' + walking + (schedule ? btn('scheduled-route', scheduleOutdated ? 'Nur historischen Referenzfahrplan prüfen' : 'Fahrplan durchsuchen', 'train', index) : '') + options
     + '</div><div class="section"><h3>Geprüften Weg manuell hinterlegen</h3>'
     + '<p>Der Weg gilt für diesen Tag. Den Preis kannst du bei Bedarf als Ausgabe im Budget erfassen.</p></div>'
     + controls([
