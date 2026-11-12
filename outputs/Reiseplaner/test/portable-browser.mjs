@@ -105,7 +105,7 @@ try {
 } finally {
   socket?.close();
   child.kill();
+  // The server closes the SQLite store itself in its 'close' listener.
   await new Promise(resolve => server.close(resolve));
-  store.close();
   await rm(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
 }
