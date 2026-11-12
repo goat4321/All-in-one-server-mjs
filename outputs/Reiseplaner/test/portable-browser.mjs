@@ -85,7 +85,7 @@ try {
   await click('[data-action=option-filter][data-value=search]');
   await text('.grid-cards', 'HeyLola! Hostel');
   await text('.grid-cards', '31,77');
-  assert.equal(await js('document.querySelectorAll(".option-card").length'), 10);
+  assert.equal(await js('document.querySelectorAll(".option-card").length'), 13);
   assert.ok(await js('!document.querySelector(".option-card").textContent.includes("gebucht")')
     || await js('document.querySelector(".option-card").textContent.includes("nicht gebucht")'));
   await click('.sidebar [data-action=page][data-value=discover]');
