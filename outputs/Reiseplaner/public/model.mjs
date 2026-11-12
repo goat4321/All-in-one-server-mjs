@@ -208,6 +208,24 @@ export function calculateBudget(items, state) {
   };
 }
 
+export function budgetBreakdown(rows, dimension = 'city') {
+  if (!['city', 'date'].includes(dimension)) throw new Error('Unbekannte Budgetauswertung.');
+  const totals = new Map();
+  for (const row of rows) {
+    // A booked stay or train belongs to its posted date; nightly amortization
+    // is intentionally not assumed from an old group quote.
+    const key = dimension === 'city' ? row.city ?? 'unassigned'
+      : row.date ?? (row.start && row.zone ? localParts(row.start, row.zone).date : null) ?? 'unassigned';
+    if (!totals.has(key)) totals.set(key, { key, cents: 0, unknown: 0, count: 0 });
+    const bucket = totals.get(key);
+    bucket.count++;
+    if (row.euros == null) bucket.unknown++;
+    else bucket.cents += row.euros;
+  }
+  return [...totals.values()].sort((a, b) => a.key === 'unassigned' ? 1
+    : b.key === 'unassigned' ? -1 : a.key.localeCompare(b.key));
+}
+
 export function settle(nets) {
   if (nets.reduce((sum, amount) => sum + amount, 0) !== 0) throw new Error('Salden ergeben keine Nullsumme.');
   const remaining = nets.slice();
