@@ -278,6 +278,28 @@ export async function loadCatalog() {
       || x.timetable2027Verified !== false || x.exactFareCents !== null
       || x.departureLocal !== null || x.arrivalLocal !== null))
     throw new Error('Bahn-Referenz enthält unbestätigte oder widersprüchliche Live-Daten.');
+  // Additional official operator references and 2026 price snapshots.
+  // A price quoted here never becomes an automatically charged trip expense.
+  const operatorV07 = JSON.parse(await readFile(
+    new URL('../data/research-v07/operator-reference-20261113.json', import.meta.url), 'utf8'));
+  const operatorFares = operatorV07.localTransitFareReferences ?? [];
+  if (operatorV07.schema !== 'official_reference_pack_v07'
+    || !Array.isArray(operatorV07.attractionReferences)
+    || operatorFares.length !== 23 || operatorV07.attractionReferences.length !== 8
+    || new Set(operatorFares.map(ref => ref.id)).size !== operatorFares.length
+    || operatorFares.some(ref =>
+      !destinations.some(city => city.id === ref.city)
+      || !Number.isSafeInteger(ref.amountCents) || ref.amountCents < 0
+      || !['EUR','CHF'].includes(ref.currency) || ref.validForSep2027 !== false
+      || !/^https:\/\//.test(ref.sourceUrl))
+    || operatorV07.attractionReferences.some(ref =>
+      !destinations.some(city => city.id === ref.city)
+      || !/^https:\/\//.test(ref.sourceUrl)
+      || !ref.title || !ref.pattern || ref.referenceYear !== 2026)
+    || operatorV07.railExamples.some(ref => ref.priceCents !== null
+      || ref.validForSeptember2027 !== false || !/^https:\/\//.test(ref.sourceUrl))) {
+    throw new Error('Betreiber-Referenzpaket v0.7 verletzt die Quellen-/Preisregeln.');
+  }
   const uniqueFoodIds = new Set(newFoodResearch.items.map(p => p.id));
   if (uniqueFoodIds.size !== newFoodResearch.items.length
     || newFoodResearch.items.some(p => !destinations.some(city => city.id === p.city)
@@ -637,6 +659,81 @@ export async function loadCatalog() {
       mapLocationQuality: googleMapsLocationStatus(placed),
     };
   });
+  const mappedFareRowsV07 = Object.fromEntries(destinations.map(city => [
+    city.id, operatorFares.filter(ref => ref.city === city.id),
+  ]));
+  // Attach published evidence only to genuinely corresponding place names.
+  // Avoid converting published general prices into unbooked 2027 checkout prices.
+  for (const trip of output) trip.items = trip.items.map(item => {
+    const match = item.kind === 'activity' && operatorV07.attractionReferences.find(ref =>
+      ref.city === item.city && new RegExp(ref.pattern, 'i').test(item.name));
+    const knownExact = Array.isArray(item.point) && item.point.length === 2;
+    const additionalSources = match ? ['operator-v07-attraction:' + match.id] : [];
+    return {
+      ...item,
+      ...(match ? { operatorReferenceV07: {
+        id: match.id, title: match.title, openingReference: match.hours,
+        localTransitTip: match.transit, priceReference: match.priceReference,
+        pricePeriod: String(match.referenceYear),
+        sourceUrl: match.sourceUrl,
+        confirmedSep2027Hours: Boolean(match.verified2027Hours),
+      }} : {}),
+      ...(additionalSources.length ? {source:[...new Set([...(item.source??[]),...additionalSources])]} : {}),
+      locationReferenceV07: {
+        precision: knownExact ? (item.geoEvidence?.isCentroid ? 'sourced_area_center' : 'sourced_point') : 'city_only_not_a_pin',
+        exactKnown: knownExact,
+        city: item.city,
+        ...(knownExact ? {} : {orientationCityPoint: cities[item.city]?.point ?? null}),
+        notice: knownExact ? (item.geoEvidence?.note ?? 'Referenzpunkt aus ursprünglicher Quelle')
+          : 'Nur Stadtorientierung. Keine genaue Eigenschaftsadresse oder bestätigter Kartenmarker.',
+      },
+    };
+  });
+  // Every catalog record receives an independent source-/coverage audit for
+  // precise review in the Data & Fristen page and offline JSON export.
+  const coverageV07 = output.map(trip => {
+    const entries=trip.items.filter(item => !item.duplicateOf && !item.removed);
+    const categoryOf=item => item.kind==='transport'?'transport'
+      :item.kind==='lodging'?'lodging'
+      :item.category==='food'?'food'
+      :/(supermarkt|einkauf|grocer|market|carrefour)/i.test(
+        [item.name,item.category,...(item.tags??[])].join(' '))?'shopping':'activity';
+    const rows=entries.map(item=>{
+      const amount=item.price?.cents;
+      const hours=Boolean(item.openingHoursNote || item.weekly?.hours
+        || item.hours || item.operatorReferenceV07?.openingReference);
+      const sourceRefs=(item.source??[]).filter(ref=>typeof ref==='string');
+      const publisherRefs=sourceRefs.filter(ref=>
+        research.sources.some(s=>s.id===ref) || sources.some(s=>s.id===ref)
+        || ref.startsWith('operator-v07-') || ref.startsWith('official-v03:')
+        || ref.startsWith('food-v03-') || ref.startsWith('wishlist-v04:'));
+      return {
+        id:item.id,city:item.city,name:item.name,category:categoryOf(item),
+        selected:Boolean(item.selected),
+        pointStatus:item.locationReferenceV07.precision,
+        geolocationMissing:!item.locationReferenceV07.exactKnown,
+        priceStatus:Number.isSafeInteger(amount)?'source_price_reference'
+          :item.quote?.sampleTotalCents!=null?'old_wishlist_sample_not_a_trip_price'
+          :'no_confirmed_2027_price',
+        hoursStatus:hours?'published_reference_recheck_2027':'no_published_hours',
+        sourceStatus:publisherRefs.length?'linked_source_reference':'source_unspecified',
+        bookingStatus:item.kind==='lodging'?(item.booked?'recorded_as_booked':'unbooked_alternative'):null,
+        googleMapsUrl:item.googleMapsUrl,googleTransitUrl:item.googleTransitUrl,
+      };
+    });
+    return {
+      variant:trip.id,
+      total:rows.length,
+      withPrecisePoint:rows.filter(x=>!x.geolocationMissing).length,
+      withoutPrecisePoint:rows.filter(x=>x.geolocationMissing).length,
+      withPriceReference:rows.filter(x=>x.priceStatus==='source_price_reference').length,
+      withHoursReference:rows.filter(x=>x.hoursStatus==='published_reference_recheck_2027').length,
+      withSourceLink:rows.filter(x=>x.sourceStatus==='linked_source_reference').length,
+      byCategory:Object.fromEntries(['activity','food','shopping','lodging','transport']
+        .map(category=>[category,rows.filter(r=>r.category===category).length])),
+      entries:rows,
+    };
+  });
   return { trips: output, cities, fares: fareMap, mealPlans,
     research: {
       version: research.import_rules.version,
@@ -668,6 +765,9 @@ export async function loadCatalog() {
         appliedAcrossVariants: appliedGeo,
         attribution: geoResearchV06.attribution,
       } : null,
+      operatorV07,
+      mappedFareRowsV07,
+      coverageV07,
       railReferenceV04,
       airbnbWishlistResearchV04: airbnbResearch.items,
       foodVenueResearchV03: newFoodResearch.items,
@@ -689,6 +789,21 @@ export async function loadCatalog() {
       },
     },
     sources: Object.fromEntries([...sources, ...research.sources,
+      ...operatorFares.map(ref => ({ id:'operator-v07-fare:'+ref.id,
+        publisher:'Offizieller Nahverkehr · '+ref.city+' · '+ref.name,
+        url:ref.sourceUrl, accessed_on:operatorV07.observedOn,
+        validity:'2026-only operator fare reference; 2027 not confirmed' })),
+      ...operatorV07.attractionReferences.map(ref => ({
+        id:'operator-v07-attraction:'+ref.id,
+        publisher:'Offizieller Betreiber · '+ref.title,
+        url:ref.sourceUrl, accessed_on:operatorV07.observedOn,
+        validity:ref.verified2027Hours?'published 2027 operating window, conditions apply':'2026 general reference',
+      })),
+      ...operatorV07.railExamples.map(ref => ({
+        id:'operator-v07-rail:'+ref.id,publisher:ref.service+' · Beispiel / Verkaufsregel',
+        url:ref.sourceUrl, accessed_on:operatorV07.observedOn,
+        validity:'2026 sample, 2027 prices/departures unverified',
+      })),
       ...railReferenceV04.rules.map(rule => ({
         id: 'rail-rule-v04:' + rule.id, publisher: 'Interrail · offizielle Regeln',
         url: rule.url, accessed_on: railReferenceV04.observed_on, validity: rule.validity,
