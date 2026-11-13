@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, mkdir, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -70,6 +70,13 @@ try {
     await until(() => js('Boolean(' + selector(s) + ')'), 'Eingabe ' + s);
     await js(selector(s) + '.value = ' + JSON.stringify(value));
   };
+  const screenshotDir=process.env.REISEPLAN_SCREENSHOT_DIR;
+  const screenshot=async filename=>{
+    if(!screenshotDir)return;
+    await mkdir(screenshotDir,{recursive:true});
+    const image=await cdp('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
+    await writeFile(join(screenshotDir,filename),Buffer.from(image.data,'base64'));
+  };
   const save = async () => {
     await click('dialog [type=submit]');
     const result = await until(() => js('(() => { const d = document.querySelector("dialog"); return d?.open === false ? "closed" : d?.querySelector(".form-error")?.textContent || null; })()'),
@@ -102,6 +109,7 @@ try {
   await until(() => js('document.querySelectorAll(".sidebar-section").length === 3'), 'Gruppierte Navigation');
   await click('.sidebar [data-action=page][data-value=overview]');
   await until(() => js('document.querySelectorAll(".overview-quick-card").length === 4'), 'Vier Schnellzugriffe');
+  await screenshot('01-uebersicht-desktop.png');
   await click('.sidebar [data-action=page][data-value=plan]');
   await text('h1','Barcelona');
   // Global trip explorer: all source-backed categories, geographic scope,
@@ -109,6 +117,12 @@ try {
   await click('.sidebar [data-action=page][data-value=map]');
   await text('h1', 'Karten-Explorer');
   await text('#main', 'Alle passenden Orte');
+  // Review at an actual wide desktop CSS viewport; default CI Chrome starts at 1280px.
+  await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+  await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===2'),
+    'Desktop atlas has a real two-column split');
+  await js('document.querySelector(".map-explorer-split").scrollIntoView({block:"start"})');
+  await screenshot('02-atlas-desktop-map-list.png');
   assert.ok(await js('document.querySelector("#map").compareDocumentPosition(document.querySelector(".day-route-builder")) & 4'),
     'Karte muss vor dem umfangreichen Tagesrouten-Builder stehen');
   assert.equal(await js('document.querySelector(".explorer-route-settings")?.open'),false,
@@ -166,6 +180,14 @@ try {
   await click('[data-action=explorer-search]');
   await until(() => js('document.querySelectorAll(".explorer-place").length === 1'), 'Restaurantsuche');
   await text('.explorer-place', 'Bormuth');
+  await until(()=>js('Boolean(document.querySelector("#map .pin.place-food"))'),'Visible place marker for Bormuth');
+  await click('#map .pin.place-food');
+  await until(()=>js('document.querySelector(".map-selected-place")?.textContent.includes("Bormuth")===true'),
+    'Clicking a real map marker synchronizes the selected preview');
+  await until(()=>js('document.querySelector(".explorer-place")?.dataset.selected==="true"'),
+    'Clicking a map marker synchronizes the result list');
+  await js('document.querySelector(".map-explorer-split").scrollIntoView({block:"start"})');
+  await screenshot('03-atlas-ausgewaehlter-ort.png');
   await set('#map-search', '');
   await click('[data-action=explorer-search]');
   await text('#main', 'Taberna Nardi');
@@ -423,6 +445,13 @@ try {
   await text('h1','Karten-Explorer');
   await until(() => js('Boolean(document.querySelector("#map .leaflet-pane"))'),'Karte auch über mobile Dock erreichbar');
   assert.ok(await js('document.documentElement.scrollWidth <= window.innerWidth + 5'), 'Mobiles Layout hat horizontalen Überlauf.');
+  await js('document.querySelector(".map-explorer-split").scrollIntoView({block:"start"})');
+  await screenshot('04-atlas-smartphone-390.png');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:820,height:1180,deviceScaleFactor:1,mobile:false});
+  await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===1'),
+    'Tablet uses readable stacked atlas layout');
+  assert.ok(await js('document.documentElement.scrollWidth <= window.innerWidth + 5'),'Tablet-Layout without horizontal overflow');
+  await screenshot('05-atlas-tablet-820.png');
   console.log('PASS: echter Chrome-Flow · Mahlzeit, gemeinsamer Warenkorb, Preisänderung, Persistenz, Budget und mobile Karte');
 } finally {
   socket?.close();

@@ -36,8 +36,18 @@ jobs:
         run: npm run test:portable
       - name: Karten-Datenabdeckung für alle Reisen und Städte
         run: npm run report:map
-      - name: Echter Chrome-Browsertest für Warenkorb und Mobilansicht
+      - name: Echter Chrome-Browsertest mit Atlas- und Responsive-Abnahme
+        env:
+          REISEPLAN_SCREENSHOT_DIR: ${{ runner.temp }}/reiseplaner-ui-review
         run: node test/portable-browser.mjs
+      - name: Desktop-, Tablet- und Smartphone-Vergleichsbilder sichern
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reiseplaner-ui-review
+          path: ${{ runner.temp }}/reiseplaner-ui-review/*.png
+          if-no-files-found: warn
+          retention-days: 14
       - name: Server-Smoke-Test ohne private Tripsy-Dateien
         run: |
           node --input-type=module <<'NODE'
