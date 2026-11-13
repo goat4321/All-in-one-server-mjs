@@ -677,6 +677,49 @@ export async function loadCatalog() {
       mapLocationQuality: googleMapsLocationStatus(placed),
     };
   });
+  // Publicly named hotel/restaurant addresses recovered from published sources.
+  // These are usable in external search/directions even if a street-number-level
+  // coordinate cannot be independently confirmed. Never assign a city centre
+  // as a property point or fill a hidden Airbnb address.
+  const publicAddressesV09=JSON.parse(await readFile(
+    new URL('../data/research-v09/verified-public-addresses.json',import.meta.url),'utf8'));
+  if(publicAddressesV09.schema!=='verified_public_addresses_v09'
+    ||publicAddressesV09.entries.length!==25
+    ||new Set(publicAddressesV09.entries.map(x=>x.id)).size!==25
+    ||publicAddressesV09.entries.some(row=>row.airbnb||!row.address
+      ||!/^https:\/\//.test(row.sourceUrl)||!cities[row.city]
+      ||row.confirmedFor2027Checkout!==false
+      ||row.point && (!point(row.point[0],row.point[1])
+        ||distanceKm(row.point,cities[row.city].point)>45))){
+    throw new Error('Unzuverlässige öffentliche Hotel-/Restaurant-Adressen in Recherche v0.9.');
+  }
+  const addressV09ById=new Map(publicAddressesV09.entries.map(row=>[row.id+'|'+row.city,row]));
+  let addressAppliedV09=0;
+  for(const trip of output)trip.items=trip.items.map(item=>{
+    const record=addressV09ById.get(item.id+'|'+item.city);
+    if(!record||item.provider==='Airbnb'||String(item.id).startsWith('wishlist:airbnb:'))return item;
+    addressAppliedV09++;
+    const addr=item.address??record.address;
+    const known=Array.isArray(item.point)&&item.point.length===2;
+    const aligned={
+      ...item,address:addr,
+      addressEvidenceV09:{
+        status:known?'sourced_coordinate_and_published_address':'official_address_without_verified_coordinates',
+        sourceUrl:record.sourceUrl,
+        publishedAddress:record.address,
+        observedOn:record.observedOn,
+        precision:record.precision,
+        remark:record.remark,
+        notABooking:Boolean(!record.confirmedFor2027Checkout),
+      },
+      source:[...new Set([...(item.source??[]),'address-v09:'+record.id])],
+    };
+    return{...aligned,
+      googleMapsUrl:googleMapsSearchUrl(aligned,cities),
+      googleTransitUrl:googleMapsDirectionsUrl(null,aligned,cities,'transit'),
+      mapLocationQuality:googleMapsLocationStatus(aligned),
+    };
+  });
   const mappedFareRowsV07 = Object.fromEntries(destinations.map(city => [
     city.id, operatorFares.filter(ref => ref.city === city.id),
   ]));
@@ -769,7 +812,8 @@ export async function loadCatalog() {
       const publisherRefs=sourceRefs.filter(ref=>
         research.sources.some(s=>s.id===ref) || sources.some(s=>s.id===ref)
         || ref.startsWith('operator-v07-') || ref.startsWith('official-v03:')
-        || ref.startsWith('food-v03-') || ref.startsWith('wishlist-v04:'));
+        || ref.startsWith('food-v03-') || ref.startsWith('wishlist-v04:')
+        || ref.startsWith('address-v09:') || ref.startsWith('food-v08-menu:'));
       return {
         id:item.id,city:item.city,name:item.name,category:categoryOf(item),
         selected:Boolean(item.selected),
@@ -831,6 +875,10 @@ export async function loadCatalog() {
         appliedAcrossVariants: appliedGeo,
         attribution: geoResearchV06.attribution,
       } : null,
+      publicAddressesV09:{
+        ...publicAddressesV09,
+        appliedAcrossVariants:addressAppliedV09,
+      },
       foodMenuV08,
       geoUnresolvedV08,
       operatorV07,
@@ -881,6 +929,12 @@ export async function loadCatalog() {
         publisher: 'Airbnb-Wunschliste · ' + ref.name,
         url: ref.website, accessed_on: airbnbResearch.observed_on,
         validity: 'historic_wishlist_display_price_not_booked_or_checkout_verified',
+      })),
+      ...publicAddressesV09.entries.map(ref=>({
+        id:'address-v09:'+ref.id,
+        publisher:'Öffentliche Anbieter-/Hoteladresse · '+ref.name,
+        url:ref.sourceUrl,accessed_on:ref.observedOn,
+        validity:ref.point?'Published address with a sourced point':'Published exact postal address; location coordinates not yet verified',
       })),
       ...foodMenuV08.items.filter(x=>x.menuReference).map(ref=>({
         id:'food-v08-menu:'+ref.id,
