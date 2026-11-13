@@ -1,3 +1,4 @@
+import { curatedPlacePhoto, curatedPhotoCount } from '../public/curated-place-photos.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadCatalog } from '../lib/catalog.mjs';
@@ -54,4 +55,21 @@ test('Place photos require a credited explicit source and never appear for unkno
  assert.match(popup,/data-action="details"/);
  assert.match(popup,/Google Maps/);
  assert.doesNotMatch(popup,/onclick=/);
+});
+
+test('Curated Commons images match only their named landmarks, not hotels or Airbnbs',()=>{
+ assert.equal(curatedPhotoCount,3);
+ const cases=[
+  {name:'Sagrada Família',city:'barcelona'},
+  {name:'Park Güell · Monumentalzone',city:'barcelona'},
+  {name:'Eiffelturm zweite Etage',city:'paris'},
+ ];
+ for(const record of cases){
+  const asset=curatedPlacePhoto({id:'test',kind:'activity',...record});
+  assert.ok(asset?.url.startsWith('https://commons.wikimedia.org/wiki/Special:FilePath/'),record.name);
+  assert.ok(asset?.credit.includes('CC BY-SA 4.0'));
+  assert.ok(asset?.sourceUrl.startsWith('https://commons.wikimedia.org/wiki/File:'));
+ }
+ assert.equal(curatedPlacePhoto({id:'hotel',kind:'lodging',city:'paris',name:'Eiffel Tower Hotel'}),null);
+ assert.equal(curatedPlacePhoto({id:'food',kind:'activity',category:'food',city:'barcelona',name:'Park Güell Café'}),null);
 });
