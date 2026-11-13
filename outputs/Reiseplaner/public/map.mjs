@@ -23,7 +23,9 @@ function dataFile(file) {
 export class TripMap {
   constructor(element, { focus, select, leg, visitCity, report, routeStop }) {
     this.handlers = { focus, select, leg, visitCity, report, routeStop };
-    this.map = L.map(element, { zoomControl: true, scrollWheelZoom: false, preferCanvas: false, fadeAnimation: false, minZoom: 3, maxZoom: 19 });
+    this.map = L.map(element, { zoomControl: true, scrollWheelZoom: false,
+      preferCanvas: false, fadeAnimation: false, zoomAnimation: false,
+      markerZoomAnimation: false, minZoom: 3, maxZoom: 19 });
     this.map.zoomControl.setPosition('bottomright');
     this.map.attributionControl.setPrefix(false);
     this.features = L.layerGroup().addTo(this.map);
@@ -320,8 +322,8 @@ export class TripMap {
     if (!this.storyBounds?.length)return false;
     this.map.invalidateSize({pan:false});
     if(this.storyBounds.length>1) this.map.fitBounds(this.storyBounds,
-      {padding:[54,54],maxZoom:16,animate:!quietMotion()});
-    else this.map.setView(this.storyBounds[0],15,{animate:!quietMotion()});
+      {padding:[54,54],maxZoom:16,animate:false});
+    else this.map.setView(this.storyBounds[0],15,{animate:false});
     return true;
   }
 
@@ -330,7 +332,7 @@ export class TripMap {
     if(!stop?.point)return false;
     this.map.invalidateSize({pan:false});
     this.map.setView(stop.point,Math.max(13,Math.min(this.map.getZoom(),17)),
-      {animate:!quietMotion()});
+      {animate:false});
     return true;
   }
 
@@ -343,9 +345,15 @@ export class TripMap {
   focus(id) {
     const marker = this.markers.get(id);
     if (!marker) return;
-    this.map.panTo(marker.getLatLng(), { animate: !quietMotion(), duration: .25 });
+    this.map.panTo(marker.getLatLng(), { animate: false });
     marker.openTooltip();
   }
 
-  destroy() { this.map.remove(); }
+  destroy() {
+    // render() replaces this entire Leaflet instance. Stop pending camera
+    // transitions before removal so rapid route/stop clicks cannot call
+    // Leaflet positioning on a detached DOM pane.
+    this.map.stop();
+    this.map.remove();
+  }
 }
