@@ -906,3 +906,18 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 @media(max-width:650px){.map-atlas-hud{top:8px;right:8px;max-width:200px;padding:7px 9px}
  .map-atlas-hud small{font-size:.65rem}
  .map-legend-control{min-height:35px}}
+
+
+/* Map-first layout: advanced routing and vague city markers are progressive disclosure. */
+.explorer-toolbar{gap:11px}
+.explorer-map-extras,.explorer-route-settings{border-top:1px solid var(--line);padding-top:9px}
+.explorer-map-extras summary,.explorer-route-settings summary{cursor:pointer;display:flex;align-items:center;
+ gap:7px;flex-wrap:wrap;font-size:.82rem;font-weight:750;padding:8px 6px;color:var(--text)}
+.explorer-route-settings summary span{font-size:.73rem;font-weight:500;color:var(--muted);margin-left:auto}
+.explorer-route-settings[open] summary{color:var(--green)}
+.explorer-map-extras .inline{padding:8px 6px;gap:9px}
+.explorer-map-extras .muted{font-size:.74rem;line-height:1.45}
+.explorer-route-settings .explorer-directions{margin-top:7px;border:1px solid var(--line);
+ background:var(--light);padding:12px;border-radius:12px}
+.explorer-route-settings .explorer-directions p{font-size:.77rem}
+@media(max-width:650px){.explorer-map-extras summary,.explorer-route-settings summary{min-height:40px}}

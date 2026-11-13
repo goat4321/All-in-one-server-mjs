@@ -276,7 +276,7 @@ export class TripMap {
         bubble.textContent=String(count);
         const icon=L.divIcon({className:'poi-cluster-icon',html:bubble.outerHTML,
           iconSize:[46,46],iconAnchor:[23,23]});
-        const label=count+' exakt verzeichnete Kartenpunkte (Sammelansicht, kein einzelner Standort)';
+        const label=count+' eingetragene Kartenpunkte (Sammelansicht, keine genaue Einzelposition)';
         const marker=L.marker(center,{icon,title:label,alt:label,keyboard:true})
           .addTo(this.poiLayer).bindTooltip(labelNode(label+' · Zum Aufteilen anklicken'));
         marker.on('click',()=>{

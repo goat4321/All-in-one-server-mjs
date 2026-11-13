@@ -109,6 +109,10 @@ try {
   await click('.sidebar [data-action=page][data-value=map]');
   await text('h1', 'Karten-Explorer');
   await text('#main', 'Alle passenden Orte');
+  assert.ok(await js('document.querySelector("#map").compareDocumentPosition(document.querySelector(".day-route-builder")) & 4'),
+    'Karte muss vor dem umfangreichen Tagesrouten-Builder stehen');
+  assert.equal(await js('document.querySelector(".explorer-route-settings")?.open'),false,
+    'Erweiterter Routenplaner ist anfangs zugeklappt');
   await until(() => js('Boolean(document.querySelector(".explorer-list.is-compact"))'), 'Kompakte Ortsliste');
   await click('[data-action=explorer-viewport]');
   await until(() => js('document.querySelector("[data-action=explorer-viewport]")?.getAttribute("aria-pressed")==="true"'), 'Liste nur für Kartenausschnitt');
@@ -182,6 +186,7 @@ try {
   await text('.day-route-builder', 'Luftlinien-Vorsortierung');
   assert.equal(store.current('interrail_classic').state.edits['local:nardi'], undefined);
   await click('[data-action=explorer-start][data-value="local:bormuth"]');
+  await until(() => js('document.querySelector(".explorer-route-settings")?.open===true'),'Routenplaner öffnet sich bei Startauswahl');
   await click('[data-action=explorer-end][data-value="local:nardi"]');
   await until(() => js('document.querySelector(".explorer-status")?.textContent.includes("Fußweg")'),
     'Fußroute oder ehrliche Router-Fehlermeldung');

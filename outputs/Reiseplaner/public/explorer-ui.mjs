@@ -44,10 +44,13 @@ export function explorerToolbar(ctx) {
       + id + '" aria-pressed="' + (ex.group === id) + '"><i class="category-swatch ' + id
       + '"></i>' + esc(group.label) + '</button>').join('')
     +btn('explorer-reset','Alle Ortsfilter zurücksetzen','reset')+'</div>'
-    + '<div class="inline">'
+    + '<details class="explorer-map-extras"><summary>Weitere Kartenhinweise & ungenaue Standorte</summary><div class="inline">'
     + chip('explorer-references', 'Schematische Stadt-Sammelmarker (' + ex.unlocated.length + ')',
       ex.showCityReferences === true, 'toggle', 'pin')
-    + '<span class="muted">Grau gestrichelte Marker stehen nur für Städte mit ungeklärten Orten, nicht für genaue Standorte. Zum Ausblenden erneut antippen.</span></div>'
+    + '<span class="muted">Grau gestrichelte Marker stehen nur für Städte mit ungeklärten Orten, nicht für genaue Standorte. Zum Ausblenden erneut antippen.</span></div></details>'
+    + '<details class="explorer-route-settings"'+(from||to?' open':'')+'>'
+    + '<summary><strong>Route zwischen zwei Orten planen</strong><span>'
+    +esc(from?.name??'Start auswählen')+' → '+esc(to?.name??'Ziel auswählen')+'</span></summary>'
     + '<div class="explorer-directions"><div><strong>Route von A nach B</strong><p class="muted">'
     + esc(from?.name ?? 'Startpunkt wählen') + ' → ' + esc(to?.name ?? 'Zielpunkt wählen') + '</p></div>'
     + '<div class="inline">' + chip('explorer-mode', 'Zu Fuß', ex.routeMode === 'walk', 'walk', 'walk')
@@ -68,7 +71,7 @@ export function explorerToolbar(ctx) {
       + (urlLink(googleMapsDirectionsUrl(from,to,ctx.cities,'walking'), 'Google Maps · Zu Fuß A → B') || '')
       + (urlLink(transitUrl, 'Verkehrsbetrieb / Tarife prüfen') || '') + '</div>' : '')
     + '<p class="muted">Nur berechnete Fußwege werden als reale Straßen dargestellt. Fehlende oder außerhalb des Datenzeitraums liegende ÖPNV-Fahrten werden nicht geschätzt.</p>'
-    + '</div></section>';
+    + '</div></details></section>';
 }
 
 export function explorerList(ctx) {

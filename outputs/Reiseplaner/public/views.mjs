@@ -94,7 +94,7 @@ function content(ctx, city) {
   switch (ctx.page) {
     case 'overview': return overview(ctx);
     case 'map': return heading('Karten-Explorer', 'Alle Orte, Unterkünfte, Restaurants und Aktivitäten der Reise auf einer Karte')
-      + explorerDayStrip(ctx) + explorerToolbar(ctx) + dayRouteView(ctx) + mapPanel(ctx, true) + explorerList(ctx);
+      + explorerDayStrip(ctx) + explorerToolbar(ctx) + mapPanel(ctx, true) + dayRouteView(ctx) + explorerList(ctx);
     case 'rail': return rail(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
