@@ -47,6 +47,42 @@ Geprüfter GitHub-CI-Lauf: [Run #43429832835](https://github.com/goat4321/All-in
 
 Weitere Details: [PHASE_9_GEO_FINAL_AND_OPEN.md](PHASE_9_GEO_FINAL_AND_OPEN.md).
 
+## Neues Design: Interaktives Route Studio und Kartenstile (13.11.2026)
+
+Im **Karten-Explorer** ist die oberste Gesamtstrecke jetzt als anklickbare
+**Städteleiste** verfügbar. Ein Klick auf eine Station öffnet direkt den
+entsprechenden Kartenabschnitt. Die Verbindungslinie zwischen Städten bleibt
+ausdrücklich schematisch – sie ist kein berechneter Zugfahrplan oder Fußweg.
+
+Im **Route Studio**:
+
+1. In **Karte** nach Ort/Restaurant/Aktivität filtern und für zwei bis acht
+   geokodierte Aktivitäten in derselben Stadt auf **Zur Mehrstopp-Route** klicken.
+2. Die grafische Stopp-Leiste zeigt Nummern, Namen und bereits belegte
+   Fußwege. Ein Stopp ist anklickbar; **Zurück/Weiter** springt durch die Tour.
+3. **Alle Etappen** zeigt alle Strecken, **Etappe hervorheben** blendet
+   nicht gewählte Etappen visuell zurück. **Ganze Tour zeigen** zoomt auf die
+   geplanten Stopps. Stopps sind auch direkt auf der Karte anklickbar.
+4. **Grün durchgezogen und dezent animiert** ist nur eine tatsächlich über
+   den Fußrouter berechnete Straßen-/Weggeometrie. **Braun gestrichelt** ist
+   ausdrücklich nur die Luftlinie zwischen zwei belegten Orten; eine noch
+   ungeprüfte Etappe bekommt **keine** erfundene Gehzeit, Distanz oder Kosten.
+5. **Fußwege und Zeiten berechnen** lädt bestätigte Fußwege. Erst die
+   separate bewusste Übernahme verändert den Tagesplan. Externe Google-Maps-
+   ÖPNV-Links sind keine automatisch geprüften September-2027-Fahrpläne.
+
+Das **Kartenlook**-Menü bietet **Klassisch, Midnight und Sand**. Alle drei
+nutzen dieselben lizenzierten Straßenkacheln mit einer lokalen CSS-Farbgebung;
+keine Satellitenbilder oder neuen Kartendatenanbieter werden vorgetäuscht.
+Die Einstellung wird nur lokal im Browser gespeichert. **Großansicht**
+vergrößert die Karte, ohne Daten zu verändern. Für Menschen mit aktivierter
+Systemeinstellung *Bewegung reduzieren* ist die Routenanimation deaktiviert.
+
+Unter **Route von A nach B** gibt es zusätzlich **Start & Ziel tauschen**,
+**Route vergrößern** und einen hervorgehobenen Quell-/Ergebnisstatus.
+Fehlende Fahrpläne, Routen oder genaue Positionen bleiben ausdrücklich
+als unbestätigt gekennzeichnet.
+
 ## Reise planen
 
 - Oben links die Reisevariante wechseln. **Tagesplan** öffnet bei den September-Interrail-Varianten den Barcelona-Pilottag am 4. September. Über die Datumsleiste und die Ortsliste sind die übrigen Stationen erreichbar.
