@@ -107,7 +107,7 @@ try {
   await click('[data-action=explorer-end][data-value="local:nardi"]');
   await until(() => js('document.querySelector(".explorer-status")?.textContent.includes("Fußweg")'),
     'Fußroute oder ehrliche Router-Fehlermeldung');
-  await text('#main', 'ÖPNV-Route extern ansehen');
+  await text('#main', 'Google Maps · ÖPNV A → B');
   await click('[data-action=choose][data-value="local:nardi"]');
   await text('dialog', 'Aktivität einplanen');
   await save();
