@@ -300,6 +300,24 @@ export async function loadCatalog() {
       || ref.validForSeptember2027 !== false || !/^https:\/\//.test(ref.sourceUrl))) {
     throw new Error('Betreiber-Referenzpaket v0.7 verletzt die Quellen-/Preisregeln.');
   }
+  // Every curated local eatery was reviewed in v0.8. A cited menu item
+  // is an old price observation, not the September 2027 bill.
+  const foodMenuV08 = JSON.parse(await readFile(
+    new URL('../data/research-v08/food-menu-audit.json', import.meta.url), 'utf8'));
+  if (foodMenuV08.schema !== 'food_menu_audit_v08'
+    || !Array.isArray(foodMenuV08.items) || foodMenuV08.items.length !== 39
+    || new Set(foodMenuV08.items.map(x=>x.id)).size !== 39
+    || foodMenuV08.items.some(x=>!newFoodResearch.items.some(y=>y.id===x.id && y.city===x.city)
+      || x.menuReference?.sep2027Confirmed === true
+      || x.menuReference?.includeInTripBudget === true
+      || x.menuReference?.mealGroupCheckoutVerified === true
+      || x.menuReference && (!/^https:\/\//.test(x.menuReference.sourceUrl)
+        || !['EUR','CHF'].includes(x.menuReference.currency)
+        || !Array.isArray(x.menuReference.sample)
+        || x.menuReference.sample.some(s=>!Number.isSafeInteger(s.amountCents) || s.amountCents<0)))) {
+    throw new Error('Menü-Referenzen v0.8 sind nicht quellen-/preislogisch konsistent.');
+  }
+  const foodMenuMapV08 = new Map(foodMenuV08.items.map(x=>['local:'+x.id,x]));
   const uniqueFoodIds = new Set(newFoodResearch.items.map(p => p.id));
   if (uniqueFoodIds.size !== newFoodResearch.items.length
     || newFoodResearch.items.some(p => !destinations.some(city => city.id === p.city)
@@ -689,8 +707,53 @@ export async function loadCatalog() {
       },
     };
   });
+  // Non-booked menu observations: attached to an item but NEVER to item.price
+  // or the user-group budget. A separate source records the specific menu URL.
+  for (const trip of output) trip.items = trip.items.map(item=>{
+    const menuAudit=foodMenuMapV08.get(item.id);
+    return !menuAudit ? item : {
+      ...item,
+      menuPriceResearchV08:{
+        status:menuAudit.status,
+        menuReference:menuAudit.menuReference,
+        sourceUrl:menuAudit.menuReference?.sourceUrl ?? menuAudit.providerSite ?? null,
+        observedOn:menuAudit.observedOn,
+        resolutionNote:menuAudit.resolutionNote,
+      },
+      source:menuAudit.menuReference
+        ? [...new Set([...(item.source??[]),'food-v08-menu:'+menuAudit.id])]
+        : item.source,
+    };
+  });
   // Every catalog record receives an independent source-/coverage audit for
   // precise review in the Data & Fristen page and offline JSON export.
+  // One unique source/ambiguity ledger per unresolved record. The 336 original
+  // missing entries over four variants corresponded to 188 distinct records
+  // prior to the v0.8 source-specific coordinate improvements.
+  const geoUnresolvedV08 = ['review','unmatched','skipped'].flatMap(kind=>
+    (geoResearchV06?.[kind] ?? []).map(record=>{
+      const provider=String(record.id).startsWith('wishlist:airbnb:');
+      const genericActivity=record.id.includes(':activity:')
+        || record.id.startsWith('research:suggest_');
+      const hasAddress=Boolean(record.address);
+      const nextAction=provider?'Exact address not public; confirm with host after booking'
+        :kind==='review'?'Ambiguous same-name candidates; independently match an official place address'
+        :hasAddress?'Source address requires verified address/building lookup'
+        :genericActivity?'Specific meeting point must be chosen; whole activity is not one exact POI'
+        :'Provider must publish full address or exact point';
+      return {
+        id:record.id,city:record.city,name:record.name,
+        status:kind,hasStreetAddress:hasAddress,
+        privateAirbnbProperty:provider,
+        candidateCount:record.candidates?.length??0,
+        reviewReason:record.reason??(kind==='skipped'?'Private or generic place':'No exact match'),
+        nextAction,
+        url:googleMapsSearchUrl(record,cities),
+        placePrecision:'unverified_not_a_pin',
+        previouslySearchedWith:'OpenStreetMap Photon, November 2026',
+      };
+    }));
+  const geoUnresolvedById=new Map(geoUnresolvedV08.map(x=>[x.id+'|'+x.city,x]));
   const coverageV07 = output.map(trip => {
     const entries=trip.items.filter(item => !item.duplicateOf && !item.removed);
     const categoryOf=item => item.kind==='transport'?'transport'
@@ -714,7 +777,10 @@ export async function loadCatalog() {
         geolocationMissing:!item.locationReferenceV07.exactKnown,
         priceStatus:Number.isSafeInteger(amount)?'source_price_reference'
           :item.quote?.sampleTotalCents!=null?'old_wishlist_sample_not_a_trip_price'
-          :'no_confirmed_2027_price',
+          :item.menuPriceResearchV08?.status==='priced_reference_found'
+            ?'menu_observation_not_trip_price':'no_confirmed_2027_price',
+        menuV08Status:item.menuPriceResearchV08?.status??'not_a_v08_curated_eatery',
+        unresolvedGeoReason:geoUnresolvedById.get(item.id+'|'+item.city)?.reviewReason??null,
         hoursStatus:hours?'published_reference_recheck_2027':'no_published_hours',
         sourceStatus:publisherRefs.length?'linked_source_reference':'source_unspecified',
         bookingStatus:item.kind==='lodging'?(item.booked?'recorded_as_booked':'unbooked_alternative'):null,
@@ -765,6 +831,8 @@ export async function loadCatalog() {
         appliedAcrossVariants: appliedGeo,
         attribution: geoResearchV06.attribution,
       } : null,
+      foodMenuV08,
+      geoUnresolvedV08,
       operatorV07,
       mappedFareRowsV07,
       coverageV07,
@@ -813,6 +881,13 @@ export async function loadCatalog() {
         publisher: 'Airbnb-Wunschliste · ' + ref.name,
         url: ref.website, accessed_on: airbnbResearch.observed_on,
         validity: 'historic_wishlist_display_price_not_booked_or_checkout_verified',
+      })),
+      ...foodMenuV08.items.filter(x=>x.menuReference).map(ref=>({
+        id:'food-v08-menu:'+ref.id,
+        publisher:'Speisekarte / Preisbeobachtung · '+ref.name,
+        url:ref.menuReference.sourceUrl,accessed_on:ref.observedOn,
+        validity:ref.menuReference.dateLabel+'; September 2027 not confirmed; '
+          +ref.menuReference.sourceType,
       })),
       ...newFoodResearch.items.map(place => ({
         id: place.sourceId,
