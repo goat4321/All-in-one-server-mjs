@@ -37,9 +37,12 @@ try {
   socket = new WebSocket(targets.find(target => target.type === 'page').webSocketDebuggerUrl);
   await once(socket, 'open');
   const pending = new Map();
+  const pageErrors = [];
   let seq = 0;
   socket.addEventListener('message', event => {
     const message = JSON.parse(event.data);
+    if (message.method === 'Runtime.exceptionThrown')
+      pageErrors.push(message.params?.exceptionDetails?.text+' '+message.params?.exceptionDetails?.exception?.description);
     if (!message.id) return;
     const item = pending.get(message.id);
     if (!item) return;
@@ -98,7 +101,15 @@ try {
   await text('#main', 'Taberna Nardi');
   await text('#main', 'Mehrstopp-Tagesroute');
   await click('[data-action=day-route-add][data-value="local:bormuth"]');
+  console.log('DIAG_AFTER_STOP_ONE', JSON.stringify({
+    section:await js('document.querySelector(".day-route-builder")?.textContent.slice(0,450)'),
+    errors:pageErrors, toast:await js('document.querySelector("#toast")?.textContent')
+  }));
   await click('[data-action=day-route-add][data-value="local:nardi"]');
+  console.log('DIAG_AFTER_STOP_TWO', JSON.stringify({
+    section:await js('document.querySelector(".day-route-builder")?.textContent.slice(0,450)'),
+    errors:pageErrors, toast:await js('document.querySelector("#toast")?.textContent')
+  }));
   await text('.day-route-builder', '2/8 gewählt');
   await click('[data-action=day-route-optimize]');
   await text('.day-route-builder', 'Luftlinien-Vorsortierung');
