@@ -109,6 +109,13 @@ try {
   await click('.sidebar [data-action=page][data-value=map]');
   await text('h1', 'Karten-Explorer');
   await text('#main', 'Alle passenden Orte');
+  await until(() => js('Boolean(document.querySelector(".explorer-list.is-compact"))'), 'Kompakte Ortsliste');
+  await click('[data-action=explorer-viewport]');
+  await until(() => js('document.querySelector("[data-action=explorer-viewport]")?.getAttribute("aria-pressed")==="true"'), 'Liste nur für Kartenausschnitt');
+  await click('[data-action=explorer-viewport]');
+  await click('[data-action=explorer-display][data-value=details]');
+  await until(() => js('!document.querySelector(".explorer-list")?.classList.contains("is-compact")'), 'Ausführliche Ortskarten');
+  await click('[data-action=explorer-display][data-value=compact]');
   await text('#main', 'Reiseroute entdecken');
   await until(() => js('document.querySelectorAll(".route-city-step").length >= 4'), 'Interaktive Stadtetappen');
   await click('[data-action=map-tone][data-value=midnight]');
@@ -131,7 +138,7 @@ try {
   await until(() => js('document.querySelector(".explorer-nearby-bar")?.textContent.includes("Bormuth")'), 'Echte Umkreissuche');
   await until(() => js('Boolean(document.querySelector("#map .explorer-nearby-ring"))'),'Sichtbarer Radiusring auf der Karte');
   await click('[data-action=explorer-near-radius][data-value="1"]');
-  await until(() => js('document.querySelector(".explorer-nearby-bar [data-value=1]")?.getAttribute("aria-pressed")==="true"'), '1-km-Umkreis');
+  await until(() => js('document.querySelector(".explorer-nearby-bar [data-action=explorer-near-radius][aria-pressed=true]")?.dataset.value==="1"'), '1-km-Umkreis');
   await click('[data-action=explorer-near-clear]');
   await until(() => js('!document.querySelector(".explorer-nearby-bar")'), 'Umkreissuche deaktiviert');
   await set('#map-search', 'Bormuth');

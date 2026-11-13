@@ -1,5 +1,5 @@
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, googleMapsPlaceQuery, googleMapsLocationStatus } from './google-maps.mjs';
-import { EXPLORER_GROUPS, explorerDetail, externalFootUrl, externalTransitUrl } from './map-explorer.mjs';
+import { EXPLORER_GROUPS, explorerDetail, externalFootUrl, externalTransitUrl, mapPointInBounds } from './map-explorer.mjs';
 import { esc, btn, chip, status, urlLink, empty, transitPlanners } from './ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import { placeQuickFacts, placeImageHtml } from './place-profile.mjs';
@@ -30,6 +30,14 @@ export function explorerToolbar(ctx) {
     + '<div class="explorer-search"><label for="map-search">Orte und Angebote durchsuchen</label>'
     + '<input id="map-search" type="search" maxlength="100" value="' + esc(ex.search) + '" placeholder="Ort, Restaurant, Hostel, Sehenswürdigkeit …">'
     + btn('explorer-search', 'Suchen', 'search') + '</div>'
+    + '<div class="explorer-view-controls">'
+    + '<div class="inline">'+chip('explorer-viewport','Nur sichtbare Orte in der Liste',ex.viewportOnly===true,'toggle','target')
+    + '<span id="explorer-viewport-stat" class="muted" aria-live="polite">'
+    +(ex.viewportOnly?'Karte verschieben oder zoomen, um die Liste zu filtern':'Liste zeigt alle gefilterten Orte')
+    + '</span></div><div class="inline">'
+    + chip('explorer-display','Kompakt',ex.compact===true,'compact','list')
+    + chip('explorer-display','Detailliert',ex.compact!==true,'details','folder')
+    + '</div></div>'
     + '<div class="explorer-categories" aria-label="Orte filtern">'
     + chip('explorer-group', 'Alle Kategorien', ex.group === 'all', 'all')
     + keys.map(([id, group]) => '<button class="explorer-chip" type="button" data-action="explorer-group" data-value="'
@@ -65,7 +73,9 @@ export function explorerToolbar(ctx) {
 export function explorerList(ctx) {
   const ex = ctx.explorer;
   if (!ex) return '';
-  const items = [...ex.placed, ...ex.unlocated];
+  const items=ex.viewportOnly&&ex.viewportBounds
+    ?ex.placed.filter(item=>mapPointInBounds(item.point,ex.viewportBounds))
+    :[...ex.placed,...ex.unlocated];
   const cards = items.slice(0, ex.limit).map(item => {
     const details = explorerDetail(item, ctx.people.length);
     const category = item.explorerCategory;
@@ -105,11 +115,13 @@ export function explorerList(ctx) {
         : active && item.kind === 'activity' ? btn('edit', 'Im Plan bearbeiten', 'edit', item.id) : '')
       + '</div></article>';
   }).join('');
-  return '<section class="section explorer-list"><div class="subheading"><div><h2>Alle passenden Orte & Angebote</h2>'
-    + '<p>' + ex.total + ' Einträge · ' + ex.placed.length + ' mit genauer Position · '
-      + ex.unlocated.length + ' ohne belegte Koordinaten</p></div></div>'
+  return '<section class="section explorer-list'+(ex.compact?' is-compact':'')+'"><div class="subheading"><div><h2>Alle passenden Orte & Angebote</h2>'
+    + '<p>'+items.length+(ex.viewportOnly?' im sichtbaren Kartenausschnitt':' passende Einträge')
+      +' · '+ex.placed.length+' Kartenpunkte'
+      +(ex.viewportOnly?' · Einträge ohne genaue Position ausgeblendet'
+        :' · '+ex.unlocated.length+' ohne belegte Koordinaten')+'</p></div></div>'
     + '<p class="muted">Alle Angebote haben eine ortsbezogene Google-Maps-Suche sowie einen ÖPNV-Anreiselink. Bei fehlendem Pin wird nach Name/Adresse gesucht; Airbnb zeigt nur den bekannten Ortsbereich. Google ermittelt Fahrten erst beim Öffnen, es werden keine 2027er Zeiten vorgetäuscht.</p>'
-    + (items.length ? '<div class="explorer-list-grid">' + cards + '</div>' : empty('Keine passenden Einträge', 'Kategorie, Ort oder Suchbegriff ändern.'))
+    + (items.length ? '<div class="explorer-list-grid">' + cards + '</div>' : empty('Keine passenden Einträge', 'Karte verschieben, Zoom ändern oder Filter zurücksetzen.'))
     + (items.length > ex.limit ? '<div class="explorer-more">' + btn('explorer-more', 'Weitere ' + Math.min(60, items.length - ex.limit) + ' anzeigen', 'plus') + '</div>' : '')
     + '</section>';
 }

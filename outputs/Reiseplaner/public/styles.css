@@ -871,3 +871,21 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 .poi-cluster-icon{cursor:zoom-in}
 .poi-cluster-icon:hover .poi-cluster-count{background:#23825e;transform:scale(1.08)}
 @media(prefers-reduced-motion:reduce){.poi-cluster-icon:hover .poi-cluster-count{transform:none}}
+
+
+/* Card density and on-map viewport search keep hundreds of records navigable. */
+.explorer-view-controls{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;
+ padding:9px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.explorer-view-controls .inline{gap:7px}
+.explorer-view-controls #explorer-viewport-stat{font-size:.72rem}
+.explorer-list.is-compact .explorer-list-grid{grid-template-columns:repeat(auto-fit,minmax(min(400px,100%),1fr));gap:8px}
+.explorer-list.is-compact .explorer-place{padding:12px 14px;gap:7px;border-radius:12px}
+.explorer-list.is-compact .explorer-place-title h3{font-size:.93rem}
+.explorer-list.is-compact .explorer-description{font-size:.76rem;line-height:1.45;
+ display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.explorer-list.is-compact .explorer-place>.place-photo,
+.explorer-list.is-compact .explorer-place>.place-quick-facts,
+.explorer-list.is-compact .explorer-place>.explorer-facts,
+.explorer-list.is-compact .explorer-place>.muted{display:none}
+.explorer-list.is-compact .explorer-place>.row-actions{gap:5px;padding-top:0}
+.explorer-list.is-compact .explorer-place .button{font-size:.7rem;min-height:31px;padding:5px 8px}

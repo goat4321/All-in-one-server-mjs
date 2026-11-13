@@ -6,6 +6,7 @@ import { TripMap } from './map.mjs';
 import { transitFares } from './transit.mjs';
 import { railSalesStatus } from './verification.mjs';
 import { explorerData, explorerRouteInput, validPoint } from './map-explorer.mjs';
+import { explorerList } from './explorer-ui.mjs';
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
 import { btn, empty, esc, icon } from './ui.mjs';
@@ -23,6 +24,7 @@ const view = {
   optionFilter: 'all', sort: 'source', compareIds: new Set(),
   mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
   mapNearPointId: null, mapNearRadiusKm: 3,
+  mapViewportOnly:false,mapViewportBounds:null,mapCompact:true,
   mapFrom: null, mapTo: null, mapRouteMode: 'walk', mapRouteTime: '10:00', mapRouteResult: null,
   dayQueueIds: [], dayQueueRoutes: [], dayQueueTime: '09:00', dayQueueStatus: '',
   dayQueueFocus: 0, dayQueueDisplay: 'all',
@@ -125,6 +127,7 @@ function buildContext() {
       nearbyPoint: nearbyAnchor?.point??null, radiusKm:view.mapNearRadiusKm,
     }),
     scope: view.mapScope, group: view.mapGroup, search: view.mapSearch,
+    viewportOnly:view.mapViewportOnly,viewportBounds:view.mapViewportBounds,compact:view.mapCompact,
     nearby:nearbyAnchor?{id:nearbyAnchor.id,name:nearbyAnchor.name,
       point:nearbyAnchor.point,radiusKm:view.mapNearRadiusKm}:null,
     showCityReferences: view.mapShowCityReferences,
@@ -186,6 +189,27 @@ function selectPoint(id, focusMap = true) {
   }
 }
 
+function visibleBounds(map) {
+  if(!map)return null;
+  const bounds=map.getBounds();
+  return [bounds.getSouth(),bounds.getWest(),bounds.getNorth(),bounds.getEast()];
+}
+// Only update the HTML results when the map is moved. Do not recreate Leaflet
+// from its own moveend listener, which would erase pan/zoom state.
+function refreshViewportList() {
+  if(view.page!=='map'||!view.mapViewportOnly||!currentMap)return;
+  const bounds=visibleBounds(currentMap.map);
+  if(!bounds)return;
+  const previous=view.mapViewportBounds;
+  if(previous&&bounds.every((v,i)=>Math.abs(v-previous[i])<0.000001))return;
+  view.mapViewportBounds=bounds;
+  context=buildContext();
+  const list=app.querySelector('.explorer-list');
+  if(list)list.outerHTML=explorerList(context);
+  const line=app.querySelector('#explorer-viewport-stat');
+  if(line)line.textContent='Liste folgt dem sichtbaren Kartenausschnitt';
+}
+
 function render({ restoreView = false, focusMap = false, fetchRoutes = true } = {}) {
   if (!variant) return;
   const previous = currentMap && restoreView ? [currentMap.map.getCenter(), currentMap.map.getZoom()] : null;
@@ -231,6 +255,8 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
     paintMap(true);
     if (previous) currentMap.map.setView(previous[0], previous[1], { animate: false });
     if (focusMap) currentMap.focus(context.selected);
+    currentMap.map.on('moveend',refreshViewportList);
+    if(view.mapViewportOnly)refreshViewportList();
   }
   if (fetchRoutes) void fetchCachedRoutes(context);
 }
@@ -294,7 +320,7 @@ async function switchVariant(id) {
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
     view.mapFrom = view.mapTo = view.mapRouteResult = null;
-    view.mapNearPointId=null;
+    view.mapNearPointId=null;view.mapViewportOnly=false;view.mapViewportBounds=null;
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0; view.geocodeReview=null;
     view.total = view.menu = false;
     view.compareIds.clear();
@@ -314,7 +340,7 @@ function showCity(id, date, wholeDay = false) {
   view.date = date || (context.city === id ? context.date : context.dates.find(d => context.cityForDay(d) === id)
     ?? context.trip.stayByCity[id]?.from ?? context.dates.find(d => dayEntries(context.active, d, id).length) ?? context.date);
   view.selected = null;
-  view.mapNearPointId=null;
+  view.mapNearPointId=null;view.mapViewportOnly=false;view.mapViewportBounds=null;
   view.total = view.menu = false;
   view.compareIds.clear();
   render();
@@ -570,6 +596,15 @@ async function action(name, value = '') {
     case 'explorer-search':
       view.mapSearch = document.querySelector('#map-search')?.value?.trim().slice(0, 100) ?? '';
       view.mapListLimit = 60; render({ restoreView: true }); break;
+    case 'explorer-viewport':
+      view.mapViewportOnly=!view.mapViewportOnly;
+      view.mapViewportBounds=view.mapViewportOnly?visibleBounds(currentMap?.map):null;
+      view.mapListLimit=60;
+      render({restoreView:true,fetchRoutes:false});break;
+    case 'explorer-display':
+      if(!['compact','details'].includes(value))break;
+      view.mapCompact=value==='compact';
+      render({restoreView:true,fetchRoutes:false});break;
     case 'explorer-nearby': {
       if(!item||!validPoint(item.point)){say('Für eine Umkreissuche ist ein belegter Kartenpunkt nötig.');break;}
       view.mapNearPointId=item.id;view.mapNearRadiusKm=3;
