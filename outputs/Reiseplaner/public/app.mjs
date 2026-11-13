@@ -21,6 +21,7 @@ const view = {
   mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60,
   mapFrom: null, mapTo: null, mapRouteMode: 'walk', mapRouteTime: '10:00', mapRouteResult: null,
   dayQueueIds: [], dayQueueRoutes: [], dayQueueTime: '09:00', dayQueueStatus: '',
+  geocodeReview: null,
 };
 const walks = new Map();
 const pendingWalks = new Map();
@@ -265,7 +266,7 @@ async function switchVariant(id) {
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
     view.mapFrom = view.mapTo = view.mapRouteResult = null;
-    view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = '';
+    view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.geocodeReview=null;
     view.total = view.menu = false;
     view.compareIds.clear();
     render();
@@ -535,6 +536,37 @@ async function action(name, value = '') {
       view.mapRouteTime = document.querySelector('#explorer-time')?.value ?? view.mapRouteTime;
       await calculateExplorerRoute(); break;
 
+    case 'geocode-lookup': {
+      if(!item?.address || item.booked){ say('Für diese Option ist keine offene Rechercheadresse vorhanden.');break; }
+      const result=await api('/api/geocode','POST',{variantId:variant.id,itemId:item.id});
+      view.geocodeReview={id:item.id,variantId:variant.id,candidates:result.candidates};
+      openDialog('Adresse auf der Karte prüfen',
+        '<p>Rechercheadresse: '+esc(result.address)+'</p>'
+        + '<p class="muted">'+esc(result.warning)+' Die Auswahl speichert nur einen nutzerbestätigten Kartenpunkt, keine Reservierung.</p>'
+        + (result.candidates.length
+          ? result.candidates.map((candidate,i)=>
+            '<div class="panel panel-pad"><p>'+esc(candidate.displayName)+'</p><p>Koordinate: '
+            +candidate.point.map(v=>v.toFixed(6)).join(', ')+'</p>'
+            +btn('geocode-apply','Diesen Punkt bewusst übernehmen','pin',String(i))+'</div>').join('')
+          : '<p>Keine plausiblen OSM-Suchergebnisse in der Zielregion; Adresse von Hand prüfen.</p>')
+        + '<p><a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer">© OpenStreetMap-Mitwirkende / Nominatim</a></p>');
+      break;
+    }
+    case 'geocode-apply': {
+      const review=view.geocodeReview;
+      if(!review || review.variantId!==variant.id)throw new Error('Die Geokodierung gehört zu einer anderen Variante.');
+      const candidate=review.candidates[Number(value)];
+      const original=ctx.all.find(x=>x.id===review.id);
+      if(!candidate || !original || original.booked || !original.address)
+        throw new Error('Der Kartenpunkt ist nicht mehr zuordenbar.');
+      const next={...ctx.state.edits,[original.id]:{
+        ...ctx.state.edits[original.id],point:candidate.point,
+        address:original.address,
+        detail:(original.detail??'')+' · Kartenpunkt aus einer manuell bestätigten OpenStreetMap-Nominatim-Suche; genaue Eingangslage nicht unabhängig geprüft.',
+      }};
+      await save({...ctx.state,edits:next},'Nutzerbestätigten Kartenpunkt lokal gespeichert');
+      view.geocodeReview=null;closeDialog();break;
+    }
     case 'day-route-add':
       if (!item || item.kind !== 'activity' || !item.point || item.city !== ctx.city
         || ctx.activeSet.has(item.id) || item.locked || item.booked) {
