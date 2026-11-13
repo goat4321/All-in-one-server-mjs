@@ -148,7 +148,7 @@ try {
     'Start und Ziel tauschen');
   await until(() => js('Boolean(document.querySelector(".explorer-route-result"))'), 'Interaktives Routenresultat');
   await click('[data-action=explorer-zoom-route]');
-  assert.equal(pageErrors.length,0,'Keine Browser-JavaScript-Ausnahme beim Tauschen/Zoomen');
+  assert.equal(pageErrors.length,0,'Keine Browser-JavaScript-Ausnahme beim Tauschen/Zoomen: '+pageErrors.join(' | '));
   await click('[data-action=choose][data-value="local:nardi"]');
   await text('dialog', 'Aktivität einplanen');
   await save();
