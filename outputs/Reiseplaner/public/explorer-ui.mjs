@@ -1,3 +1,4 @@
+import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, googleMapsPlaceQuery, googleMapsLocationStatus } from './google-maps.mjs';
 import { EXPLORER_GROUPS, explorerDetail, externalFootUrl, externalTransitUrl } from './map-explorer.mjs';
 import { esc, btn, chip, status, urlLink, empty, transitPlanners } from './ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
@@ -36,7 +37,8 @@ export function explorerToolbar(ctx) {
       + btn('explorer-clear-route', 'Zurücksetzen', 'reset') + '</div>'
     + '<p role="status" class="explorer-status">' + esc(statusLine) + '</p>'
     + (from && to ? '<div class="inline">' + (ex.routeMode === 'walk' ? (urlLink(externalFootUrl(from, to), 'Fußweg in OpenStreetMap') || '') : '')
-      + (urlLink(externalTransitUrl(from, to), 'ÖPNV-Route extern ansehen') || '')
+      + (urlLink(externalTransitUrl(from, to,ctx.cities), 'Google Maps · ÖPNV A → B') || '')
+      + (urlLink(googleMapsDirectionsUrl(from,to,ctx.cities,'walking'), 'Google Maps · Zu Fuß A → B') || '')
       + (urlLink(transitUrl, 'Verkehrsbetrieb / Tarife prüfen') || '') + '</div>' : '')
     + '<p class="muted">Nur berechnete Fußwege werden als reale Straßen dargestellt. Fehlende oder außerhalb des Datenzeitraums liegende ÖPNV-Fahrten werden nicht geschätzt.</p>'
     + '</div></section>';
@@ -52,8 +54,11 @@ export function explorerList(ctx) {
     const located = Array.isArray(item.point) && item.point.length === 2;
     const active = ctx.activeSet.has(item.id);
     const canPlan = !active && item.kind !== 'transport';
-    const actions = located ? btn('explorer-start', 'Als Start', 'pin', item.id)
-      + btn('explorer-end', 'Als Ziel', 'arrow', item.id) : '';
+    // A and B can be researched in Google Maps even before an exact POI pin is confirmed.
+    // Internal OSRM/GTFS routing still requires exact coordinates.
+    const actions = googleMapsPlaceQuery(item,ctx.cities)
+      ? btn('explorer-start', 'Als Start', 'pin', item.id)
+        + btn('explorer-end', 'Als Ziel', 'arrow', item.id) : '';
     return '<article class="explorer-place panel" data-place-id="' + esc(item.id) + '">'
       + '<div class="explorer-place-title"><span class="category-swatch ' + category + '"></span><div><h3>'
       + esc(item.name) + '</h3><small>' + esc(ctx.cities[item.city]?.name ?? item.city) + ' · '
@@ -65,8 +70,10 @@ export function explorerList(ctx) {
       + details.extra.slice(0, 5).map(line => '<span>' + esc(line) + '</span>').join('')
       + '</div>'
       + '<p class="muted">Quellenstand: ' + esc(details.sourceStatus)
-      + (located ? '' : ' · Exakter Kartenpunkt nicht belegt') + '</p>'
+      + ' · ' + esc(googleMapsLocationStatus(item)) + '</p>'
       + '<div class="row-actions">' + (located ? btn('explorer-focus', 'Auf Karte', 'map', item.id) : '')
+      + (urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item)) || '')
+      + (urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),'Google Maps · ÖPNV-Anreise') || '')
       + btn('details', 'Alle Details & Quellen', 'folder', item.id)
       + (!located && item.address && !item.booked ? btn('geocode-lookup', 'Kartenstandort prüfen', 'pin', item.id) : '')
       + actions
@@ -78,7 +85,7 @@ export function explorerList(ctx) {
   return '<section class="section explorer-list"><div class="subheading"><div><h2>Alle passenden Orte & Angebote</h2>'
     + '<p>' + ex.total + ' Einträge · ' + ex.placed.length + ' mit genauer Position · '
       + ex.unlocated.length + ' ohne belegte Koordinaten</p></div></div>'
-    + '<p class="muted">Die Liste enthält auch Einträge ohne genaue Koordinaten. Nicht bestätigte Preise, Öffnungszeiten, Speisekarten und Zimmer werden ausdrücklich als offen angezeigt. Neue Tagespunkte werden nur nach deiner Auswahl gespeichert.</p>'
+    + '<p class="muted">Alle Angebote haben eine ortsbezogene Google-Maps-Suche sowie einen ÖPNV-Anreiselink. Bei fehlendem Pin wird nach Name/Adresse gesucht; Airbnb zeigt nur den bekannten Ortsbereich. Google ermittelt Fahrten erst beim Öffnen, es werden keine 2027er Zeiten vorgetäuscht.</p>'
     + (items.length ? '<div class="explorer-list-grid">' + cards + '</div>' : empty('Keine passenden Einträge', 'Kategorie, Ort oder Suchbegriff ändern.'))
     + (items.length > ex.limit ? '<div class="explorer-more">' + btn('explorer-more', 'Weitere ' + Math.min(60, items.length - ex.limit) + ' anzeigen', 'plus') + '</div>' : '')
     + '</section>';
