@@ -146,7 +146,8 @@ function paintMap(fit = false) {
   currentMap.paint({ trip: context.trip, city: context.city, cities: context.cities, entries: context.day, stops: context.stops,
     dayTravel: context.dayTravel, routes: context.routes, options: context.options, total: context.total,
     filters: context.filters, focused: context.selected, timetablePreview: context.timetablePreview,
-    explorer: context.explorer, dayRoute: context.dayRoute });
+    explorer: context.explorer, dayRoute: context.dayRoute,
+    profileCtx: {people:context.people,cities:context.cities,state:context.state} });
   if (fit) currentMap.fit();
 }
 
@@ -201,7 +202,8 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   const element = document.querySelector('#map');
   if (element && mapVisible(context) && window.L) {
     currentMap = new TripMap(element, {
-      select: id => selectPoint(id, false), leg: index => action('leg', index), visitCity: id => action('city', id),
+      select: id => { selectPoint(id, false); currentMap?.markers.get(id)?.openPopup(); },
+      leg: index => action('leg', index), visitCity: id => action('city', id),
       routeStop: index => action('day-route-focus', String(index)),
       report: message => {
         const hint = document.querySelector('#map-hint');
@@ -681,6 +683,38 @@ async function action(name, value = '') {
     case 'transit': view.filters.transit[value] = !view.filters.transit[value]; render({ restoreView: true }); break;
     case 'layers': layerForm(ctx); break;
     case 'select': selectPoint(value); break;
+    case 'photo-edit': {
+      if (!item) break;
+      const current=ctx.state.placePhotos?.[item.id]??{};
+      const wrap=(label,key,value)=>'<label class="field wide"><span>'+esc(label)+'</span>'
+        +'<input name="'+key+'" type="text" value="'+esc(value??'')+'" maxlength="1200" required></label>';
+      openDialog('Foto und Bildquelle · '+item.name,
+        '<p class="muted">Nur Bilder verwenden, für die eine geeignete Nutzungserlaubnis besteht. Originalfoto oder Wikimedia-Commons-Bild mit korrekter Lizenzangabe und Quelle eintragen. Externe Bilder werden im Browser direkt vom Bildanbieter geladen.</p>'
+        +'<form id="modal-form"><div class="form-grid">'
+        +wrap('Direkter HTTPS-Bildlink','url',current.url)
+        +wrap('Urheber / Namensnennung / Lizenz','credit',current.credit)
+        +wrap('HTTPS-Link zur Bild-/Lizenzquelle','sourceUrl',current.sourceUrl)
+        +'</div><div class="form-error" aria-live="polite"></div>'
+        +'<div class="dialog-foot"><button type="button" class="button" data-action="close">Abbrechen</button>'
+        +'<button type="submit" class="button primary">Foto übernehmen</button></div></form>',
+        async data=>{
+          const photo={url:String(data.get('url')??'').trim(),
+            credit:String(data.get('credit')??'').trim(),
+            sourceUrl:String(data.get('sourceUrl')??'').trim()};
+          if([photo.url,photo.sourceUrl].some(url=>url.length>1200
+             || !/^https:\/\/[^\s]+$/i.test(url))
+             || !photo.credit || photo.credit.length>180)
+            throw new Error('Gültige HTTPS-Links sowie Urheber und Lizenz angeben.');
+          await save({...ctx.state,placePhotos:{...(ctx.state.placePhotos??{}),[item.id]:photo}},
+            'Foto mit Quelle in dieser Reisevariante gespeichert');
+        });
+      break;
+    }
+    case 'photo-remove': {
+      if(!item||!ctx.state.placePhotos?.[item.id])break;
+      const photos={...ctx.state.placePhotos};delete photos[item.id];
+      await save({...ctx.state,placePhotos:photos},'Ortsfoto aus Reisevariante entfernt');break;
+    }
     case 'details': if (item) itemDetails(ctx, item); break;
     case 'verify-item': if (item && ['lodging', 'transport'].includes(item.kind)) verificationForm(ctx, item, save); break;
     case 'rail-reminder': {
