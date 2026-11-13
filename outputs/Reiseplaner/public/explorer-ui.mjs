@@ -42,7 +42,8 @@ export function explorerToolbar(ctx) {
     + chip('explorer-group', 'Alle Kategorien', ex.group === 'all', 'all')
     + keys.map(([id, group]) => '<button class="explorer-chip" type="button" data-action="explorer-group" data-value="'
       + id + '" aria-pressed="' + (ex.group === id) + '"><i class="category-swatch ' + id
-      + '"></i>' + esc(group.label) + '</button>').join('') + '</div>'
+      + '"></i>' + esc(group.label) + '</button>').join('')
+    +btn('explorer-reset','Alle Ortsfilter zurücksetzen','reset')+'</div>'
     + '<div class="inline">'
     + chip('explorer-references', 'Schematische Stadt-Sammelmarker (' + ex.unlocated.length + ')',
       ex.showCityReferences === true, 'toggle', 'pin')

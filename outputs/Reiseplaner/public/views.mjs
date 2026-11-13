@@ -233,13 +233,18 @@ function mapPanel(ctx, full = false) {
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
     <div class="map-wrap" data-map-tone="${esc(ctx.mapTone)}"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div>
+      ${ctx.explorer?'<div class="map-atlas-hud" aria-live="polite"><strong>'+ctx.explorer.placed.length
+        +' Kartenpunkte</strong><small>'+ctx.explorer.unlocated.length+' ohne präzisen Kartenpunkt · Sammelmarker sind keine Adressen</small></div>':''}
       ${ctx.explorer && ctx.dayRoute.items.length>1 && !ctx.total
         ? '<div class="route-map-hud"><span class="route-map-pulse"></span><strong>Route Studio</strong><span>'
           +ctx.dayRoute.items.length+' Stopps · '
           +(ctx.dayRoute.routes.filter(r=>r?.walkOnly).length)+' Fußwege berechnet</span></div>' : ''}
       <div class="map-hint" id="map-hint" hidden></div>
     <div class="map-legend"><span><i class="legend-line ${ctx.total ? 'dashed' : ''}"></i> ${ctx.total ? 'Städtefolge · Schema' : 'Berechneter Fußweg'}</span>
-    ${ctx.explorer ? Object.entries(EXPLORER_GROUPS).map(([id, group]) => '<span><i class="category-swatch ' + id + '"></i>' + esc(group.label) + '</span>').join('') : ''}
+    ${ctx.explorer ? Object.entries(EXPLORER_GROUPS).map(([id, group]) =>
+      '<button type="button" class="map-legend-control" data-action="explorer-group" data-value="'+esc(id)
+      +'" aria-pressed="'+(ctx.explorer.group===id)+'" title="Nur diese Kategorie auf der Karte anzeigen">'
+      +'<i class="category-swatch '+esc(id)+'"></i>'+esc(group.label)+'</button>').join('') : ''}
     ${ctx.explorer?.showCityReferences && ctx.explorer.unlocated.length ? '<span>Grau gestrichelt ? = Stadt-Sammelmarker, keine nachgewiesene Objektposition</span>' : ''}
     ${!ctx.total && t.stations && ctx.dayTravel.length ? '<span><i class="legend-line dashed"></i> Tagesfahrt · Schema</span>' : ''}
     ${!ctx.total && (ctx.timetablePreview || ctx.routes.some(route => route?.legs?.length)) ? '<span>ÖPNV · gespeicherter / referenzierter Fahrplan, Reisedatum prüfen</span>' : ''}

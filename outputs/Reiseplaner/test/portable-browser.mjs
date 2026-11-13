@@ -118,6 +118,11 @@ try {
   await click('[data-action=explorer-display][data-value=compact]');
   await text('#main', 'Reiseroute entdecken');
   await until(() => js('document.querySelectorAll(".route-city-step").length >= 4'), 'Interaktive Stadtetappen');
+  await until(() => js('document.querySelectorAll(".map-legend-control").length===5'),'Fünf anklickbare Kartenkategorien');
+  await click('.map-legend-control[data-value=food]');
+  await until(() => js('document.querySelector(".map-legend-control[data-value=food]")?.getAttribute("aria-pressed")==="true"'),'Kategorie direkt auf Kartenlegende gewählt');
+  await click('[data-action=explorer-reset]');
+  await until(() => js('document.querySelector(".explorer-scope")?.textContent.includes("Gesamte Reise")'), 'Kartenfilter zurückgesetzt');
   await click('[data-action=map-tone][data-value=midnight]');
   await until(() => js('document.querySelector(".map-wrap")?.dataset.mapTone === "midnight"'), 'Midnight Kartenstil');
   assert.equal(await js('localStorage.getItem("reiseplan-map-tone")'),'midnight');

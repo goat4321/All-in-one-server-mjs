@@ -590,6 +590,11 @@ async function action(name, value = '') {
     case 'explorer-references':
       view.mapShowCityReferences = !view.mapShowCityReferences;
       render({ restoreView: true }); break;
+    case 'explorer-reset':
+      view.mapGroup='all';view.mapSearch='';view.mapScope='trip';view.total=true;
+      view.mapViewportOnly=false;view.mapViewportBounds=null;view.mapNearPointId=null;
+      view.mapListLimit=60;
+      render({fetchRoutes:false});break;
     case 'explorer-group':
       if (!['all', 'lodging', 'food', 'shop', 'activity', 'transport'].includes(value)) break;
       view.mapGroup = value; view.mapListLimit = 60; render({ restoreView: true }); break;
