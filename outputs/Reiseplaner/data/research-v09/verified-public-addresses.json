@@ -4,8 +4,8 @@
   "description": "Originalbenannte öffentliche Hotels, Hostels, Ferienwohnungen und Cafés aus den ungeklärten Katalogeinträgen; Quelle pro Hausadresse und GPS-Beleg. Keine Hotel-Checkouts, keine privaten Airbnb-Hausadressen. Weitere konkrete, öffentlich abrufbare Booking.com-/Tourismus-Hausadressen wurden einzeln ergänzt und bleiben bis zu unabhängiger Geokodierung ohne Pin.",
   "counts": {
     "entries": 50,
-    "withIndependentCoordinates": 9,
-    "verifiedAddressOnly": 41
+    "withIndependentCoordinates": 33,
+    "verifiedAddressOnly": 17
   },
   "warnings": [
     "No user-provided Airbnb wishlist address is geocoded.",
@@ -21,13 +21,17 @@
       "name": "Malacuna Barcelona",
       "address": "Carrer de la Unió 10–12, 08001 Barcelona, Spain",
       "sourceUrl": "https://www.booking.com/hotel/es/ideal-youth-hostel.de.html",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "",
+      "point": [
+        41.3797103,
+        2.1734994
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Vollständige öffentliche Anbieteranschrift Carrer de la Unió 10–12, 08001 Barcelona, Spain gegen OSM-Straße und Hausnummer Carrer de la Unió 10 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/11983640334"
     },
     {
       "id": "research:bcom_85890",
@@ -52,13 +56,17 @@
       "name": "Le Stanze della Lanterna",
       "address": "Via Galata 39/8, 16121 Genova, Italy",
       "sourceUrl": "https://www.lestanzedellalanterna.com/contatti",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "",
+      "point": [
+        44.4087082,
+        8.9436897
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Vollständige öffentliche Anbieteranschrift Via Galata 39/8, 16121 Genova, Italy gegen OSM-Straße und Hausnummer Via Galata 39 geprüft. Unterkunftseinheit 39/8; der verortete Hausnummernknoten 39 ist nur das Gebäude, nicht Apartmenttür 8.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/1504210649"
     },
     {
       "id": "research:bcom_787203",
@@ -83,13 +91,17 @@
       "name": "B&B HOTEL Nice Stade Riviera",
       "address": "311 Boulevard du Mercantour, 06200 Nice, France",
       "sourceUrl": "https://www.hotel-bb.com/de/hotel/nice-stade-riviera",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "",
+      "point": [
+        43.699313,
+        7.189506
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Vollständige öffentliche Anbieteranschrift 311 Boulevard du Mercantour, 06200 Nice, France gegen OSM-Straße und Hausnummer Boulevard du Mercantour 311 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/13426135880"
     },
     {
       "id": "research:bcom_15322595",
@@ -97,13 +109,17 @@
       "name": "Gite Maïoun Cremat",
       "address": "12 Chemin du Collet de Bellon, 06200 Nice, France",
       "sourceUrl": "https://www.explorenicecotedazur.com/location-vacances/gite-maioun-cremat-le-baou-2/",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "Liegenschaft laut offiziellem Tourismusamt; mehrere separate Gîte-Varianten Le Baou / Le Mercantour an derselben Adresse. Gebuchte Einheit nicht eindeutig.",
+      "point": [
+        43.733395,
+        7.211417
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Liegenschaft laut offiziellem Tourismusamt; mehrere separate Gîte-Varianten Le Baou / Le Mercantour an derselben Adresse. Gebuchte Einheit nicht eindeutig. Vollständige öffentliche Anbieteranschrift 12 Chemin du Collet de Bellon, 06200 Nice, France gegen OSM-Straße und Hausnummer Chemin du Collet de Bellon 12 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/13444802121"
     },
     {
       "id": "research:bcom_51188",
@@ -145,13 +161,17 @@
       "name": "Campanile Paris 12 Bercy Village",
       "address": "17 Rue Baron Le Roy, 75012 Paris, France",
       "sourceUrl": "https://paris-12-bercy-village.campanile.com/fr-fr/",
-      "point": null,
-      "precision": "conflicting_17_vs_19",
-      "remark": "Offizielle Hotelwebsite nennt Hausnummer 17; das Pariser Tourismusportal nennt 19. Adresskonflikt vor Übernahme einer einzelnen Gebäudekoordinate klären.",
+      "point": [
+        48.8352035,
+        2.3875606
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Offizielle Hotelwebsite nennt Hausnummer 17; das Pariser Tourismusportal nennt 19. Adresskonflikt vor Übernahme einer einzelnen Gebäudekoordinate klären. Vollständige öffentliche Anbieteranschrift 17 Rue Baron Le Roy, 75012 Paris, France gegen OSM-Straße und Hausnummer Rue Baron Le Roy 17 geprüft. Hotel-Betreiber nennt Rue Baron Le Roy 17, Pariser Tourismusportal abweichend 19; 17 ist quellengedeckter Gebäudeanker, Eingang bleibt zu prüfen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/1418667929"
     },
     {
       "id": "research:bcom_882071",
@@ -176,13 +196,17 @@
       "name": "Les Patios du Marais 1",
       "address": "26 Rue des Gravilliers, 75003 Paris, France",
       "sourceUrl": "https://www.patiosdumarais.com/",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "Gemeinsamer Haus-/Anlagenzugang, konkrete Apartment-Einheit 1 nicht separiert.",
+      "point": [
+        48.8638965,
+        2.3566337
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Gemeinsamer Haus-/Anlagenzugang, konkrete Apartment-Einheit 1 nicht separiert. Vollständige öffentliche Anbieteranschrift 26 Rue des Gravilliers, 75003 Paris, France gegen OSM-Straße und Hausnummer Rue des Gravilliers 26 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/708490522"
     },
     {
       "id": "research:bcom_230783",
@@ -207,13 +231,17 @@
       "name": "MEININGER Hotel Paris Porte de Vincennes",
       "address": "37 Boulevard Carnot, 75012 Paris, France",
       "sourceUrl": "https://help-center.meininger-hotels.com/fr/support/solutions/articles/79000143507-se-rendre-au-meininger-hotel-paris-porte-de-vincennes",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "",
+      "point": [
+        48.8433616,
+        2.4131235
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Vollständige öffentliche Anbieteranschrift 37 Boulevard Carnot, 75012 Paris, France gegen OSM-Straße und Hausnummer Boulevard Carnot 37 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/1438759343"
     },
     {
       "id": "research:bcom_3199845",
@@ -221,13 +249,17 @@
       "name": "Hotel Gletscherblick Grindelwald",
       "address": "Kirchbühlstrasse 14, 3818 Grindelwald, Switzerland",
       "sourceUrl": "https://jungfrauregion.swiss/en/footer/detail-footer/hotel-gletscherblick-793447b2-bd07-4f87-9de8-a33651eacaa1.html",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "",
+      "point": [
+        46.6279305,
+        8.0472519
+      ],
+      "precision": "verified_osm_building_centroid",
+      "remark": "Vollständige öffentliche Anbieteranschrift Kirchbühlstrasse 14, 3818 Grindelwald, Switzerland gegen OSM-Straße und Hausnummer Kirchbühlstrasse 14 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/way/278638380"
     },
     {
       "id": "research:bcom_307250",
@@ -252,13 +284,17 @@
       "name": "Gemmi Hotel & Spa",
       "address": "Innere Dorfstrasse 199, 3718 Kandersteg, Switzerland",
       "sourceUrl": "https://www.booking.com/hotel/ch/gemmi-kandersteg.de.html",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "",
+      "point": [
+        46.478744,
+        7.664783
+      ],
+      "precision": "verified_osm_building_centroid",
+      "remark": "Vollständige öffentliche Anbieteranschrift Innere Dorfstrasse 199, 3718 Kandersteg, Switzerland gegen OSM-Straße und Hausnummer Innere Dorfstrasse 199 geprüft. Gemmi Hotel & Spa an Innere Dorfstrasse 199; mehrere Gebäudeteile sowie altes Gemmi-Lodge-Label. Gebäudezentrum, nicht Resort-Eingang.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/way/225204285"
     },
     {
       "id": "research:bcom_9893804",
@@ -266,13 +302,17 @@
       "name": "Swiss Alps Lodge",
       "address": "Innere Arelestrasse 23, 3718 Kandersteg, Switzerland",
       "sourceUrl": "https://www.booking.com/hotel/ch/swiss-alps-lodge.de.html",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "",
+      "point": [
+        46.499034,
+        7.6736161
+      ],
+      "precision": "verified_osm_building_centroid",
+      "remark": "Vollständige öffentliche Anbieteranschrift Innere Arelestrasse 23, 3718 Kandersteg, Switzerland gegen OSM-Straße und Hausnummer Innere Arelestrasse 23 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/way/228151540"
     },
     {
       "id": "research:bcom_5391301",
@@ -280,13 +320,17 @@
       "name": "Büelbad Relax Holiday Apartment",
       "address": "Äussere Dorfstrasse 168, 3718 Kandersteg, Switzerland",
       "sourceUrl": "https://www.booking.com/hotel/ch/buelbad-relax-holiday-apartment.de.html",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "",
+      "point": [
+        46.5049622,
+        7.6791179
+      ],
+      "precision": "verified_osm_building_centroid",
+      "remark": "Vollständige öffentliche Anbieteranschrift Äussere Dorfstrasse 168, 3718 Kandersteg, Switzerland gegen OSM-Straße und Hausnummer Aeussere Dorfstrasse 168 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/way/1340524007"
     },
     {
       "id": "tripsy:lodging:seed:iv-kandersteg",
@@ -311,13 +355,17 @@
       "name": "Wohnhaus Münzmühle in Appenzell",
       "address": "Enggenhüttenstrasse 72, 9050 Appenzell, Switzerland",
       "sourceUrl": "https://www.appenzell.ch/de/service/unterkuenfte.html?cHash=01a8f5bc22f33ac70ed32d50a3686c74&tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Bcontroller%5D=Housing&tx_wstourismus_tourismus%5Bhousing%5D=957",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "Ferienhaus Münzmühle öffentlich mit Straßenadresse; 2026 Endreinigung CHF 500, 2027er Buchung offen.",
+      "point": [
+        47.3391299,
+        9.394379
+      ],
+      "precision": "verified_osm_building_centroid",
+      "remark": "Ferienhaus Münzmühle öffentlich mit Straßenadresse; 2026 Endreinigung CHF 500, 2027er Buchung offen. Vollständige öffentliche Anbieteranschrift Enggenhüttenstrasse 72, 9050 Appenzell, Switzerland gegen OSM-Straße und Hausnummer Enggenhüttenstrasse 72 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/way/243544064"
     },
     {
       "id": "research:bcom_7584624",
@@ -325,13 +373,17 @@
       "name": "Blattenheimat traditionelles Appenzeller Haus",
       "address": "Blattenheimatstrasse 8, 9050 Appenzell, Switzerland",
       "sourceUrl": "https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/ferienwohnung-blattenheimat-og2.html",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "Wohnungseinheit aus ursprünglicher Booking-Liste unklar; Gebäude Nr. 8 bestätigt. Nicht mit Tripsy-Option 'Blattenheimat6' verwechseln.",
+      "point": [
+        47.3323808,
+        9.4065075
+      ],
+      "precision": "verified_osm_building_centroid",
+      "remark": "Wohnungseinheit aus ursprünglicher Booking-Liste unklar; Gebäude Nr. 8 bestätigt. Nicht mit Tripsy-Option 'Blattenheimat6' verwechseln. Vollständige öffentliche Anbieteranschrift Blattenheimatstrasse 8, 9050 Appenzell, Switzerland gegen OSM-Straße und Hausnummer Blattenheimatstrasse 8 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/way/242538994"
     },
     {
       "id": "research:bcom_4032998",
@@ -398,13 +450,17 @@
       "name": "Colombo House e L'isola che non c'è",
       "address": "Via Colombo 6, 16121 Genova, Italy",
       "sourceUrl": "https://www.booking.com/hotel/it/colombo-house-genova.it.html",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        44.4060338,
+        8.9441309
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt. Vollständige öffentliche Anbieteranschrift Via Colombo 6, 16121 Genova, Italy gegen OSM-Straße und Hausnummer Via Colombo 6 geprüft. Genova Via Colombo 6 (zivil), NICHT Via Colombo 6 rosso oder Via dei Colombo 6.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/566285675"
     },
     {
       "id": "research:bcom_16054934",
@@ -496,13 +552,17 @@
       "name": "Ca' Mercati Mestre Una camera",
       "address": "Via Monte Piana 38, 30171 Venezia Mestre, Italy",
       "sourceUrl": "https://www.booking.com/hotel/it/appartamento-x-vacanze-ca-mercati.html",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        45.4858474,
+        12.2279601
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt. Vollständige öffentliche Anbieteranschrift Via Monte Piana 38, 30171 Venezia Mestre, Italy gegen OSM-Straße und Hausnummer Via Monte Piana 38 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/9688346302"
     },
     {
       "id": "research:bcom_6206017",
@@ -524,13 +584,17 @@
       "name": "Appartamento in centro",
       "address": "Via Carlo Barabino 2, 16129 Genova, Italy",
       "sourceUrl": "https://www.booking.com/hotel/it/appartamento-in-centro-genova.it.html",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        44.3993335,
+        8.9519068
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt. Vollständige öffentliche Anbieteranschrift Via Carlo Barabino 2, 16129 Genova, Italy gegen OSM-Straße und Hausnummer Via Carlo Barabino 2 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/1467011385"
     },
     {
       "id": "research:bcom_12769785",
@@ -538,13 +602,17 @@
       "name": "Le Chic-Cadre Royal-Centre ville",
       "address": "Rue de Tunis 12, 34200 Sète, France",
       "sourceUrl": "https://www.booking.com/hotel/fr/le-chic-cadre-royal-centre-ville.de.html",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        43.4052264,
+        3.7000343
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt. Vollständige öffentliche Anbieteranschrift Rue de Tunis 12, 34200 Sète, France gegen OSM-Straße und Hausnummer Rue de Tunis 12 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/6216514521"
     },
     {
       "id": "research:bcom_16577964",
@@ -636,13 +704,17 @@
       "name": "Cocooning - Wifi Parking",
       "address": "Rue Marie Bashkirtseff 27, 06200 Nice, France",
       "sourceUrl": "https://www.booking.com/hotel/fr/cocooning-wifi-parking.de.html",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        43.6752296,
+        7.2245363
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt. Vollständige öffentliche Anbieteranschrift Rue Marie Bashkirtseff 27, 06200 Nice, France gegen OSM-Straße und Hausnummer Rue Marie Bashkirtseff 27 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/13444796626"
     },
     {
       "id": "research:bcom_16340567",
@@ -650,13 +722,17 @@
       "name": "Chalet Amaryllis Eiger View Apartment",
       "address": "Wychelstrasse 40, 3818 Grindelwald, Switzerland",
       "sourceUrl": "https://www.booking.com/hotel/ch/chalet-amaryllis-grindelwald.html",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        46.6271724,
+        8.0176496
+      ],
+      "precision": "verified_osm_building_centroid",
+      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt. Vollständige öffentliche Anbieteranschrift Wychelstrasse 40, 3818 Grindelwald, Switzerland gegen OSM-Straße und Hausnummer Wychelstrasse 40 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/way/320821425"
     },
     {
       "id": "research:bcom_789575",
@@ -664,13 +740,17 @@
       "name": "Ferienwohnung im Grünen",
       "address": "Brandeggstrasse 21, 3818 Grindelwald, Switzerland",
       "sourceUrl": "https://www.booking.com/hotel/ch/ferienwohnung-im-roth.de.html",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        46.6131003,
+        8.0164057
+      ],
+      "precision": "verified_osm_building_centroid",
+      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt. Vollständige öffentliche Anbieteranschrift Brandeggstrasse 21, 3818 Grindelwald, Switzerland gegen OSM-Straße und Hausnummer Brandeggstrasse 21 geprüft. Brandeggstrasse 21, nicht das separat kartierte 21a.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/way/322885191"
     },
     {
       "id": "research:bcom_12518316",
@@ -678,13 +758,17 @@
       "name": "Ferienwohnung Bärli Appenzell",
       "address": "Gaiserstrasse 1, 9050 Appenzell, Switzerland",
       "sourceUrl": "https://bookitbutton.booking.com/hotel/ch/ferienwohnung-barli-appenzell-appenzell.de.html",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        47.3312549,
+        9.4111926
+      ],
+      "precision": "verified_osm_building_centroid",
+      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt. Vollständige öffentliche Anbieteranschrift Gaiserstrasse 1, 9050 Appenzell, Switzerland gegen OSM-Straße und Hausnummer Gaiserstrasse 1 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/way/240649870"
     },
     {
       "id": "research:bcom_16984449",
@@ -692,13 +776,17 @@
       "name": "Frappi house front of the aquarium",
       "address": "Via San Luca 4/12c, 16124 Genova, Italy",
       "sourceUrl": "https://www.viamichelin.com/maps/hotels/poi/genoa-16124-f699302e",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        44.4099257,
+        8.9299011
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt. Vollständige öffentliche Anbieteranschrift Via San Luca 4/12c, 16124 Genova, Italy gegen OSM-Straße und Hausnummer Via San Luca 4 geprüft. Via San Luca 4, NICHT 4 rosso; Wohnungseinheit 12c nicht als eigener Eingang belegt.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/5139914226"
     },
     {
       "id": "research:bcom_17205591",
@@ -720,13 +808,17 @@
       "name": "Alloggi Ca'Vignotto Sant Erasmo Venezia",
       "address": "Via dei Forti 71, Sant'Erasmo, Venezia, Italy",
       "sourceUrl": "https://gratis-4659839.webadorsite.com/",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        45.4564213,
+        12.4162925
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt. Vollständige öffentliche Anbieteranschrift Via dei Forti 71, Sant'Erasmo, Venezia, Italy gegen OSM-Straße und Hausnummer Via dei Forti 71 geprüft. Explizit als Ca' Vignotto bezeichnetes OSM-Objekt an Via dei Forti 71, Insel Sant'Erasmo.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/4824492222"
     },
     {
       "id": "research:bcom_11815614",
@@ -734,13 +826,17 @@
       "name": "APPARTEMENT-NICE 01 VUE MER - PANORAMIQUE",
       "address": "Voie Romaine 69, 06000 Nice, France",
       "sourceUrl": "https://www.bedandbreakfast.eu/en/a/0ocZlmQPiBlJ/appartement-nice-01-vue-mer-panoramique-wifi-parking-climatisation",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        43.720641,
+        7.280377
+      ],
+      "precision": "verified_osm_address_node",
+      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt. Vollständige öffentliche Anbieteranschrift Voie Romaine 69, 06000 Nice, France gegen OSM-Straße und Hausnummer Voie Romaine 69 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "osmAddressRef": "https://www.openstreetmap.org/node/13448169206"
     }
   ]
 }
