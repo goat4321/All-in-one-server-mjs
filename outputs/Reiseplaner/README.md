@@ -1,3 +1,27 @@
+## v1.2 – Bedienqualität, Tutorial, Bilder, Smart Filter und Reisevorbereitung (13.11.2026)
+
+**Status: Im GitHub-Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, Pull Request #5; noch nicht gemergt oder öffentlich deployed.** Der bisherige v1.1-Abschnitt ist ein historischer Zwischenstand. Die folgenden Änderungen ergänzen seine bestehenden Detailprofile, Quellenansichten, Karten-Popups und die lokale Gruppenbewertung.
+
+### So verwendest du die neuen Funktionen
+1. Branch `feature/v7-data-day-accommodation-rail` auf GitHub auswählen, **Code → Download ZIP**, ZIP entpacken.
+2. Unter `outputs/Reiseplaner` **Start.cmd** starten (benötigt Node.js 24) und lokal `http://127.0.0.1:4173` öffnen. Eine laufende alte Instanz vorher beenden. Die private SQLite-Datei `private/reiseplan.sqlite` vor dem Ordnerwechsel sichern, nicht zu GitHub hochladen.
+3. **Tour** rechts oben startet jederzeit eine **siebenteilige geführte Einführung** in Planung, Karten, Unterkunftsvergleich, Zugrecherche, Budget, Gruppenabstimmung und Quellenprüfung. Mit Zurück/Weiter bzw. den Schrittpunkten navigieren, mit Esc oder Beenden abbrechen. Die Tour ändert keine Reisebuchung und kein Budget.
+4. **Budget → Tagesbudget-Simulator**: Tag und frei wählbare Zusatzannahmen für Essen, Nahverkehr, Aktivitäten sowie das Tagesziel pro Person einstellen. Vorhandene Hotelbeträge werden ausschließlich für diese Szenarioansicht centgenau auf Nächte verteilt. Die normale Budget- und Zahlungslogik wird nicht verändert; unbekannte Preise bleiben ausdrücklich offen.
+5. **Unterkünfte**: Nachtbudgetfilter, Entfernung bis 15 Minuten *bei tatsächlich berechnetem Bahnhof-Fußweg*, Bettenprüfung für die Gruppengröße und Preis-/Quellenstatus auswählen. Bis zu vier Unterkünfte nebeneinander vergleichen und die Auswahl vollständig leeren.
+6. **Entdecken**: Filter für 0-€-Referenzen, Wasser/Strand, erwähnte Schwimmmöglichkeiten und Gruppenfavoriten mit mindestens zwei Stimmen. Diese Text-/Referenzfilter sind keine Öffnungs-, Sicherheits- oder Verfügbarkeitsbestätigung.
+7. **Alle Details & Quellen → Foto zur Galerie hinzufügen**: bis zu fünf eigene, individuell mit HTTPS-Fotolink, Lizenz/Urheber und Quellenlink hinterlegte Bilder pro Eintrag. Bereits gespeicherte Einzelfotos bleiben verwendbar. Die Detailansicht zeigt eine Mehrbildgalerie, Quellen und Möglichkeit zum Entfernen einzelner eigener Fotos. Hinzugefügt sind zwei kuratierte Wikimedia-Commons-Referenzen zu Rialtobrücke und Oeschinensee (insgesamt fünf kuratierte Sehenswürdigkeiten). Keine automatisch übernommenen Hotel-/Airbnb-Anbieterbilder oder privaten Adressen.
+8. **Daten & Fristen → Fortschritt der Reisevorbereitung** zeigt getrennt die abgedeckten Unterkunftszeiträume, vollständig selbst dokumentierte Hotel- und Zugprüfungen, Planposten mit bekannten Preisen und erledigte lokale Fristen. Eine Eigenprüfung stellt keine Bestätigung durch einen Anbieter dar.
+
+### Qualität und Grenzen
+- Vollständiger CI-Lauf für die Funktionsentwicklung (Commit `41730270`): [#43474139218](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/43474139218) bestanden. Enthält JavaScript-Syntaxchecks, Forschungsdatenvalidierung, portable Node-Tests, Kartenbericht, echten Headless-Chrome-Browsertest und HTTP-Starttest. Die neue Galerie, der Simulator, die Filter und die Fortschrittsanzeigen besitzen Regressionstests.
+- Datenqualität bleibt getrennt von Bedienqualität: 642 variantenbezogene Karteneinträge; 413 mit Quellen-/Gebietsposition, 229 ohne belegten individuellen Pin. 42 private Airbnb-Wunschlisteneinträge haben keine frei verwendbare genaue Privatadresse. Historische Preisbeispiele sind keine datierten September-2027-Checkouts.
+- Fehlende 2027-Bahnbuchbarkeit, Endpreise, Steuern, Stornoregeln, konkrete Hotelzimmer, Menükosten und Bildrechte pro Objekt werden **nicht** erfunden. Bisher fehlen für die meisten Einträge individuell geprüfte Ortsfotos und aktuelle Anbieterinformationen.
+- Lokale Gruppenstimmen, Bildquellen und Reiseänderungen liegen in der jeweiligen privaten SQLite-Reisevariante. Kein Live-Mehrgeräteabgleich, kein automatisches Booking und kein Hosting im Internet.
+
+[Implementierungs- und Prüfprotokoll](PHASE_12_GUIDE_VISUAL_QUALITY.md)
+
+---
+
 ## v1.1 – Fünf Ausbauschritte: Detailprofile, Bilder, Budget, Unterkunftsvergleich, Gruppenwertung
 
 **Stand 13.11.2026 · Entwicklungsbranch (nicht deployed)**

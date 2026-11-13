@@ -1,4 +1,16 @@
-# Projektstand · 12.11.2026
+# Projektstand · 13.11.2026
+
+## Nachtrag 13.11.2026 – v1.2 Benutzerführung und datenbewusste Qualitätsverbesserung
+
+**Entwicklung im Branch `feature/v7-data-day-accommodation-rail`, PR #5; kein Merge oder Deployment.** Die ursprüngliche Übersicht vom 12.11.2026 bleibt im Folgenden als Baseline erhalten.
+
+**Neu implementiert:** siebenteiliges zugängliches In-App-Tutorial mit Modulnavigation und mobiler Ansicht; Tagesbudget-Szenariosimulator ohne Auswirkung auf Zahlungen oder Buchungen; präzisierter Küchen- und Preisfilter; vierteiliger Unterkunftsvergleich mit Zurücksetzen; Gruppenabstimmung ohne 15er-Deckel; Fotos mit Einzel-Lizenzangaben in kompatiblen Mehrbildgalerien (maximal fünf eigene pro Ort); zwei zusätzliche lizenzierte Commons-Sehenswürdigkeiten; transparente Smart Filter für nachgewiesene Bahnhof-Fußwege, gruppengrößenabhängige Bettenprüfung, 0-€-Referenz, Wasser/Schwimmen und Mehrheitsinteresse; fünf datenbasierte Fortschrittsindikatoren im Bereich Daten & Fristen.
+
+**Verifiziert:** Actions-Qualitätslauf [#43474139218](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/43474139218) mit Syntax, Datensatzvalidierung, Node-Regressionschecks, Kartenabdeckung, Headless Chrome und Server-Smoke vollständig erfolgreich. Detailliertes Protokoll in [PHASE_12_GUIDE_VISUAL_QUALITY.md](PHASE_12_GUIDE_VISUAL_QUALITY.md).
+
+**Weiterhin offen:** Vollständige Bildrechte/Quellen für alle Hunderte Datensätze; 229 variantenspezifisch ungenaue Kartenpunkte; ungeprüfte Zimmer-/Betten-/Gebührendetails und Stornierung für konkrete drei oder vier Reisende; Oktober/November-2026-Suchpreise statt bestätigter 2027er Checkoutpreise; verbindliche Züge, Gastrotarife und Öffnungszeiten für die tatsächlichen Reisetage. Der Fortschrittsindikator misst belegte Plan-/Eigeneinträge, **nicht** Buchungsbereitschaft oder objektive Reisefertigstellung. Die früheren fehlgeschlagenen optionalen Forschungs-Workflows werden nicht als Qualitätsnachweis ausgegeben, siehe separate CI-Berichte.
+
+
 
 Die private Webanwendung startet mit `Start.cmd` oder `node server.mjs`. Die lokale Vorschau auf Port 4173 antwortete mit HTTP 200 und vier Varianten. Das vollständige Projekt liegt im Ordner dieser Datei. Der V7-Gesamtumfang bleibt in Arbeit.
 
