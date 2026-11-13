@@ -22,6 +22,10 @@ const view = {
   mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
   mapFrom: null, mapTo: null, mapRouteMode: 'walk', mapRouteTime: '10:00', mapRouteResult: null,
   dayQueueIds: [], dayQueueRoutes: [], dayQueueTime: '09:00', dayQueueStatus: '',
+  dayQueueFocus: 0, dayQueueDisplay: 'all',
+  mapTone: ['standard','midnight','sand'].includes(localStorage.getItem('reiseplan-map-tone'))
+    ? localStorage.getItem('reiseplan-map-tone') : 'standard',
+  mapExpanded: false,
   geocodeReview: null,
 };
 const walks = new Map();
@@ -126,7 +130,8 @@ function buildContext() {
     budget: calculateBudget(active, state), day, fullDay, dates, date, city, cityForDay, dayCities, wholeDay, dayTravel, detail, hotelWalks, station,
     mealHotel, foodPlaces, foodWalks, explorer,
     dayRoute: { items: view.dayQueueIds.map(id => all.find(x => x.id === id)).filter(Boolean),
-      routes: view.dayQueueRoutes, time: view.dayQueueTime, status: view.dayQueueStatus },
+      routes: view.dayQueueRoutes, time: view.dayQueueTime, status: view.dayQueueStatus,
+      focusIndex: view.dayQueueFocus, displayMode: view.dayQueueDisplay },
     stops: stops.filter((item, i) => stops.indexOf(item) === i), segments, routes, conflictRoutes, saving, timetablePreview,
     options: all.filter(i => i.city === city && !activeSet.has(i.id) && !i.duplicateOf && !i.removed),
   };
@@ -141,7 +146,7 @@ function paintMap(fit = false) {
   currentMap.paint({ trip: context.trip, city: context.city, cities: context.cities, entries: context.day, stops: context.stops,
     dayTravel: context.dayTravel, routes: context.routes, options: context.options, total: context.total,
     filters: context.filters, focused: context.selected, timetablePreview: context.timetablePreview,
-    explorer: context.explorer });
+    explorer: context.explorer, dayRoute: context.dayRoute });
   if (fit) currentMap.fit();
 }
 
@@ -197,6 +202,7 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   if (element && mapVisible(context) && window.L) {
     currentMap = new TripMap(element, {
       select: id => selectPoint(id, false), leg: index => action('leg', index), visitCity: id => action('city', id),
+      routeStop: index => action('day-route-focus', String(index)),
       report: message => {
         const hint = document.querySelector('#map-hint');
         if (hint) { hint.textContent = message; hint.hidden = !message; }
@@ -268,7 +274,7 @@ async function switchVariant(id) {
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
     view.mapFrom = view.mapTo = view.mapRouteResult = null;
-    view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.geocodeReview=null;
+    view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0; view.geocodeReview=null;
     view.total = view.menu = false;
     view.compareIds.clear();
     render();
@@ -278,7 +284,7 @@ async function switchVariant(id) {
 function showCity(id, date, wholeDay = false) {
   if (!context.trip.route.includes(id)) return;
   if (id !== view.city || (date && date !== view.date)) {
-    view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = '';
+    view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0;
   }
   view.city = id;
   view.timetablePreview = null;
@@ -585,9 +591,12 @@ async function action(name, value = '') {
       if (view.dayQueueIds.includes(value)) { say('Dieser Stopp steht bereits in der Route.'); break; }
       if (view.dayQueueIds.length >= 8) { say('Maximal acht Stopps pro Tagesroute.'); break; }
       view.dayQueueIds=[...view.dayQueueIds,value];view.dayQueueRoutes=[];view.dayQueueStatus='';
-      render({restoreView:true}); break;
+      view.dayQueueFocus=view.dayQueueIds.length-1;
+      view.total=false;view.mapScope='city';
+      render({restoreView:true});currentMap?.focusStudioStop(view.dayQueueFocus); break;
     case 'day-route-remove':
       view.dayQueueIds=view.dayQueueIds.filter(id=>id!==value);
+      view.dayQueueFocus=Math.min(view.dayQueueFocus,Math.max(0,view.dayQueueIds.length-1));
       view.dayQueueRoutes=[];view.dayQueueStatus='';render({restoreView:true}); break;
     case 'day-route-up':
     case 'day-route-down': {
@@ -602,6 +611,7 @@ async function action(name, value = '') {
     case 'day-route-optimize': {
       const items=view.dayQueueIds.map(id=>ctx.all.find(i=>i.id===id));
       view.dayQueueIds=arrangeDayStops(items).map(i=>i.id);
+      view.dayQueueFocus=0;
       view.dayQueueRoutes=[];
       view.dayQueueStatus='Luftlinien-Vorsortierung. Vor Zeitübernahme echte Fußwege berechnen.';
       render({restoreView:true});break;
@@ -610,13 +620,62 @@ async function action(name, value = '') {
       view.dayQueueTime=document.querySelector('#day-route-start')?.value??view.dayQueueTime;
       await fetchDayQueueRoutes(); break;
     case 'day-route-clear':
-      view.dayQueueIds=[];view.dayQueueRoutes=[];view.dayQueueStatus='';
+      view.dayQueueIds=[];view.dayQueueRoutes=[];view.dayQueueStatus='';view.dayQueueFocus=0;
       render({restoreView:true}); break;
     case 'day-route-commit':
       await commitDayQueue(); break;
+    case 'day-route-focus':
+    case 'day-route-prev':
+    case 'day-route-next': {
+      const length=view.dayQueueIds.length;
+      if(!length)break;
+      const destination=name==='day-route-prev' ? view.dayQueueFocus-1
+        :name==='day-route-next' ? view.dayQueueFocus+1 : Number(value);
+      if(!Number.isInteger(destination))break;
+      view.dayQueueFocus=Math.max(0,Math.min(length-1,destination));
+      view.mapScope='city';view.total=false;
+      render({restoreView:true,fetchRoutes:false});
+      currentMap?.focusStudioStop(view.dayQueueFocus);
+      break;
+    }
+    case 'day-route-fit':
+      view.mapScope='city';view.total=false;
+      render({restoreView:true,fetchRoutes:false});
+      currentMap?.focusStudio();
+      break;
+    case 'day-route-display':
+      if(!['all','focus'].includes(value))break;
+      view.dayQueueDisplay=value;
+      view.mapScope='city';view.total=false;
+      render({restoreView:true,fetchRoutes:false});
+      if(value==='focus')currentMap?.focusStudioStop(view.dayQueueFocus);
+      else currentMap?.focusStudio();
+      break;
+    case 'explorer-swap': {
+      [view.mapFrom,view.mapTo]=[view.mapTo,view.mapFrom];
+      view.mapRouteResult=null;
+      if(view.mapFrom&&view.mapTo)await calculateExplorerRoute();
+      else render({restoreView:true});
+      break;
+    }
+    case 'explorer-zoom-route': {
+      const from=ctx.explorer?.connection?.from,to=ctx.explorer?.connection?.to;
+      if(from?.point&&to?.point)currentMap?.focusConnection(from.point,to.point);
+      else say('Für beide Orte sind belegte Koordinaten notwendig, um die Route zu zoomen.');
+      break;
+    }
     case 'explorer-clear-route':
       view.mapFrom = view.mapTo = view.mapRouteResult = null;
       render({ restoreView: true }); break;
+    case 'map-tone':
+      if(!['standard','midnight','sand'].includes(value))break;
+      view.mapTone=value;localStorage.setItem('reiseplan-map-tone',value);
+      render({restoreView:true,fetchRoutes:false});
+      break;
+    case 'map-expand':
+      view.mapExpanded=!view.mapExpanded;
+      render({restoreView:true,fetchRoutes:false});
+      break;
     case 'fit': currentMap?.fit(); break;
     case 'filter': view.filters[value] = !view.filters[value]; render({ restoreView: true }); break;
     case 'transit': view.filters.transit[value] = !view.filters.transit[value]; render({ restoreView: true }); break;
