@@ -39,8 +39,8 @@
   "eligible": 243,
   "queried": 243,
   "totals": {
-    "accepted": 174,
-    "review": 33,
+    "accepted": 175,
+    "review": 32,
     "unmatched": 39,
     "skipped": 44,
     "requestFailures": 0
@@ -3950,6 +3950,28 @@
       "manuallyReviewed": true,
       "locationDescription": "Rathaus Appenzell als Hauptgasse-/Altstadt-Orientierung; kein bestimmter Spaziergang-Einstieg und keine Route.",
       "geocodingMethod": "named point or clearly labelled regional orientation only"
+    },
+    {
+      "id": "local:food-v03-036",
+      "city": "marseille",
+      "name": "French Burger Vieux Port",
+      "address": "28 Rue Coutellerie, 13002 Marseille, France",
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "French Burger Vieux Port, 28 Rue Coutellerie, 13002 Marseille, France, Marseille",
+      "observedOn": "2026-11-13",
+      "provider": "French public restaurant business coordinates plus municipal permit for exact storefront address",
+      "point": [
+        43.2968687,
+        5.372008
+      ],
+      "sourceUrl": "https://www.keskeces.fr/restaurant/french-burger-13002-marseille.html",
+      "secondaryEvidenceUrl": "https://www.marseille.fr/sites/default/files/contenu/mairie/RAA/raa_662.pdf",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Geografische Restaurantdatenbank nennt Koordinaten 43.2968687/5.372008; die Stadt Marseille dokumentiert eine Terrassengenehmigung für French Burger, 28 Rue Coutellerie. Nicht gleich ein bestätigter Zugang oder 2027er Öffnungsstatus."
     }
   ],
   "review": [
@@ -5050,57 +5072,6 @@
           "osmName": "Offer",
           "street": "Carrer de la Pabordia",
           "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "local:food-v03-036",
-      "city": "marseille",
-      "name": "French Burger Vieux Port",
-      "address": "28 Rue Coutellerie, 13002 Marseille, France",
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "French Burger Vieux Port, 28 Rue Coutellerie, 13002 Marseille, France, Marseille",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.2968676,
-            5.3728146
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/67714569",
-          "osmName": "ResidHotel - Vieux port",
-          "street": "Rue de la Coutellerie",
-          "houseNumber": "4",
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.2968843,
-            5.375742
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/6570051733",
-          "osmName": "Chanel",
-          "street": "Rue de Bir Hakeim",
-          "houseNumber": "28",
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.2966754,
-            5.3749647
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/6967474368",
-          "osmName": "Carrefour Market",
-          "street": "Rue de Bir Hakeim",
-          "houseNumber": "28",
           "nameScore": 0,
           "addressMatch": false
         }
