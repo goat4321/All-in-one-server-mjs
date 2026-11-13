@@ -94,7 +94,9 @@ function content(ctx, city) {
   switch (ctx.page) {
     case 'overview': return overview(ctx);
     case 'map': return heading('Karten-Explorer', 'Alle Orte, Unterkünfte, Restaurants und Aktivitäten der Reise auf einer Karte')
-      + explorerDayStrip(ctx) + explorerToolbar(ctx) + mapPanel(ctx, true) + dayRouteView(ctx) + explorerList(ctx);
+      + explorerDayStrip(ctx) + explorerToolbar(ctx)
+      + '<div class="map-explorer-split" aria-label="Karte und passende Ortsliste">'
+      + mapPanel(ctx, true) + explorerList(ctx) + '</div>' + dayRouteView(ctx);
     case 'rail': return rail(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
@@ -192,6 +194,21 @@ export function mapDetail(ctx) {
     + '</div></div>';
 }
 
+// Compact on-map selection works on phones; desktop users also see the
+// corresponding highlighted card in the adjacent scrollable results pane.
+export function mapSelectionPreview(ctx) {
+  if(!ctx.explorer||!ctx.detail?.name)return '';
+  const item=ctx.detail,id=item.explorerId??item.id;
+  const category=EXPLORER_GROUPS[item.explorerCategory]?.label??'Reiseort';
+  return '<div class="map-selected-place" role="group" aria-label="Ausgewählter Reiseort">'
+    +'<div class="map-selected-copy"><strong>'+esc(item.name)+'</strong><small>'
+    +esc(ctx.cities[item.city]?.name??item.city)+' · '+esc(category)
+    +(item.point?' · Kartenpunkt vorhanden':' · Standort offen')
+    +'</small></div><div class="map-selected-actions">'
+    +btn('explorer-list-focus','In Liste','list',id)
+    +btn('details','Details','folder',id)+'</div></div>';
+}
+
 function mapPanel(ctx, full = false) {
   const tourCities=[...new Set(ctx.trip.route)].filter(id=>ctx.cities[id]?.point);
   const tripJourney=ctx.total&&ctx.page==='map'
@@ -233,6 +250,7 @@ function mapPanel(ctx, full = false) {
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
     <div class="map-wrap" data-map-tone="${esc(ctx.mapTone)}"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div>
+      <div id="map-selection-preview" class="map-selection-preview" aria-live="polite">${mapSelectionPreview(ctx)}</div>
       ${ctx.explorer?'<div class="map-atlas-hud" aria-live="polite"><strong>'+ctx.explorer.placed.length
         +' Kartenpunkte</strong><small>'+ctx.explorer.unlocated.length+' ohne präzisen Kartenpunkt · Sammelmarker sind keine Adressen</small></div>':''}
       ${ctx.explorer && ctx.dayRoute.items.length>1 && !ctx.total

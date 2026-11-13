@@ -91,7 +91,8 @@ export function explorerList(ctx) {
     const actions = googleMapsPlaceQuery(item,ctx.cities)
       ? btn('explorer-start', 'Als Start', 'pin', item.id)
         + btn('explorer-end', 'Als Ziel', 'arrow', item.id) : '';
-    return '<article class="explorer-place panel" data-place-id="' + esc(item.id) + '">'
+    return '<article class="explorer-place panel" data-place-id="' + esc(item.id)
+      + '" data-selected="' + (ctx.selected===item.id) + '">'
       + placeImageHtml(item,ctx,{small:true})
       + '<div class="explorer-place-title"><span class="category-swatch ' + category + '"></span><div><h3>'
       + esc(item.name) + '</h3><small>' + esc(ctx.cities[item.city]?.name ?? item.city) + ' · '

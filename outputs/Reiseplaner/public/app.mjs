@@ -1,11 +1,11 @@
 import { dailyBudgetDefaults } from './daily-budget.mjs';
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
-import { renderShell, mapDetail } from './views.mjs';
+import { renderShell, mapDetail, mapSelectionPreview } from './views.mjs';
 import { TripMap } from './map.mjs';
 import { transitFares } from './transit.mjs';
 import { railSalesStatus } from './verification.mjs';
-import { explorerData, explorerRouteInput, validPoint } from './map-explorer.mjs';
+import { explorerData, explorerRouteInput, validPoint, mapPointInBounds } from './map-explorer.mjs';
 import { explorerList } from './explorer-ui.mjs';
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
@@ -174,6 +174,17 @@ function selectPoint(id, focusMap = true) {
   context = buildContext();
   const container = document.querySelector('#detail-container');
   if (container) container.innerHTML = mapDetail(context);
+  const mapPreview=app.querySelector('#map-selection-preview');
+  if(mapPreview)mapPreview.innerHTML=mapSelectionPreview(context);
+  app.querySelectorAll('.explorer-place').forEach(card=>{
+    card.dataset.selected=String(card.dataset.placeId===id);
+  });
+  // Marker selection brings its existing list item into view on desktop,
+  // but must not jump the whole page away from the map on a phone.
+  if(!focusMap && matchMedia('(min-width:1180px)').matches) {
+    const card=[...app.querySelectorAll('.explorer-place')].find(el=>el.dataset.placeId===id);
+    card?.scrollIntoView({block:'nearest',behavior:'smooth'});
+  }
   app.querySelectorAll('.event-content').forEach(button => {
     const pressed = button.dataset.value === id;
     button.setAttribute('aria-pressed', pressed);
@@ -630,6 +641,25 @@ async function action(name, value = '') {
     case 'explorer-near-clear':
       view.mapNearPointId=null;view.mapListLimit=60;
       render({restoreView:true,fetchRoutes:false});break;
+    case 'explorer-list-focus': {
+      if(view.page!=='map'||!item)break;
+      const displayItems=context.explorer?.viewportOnly&&context.explorer.viewportBounds
+        ?context.explorer.placed.filter(i=>mapPointInBounds(i.point,context.explorer.viewportBounds))
+        :[...(context.explorer?.placed??[]),...(context.explorer?.unlocated??[])];
+      const index=displayItems.findIndex(i=>i.id===item.id);
+      if(index<0){
+        say('Dieser Ort liegt außerhalb des aktuellen Kartenfilters. Filter oder Kartenausschnitt ändern.');
+        break;
+      }
+      if(index>=view.mapListLimit){
+        view.mapListLimit=Math.ceil((index+1)/60)*60;
+        render({restoreView:true,fetchRoutes:false});
+      }
+      const card=[...app.querySelectorAll('.explorer-place')].find(el=>el.dataset.placeId===item.id);
+      if(card){card.scrollIntoView({block:'center',behavior:'smooth'});
+        card.querySelector('[data-action=explorer-focus],[data-action=details]')?.focus({preventScroll:true});}
+      break;
+    }
     case 'explorer-more':
       view.mapListLimit += 60; render({ restoreView: true }); break;
     case 'explorer-focus':

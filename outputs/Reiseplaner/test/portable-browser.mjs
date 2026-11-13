@@ -114,6 +114,12 @@ try {
   assert.equal(await js('document.querySelector(".explorer-route-settings")?.open'),false,
     'Erweiterter Routenplaner ist anfangs zugeklappt');
   await until(() => js('Boolean(document.querySelector(".explorer-list.is-compact"))'), 'Kompakte Ortsliste');
+  await until(() => js('Boolean(document.querySelector(".map-explorer-split > .map-panel")) && Boolean(document.querySelector(".map-explorer-split > .explorer-list"))'), 'Karte und Liste nebeneinander');
+  await click('[data-action=explorer-focus][data-value="local:bormuth"]');
+  await until(() => js('Boolean(document.querySelector(".map-selected-place"))'),'Auswahlvorschau direkt auf der Karte');
+  await until(() => js('document.querySelector(".explorer-place[data-place-id=\\\"local:bormuth\\\"]")?.dataset.selected==="true"'),'Ortsliste hebt gewählten Marker hervor');
+  await click('.map-selected-actions [data-action=explorer-list-focus]');
+  await until(() => js('Boolean(document.querySelector(".explorer-list .explorer-place[data-selected=true]"))'),'Kartenauswahl in Liste gefunden');
   await click('[data-action=explorer-viewport]');
   await until(() => js('document.querySelector("[data-action=explorer-viewport]")?.getAttribute("aria-pressed")==="true"'), 'Liste nur für Kartenausschnitt');
   await click('[data-action=explorer-viewport]');
