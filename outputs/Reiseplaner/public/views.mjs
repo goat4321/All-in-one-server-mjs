@@ -1,3 +1,4 @@
+import { googleMapsSearchUrl, googleMapsSearchLabel, googleMapsDirectionsUrl, googleMapsLocationStatus } from './google-maps.mjs';
 import { categories, budgetBreakdown, calculateBudget, activeItems, conflicts, groupPrice, groceryBasket, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange, planReadiness } from './model.mjs';
 import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn, chip, empty, alert, categoryIcon, cost, unit, urlLink, sourceList, timeText, transitPlanners } from './ui.mjs';
 import { transitFares, transitNetworks } from './transit.mjs';
@@ -132,7 +133,8 @@ function connector(segment, route, index, label, peopleCount) {
     route.metres != null ? (route.metres / 1000).toLocaleString('de-DE', { maximumFractionDigits: 1 }) + ' km' : null,
     route.fare ? money(groupPrice(route.fare, peopleCount), route.fare.currency) + ' für die Gruppe' : null].filter(Boolean).join(' · ')
     : segment.access?.label ?? (segment.from.point && segment.to.point ? 'Weg berechnen' : 'Wegdaten fehlen');
-  return '<button type="button" class="connector" data-action="leg" data-value="' + index + '">' + icon(route?.mode === 'ÖPNV' ? 'train' : 'walk') + esc(label ? label + ' · ' + details : details) + '</button>';
+  return '<div class="journey-connection"><button type="button" class="connector" data-action="leg" data-value="' + index + '">' + icon(route?.mode === 'ÖPNV' ? 'train' : 'walk') + esc(label ? label + ' · ' + details : details) + '</button>'
+    + (urlLink(googleMapsDirectionsUrl(segment.from, segment.to, {}, 'transit'), 'ÖPNV Google Maps') || '') + '</div>';
 }
 
 export function mapDetail(ctx) {
@@ -150,6 +152,9 @@ export function mapDetail(ctx) {
   ${item.price?.label ? '<p>Preisreferenz: ' + esc(item.price.label) + '</p>' : ''}
   <p class="muted">Quellenstand: ${esc(extra?.sourceStatus ?? 'unbestätigt')}</p>
   ${item.website ? urlLink(item.website, 'Anbieter und weitere Details') : ''}
+  ${urlLink(googleMapsSearchUrl(item,ctx.cities), googleMapsSearchLabel(item))}
+  ${urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'), 'ÖPNV-Anreise in Google Maps')}
+  <p class="muted">${esc(googleMapsLocationStatus(item))} · Google Maps berechnet die Verbindung erst beim Öffnen.</p>
   <details class="map-source-details"><summary>Quellen, Abrufdaten und Datenqualität anzeigen</summary>${sourceList(item, ctx.catalog.sources)}</details>
   ${item.access ? '<p>' + esc(item.access) + '</p>' : ''}
   ${item.positionIssue ? alert(item.positionIssue) : ''}
@@ -336,6 +341,8 @@ function options(ctx, lodging) {
         active ? 'edit' : 'plus', !active && meal ? meal.id : item.id, 'subtle')}
       ${iconBtn('favorite', state.favorites.includes(item.id) ? 'Aus Merkliste entfernen' : 'Merken', state.favorites.includes(item.id) ? 'check' : 'bookmark', item.id)}
       ${chip('compare', 'Vergleichen', highlighted, item.id, 'compare')}
+      ${urlLink(googleMapsSearchUrl(item,cities),googleMapsSearchLabel(item))}
+      ${urlLink(googleMapsDirectionsUrl(null,item,cities,'transit'),'ÖPNV in Google Maps')}
       ${iconBtn('details', 'Details: ' + item.name, 'folder', item.id)}${lodging ? btn('verify-item', 'Anbieter prüfen', 'check', item.id) : ''}${item.point ? iconBtn('option-map', 'Auf Karte: ' + item.name, 'pin', item.id) : ''}</div>
     </article>`;
   }).join('');
@@ -505,7 +512,12 @@ function rail(ctx) {
       ${l.via ? '<small>' + esc(l.via) + '</small>' : ''}
       ${sameDay && gap != null && gap < 25 ? alert(gap < 0 ? 'Überschneidung mit der nächsten Fahrt.' : 'Nur ' + gap + ' Min. bis zum nächsten Zug. Umstieg prüfen.') : ''}
       <div class="row-actions">${btn('details', 'Quellen & Details', 'folder', l.id)}${btn('edit', 'Bearbeiten', 'edit', l.id)}${btn('verify-item', 'Eigene Prüfung ' + evidence.count + '/' + evidence.total, 'check', l.id)}
-      ${urlLink(l.website || 'https://int.bahn.de/de', 'Fahrplan prüfen', 'button')}</div></article>`;
+      ${urlLink(l.website || 'https://int.bahn.de/de', 'Fahrplan prüfen', 'button')}
+      ${urlLink(googleMapsSearchUrl(l,catalog.cities),'Abfahrtsort Google Maps')}
+      ${urlLink(googleMapsDirectionsUrl(
+        {name:l.departure,city:l.city,point:l.point},
+        {name:l.arrival,city:l.toCity,point:l.toPoint},
+        catalog.cities,'transit'),'Strecke in Google Maps')}</div></article>`;
   }).join('');
   const passRows = audit.dayRows.map(day => [
     esc(dateText(day.day)),
