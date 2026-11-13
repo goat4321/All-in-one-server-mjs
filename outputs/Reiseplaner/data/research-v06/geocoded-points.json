@@ -2,13 +2,13 @@
   "schema": "osm_photon_geocoded_v06",
   "observedOn": "2026-11-13",
   "attribution": "© OpenStreetMap contributors (ODbL)",
-  "method": "One-off private travel dataset research using public Photon, 1 sequential request per 1.5 seconds, no Airbnb private property geocoding. Two wrong same-name hotel matches were corrected using independently published addresses/coordinates. After automated research, 19 unambiguous reviewed candidates were manually reconciled with public map features and/or independent published coordinates. Area/path centroids are explicitly labelled.",
+  "method": "One-off private travel dataset research using public Photon, 1 sequential request per 1.5 seconds, no Airbnb private property geocoding. Two wrong same-name hotel matches were corrected using independently published addresses/coordinates. After automated research, 19 unambiguous reviewed candidates were manually reconciled with public map features and/or independent published coordinates. Area/path centroids are explicitly labelled. Additional published geographic coordinates were individually sourced from official municipal, tourist, hotel, OSM map and railway-station records; no city-centre approximation. Group activities have explicitly qualified area/landmark centres.",
   "status": "completed_with_possible_unmatched",
   "legend": {
     "street_address_match": "Street/number aligned with named entity",
     "unique_osm_named_poi": "One uniquely named OSM object near source city; may be polygon centre"
   },
-  "accuracy": "OSM map coordinates are source identifiers or polygon centroids; not surveyed entrances; no 2027 routing claims. Source map points do not imply real-time opening hours or walking access.",
+  "accuracy": "OSM map coordinates are source identifiers or polygon centroids; not surveyed entrances; no 2027 routing claims. Source map points do not imply real-time opening hours or walking access. General outdoor activity pins represent only the stated park/beach/area anchor, not a bookable event position, walking-route path or accommodation entrance.",
   "variantBefore": [
     {
       "id": "interrail_classic",
@@ -39,10 +39,10 @@
   "eligible": 243,
   "queried": 243,
   "totals": {
-    "accepted": 72,
-    "review": 78,
-    "unmatched": 93,
-    "skipped": 47,
+    "accepted": 102,
+    "review": 74,
+    "unmatched": 68,
+    "skipped": 46,
     "requestFailures": 0
   },
   "points": [
@@ -1690,6 +1690,648 @@
       "isCentroid": true,
       "manuallyReviewed": true,
       "locationDescription": "Museum building centre for OSM way 63178753 (museum itself, not RER stop); mapped centroid is not entrance."
+    },
+    {
+      "id": "tripsy:transport:3842725",
+      "city": "munich",
+      "name": "München Hbf → Paris Est",
+      "address": null,
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "München Hbf → Paris Est, München",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        48.14073,
+        11.55694
+      ],
+      "sourceUrl": "https://mapcarta.com/de/24994884",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhofsreferenz: München Hbf, keine Gleis- oder Fahrplanzusage."
+    },
+    {
+      "id": "tripsy:transport:3890054",
+      "city": "munich",
+      "name": "München Hbf → Paris Est",
+      "address": null,
+      "variants": [
+        "interrail_swiss"
+      ],
+      "query": "München Hbf → Paris Est, München",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        48.14073,
+        11.55694
+      ],
+      "sourceUrl": "https://mapcarta.com/de/24994884",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhofsreferenz: München Hbf, keine Gleis- oder Fahrplanzusage."
+    },
+    {
+      "id": "tripsy:transport:3769564",
+      "city": "munich",
+      "name": "München Hbf → Paris Est",
+      "address": null,
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "München Hbf → Paris Est, München",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        48.14073,
+        11.55694
+      ],
+      "sourceUrl": "https://mapcarta.com/de/24994884",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhofsreferenz: München Hbf, keine Gleis- oder Fahrplanzusage."
+    },
+    {
+      "id": "tripsy:transport:3842728",
+      "city": "sete",
+      "name": "Gare de Sète → Nice Ville",
+      "address": null,
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Gare de Sète → Nice Ville, Sète",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        43.4126008,
+        3.6968276
+      ],
+      "sourceUrl": "https://de.tourisme-sete.com/gare-sncf-de-sete-sete.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhofsreferenz: Gare de Sète laut lokaler Tourismusbehörde, nicht konkretes Gleis."
+    },
+    {
+      "id": "tripsy:transport:3890061",
+      "city": "sete",
+      "name": "Gare de Sète → Nice Ville",
+      "address": null,
+      "variants": [
+        "interrail_swiss"
+      ],
+      "query": "Gare de Sète → Nice Ville, Sète",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        43.4126008,
+        3.6968276
+      ],
+      "sourceUrl": "https://de.tourisme-sete.com/gare-sncf-de-sete-sete.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhofsreferenz: Gare de Sète laut lokaler Tourismusbehörde, nicht konkretes Gleis."
+    },
+    {
+      "id": "tripsy:transport:3769535",
+      "city": "sete",
+      "name": "Sète → Marseille St Charles",
+      "address": null,
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "Sète → Marseille St Charles, Sète",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        43.4126008,
+        3.6968276
+      ],
+      "sourceUrl": "https://de.tourisme-sete.com/gare-sncf-de-sete-sete.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhofsreferenz: Gare de Sète laut lokaler Tourismusbehörde, nicht konkretes Gleis."
+    },
+    {
+      "id": "tripsy:transport:3769530",
+      "city": "paris",
+      "name": "Paris Austerlitz → Toulouse Matabiau",
+      "address": null,
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "Paris Austerlitz → Toulouse Matabiau, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        48.84177,
+        2.36599
+      ],
+      "sourceUrl": "https://mapcarta.com/18417636",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhofsreferenz: Gare d’Austerlitz, nicht Bahnsteig."
+    },
+    {
+      "id": "tripsy:transport:3769541",
+      "city": "milan",
+      "name": "Milano Centrale → Venezia Santa Lucia",
+      "address": null,
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "Milano Centrale → Venezia Santa Lucia, Milano",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        45.48588,
+        9.20426
+      ],
+      "sourceUrl": "https://mapcarta.com/18692544",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhofsreferenz: Milano Centrale, nicht konkretes Gleis."
+    },
+    {
+      "id": "tripsy:transport:3769539",
+      "city": "ventimiglia",
+      "name": "Ventimiglia → Genova Piazza Principe",
+      "address": null,
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "Ventimiglia → Genova Piazza Principe, Ventimiglia",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        43.79269,
+        7.60988
+      ],
+      "sourceUrl": "https://mapcarta.com/33145222",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhofsreferenz: Ventimiglia, nicht Bahnsteig."
+    },
+    {
+      "id": "research:suggest_010",
+      "city": "barcelona",
+      "name": "Turó de la Rovira: Aussicht vor Schließung",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Turó de la Rovira: Aussicht vor Schließung, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        41.41954973566,
+        2.1626962769684
+      ],
+      "sourceUrl": "https://www.bcnsostenible.cat/web/punt/turo-de-la-rovira",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Quelle des Stadtportals bestätigt Turó de la Rovira: Aussichtsterrasse; Öffnungs-/Zugangslage 2027 separat prüfen."
+    },
+    {
+      "id": "research:suggest_027",
+      "city": "genoa",
+      "name": "Aquarium Genua als aktives Regenprogramm",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_august"
+      ],
+      "query": "Aquarium Genua als aktives Regenprogramm, Genova",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        44.410198078713,
+        8.9265850664003
+      ],
+      "sourceUrl": "https://atlantearchitetturacontemporanea.cultura.gov.it/en/acquario-di-genova/?cat=8&order=ASC&orderby=title",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Aquarium von Genua: Lage der Gebäudeanlage; tatsächlichen Besucher-Eingang separat prüfen."
+    },
+    {
+      "id": "research:suggest_001",
+      "city": "paris",
+      "name": "Parc des Buttes-Chaumont Aussicht und Picknick",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Parc des Buttes-Chaumont Aussicht und Picknick, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        48.87955,
+        2.3838
+      ],
+      "sourceUrl": "https://mapcarta.com/de/25251174",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Mittelpunkt des Parc des Buttes-Chaumont; Parkzugang und 2027-Sperrungen separat prüfen."
+    },
+    {
+      "id": "research:suggest_007",
+      "city": "barcelona",
+      "name": "Platja del Bogatell: Strand und Schwimmen",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Platja del Bogatell: Strand und Schwimmen, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        41.394412310187,
+        2.2071448944703
+      ],
+      "sourceUrl": "https://www.bcnsostenible.cat/en/web/punt/platja-del-bogatell-1",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Orientierungspunkt des Bogatell-Strandabschnitts; konkrete Schwimm-/Sportstelle variabel."
+    },
+    {
+      "id": "tripsy:activity:seed:a008",
+      "city": "barcelona",
+      "name": "Poblenou & Bogatell Beach",
+      "address": null,
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Poblenou & Bogatell Beach, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        41.394412310187,
+        2.2071448944703
+      ],
+      "sourceUrl": "https://www.bcnsostenible.cat/en/web/punt/platja-del-bogatell-1",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Orientierungspunkt am Bogatell-Strand; Poblenou und Volleyballfelder haben keine einheitliche exakte Position."
+    },
+    {
+      "id": "research:a037",
+      "city": "barcelona",
+      "name": "Poblenou & Bogatell Beach",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Poblenou & Bogatell Beach, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        41.394412310187,
+        2.2071448944703
+      ],
+      "sourceUrl": "https://www.bcnsostenible.cat/en/web/punt/platja-del-bogatell-1",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Orientierungspunkt am Bogatell-Strand; Poblenou und Volleyballfelder haben keine einheitliche exakte Position."
+    },
+    {
+      "id": "research:suggest_008",
+      "city": "barcelona",
+      "name": "Poblenou & Bogatell Beach",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Poblenou & Bogatell Beach, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        41.394412310187,
+        2.2071448944703
+      ],
+      "sourceUrl": "https://www.bcnsostenible.cat/en/web/punt/platja-del-bogatell-1",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Orientierungspunkt am Bogatell-Strand; Poblenou und Volleyballfelder haben keine einheitliche exakte Position."
+    },
+    {
+      "id": "research:suggest_031",
+      "city": "venice",
+      "name": "Insel Torcello als ruhiger Natur/Kultur-Abstecher",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_august"
+      ],
+      "query": "Insel Torcello als ruhiger Natur/Kultur-Abstecher, Venezia",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        45.49713,
+        12.41774
+      ],
+      "sourceUrl": "https://mapcarta.com/de/Torcello",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Torcello Inselmittelpunkt, kein Vaporetto-Anleger, keine genaue Sehenswürdigkeit."
+    },
+    {
+      "id": "research:bcom_1727768",
+      "city": "glarus",
+      "name": "Hotel Rhodannenberg AG",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Hotel Rhodannenberg AG, Glarus",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        47.036218,
+        9.005184
+      ],
+      "sourceUrl": "https://www.outdooractive.com/de/accommodation/ostschweiz-liechtenstein/hotel-rhodannenberg/58688040/",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Veröffentlichte Hotellage des Rhodannenberg am Klöntalersee."
+    },
+    {
+      "id": "research:bcom_11269934",
+      "city": "glarus",
+      "name": "Hotel Post Glarnerhof",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Hotel Post Glarnerhof, Glarus",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        47.039727,
+        9.070598
+      ],
+      "sourceUrl": "https://www.outdooractive.com/de/accommodation/ostschweiz-liechtenstein/hotel-post-glarnerhof/58688010/",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Veröffentlichte GPS-Position des Hotel Post Glarnerhof in Glarus."
+    },
+    {
+      "id": "tripsy:lodging:seed:ch-glarus",
+      "city": "glarus",
+      "name": "Hotel Post Glarnerhof",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Hotel Post Glarnerhof, Glarus",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        47.039727,
+        9.070598
+      ],
+      "sourceUrl": "https://www.outdooractive.com/de/accommodation/ostschweiz-liechtenstein/hotel-post-glarnerhof/58688010/",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Hotel Post Glarnerhof, Bahnhofstrasse 2, Glarus; gleiche Unterkunft wie research:bcom_11269934."
+    },
+    {
+      "id": "research:bcom_65168",
+      "city": "kandersteg",
+      "name": "Bernerhof Swiss Quality Hotel",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Bernerhof Swiss Quality Hotel, Kandersteg",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        46.496842,
+        7.674228
+      ],
+      "sourceUrl": "https://www.bernerhof.ch/de/allgemeines/anreise",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vom Hotel Bernerhof Kandersteg selbst publizierte WGS84-Koordinaten."
+    },
+    {
+      "id": "research:bcom_69880",
+      "city": "kandersteg",
+      "name": "Typically Swiss Hotel Ermitage",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Typically Swiss Hotel Ermitage, Kandersteg",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        46.497475,
+        7.682011
+      ],
+      "sourceUrl": "https://www.outdooractive.com/de/gastro/adelboden-kandersteg/hotel-ermitage/802149001/",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Veröffentlichter Hotelstandort Ermitage Kandersteg."
+    },
+    {
+      "id": "research:bcom_68845",
+      "city": "kandersteg",
+      "name": "Belle Epoque Hotel Victoria Apartments",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Belle Epoque Hotel Victoria Apartments, Kandersteg",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        46.495131,
+        7.674776
+      ],
+      "sourceUrl": "https://www.outdooractive.com/en/gastro/adelboden-kandersteg/belle-epoque-hotel-victoria/803701498/",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Tourismusquellenreferenz Belle Epoque Hotel Victoria Kandersteg."
+    },
+    {
+      "id": "research:bcom_287460",
+      "city": "grindelwald",
+      "name": "Berggasthaus First - Only Accessible by Cable Car",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Berggasthaus First - Only Accessible by Cable Car, Grindelwald",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        46.65949,
+        8.05362
+      ],
+      "sourceUrl": "https://mapcarta.com/N1873470962",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Berggasthaus First, auf der Höhe erreichbar per Seilbahn; keine Wanderwegberechnung."
+    },
+    {
+      "id": "research:bcom_8142569",
+      "city": "appenzell",
+      "name": "Hotel B&B Stossplatz anytime and easy self Check-in",
+      "address": null,
+      "variants": [],
+      "query": "Hotel B&B Stossplatz anytime and easy self Check-in appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        47.32778,
+        9.40817
+      ],
+      "sourceUrl": "https://mapcarta.com/W197457249",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "OpenStreetMap Hotel B&B Stossplatz, Riedstrasse 13, Appenzell."
+    },
+    {
+      "id": "research:bcom_7304669",
+      "city": "appenzell",
+      "name": "Alte Metzg Boutique Pension",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Alte Metzg Boutique Pension, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        47.3315468,
+        9.4118032
+      ],
+      "sourceUrl": "https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/boutique-pension-hostel-alte-metzg.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Alte Metzg Boutique-Pension und Hostel sind das gleiche historische Gebäude, Gaiserstrasse 6."
+    },
+    {
+      "id": "research:suggest_016",
+      "city": "sete",
+      "name": "Plage de la Corniche: Schwimmen und Beach-Picknick",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Plage de la Corniche: Schwimmen und Beach-Picknick, Sète",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        43.3935197,
+        3.6670289
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/183957370",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Plage de la Corniche selbst als Orientierung; nicht gesamte Wanderstrecke."
+    },
+    {
+      "id": "research:suggest_040",
+      "city": "grindelwald",
+      "name": "First Cliff Walk als freiwillige Aussicht",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "First Cliff Walk als freiwillige Aussicht, Grindelwald",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        46.6593101,
+        8.053271
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/510863442",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "First Cliff Walk Weg-/Plattformzentrum; Einlass und Bergbahn prüfen."
+    },
+    {
+      "id": "tripsy:activity:seed:a047",
+      "city": "wasserauen",
+      "name": "Wasserauen Wanderstart",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Wasserauen Wanderstart, Wasserauen",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        47.2857062,
+        9.4286904
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/2040794201",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhof Wasserauen als Startanker der Wanderung; nicht genaue Wanderroute."
+    },
+    {
+      "id": "research:suggest_037",
+      "city": "wasserauen",
+      "name": "Seealpsee Aufstieg klassisch via Fahrstraße",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Seealpsee Aufstieg klassisch via Fahrstraße, Wasserauen",
+      "observedOn": "2026-11-13",
+      "provider": "Public geographic evidence / source-localized feature",
+      "point": [
+        47.2857062,
+        9.4286904
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/2040794201",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Wasserauen Ausgangsregion Seealpsee-Wanderung; der Verlauf der Fahrstraße ist hier nicht als Punkt modelliert."
     }
   ],
   "review": [
@@ -1980,69 +2622,6 @@
           "street": "Via Augusta",
           "houseNumber": null,
           "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:activity:seed:a008",
-      "city": "barcelona",
-      "name": "Poblenou & Bogatell Beach",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Poblenou & Bogatell Beach, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.3952007,
-            2.1920936
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3397396372",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3951757,
-            2.1921294
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/462256396",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3951757,
-            2.1921294
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/462256396",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3950987,
-            2.1920399
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/5313340300",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
           "addressMatch": false
         }
       ]
@@ -2349,136 +2928,6 @@
           "street": "Carrer de Tuset",
           "houseNumber": "4º 3ª",
           "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:a037",
-      "city": "barcelona",
-      "name": "Poblenou & Bogatell Beach",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Poblenou & Bogatell Beach, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.3952007,
-            2.1920936
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3397396372",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3951757,
-            2.1921294
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/462256396",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3951757,
-            2.1921294
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/462256396",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3950987,
-            2.1920399
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/5313340300",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:suggest_008",
-      "city": "barcelona",
-      "name": "Poblenou & Bogatell Beach",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Poblenou & Bogatell Beach, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.3952007,
-            2.1920936
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3397396372",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3951757,
-            2.1921294
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/462256396",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3951757,
-            2.1921294
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/462256396",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3950987,
-            2.1920399
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/5313340300",
-          "osmName": "Bogatell",
-          "street": "Carrer de Pujades",
-          "houseNumber": null,
-          "nameScore": 0.313,
           "addressMatch": false
         }
       ]
@@ -5429,69 +5878,6 @@
       ]
     },
     {
-      "id": "tripsy:activity:seed:a047",
-      "city": "wasserauen",
-      "name": "Wasserauen Wanderstart",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Wasserauen Wanderstart, Wasserauen",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            47.2857062,
-            9.4286904
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2040794201",
-          "osmName": "Wasserauen",
-          "street": "Schwendetalstrasse",
-          "houseNumber": "85",
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.2857097,
-            9.4288858
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/193564287",
-          "osmName": "Wasserauen",
-          "street": "Schwendetalstrasse",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.2855279,
-            9.4286397
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/274815909",
-          "osmName": "Wasserauen",
-          "street": "Schwendetalstrasse",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.2845722,
-            9.4271067
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2405008677",
-          "osmName": "Wasserauen",
-          "street": "Schwendetalstrasse",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "research:bcom_12518316",
       "city": "appenzell",
       "name": "Ferienwohnung Bärli Appenzell",
@@ -5914,19 +6300,6 @@
   ],
   "unmatched": [
     {
-      "id": "tripsy:transport:3842725",
-      "city": "munich",
-      "name": "München Hbf → Paris Est",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "München Hbf → Paris Est, München",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "tripsy:activity:seed:a022",
       "city": "nice",
       "name": "Altstadtabend",
@@ -5948,19 +6321,6 @@
         "interrail_classic"
       ],
       "query": "Seineufer und Picknick, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "tripsy:transport:3842728",
-      "city": "sete",
-      "name": "Gare de Sète → Nice Ville",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Gare de Sète → Nice Ville, Sète",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -6024,36 +6384,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:suggest_007",
-      "city": "barcelona",
-      "name": "Platja del Bogatell: Strand und Schwimmen",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Platja del Bogatell: Strand und Schwimmen, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:suggest_010",
-      "city": "barcelona",
-      "name": "Turó de la Rovira: Aussicht vor Schließung",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Turó de la Rovira: Aussicht vor Schließung, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:bcom_12257788",
       "city": "genoa",
       "name": "A due passi dalla Lanterna",
@@ -6062,20 +6392,6 @@
         "interrail_classic"
       ],
       "query": "A due passi dalla Lanterna, Genova",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:suggest_027",
-      "city": "genoa",
-      "name": "Aquarium Genua als aktives Regenprogramm",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_august"
-      ],
-      "query": "Aquarium Genua als aktives Regenprogramm, Genova",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -6261,21 +6577,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:suggest_001",
-      "city": "paris",
-      "name": "Parc des Buttes-Chaumont Aussicht und Picknick",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Parc des Buttes-Chaumont Aussicht und Picknick, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:suggest_003",
       "city": "paris",
       "name": "Paris Stadtbad als Regenprogramm",
@@ -6450,21 +6751,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:suggest_016",
-      "city": "sete",
-      "name": "Plage de la Corniche: Schwimmen und Beach-Picknick",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Plage de la Corniche: Schwimmen und Beach-Picknick, Sète",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:a063",
       "city": "sete",
       "name": "Pointe Longue / Hafenpromenade",
@@ -6575,20 +6861,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:suggest_031",
-      "city": "venice",
-      "name": "Insel Torcello als ruhiger Natur/Kultur-Abstecher",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_august"
-      ],
-      "query": "Insel Torcello als ruhiger Natur/Kultur-Abstecher, Venezia",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:suggest_032",
       "city": "venice",
       "name": "Murano: Glasbläser-Vorführung (nur bei Verfügbarkeit)",
@@ -6598,32 +6870,6 @@
         "interrail_august"
       ],
       "query": "Murano: Glasbläser-Vorführung (nur bei Verfügbarkeit), Venezia",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "tripsy:transport:3890054",
-      "city": "munich",
-      "name": "München Hbf → Paris Est",
-      "address": null,
-      "variants": [
-        "interrail_swiss"
-      ],
-      "query": "München Hbf → Paris Est, München",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "tripsy:transport:3890061",
-      "city": "sete",
-      "name": "Gare de Sète → Nice Ville",
-      "address": null,
-      "variants": [
-        "interrail_swiss"
-      ],
-      "query": "Gare de Sète → Nice Ville, Sète",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -6707,71 +6953,6 @@
         "swiss_lakes"
       ],
       "query": "Tea Room Marmotte, Innere Dorfstrasse 19, 3718 Kandersteg, Switzerland, Kandersteg",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "tripsy:transport:3769541",
-      "city": "milan",
-      "name": "Milano Centrale → Venezia Santa Lucia",
-      "address": null,
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "Milano Centrale → Venezia Santa Lucia, Milano",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "tripsy:transport:3769564",
-      "city": "munich",
-      "name": "München Hbf → Paris Est",
-      "address": null,
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "München Hbf → Paris Est, München",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "tripsy:transport:3769530",
-      "city": "paris",
-      "name": "Paris Austerlitz → Toulouse Matabiau",
-      "address": null,
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "Paris Austerlitz → Toulouse Matabiau, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "tripsy:transport:3769535",
-      "city": "sete",
-      "name": "Sète → Marseille St Charles",
-      "address": null,
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "Sète → Marseille St Charles, Sète",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "tripsy:transport:3769539",
-      "city": "ventimiglia",
-      "name": "Ventimiglia → Genova Piazza Principe",
-      "address": null,
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "Ventimiglia → Genova Piazza Principe, Ventimiglia",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -6881,19 +7062,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:bcom_7304669",
-      "city": "appenzell",
-      "name": "Alte Metzg Boutique Pension",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Alte Metzg Boutique Pension, Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:bcom_7584624",
       "city": "appenzell",
       "name": "Blattenheimat traditionelles Appenzeller Haus",
@@ -6933,45 +7101,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "tripsy:lodging:seed:ch-glarus",
-      "city": "glarus",
-      "name": "Hotel Post Glarnerhof",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Hotel Post Glarnerhof, Glarus",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_11269934",
-      "city": "glarus",
-      "name": "Hotel Post Glarnerhof",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Hotel Post Glarnerhof, Glarus",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_1727768",
-      "city": "glarus",
-      "name": "Hotel Rhodannenberg AG",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Hotel Rhodannenberg AG, Glarus",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:suggest_039",
       "city": "grindelwald",
       "name": "Bachalpsee als gemeinsamer Natur-Highlight-Block",
@@ -6980,19 +7109,6 @@
         "swiss_lakes"
       ],
       "query": "Bachalpsee als gemeinsamer Natur-Highlight-Block, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_287460",
-      "city": "grindelwald",
-      "name": "Berggasthaus First - Only Accessible by Cable Car",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Berggasthaus First - Only Accessible by Cable Car, Grindelwald",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -7050,19 +7166,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:suggest_040",
-      "city": "grindelwald",
-      "name": "First Cliff Walk als freiwillige Aussicht",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "First Cliff Walk als freiwillige Aussicht, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "tripsy:lodging:seed:ch-grindelwald",
       "city": "grindelwald",
       "name": "Unterkunft OFFEN",
@@ -7071,32 +7174,6 @@
         "swiss_lakes"
       ],
       "query": "Unterkunft OFFEN, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_68845",
-      "city": "kandersteg",
-      "name": "Belle Epoque Hotel Victoria Apartments",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Belle Epoque Hotel Victoria Apartments, Kandersteg",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_65168",
-      "city": "kandersteg",
-      "name": "Bernerhof Swiss Quality Hotel",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Bernerhof Swiss Quality Hotel, Kandersteg",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -7141,19 +7218,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:bcom_69880",
-      "city": "kandersteg",
-      "name": "Typically Swiss Hotel Ermitage",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Typically Swiss Hotel Ermitage, Kandersteg",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:suggest_038",
       "city": "kloental",
       "name": "Klöntalersee südliches Ufer als Regenalternative",
@@ -7162,19 +7226,6 @@
         "swiss_lakes"
       ],
       "query": "Klöntalersee südliches Ufer als Regenalternative, Klöntal",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:suggest_037",
-      "city": "wasserauen",
-      "name": "Seealpsee Aufstieg klassisch via Fahrstraße",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Seealpsee Aufstieg klassisch via Fahrstraße, Wasserauen",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -7456,12 +7507,6 @@
       "city": "grindelwald",
       "name": "Grindelwald Dorfspaziergang",
       "reason": "generic_or_not_a_geocodable_place"
-    },
-    {
-      "id": "research:bcom_8142569",
-      "city": "appenzell",
-      "name": "Hotel B&B Stossplatz anytime and easy self Check-in",
-      "reason": "generic_or_not_a_geocodable_place"
     }
   ],
   "failures": [],
@@ -7648,6 +7693,218 @@
         2.32653
       ],
       "source": "https://mapcarta.com/25251064"
+    }
+  ],
+  "manualExternalGeoV06": [
+    {
+      "id": "tripsy:transport:3842725",
+      "city": "munich",
+      "sourceUrl": "https://mapcarta.com/de/24994884",
+      "notes": "Bahnhofsreferenz: München Hbf, keine Gleis- oder Fahrplanzusage.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "tripsy:transport:3890054",
+      "city": "munich",
+      "sourceUrl": "https://mapcarta.com/de/24994884",
+      "notes": "Bahnhofsreferenz: München Hbf, keine Gleis- oder Fahrplanzusage.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "tripsy:transport:3769564",
+      "city": "munich",
+      "sourceUrl": "https://mapcarta.com/de/24994884",
+      "notes": "Bahnhofsreferenz: München Hbf, keine Gleis- oder Fahrplanzusage.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "tripsy:transport:3842728",
+      "city": "sete",
+      "sourceUrl": "https://de.tourisme-sete.com/gare-sncf-de-sete-sete.html",
+      "notes": "Bahnhofsreferenz: Gare de Sète laut lokaler Tourismusbehörde, nicht konkretes Gleis.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "tripsy:transport:3890061",
+      "city": "sete",
+      "sourceUrl": "https://de.tourisme-sete.com/gare-sncf-de-sete-sete.html",
+      "notes": "Bahnhofsreferenz: Gare de Sète laut lokaler Tourismusbehörde, nicht konkretes Gleis.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "tripsy:transport:3769535",
+      "city": "sete",
+      "sourceUrl": "https://de.tourisme-sete.com/gare-sncf-de-sete-sete.html",
+      "notes": "Bahnhofsreferenz: Gare de Sète laut lokaler Tourismusbehörde, nicht konkretes Gleis.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "tripsy:transport:3769530",
+      "city": "paris",
+      "sourceUrl": "https://mapcarta.com/18417636",
+      "notes": "Bahnhofsreferenz: Gare d’Austerlitz, nicht Bahnsteig.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "tripsy:transport:3769541",
+      "city": "milan",
+      "sourceUrl": "https://mapcarta.com/18692544",
+      "notes": "Bahnhofsreferenz: Milano Centrale, nicht konkretes Gleis.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "tripsy:transport:3769539",
+      "city": "ventimiglia",
+      "sourceUrl": "https://mapcarta.com/33145222",
+      "notes": "Bahnhofsreferenz: Ventimiglia, nicht Bahnsteig.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:suggest_010",
+      "city": "barcelona",
+      "sourceUrl": "https://www.bcnsostenible.cat/web/punt/turo-de-la-rovira",
+      "notes": "Quelle des Stadtportals bestätigt Turó de la Rovira: Aussichtsterrasse; Öffnungs-/Zugangslage 2027 separat prüfen.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:suggest_027",
+      "city": "genoa",
+      "sourceUrl": "https://atlantearchitetturacontemporanea.cultura.gov.it/en/acquario-di-genova/?cat=8&order=ASC&orderby=title",
+      "notes": "Aquarium von Genua: Lage der Gebäudeanlage; tatsächlichen Besucher-Eingang separat prüfen.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:suggest_001",
+      "city": "paris",
+      "sourceUrl": "https://mapcarta.com/de/25251174",
+      "notes": "Mittelpunkt des Parc des Buttes-Chaumont; Parkzugang und 2027-Sperrungen separat prüfen.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:suggest_007",
+      "city": "barcelona",
+      "sourceUrl": "https://www.bcnsostenible.cat/en/web/punt/platja-del-bogatell-1",
+      "notes": "Orientierungspunkt des Bogatell-Strandabschnitts; konkrete Schwimm-/Sportstelle variabel.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "tripsy:activity:seed:a008",
+      "city": "barcelona",
+      "sourceUrl": "https://www.bcnsostenible.cat/en/web/punt/platja-del-bogatell-1",
+      "notes": "Orientierungspunkt am Bogatell-Strand; Poblenou und Volleyballfelder haben keine einheitliche exakte Position.",
+      "origin": "review"
+    },
+    {
+      "id": "research:a037",
+      "city": "barcelona",
+      "sourceUrl": "https://www.bcnsostenible.cat/en/web/punt/platja-del-bogatell-1",
+      "notes": "Orientierungspunkt am Bogatell-Strand; Poblenou und Volleyballfelder haben keine einheitliche exakte Position.",
+      "origin": "review"
+    },
+    {
+      "id": "research:suggest_008",
+      "city": "barcelona",
+      "sourceUrl": "https://www.bcnsostenible.cat/en/web/punt/platja-del-bogatell-1",
+      "notes": "Orientierungspunkt am Bogatell-Strand; Poblenou und Volleyballfelder haben keine einheitliche exakte Position.",
+      "origin": "review"
+    },
+    {
+      "id": "research:suggest_031",
+      "city": "venice",
+      "sourceUrl": "https://mapcarta.com/de/Torcello",
+      "notes": "Torcello Inselmittelpunkt, kein Vaporetto-Anleger, keine genaue Sehenswürdigkeit.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:bcom_1727768",
+      "city": "glarus",
+      "sourceUrl": "https://www.outdooractive.com/de/accommodation/ostschweiz-liechtenstein/hotel-rhodannenberg/58688040/",
+      "notes": "Veröffentlichte Hotellage des Rhodannenberg am Klöntalersee.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:bcom_11269934",
+      "city": "glarus",
+      "sourceUrl": "https://www.outdooractive.com/de/accommodation/ostschweiz-liechtenstein/hotel-post-glarnerhof/58688010/",
+      "notes": "Veröffentlichte GPS-Position des Hotel Post Glarnerhof in Glarus.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "tripsy:lodging:seed:ch-glarus",
+      "city": "glarus",
+      "sourceUrl": "https://www.outdooractive.com/de/accommodation/ostschweiz-liechtenstein/hotel-post-glarnerhof/58688010/",
+      "notes": "Hotel Post Glarnerhof, Bahnhofstrasse 2, Glarus; gleiche Unterkunft wie research:bcom_11269934.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:bcom_65168",
+      "city": "kandersteg",
+      "sourceUrl": "https://www.bernerhof.ch/de/allgemeines/anreise",
+      "notes": "Vom Hotel Bernerhof Kandersteg selbst publizierte WGS84-Koordinaten.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:bcom_69880",
+      "city": "kandersteg",
+      "sourceUrl": "https://www.outdooractive.com/de/gastro/adelboden-kandersteg/hotel-ermitage/802149001/",
+      "notes": "Veröffentlichter Hotelstandort Ermitage Kandersteg.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:bcom_68845",
+      "city": "kandersteg",
+      "sourceUrl": "https://www.outdooractive.com/en/gastro/adelboden-kandersteg/belle-epoque-hotel-victoria/803701498/",
+      "notes": "Tourismusquellenreferenz Belle Epoque Hotel Victoria Kandersteg.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:bcom_287460",
+      "city": "grindelwald",
+      "sourceUrl": "https://mapcarta.com/N1873470962",
+      "notes": "Berggasthaus First, auf der Höhe erreichbar per Seilbahn; keine Wanderwegberechnung.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:bcom_8142569",
+      "city": "appenzell",
+      "sourceUrl": "https://mapcarta.com/W197457249",
+      "notes": "OpenStreetMap Hotel B&B Stossplatz, Riedstrasse 13, Appenzell.",
+      "origin": "skipped"
+    },
+    {
+      "id": "research:bcom_7304669",
+      "city": "appenzell",
+      "sourceUrl": "https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/boutique-pension-hostel-alte-metzg.html",
+      "notes": "Alte Metzg Boutique-Pension und Hostel sind das gleiche historische Gebäude, Gaiserstrasse 6.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:suggest_016",
+      "city": "sete",
+      "sourceUrl": "https://www.openstreetmap.org/way/183957370",
+      "notes": "Plage de la Corniche selbst als Orientierung; nicht gesamte Wanderstrecke.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "research:suggest_040",
+      "city": "grindelwald",
+      "sourceUrl": "https://www.openstreetmap.org/way/510863442",
+      "notes": "First Cliff Walk Weg-/Plattformzentrum; Einlass und Bergbahn prüfen.",
+      "origin": "unmatched"
+    },
+    {
+      "id": "tripsy:activity:seed:a047",
+      "city": "wasserauen",
+      "sourceUrl": "https://www.openstreetmap.org/node/2040794201",
+      "notes": "Bahnhof Wasserauen als Startanker der Wanderung; nicht genaue Wanderroute.",
+      "origin": "review"
+    },
+    {
+      "id": "research:suggest_037",
+      "city": "wasserauen",
+      "sourceUrl": "https://www.openstreetmap.org/node/2040794201",
+      "notes": "Wasserauen Ausgangsregion Seealpsee-Wanderung; der Verlauf der Fahrstraße ist hier nicht als Punkt modelliert.",
+      "origin": "unmatched"
     }
   ]
 }
