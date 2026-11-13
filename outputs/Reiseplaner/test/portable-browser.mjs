@@ -257,6 +257,10 @@ try {
   await text('#main', 'Pass-Reisetage und Tarifprüfung');
   await text('#main', 'Alternative Bahnverbindungen · Hypothesen');
   await text('#main', 'Bahnkorridore & offizielle Betreiber');
+  await text('.rail-review-panel','Bahn-Prüfzeitleiste 2027');
+  await until(() => js('document.querySelectorAll(".rail-review-step").length === 7'),
+    'Seven original rail departures have review windows');
+  await text('.rail-review-panel','Prüfung vormerken');
   await text('#main', '2027: Fahrzeit, Verfügbarkeit und Preise offen');
   await click('.sidebar [data-action=page][data-value=data]');
   await text('#main', 'Forschungsarchiv');

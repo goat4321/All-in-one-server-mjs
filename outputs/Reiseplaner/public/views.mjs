@@ -1,3 +1,4 @@
+import { railReviewTimeline } from './rail-review-timeline.mjs';
 import { providerQuotePanel } from './provider-quotes-v13.mjs';
 import { providerLocationPanel } from './provider-location-v13.mjs';
 import { mediaCoveragePanel } from './media-coverage.mjs';
@@ -618,6 +619,7 @@ function rail(ctx) {
     + stat('Reservierungen bekannt', money(reservations), priced.length + ' Referenzen · keine Verfügbarkeitszusage')
     + stat('Pass + bekannte Reservierungen', state.pass.cost == null && !state.pass.purchased ? 'Passpreis offen' : money((state.pass.purchased ? 0 : state.pass.cost * people.length) + reservations), 'Zwischensumme')
     + stat('Einzeltickets', ticketUnknown ? 'Teilpreis ' + money(knownSingles) : money(knownSingles), ticketUnknown + ' Fahrten mit offenem Preis') + '</div>'
+    + railReviewTimeline(ctx)
     + '<section class="section panel panel-pad"><h2>Pass-Reisetage und Tarifprüfung</h2>'
     + '<p>Die Passrechnung verwendet Abfahrtstage, nicht die Anzahl der Züge. Bei Nachtzügen ist entscheidend, ob am nächsten Tag ein weiterer Zug benutzt wird. Keine Annahme über 2027er Sitzplätze.</p>'
     + (passRows.length ? table(['Abfahrtstag','Züge','Abschnitte','Nachtzug-Regel','2027er Quelle'],passRows) : '<p>Keine Zugfahrten im Pass-Entwurf.</p>')

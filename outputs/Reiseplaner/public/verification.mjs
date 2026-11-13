@@ -39,7 +39,8 @@ export function railSalesStatus(task, asOf = new Date().toISOString().slice(0,10
     const review = calendarMonthsBefore(date, 4);
     const publishedThrough = '2027-07-02';
     return {
-      status: date > publishedThrough && asOf <= '2026-11-12' ? 'not_in_published_window' : 'operator_check_required',
+      status: date > publishedThrough && asOf >= '2026-11-12' && asOf <= '2026-12-31'
+        ? 'not_in_published_window' : 'operator_check_required',
       text: date > publishedThrough
         ? 'Reise liegt nach dem am 12.11.2026 veröffentlichten SNCF-Verkaufszeitraum (bis 02.07.2027).'
         : 'Verkaufsfenster ist zug-/operatorabhängig. Konkrete Verbindung und Passplätze prüfen.',

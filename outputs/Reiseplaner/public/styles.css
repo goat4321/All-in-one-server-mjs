@@ -779,3 +779,27 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 .provider-location-status{font-weight:700;color:var(--warn)}
 @media(max-width:680px){.provider-quote-grid,.provider-location-list{grid-template-columns:1fr}
  .provider-quote-metrics strong{font-size:1.06rem}}
+
+
+/* Future rail review timeline, not an availability feed. */
+.rail-review-panel{display:grid;gap:14px}
+.rail-review-heading{display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap}
+.rail-review-heading h2{font-size:1.25rem}
+.rail-review-heading p{font-size:.79rem;color:var(--muted);margin-top:5px}
+.rail-review-heading>strong{border-radius:9px;background:var(--warm);color:var(--warn);padding:6px 10px;font-size:.77rem}
+.rail-review-list{display:grid;gap:0}
+.rail-review-step{display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;position:relative;padding:11px 0}
+.rail-review-step:not(:last-child):before{content:"";position:absolute;width:2px;left:19px;top:45px;bottom:-7px;background:var(--line)}
+.rail-review-index{width:38px;height:38px;border-radius:12px;background:var(--accent);color:var(--green);
+ display:grid;place-items:center;font-size:.95rem;font-weight:850;position:relative;z-index:1}
+.rail-review-body{display:grid;gap:8px;background:var(--light);border:1px solid var(--line);padding:12px;border-radius:13px;min-width:0}
+.rail-review-route{display:flex;gap:10px;justify-content:space-between;align-items:baseline;flex-wrap:wrap}
+.rail-review-route strong{font-size:.85rem}
+.rail-review-route time{font-variant-numeric:tabular-nums;font-size:.75rem;font-weight:700;color:var(--green)}
+.rail-review-state{font-size:.71rem;color:var(--warn);font-weight:800}
+.rail-review-body p,.rail-review-note{font-size:.75rem;color:var(--muted);line-height:1.55}
+.rail-review-body .button{font-size:.74rem}
+.rail-review-body .row-actions a{font-size:.75rem}
+@media(max-width:650px){.rail-review-step{grid-template-columns:30px minmax(0,1fr);gap:7px}
+ .rail-review-index{width:30px;height:30px}
+ .rail-review-step:not(:last-child):before{left:14px;top:40px}}
