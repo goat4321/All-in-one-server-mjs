@@ -85,6 +85,17 @@ try {
   await click('.sidebar [data-action=page][data-value=map]');
   await text('h1', 'Karten-Explorer');
   await text('#main', 'Alle passenden Orte');
+  await text('#main', 'Reiseroute entdecken');
+  await until(() => js('document.querySelectorAll(".route-city-step").length >= 4'), 'Interaktive Stadtetappen');
+  await click('[data-action=map-tone][data-value=midnight]');
+  await until(() => js('document.querySelector(".map-wrap")?.dataset.mapTone === "midnight"'), 'Midnight Kartenstil');
+  assert.equal(await js('localStorage.getItem("reiseplan-map-tone")'),'midnight');
+  await click('[data-action=map-tone][data-value=sand]');
+  await until(() => js('document.querySelector(".map-wrap")?.dataset.mapTone === "sand"'), 'Sand Kartenstil');
+  await click('[data-action=map-expand]');
+  await until(() => js('document.querySelector(".map-panel")?.classList.contains("map-immersive")'), 'Große Kartendarstellung');
+  await click('[data-action=map-expand]');
+  await until(() => js('!document.querySelector(".map-panel")?.classList.contains("map-immersive")'), 'Normale Kartendarstellung');
   await until(() => js('document.querySelectorAll("#map .pin.place-activity, #map .pin.place-food, #map .pin.place-lodging").length > 0'),
     'Kategorie-Pins im Reiseatlas');
   await text('#main', 'Tagesideen aus deinem älteren Reiseprofil');
@@ -101,16 +112,29 @@ try {
   await text('#main', 'Taberna Nardi');
   await text('#main', 'Mehrstopp-Tagesroute');
   await click('[data-action=day-route-add][data-value="local:bormuth"]');
-  console.log('DIAG_AFTER_STOP_ONE', JSON.stringify({
-    section:await js('document.querySelector(".day-route-builder")?.textContent.slice(0,450)'),
-    errors:pageErrors, toast:await js('document.querySelector("#toast")?.textContent')
-  }));
   await click('[data-action=day-route-add][data-value="local:nardi"]');
-  console.log('DIAG_AFTER_STOP_TWO', JSON.stringify({
-    section:await js('document.querySelector(".day-route-builder")?.textContent.slice(0,450)'),
-    errors:pageErrors, toast:await js('document.querySelector("#toast")?.textContent')
-  }));
   await text('.day-route-builder', '2/8 gewählt');
+  await until(() => js('document.querySelectorAll(".route-studio-stop").length === 2'), 'Beide Route-Studio-Stopps');
+  await until(() => js('document.querySelectorAll("#map .route-studio-map-pin").length === 2'), 'Nummerierte Kartenstopps');
+  await until(() => js('document.querySelectorAll("#map .route-studio-map-line.schematic").length === 1'),
+    'Nicht berechnete Luftlinie als ausdrücklich gestrichelter Weg');
+  await text('.route-studio', '0 von 1 Fußetappen berechnet');
+  await click('[data-action=day-route-focus][data-value="0"]');
+  await until(() => js('document.querySelector(".route-studio-stop[aria-pressed=true]")?.dataset.value === "0"'),
+    'Fokus auf erstem Tagesstopp');
+  await click('[data-action=day-route-next]');
+  await until(() => js('document.querySelector(".route-studio-stop[aria-pressed=true]")?.dataset.value === "1"'),
+    'Navigation zum nächsten Stopp');
+  await click('[data-action=day-route-display][data-value=focus]');
+  await until(() => js('document.querySelector(".route-studio-settings [data-value=focus]")?.getAttribute("aria-pressed") === "true"'),
+    'Stopp-Fokusmodus');
+  await click('[data-action=day-route-fit]');
+  await until(() => js('document.querySelectorAll("#map .route-studio-map-pin").length === 2'),
+    'Ganze Tagesroute auf der Karte erhalten');
+  await click('[data-action=day-route-display][data-value=all]');
+  await until(() => js('document.querySelector(".route-studio-settings [data-value=all]")?.getAttribute("aria-pressed") === "true"'),
+    'Zurück zur kompletten Etappenübersicht');
+  assert.equal(pageErrors.length,0,'Keine Browser-JavaScript-Ausnahmen in Routen-Navigation');
   await click('[data-action=day-route-optimize]');
   await text('.day-route-builder', 'Luftlinien-Vorsortierung');
   assert.equal(store.current('interrail_classic').state.edits['local:nardi'], undefined);
@@ -119,6 +143,12 @@ try {
   await until(() => js('document.querySelector(".explorer-status")?.textContent.includes("Fußweg")'),
     'Fußroute oder ehrliche Router-Fehlermeldung');
   await text('#main', 'Google Maps · ÖPNV A → B');
+  await click('[data-action=explorer-swap]');
+  await until(() => js('document.querySelector(".explorer-directions")?.textContent.includes("Taberna Nardi")'),
+    'Start und Ziel tauschen');
+  await text('.explorer-route-result', 'Verbindung');
+  await click('[data-action=explorer-zoom-route]');
+  assert.equal(pageErrors.length,0,'Keine Browser-JavaScript-Ausnahme beim Tauschen/Zoomen');
   await click('[data-action=choose][data-value="local:nardi"]');
   await text('dialog', 'Aktivität einplanen');
   await save();
