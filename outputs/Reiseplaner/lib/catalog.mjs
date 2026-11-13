@@ -566,7 +566,7 @@ export async function loadCatalog() {
         verification: 'Wunschlistenauszug 13.11.2026 · NICHT gebucht · Endpreis offen',
         source: ['wishlist-v04:' + ref.providerId],
         quote: { observedOn: observed.observedOn, location: location,
-          sampleTotalCents: observed.totalCents, sampleAdults: observed.adults,
+          sampleTotalCents: observed.totalCents, sampleCurrency: observed.currency, sampleAdults: observed.adults,
           sampleFrom: observed.from, sampleTo: observed.to,
           sampleAvailability: observed.available,
           checkoutConfirmed: false, roomConfirmed: false, taxesConfirmed: false },
