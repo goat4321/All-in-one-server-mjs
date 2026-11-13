@@ -11,7 +11,7 @@ export function dayRouteView(ctx) {
     try { preview = buildMultiStopDay(items, route.routes, route.time); }
     catch (error) { preview = { complete:false, status:error.message, rows:[] }; }
   }
-  const costs = items.map(i => groupPrice(i.effectivePrice ?? i.price, ctx.people.length));
+  const costs = items.map(i => (i.effectivePrice ?? i.price)?.currency === 'EUR' ? groupPrice(i.effectivePrice ?? i.price, ctx.people.length) : null);
   const sum = costs.filter(n=>Number.isSafeInteger(n)).reduce((a,b)=>a+b,0);
   const missing = costs.filter(n=>n==null).length;
   return '<section class="panel panel-pad day-route-builder" aria-label="Mehrstopp-Tagesroute">'
@@ -41,7 +41,7 @@ export function dayRouteView(ctx) {
       ? 'Wähle einen zweiten Stopp, um die Route zu berechnen.' : 'Noch keine Stopps gewählt.')) + '</p>'
     + '<p><strong>Kostenreferenzen der Stopps:</strong> '
       + esc(new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(sum/100))
-      + ' bekannte EUR-Beträge' + (missing ? ' · ' + missing + ' Preise offen' : '') + '</p>'
+      + ' bekannte EUR-Beträge' + (missing ? ' · ' + missing + ' Preise oder Währungsumrechnung offen' : '') + '</p>'
     + (preview?.complete ? btn('day-route-commit','Alle Stopps mit diesen Zeiten in den Tagesplan übernehmen','check','','primary') : '')
     + '<p class="muted">Nicht enthalten: noch unbestätigte Tickets, Nahverkehrspreise und Wetterabhängigkeiten. Vor dem Speichern werden Terminüberschneidungen und Reisestatus geprüft.</p>'
     + '</section>';
