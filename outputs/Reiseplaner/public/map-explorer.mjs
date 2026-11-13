@@ -62,7 +62,7 @@ export function mapPointInBounds(point,bounds) {
 }
 
 export function explorerData(items, trip, { city = null, group = 'all', search = '',
-  nearbyPoint = null, radiusKm = 3 } = {}) {
+  nearbyPoint = null, radiusKm = 3, savedOnly = false, savedIds = new Set() } = {}) {
   const validCities = new Set(trip.route);
   const norm = text => String(text ?? '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('de');
   const needle = norm(search).trim().slice(0, 100);
@@ -82,6 +82,7 @@ export function explorerData(items, trip, { city = null, group = 'all', search =
     if (!validCities.has(item.city) || item.duplicateOf || item.removed) continue;
     if (!['activity', 'transport', 'lodging'].includes(item.kind)) continue;
     if (city && item.city !== city) continue;
+    if (savedOnly && !savedIds.has(item.id)) continue;
     if (validPoint(nearbyPoint) && (!validPoint(item.point)
       || mapDistanceKm(item.point,nearbyPoint)>radiusKm)) continue;
     const category = explorerCategory(item);

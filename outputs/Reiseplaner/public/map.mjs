@@ -75,6 +75,7 @@ export class TripMap {
     this.poiLayer.clearLayers();
     this.markers.clear(); this.poiKeys.clear(); this.poiItems = [];
     this.poiProfileCtx = profileCtx; this.poiFocused = focused; this.nearbyCircle = null;
+    this.poiSaved=explorer?.saved??new Set();
     this.storyStops = [];
     this.storySegments = [];
     this.storyBounds = [];
@@ -271,12 +272,14 @@ export class TripMap {
         const center=[items.reduce((s,x)=>s+x.point[0],0)/items.length,
           items.reduce((s,x)=>s+x.point[1],0)/items.length];
         const count=items.length;
+        const savedCount=items.filter(item=>this.poiSaved?.has(item.id)).length;
         const bubble=document.createElement('span');
         bubble.className='poi-cluster-count';
-        bubble.textContent=String(count);
+        bubble.textContent=String(count)+(savedCount?' ★':'');
         const icon=L.divIcon({className:'poi-cluster-icon',html:bubble.outerHTML,
           iconSize:[46,46],iconAnchor:[23,23]});
-        const label=count+' eingetragene Kartenpunkte (Sammelansicht, keine genaue Einzelposition)';
+        const label=count+' eingetragene Kartenpunkte (Sammelansicht, keine genaue Einzelposition)'
+          +(savedCount?' · '+savedCount+' gemerkt':'');
         const marker=L.marker(center,{icon,title:label,alt:label,keyboard:true})
           .addTo(this.poiLayer).bindTooltip(labelNode(label+' · Zum Aufteilen anklicken'));
         marker.on('click',()=>{
@@ -291,7 +294,8 @@ export class TripMap {
         const offset=(i-(items.length-1)/2)*24;
         this.marker(item.point,id,item.name,
           {lodging:'H',food:'R',shop:'S',activity:'A',transport:'B'}[category],
-          'place-'+category+' explorer-pin'+(this.poiFocused===id?' focused':''),
+          'place-'+category+' explorer-pin'+(this.poiFocused===id?' focused':'')
+            +(this.poiSaved?.has(item.id)?' bookmarked':''),
           ()=>this.handlers.select(id),offset,
           placePopupHtml(item,this.poiProfileCtx??{}),this.poiLayer);
         this.poiKeys.add(id);

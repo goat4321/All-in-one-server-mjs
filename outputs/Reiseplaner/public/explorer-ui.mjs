@@ -43,6 +43,7 @@ export function explorerToolbar(ctx) {
     + keys.map(([id, group]) => '<button class="explorer-chip" type="button" data-action="explorer-group" data-value="'
       + id + '" aria-pressed="' + (ex.group === id) + '"><i class="category-swatch ' + id
       + '"></i>' + esc(group.label) + '</button>').join('')
+    +chip('explorer-saved-only','Merkliste ('+ex.saved.size+')',ex.savedOnly===true,'toggle','bookmark')
     +btn('explorer-reset','Alle Ortsfilter zurücksetzen','reset')+'</div>'
     + '<details class="explorer-map-extras"><summary>Weitere Kartenhinweise & ungenaue Standorte</summary><div class="inline">'
     + chip('explorer-references', 'Schematische Stadt-Sammelmarker (' + ex.unlocated.length + ')',
@@ -85,6 +86,7 @@ export function explorerList(ctx) {
     const category = item.explorerCategory;
     const located = Array.isArray(item.point) && item.point.length === 2;
     const active = ctx.activeSet.has(item.id);
+    const bookmarked=ex.saved?.has(item.id)??false;
     const canPlan = !active && item.kind !== 'transport';
     // A and B can be researched in Google Maps even before an exact POI pin is confirmed.
     // Internal OSRM/GTFS routing still requires exact coordinates.
@@ -92,7 +94,7 @@ export function explorerList(ctx) {
       ? btn('explorer-start', 'Als Start', 'pin', item.id)
         + btn('explorer-end', 'Als Ziel', 'arrow', item.id) : '';
     return '<article class="explorer-place panel" data-place-id="' + esc(item.id)
-      + '" data-selected="' + (ctx.selected===item.id) + '">'
+      + '" data-selected="' + (ctx.selected===item.id) + '" data-bookmarked="'+bookmarked+'">'
       + placeImageHtml(item,ctx,{small:true})
       + '<div class="explorer-place-title"><span class="category-swatch ' + category + '"></span><div><h3>'
       + esc(item.name) + '</h3><small>' + esc(ctx.cities[item.city]?.name ?? item.city) + ' · '
@@ -108,7 +110,9 @@ export function explorerList(ctx) {
       + '<p class="muted">Quellenstand: ' + esc(details.sourceStatus)
       + ' · ' + esc(googleMapsLocationStatus(item)) + '</p>'
       + (item.positionIssue ? '<p class="muted">Positionskonflikt: ' + esc(item.positionIssue) + '</p>' : '')
-      + '<div class="row-actions">' + (located ? btn('explorer-focus', 'Auf Karte', 'map', item.id)
+      + '<div class="row-actions">'
+      + btn('explorer-save',bookmarked?'Merken entfernen':'Merken',bookmarked?'check':'bookmark',item.id)
+      + (located ? btn('explorer-focus', 'Auf Karte', 'map', item.id)
         +btn('explorer-nearby','Im Umkreis','target',item.id) : '')
       + (urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item)) || '')
       + (urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),'Google Maps · ÖPNV-Anreise') || '')

@@ -7,6 +7,7 @@ import { transitFares } from './transit.mjs';
 import { railSalesStatus } from './verification.mjs';
 import { explorerData, explorerRouteInput, validPoint, mapPointInBounds } from './map-explorer.mjs';
 import { explorerList } from './explorer-ui.mjs';
+import { readMapBookmarks, toggleMapBookmark } from './map-shortlist.mjs';
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
 import { btn, empty, esc, icon } from './ui.mjs';
@@ -25,7 +26,7 @@ const view = {
   mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
   cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
-  mapViewportOnly:false,mapViewportBounds:null,mapCompact:true,
+  mapViewportOnly:false,mapViewportBounds:null,mapCompact:true,mapSavedOnly:false,
   mapFrom: null, mapTo: null, mapRouteMode: 'walk', mapRouteTime: '10:00', mapRouteResult: null,
   dayQueueIds: [], dayQueueRoutes: [], dayQueueTime: '09:00', dayQueueStatus: '',
   dayQueueFocus: 0, dayQueueDisplay: 'all',
@@ -121,14 +122,17 @@ function buildContext() {
   const foodWalks = Object.fromEntries(foodPlaces.map(item => [item.id, walks.get(walkKey(mealHotel?.point, item.point))]));
   let detail = day.find(i => i.entryKey === view.selected) ?? all.find(i => i.id === view.selected);
   const nearbyAnchor = all.find(i=>i.id===view.mapNearPointId&&validPoint(i.point)) ?? null;
+  const savedIds = readMapBookmarks(localStorage,variant.id);
   const explorer = view.page === 'map' ? {
     ...explorerData(all, trip, {
       city: view.mapScope === 'city' ? city : null,
       group: view.mapGroup, search: view.mapSearch,
       nearbyPoint: nearbyAnchor?.point??null, radiusKm:view.mapNearRadiusKm,
+      savedOnly:view.mapSavedOnly,savedIds,
     }),
     scope: view.mapScope, group: view.mapGroup, search: view.mapSearch,
     viewportOnly:view.mapViewportOnly,viewportBounds:view.mapViewportBounds,compact:view.mapCompact,
+    saved:savedIds,savedOnly:view.mapSavedOnly,
     nearby:nearbyAnchor?{id:nearbyAnchor.id,name:nearbyAnchor.name,
       point:nearbyAnchor.point,radiusKm:view.mapNearRadiusKm}:null,
     showCityReferences: view.mapShowCityReferences,
@@ -332,7 +336,7 @@ async function switchVariant(id) {
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
     view.mapFrom = view.mapTo = view.mapRouteResult = null;
-    view.mapNearPointId=null;view.mapViewportOnly=false;view.mapViewportBounds=null;
+    view.mapNearPointId=null;view.mapViewportOnly=false;view.mapViewportBounds=null;view.mapSavedOnly=false;
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0; view.geocodeReview=null;
     view.total = view.menu = false;
     view.compareIds.clear();
@@ -604,7 +608,7 @@ async function action(name, value = '') {
       render({ restoreView: true }); break;
     case 'explorer-reset':
       view.mapGroup='all';view.mapSearch='';view.mapScope='trip';view.total=true;
-      view.mapViewportOnly=false;view.mapViewportBounds=null;view.mapNearPointId=null;
+      view.mapViewportOnly=false;view.mapViewportBounds=null;view.mapNearPointId=null;view.mapSavedOnly=false;
       view.mapListLimit=60;
       render({fetchRoutes:false});break;
     case 'explorer-group':
@@ -640,6 +644,17 @@ async function action(name, value = '') {
     }
     case 'explorer-near-clear':
       view.mapNearPointId=null;view.mapListLimit=60;
+      render({restoreView:true,fetchRoutes:false});break;
+    case 'explorer-save': {
+      if(!item||!item.id||!['activity','lodging','transport'].includes(item.kind)){
+        say('Dieser Eintrag kann nicht auf die Karten-Merkliste gesetzt werden.');break;
+      }
+      const result=toggleMapBookmark(localStorage,variant.id,item.id);
+      say(result.saved?'Ort für diese Reisevariante gemerkt.':'Ort aus der Merkliste entfernt.');
+      render({restoreView:true,fetchRoutes:false});break;
+    }
+    case 'explorer-saved-only':
+      view.mapSavedOnly=!view.mapSavedOnly;view.mapListLimit=60;
       render({restoreView:true,fetchRoutes:false});break;
     case 'explorer-list-focus': {
       if(view.page!=='map'||!item)break;

@@ -126,6 +126,12 @@ try {
   await click('[data-action=explorer-display][data-value=details]');
   await until(() => js('!document.querySelector(".explorer-list")?.classList.contains("is-compact")'), 'Ausführliche Ortskarten');
   await click('[data-action=explorer-display][data-value=compact]');
+  await click('[data-action=explorer-save][data-value="local:bormuth"]');
+  await until(() => js('document.querySelector(".explorer-place[data-place-id=\\\"local:bormuth\\\"]")?.dataset.bookmarked==="true"'), 'Karten-Merkliste');
+  assert.ok(await js('JSON.parse(localStorage.getItem("reiseplan-map-shortlist:interrail_classic")).includes("local:bormuth")'));
+  await click('[data-action=explorer-saved-only]');
+  await until(() => js('document.querySelectorAll(".explorer-place").length===1'),'Nur gemerkte Orte');
+  await click('[data-action=explorer-saved-only]');
   await text('#main', 'Reiseroute entdecken');
   await until(() => js('document.querySelectorAll(".route-city-step").length >= 4'), 'Interaktive Stadtetappen');
   await until(() => js('document.querySelectorAll(".map-legend-control").length===5'),'Fünf anklickbare Kartenkategorien');

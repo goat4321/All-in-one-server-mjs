@@ -200,11 +200,13 @@ export function mapSelectionPreview(ctx) {
   if(!ctx.explorer||!ctx.detail?.name)return '';
   const item=ctx.detail,id=item.explorerId??item.id;
   const category=EXPLORER_GROUPS[item.explorerCategory]?.label??'Reiseort';
+  const bookmarked=ctx.explorer.saved?.has(item.id)??false;
   return '<div class="map-selected-place" role="group" aria-label="Ausgewählter Reiseort">'
     +'<div class="map-selected-copy"><strong>'+esc(item.name)+'</strong><small>'
     +esc(ctx.cities[item.city]?.name??item.city)+' · '+esc(category)
     +(item.point?' · Kartenpunkt vorhanden':' · Standort offen')
     +'</small></div><div class="map-selected-actions">'
+    +btn('explorer-save',bookmarked?'Merken entfernen':'Merken',bookmarked?'check':'bookmark',id)
     +btn('explorer-list-focus','In Liste','list',id)
     +btn('details','Details','folder',id)+'</div></div>';
 }
