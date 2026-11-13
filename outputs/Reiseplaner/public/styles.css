@@ -463,3 +463,29 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
   font-size:1rem;font-weight:800}
 @media(max-width:650px){.explorer-route-result{align-items:flex-start}
   .explorer-route-status-dot{margin-top:1px}}
+
+/* Universal place profiles: same data hierarchy for hotel, rental, landmark, restaurant and transport. */
+.place-profile{display:grid;gap:14px;min-width:0}
+.place-profile-top{padding:15px;border-radius:15px;background:linear-gradient(135deg,var(--light),var(--paper));border:1px solid var(--line)}
+.place-profile-eyebrow{font-size:.68rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--green)}
+.place-profile-top h3{font-size:1.32rem;margin:5px 0 7px;overflow-wrap:anywhere}
+.place-profile-top p{font-size:.82rem;line-height:1.6;color:var(--muted)}
+.place-profile-facts{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.place-profile-facts>div{padding:10px 12px;background:var(--light);border:1px solid var(--line);border-radius:11px;min-width:0}
+.place-profile-facts dt{font-size:.7rem;color:var(--muted);font-weight:700;margin-bottom:4px}
+.place-profile-facts dd{margin:0;font-size:.82rem;color:var(--text);line-height:1.45;overflow-wrap:anywhere}
+.place-profile-links{display:flex;flex-wrap:wrap;gap:8px}
+.place-profile-links a{display:inline-flex;align-items:center;gap:5px;font-size:.77rem;border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-decoration:none}
+.place-profile-more,.place-profile-sources{border-top:1px solid var(--line);padding-top:10px;font-size:.79rem}
+.place-profile-more summary,.place-profile-sources summary{cursor:pointer;font-weight:750}
+.place-profile-more ul,.place-profile-sources ul{margin:8px 0 0;padding-left:20px;display:grid;gap:7px}
+.place-profile-more li,.place-profile-sources li{overflow-wrap:anywhere;line-height:1.5}
+.place-profile.compact{gap:9px}
+.place-profile.compact .place-profile-top{padding:11px;background:transparent}
+.place-profile.compact .place-profile-top h3{font-size:1.1rem}
+.place-profile.compact .place-profile-facts{gap:6px}
+.place-profile.compact .place-profile-facts>div{padding:8px}
+.place-quick-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:7px 0}
+.place-quick-facts span{display:grid;align-content:start;gap:3px;padding:9px 10px;border:1px solid var(--line);background:var(--light);border-radius:10px;font-size:.71rem;overflow-wrap:anywhere;line-height:1.4;color:var(--text)}
+.place-quick-facts strong{font-size:.68rem;color:var(--muted);font-weight:750}
+@media(max-width:650px){.place-profile-facts{grid-template-columns:1fr}.place-quick-facts{grid-template-columns:1fr 1fr}.place-quick-facts span:last-child{grid-column:1/-1}}
