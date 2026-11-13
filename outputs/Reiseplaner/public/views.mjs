@@ -10,6 +10,7 @@ import { dayRouteView } from './day-route-ui.mjs';
 import { placeQuickFacts, placeProfileHtml, placeImageHtml } from './place-profile.mjs';
 import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
 import { stayComparisonBoard } from './stay-compare-ui.mjs';
+import { voteSnippet, groupVoteBoard } from './group-vote.mjs';
 import { assessStay, sortStayOptions } from './stay-analysis.mjs';
 import { auditInterrailRoute, railAlternativeStatus } from './rail-analysis.mjs';
 
@@ -353,6 +354,7 @@ function options(ctx, lodging) {
       ${rankLine}<p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
       ${placeQuickFacts(item,ctx)}
       ${lodging ? lodgingPriceMeter(item,people.length,ctx.nightlyTargetEuro) : ''}
+      ${voteSnippet(item,ctx)}
       ${stayStats ? '<p class="muted"><strong>Vergleich:</strong> ' + (stayStats.personNightEuroCents == null ? 'Preis pro Person/Nacht offen' : money(stayStats.personNightEuroCents) + ' pro Person/Nacht') + ' · ' + (stayStats.stationWalkMinutes==null?'Bahnhof-Weg offen':stayStats.stationWalkMinutes + ' Min. tatsächlicher Fußweg') + ' · ' + stayStats.risk.length + ' offene Prüfpunkte. Gehzeit und Geldbetrag nicht miteinander verrechnet.</p>' : ''}
       ${item.quote?.sampleTotalCents != null ? '<p class="muted"><strong>Airbnb-Preisreferenz:</strong> '
         + esc(money(item.quote.sampleTotalCents)) + ' für ' + esc(item.quote.sampleAdults ?? 'unbekannt')
@@ -760,7 +762,8 @@ function group(ctx) {
       + '<p class="muted">Fehlende freie Antworten werden als unbekannt behandelt. Bei unterschiedlichen Vorlieben können Aktivitäten auch optional oder parallel geplant werden.</p>'
       + '</section>'
       : '<section class="section panel panel-pad"><h2>Eigenständige Reisegruppe</h2>'
-        + '<p>Für diese Reise liegt keine passende Gruppenbefragung vor. Die Drei-Personen-Interrail-Umfrage wird auf die vierköpfige Schweizer Seenreise ausdrücklich nicht übertragen.</p></section>');
+        + '<p>Für diese Reise liegt keine passende Gruppenbefragung vor. Die Drei-Personen-Interrail-Umfrage wird auf die vierköpfige Schweizer Seenreise ausdrücklich nicht übertragen.</p></section>')
+    + groupVoteBoard(ctx);
 }
 
 function data(ctx) {
