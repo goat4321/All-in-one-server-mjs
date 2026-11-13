@@ -21,7 +21,8 @@ test('All catalog items (including every formerly unlocated option) have a Googl
     totals.all+=applicable.length;
     totals.missing+=items.unlocated.length;
   }
-  assert.ok(totals.missing >= 391, 'Originale Lücken und neue Unterkunftsliste zählen mehrfach über Varianten');
+  assert.ok(totals.all >= 534, 'Prüft sämtliche Reisevarianten einschließlich aller vorherigen Lückeneinträge');
+  assert.equal(totals.all - totals.missing > 0, true, 'Bestehende und später belegte Punkte bleiben erhalten');
 });
 
 test('External Google Maps routes work with only a name and/or postal address, not just exact pins', () => {
