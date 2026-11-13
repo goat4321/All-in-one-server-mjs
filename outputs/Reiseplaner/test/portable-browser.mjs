@@ -167,7 +167,10 @@ try {
   assert.equal(store.current('interrail_classic').state.placePhotos['local:nardi'].credit,
     'Eigene Testfreigabe · Beispielbild');
   assert.equal(store.current('interrail_swiss').state.placePhotos?.['local:nardi'],undefined);
-  await until(() => js('Boolean(document.querySelector(".explorer-place img"))'), 'Quellenfoto in Ortskarten');
+  // chooseItem switched the UI to the daily plan; switch back to map explorer
+  // before inspecting image cards and entering the separate traveller votes.
+  await click('.sidebar [data-action=page][data-value=map]');
+  await until(() => js('Boolean(document.querySelector(".explorer-place[data-place-id=\\\"local:nardi\\\"] img"))'), 'Quellenfoto in Ortskarten');
   await click('[data-action=vote-open][data-value="local:nardi"]');
   await text('dialog','Gruppenbewertung');
   await set('dialog select[name=p1]', '5');
