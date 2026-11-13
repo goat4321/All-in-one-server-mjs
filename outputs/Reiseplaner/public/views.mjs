@@ -1,3 +1,4 @@
+import { mediaCoveragePanel } from './media-coverage.mjs';
 import { readinessPanel } from './readiness-panel.mjs';
 import { optionMatchesFilter, smartFilterHelp } from './smart-filters.mjs';
 import { dailyBudgetHtml } from './daily-budget.mjs';
@@ -846,6 +847,7 @@ function data(ctx) {
   return heading('Daten & Fristen', 'Quellen, lokale Sicherung und Wiedervorlagen',
     btn('export', 'JSON sichern', 'download') + btn('ics', 'Kalender exportieren', 'calendar'))
     + readinessPanel(ctx)
+    + mediaCoveragePanel(ctx)
     + coveragePanel
     + auditV08Panel
     + '<section class="section panel panel-pad"><h2>Recherche importieren</h2><p class="muted">JSON oder CSV in die aktuelle Variante einlesen. Dateieinträge beginnen als Alternativen.</p>'

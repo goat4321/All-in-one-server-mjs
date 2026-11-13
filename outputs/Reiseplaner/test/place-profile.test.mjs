@@ -58,7 +58,7 @@ test('Place photos require a credited explicit source and never appear for unkno
 });
 
 test('Curated Commons images match only their named landmarks, not hotels or Airbnbs',()=>{
- assert.equal(curatedPhotoCount,9);
+ assert.equal(curatedPhotoCount,21);
  const cases=[
   {name:'Sagrada Família',city:'barcelona'},
   {name:'Park Güell · Monumentalzone',city:'barcelona'},
@@ -69,6 +69,18 @@ test('Curated Commons images match only their named landmarks, not hotels or Air
   {name:'Parc de la Ciutadella',city:'barcelona'},
   {name:'Promenade des Anglais',city:'nice'},
   {name:'Porto Antico',city:'genoa'},
+  {name:'Louvre (unter 26 EWR)',city:'paris'},
+  {name:'Montmartre und Sacré-Cœur',city:'paris'},
+  {name:'Barceloneta Strand',city:'barcelona'},
+  {name:'Boccadasse Strand',city:'genoa'},
+  {name:'Markusplatz und Gassen',city:'venice'},
+  {name:'Vaporetto-Inselfahrt Burano',city:'venice'},
+  {name:'Seealpsee Ufer',city:'seealpsee'},
+  {name:'Seealpsee Wanderung ab Wasserauen',city:'appenzell'},
+  {name:'Klöntalersee Rundweg',city:'kloental'},
+  {name:'Bachalpsee-Wanderung',city:'bachalpsee'},
+  {name:'Firstbahn und Bachalpsee',city:'grindelwald'},
+  {name:'Colline du Château',city:'nice'},
  ];
  for(const record of cases){
   const asset=curatedPlacePhoto({id:'test',kind:'activity',...record});
