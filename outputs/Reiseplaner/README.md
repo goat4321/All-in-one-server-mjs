@@ -12,6 +12,41 @@ Im Kartenpanel lassen sich je nach Stadt **Metro**, **Vaporetto**, **Tram**, **B
 
 Alternativ im Projektordner `node server.mjs` starten. Leaflet ist lokal enthalten. Die App benötigt keinen Installations- oder Buildschritt. Bei belegtem Port den laufenden Reiseplaner öffnen oder `REISEPLAN_PORT` auf einen freien Port setzen.
 
+## Neueste Entwicklungsfassung öffnen und Datenqualität prüfen (13.11.2026)
+
+**Achtung:** Diese v0.9-Version liegt im Branch
+`feature/v7-data-day-accommodation-rail`, im Draft-PR #5, und ist noch nicht
+unter einer eigenen Internetadresse bereitgestellt.
+
+1. In GitHub [PR #5](https://github.com/goat4321/All-in-one-server-mjs/pull/5)
+   öffnen, zum Repository wechseln und den Branch `feature/v7-data-day-accommodation-rail` wählen.
+2. **Code → Download ZIP** wählen, heruntergeladenes Archiv entpacken.
+3. Ordner `outputs/Reiseplaner` öffnen und unter Windows **Start.cmd** doppelklicken.
+4. Falls sich nicht automatisch ein Tab öffnet:
+   **http://127.0.0.1:4173** in einem Browser auf demselben PC öffnen.
+5. `Start.cmd` benötigt **Node.js 24**. Mit `node --version` im Terminal prüfen.
+   Alternativ im Reiseplaner-Ordner `node server.mjs --open` ausführen.
+
+**Wichtig bei einer älteren Installation:** Den Server vorher beenden und
+`private/reiseplan.sqlite` sichern; beim Wechsel in einen neuen ZIP-Ordner
+wird die alte lokale Datenbank nicht automatisch mitgenommen. Die Datei nicht
+öffentlich auf GitHub hochladen.
+
+**Kartendaten, Stand 13.11.2026:** 642 variantenspezifische Einträge,
+413 mit nachvollziehbaren Standort-/Gebietspunkten, 229 ohne präzise eigene
+Koordinaten. 175 verschiedene Objekte wurden im Rechercheverlauf neu verortet,
+115 verbleiben noch ungeklärt. **Daten & Fristen** zeigt für jeden offenen
+Eintrag eine konkrete deutsche Begründung, nächste Prüfschritte, bekannte
+veröffentlichte Adressen, den Originalquellenlink und Google Maps. Die
+50 öffentlich recherchierten Hotel-/Geschäftsadressen umfassen 33 mit
+Geometrie und 17 mit lediglich belegter Postanschrift; **42 private Airbnb-Adressen**
+werden nicht geraten.
+
+Geprüfter GitHub-CI-Lauf: [Run #43429832835](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/43429832835),
+62/62 Node-Modelltests, Browser- und Server-Smoke-Test erfolgreich.
+
+Weitere Details: [PHASE_9_GEO_FINAL_AND_OPEN.md](PHASE_9_GEO_FINAL_AND_OPEN.md).
+
 ## Reise planen
 
 - Oben links die Reisevariante wechseln. **Tagesplan** öffnet bei den September-Interrail-Varianten den Barcelona-Pilottag am 4. September. Über die Datumsleiste und die Ortsliste sind die übrigen Stationen erreichbar.
