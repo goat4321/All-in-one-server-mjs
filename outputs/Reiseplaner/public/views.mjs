@@ -7,7 +7,7 @@ import { official2027Notices } from './official-rules-2027.mjs';
 import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
-import { placeQuickFacts, placeProfileHtml } from './place-profile.mjs';
+import { placeQuickFacts, placeProfileHtml, placeImageHtml } from './place-profile.mjs';
 import { assessStay, sortStayOptions } from './stay-analysis.mjs';
 import { auditInterrailRoute, railAlternativeStatus } from './rail-analysis.mjs';
 
@@ -334,6 +334,7 @@ function options(ctx, lodging) {
         + Object.entries(rank.individual ?? {}).map(([alias, score]) => esc(alias + ': ' + score + '/5')).join(' · ')
         + (rank.disagreement ? ' · unterschiedliche Interessen' : '') + '</p>' : '';
     return `<article class="panel option-card">
+      ${placeImageHtml(item,ctx,{small:true})}
       <div class="card-top"><span class="category-icon">${icon(categoryIcon(item))}</span><div class="chips">
       ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.quote ? status(item.quote.sampleAvailability === false ? 'Kein Suchpreis / nicht verfügbar' : 'Suchpreis · nicht gebucht', 'warn') : ''}${verification ? status('Eigene Prüfung ' + verification.count + '/' + verification.total, verification.complete ? 'green' : 'warn') : ''}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
       <h3>${esc(item.name)}</h3>
