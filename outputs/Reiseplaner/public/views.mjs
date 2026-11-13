@@ -167,12 +167,23 @@ export function mapDetail(ctx) {
 }
 
 function mapPanel(ctx, full = false) {
+  const tourCities=[...new Set(ctx.trip.route)].filter(id=>ctx.cities[id]?.point);
+  const tripJourney=ctx.total&&ctx.page==='map'
+    ? '<div class="route-city-showcase" role="group" aria-label="Städte der Reiseroute">'
+      + '<div class="route-city-showcase-head"><strong>Reiseroute entdecken</strong>'
+      + '<span>Reihenfolge aus deiner Planung · Verbindungen schematisch</span></div>'
+      + '<div class="route-city-steps">'+tourCities.map((id,i)=>
+        '<button type="button" class="route-city-step" data-action="city" data-value="'+esc(id)
+        +'" aria-label="Reiseort '+(i+1)+': '+esc(ctx.cities[id].name)+' öffnen">'
+        +'<span>'+(i+1)+'</span><strong>'+esc(ctx.cities[id].name)
+        +'</strong><small>Entdecken</small></button>').join('')+'</div></div>'
+    : '';
   const t = ctx.filters;
   const network = transitNetworks[ctx.city];
   const quickLayer = network?.quick;
   const timetable = ctx.catalog.transitSchedules?.[ctx.city];
   const outside = timetable && (ctx.date < timetable.from || ctx.date > timetable.to);
-  return `<section class="panel map-panel ${full ? 'map-full' : ''}" aria-label="Interaktive Karte">
+  return `<section class="panel map-panel ${full ? 'map-full' : ''} ${ctx.mapExpanded ? 'map-immersive' : ''}" aria-label="Interaktive Karte">
     <div class="panel-head"><div><h2>${ctx.total ? 'Gesamtroute' : 'Karte'}</h2>
     <p>${ctx.total ? 'Originale Reihenfolge · Trassen schematisch' : esc(ctx.wholeDay ? 'Alle Tagesorte' : ctx.cities[ctx.city].name) + ' · ' + esc(shortDay(ctx.date))}</p></div>
     <div class="inline">${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div></div>
@@ -183,11 +194,24 @@ function mapPanel(ctx, full = false) {
         + (quickLayer ? chip('transit', network.groups[quickLayer].title, t.transit[quickLayer], quickLayer, 'train') : '')
         + (ctx.cities[ctx.city].country === 'CH' ? chip('filter', 'Wanderwege', t.hiking, 'hiking', 'walk') : '') : ''}
     </div>
+    <div class="map-design-controls" role="group" aria-label="Design und Größe der Karte">
+      <span class="map-design-caption">Kartenlook</span>
+      ${chip('map-tone','Klassisch',ctx.mapTone==='standard','standard','map')}
+      ${chip('map-tone','Midnight',ctx.mapTone==='midnight','midnight','moon')}
+      ${chip('map-tone','Sand',ctx.mapTone==='sand','sand','sun')}
+      ${chip('map-expand',ctx.mapExpanded?'Normalgröße':'Großansicht',ctx.mapExpanded,'toggle','target')}
+    </div>
+    ${tripJourney}
     ${!ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
     ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
-    <div class="map-wrap"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div><div class="map-hint" id="map-hint" hidden></div></div>
+    <div class="map-wrap" data-map-tone="${esc(ctx.mapTone)}"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div>
+      ${ctx.explorer && ctx.dayRoute.items.length>1 && !ctx.total
+        ? '<div class="route-map-hud"><span class="route-map-pulse"></span><strong>Route Studio</strong><span>'
+          +ctx.dayRoute.items.length+' Stopps · '
+          +(ctx.dayRoute.routes.filter(r=>r?.walkOnly).length)+' Fußwege berechnet</span></div>' : ''}
+      <div class="map-hint" id="map-hint" hidden></div>
     <div class="map-legend"><span><i class="legend-line ${ctx.total ? 'dashed' : ''}"></i> ${ctx.total ? 'Städtefolge · Schema' : 'Berechneter Fußweg'}</span>
     ${ctx.explorer ? Object.entries(EXPLORER_GROUPS).map(([id, group]) => '<span><i class="category-swatch ' + id + '"></i>' + esc(group.label) + '</span>').join('') : ''}
     ${ctx.explorer?.showCityReferences && ctx.explorer.unlocated.length ? '<span>Grau gestrichelt ? = Stadt-Sammelmarker, keine nachgewiesene Objektposition</span>' : ''}
