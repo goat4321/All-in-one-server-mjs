@@ -254,8 +254,9 @@ export async function loadCatalog() {
       || p.point != null || p.price != null || !p.address || !p.menuNote || !p.observedOn)
     || officialActivityEvidence.entries.some(p => !/^https:\/\//.test(p.url) || !p.city || !p.match))
     throw new Error('Ungültiges Recherche-v0.3-Datenpaket.');
-  const officialMatch = item => officialActivityEvidence.entries.find(record =>
-    record.city === item.city && new RegExp(record.match, 'i').test(item.name));
+  const officialMatch = item => item.category === 'food' || item.category === 'shop' ? null
+    : officialActivityEvidence.entries.find(record =>
+      record.city === item.city && new RegExp(record.match, 'i').test(item.name));
   const addOfficial = item => {
     const info = officialMatch(item);
     return !info ? item : { ...item, officialEvidence: info,
