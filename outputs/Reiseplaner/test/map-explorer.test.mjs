@@ -4,7 +4,7 @@ import { loadCatalog } from '../lib/catalog.mjs';
 import { activeItems } from '../public/model.mjs';
 import { initialState } from '../lib/store.mjs';
 import { explorerCategory, explorerData, explorerDetail, validPoint,
-  explorerRouteInput, externalFootUrl, externalTransitUrl } from '../public/map-explorer.mjs';
+  explorerRouteInput, externalFootUrl, externalTransitUrl, explorerUnlocatedCityClusters } from '../public/map-explorer.mjs';
 
 const catalog = await loadCatalog();
 const classic = catalog.trips.find(t => t.id === 'interrail_classic');
@@ -117,4 +117,22 @@ test('Sourced destination station is a distinct pin without creating a second tr
   assert.ok(arrivals.every(x=>x.kind==='transport' && x.price===null));
   const originalTrips=activeItems(classic,initialState(classic));
   assert.ok(originalTrips.every(x=>!x.id.startsWith('arrival:')));
+});
+
+
+test('All unlocated options can be shown as explicitly theoretical city clusters without fake individual coordinates',()=>{
+  for(const trip of catalog.trips){
+    const found=explorerData(trip.items,trip);
+    const clusters=explorerUnlocatedCityClusters({...found,showCityReferences:true},catalog.cities);
+    assert.ok(clusters.length>0,trip.id);
+    assert.equal(clusters.reduce((s,x)=>s+x.count,0),
+      found.unlocated.filter(item=>validPoint(catalog.cities[item.city]?.point)).length,
+      'Every unlocated record must be counted once in its actual city');
+    assert.equal(new Set(clusters.map(c=>c.city)).size,clusters.length);
+    assert.ok(clusters.every(c=>c.count>0&&validPoint(c.point)&&c.exampleNames.length<=3));
+    assert.deepEqual(explorerUnlocatedCityClusters({...found,showCityReferences:false},catalog.cities),[]);
+    assert.ok(found.unlocated.every(x=>!validPoint(x.point)),trip.id);
+    // City cluster coordinates must never alter an underlying precise venue pin.
+    assert.ok(found.placed.every(x=>validPoint(x.point)),trip.id);
+  }
 });
