@@ -181,7 +181,7 @@ try {
   assert.equal(store.current('interrail_classic').state.votes['local:nardi'].p1,5);
   assert.equal(store.current('interrail_classic').state.votes['local:nardi'].p2,3);
   assert.equal(store.current('interrail_swiss').state.votes?.['local:nardi'],undefined);
-  await text('h1', 'Barcelona');
+  await text('h1', 'Karten-Explorer');
   // All archived research areas are exposed in the actual UI, read-only by default.
   await click('.sidebar [data-action=page][data-value=group]');
   await text('#main', 'Umfrage · drei Personen');
