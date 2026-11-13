@@ -606,7 +606,7 @@ export async function loadCatalog() {
       || geoResearchV06.points.some(record =>
         !record.id || !record.city
         || !/^https:\/\//.test(record.sourceUrl ?? record.osmRef ?? '')
-        || !['street_address_match', 'unique_osm_named_poi', 'verified_external_coordinates'].includes(record.confidence)
+        || !['street_address_match', 'unique_osm_named_poi', 'verified_external_coordinates', 'reviewed_osm_named_location'].includes(record.confidence)
         || !point(record.point?.[0], record.point?.[1])
         || !cities[record.city]?.point
         || distanceKm(record.point, cities[record.city].point) > 45))) {
@@ -623,7 +623,7 @@ export async function loadCatalog() {
     const placed = {
       ...item, point: match.point, positionIssue: null,
       geoEvidence: {
-        source: match.confidence === 'verified_external_coordinates' ? 'Extern anhand der Unterkunftsadresse gegengeprüft' : 'OpenStreetMap / Photon',
+        source: match.confidence === 'verified_external_coordinates' ? 'Unabhängig belegte Koordinate' : 'OpenStreetMap / Photon',
         url: match.sourceUrl ?? match.osmRef,
         confidence: match.confidence, observedOn: match.observedOn,
         isCentroid: match.isCentroid,
