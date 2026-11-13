@@ -576,3 +576,28 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
  .stay-compare-content{min-width:0}
  .stay-compare-card dl>div{grid-template-columns:62px minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){.lodging-price-meter-track span{transition:none}}
+
+/* Step 5: group voting is local, variant-scoped, and intentionally not real-time. */
+.group-vote-snippet{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--line);
+ background:var(--light);border-radius:11px;padding:9px 10px;margin:8px 0}
+.group-vote-stars{font-size:1.6rem;color:#d49c35;line-height:1}
+.group-vote-snippet>div{display:grid;gap:2px;flex:1;min-width:165px}
+.group-vote-snippet strong{font-size:.77rem}
+.group-vote-snippet small{font-size:.68rem;color:var(--muted)}
+.group-vote-snippet>.button{min-height:33px;padding:5px 8px;font-size:.72rem}
+.group-vote-board{display:grid;gap:10px}
+.group-vote-board>.muted{font-size:.78rem}
+.group-vote-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr));gap:10px}
+.group-vote-item{border:1px solid var(--line);border-radius:12px;background:var(--light);padding:12px;
+ display:grid;gap:8px;align-content:start}
+.group-vote-item>div:first-child{display:grid;gap:3px}
+.group-vote-item>div:first-child strong{font-size:.88rem;overflow-wrap:anywhere}
+.group-vote-item>div:first-child small{font-size:.73rem;color:var(--muted)}
+.group-vote-overview{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.group-vote-overview>span{font-weight:850;font-size:.9rem}
+.group-vote-overview small{font-size:.73rem;color:var(--muted)}
+.group-vote-bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.group-vote-bar>span{display:block;height:100%;background:linear-gradient(90deg,#198d65,#6ab78d);
+ border-radius:inherit;transition:width .22s ease}
+.group-vote-item>.button{font-size:.74rem;justify-content:center}
+@media(prefers-reduced-motion:reduce){.group-vote-bar>span{transition:none}}
