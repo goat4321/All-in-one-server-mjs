@@ -158,6 +158,8 @@ export function mapDetail(ctx) {
   <details class="map-source-details"><summary>Quellen, Abrufdaten und Datenqualität anzeigen</summary>${sourceList(item, ctx.catalog.sources)}</details>
   ${item.access ? '<p>' + esc(item.access) + '</p>' : ''}
   ${item.positionIssue ? alert(item.positionIssue) : ''}
+  ${item.geoEvidence ? '<p class="muted"><strong>Standortbeleg:</strong> ' + esc(item.geoEvidence.note)
+    + ' · Quelle im aufgeklappten Quellenbereich.</p>' : ''}
   ${rows.length ? '<div class="local-routes">' + rows.join('').replaceAll('class="connector"', 'class="connector detail-connector"') + '</div>' : ''}
   <div class="row-actions">${btn('details', 'Quellen & Details', 'folder', item.id)}
   ${ctx.explorer && item.point ? btn('explorer-start', 'Start hier', 'pin', item.id) + btn('explorer-end', 'Ziel hier', 'arrow', item.id) : ''}
