@@ -9,6 +9,7 @@ import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.m
 import { dayRouteView } from './day-route-ui.mjs';
 import { placeQuickFacts, placeProfileHtml, placeImageHtml } from './place-profile.mjs';
 import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
+import { stayComparisonBoard } from './stay-compare-ui.mjs';
 import { assessStay, sortStayOptions } from './stay-analysis.mjs';
 import { auditInterrailRoute, railAlternativeStatus } from './rail-analysis.mjs';
 
@@ -385,6 +386,7 @@ function options(ctx, lodging) {
     + (lodging ? '<section class="section panel panel-pad"><h2>Datenlücken im Hotelvergleich</h2><div class="chips">'
       + comparisonGaps.map(([label,count]) => status(label+': '+count,'warn')).join('')
       + '</div><p class="muted">Niedrige Kosten oder gute Lage ersetzen keinen nachgewiesenen Checkout. Fußweg, Bettaufteilung, Küche, Gebühr und Storno werden getrennt bewertet.</p></section>' : '')
+    + (lodging && compared.length ? stayComparisonBoard(compared,ctx) : '')
     + (compared.length ? '<section class="section"><h2>Direkter Vergleich</h2>' + table(['Option', 'Für die Gruppe', 'Pro Person', lodging ? 'Küche' : 'Dauer', lodging ? 'Zimmer' : 'Erlebnis', 'Anbindung', lodging ? 'Storno' : 'Einlass', ...(lodging ? ['EUR je Person/Nacht','Offene Nachweise'] : [])], compareRows) + '</section>' : '')
     + (cards ? '<div class="grid-cards">' + cards + '</div>' : empty('Keine Optionen in dieser Ansicht', 'Wechsle den Filter, wähle einen anderen Ort oder importiere deine Recherche.'));
 }
