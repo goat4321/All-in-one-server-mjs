@@ -1,3 +1,4 @@
+import { googleMapsDirectionsUrl } from './google-maps.mjs';
 // Shared explorer selectors for every variant and city. Only place-level
 // coordinates provided by source records are plotted: no city-centre guesses.
 export const EXPLORER_GROUPS = Object.freeze({
@@ -134,11 +135,8 @@ export function explorerRouteInput(from, to) {
   return { points: [from.point, to.point], km, canWalk: km <= 25, sameCity: from.city === to.city };
 }
 
-export function externalTransitUrl(from, to) {
-  if (!validPoint(from?.point) || !validPoint(to?.point)) return null;
-  return 'https://www.google.com/maps/dir/?api=1&origin='
-    + encodeURIComponent(from.point.join(',')) + '&destination='
-    + encodeURIComponent(to.point.join(',')) + '&travelmode=transit';
+export function externalTransitUrl(from, to, cities={}) {
+  return googleMapsDirectionsUrl(from, to, cities, 'transit');
 }
 
 export function externalFootUrl(from, to) {
