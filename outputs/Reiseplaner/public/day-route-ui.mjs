@@ -2,6 +2,7 @@ import { buildMultiStopDay } from './day-route.mjs';
 import { esc, btn, status, urlLink } from './ui.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel } from './google-maps.mjs';
 import { groupPrice } from './model.mjs';
+import { routeStudioModel, routeStudioSummary } from './route-studio.mjs';
 
 export function dayRouteView(ctx) {
   if (!ctx.explorer) return '';
@@ -15,6 +16,55 @@ export function dayRouteView(ctx) {
   const costs = items.map(i => (i.effectivePrice ?? i.price)?.currency === 'EUR' ? groupPrice(i.effectivePrice ?? i.price, ctx.people.length) : null);
   const sum = costs.filter(n=>Number.isSafeInteger(n)).reduce((a,b)=>a+b,0);
   const missing = costs.filter(n=>n==null).length;
+  const studio = routeStudioModel(items, route.routes, route.focusIndex);
+  const chosen = studio.stops[studio.selectedIndex];
+  const focusedLeg = studio.legs[studio.activeLeg];
+  const knownWalk = studio.verifiedCount
+    ? studio.knownMinutes + ' Min. · ' + (studio.knownMetres / 1000)
+      .toLocaleString('de-DE',{maximumFractionDigits:1})+' km berechnet'
+    : 'Noch keine echten Gehzeiten';
+  const stopControls = studio.stops.map((stop,i)=>{
+    const incoming=studio.legs[i-1];
+    const selected=i===studio.selectedIndex;
+    return '<button type="button" class="route-studio-stop" data-action="day-route-focus" data-value="'
+      + i + '" aria-pressed="' + selected + '" aria-label="Stopp ' + (i+1)
+      + ' anzeigen: ' + esc(stop.name) + '"><span class="route-studio-number">'
+      + (i+1) + '</span><span class="route-studio-stop-copy"><strong>'
+      + esc(stop.name) + '</strong><small>'
+      + (i===0?'Start':incoming?.verified
+        ? (incoming.minutes.toLocaleString('de-DE',{maximumFractionDigits:0})+' Min. geprüfter Fußweg')
+        :'Verbindung noch nicht berechnet') + '</small></span>'
+      + (i<studio.stops.length-1?'<span class="route-studio-arrow" aria-hidden="true">›</span>':'')
+      + '</button>';
+  }).join('');
+  const storyPanel = '<section class="route-studio" aria-label="Interaktives Route Studio">'
+    + '<div class="route-studio-header"><div><span class="route-studio-eyebrow">ROUTE STUDIO · LIVE-PLANUNG</span>'
+    + '<h3>Deine Tour. Auf einen Blick.</h3>'
+    + '<p>' + esc(routeStudioSummary(studio)) + '</p></div>'
+    + '<div class="route-studio-kpis"><span><strong>' + studio.stops.length
+    + '</strong><small>Stopps</small></span><span><strong>'
+    + studio.verifiedCount + '/' + studio.legs.length
+    + '</strong><small>echte Wege</small></span></div></div>'
+    + '<div class="route-studio-track" role="group" aria-label="Stopps auf der Karte auswählen">'
+    + (stopControls || '<p class="route-studio-empty">Füge rechts aus der Ortsliste deinen ersten Stopp hinzu. Hier entsteht deine interaktive Reiseroute.</p>')
+    + '</div>'
+    + (studio.stops.length ? '<div class="route-studio-spotlight"><div>'
+      + '<span class="route-studio-label">AKTUELLER KARTENFOKUS</span><strong>'
+      + (studio.selectedIndex+1) + '. ' + esc(chosen?.name) + '</strong>'
+      + '<small>' + esc(ctx.cities[chosen?.city]?.name??chosen?.city??'')
+      + ' · ' + esc(knownWalk) + '</small></div>'
+      + '<div class="route-studio-navigation">'
+      + btn('day-route-prev','Zurück','arrow-left','','subtle')
+      + btn('day-route-next','Weiter','arrow-right','','subtle')
+      + btn('day-route-fit','Ganze Tour zeigen','target') + '</div></div>'
+      + '<div class="route-studio-settings" aria-label="Routendarstellung">'
+      + chip('day-route-display','Alle Etappen',route.displayMode!=='focus','all','map')
+      + chip('day-route-display','Etappe hervorheben',route.displayMode==='focus','focus','pin')
+      + '<small>' + esc(focusedLeg?.verified
+        ? 'Grün = über echte Straßen/Weggeometrie berechnet.'
+        : 'Gestrichelt = schematische Verbindung, keine tatsächliche Wegführung.') + '</small></div>'
+      : '')
+    + '</section>';
   return '<section class="panel panel-pad day-route-builder" aria-label="Mehrstopp-Tagesroute">'
     + '<div class="subheading compact"><div><h2>Mehrstopp-Tagesroute</h2>'
     + '<p>2–8 Stopps aus der Ortsliste sammeln und als zusammenhängenden Tag prüfen</p></div>'
@@ -25,6 +75,7 @@ export function dayRouteView(ctx) {
       + btn('day-route-optimize','Reihenfolge vorschlagen','shuffle')
       + btn('day-route-check','Fußwege und Zeiten berechnen','walk')
       + btn('day-route-clear','Liste leeren','reset') + '</div>'
+    + storyPanel
     + '<p class="muted">Zwischen den gewählten Stopps findest du jetzt direkte Google-Maps-ÖPNV-Routen, deren Fahrplan und Fahrtzeit erst Google Maps bestimmt. Die Zeitplanung unten rechnet weiter ausschließlich mit berechneten Fußwegen.</p>'
     + '<p class="muted">„Reihenfolge vorschlagen“ verwendet nur Luftlinienentfernungen. Die echte Gehzeit entsteht ausschließlich aus den tatsächlich berechneten Fußwegen. Bestehende Buchungen werden nie verändert.</p>'
     + (items.length ? '<ol class="day-route-stops">' + items.map((item,i) =>
