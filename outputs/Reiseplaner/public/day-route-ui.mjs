@@ -1,5 +1,5 @@
 import { buildMultiStopDay } from './day-route.mjs';
-import { esc, btn, status, urlLink } from './ui.mjs';
+import { esc, btn, chip, status, urlLink } from './ui.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel } from './google-maps.mjs';
 import { groupPrice } from './model.mjs';
 import { routeStudioModel, routeStudioSummary } from './route-studio.mjs';
