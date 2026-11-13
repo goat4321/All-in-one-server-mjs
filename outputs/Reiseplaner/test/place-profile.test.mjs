@@ -2,7 +2,7 @@ import { curatedPlacePhoto, curatedPhotoCount } from '../public/curated-place-ph
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadCatalog } from '../lib/catalog.mjs';
-import { placeProfileModel, placeProfileHtml, placeQuickFacts, placeImageHtml, placePopupHtml } from '../public/place-profile.mjs';
+import { placeProfileModel, placeProfileHtml, placeQuickFacts, placeImageHtml, placePopupHtml, placeGalleryHtml } from '../public/place-profile.mjs';
 
 const catalog = await loadCatalog();
 const ctx={people:[{id:'p1'},{id:'p2'},{id:'p3'}],cities:catalog.cities,catalog,state:{}};
@@ -58,11 +58,13 @@ test('Place photos require a credited explicit source and never appear for unkno
 });
 
 test('Curated Commons images match only their named landmarks, not hotels or Airbnbs',()=>{
- assert.equal(curatedPhotoCount,3);
+ assert.equal(curatedPhotoCount,5);
  const cases=[
   {name:'Sagrada Família',city:'barcelona'},
   {name:'Park Güell · Monumentalzone',city:'barcelona'},
   {name:'Eiffelturm zweite Etage',city:'paris'},
+  {name:'Rialtobrücke',city:'venice'},
+  {name:'Oeschinensee-Wanderung',city:'kandersteg'},
  ];
  for(const record of cases){
   const asset=curatedPlacePhoto({id:'test',kind:'activity',...record});

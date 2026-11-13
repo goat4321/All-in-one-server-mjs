@@ -16,7 +16,12 @@ export function placeProfileModel(item, ctx = {}) {
   const people = Math.max(1, Number.isInteger(ctx.people?.length) ? ctx.people.length : 3);
   const detail = explorerDetail(item,people);
   const category = explorerCategory(item);
-  const photo = ctx.state?.placePhotos?.[item.id] ?? null;
+  const saved=ctx.state?.placePhotos?.[item.id] ?? null;
+  const ownPhotos=(Array.isArray(saved)?saved:saved?[saved]:[]).filter(p=>
+    p && /^https:\/\//.test(p.url??'') && /^https:\/\//.test(p.sourceUrl??'')
+    && typeof p.credit==='string' && p.credit.trim()).slice(0,5);
+  const curated=curatedPlacePhoto(item);
+  const photos=[...ownPhotos,...(curated?[curated]:[])];
   const isAirbnb = item.provider === 'Airbnb' || String(item.id).startsWith('wishlist:airbnb:');
   const observed = item.quote?.observedOn ?? item.sampleQuote?.observedOn ?? null;
   const price = item.effectivePrice ?? item.price;
@@ -60,7 +65,7 @@ export function placeProfileModel(item, ctx = {}) {
     priceLabel,priceKnown:total!=null,sampleLabel,rating,observed,
     facts,details:detail.extra,sourceStatus:detail.sourceStatus,
     maps:googleMapsSearchUrl(item,ctx.cities),route:googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),
-    providerUrl:item.website??null,photo:photo && /^https:\/\//.test(photo.url??'') ? photo:curatedPlacePhoto(item),
+    providerUrl:item.website??null,photo:photos[0]??null,photos,ownPhotoCount:ownPhotos.length,
   };
 }
 
@@ -109,12 +114,32 @@ export function placeQuickFacts(item,ctx={}) {
     + '</div>';
 }
 
+export function placeGalleryHtml(item,ctx={}) {
+  const profile=placeProfileModel(item,ctx);
+  if(!profile||profile.photos.length<2)return '';
+  return '<section class="place-gallery" aria-label="Bildergalerie: '+esc(profile.name)+'">'
+    +'<div class="place-gallery-heading"><h4>Fotogalerie</h4><small>'
+    +profile.photos.length+' Fotos mit einzelnen Quellenangaben</small></div>'
+    +'<div class="place-gallery-grid">'+profile.photos.map((photo,index)=>
+      '<figure class="place-gallery-item"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer"'
+      +' aria-label="Foto '+(index+1)+' von '+esc(profile.name)+' in groß öffnen">'
+      +'<img src="'+esc(photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer"'
+      +' alt="Foto '+(index+1)+': '+esc(profile.name)+'"></a>'
+      +'<figcaption>'+esc(photo.credit)+' · '
+      +'<a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Lizenzquelle</a>'
+      +(index<profile.ownPhotoCount
+        ?'<button type="button" class="place-gallery-remove" data-action="photo-remove-one" data-value="'
+          +esc(JSON.stringify([profile.id,index]))+'">Eigenes Foto entfernen</button>'
+        :'')+'</figcaption></figure>').join('')+'</div></section>';
+}
+
 export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
   const p=placeProfileModel(item,ctx);
   if(!p)return '';
   const visible=compact?p.facts.slice(0,5):p.facts;
   return '<section class="place-profile'+(compact?' compact':'')+'" aria-label="Objektdetails: '+esc(p.name)+'">'
     + placeImageHtml(item,ctx,{small:compact})
+    + (compact?'':placeGalleryHtml(item,ctx))
     + '<div class="place-profile-top"><div><span class="place-profile-eyebrow">'+esc(p.facts[0][1])
     + '</span><h3>'+esc(p.name)+'</h3><p>'+esc(p.description)+'</p></div></div>'
     + '<dl class="place-profile-facts">'+visible.map(([label,value])=>'<div><dt>'

@@ -1,0 +1,33 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { loadCatalog } from '../lib/catalog.mjs';
+import { initialState,validateState } from '../lib/store.mjs';
+import { placeProfileModel,placeGalleryHtml } from '../public/place-profile.mjs';
+const catalog=await loadCatalog();
+const trip=catalog.trips[0],item=trip.items.find(x=>x.kind==='activity');
+const a={url:'https://example.org/a.jpg',sourceUrl:'https://example.org/license/a',credit:'Photographer A · CC BY'};
+const b={url:'https://example.org/b.jpg',sourceUrl:'https://example.org/license/b',credit:'Photographer B · CC BY'};
+test('Legacy single sourced photo is compatible with multiple credited photos',()=>{
+ const state=initialState(trip);
+ state.placePhotos[item.id]=a;
+ assert.doesNotThrow(()=>validateState(state,trip,[]));
+ const ctx={people:state.people,cities:catalog.cities,catalog,state};
+ assert.equal(placeProfileModel(item,ctx).photos[0].url,a.url);
+ state.placePhotos[item.id]=[a,b];
+ assert.doesNotThrow(()=>validateState(state,trip,[]));
+ assert.equal(placeProfileModel(item,ctx).ownPhotoCount,2);
+ const html=placeGalleryHtml(item,ctx);
+ assert.match(html,/Fotogalerie/);
+ assert.match(html,/Photographer A/);
+ assert.match(html,/Photographer B/);
+ assert.match(html,/data-action="photo-remove-one"/);
+});
+test('Unsourced and oversized photo galleries fail server validation',()=>{
+ const state=initialState(trip);
+ state.placePhotos[item.id]=Array(6).fill(a);
+ assert.throws(()=>validateState(state,trip,[]),/höchstens fünf/);
+ state.placePhotos[item.id]=[a,{...b,url:'http://unsafe/image'}];
+ assert.throws(()=>validateState(state,trip,[]),/HTTPS-Bildlink/);
+ state.placePhotos[item.id]=[a,{...b,credit:''}];
+ assert.throws(()=>validateState(state,trip,[]),/HTTPS-Bildlink/);
+});

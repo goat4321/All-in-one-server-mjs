@@ -66,12 +66,16 @@ export function validateState(state, trip, imported) {
   if (state.placePhotos != null) {
     if (!object(state.placePhotos) || Object.keys(state.placePhotos).length > 500)
       error('Ungültige Bildersammlung.');
-    for (const [id,photo] of Object.entries(state.placePhotos)) {
-      if (!itemMap.has(id) || !object(photo)
-        || !goodText(photo.url,1200) || !/^https:\/\/[^\s]+$/i.test(photo.url)
-        || !goodText(photo.credit,180) || !photo.credit.trim()
-        || !goodText(photo.sourceUrl,1200) || !/^https:\/\/[^\s]+$/i.test(photo.sourceUrl))
-        error('Ein Ortsfoto braucht HTTPS-Bildlink, Namensnennung und Bildquelle.');
+    for (const [id,stored] of Object.entries(state.placePhotos)) {
+      const photos=Array.isArray(stored)?stored:[stored];
+      if(!itemMap.has(id)||photos.length<1||photos.length>5)
+        error('Je Ort sind höchstens fünf eigene Quellenfotos möglich.');
+      for(const photo of photos){
+        if(!object(photo)||!goodText(photo.url,1200)||!/^https:\/\/[^\s]+$/i.test(photo.url)
+          ||!goodText(photo.credit,180)||!photo.credit.trim()
+          ||!goodText(photo.sourceUrl,1200)||!/^https:\/\/[^\s]+$/i.test(photo.sourceUrl))
+          error('Ein Ortsfoto braucht HTTPS-Bildlink, Namensnennung und Bildquelle.');
+      }
     }
   }
 

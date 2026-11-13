@@ -747,15 +747,17 @@ async function action(name, value = '') {
     }
     case 'photo-edit': {
       if (!item) break;
-      const current=ctx.state.placePhotos?.[item.id]??{};
+      const previous=ctx.state.placePhotos?.[item.id]??null;
+      const photos=Array.isArray(previous)?previous:previous?[previous]:[];
+      if(photos.length>=5){say('Maximal fünf eigene Fotos pro Ort. Entferne zuerst ein Bild.');break;}
       const wrap=(label,key,value)=>'<label class="field wide"><span>'+esc(label)+'</span>'
         +'<input name="'+key+'" type="text" value="'+esc(value??'')+'" maxlength="1200" required></label>';
       openDialog('Foto und Bildquelle · '+item.name,
         '<p class="muted">Nur Bilder verwenden, für die eine geeignete Nutzungserlaubnis besteht. Originalfoto oder Wikimedia-Commons-Bild mit korrekter Lizenzangabe und Quelle eintragen. Externe Bilder werden im Browser direkt vom Bildanbieter geladen.</p>'
         +'<form id="modal-form"><div class="form-grid">'
-        +wrap('Direkter HTTPS-Bildlink','url',current.url)
-        +wrap('Urheber / Namensnennung / Lizenz','credit',current.credit)
-        +wrap('HTTPS-Link zur Bild-/Lizenzquelle','sourceUrl',current.sourceUrl)
+        +wrap('Direkter HTTPS-Bildlink','url','')
+        +wrap('Urheber / Namensnennung / Lizenz','credit','')
+        +wrap('HTTPS-Link zur Bild-/Lizenzquelle','sourceUrl','')
         +'</div><div class="form-error" aria-live="polite"></div>'
         +'<div class="dialog-foot"><button type="button" class="button" data-action="close">Abbrechen</button>'
         +'<button type="submit" class="button primary">Foto übernehmen</button></div></form>',
@@ -767,9 +769,25 @@ async function action(name, value = '') {
              || !/^https:\/\/[^\s]+$/i.test(url))
              || !photo.credit || photo.credit.length>180)
             throw new Error('Gültige HTTPS-Links sowie Urheber und Lizenz angeben.');
-          await save({...ctx.state,placePhotos:{...(ctx.state.placePhotos??{}),[item.id]:photo}},
-            'Foto mit Quelle in dieser Reisevariante gespeichert');
+          const updated=[...photos,photo];
+          await save({...ctx.state,placePhotos:{...(ctx.state.placePhotos??{}),[item.id]:updated.length===1?updated[0]:updated}},
+            'Quellenfoto zur Galerie dieser Reisevariante hinzugefügt');
         });
+      break;
+    }
+    case 'photo-remove-one': {
+      let parsed;
+      try{parsed=JSON.parse(value);}catch{break;}
+      if(!Array.isArray(parsed)||parsed.length!==2)break;
+      const [photoId,index]=parsed, saved=ctx.state.placePhotos?.[photoId];
+      const photos=Array.isArray(saved)?saved:saved?[saved]:[];
+      if(!ctx.all.some(x=>x.id===photoId)||!Number.isInteger(index)||index<0||index>=photos.length)break;
+      const remaining=photos.filter((_,i)=>i!==index);
+      const placePhotos={...ctx.state.placePhotos};
+      if(remaining.length)placePhotos[photoId]=remaining.length===1?remaining[0]:remaining;
+      else delete placePhotos[photoId];
+      await save({...ctx.state,placePhotos},'Quellenfoto entfernt');
+      closeDialog();
       break;
     }
     case 'photo-remove': {
