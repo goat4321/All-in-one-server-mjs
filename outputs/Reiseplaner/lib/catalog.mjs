@@ -244,6 +244,24 @@ export async function loadCatalog() {
   const [trips, destinations, activities, accommodations, transport, fares, budgets, sources, quality] =
     await Promise.all(['trips', 'destinations', 'activities', 'accommodations', 'transport', 'fares', 'budgets', 'sources', 'data_quality'].map(file));
   const research = await loadResearchV02(trips);
+  const [newFoodResearch, officialActivityEvidence] = await Promise.all([
+    readFile(new URL('../data/research-v03/food-venues.json', import.meta.url), 'utf8').then(JSON.parse),
+    readFile(new URL('../data/research-v03/official-activity-evidence.json', import.meta.url), 'utf8').then(JSON.parse),
+  ]);
+  const uniqueFoodIds = new Set(newFoodResearch.items.map(p => p.id));
+  if (uniqueFoodIds.size !== newFoodResearch.items.length
+    || newFoodResearch.items.some(p => !destinations.some(city => city.id === p.city)
+      || p.point != null || p.price != null || !p.address || !p.menuNote || !p.observedOn)
+    || officialActivityEvidence.entries.some(p => !/^https:\/\//.test(p.url) || !p.city || !p.match))
+    throw new Error('Ungültiges Recherche-v0.3-Datenpaket.');
+  const officialMatch = item => officialActivityEvidence.entries.find(record =>
+    record.city === item.city && new RegExp(record.match, 'i').test(item.name));
+  const addOfficial = item => {
+    const info = officialMatch(item);
+    return !info ? item : { ...item, officialEvidence: info,
+      openingHoursNote: info.hours, duration: item.duration ?? info.durationMinutes,
+      source: [...new Set([...(item.source ?? []), 'official-v03:' + info.id])] };
+  };
   const [coverageArchive, daysArchive] = await Promise.all([
     readFile(new URL('../data/research-v02/city-coverage-v02.json', import.meta.url), 'utf8').then(JSON.parse),
     readFile(new URL('../data/research-v02/day-suggestions-v02.json', import.meta.url), 'utf8').then(JSON.parse),
@@ -376,7 +394,7 @@ export async function loadCatalog() {
       candidate.origin = 'Recherche v0.2 · Alternative';
       candidate.verification = entry.verification_status ?? 'ungeprüft';
       candidate.priorityFit = entry.priority_fit;
-      options.push(candidate);
+      options.push(addOfficial(candidate));
       existingActivityIds.add(id);
     }
     if (trip.variant_group === 'interrail_2027' && trip.travellers === 3) {
@@ -442,6 +460,36 @@ export async function loadCatalog() {
         start: null, end: null, selected: false, price: null, origin: 'neu recherchiert', verification: 'Anbieterbeschreibung',
       });
     }
+    for (const place of newFoodResearch.items.filter(place => allowed.includes(place.city))) {
+      const nameKey = clean(place.name);
+      if (options.some(existing => existing.city === place.city && clean(existing.name) === nameKey)) continue;
+      options.push({
+        id: 'local:' + place.id, trip: trip.id, city: place.city,
+        kind: 'activity', category: place.category, zone: cities[place.city]?.timezone ?? zone,
+        name: place.name, tags: place.tags, detail: place.detail, menuNote: place.menuNote,
+        address: place.address, point: null, selected: false, start: null, end: null,
+        openingHoursNote: place.openingHoursNote, estimatedCostNote: place.priceReferenceNote,
+        source: [place.sourceId], website: place.website, price: null,
+        origin: 'Öffentliche Gewerbe-/Kartensuche vom 13.11.2026',
+        verification: place.verification, sourceDate: place.observedOn,
+      });
+    }
+    // Additional official-museum alternative has no original Tripsy counterpart.
+    if (allowed.includes('paris') && !options.some(item => /orsay/i.test(item.name))) {
+      options.push(addOfficial({
+        id: 'official:orsay', trip: trip.id, city: 'paris', kind: 'activity',
+        category: 'activity', name: 'Musée d’Orsay', tags: ['Museum','Kunst','Innen'],
+        zone: cities.paris.timezone, point: null, start: null, selected: false,
+        price: null, source: ['official-v03:orsay'],
+        detail: 'Impressionistische Kunst im ehemaligen Bahnhof am Seineufer.',
+        verification: 'Offizielle Tarif-/Öffnungsregeln; Eintritt für EWR unter 26 nach Berechtigung',
+      }));
+    }
+    for (const item of [...options, ...planned]) {
+      const info = officialMatch(item);
+      if (!info) continue;
+      Object.assign(item, addOfficial(item));
+    }
     if (allowed.includes('barcelona')) {
       for (const place of barcelonaFoodPlaces) options.push({
         ...place, id: 'local:' + place.id, trip: trip.id, city: 'barcelona', kind: 'activity', category: 'food',
@@ -487,7 +535,11 @@ export async function loadCatalog() {
       transportCandidates: research.transport_comparison_candidates,
       budgetScenarios: research.budget_scenarios,
       quality: research.data_quality,
+      foodVenueResearchV03: newFoodResearch.items,
+      activityEvidenceV03: officialActivityEvidence.entries,
       counts: {
+        foodVenueAddsV03: newFoodResearch.items.length,
+        officialActivityRefsV03: officialActivityEvidence.entries.length,
         activityCandidates: research.activities_comparison_catalog.length,
         addedActivities: research.activities_comparison_catalog.filter(a => !activities.some(old => old.id === a.id)).length,
         lodgingCandidates: research.accommodation_comparison_catalog.length,
@@ -499,7 +551,19 @@ export async function loadCatalog() {
         issues: research.data_quality.length,
       },
     },
-    sources: Object.fromEntries([...sources, ...research.sources, {
+    sources: Object.fromEntries([...sources, ...research.sources,
+      ...newFoodResearch.items.map(place => ({
+        id: place.sourceId,
+        publisher: 'Lokale Kartensuche vom 13.11.2026 · ' + place.name,
+        url: place.website,
+        accessed_on: place.observedOn,
+        validity: 'business_listing_snapshot_address_and_hours_not_confirmed_for_2027',
+      })),
+      ...officialActivityEvidence.entries.map(info => ({
+        id: 'official-v03:' + info.id, publisher: 'Offizieller Betreiber · ' + info.title,
+        url: info.url, accessed_on: officialActivityEvidence.observed_on,
+        validity: info.pricePeriod,
+      })), {
       id: 'booking-barcelona-20261112', publisher: 'Booking.com · Suchergebnis vom 12.11.2026',
       url: 'https://www.booking.com/city/es/barcelona.html',
       accessed_on: providerSearch.observed_on, validity: 'booking_search_observation',
