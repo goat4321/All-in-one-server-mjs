@@ -861,3 +861,13 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 .explorer-nearby-bar .chip-button{background:var(--paper)}
 .explorer-nearby-bar .chip-button[aria-pressed=true]{background:var(--green);color:var(--paper)}
 .leaflet-interactive.explorer-nearby-ring{stroke-dasharray:7 9}
+
+
+/* Semantic zoom aggregation: bubble never represents a verified individual address. */
+.poi-cluster-count{display:grid;place-items:center;height:46px;width:46px;
+ border:3px solid #fff;background:#145c4a;color:#fff;border-radius:50%;
+ box-shadow:0 0 0 6px #27a37b33,0 4px 17px #0c372d55;font-size:.93rem;
+ font-weight:850;font-variant-numeric:tabular-nums}
+.poi-cluster-icon{cursor:zoom-in}
+.poi-cluster-icon:hover .poi-cluster-count{background:#23825e;transform:scale(1.08)}
+@media(prefers-reduced-motion:reduce){.poi-cluster-icon:hover .poi-cluster-count{transform:none}}

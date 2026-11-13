@@ -30,6 +30,9 @@ export class TripMap {
     this.map.zoomControl.setPosition('bottomright');
     this.map.attributionControl.setPrefix(false);
     this.features = L.layerGroup().addTo(this.map);
+    this.poiLayer = L.layerGroup().addTo(this.map);
+    this.poiItems = []; this.poiKeys = new Set(); this.poiProfileCtx = null;
+    this.map.on('zoomend', () => this.paintExplorerPins());
     this.transit = L.layerGroup().addTo(this.map);
     this.markers = new Map();
     const grid = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -54,11 +57,11 @@ export class TripMap {
     this.map.on('blur', () => this.map.scrollWheelZoom.disable());
   }
 
-  marker(point, id, text, number, style, click, offset = 0, popupHtml = null) {
+  marker(point, id, text, number, style, click, offset = 0, popupHtml = null, group = this.features) {
     const icon = L.divIcon({ className: '', html: '<span class="pin ' + style + '"><span>' + number + '</span></span>',
       iconSize: [30, 30], iconAnchor: [14 - offset, 29] });
     const marker = L.marker(point, { icon, title: text, alt: text, keyboard: true,
-      zIndexOffset: style.includes('focused') ? 1000 : 0 }).addTo(this.features);
+      zIndexOffset: style.includes('focused') ? 1000 : 0 }).addTo(group);
     marker.bindTooltip(labelNode(text), { direction: 'top', offset: [offset, -22] });
     marker.on('click', click);
     if (popupHtml) marker.bindPopup(popupHtml, { maxWidth: 320, minWidth: 230, closeButton: true });
@@ -69,7 +72,9 @@ export class TripMap {
   paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null, profileCtx = null }) {
     this.city = city;
     this.features.clearLayers();
-    this.markers.clear();
+    this.poiLayer.clearLayers();
+    this.markers.clear(); this.poiKeys.clear(); this.poiItems = [];
+    this.poiProfileCtx = profileCtx; this.poiFocused = focused; this.nearbyCircle = null;
     this.storyStops = [];
     this.storySegments = [];
     this.storyBounds = [];
@@ -117,21 +122,19 @@ export class TripMap {
       }
     }
     if (explorer?.placed?.length) {
-      // Existing markers from the day view are reused instead of drawn twice.
-      // In the trip-wide mode the city anchors remain separate from POIs.
-      const located = explorer.placed.filter(item => Array.isArray(item.point) && item.point.length === 2
+      this.poiItems = explorer.placed.filter(item => Array.isArray(item.point)
+        && item.point.length === 2 && item.point.every(Number.isFinite)
         && !this.markers.has(item.explorerId ?? item.id));
-      const grouped = Map.groupBy(located, item => item.point.map(value => value.toFixed(5)).join(','));
-      for (const cluster of grouped.values()) cluster.forEach((item, index) => {
-        const key = item.explorerId ?? item.id;
-        const category = item.explorerCategory ?? 'activity';
-        const offset = (index - (cluster.length - 1) / 2) * 24;
-        this.marker(item.point, key, item.name, {lodging:'H',food:'R',shop:'S',activity:'A',transport:'B'}[category],
-          'place-' + category + ' explorer-pin' + (focused === key ? ' focused' : ''),
-          () => this.handlers.select(key), offset,
-          placePopupHtml(item,profileCtx??{}));
-        area.push(item.point);
-      });
+      area.push(...this.poiItems.map(item=>item.point));
+      this.paintExplorerPins();
+    }
+    if (explorer?.nearby?.point && !total) {
+      const n=explorer.nearby;
+      this.nearbyCircle=L.circle(n.point,{radius:n.radiusKm*1000,color:'#0b9378',
+        weight:2,opacity:.9,fillColor:'#19ac8b',fillOpacity:.08,
+        dashArray:'7 9',className:'explorer-nearby-ring'}).addTo(this.features);
+      L.circleMarker(n.point,{radius:7,color:'#fff',weight:3,fillColor:'#0b9378',fillOpacity:1})
+        .addTo(this.features).bindTooltip(labelNode('Umkreiszentrum: '+n.name));
     }
     // Deliberately one city-reference cluster for many unlocated records,
     // never pretend that an accommodation or POI is at the city centre.
@@ -245,6 +248,64 @@ export class TripMap {
     this.bounds = area;
   }
 
+  // Leaflet zoom clustering only groups real recorded POI points. A cluster
+  // is a visual aggregate, never a geocoded building, address or route stop.
+  paintExplorerPins() {
+    if (!this.poiLayer) return;
+    this.poiLayer.clearLayers();
+    for (const id of this.poiKeys ?? []) this.markers.delete(id);
+    this.poiKeys = new Set();
+    if (!this.poiItems?.length) return;
+    const zoom=this.map.getZoom(),clustered=zoom<=12;
+    const buckets=new Map();
+    for(const item of this.poiItems){
+      const p=item.point,xy=this.map.project(p,zoom);
+      const key=clustered
+        ? item.city+':'+Math.floor(xy.x/70)+':'+Math.floor(xy.y/70)
+        :p.map(n=>n.toFixed(5)).join(',');
+      if(!buckets.has(key))buckets.set(key,[]);
+      buckets.get(key).push(item);
+    }
+    for(const items of buckets.values()){
+      if(clustered&&items.length>1){
+        const center=[items.reduce((s,x)=>s+x.point[0],0)/items.length,
+          items.reduce((s,x)=>s+x.point[1],0)/items.length];
+        const count=items.length;
+        const bubble=document.createElement('span');
+        bubble.className='poi-cluster-count';
+        bubble.textContent=String(count);
+        const icon=L.divIcon({className:'poi-cluster-icon',html:bubble.outerHTML,
+          iconSize:[46,46],iconAnchor:[23,23]});
+        const label=count+' exakt verzeichnete Kartenpunkte (Sammelansicht, kein einzelner Standort)';
+        const marker=L.marker(center,{icon,title:label,alt:label,keyboard:true})
+          .addTo(this.poiLayer).bindTooltip(labelNode(label+' · Zum Aufteilen anklicken'));
+        marker.on('click',()=>{
+          const before=this.map.getZoom();
+          this.map.fitBounds(items.map(x=>x.point),{padding:[50,50],maxZoom:Math.min(17,before+4),animate:false});
+          if(this.map.getZoom()<=before)this.map.setZoom(Math.min(17,before+2));
+        });
+        continue;
+      }
+      items.forEach((item,i)=>{
+        const id=item.explorerId??item.id,category=item.explorerCategory??'activity';
+        const offset=(i-(items.length-1)/2)*24;
+        this.marker(item.point,id,item.name,
+          {lodging:'H',food:'R',shop:'S',activity:'A',transport:'B'}[category],
+          'place-'+category+' explorer-pin'+(this.poiFocused===id?' focused':''),
+          ()=>this.handlers.select(id),offset,
+          placePopupHtml(item,this.poiProfileCtx??{}),this.poiLayer);
+        this.poiKeys.add(id);
+      });
+    }
+  }
+
+  focusNearby() {
+    if(!this.nearbyCircle)return false;
+    this.map.invalidateSize({pan:false});
+    this.map.fitBounds(this.nearbyCircle.getBounds(),{padding:[35,35],maxZoom:15,animate:false});
+    return true;
+  }
+
   paintJourney(route, preview, click) {
     const points = [];
     for (const leg of route.legs) {
@@ -346,9 +407,17 @@ export class TripMap {
   }
 
   focus(id) {
-    const marker = this.markers.get(id);
-    if (!marker) return;
-    this.map.panTo(marker.getLatLng(), { animate: false });
+    let marker=this.markers.get(id);
+    if(!marker){
+      const item=this.poiItems?.find(x=>(x.explorerId??x.id)===id);
+      if(item?.point){
+        this.map.setView(item.point,Math.max(14,this.map.getZoom()),{animate:false});
+        this.paintExplorerPins();
+        marker=this.markers.get(id);
+      }
+    }
+    if(!marker)return;
+    this.map.panTo(marker.getLatLng(),{animate:false});
     marker.openTooltip();
   }
 
