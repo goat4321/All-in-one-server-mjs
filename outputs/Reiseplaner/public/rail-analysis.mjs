@@ -28,7 +28,7 @@ export function auditInterrailRoute(legs, pass, researchQueue = []) {
     if (!leg.start || !leg.end) {problems.push('Fahrzeit für '+leg.name+' noch offen.');continue;}
     if(Date.parse(leg.end)<=Date.parse(leg.start))problems.push('Ankunft vor Abfahrt: '+leg.name);
   }
-  const ordered=[...train].sort((a,b)=>String(a.start).localeCompare(String(b.start));
+  const ordered=[...train].sort((a,b)=>String(a.start).localeCompare(String(b.start)));
   const tightConnections=[];
   for(let i=1;i<ordered.length;i++) {
     const prev=ordered[i-1],next=ordered[i];
