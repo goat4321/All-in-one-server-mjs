@@ -39,9 +39,9 @@
   "eligible": 243,
   "queried": 243,
   "totals": {
-    "accepted": 118,
+    "accepted": 120,
     "review": 60,
-    "unmatched": 66,
+    "unmatched": 64,
     "skipped": 46,
     "requestFailures": 0
   },
@@ -2676,6 +2676,52 @@
       "isCentroid": true,
       "manuallyReviewed": true,
       "locationDescription": "Plage des Marinières Referenzpunkt aus öffentlich dokumentierten GPS-Koordinaten der Kommune; Strandabschnitt, kein bestimmter Badeplatz."
+    },
+    {
+      "id": "local:food-v03-028",
+      "city": "kandersteg",
+      "name": "Cafe Rauber Supermarket",
+      "address": "Äussere Dorfstrasse 57, 3718 Kandersteg, Switzerland",
+      "variants": [
+        "interrail_swiss",
+        "swiss_lakes"
+      ],
+      "observedOn": "2026-11-13",
+      "provider": "Published business register building coordinate",
+      "point": [
+        46.4983576,
+        7.6746087
+      ],
+      "sourceUrl": "https://yellowpages.swiss/location.cfm?art=HRB&company=Cafe-Rauber-Supermarket&key=2816945",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Published official business register location for Café Rauber Supermarket, Äussere Dorfstrasse 57; point is building-level business location, entrance not independently checked.",
+      "providerAddressVerified": true,
+      "actualEntranceVerified": false
+    },
+    {
+      "id": "local:food-v03-029",
+      "city": "kandersteg",
+      "name": "Tea Room Marmotte",
+      "address": "Innere Dorfstrasse 19, 3718 Kandersteg, Switzerland",
+      "variants": [
+        "interrail_swiss",
+        "swiss_lakes"
+      ],
+      "observedOn": "2026-11-13",
+      "provider": "Published business register building coordinate",
+      "point": [
+        46.4935667,
+        7.6729407
+      ],
+      "sourceUrl": "https://yellowpages.swiss/location.cfm?art=HRB&company=Coiffure-Curly-Hari-Stoller&key=2280902",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Published coordinate of a registered business sharing Innere Dorfstrasse 19 with Tea Room Marmotte, confirmed as same-address tenant in source; BUILDING-LEVEL reference only, exact café entrance not proven.",
+      "providerAddressVerified": true,
+      "actualEntranceVerified": false
     }
   ],
   "review": [
@@ -6440,20 +6486,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "local:food-v03-028",
-      "city": "kandersteg",
-      "name": "Cafe Rauber Supermarket",
-      "address": "Äussere Dorfstrasse 57, 3718 Kandersteg, Switzerland",
-      "variants": [
-        "interrail_swiss",
-        "swiss_lakes"
-      ],
-      "query": "Cafe Rauber Supermarket, Äussere Dorfstrasse 57, 3718 Kandersteg, Switzerland, Kandersteg",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:suggest_042",
       "city": "kandersteg",
       "name": "Kandersteg Naturtag als Schlechtwetter-Backup",
@@ -6463,20 +6495,6 @@
         "swiss_lakes"
       ],
       "query": "Kandersteg Naturtag als Schlechtwetter-Backup, Kandersteg",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "local:food-v03-029",
-      "city": "kandersteg",
-      "name": "Tea Room Marmotte",
-      "address": "Innere Dorfstrasse 19, 3718 Kandersteg, Switzerland",
-      "variants": [
-        "interrail_swiss",
-        "swiss_lakes"
-      ],
-      "query": "Tea Room Marmotte, Innere Dorfstrasse 19, 3718 Kandersteg, Switzerland, Kandersteg",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
