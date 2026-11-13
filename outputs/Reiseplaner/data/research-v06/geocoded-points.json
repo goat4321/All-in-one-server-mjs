@@ -39,9 +39,9 @@
   "eligible": 243,
   "queried": 243,
   "totals": {
-    "accepted": 144,
-    "review": 45,
-    "unmatched": 57,
+    "accepted": 168,
+    "review": 34,
+    "unmatched": 44,
     "skipped": 44,
     "requestFailures": 0
   },
@@ -3231,6 +3231,591 @@
       "isCentroid": true,
       "manuallyReviewed": true,
       "locationDescription": "Berggasthaus Äscher als geografischer Tourenanker, NICHT der Abstiegsweg; ausdrückliche Warnung: Route über Seealpsee nicht als leichte Wanderung einstufen."
+    },
+    {
+      "id": "research:bcom_1010034",
+      "city": "barcelona",
+      "name": "Malacuna Barcelona",
+      "address": "Carrer de la Unió 10–12, 08001 Barcelona, Spain",
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Malacuna Barcelona, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        41.3797103,
+        2.1734994
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/11983640334",
+      "originalProviderAddressSource": "https://www.booking.com/hotel/es/ideal-youth-hostel.de.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Carrer de la Unió 10–12, 08001 Barcelona, Spain gegen OSM-Straße und Hausnummer Carrer de la Unió 10 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "10"
+    },
+    {
+      "id": "research:bcom_3955394",
+      "city": "genoa",
+      "name": "Le stanze della Lanterna",
+      "address": "Via Galata 39/8, 16121 Genova, Italy",
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Le stanze della Lanterna, Genova",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        44.4087082,
+        8.9436897
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/1504210649",
+      "originalProviderAddressSource": "https://www.lestanzedellalanterna.com/contatti",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Via Galata 39/8, 16121 Genova, Italy gegen OSM-Straße und Hausnummer Via Galata 39 geprüft. Unterkunftseinheit 39/8; der verortete Hausnummernknoten 39 ist nur das Gebäude, nicht Apartmenttür 8.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "39"
+    },
+    {
+      "id": "research:bcom_10900187",
+      "city": "nice",
+      "name": "B&B HOTEL Nice Stade Riviera",
+      "address": "311 Boulevard du Mercantour, 06200 Nice, France",
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "B&B HOTEL Nice Stade Riviera, Nice",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        43.699313,
+        7.189506
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/13426135880",
+      "originalProviderAddressSource": "https://www.hotel-bb.com/de/hotel/nice-stade-riviera",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift 311 Boulevard du Mercantour, 06200 Nice, France gegen OSM-Straße und Hausnummer Boulevard du Mercantour 311 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "311"
+    },
+    {
+      "id": "research:bcom_15322595",
+      "city": "nice",
+      "name": "Gite Maïoun Cremat",
+      "address": "12 Chemin du Collet de Bellon, 06200 Nice, France",
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Gite Maïoun Cremat, Nice",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        43.733395,
+        7.211417
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/13444802121",
+      "originalProviderAddressSource": "https://www.explorenicecotedazur.com/location-vacances/gite-maioun-cremat-le-baou-2/",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift 12 Chemin du Collet de Bellon, 06200 Nice, France gegen OSM-Straße und Hausnummer Chemin du Collet de Bellon 12 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "12"
+    },
+    {
+      "id": "research:bcom_51591",
+      "city": "paris",
+      "name": "Campanile Paris 12 Bercy Village",
+      "address": "17 Rue Baron Le Roy, 75012 Paris, France",
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Campanile Paris 12 Bercy Village, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        48.8352035,
+        2.3875606
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/1418667929",
+      "originalProviderAddressSource": "https://paris-12-bercy-village.campanile.com/fr-fr/",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift 17 Rue Baron Le Roy, 75012 Paris, France gegen OSM-Straße und Hausnummer Rue Baron Le Roy 17 geprüft. Hotel-Betreiber nennt Rue Baron Le Roy 17, Pariser Tourismusportal abweichend 19; 17 ist quellengedeckter Gebäudeanker, Eingang bleibt zu prüfen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "17"
+    },
+    {
+      "id": "research:bcom_1105489",
+      "city": "paris",
+      "name": "Les Patios du Marais 1",
+      "address": "26 Rue des Gravilliers, 75003 Paris, France",
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Les Patios du Marais 1, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        48.8638965,
+        2.3566337
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/708490522",
+      "originalProviderAddressSource": "https://www.patiosdumarais.com/",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift 26 Rue des Gravilliers, 75003 Paris, France gegen OSM-Straße und Hausnummer Rue des Gravilliers 26 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "26"
+    },
+    {
+      "id": "research:bcom_5163757",
+      "city": "paris",
+      "name": "MEININGER Hotel Paris Porte de Vincennes",
+      "address": "37 Boulevard Carnot, 75012 Paris, France",
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "MEININGER Hotel Paris Porte de Vincennes, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        48.8433616,
+        2.4131235
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/1438759343",
+      "originalProviderAddressSource": "https://help-center.meininger-hotels.com/fr/support/solutions/articles/79000143507-se-rendre-au-meininger-hotel-paris-porte-de-vincennes",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift 37 Boulevard Carnot, 75012 Paris, France gegen OSM-Straße und Hausnummer Boulevard Carnot 37 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "37"
+    },
+    {
+      "id": "research:bcom_3199845",
+      "city": "grindelwald",
+      "name": "Hotel Gletscherblick Grindelwald",
+      "address": "Kirchbühlstrasse 14, 3818 Grindelwald, Switzerland",
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Hotel Gletscherblick Grindelwald, Grindelwald",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        46.6279305,
+        8.0472519
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/278638380",
+      "originalProviderAddressSource": "https://jungfrauregion.swiss/en/footer/detail-footer/hotel-gletscherblick-793447b2-bd07-4f87-9de8-a33651eacaa1.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Kirchbühlstrasse 14, 3818 Grindelwald, Switzerland gegen OSM-Straße und Hausnummer Kirchbühlstrasse 14 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "14"
+    },
+    {
+      "id": "research:bcom_15315821",
+      "city": "kandersteg",
+      "name": "Gemmi Hotel Spa",
+      "address": "Innere Dorfstrasse 199, 3718 Kandersteg, Switzerland",
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Gemmi Hotel Spa, Kandersteg",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        46.478744,
+        7.664783
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/225204285",
+      "originalProviderAddressSource": "https://www.booking.com/hotel/ch/gemmi-kandersteg.de.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Innere Dorfstrasse 199, 3718 Kandersteg, Switzerland gegen OSM-Straße und Hausnummer Innere Dorfstrasse 199 geprüft. Gemmi Hotel & Spa an Innere Dorfstrasse 199; mehrere Gebäudeteile sowie altes Gemmi-Lodge-Label. Gebäudezentrum, nicht Resort-Eingang.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "199"
+    },
+    {
+      "id": "research:bcom_9893804",
+      "city": "kandersteg",
+      "name": "Swiss Alps Lodge",
+      "address": "Innere Arelestrasse 23, 3718 Kandersteg, Switzerland",
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Swiss Alps Lodge, Kandersteg",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        46.499034,
+        7.6736161
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/228151540",
+      "originalProviderAddressSource": "https://www.booking.com/hotel/ch/swiss-alps-lodge.de.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Innere Arelestrasse 23, 3718 Kandersteg, Switzerland gegen OSM-Straße und Hausnummer Innere Arelestrasse 23 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "23"
+    },
+    {
+      "id": "research:bcom_5391301",
+      "city": "kandersteg",
+      "name": "Büelbad Relax Holiday Apartment",
+      "address": "Äussere Dorfstrasse 168, 3718 Kandersteg, Switzerland",
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Büelbad Relax Holiday Apartment, Kandersteg",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        46.5049622,
+        7.6791179
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/1340524007",
+      "originalProviderAddressSource": "https://www.booking.com/hotel/ch/buelbad-relax-holiday-apartment.de.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Äussere Dorfstrasse 168, 3718 Kandersteg, Switzerland gegen OSM-Straße und Hausnummer Aeussere Dorfstrasse 168 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "168"
+    },
+    {
+      "id": "research:bcom_14072122",
+      "city": "appenzell",
+      "name": "Wohnhaus Münzmühle in Appenzell",
+      "address": "Enggenhüttenstrasse 72, 9050 Appenzell, Switzerland",
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Wohnhaus Münzmühle in Appenzell, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        47.3391299,
+        9.394379
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/243544064",
+      "originalProviderAddressSource": "https://www.appenzell.ch/de/service/unterkuenfte.html?cHash=01a8f5bc22f33ac70ed32d50a3686c74&tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Bcontroller%5D=Housing&tx_wstourismus_tourismus%5Bhousing%5D=957",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Enggenhüttenstrasse 72, 9050 Appenzell, Switzerland gegen OSM-Straße und Hausnummer Enggenhüttenstrasse 72 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "72"
+    },
+    {
+      "id": "research:bcom_7584624",
+      "city": "appenzell",
+      "name": "Blattenheimat traditionelles Appenzeller Haus",
+      "address": "Blattenheimatstrasse 8, 9050 Appenzell, Switzerland",
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Blattenheimat traditionelles Appenzeller Haus, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        47.3323808,
+        9.4065075
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/242538994",
+      "originalProviderAddressSource": "https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/ferienwohnung-blattenheimat-og2.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Blattenheimatstrasse 8, 9050 Appenzell, Switzerland gegen OSM-Straße und Hausnummer Blattenheimatstrasse 8 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "8"
+    },
+    {
+      "id": "research:bcom_4482736",
+      "city": "genoa",
+      "name": "Colombo House e L'isola che non c'è",
+      "address": "Via Colombo 6, 16121 Genova, Italy",
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Colombo House e L'isola che non c'è, Genova",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        44.4060338,
+        8.9441309
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/566285675",
+      "originalProviderAddressSource": "https://www.booking.com/hotel/it/colombo-house-genova.it.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Via Colombo 6, 16121 Genova, Italy gegen OSM-Straße und Hausnummer Via Colombo 6 geprüft. Genova Via Colombo 6 (zivil), NICHT Via Colombo 6 rosso oder Via dei Colombo 6.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "6"
+    },
+    {
+      "id": "research:bcom_14807211",
+      "city": "venice",
+      "name": "Ca' Mercati Mestre Una camera",
+      "address": "Via Monte Piana 38, 30171 Venezia Mestre, Italy",
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Ca' Mercati Mestre Una camera, Venezia",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        45.4858474,
+        12.2279601
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/9688346302",
+      "originalProviderAddressSource": "https://www.booking.com/hotel/it/appartamento-x-vacanze-ca-mercati.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Via Monte Piana 38, 30171 Venezia Mestre, Italy gegen OSM-Straße und Hausnummer Via Monte Piana 38 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "38"
+    },
+    {
+      "id": "research:bcom_9743748",
+      "city": "genoa",
+      "name": "Appartamento in centro",
+      "address": "Via Carlo Barabino 2, 16129 Genova, Italy",
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Appartamento in centro, Genova",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        44.3993335,
+        8.9519068
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/1467011385",
+      "originalProviderAddressSource": "https://www.booking.com/hotel/it/appartamento-in-centro-genova.it.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Via Carlo Barabino 2, 16129 Genova, Italy gegen OSM-Straße und Hausnummer Via Carlo Barabino 2 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "2"
+    },
+    {
+      "id": "research:bcom_12769785",
+      "city": "sete",
+      "name": "Le Chic-Cadre Royal-Centre ville",
+      "address": "Rue de Tunis 12, 34200 Sète, France",
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Le Chic-Cadre Royal-Centre ville, Sète",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        43.4052264,
+        3.7000343
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/6216514521",
+      "originalProviderAddressSource": "https://www.booking.com/hotel/fr/le-chic-cadre-royal-centre-ville.de.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Rue de Tunis 12, 34200 Sète, France gegen OSM-Straße und Hausnummer Rue de Tunis 12 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "12"
+    },
+    {
+      "id": "research:bcom_17509626",
+      "city": "nice",
+      "name": "Cocooning - Wifi Parking",
+      "address": "Rue Marie Bashkirtseff 27, 06200 Nice, France",
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Cocooning - Wifi Parking, Nice",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        43.6752296,
+        7.2245363
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/13444796626",
+      "originalProviderAddressSource": "https://www.booking.com/hotel/fr/cocooning-wifi-parking.de.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Rue Marie Bashkirtseff 27, 06200 Nice, France gegen OSM-Straße und Hausnummer Rue Marie Bashkirtseff 27 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "27"
+    },
+    {
+      "id": "research:bcom_16340567",
+      "city": "grindelwald",
+      "name": "Chalet Amaryllis Eiger View Apartment",
+      "address": "Wychelstrasse 40, 3818 Grindelwald, Switzerland",
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Chalet Amaryllis Eiger View Apartment, Grindelwald",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        46.6271724,
+        8.0176496
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/320821425",
+      "originalProviderAddressSource": "https://www.booking.com/hotel/ch/chalet-amaryllis-grindelwald.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Wychelstrasse 40, 3818 Grindelwald, Switzerland gegen OSM-Straße und Hausnummer Wychelstrasse 40 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "40"
+    },
+    {
+      "id": "research:bcom_789575",
+      "city": "grindelwald",
+      "name": "Ferienwohnung im Grünen",
+      "address": "Brandeggstrasse 21, 3818 Grindelwald, Switzerland",
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Ferienwohnung im Grünen, Grindelwald",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        46.6131003,
+        8.0164057
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/322885191",
+      "originalProviderAddressSource": "https://www.booking.com/hotel/ch/ferienwohnung-im-roth.de.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Brandeggstrasse 21, 3818 Grindelwald, Switzerland gegen OSM-Straße und Hausnummer Brandeggstrasse 21 geprüft. Brandeggstrasse 21, nicht das separat kartierte 21a.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "21"
+    },
+    {
+      "id": "research:bcom_12518316",
+      "city": "appenzell",
+      "name": "Ferienwohnung Bärli Appenzell",
+      "address": "Gaiserstrasse 1, 9050 Appenzell, Switzerland",
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Ferienwohnung Bärli Appenzell, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        47.3312549,
+        9.4111926
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/240649870",
+      "originalProviderAddressSource": "https://bookitbutton.booking.com/hotel/ch/ferienwohnung-barli-appenzell-appenzell.de.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Gaiserstrasse 1, 9050 Appenzell, Switzerland gegen OSM-Straße und Hausnummer Gaiserstrasse 1 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "1"
+    },
+    {
+      "id": "research:bcom_16984449",
+      "city": "genoa",
+      "name": "Frappi house front of the aquarium",
+      "address": "Via San Luca 4/12c, 16124 Genova, Italy",
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Frappi house front of the aquarium, Genova",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        44.4099257,
+        8.9299011
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/5139914226",
+      "originalProviderAddressSource": "https://www.viamichelin.com/maps/hotels/poi/genoa-16124-f699302e",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Via San Luca 4/12c, 16124 Genova, Italy gegen OSM-Straße und Hausnummer Via San Luca 4 geprüft. Via San Luca 4, NICHT 4 rosso; Wohnungseinheit 12c nicht als eigener Eingang belegt.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "4"
+    },
+    {
+      "id": "research:bcom_12284646",
+      "city": "venice",
+      "name": "Alloggi Ca'Vignotto Sant Erasmo Venezia",
+      "address": "Via dei Forti 71, Sant'Erasmo, Venezia, Italy",
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Alloggi Ca'Vignotto Sant Erasmo Venezia, Venezia",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        45.4564213,
+        12.4162925
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/4824492222",
+      "originalProviderAddressSource": "https://gratis-4659839.webadorsite.com/",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Via dei Forti 71, Sant'Erasmo, Venezia, Italy gegen OSM-Straße und Hausnummer Via dei Forti 71 geprüft. Explizit als Ca' Vignotto bezeichnetes OSM-Objekt an Via dei Forti 71, Insel Sant'Erasmo.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "71"
+    },
+    {
+      "id": "research:bcom_11815614",
+      "city": "nice",
+      "name": "APPARTEMENT-NICE 01 VUE MER - PANORAMIQUE",
+      "address": "Voie Romaine 69, 06000 Nice, France",
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "APPARTEMENT-NICE 01 VUE MER - PANORAMIQUE, Nice",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published address plus exact-number OSM map entity",
+      "point": [
+        43.720641,
+        7.280377
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/13448169206",
+      "originalProviderAddressSource": "https://www.bedandbreakfast.eu/en/a/0ocZlmQPiBlJ/appartement-nice-01-vue-mer-panoramique-wifi-parking-climatisation",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Vollständige öffentliche Anbieteranschrift Voie Romaine 69, 06000 Nice, France gegen OSM-Straße und Hausnummer Voie Romaine 69 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
+      "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
+      "houseNumberMapped": "69"
     }
   ],
   "review": [
@@ -3349,70 +3934,6 @@
       ]
     },
     {
-      "id": "research:bcom_1010034",
-      "city": "barcelona",
-      "name": "Malacuna Barcelona",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Malacuna Barcelona, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.3922652,
-            2.1810426
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/429766634",
-          "osmName": "Barcelona-Arc de Triomf",
-          "street": "Carrer de Roger de Flor",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.4229693,
-            2.1867776
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/5313898365",
-          "osmName": "Barcelona-La Sagrera-Meridiana",
-          "street": "Carrer de Garcilaso",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3857711,
-            2.168329
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/13671950492",
-          "osmName": "Barcelona-Plaça Catalunya",
-          "street": "Carrer de Pelai",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3859261,
-            2.1684061
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/8087619814",
-          "osmName": "Barcelona-Plaça Catalunya",
-          "street": "Carrer de Pelai",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "research:a044",
       "city": "barcelona",
       "name": "ÖPNV T-casual",
@@ -3473,69 +3994,6 @@
           "street": "Carrer de Tuset",
           "houseNumber": "4º 3ª",
           "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_9743748",
-      "city": "genoa",
-      "name": "Appartamento in centro",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Appartamento in centro, Genova",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            44.4089258,
-            8.9298437
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/820163935",
-          "osmName": "Chiesa di San Pietro in Banchi",
-          "street": "Vico De Marini",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            44.4035693,
-            8.9366815
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/132020865",
-          "osmName": "Chiesa di Santa Maria in Via Lata",
-          "street": "Piazza Santa Maria in Via Lata",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            44.4111038,
-            8.8916428
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/13144885764",
-          "osmName": "Chiesa Cristiana in Genova",
-          "street": "Via Giacomo Giovanetti",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            44.4051638,
-            8.9299223
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/129405230",
-          "osmName": "Chiesa di Santa Maria in Passione",
-          "street": "Vico chiuso degli Edili",
-          "houseNumber": null,
-          "nameScore": 0,
           "addressMatch": false
         }
       ]
@@ -3668,33 +4126,6 @@
       ]
     },
     {
-      "id": "research:bcom_3955394",
-      "city": "genoa",
-      "name": "Le stanze della Lanterna",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Le stanze della Lanterna, Genova",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            44.4132881,
-            8.94187
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/1667920003",
-          "osmName": "Bed and Breakfast Le stanze",
-          "street": "Passo dell'Acquidotto",
-          "houseNumber": null,
-          "nameScore": 0.235,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "research:bcom_11560151",
       "city": "nice",
       "name": "Appartement T2",
@@ -3798,70 +4229,6 @@
       ]
     },
     {
-      "id": "research:bcom_10900187",
-      "city": "nice",
-      "name": "B&B HOTEL Nice Stade Riviera",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "B&B HOTEL Nice Stade Riviera, Nice",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.6701427,
-            7.2160909
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/10705054618",
-          "osmName": "B&B Hotel Nice Aéroport Arenas",
-          "street": "Boulevard René Cassin",
-          "houseNumber": "102",
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.6790101,
-            7.1971379
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/91228403",
-          "osmName": "Stade Charles-Ehrmann",
-          "street": "Boulevard Jean Luciano",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.7047542,
-            7.2618605
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3400645194",
-          "osmName": "Nice-Ville",
-          "street": "Parvis de la Gare",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.7047837,
-            7.2618318
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3400645195",
-          "osmName": "Nice-Ville",
-          "street": "Parvis de la Gare",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "research:bcom_16577016",
       "city": "nice",
       "name": "Charmant studio au coeur du Vieux Nice",
@@ -3885,262 +4252,6 @@
           "street": "Rue du Pont-Vieux",
           "houseNumber": "5",
           "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_15322595",
-      "city": "nice",
-      "name": "Gite Maïoun Cremat",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Gite Maïoun Cremat, Nice",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.7226489,
-            7.2085806
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/1443185025",
-          "osmName": "Chemin de Crémat",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.7233567,
-            7.2086795
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/13242954241",
-          "osmName": "Château de Crémat",
-          "street": "Chemin de Crémat",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.7235294,
-            7.2085738
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/6985453126",
-          "osmName": "Château de Crémat",
-          "street": "Chemin de Crémat",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.7232694,
-            7.2093956
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/13242954227",
-          "osmName": "Château de Crémat",
-          "street": "Chemin de Crémat",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_51591",
-      "city": "paris",
-      "name": "Campanile Paris 12 Bercy Village",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Campanile Paris 12 Bercy Village, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            48.8330311,
-            2.3863995
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2912780870",
-          "osmName": "Bercy Village",
-          "street": "Cour Saint-Émilion",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8335641,
-            2.3860132
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/492858180",
-          "osmName": "Passage Saint-Émilion (Bercy-village)",
-          "street": "Rue François Truffaut",
-          "houseNumber": null,
-          "nameScore": 0.376,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8351933,
-            2.3876342
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/473827195",
-          "osmName": "Campanile",
-          "street": "Rue Gerty Archimède",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8154011,
-            2.543994
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/7047339508",
-          "osmName": null,
-          "street": "Rue Berty Albrecht",
-          "houseNumber": "12",
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_1105489",
-      "city": "paris",
-      "name": "Les Patios du Marais 1",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Les Patios du Marais 1, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            48.8605485,
-            2.3680184
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3974816593",
-          "osmName": "Les Jardins du Marais",
-          "street": "Rue Amelot",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8715276,
-            2.3701184
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2387355914",
-          "osmName": "Les stocks du Marais",
-          "street": "Avenue Parmentier",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8636229,
-            2.3420458
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/9626447345",
-          "osmName": "Showroom du Marais",
-          "street": "Cour des Fermes",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.866793,
-            2.3322531
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/12606448716",
-          "osmName": "Centre d’Animation Les Halles-Le Marais",
-          "street": "Place du Marché Saint-Honoré",
-          "houseNumber": null,
-          "nameScore": 0.235,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_5163757",
-      "city": "paris",
-      "name": "MEININGER Hotel Paris Porte de Vincennes",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "MEININGER Hotel Paris Porte de Vincennes, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            48.846767,
-            2.4084708
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/5506630227",
-          "osmName": "Hôtel de la Porte de Vincennes",
-          "street": "Passage de la Voûte",
-          "houseNumber": null,
-          "nameScore": 0.705,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8473449,
-            2.4080897
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/9415542182",
-          "osmName": "Porte de Vincennes",
-          "street": "Cours de Vincennes",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8496547,
-            2.4138196
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/12742213",
-          "osmName": "Jardin d'Immeubles de la Porte de Vincennes",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.847452,
-            2.4124582
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/9480420",
-          "osmName": "Résidence Porte de Vincennes",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
           "addressMatch": false
         }
       ]
@@ -4586,69 +4697,6 @@
           "street": "Piazza Erminio Ferretto",
           "houseNumber": "73",
           "nameScore": 0.235,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_12284646",
-      "city": "venice",
-      "name": "Alloggi Ca'Vignotto Sant Erasmo Venezia",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Alloggi Ca'Vignotto Sant Erasmo Venezia, Venezia",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            45.4415626,
-            12.3339569
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/7384875312",
-          "osmName": "I&s Farm Il Biologico Di Sant'Erasmo",
-          "street": "Cannaregio",
-          "houseNumber": "3818",
-          "nameScore": 0.376,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            45.4796678,
-            12.2127613
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/31239897",
-          "osmName": "Via Sant'Erasmo",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.376,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            45.4564213,
-            12.4162925
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4824492222",
-          "osmName": "Ca' Vignotto",
-          "street": "Via dei Forti",
-          "houseNumber": "71",
-          "nameScore": 0.188,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            45.4554649,
-            12.3841641
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/1353136139",
-          "osmName": "Canale di S. Erasmo",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.188,
           "addressMatch": false
         }
       ]
@@ -5306,69 +5354,6 @@
       ]
     },
     {
-      "id": "research:bcom_12518316",
-      "city": "appenzell",
-      "name": "Ferienwohnung Bärli Appenzell",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Ferienwohnung Bärli Appenzell, Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            47.3434482,
-            9.4268556
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/241894720",
-          "osmName": "Kates Ferienwohnung",
-          "street": "Nollisweid",
-          "houseNumber": "15",
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.4437581,
-            9.5312751
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/5730976821",
-          "osmName": "Zum Bärli",
-          "street": "Werdstrasse",
-          "houseNumber": "20",
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.3312549,
-            9.4111926
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/240649870",
-          "osmName": "Bärli",
-          "street": "Gaiserstrasse",
-          "houseNumber": "1",
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.3329157,
-            9.3224429
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/316710758",
-          "osmName": "Ferienwohnung Neuhus",
-          "street": "Neuhaus",
-          "houseNumber": "510",
-          "nameScore": 0.313,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "research:a073",
       "city": "grindelwald",
       "name": "First View",
@@ -5427,69 +5412,6 @@
           "street": "50",
           "houseNumber": null,
           "nameScore": 0.235,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_3199845",
-      "city": "grindelwald",
-      "name": "Hotel Gletscherblick Grindelwald",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Hotel Gletscherblick Grindelwald, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            46.6245412,
-            8.034475
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/320340550",
-          "osmName": "Hotel Bernerhof Grindelwald***",
-          "street": "Dorfstrasse",
-          "houseNumber": "89",
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.6238456,
-            8.0421611
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/264460323",
-          "osmName": "Sunstar Hotel Grindelwald",
-          "street": "Dorfstrasse",
-          "houseNumber": "168",
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.6246458,
-            8.0345134
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/320340551",
-          "osmName": "Hotel Bernerhof Grindelwald***",
-          "street": "Dorfstrasse",
-          "houseNumber": "91",
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.6304879,
-            8.0476387
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/278600283",
-          "osmName": "Boutique Hotel Panorama Grindelwald",
-          "street": "Terrassenweg",
-          "houseNumber": "141",
-          "nameScore": 0.47,
           "addressMatch": false
         }
       ]
@@ -5737,19 +5659,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:bcom_4482736",
-      "city": "genoa",
-      "name": "Colombo House e L'isola che non c'è",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Colombo House e L'isola che non c'è, Genova",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:suggest_030",
       "city": "genoa",
       "name": "Focaccia-Picknick an der Promenade",
@@ -5764,19 +5673,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:bcom_16984449",
-      "city": "genoa",
-      "name": "Frappi house front of the aquarium",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Frappi house front of the aquarium, Genova",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:suggest_029",
       "city": "genoa",
       "name": "Nervi Strandpause und Küstenstimmung",
@@ -5786,34 +5682,6 @@
         "interrail_august"
       ],
       "query": "Nervi Strandpause und Küstenstimmung, Genova",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_11815614",
-      "city": "nice",
-      "name": "APPARTEMENT-NICE 01 VUE MER - PANORAMIQUE",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "APPARTEMENT-NICE 01 VUE MER - PANORAMIQUE, Nice",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_17509626",
-      "city": "nice",
-      "name": "Cocooning - Wifi Parking",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Cocooning - Wifi Parking, Nice",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -5965,20 +5833,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:bcom_12769785",
-      "city": "sete",
-      "name": "Le Chic-Cadre Royal-Centre ville",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Le Chic-Cadre Royal-Centre ville, Sète",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:bcom_4032998",
       "city": "sete",
       "name": "Le Pouffre maison de pêcheur",
@@ -6072,19 +5926,6 @@
         "interrail_classic"
       ],
       "query": "beautiful house in Venice, Venezia",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_14807211",
-      "city": "venice",
-      "name": "Ca' Mercati Mestre Una camera",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Ca' Mercati Mestre Una camera, Venezia",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -6249,19 +6090,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:bcom_7584624",
-      "city": "appenzell",
-      "name": "Blattenheimat traditionelles Appenzeller Haus",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Blattenheimat traditionelles Appenzeller Haus, Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "tripsy:lodging:seed:ch-appenzell",
       "city": "appenzell",
       "name": "Blattenheimat6 (Tripsy-Option)",
@@ -6270,32 +6098,6 @@
         "swiss_lakes"
       ],
       "query": "Blattenheimat6 (Tripsy-Option), Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_14072122",
-      "city": "appenzell",
-      "name": "Wohnhaus Münzmühle in Appenzell",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Wohnhaus Münzmühle in Appenzell, Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_16340567",
-      "city": "grindelwald",
-      "name": "Chalet Amaryllis Eiger View Apartment",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Chalet Amaryllis Eiger View Apartment, Grindelwald",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -6314,19 +6116,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:bcom_789575",
-      "city": "grindelwald",
-      "name": "Ferienwohnung im Grünen",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Ferienwohnung im Grünen, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "tripsy:lodging:seed:ch-grindelwald",
       "city": "grindelwald",
       "name": "Unterkunft OFFEN",
@@ -6335,45 +6124,6 @@
         "swiss_lakes"
       ],
       "query": "Unterkunft OFFEN, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_5391301",
-      "city": "kandersteg",
-      "name": "Büelbad Relax Holiday Apartment",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Büelbad Relax Holiday Apartment, Kandersteg",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_15315821",
-      "city": "kandersteg",
-      "name": "Gemmi Hotel Spa",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Gemmi Hotel Spa, Kandersteg",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:bcom_9893804",
-      "city": "kandersteg",
-      "name": "Swiss Alps Lodge",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Swiss Alps Lodge, Kandersteg",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -7328,5 +7078,280 @@
     ],
     "classification": "Source-backed public POI, building, or labelled geographic area anchor; private Airbnb properties never geocoded",
     "caveat": "Outdoor areas/lakes/trails are represented by area-anchor coordinates only; not access, arrival or trail geometry. Old Britannia hotel site is now Ostello Bello."
+  },
+  "manualAddressPromotionsV09": {
+    "observedOn": "2026-11-13",
+    "count": 24,
+    "source": "public verified addresses + OSM Photon strict street and number",
+    "entries": [
+      {
+        "id": "research:bcom_1010034",
+        "city": "barcelona",
+        "name": "Malacuna Barcelona",
+        "candidate": "https://www.openstreetmap.org/node/11983640334",
+        "point": [
+          41.3797103,
+          2.1734994
+        ],
+        "was": "review"
+      },
+      {
+        "id": "research:bcom_3955394",
+        "city": "genoa",
+        "name": "Le stanze della Lanterna",
+        "candidate": "https://www.openstreetmap.org/node/1504210649",
+        "point": [
+          44.4087082,
+          8.9436897
+        ],
+        "was": "review"
+      },
+      {
+        "id": "research:bcom_10900187",
+        "city": "nice",
+        "name": "B&B HOTEL Nice Stade Riviera",
+        "candidate": "https://www.openstreetmap.org/node/13426135880",
+        "point": [
+          43.699313,
+          7.189506
+        ],
+        "was": "review"
+      },
+      {
+        "id": "research:bcom_15322595",
+        "city": "nice",
+        "name": "Gite Maïoun Cremat",
+        "candidate": "https://www.openstreetmap.org/node/13444802121",
+        "point": [
+          43.733395,
+          7.211417
+        ],
+        "was": "review"
+      },
+      {
+        "id": "research:bcom_51591",
+        "city": "paris",
+        "name": "Campanile Paris 12 Bercy Village",
+        "candidate": "https://www.openstreetmap.org/node/1418667929",
+        "point": [
+          48.8352035,
+          2.3875606
+        ],
+        "was": "review"
+      },
+      {
+        "id": "research:bcom_1105489",
+        "city": "paris",
+        "name": "Les Patios du Marais 1",
+        "candidate": "https://www.openstreetmap.org/node/708490522",
+        "point": [
+          48.8638965,
+          2.3566337
+        ],
+        "was": "review"
+      },
+      {
+        "id": "research:bcom_5163757",
+        "city": "paris",
+        "name": "MEININGER Hotel Paris Porte de Vincennes",
+        "candidate": "https://www.openstreetmap.org/node/1438759343",
+        "point": [
+          48.8433616,
+          2.4131235
+        ],
+        "was": "review"
+      },
+      {
+        "id": "research:bcom_3199845",
+        "city": "grindelwald",
+        "name": "Hotel Gletscherblick Grindelwald",
+        "candidate": "https://www.openstreetmap.org/way/278638380",
+        "point": [
+          46.6279305,
+          8.0472519
+        ],
+        "was": "review"
+      },
+      {
+        "id": "research:bcom_15315821",
+        "city": "kandersteg",
+        "name": "Gemmi Hotel Spa",
+        "candidate": "https://www.openstreetmap.org/way/225204285",
+        "point": [
+          46.478744,
+          7.664783
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_9893804",
+        "city": "kandersteg",
+        "name": "Swiss Alps Lodge",
+        "candidate": "https://www.openstreetmap.org/way/228151540",
+        "point": [
+          46.499034,
+          7.6736161
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_5391301",
+        "city": "kandersteg",
+        "name": "Büelbad Relax Holiday Apartment",
+        "candidate": "https://www.openstreetmap.org/way/1340524007",
+        "point": [
+          46.5049622,
+          7.6791179
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_14072122",
+        "city": "appenzell",
+        "name": "Wohnhaus Münzmühle in Appenzell",
+        "candidate": "https://www.openstreetmap.org/way/243544064",
+        "point": [
+          47.3391299,
+          9.394379
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_7584624",
+        "city": "appenzell",
+        "name": "Blattenheimat traditionelles Appenzeller Haus",
+        "candidate": "https://www.openstreetmap.org/way/242538994",
+        "point": [
+          47.3323808,
+          9.4065075
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_4482736",
+        "city": "genoa",
+        "name": "Colombo House e L'isola che non c'è",
+        "candidate": "https://www.openstreetmap.org/node/566285675",
+        "point": [
+          44.4060338,
+          8.9441309
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_14807211",
+        "city": "venice",
+        "name": "Ca' Mercati Mestre Una camera",
+        "candidate": "https://www.openstreetmap.org/node/9688346302",
+        "point": [
+          45.4858474,
+          12.2279601
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_9743748",
+        "city": "genoa",
+        "name": "Appartamento in centro",
+        "candidate": "https://www.openstreetmap.org/node/1467011385",
+        "point": [
+          44.3993335,
+          8.9519068
+        ],
+        "was": "review"
+      },
+      {
+        "id": "research:bcom_12769785",
+        "city": "sete",
+        "name": "Le Chic-Cadre Royal-Centre ville",
+        "candidate": "https://www.openstreetmap.org/node/6216514521",
+        "point": [
+          43.4052264,
+          3.7000343
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_17509626",
+        "city": "nice",
+        "name": "Cocooning - Wifi Parking",
+        "candidate": "https://www.openstreetmap.org/node/13444796626",
+        "point": [
+          43.6752296,
+          7.2245363
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_16340567",
+        "city": "grindelwald",
+        "name": "Chalet Amaryllis Eiger View Apartment",
+        "candidate": "https://www.openstreetmap.org/way/320821425",
+        "point": [
+          46.6271724,
+          8.0176496
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_789575",
+        "city": "grindelwald",
+        "name": "Ferienwohnung im Grünen",
+        "candidate": "https://www.openstreetmap.org/way/322885191",
+        "point": [
+          46.6131003,
+          8.0164057
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_12518316",
+        "city": "appenzell",
+        "name": "Ferienwohnung Bärli Appenzell",
+        "candidate": "https://www.openstreetmap.org/way/240649870",
+        "point": [
+          47.3312549,
+          9.4111926
+        ],
+        "was": "review"
+      },
+      {
+        "id": "research:bcom_16984449",
+        "city": "genoa",
+        "name": "Frappi house front of the aquarium",
+        "candidate": "https://www.openstreetmap.org/node/5139914226",
+        "point": [
+          44.4099257,
+          8.9299011
+        ],
+        "was": "unmatched"
+      },
+      {
+        "id": "research:bcom_12284646",
+        "city": "venice",
+        "name": "Alloggi Ca'Vignotto Sant Erasmo Venezia",
+        "candidate": "https://www.openstreetmap.org/node/4824492222",
+        "point": [
+          45.4564213,
+          12.4162925
+        ],
+        "was": "review"
+      },
+      {
+        "id": "research:bcom_11815614",
+        "city": "nice",
+        "name": "APPARTEMENT-NICE 01 VUE MER - PANORAMIQUE",
+        "candidate": "https://www.openstreetmap.org/node/13448169206",
+        "point": [
+          43.720641,
+          7.280377
+        ],
+        "was": "unmatched"
+      }
+    ],
+    "warnings": [
+      "All 24 new points indicate sourced building/address locations, not apartment doors or 2027 bookings.",
+      "Campanile Paris 12 address 17 vs official tourism address 19 unresolved as to entrance; mapped operator-side 17 only."
+    ]
   }
 }
