@@ -36,6 +36,10 @@ const paths = {
   upload:'<path d="M12 15V3M7 8l5-5 5 5M4 17v4h16v-4"/>',
   external:'<path d="M13 4h7v7m0-7-9 9m7-1v7H5V6h7"/>',
   reset:'<path d="M5 10a8 8 0 1 1 2 8M5 4v6h6"/>',
+  'arrow-up':'<path d="M12 20V4m-6 6 6-6 6 6"/>',
+  'arrow-down':'<path d="M12 4v16m-6-6 6 6 6-6"/>',
+  shuffle:'<path d="m4 4 3 0 11 16m-4-4 4 4 4-4M4 20h3l4-6m3-4 4-6 4 4m0-4v6"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
   target:'<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/>',
   beach:'<path d="M3 11a9 9 0 0 1 18 0H3zm9 0v8m-8 2h16M12 3v2"/>',
 };
