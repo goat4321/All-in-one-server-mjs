@@ -684,8 +684,11 @@ export async function loadCatalog() {
   const publicAddressesV09=JSON.parse(await readFile(
     new URL('../data/research-v09/verified-public-addresses.json',import.meta.url),'utf8'));
   if(publicAddressesV09.schema!=='verified_public_addresses_v09'
-    ||publicAddressesV09.entries.length!==25
-    ||new Set(publicAddressesV09.entries.map(x=>x.id)).size!==25
+    ||publicAddressesV09.entries.length<50
+    ||publicAddressesV09.counts.entries!==publicAddressesV09.entries.length
+    ||publicAddressesV09.counts.withIndependentCoordinates!==publicAddressesV09.entries.filter(x=>x.point).length
+    ||publicAddressesV09.counts.verifiedAddressOnly!==publicAddressesV09.entries.filter(x=>!x.point).length
+    ||new Set(publicAddressesV09.entries.map(x=>x.id)).size!==publicAddressesV09.entries.length
     ||publicAddressesV09.entries.some(row=>row.airbnb||!row.address
       ||!/^https:\/\//.test(row.sourceUrl)||!cities[row.city]
       ||row.confirmedFor2027Checkout!==false
