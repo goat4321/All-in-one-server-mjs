@@ -7,6 +7,7 @@ import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import { assessStay, sortStayOptions } from './stay-analysis.mjs';
+import { auditInterrailRoute, railAlternativeStatus } from './rail-analysis.mjs';
 
 const tabs = [
   ['overview', 'Übersicht', 'compass'], ['plan', 'Tagesplan', 'calendar'], ['map', 'Karte', 'map'],
@@ -440,6 +441,7 @@ function rail(ctx) {
   const ticketUnknown = singles.filter(p => p == null).length;
   const researchQueue = (catalog.research?.transportQueue ?? []).filter(row => row.trip_id === trip.id);
   const suggestions = (catalog.research?.transportCandidates ?? []).filter(row => row.trip_id === trip.id);
+  const audit = auditInterrailRoute(legs,state.pass,researchQueue);
   const researchRows = researchQueue.map(row => {
     const window = railSalesStatus(row);
     const match = legs.find(leg => leg.researchTask?.id === row.id);
@@ -457,11 +459,12 @@ function rail(ctx) {
     ];
   });
   const candidateRows = suggestions.map(row => [
+    ...([]),
     esc(row.from + ' → ' + row.to), esc(dateText(row.date_local)),
     esc(row.routing_hypothesis),
     row.indicative_seat_reservation_eur_per_person == null ? 'Reservierung offen'
       : esc(money(Math.round(row.indicative_seat_reservation_eur_per_person * 100))) + ' p. P. · Referenz',
-    'Keine bestätigte Abfahrt · nicht buchbar',
+    esc(railAlternativeStatus(row).label),
   ]);
   const candidates = ['Bahnverbindungen 2027 sind Planwerte. Buchungsfenster, Sitzplätze und Preise vor der Reise beim Betreiber prüfen.'];
   const reference = catalog.fares.pass_7d;
@@ -482,11 +485,28 @@ function rail(ctx) {
       <div class="row-actions">${btn('details', 'Quellen & Details', 'folder', l.id)}${btn('edit', 'Bearbeiten', 'edit', l.id)}${btn('verify-item', 'Eigene Prüfung ' + evidence.count + '/' + evidence.total, 'check', l.id)}
       ${urlLink(l.website || 'https://int.bahn.de/de', 'Fahrplan prüfen', 'button')}</div></article>`;
   }).join('');
+  const passRows = audit.dayRows.map(day => [
+    esc(dateText(day.day)),
+    esc(day.names.join(' · ')),
+    String(day.segments),
+    day.overnight ? 'Übernachtfahrt · Wechsel nach Mitternacht / weiterer Zug gesondert prüfen' : 'Abfahrtstag des Passes',
+    day.assumed2027 ? status('Fahrplan 2027 nicht bestätigt','warn') : status('Manuell prüfen')
+  ]);
   return heading('Bahn & Interrail', trip.title, btn('add-rail', 'Verbindung ergänzen', 'plus'))
     + '<div class="stat-grid">' + stat('Reisetage im Entwurf', pass.days.length + ' / ' + state.pass.days, pass.days.map(d => dateText(d).slice(0, 6)).join(' · '))
     + stat('Reservierungen bekannt', money(reservations), priced.length + ' Referenzen · keine Verfügbarkeitszusage')
     + stat('Pass + bekannte Reservierungen', state.pass.cost == null && !state.pass.purchased ? 'Passpreis offen' : money((state.pass.purchased ? 0 : state.pass.cost * people.length) + reservations), 'Zwischensumme')
     + stat('Einzeltickets', ticketUnknown ? 'Teilpreis ' + money(knownSingles) : money(knownSingles), ticketUnknown + ' Fahrten mit offenem Preis') + '</div>'
+    + '<section class="section panel panel-pad"><h2>Pass-Reisetage und Tarifprüfung</h2>'
+    + '<p>Die Passrechnung verwendet Abfahrtstage, nicht die Anzahl der Züge. Bei Nachtzügen ist entscheidend, ob am nächsten Tag ein weiterer Zug benutzt wird. Keine Annahme über 2027er Sitzplätze.</p>'
+    + (passRows.length ? table(['Abfahrtstag','Züge','Abschnitte','Nachtzug-Regel','2027er Quelle'],passRows) : '<p>Keine Zugfahrten im Pass-Entwurf.</p>')
+    + '<p class="muted">' + audit.missingSchedules + ' Fahrpläne für 2027 unbestätigt · '
+    + audit.unknownTicketPrices + ' Ticketpreise offen · '
+    + audit.remainingDays + ' Pass-Reisetage verbleibend.</p>'
+    + (audit.issues.length ? audit.issues.map(issue=>alert(issue)).join('') : '')
+    + (audit.tightConnections.length ? '<h3>Anschlüsse mit Risiko</h3>'
+      + audit.tightConnections.map(x=>alert(x.previous+' → '+x.next+': '+x.gapMinutes+' Min. · '+x.warning)).join('') : '')
+    + '<p><a href="https://www.interrail.com/en/plan-your-trip/interrail-timetable" target="_blank" rel="noopener noreferrer">Offizieller Interrail-Fahrplan (vor dem Kauf prüfen)</a></p></section>'
     + '<div class="panel panel-pad"><div class="inline">' + btn('pass', 'Pass konfigurieren', 'edit')
     + urlLink('https://help.interrail.com/hc/de/articles/38312789999261-Wie-funktionieren-Reisetage-bei-Nachtz%C3%BCgen', 'Nachtzugregel')
     + urlLink('https://www.interrail.eu/en/interrail-passes/what-is-interrail/travel-your-own-country', 'Wohnsitzland-Regel') + '</div>'
