@@ -103,6 +103,16 @@ export function explorerDetail(item, people = 3) {
     if (item.estimatedCostNote != null && amount == null)
       extra.push('Unbestätigte Kostenreferenz: ' + item.estimatedCostNote);
     if (item.eligibilityOrRisk) extra.push('Zu prüfen: ' + item.eligibilityOrRisk);
+    if (item.operatorReferenceV07) {
+      const info=item.operatorReferenceV07;
+      extra.push('Offizieller Quellenabgleich: ' + info.title);
+      extra.push('Öffnungs-/Saisonreferenz: ' + info.openingReference);
+      extra.push('ÖPNV-Anfahrt: ' + info.localTransitTip);
+      extra.push('Preisreferenz: ' + info.priceReference);
+      extra.push('Gültigkeit: ' + (info.confirmedSep2027Hours
+        ? 'veröffentlichte saisonale Betriebszeit für 2027; wetter- oder betriebsbedingte Änderungen möglich'
+        : 'Tarif-/Öffnungsreferenz 2026, September 2027 nicht bestätigt'));
+    }
     if (item.officialEvidence) {
       const info=item.officialEvidence;
       extra.push('Betreiberinformation: '+info.description);
@@ -116,6 +126,10 @@ export function explorerDetail(item, people = 3) {
     extra.push('Betreiber: ' + (item.operator || 'noch nicht bestätigt'));
     extra.push('Fahrplan 2027: ' + (item.verification || 'nicht bestätigt'));
   }
+  if (item.locationReferenceV07?.precision === 'city_only_not_a_pin')
+    extra.push('Standortstatus: nur die Stadt als theoretische Orientierung bekannt; kein echter POI-Kartenpunkt.');
+  else if (item.locationReferenceV07?.precision === 'sourced_area_center')
+    extra.push('Standortstatus: Quelle belegt einen Gebiets-/Objektmittelpunkt; nicht zwingend Eingang oder Treffpunkt.');
   return {
     group, priceText, hours, extra, description: item.detail || item.note || 'Ausführliche Tätigkeits- bzw. Angebotsbeschreibung in den vorhandenen Daten nicht belegt.',
     sourceStatus: item.verification || 'Quelle und Aktualität offen',
