@@ -1,3 +1,4 @@
+import { optionMatchesFilter, smartFilterHelp } from './smart-filters.mjs';
 import { dailyBudgetHtml } from './daily-budget.mjs';
 import { guideMarkup } from './tutorial.mjs';
 import { googleMapsSearchUrl, googleMapsSearchLabel, googleMapsDirectionsUrl, googleMapsLocationStatus } from './google-maps.mjs';
@@ -279,17 +280,7 @@ function options(ctx, lodging) {
   const { all, city, cities, people, optionFilter, sort, state, compareIds, activeSet } = ctx;
   const predicate = item => item.city === city && item.kind === (lodging ? 'lodging' : 'activity') && !item.duplicateOf;
   const found = all.filter(predicate);
-  const list = found.filter(item => {
-    if (optionFilter === 'saved') return state.favorites.includes(item.id);
-    if (optionFilter === 'known') return groupPrice(item.price, people.length) != null;
-    if (optionFilter === 'kitchen') return kitchenAccess(item) !== 'unknown';
-    if (optionFilter === 'search') return Boolean(item.quote);
-    if (optionFilter === 'budget') return lodging && lodgingPriceInsight(item,people.length,ctx.nightlyTargetEuro)?.status==='within-budget';
-    if (optionFilter === 'self_reviewed') return lodging && reviewProgress('lodging',state.verifications?.[item.id],people.length).complete;
-    if (optionFilter === 'evening') return Boolean(item.minAge) || item.tags?.some(t => /abend|nightlife|bar/i.test(t));
-    if (optionFilter === 'food') return item.category === 'food';
-    return true;
-  });
+  const list = found.filter(item => optionMatchesFilter(item,optionFilter,ctx,lodging));
   if (sort === 'price') list.sort((a, b) => (groupPrice(a.price, people.length) ?? Infinity) - (groupPrice(b.price, people.length) ?? Infinity));
   if (sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'de'));
   if (sort === 'score' && !lodging) list.sort((a, b) =>
@@ -321,7 +312,12 @@ function options(ctx, lodging) {
     ...(lodging ? [esc((() => { const a=assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]); return a.personNightEuroCents==null ? 'Preis offen' : money(a.personNightEuroCents) + ' p. P./Nacht'; })()),
       esc(assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]).risk.slice(0,3).join(' · ')||'Eigenprüfung dokumentiert')] : [])]);
   const filters = [['all', 'Alle Optionen'], ['saved', 'Merkliste'], ['known', 'Mit Preisreferenz'],
-    ...(lodging ? [['kitchen', 'Kochmöglichkeit beschrieben'], ['search', '2027-Suchpreise'], ['budget','Im persönlichen Nachtbudget'], ['self_reviewed','Eigenprüfung dokumentiert']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
+    ...(lodging ? [['kitchen', 'Kochmöglichkeit beschrieben'], ['station','Bahnhof ≤15 Min. zu Fuß'],
+      ['beds','Betten selbst geprüft'],['search', '2027-Suchpreise'],
+      ['budget','Im Nachtbudget (inkl. Suchwerte)'], ['self_reviewed','Eigenprüfung dokumentiert']]
+      : [['free','0-€-Preisreferenz'],['water','Wasser & Strand erwähnt'],
+        ['swimming','Schwimmen erwähnt'],['consensus','Gruppenfavoriten ≥4'],
+        ['evening', 'Abend'], ['food', 'Verpflegung']])];
   const cards = list.map(item => {
     const active = activeSet.has(item.id);
     const highlighted = compareIds.has(item.id);
@@ -386,6 +382,9 @@ function options(ctx, lodging) {
     + '<label>Sortieren <select id="sort"><option value="source">Quelle</option><option value="price"' + (sort === 'price' ? ' selected' : '') + '>Preis</option><option value="name"' + (sort === 'name' ? ' selected' : '') + '>Name</option>'
     + (lodging ? '<option value="total"' + (sort === 'total'?' selected':'') + '>EUR-Gruppensumme</option><option value="person-night"' + (sort === 'person-night'?' selected':'') + '>EUR p. P./Nacht</option><option value="station"' + (sort === 'station'?' selected':'') + '>Bahnhof-Fußweg</option><option value="documentation"' + (sort === 'documentation'?' selected':'') + '>Datenvollständigkeit</option>' : '')
     + (lodging ? '' : '<option value="score"' + (sort === 'score' ? ' selected' : '') + '>Gruppeninteresse</option>') + '</select></label></div>'
+    + '<p class="option-result-summary" aria-live="polite"><strong>'+list.length+' von '+found.length
+      +' Optionen</strong> · '+esc(smartFilterHelp[optionFilter]
+        ??'Die Filter zeigen nur die vorhandenen Einträge für diesen Reiseort.')+'</p>'
     + (lodging ? '<p class="muted">Preis-Einordnung nur gegenüber deinem frei wählbaren Nachtbudget – keine städtischen Durchschnittspreise. Airbnb-Suchwerte können beim Vergleich erscheinen, werden aber niemals als gebuchte Reisekosten behandelt.</p>' : '')
     + (lodging ? alert('Angebote sind lediglich datierte Suchpreis-Snapshots. Zimmer, Steuern und Endpreis müssen für dieselbe Belegung im Checkout bestätigt werden; es gibt keine automatische Reservierung.') : '')
     + (lodging ? '<section class="section panel panel-pad"><h2>Datenlücken im Hotelvergleich</h2><div class="chips">'

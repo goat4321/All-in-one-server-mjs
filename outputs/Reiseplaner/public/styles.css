@@ -693,3 +693,8 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 .place-gallery-item figcaption{display:grid;gap:6px;padding:9px;color:var(--muted);font-size:.68rem;line-height:1.5;overflow-wrap:anywhere}
 .place-gallery-remove{border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--text);padding:5px 8px;font-size:.69rem;justify-self:start}
 @media(prefers-reduced-motion:reduce){.place-gallery-item img{transition:none}.place-gallery-item>a:hover img{transform:none}}
+
+.option-result-summary{margin:10px 0 16px;display:flex;gap:7px;flex-wrap:wrap;align-items:baseline;
+ padding:10px 12px;border:1px solid var(--line);background:var(--paper);border-radius:10px;
+ color:var(--muted);font-size:.78rem}
+.option-result-summary strong{color:var(--text)}
