@@ -535,3 +535,44 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
  .option-card>.place-photo{margin:-12px -12px 7px}
  .explorer-place>.place-photo{margin:-12px -12px 7px}
  .leaflet-popup-content:has(.place-map-popup){width:min(285px,calc(100vw - 65px))!important}}
+
+/* Steps 3 & 4: budget-aware accommodation comparisons, never synthetic city-wide price ratings. */
+.nightly-budget-control{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.82rem;font-weight:700;color:var(--muted)}
+.nightly-budget-control input{min-width:83px;width:91px;border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:10px;padding:8px 9px;font-weight:750}
+.lodging-price-meter{padding:11px;border:1px solid var(--line);background:var(--light);border-radius:11px;display:grid;gap:7px}
+.lodging-price-meter-head{display:flex;align-items:start;justify-content:space-between;gap:7px;flex-wrap:wrap}
+.lodging-price-meter-head strong{font-size:.9rem;color:var(--text)}
+.lodging-price-meter-head small,.lodging-price-meter>small{color:var(--muted);font-size:.72rem;line-height:1.42}
+.lodging-price-meter-track{height:9px;background:var(--line);border-radius:99px;overflow:hidden}
+.lodging-price-meter-track span{display:block;height:100%;background:#12845a;border-radius:inherit;transition:width .28s ease}
+.lodging-price-meter[data-price-state=over-budget] .lodging-price-meter-track span{background:#c08332}
+.lodging-price-meter[data-price-state=unavailable] .lodging-price-meter-head strong{color:var(--muted)}
+.stay-compare-board{display:grid;gap:13px}
+.stay-compare-heading{display:flex;align-items:start;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.stay-compare-heading h2{font-size:1.25rem}
+.stay-compare-heading p{font-size:.79rem;color:var(--muted);margin-top:5px}
+.stay-compare-heading>strong{background:var(--accent);padding:5px 9px;color:var(--green);border-radius:9px;font-size:.74rem}
+.stay-compare-grid{display:grid;grid-template-columns:repeat(4,minmax(min(225px,100%),1fr));gap:10px}
+.stay-compare-card{border:1px solid var(--line);border-radius:15px;overflow:hidden;background:var(--paper);
+  min-width:0;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.stay-compare-card>.place-photo{border-radius:0;min-height:115px;aspect-ratio:16/8}
+.stay-compare-content{display:grid;gap:11px;padding:11px;flex:1;align-content:start}
+.stay-compare-card-top{display:flex;align-items:start;gap:7px;justify-content:space-between}
+.stay-compare-card-top h3{font-size:.97rem;line-height:1.35;overflow-wrap:anywhere}
+.stay-compare-card-top .button{font-size:.69rem;padding:5px;min-height:32px;white-space:nowrap}
+.stay-compare-price{display:grid;gap:4px;padding:8px 10px;background:var(--accent);border-radius:10px}
+.stay-compare-price strong{font-size:.82rem;overflow-wrap:anywhere}
+.stay-compare-price small{font-size:.69rem;color:var(--muted)}
+.stay-compare-card dl{display:grid;gap:0;margin:0}
+.stay-compare-card dl>div{display:grid;grid-template-columns:70px minmax(0,1fr);gap:5px;padding:7px 0;border-bottom:1px solid var(--line);align-items:start}
+.stay-compare-card dt{font-size:.68rem;font-weight:750;color:var(--muted)}
+.stay-compare-card dd{font-size:.73rem;line-height:1.45;margin:0;overflow-wrap:anywhere}
+.stay-compare-card .row-actions{margin-top:auto}
+.stay-compare-card .row-actions>a,.stay-compare-card .row-actions>.button{font-size:.7rem}
+@media(max-width:1160px){.stay-compare-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.stay-compare-grid{grid-template-columns:1fr;gap:9px}
+ .stay-compare-card{display:grid;grid-template-columns:118px minmax(0,1fr)}
+ .stay-compare-card>.place-photo{height:100%;min-height:170px;aspect-ratio:auto}
+ .stay-compare-content{min-width:0}
+ .stay-compare-card dl>div{grid-template-columns:62px minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.lodging-price-meter-track span{transition:none}}
