@@ -25,6 +25,25 @@ export function validPoint(point) {
     && !(point[0] === 0 && point[1] === 0);
 }
 
+// These are city-level labels for records lacking a sourced POI. A city
+// reference is NEVER returned as an item.point or used for walk/transit ETAs.
+export function explorerUnlocatedCityClusters(explorer, cities={}) {
+  if (!explorer?.showCityReferences || !Array.isArray(explorer.unlocated)) return [];
+  const counts=new Map();
+  for(const item of explorer.unlocated) {
+    const id=item.city;
+    const city=cities[id];
+    if (!city || !validPoint(city.point)) continue;
+    const row=counts.get(id) ?? {city:id,name:city.name??id,point:city.point,
+      count:0,hotelCount:0,exampleNames:[]};
+    row.count++;
+    if(item.kind==='lodging')row.hotelCount++;
+    if(row.exampleNames.length<3)row.exampleNames.push(item.name);
+    counts.set(id,row);
+  }
+  return [...counts.values()].sort((a,b)=>a.name.localeCompare(b.name,'de'));
+}
+
 export function explorerData(items, trip, { city = null, group = 'all', search = '' } = {}) {
   const validCities = new Set(trip.route);
   const norm = text => String(text ?? '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('de');
