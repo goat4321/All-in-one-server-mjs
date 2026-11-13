@@ -19,7 +19,7 @@ const view = {
   theme: localStorage.getItem('reiseplan-theme') ?? 'light',
   filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
   optionFilter: 'all', sort: 'source', compareIds: new Set(),
-  mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60,
+  mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
   mapFrom: null, mapTo: null, mapRouteMode: 'walk', mapRouteTime: '10:00', mapRouteResult: null,
   dayQueueIds: [], dayQueueRoutes: [], dayQueueTime: '09:00', dayQueueStatus: '',
   geocodeReview: null,
@@ -109,6 +109,7 @@ function buildContext() {
       group: view.mapGroup, search: view.mapSearch,
     }),
     scope: view.mapScope, group: view.mapGroup, search: view.mapSearch,
+    showCityReferences: view.mapShowCityReferences,
     limit: view.mapListLimit, routeMode: view.mapRouteMode, routeTime: view.mapRouteTime,
     connection: {
       from: all.find(i => i.id === view.mapFrom) ?? null,
@@ -513,6 +514,9 @@ async function action(name, value = '') {
       view.mapScope = value === 'city' ? 'city' : 'trip';
       view.total = view.mapScope === 'trip';
       view.mapListLimit = 60; render(); break;
+    case 'explorer-references':
+      view.mapShowCityReferences = !view.mapShowCityReferences;
+      render({ restoreView: true }); break;
     case 'explorer-group':
       if (!['all', 'lodging', 'food', 'shop', 'activity', 'transport'].includes(value)) break;
       view.mapGroup = value; view.mapListLimit = 60; render({ restoreView: true }); break;
