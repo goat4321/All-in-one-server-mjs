@@ -1,3 +1,14 @@
+## v1.4 – Bahn-Kaufprüfung als interaktive Zeitleiste (13.11.2026)
+
+Im Modul **Bahn & Interrail** befindet sich oberhalb der bisherigen Pass-/Zugtabellen eine neue **Bahn-Prüfzeitleiste** mit den tatsächlich im Originalreiseplan enthaltenen Bahnabschnitten. Sie zeigt Reisetag, Strecke, approximativen Beginn des sinnvollen Buchungschecks und einen Link zur Betreiber-Verkaufsregel. Über **Prüfung vormerken** öffnet sich die bereits vorhandene lokale Kalender-/Fristfunktion.
+
+Die Termine sind **keine garantierten Verkaufsstarts**, und die Anzeige behauptet ausdrücklich keine buchbaren September-2027-Verbindungen. Für die SNCF ist die am **12.11.2026** veröffentlichte Verkaufsfreigabe vorerst nur bis **02.07.2027** nachgewiesen; weitere Verkaufsschritte sind zu beobachten.
+
+Nachweise: [SNCF-Fahrkartenverkauf](https://www.sncf-connect.com/en-en/help/ticket-sales-opening), [DB-Vorlauf internationaler Sitzplatzreservierungen](https://int.bahn.de/en/faq/seat-reservations-booking-period). Die übliche Orientierung ist je nach Zug/Anbieter etwa drei, vier oder sechs Monate vorher. Das tatsächliche Angebot muss je Reisetag neu geprüft werden. Keine automatischen Käufe, keine fiktiven Preise.
+
+Automatisierte Tests decken sieben originale September-Klassik-Bahnabschnitte, ungefähre Prüftermine, ausstehende 2027-Fahrpläne, fristbedingte Statusänderungen und einen echten Chrome-Browserablauf ab. Mehr unter [PHASE_14_RAIL_REVIEW.md](PHASE_14_RAIL_REVIEW.md).
+
+---
 ## v1.3 – September-2027-Anbieterpreise, Standortabgleich und Prüfung (13.11.2026)
 
 **Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, PR #5, noch nicht gemergt oder öffentlich deployed.**

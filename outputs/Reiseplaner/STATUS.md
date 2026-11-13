@@ -1,5 +1,11 @@
 # Projektstand · 13.11.2026
 
+## Nachtrag 13.11.2026 – v1.4 Bahn-Prüfzeitleiste
+
+Sieben originale Bahnabschnitte der September-Klassikroute werden als **ungefähre Prüfzeitpunkte** mit Betreiberlink und lokaler Wiedervorlage angezeigt. SNCF hatte am 12.11.2026 Ticketverkäufe für große Teile des Netzes bis zum 02.07.2027 freigegeben; kein September-Fahrplan, Reservierungsplatz oder exakter Fahrpreis wurde dadurch bestätigt. Die frühere Statusbedingung für die veröffentlichte SNCF-Verkaufsgrenze wurde für den 13.11.2026 korrigiert. Regressionstests und Headless-Chrome-Flow im CI-Workflow.
+
+
+
 ## Nachtrag 13.11.2026 – v1.3 Anbieter-Recherche
 
 60 neue datierte Booking.com-Suchwerte für sechs echte September-2027-Aufenthaltsfenster und drei Erwachsene/ein Zimmer: sichtbar im separaten Hotel-Vergleich, **nicht** als finale Checkouts oder Reisekosten. Filter/Sortierung greifen nur bei identischen Reisedaten und Gruppengröße. 17 öffentliche Adressfälle: 13 Anbieter-Geohinweise, 4 ohne Treffer, **0 neu unabhängig bestätigte Punkte**. Ein Konflikt bei `research:bcom_12257788` in Genua bleibt unaufgelöst und ist im UI dokumentiert. JSON-/CSV-Archive in `data/research-v13/`; Tests und Methodik in `PHASE_13_PROVIDER_RESEARCH.md`.
