@@ -12,8 +12,8 @@ test('50 public hotel/business addresses are individually sourced and keep exact
  assert.equal(published.schema,'verified_public_addresses_v09');
  assert.equal(published.entries.length,50);
  assert.equal(published.counts.entries,50);
- assert.equal(published.counts.withIndependentCoordinates,9);
- assert.equal(published.counts.verifiedAddressOnly,41);
+ assert.equal(published.counts.withIndependentCoordinates,33);
+ assert.equal(published.counts.verifiedAddressOnly,17);
  assert.equal(new Set(published.entries.map(e=>e.id)).size,published.entries.length);
  for(const record of published.entries){
   assert.ok(record.id&&record.city&&record.name&&record.address);
@@ -35,7 +35,7 @@ test('50 public hotel/business addresses are individually sourced and keep exact
 });
 
 test('All previously missing unique objects get an individual reason or a proven coordinate',()=>{
- assert.ok(geo.acceptedUnique>=144);
+ assert.ok(geo.acceptedUnique>=174);
  assert.equal(geo.acceptedUnique+audit.actuallyUnresolvedUnique,290);
  assert.equal(audit.items.length,audit.actuallyUnresolvedUnique);
  assert.equal(new Set(audit.items.map(x=>x.id+'|'+x.city)).size,audit.items.length);
