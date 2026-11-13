@@ -99,9 +99,15 @@ export function sourceList(item, sources) {
   const googleMaps = googleMapsSearchUrl(item);
   if (googleMaps) links.push('<li>' + urlLink(googleMaps, googleMapsSearchLabel(item))
     + ' · Kartensuche, kein bestätigter Standortnachweis</li>');
-  if (item.geoEvidence?.url) links.push('<li>' + urlLink(item.geoEvidence.url, 'OpenStreetMap · geprüfte Geodatenquelle')
-    + ' · ' + esc(item.geoEvidence.confidence === 'street_address_match' ? 'Adresse und Hausnummer zugeordnet' : 'Namens- und Ortsabgleich')
-    + ' · ' + esc(item.geoEvidence.isCentroid ? 'OSM-Objektmittelpunkt (Eingang nicht bestätigt)' : 'OSM-POI')
+  if (item.geoEvidence?.url) links.push('<li>' + urlLink(item.geoEvidence.url, item.geoEvidence.source + ' · Koordinatenquelle')
+    + ' · ' + esc(item.geoEvidence.confidence === 'street_address_match'
+      ? 'Name und Straßenadresse abgeglichen'
+      : item.geoEvidence.confidence === 'verified_external_coordinates'
+      ? 'Unabhängig anhand veröffentlichter Geodaten geprüft'
+      : item.geoEvidence.confidence === 'reviewed_osm_named_location'
+      ? 'OSM-Namens-/Ortsabgleich manuell geprüft'
+      : 'Eindeutiger OSM-POI-Name')
+    + ' · ' + esc(item.geoEvidence.isCentroid ? 'Objektmittelpunkt (Eingang nicht bestätigt)' : 'POI-Punkt')
     + '</li>');
   if (item.importSource) links.push('<li>' + esc(item.importSource.file + ' · ' + item.importSource.provider + ' · ' + dateText(item.importSource.date.slice(0, 10))) + '</li>');
   return '<div class="chips">' + status(item.origin ?? 'manuell') + status(item.verification ?? 'ungeprüft', 'warn') + '</div>'
