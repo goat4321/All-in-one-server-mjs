@@ -1,42 +1,34 @@
-name: Reiseplaner · Einmalige Adressprüfung Gastronomie v08
+name: "Reiseplaner - Gastro-Geokodierung (manueller Kandidatenbericht)"
+# The original one-off workflow was malformed/unsuitable for repeated push/PR
+# triggers and generated failed zero-job checks. Keep network geocoding opt-in.
 on:
-  pull_request:
-    branches: [feature/v7-unified-map-and-day-builder]
-    paths:
-      - .github/workflows/reiseplaner-food-geo-v08.yml
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   audit:
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: outputs/Reiseplaner
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          persist-credentials: true
       - uses: actions/setup-node@v4
-        with: {node-version: '24'}
-      - name: Check one-time audit syntax
-        run: node --check outputs/Reiseplaner/scripts/food-geo-v08.mjs
-      - name: Address lookup, only 14 pre-existing street-address venues
-        run: node outputs/Reiseplaner/scripts/food-geo-v08.mjs
-      - uses: actions/upload-artifact@v4
         with:
-          name: reiseplaner-food-address-candidates-v08
-          path: outputs/Reiseplaner/data/research-v08/food-address-candidates.json
-          retention-days: 20
-          if-no-files-found: error
-      - name: Persist address evidence for individual review
-        env: {GH_HEAD_REF: ${{ github.event.pull_request.head.ref }}}
+          node-version: "24"
+      - name: Skriptsyntax und lokale Eingangsdaten
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add outputs/Reiseplaner/data/research-v08/food-address-candidates.json
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m "research: save 14 public exact-address location lookups and rejected candidates"
-          git pull --rebase origin "${GH_HEAD_REF}"
-          git push origin "HEAD:${GH_HEAD_REF}"
+          node --check scripts/food-geo-v08.mjs
+          node --test test/menu-geo-v08.test.mjs
+      - name: Nur öffentliche Gastronomie-Adressen mit Photon abgleichen
+        run: node scripts/food-geo-v08.mjs
+      - name: Ergebnis als manuellen Prüfbericht bereitstellen
+        uses: actions/upload-artifact@v4
+        with:
+          name: gastro-kandidaten-erneute-pruefung
+          path: outputs/Reiseplaner/data/research-v08/food-address-candidates.json
+          if-no-files-found: error
+          retention-days: 14

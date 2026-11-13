@@ -58,20 +58,26 @@ test('Place photos require a credited explicit source and never appear for unkno
 });
 
 test('Curated Commons images match only their named landmarks, not hotels or Airbnbs',()=>{
- assert.equal(curatedPhotoCount,5);
+ assert.equal(curatedPhotoCount,9);
  const cases=[
   {name:'Sagrada Família',city:'barcelona'},
   {name:'Park Güell · Monumentalzone',city:'barcelona'},
   {name:'Eiffelturm zweite Etage',city:'paris'},
   {name:'Rialtobrücke',city:'venice'},
   {name:'Oeschinensee-Wanderung',city:'kandersteg'},
+  {name:'Arc de Triomphe',city:'paris'},
+  {name:'Parc de la Ciutadella',city:'barcelona'},
+  {name:'Promenade des Anglais',city:'nice'},
+  {name:'Porto Antico',city:'genoa'},
  ];
  for(const record of cases){
   const asset=curatedPlacePhoto({id:'test',kind:'activity',...record});
   assert.ok(asset?.url.startsWith('https://commons.wikimedia.org/wiki/Special:FilePath/'),record.name);
-  assert.ok(asset?.credit.includes('CC BY-SA 4.0'));
+  assert.match(asset?.credit ?? '',/CC BY-SA (3|4)\.0/);
   assert.ok(asset?.sourceUrl.startsWith('https://commons.wikimedia.org/wiki/File:'));
  }
  assert.equal(curatedPlacePhoto({id:'hotel',kind:'lodging',city:'paris',name:'Eiffel Tower Hotel'}),null);
+  assert.equal(curatedPlacePhoto({id:'airbnb',kind:'lodging',provider:'Airbnb',city:'genoa',name:'Porto Antico Apartment'}),null);
+  assert.equal(curatedPlacePhoto({id:'other',kind:'activity',city:'venice',name:'Porto Antico'}),null);
  assert.equal(curatedPlacePhoto({id:'food',kind:'activity',category:'food',city:'barcelona',name:'Park Güell Café'}),null);
 });
