@@ -121,6 +121,12 @@ function point(latitude, longitude) {
     Math.abs(longitude) <= 180 && (latitude !== 0 || longitude !== 0) ? [latitude, longitude] : null;
 }
 
+function citiesWithoutAssumptions(item, destinations) {
+  return destinations.some(city => city.id === item.city)
+    && typeof item.name === 'string' && item.name.length > 0
+    && item.locationWarning == null !== (item.locality == null);
+}
+
 export function distanceKm(a, b) {
   const rad = Math.PI / 180;
   const h = Math.sin((a[0] - b[0]) * rad / 2) ** 2
@@ -248,6 +254,19 @@ export async function loadCatalog() {
     readFile(new URL('../data/research-v03/food-venues.json', import.meta.url), 'utf8').then(JSON.parse),
     readFile(new URL('../data/research-v03/official-activity-evidence.json', import.meta.url), 'utf8').then(JSON.parse),
   ]);
+  const airbnbResearch = JSON.parse(await readFile(
+    new URL('../data/research-v04/airbnb-wishlists.json', import.meta.url), 'utf8'));
+  if (airbnbResearch.schema !== 'wishlist_reference_v04'
+    || !Array.isArray(airbnbResearch.items) || airbnbResearch.items.length !== 42
+    || new Set(airbnbResearch.items.map(item => item.id)).size !== airbnbResearch.items.length
+    || airbnbResearch.items.some(item =>
+      !citiesWithoutAssumptions(item, destinations)
+      || item.point !== null || item.address !== null || item.selected !== false || item.booked !== false
+      || !/^https:\/\/www\.airbnb\.de\/rooms\/\d+$/.test(item.website)
+      || item.sampleQuote?.adults !== 3
+      || (item.sampleQuote?.totalCents !== null &&
+        (!Number.isSafeInteger(item.sampleQuote?.totalCents) || item.sampleQuote.totalCents < 0))))
+    throw new Error('Airbnb-Wunschlistendaten sind unvollständig oder unplausibel.');
   const uniqueFoodIds = new Set(newFoodResearch.items.map(p => p.id));
   if (uniqueFoodIds.size !== newFoodResearch.items.length
     || newFoodResearch.items.some(p => !destinations.some(city => city.id === p.city)
@@ -461,6 +480,44 @@ export async function loadCatalog() {
         start: null, end: null, selected: false, price: null, origin: 'neu recherchiert', verification: 'Anbieterbeschreibung',
       });
     }
+    // Private wishlist snapshots are independent comparison candidates, never bookings.
+    // Their observed search price is NOT assigned to item.price: the itinerary stay dates
+    // and even the party size can differ from the Airbnb search.
+    for (const ref of airbnbResearch.items.filter(ref => allowed.includes(ref.city))) {
+      const observed = ref.sampleQuote;
+      const sample = observed.totalCents == null ? 'kein Beispielpreis sichtbar'
+        : (observed.totalCents / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })
+          + ' Gesamtbetrag für ' + observed.adults + ' Gäste';
+      const period = observed.from && observed.to
+        ? ' · Suchzeitraum ' + observed.from + ' bis ' + observed.to
+        : ' · Suchzeitraum nicht verlässlich aus der Liste ausgelesen';
+      const location = ref.locality ?? 'genauer Wohnort ungeprüft';
+      researchedHotels.push({
+        id: 'wishlist:' + ref.id, trip: trip.id, city: ref.city,
+        kind: 'lodging', category: 'lodging', zone: cities[ref.city].timezone,
+        name: 'Airbnb · ' + ref.name, selected: false, booked: false,
+        booking: 'ungebucht', payment: 'open', origin: 'Airbnb-Wunschliste (privat)',
+        stayFrom: stayByCity[ref.city]?.from ?? null,
+        stayTo: stayByCity[ref.city]?.to ?? null,
+        start: null, end: null, point: null, address: null,
+        positionIssue: 'Nur Ort/Umgebung bekannt; kein geprüfter Unterkunfts-Pin.',
+        price: null,
+        room: ref.bedsDisplayed == null ? 'Bettaufteilung offen'
+          : ref.bedsDisplayed + ' Betten in Wunschlistenkarte angezeigt; Belegung nicht bestätigt',
+        kitchen: null, fees: null, cancellation: null, website: ref.website,
+        detail: location + ' · Airbnb-Referenz ' + sample + period
+          + '. Preis gilt nicht automatisch für die Reisedaten; Gebühren, Mindestaufenthalt, Stornierung, Betten und Küche prüfen.'
+          + (ref.locationWarning ? ' ' + ref.locationWarning : '')
+          + (observed.available ? '' : ' Für den gewählten Suchzeitraum kein Angebotspreis verfügbar.'),
+        verification: 'Wunschlistenauszug 13.11.2026 · NICHT gebucht · Endpreis offen',
+        source: ['wishlist-v04:' + ref.providerId],
+        quote: { observedOn: observed.observedOn, location: location,
+          sampleTotalCents: observed.totalCents, sampleAdults: observed.adults,
+          sampleFrom: observed.from, sampleTo: observed.to,
+          sampleAvailability: observed.available,
+          checkoutConfirmed: false, roomConfirmed: false, taxesConfirmed: false },
+      });
+    }
     for (const place of newFoodResearch.items.filter(place => allowed.includes(place.city))) {
       const nameKey = clean(place.name);
       if (options.some(existing => existing.city === place.city && clean(existing.name) === nameKey)) continue;
@@ -536,9 +593,11 @@ export async function loadCatalog() {
       transportCandidates: research.transport_comparison_candidates,
       budgetScenarios: research.budget_scenarios,
       quality: research.data_quality,
+      airbnbWishlistResearchV04: airbnbResearch.items,
       foodVenueResearchV03: newFoodResearch.items,
       activityEvidenceV03: officialActivityEvidence.entries,
       counts: {
+        airbnbWishlistAddsV04: airbnbResearch.items.length,
         foodVenueAddsV03: newFoodResearch.items.length,
         officialActivityRefsV03: officialActivityEvidence.entries.length,
         activityCandidates: research.activities_comparison_catalog.length,
@@ -553,6 +612,12 @@ export async function loadCatalog() {
       },
     },
     sources: Object.fromEntries([...sources, ...research.sources,
+      ...airbnbResearch.items.map(ref => ({
+        id: 'wishlist-v04:' + ref.providerId,
+        publisher: 'Airbnb-Wunschliste · ' + ref.name,
+        url: ref.website, accessed_on: airbnbResearch.observed_on,
+        validity: 'historic_wishlist_display_price_not_booked_or_checkout_verified',
+      })),
       ...newFoodResearch.items.map(place => ({
         id: place.sourceId,
         publisher: 'Lokale Kartensuche vom 13.11.2026 · ' + place.name,
