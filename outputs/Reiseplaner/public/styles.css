@@ -290,3 +290,25 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 .day-route-preview h3{font-size:.9rem}
 .day-route-preview p{font-size:.81rem}
 @media(max-width:650px){.day-route-builder{padding:12px}.day-route-controls{display:grid;grid-template-columns:1fr 1fr}.day-route-controls .button{width:100%}.day-route-stops>li>div{align-items:flex-start;gap:6px}.day-route-stops .row-actions{flex-basis:100%;justify-content:flex-end}}
+
+
+/* Karten- und ÖPNV-Links bleiben auch bei vielen Detailaktionen auf Mobilgeräten nutzbar. */
+.explorer-place .row-actions a[href*="google.com/maps"],
+.option-card .row-actions a[href*="google.com/maps"],
+.day-route-stops .row-actions a[href*="google.com/maps"]{
+  display:inline-flex;align-items:center;gap:5px;max-width:100%;
+  border:1px solid var(--line);border-radius:9px;
+  padding:7px 9px;font-size:.75rem;line-height:1.35;
+  text-decoration:none;overflow-wrap:anywhere;
+}
+.journey-connection{display:flex;align-items:center;flex-wrap:wrap;gap:7px;width:100%}
+.journey-connection>.connector{flex:1;min-width:min(230px,100%)}
+.journey-connection>a{font-size:.75rem}
+@media(max-width:650px){
+  .explorer-place .row-actions a[href*="google.com/maps"],
+  .option-card .row-actions a[href*="google.com/maps"],
+  .day-route-stops .row-actions a[href*="google.com/maps"]{
+    flex:1 1 45%;justify-content:center;text-align:center
+  }
+  .journey-connection>.connector{flex-basis:100%}
+}
