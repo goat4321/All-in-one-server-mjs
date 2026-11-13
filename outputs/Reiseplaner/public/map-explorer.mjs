@@ -102,6 +102,14 @@ export function explorerDetail(item, people = 3) {
     if (item.estimatedCostNote != null && amount == null)
       extra.push('Unbestätigte Kostenreferenz: ' + item.estimatedCostNote);
     if (item.eligibilityOrRisk) extra.push('Zu prüfen: ' + item.eligibilityOrRisk);
+    if (item.officialEvidence) {
+      const info=item.officialEvidence;
+      extra.push('Betreiberinformation: '+info.description);
+      if (info.generalPriceCents != null) extra.push('Offizieller normaler Tarifstand: '+(info.generalPriceCents/100).toFixed(2).replace('.',',')+' EUR pro Person; 2027er Verfügbarkeit separat prüfen');
+      if (info.under30Cents != null) extra.push('Ermäßigung unter 30: '+(info.under30Cents/100).toFixed(2).replace('.',',')+' EUR nach Berechtigungsnachweis');
+      for (const variant of info.fareVariants??[]) extra.push('Tarifvariante: '+variant.label+' '+(variant.cents/100).toFixed(2).replace('.',',')+' EUR');
+      extra.push('Tarifstand: '+info.pricePeriod);
+    }
     if (item.minAge) extra.push('Einlass: ab ' + item.minAge + ' Jahren · konkreten Termin prüfen');
   } else {
     extra.push('Betreiber: ' + (item.operator || 'noch nicht bestätigt'));
