@@ -1,3 +1,4 @@
+import { googleMapsSearchUrl, googleMapsSearchLabel } from './google-maps.mjs';
 import { allocate, groupPrice, localParts, money } from './model.mjs';
 
 const paths = {
@@ -95,6 +96,9 @@ export function sourceList(item, sources) {
   const rows = (item.source ?? []).flatMap(id => sources[id] ? [sources[id]] : []);
   const links = rows.map(s => '<li>' + (urlLink(s.url, s.publisher) || esc(s.publisher)) + (s.accessed_on ? ' · ' + esc(dateText(s.accessed_on)) : '') + '</li>');
   if (item.website && !rows.some(s => s.url === item.website)) links.push('<li>' + urlLink(item.website, 'Ort / Quelle öffnen') + '</li>');
+  const googleMaps = googleMapsSearchUrl(item);
+  if (googleMaps) links.push('<li>' + urlLink(googleMaps, googleMapsSearchLabel(item))
+    + ' · Kartensuche, kein bestätigter Standortnachweis</li>');
   if (item.importSource) links.push('<li>' + esc(item.importSource.file + ' · ' + item.importSource.provider + ' · ' + dateText(item.importSource.date.slice(0, 10))) + '</li>');
   return '<div class="chips">' + status(item.origin ?? 'manuell') + status(item.verification ?? 'ungeprüft', 'warn') + '</div>'
     + (links.length ? '<ul class="sources-list">' + links.join('') + '</ul>' : '<small>Quellenlink offen.</small>');
