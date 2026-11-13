@@ -7,6 +7,7 @@ import { official2027Notices } from './official-rules-2027.mjs';
 import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
+import { placeQuickFacts, placeProfileHtml } from './place-profile.mjs';
 import { assessStay, sortStayOptions } from './stay-analysis.mjs';
 import { auditInterrailRoute, railAlternativeStatus } from './rail-analysis.mjs';
 
@@ -140,30 +141,20 @@ function connector(segment, route, index, label, peopleCount) {
 export function mapDetail(ctx) {
   const item = ctx.detail;
   if (!item) return '';
-  const extra = explorerDetail(item, ctx.people.length);
   const rows = ctx.segments.flatMap((segment, index) => [segment.from, segment.to].some(stop => item.entryKey ? stop.entryKey === item.entryKey : stop.id === item.id)
     ? [connector(segment, ctx.routes[index], index, segment.from.name + ' → ' + segment.to.name, ctx.people.length)] : []);
-  const info = item.kind === 'transport' ? timeText(item) : item.duration ? item.duration + ' Min. geplant' : 'Besuchsdauer offen';
-  return `<div class="map-detail" id="point-detail"><div class="inline"><h3>${esc(item.name)}</h3>
-  ${status(item.selected ? 'Im Plan' : 'Alternative', item.selected ? 'green' : '')}</div>
-  <p>${esc(info)} · ${esc(cost(item, ctx.people.length))} gesamt · ${esc(unit(item, ctx.people.length))}</p>
-  ${item.address ? '<p>' + esc(item.address) + '</p>' : ''}
-  ${extra ? '<p>' + esc(extra.description) + '</p><p><strong>Öffnungszeiten:</strong> ' + esc(extra.hours) + '</p>' + extra.extra.map(line => '<p>' + esc(line) + '</p>').join('') : ''}
-  ${item.price?.label ? '<p>Preisreferenz: ' + esc(item.price.label) + '</p>' : ''}
-  <p class="muted">Quellenstand: ${esc(extra?.sourceStatus ?? 'unbestätigt')}</p>
-  ${item.website ? urlLink(item.website, 'Anbieter und weitere Details') : ''}
-  ${urlLink(googleMapsSearchUrl(item,ctx.cities), googleMapsSearchLabel(item))}
-  ${urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'), 'ÖPNV-Anreise in Google Maps')}
-  <p class="muted">${esc(googleMapsLocationStatus(item))} · Google Maps berechnet die Verbindung erst beim Öffnen.</p>
-  <details class="map-source-details"><summary>Quellen, Abrufdaten und Datenqualität anzeigen</summary>${sourceList(item, ctx.catalog.sources)}</details>
-  ${item.access ? '<p>' + esc(item.access) + '</p>' : ''}
-  ${item.positionIssue ? alert(item.positionIssue) : ''}
-  ${item.geoEvidence ? '<p class="muted"><strong>Standortbeleg:</strong> ' + esc(item.geoEvidence.note)
-    + ' · Quelle im aufgeklappten Quellenbereich.</p>' : ''}
-  ${rows.length ? '<div class="local-routes">' + rows.join('').replaceAll('class="connector"', 'class="connector detail-connector"') + '</div>' : ''}
-  <div class="row-actions">${btn('details', 'Quellen & Details', 'folder', item.id)}
-  ${ctx.explorer && item.point ? btn('explorer-start', 'Start hier', 'pin', item.id) + btn('explorer-end', 'Ziel hier', 'arrow', item.id) : ''}
-  ${item.selected ? btn('edit', 'Bearbeiten', 'edit', item.id) : item.kind !== 'transport' ? btn('choose', item.kind === 'lodging' ? 'Aufenthalt wählen' : 'In Tagesplan', 'plus', item.id, 'subtle') : ''}</div></div>`;
+  return '<div class="map-detail" id="point-detail">'
+    + placeProfileHtml(item,ctx,{compact:true})
+    + (item.access ? '<p>' + esc(item.access) + '</p>' : '')
+    + (item.positionIssue ? alert(item.positionIssue) : '')
+    + (item.geoEvidence ? '<p class="muted"><strong>Standortbeleg:</strong> ' + esc(item.geoEvidence.note) + '</p>' : '')
+    + (rows.length ? '<div class="local-routes">' + rows.join('').replaceAll('class="connector"', 'class="connector detail-connector"') + '</div>' : '')
+    + '<div class="row-actions">' + btn('details', 'Alle Quellen & Details', 'folder', item.id)
+    + (ctx.explorer && item.point ? btn('explorer-start', 'Start hier', 'pin', item.id)
+      + btn('explorer-end', 'Ziel hier', 'arrow', item.id) : '')
+    + (item.selected ? btn('edit','Bearbeiten','edit',item.id)
+      : item.kind!=='transport' ? btn('choose',item.kind==='lodging'?'Aufenthalt wählen':'In Tagesplan','plus',item.id,'subtle') : '')
+    + '</div></div>';
 }
 
 function mapPanel(ctx, full = false) {
@@ -352,6 +343,7 @@ function options(ctx, lodging) {
         + (item.bedsDisplayed != null ? esc(item.bedsDisplayed) + ' Betten angezeigt' : 'Betten offen')
         + ' · Für drei Personen nicht verbindlich bestätigt</p>' : ''}
       ${rankLine}<p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
+      ${placeQuickFacts(item,ctx)}
       ${stayStats ? '<p class="muted"><strong>Vergleich:</strong> ' + (stayStats.personNightEuroCents == null ? 'Preis pro Person/Nacht offen' : money(stayStats.personNightEuroCents) + ' pro Person/Nacht') + ' · ' + (stayStats.stationWalkMinutes==null?'Bahnhof-Weg offen':stayStats.stationWalkMinutes + ' Min. tatsächlicher Fußweg') + ' · ' + stayStats.risk.length + ' offene Prüfpunkte. Gehzeit und Geldbetrag nicht miteinander verrechnet.</p>' : ''}
       ${item.quote?.sampleTotalCents != null ? '<p class="muted"><strong>Airbnb-Preisreferenz:</strong> '
         + esc(money(item.quote.sampleTotalCents)) + ' für ' + esc(item.quote.sampleAdults ?? 'unbekannt')
