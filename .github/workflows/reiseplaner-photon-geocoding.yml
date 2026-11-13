@@ -1,10 +1,7 @@
 name: Reiseplaner · Einmalige Photon-Geodatenprüfung
+# Deliberate manual one-time workflow; prevents re-querying public APIs for every PR commit.
 on:
-  pull_request:
-    branches: [feature/v7-unified-map-and-day-builder]
-    paths:
-      - outputs/Reiseplaner/scripts/geo-research-photon-v06.mjs
-      - .github/workflows/reiseplaner-photon-geocoding.yml
+  workflow_dispatch:
 
 permissions:
   contents: write
