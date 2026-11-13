@@ -22,6 +22,12 @@ import { voteSnippet, groupVoteBoard } from './group-vote.mjs';
 import { assessStay, sortStayOptions, kitchenAccess } from './stay-analysis.mjs';
 import { auditInterrailRoute, railAlternativeStatus } from './rail-analysis.mjs';
 
+const navSections=[
+  {title:'Planung', ids:['overview','plan','map']},
+  {title:'Reise organisieren', ids:['discover','lodging','rail','food']},
+  {title:'Verwalten', ids:['budget','group','data']}
+];
+const mobileTabs=['overview','plan','map','lodging'];
 const tabs = [
   ['overview', 'Übersicht', 'compass'], ['plan', 'Tagesplan', 'calendar'], ['map', 'Karte', 'map'],
   ['rail', 'Bahn & Interrail', 'train'], ['lodging', 'Unterkünfte', 'bed'], ['discover', 'Entdecken', 'pin'],
@@ -42,8 +48,19 @@ export function renderShell(ctx) {
   const sourceNotice = trip.dataMode === 'research_seed_fallback'
     ? '<div class="alert" role="status">Nur Forschungsdaten verfügbar: Die privaten Tripsy-Originaldateien fehlen in diesem Projektordner. Termine, Quellenbezüge und Buchungsdetails sind unvollständig. Es wurden keine Buchungen oder Live-Fahrpläne importiert.</div>'
     : '';
-  const activeNav = tabs.map(([id, label, symbol]) => '<button type="button" class="nav-btn" data-action="page" data-value="' + id
-    + '" aria-current="' + (page === id ? 'page' : 'false') + '">' + icon(symbol) + esc(label) + '</button>').join('');
+  const activeNav=navSections.map(section=>
+    '<section class="sidebar-section"><div class="side-label">'+esc(section.title)+'</div><nav aria-label="'+esc(section.title)+'">'
+    +section.ids.map(id=>{
+      const tab=tabs.find(t=>t[0]===id);
+      return '<button type="button" class="nav-btn" data-action="page" data-value="'+id
+        +'" aria-current="'+(page===id?'page':'false')+'">'+icon(tab[2])+'<span>'+esc(tab[1])+'</span></button>';
+    }).join('')+'</nav></section>').join('');
+  const mobileDock='<nav class="mobile-dock" aria-label="Schnellnavigation">'
+    +mobileTabs.map(id=>{
+      const tab=tabs.find(t=>t[0]===id);
+      return '<button type="button" data-action="page" data-value="'+id
+        +'" aria-current="'+(page===id?'page':'false')+'">'+icon(tab[2])+'<span>'+esc(tab[1])+'</span></button>';
+    }).join('')+'</nav>';
   return `<div class="shell"><aside class="sidebar ${menu ? 'open' : ''}" aria-label="Reisenavigation">
     <div class="brand"><span class="brandmark">${icon('train')}</span> Reiseplaner</div>
     <div class="sidebar-inner">
@@ -52,20 +69,25 @@ export function renderShell(ctx) {
         const base = ctx.catalog.trips.find(t => t.id === v.base);
         return '<option value="' + esc(v.id) + '"' + (v.id === variant.id ? ' selected' : '') + '>' + esc(v.state.title ?? base.title) + '</option>';
       }).join('')}</select><small>${dateLabel(trip.from, trip.to)} · ${variant.state.people.length} Reisende</small></div>
-      <nav aria-label="Module">${activeNav}</nav>
-      <div class="side-label">Reiseorte</div>
+      ${activeNav}
+      <details class="sidebar-places" open><summary>Reiseorte <span>${places.length}</span></summary>
       <nav aria-label="Reiseorte">${places.map(id => '<button type="button" class="city-btn" data-action="city" data-value="' + id
         + '" aria-current="' + (city === id) + '"><span class="dot"></span>' + esc(cities[id]?.name ?? id) + '</button>').join('')}</nav>
+      </details>
     </div>
     <div class="sidebar-bottom">${icon('lock')} <span>Privat auf diesem Gerät</span></div>
   </aside><div class="main-column"><header class="topbar">
     <div class="crumb"><span class="mobile-menu">${iconBtn('menu', 'Navigation öffnen', 'menu')}</span><strong>${esc(currentTitle)}</strong>${icon('chevron')}<span>${esc(tabTitle)}</span></div>
-    <div class="top-actions"><span class="status-icon">${saving ? 'Speichert …' : 'Lokal gespeichert'}</span>
+    <div class="top-actions"><nav class="topbar-shortcuts" aria-label="Schnellzugriff">
+      <button type="button" data-action="page" data-value="plan" aria-current="${page==='plan'?'page':'false'}">${icon('calendar')} Tag</button>
+      <button type="button" data-action="page" data-value="map" aria-current="${page==='map'?'page':'false'}">${icon('map')} Karte</button>
+      <button type="button" data-action="page" data-value="lodging" aria-current="${page==='lodging'?'page':'false'}">${icon('bed')} Unterkünfte</button>
+    </nav><span class="status-icon">${saving ? 'Speichert …' : 'Lokal gespeichert'}</span>
     <button type="button" class="guide-launch" data-action="guide-start" aria-label="Interaktive Tour starten" title="Interaktive Tour starten">${icon('spark')}<span>Tour</span></button>
     ${iconBtn('theme', theme === 'dark' ? 'Helles Design' : 'Dunkles Design', theme === 'dark' ? 'sun' : 'moon')}
     ${iconBtn('undo', 'Letzte Änderung rückgängig', 'reset')}
     ${iconBtn('page', 'Daten importieren', 'upload', 'data')}</div>
-  </header><main class="workspace" id="main">${sourceNotice}${content(ctx, cityName)}</main>${guideMarkup(ctx.guideIndex)}</div></div>`;
+  </header><main class="workspace" id="main">${sourceNotice}${content(ctx, cityName)}</main>${guideMarkup(ctx.guideIndex)}</div>${mobileDock}</div>`;
 }
 
 function content(ctx, city) {
@@ -268,7 +290,19 @@ function overview(ctx) {
       esc(shareLabel), esc(String(b.unknown)), esc(passDays.days.length + ' / ' + v.state.pass.days),
       esc(String(v.state.people.length))];
   });
+  const shortcuts=[
+    ['plan','Tagesplan öffnen','Termine, Wege und Reisestopps','calendar'],
+    ['map','Karte entdecken','Orte, Umkreis und Routen','map'],
+    ['lodging','Unterkünfte vergleichen','Suchpreise und Lage prüfen','bed'],
+    ['rail','Zugfahrten prüfen','Buchungsfenster und Reservierungen','train']
+  ];
   return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
+    + '<section class="overview-start" aria-label="Schnell zum nächsten Planungsschritt">'
+    + '<div class="overview-start-copy"><strong>Wo möchtest du weiterplanen?</strong><span>Direkter Zugang zu den wichtigsten Aufgaben</span></div>'
+    + '<div class="overview-quick-grid">'+shortcuts.map(([id,label,note,symbol])=>
+      '<button type="button" class="overview-quick-card" data-action="page" data-value="'+id+'">'
+      +'<span class="overview-quick-icon">'+icon(symbol)+'</span><span><strong>'+esc(label)+'</strong><small>'+esc(note)+'</small></span>'
+      +icon('arrow')+'</button>').join('')+'</div></section>'
     + '<div class="stat-grid">' + stat('Zeitraum', dateLabel(trip.from, trip.to)) + stat('Reisegruppe', ctx.people.length + ' Personen')
     + stat('Reiseorte', new Set(trip.route).size + ' Orte') + stat('Bekannte Plankosten', money(ctx.budget.total), ctx.budget.unknown + ' Posten ohne EUR-Summe') + '</div>'
     + '<section class="section"><h2>Planungs-Check</h2><p class="muted">Direkt aus den aktuell ausgewählten Einträgen berechnet. Fehlende Angaben sind keine bestätigten Buchungen.</p>' + table(['Prüffeld', 'Aktueller Stand', 'Nächster Schritt'], readinessRows) + '</section>'

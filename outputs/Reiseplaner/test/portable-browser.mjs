@@ -99,6 +99,8 @@ try {
   await text('.guide-panel','Quellen und offene Fragen');
   await click('.guide-panel [data-action=guide-finish]');
   assert.equal(await js('localStorage.getItem("reiseplan-guide-completed")'),'1');
+  await until(() => js('document.querySelectorAll(".sidebar-section").length === 3'), 'Gruppierte Navigation');
+  await until(() => js('document.querySelectorAll(".overview-quick-card").length === 4'), 'Vier Schnellzugriffe');
   await click('.sidebar [data-action=page][data-value=plan]');
   await text('h1','Barcelona');
   // Global trip explorer: all source-backed categories, geographic scope,
