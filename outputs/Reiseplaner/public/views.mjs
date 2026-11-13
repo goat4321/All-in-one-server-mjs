@@ -312,9 +312,13 @@ function options(ctx, lodging) {
         + (rank.disagreement ? ' · unterschiedliche Interessen' : '') + '</p>' : '';
     return `<article class="panel option-card">
       <div class="card-top"><span class="category-icon">${icon(categoryIcon(item))}</span><div class="chips">
-      ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.quote ? status('Suchpreis · nicht gebucht', 'warn') : ''}${verification ? status('Eigene Prüfung ' + verification.count + '/' + verification.total, verification.complete ? 'green' : 'warn') : ''}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
+      ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.quote ? status(item.quote.sampleAvailability === false ? 'Kein Suchpreis / nicht verfügbar' : 'Suchpreis · nicht gebucht', 'warn') : ''}${verification ? status('Eigene Prüfung ' + verification.count + '/' + verification.total, verification.complete ? 'green' : 'warn') : ''}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
       <h3>${esc(item.name)}</h3>
       <div class="chips">${(lodging ? [item.kitchen || 'Küche offen'] : item.tags?.slice(0, 3) ?? []).map(t => status(t)).join('')}</div>
+      ${item.provider === 'Airbnb' ? '<p class="muted">Airbnb-Wunschliste · '
+        + (item.ratingDisplayed != null ? 'Bewertung ' + esc(String(item.ratingDisplayed).replace('.', ',')) + '/5 · ' : 'Noch keine Bewertung · ')
+        + (item.bedsDisplayed != null ? esc(item.bedsDisplayed) + ' Betten angezeigt' : 'Betten offen')
+        + ' · Für drei Personen nicht verbindlich bestätigt</p>' : ''}
       ${rankLine}<p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
       ${stayStats ? '<p class="muted"><strong>Vergleich:</strong> ' + (stayStats.personNightEuroCents == null ? 'Preis pro Person/Nacht offen' : money(stayStats.personNightEuroCents) + ' pro Person/Nacht') + ' · ' + (stayStats.stationWalkMinutes==null?'Bahnhof-Weg offen':stayStats.stationWalkMinutes + ' Min. tatsächlicher Fußweg') + ' · ' + stayStats.risk.length + ' offene Prüfpunkte. Gehzeit und Geldbetrag nicht miteinander verrechnet.</p>' : ''}
       ${item.quote?.sampleTotalCents != null ? '<p class="muted"><strong>Airbnb-Preisreferenz:</strong> '
