@@ -6,6 +6,7 @@ import { official2027Notices } from './official-rules-2027.mjs';
 import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
+import { assessStay, sortStayOptions } from './stay-analysis.mjs';
 
 const tabs = [
   ['overview', 'Übersicht', 'compass'], ['plan', 'Tagesplan', 'calendar'], ['map', 'Karte', 'map'],
@@ -253,6 +254,7 @@ function options(ctx, lodging) {
     if (optionFilter === 'known') return groupPrice(item.price, people.length) != null;
     if (optionFilter === 'kitchen') return Boolean(item.kitchen);
     if (optionFilter === 'search') return Boolean(item.quote);
+    if (optionFilter === 'self_reviewed') return lodging && reviewProgress('lodging',state.verifications?.[item.id],people.length).complete;
     if (optionFilter === 'evening') return Boolean(item.minAge) || item.tags?.some(t => /abend|nightlife|bar/i.test(t));
     if (optionFilter === 'food') return item.category === 'food';
     return true;
@@ -261,22 +263,36 @@ function options(ctx, lodging) {
   if (sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'de'));
   if (sort === 'score' && !lodging) list.sort((a, b) =>
     (b.preference?.score ?? -1) - (a.preference?.score ?? -1) || a.name.localeCompare(b.name, 'de'));
+  if (lodging && ['total','station','documentation'].includes(sort)) {
+    const resorted = sortStayOptions(list,people,ctx.hotelWalks,state.verifications ?? {},sort);
+    list.splice(0,list.length,...resorted);
+  }
   const compared = found.filter(i => compareIds.has(i.id));
   const stay = ctx.trip.stayByCity[city];
+  const stayEvaluations = lodging ? list.map(item => assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id])) : [];
+  const comparisonGaps = lodging ? [
+    ['Nicht bestätigte Betten',stayEvaluations.filter(x=>!x.bedsVerified).length],
+    ['Preis oder Währung offen',stayEvaluations.filter(x=>x.totalEuroCents==null).length],
+    ['Bahnhof-Fußweg offen',stayEvaluations.filter(x=>x.stationWalkMinutes==null).length],
+    ['Keine vollständige Eigenprüfung',stayEvaluations.filter(x=>!x.review.complete).length],
+  ] : [];
   const compareRows = compared.map(item => [esc(item.name), esc(cost(item, people.length)), esc(unit(item, people.length)),
     esc(lodging ? item.kitchen || 'Offen' : item.duration ? item.duration + ' Min.' : 'Offen'),
     esc(lodging ? item.room || 'Offen' : item.tags?.join(' · ') || 'Offen'),
     esc(lodging ? [ctx.hotelWalks[item.id]?.minutes != null
       ? (item.localStation ? 'Ab ' + item.localStation.name + ' · ' : '') + ctx.hotelWalks[item.id].minutes + ' Min. zu Fuß' : '',
       item.access].filter(Boolean).join(' · ') || 'Weg offen' : item.access || 'Weg im Tagesplan'),
-    esc(lodging ? item.cancellation ?? 'Tarifbedingungen offen' : item.minAge ? item.minAge + '+' : 'Offen')]);
+    esc(lodging ? item.cancellation ?? 'Tarifbedingungen offen' : item.minAge ? item.minAge + '+' : 'Offen'),
+    ...(lodging ? [esc((() => { const a=assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]); return a.personNightEuroCents==null ? 'Preis offen' : money(a.personNightEuroCents) + ' p. P./Nacht'; })()),
+      esc(assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]).risk.slice(0,3).join(' · ')||'Eigenprüfung dokumentiert')] : [])]);
   const filters = [['all', 'Alle Optionen'], ['saved', 'Merkliste'], ['known', 'Mit Preisreferenz'],
-    ...(lodging ? [['kitchen', 'Mit Küche'], ['search', '2027-Suchpreise']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
+    ...(lodging ? [['kitchen', 'Mit Küche'], ['search', '2027-Suchpreise'], ['self_reviewed','Eigenprüfung dokumentiert']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
   const cards = list.map(item => {
     const active = activeSet.has(item.id);
     const highlighted = compareIds.has(item.id);
     const meal = ctx.catalog.mealPlans?.[city]?.find(plan => plan.venue === item.id);
     const verification = lodging ? reviewProgress('lodging', state.verifications?.[item.id], people.length) : null;
+    const stayStats = lodging ? assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]) : null;
     const rank = !lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3 ? item.preference : null;
     const prefs = lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3
       ? ctx.catalog.research?.groupPreferences?.nightly_accommodation_targets_eur_per_person : null;
@@ -299,6 +315,7 @@ function options(ctx, lodging) {
       <h3>${esc(item.name)}</h3>
       <div class="chips">${(lodging ? [item.kitchen || 'Küche offen'] : item.tags?.slice(0, 3) ?? []).map(t => status(t)).join('')}</div>
       ${rankLine}<p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
+      ${stayStats ? '<p class="muted"><strong>Vergleich:</strong> ' + (stayStats.personNightEuroCents == null ? 'Preis pro Person/Nacht offen' : money(stayStats.personNightEuroCents) + ' pro Person/Nacht') + ' · ' + (stayStats.stationWalkMinutes==null?'Bahnhof-Weg offen':stayStats.stationWalkMinutes + ' Min. tatsächlicher Fußweg') + ' · ' + stayStats.risk.length + ' offene Prüfpunkte. Gehzeit und Geldbetrag nicht miteinander verrechnet.</p>' : ''}
       ${item.quote ? '<p class="muted">Suchstand ' + esc(item.quote.observedOn) + ' · Zimmer/Betten, Steuern, Stornierung und Checkout offen. '
         + esc(item.quote.location ?? '') + '</p>' : ''}${targetLine}
       <div class="option-facts"><small>${esc(lodging ? (item.stayFrom && item.stayTo ? dateLabel(item.stayFrom, item.stayTo) : 'Aufenthaltsdaten offen') : item.duration ? item.duration + ' Min.' : 'Dauer offen')}
@@ -316,9 +333,13 @@ function options(ctx, lodging) {
     btn('page', 'Zum Tagesplan', 'calendar', 'plan'))
     + '<div class="filterbar">' + filters.map(([id, label]) => chip('option-filter', label, optionFilter === id, id)).join('')
     + '<label>Sortieren <select id="sort"><option value="source">Quelle</option><option value="price"' + (sort === 'price' ? ' selected' : '') + '>Preis</option><option value="name"' + (sort === 'name' ? ' selected' : '') + '>Name</option>'
+    + (lodging ? '<option value="total"' + (sort === 'total'?' selected':'') + '>EUR-Gruppensumme</option><option value="station"' + (sort === 'station'?' selected':'') + '>Bahnhof-Fußweg</option><option value="documentation"' + (sort === 'documentation'?' selected':'') + '>Datenvollständigkeit</option>' : '')
     + (lodging ? '' : '<option value="score"' + (sort === 'score' ? ' selected' : '') + '>Gruppeninteresse</option>') + '</select></label></div>'
-    + (lodging ? alert('Angebote vom 12.11.2026 sind nur Suchpreis-Snapshots. Unterkunft, vollständige Steuern, Betten, Stornierung und Verfügbarkeit vor einer Buchung prüfen. Kein automatischer Kauf.') : '')
-    + (compared.length ? '<section class="section"><h2>Direkter Vergleich</h2>' + table(['Option', 'Für die Gruppe', 'Pro Person', lodging ? 'Küche' : 'Dauer', lodging ? 'Zimmer' : 'Erlebnis', 'Anbindung', lodging ? 'Storno' : 'Einlass'], compareRows) + '</section>' : '')
+    + (lodging ? alert('Angebote sind lediglich datierte Suchpreis-Snapshots. Zimmer, Steuern und Endpreis müssen für dieselbe Belegung im Checkout bestätigt werden; es gibt keine automatische Reservierung.') : '')
+    + (lodging ? '<section class="section panel panel-pad"><h2>Datenlücken im Hotelvergleich</h2><div class="chips">'
+      + comparisonGaps.map(([label,count]) => status(label+': '+count,'warn')).join('')
+      + '</div><p class="muted">Niedrige Kosten oder gute Lage ersetzen keinen nachgewiesenen Checkout. Fußweg, Bettaufteilung, Küche, Gebühr und Storno werden getrennt bewertet.</p></section>' : '')
+    + (compared.length ? '<section class="section"><h2>Direkter Vergleich</h2>' + table(['Option', 'Für die Gruppe', 'Pro Person', lodging ? 'Küche' : 'Dauer', lodging ? 'Zimmer' : 'Erlebnis', 'Anbindung', lodging ? 'Storno' : 'Einlass', ...(lodging ? ['EUR je Person/Nacht','Offene Nachweise'] : [])], compareRows) + '</section>' : '')
     + (cards ? '<div class="grid-cards">' + cards + '</div>' : empty('Keine Optionen in dieser Ansicht', 'Wechsle den Filter, wähle einen anderen Ort oder importiere deine Recherche.'));
 }
 
