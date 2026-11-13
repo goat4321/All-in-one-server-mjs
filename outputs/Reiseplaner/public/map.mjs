@@ -1,6 +1,7 @@
 import { transitNetworks } from './transit.mjs';
 import { localParts } from './model.mjs';
 import { explorerCategory, explorerUnlocatedCityClusters } from './map-explorer.mjs';
+import { routeStudioModel } from './route-studio.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
@@ -20,8 +21,8 @@ function dataFile(file) {
 }
 
 export class TripMap {
-  constructor(element, { focus, select, leg, visitCity, report }) {
-    this.handlers = { focus, select, leg, visitCity, report };
+  constructor(element, { focus, select, leg, visitCity, report, routeStop }) {
+    this.handlers = { focus, select, leg, visitCity, report, routeStop };
     this.map = L.map(element, { zoomControl: true, scrollWheelZoom: false, preferCanvas: false, fadeAnimation: false, minZoom: 3, maxZoom: 19 });
     this.map.zoomControl.setPosition('bottomright');
     this.map.attributionControl.setPrefix(false);
@@ -61,10 +62,13 @@ export class TripMap {
     return marker;
   }
 
-  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null }) {
+  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null }) {
     this.city = city;
     this.features.clearLayers();
     this.markers.clear();
+    this.storyStops = [];
+    this.storySegments = [];
+    this.storyBounds = [];
     const area = [];
     if (total) {
       const ordered = trip.route.filter(id => cities[id]?.point);
@@ -142,13 +146,78 @@ export class TripMap {
       marker.on('click',()=>this.handlers.visitCity(row.city));
       if(!area.length) area.push(row.point);
     }
+    // Live Route Studio: actual walking geometry when verified by the routing
+    // service, otherwise only a clearly dashed straight line. Never use a
+    // schematic line for minutes, budget or journey-distance calculations.
+    if (explorer && !total && dayRoute?.items?.length) {
+      const studio = routeStudioModel(dayRoute.items, dayRoute.routes, dayRoute.focusIndex);
+      if (studio.stops.every(stop=>stop.city===city)) {
+        this.storyStops = studio.stops;
+        this.storySegments = studio.legs;
+        const spotlight = dayRoute.displayMode === 'focus';
+        studio.legs.forEach(leg=>{
+          if (leg.points.length<2) return;
+          const active = leg.index===studio.activeLeg;
+          const faint = spotlight && !active;
+          const line = L.polyline(leg.points,{
+            color:leg.verified?'#ffffff':'#f8e6c4',
+            weight:leg.verified?(active?11:8):6,
+            opacity:faint?.35:.9,
+            interactive:false,
+            className:'route-studio-halo',
+            dashArray:leg.verified?null:'5 10',
+          }).addTo(this.features);
+          const top = L.polyline(leg.points,{
+            color:leg.verified?(active?'#00ad82':'#16a085'):'#b97a27',
+            weight:leg.verified?(active?7:5):3.5,
+            opacity:faint?.3:.98,
+            dashArray:leg.verified?null:'5 10',
+            className:'route-studio-map-line'+(active?' current':'')
+              +(leg.verified?' measured':' schematic'),
+          }).addTo(this.features);
+          top.bindTooltip(labelNode(leg.verified
+            ? 'Berechneter Fußweg · '+leg.minutes+' Min. · '+Math.round(leg.metres)+' m'
+            : 'Schematische Luftlinie · keine berechnete Gehzeit'));
+          top.on('click',()=>this.handlers.routeStop?.(leg.index+1));
+          if (leg.verified && active && !quietMotion()) {
+            L.polyline(leg.points,{
+              color:'#eafff8',weight:3,opacity:.88,dashArray:'2 17',
+              className:'route-studio-map-flow',interactive:false,
+            }).addTo(this.features);
+          }
+          this.storyBounds.push(...leg.points);
+        });
+        studio.stops.forEach((stop,i)=>{
+          if (!Array.isArray(stop.point)||stop.point.length!==2)return;
+          const active = studio.selectedIndex===i;
+          const html='<span class="route-studio-map-pin'+(active?' selected':'')
+            +'" aria-hidden="true">'+(i+1)+'</span>';
+          const icon=L.divIcon({className:'route-studio-pin-icon',html,
+            iconSize:[38,38],iconAnchor:[19,35]});
+          const marker=L.marker(stop.point,{icon,keyboard:true,
+            zIndexOffset:active?2200:1700,title:(i+1)+'. '+stop.name,
+            alt:(i+1)+'. '+stop.name}).addTo(this.features);
+          marker.bindTooltip(labelNode((i+1)+'. '+stop.name),
+            {direction:'top',offset:[0,-28]});
+          marker.on('click',()=>this.handlers.routeStop?.(i));
+          this.storyBounds.push(stop.point);
+        });
+        area.push(...this.storyBounds);
+      }
+    }
     if (explorer?.connection?.route?.points?.length > 1) {
       const route = explorer.connection.route;
       const points = route.points.filter(p => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite));
       if (points.length > 1) {
-        L.polyline(points, {color:'#0c977b',weight:6,opacity:.95,className:'explorer-walk-line'})
+        L.polyline(points,{color:'#ffffff',weight:10,opacity:.85,interactive:false})
+          .addTo(this.features);
+        L.polyline(points, {color:'#0c977b',weight:6,opacity:.95,
+          className:'explorer-walk-line route-studio-map-line measured current'})
           .addTo(this.features)
           .bindTooltip(labelNode('Berechneter Fußweg · ' + route.minutes + ' Min. · ' + route.metres + ' m'));
+        if (!quietMotion()) L.polyline(points,{color:'#eafff8',weight:3,
+          opacity:.9,dashArray:'2 17',interactive:false,
+          className:'route-studio-map-flow'}).addTo(this.features);
         area.push(...points);
       }
     }
@@ -245,6 +314,24 @@ export class TripMap {
     this.map.invalidateSize({ pan: false });
     if (this.bounds?.length > 1) this.map.fitBounds(this.bounds, { padding: [35, 35], maxZoom: 15, animate: false });
     else if (this.bounds?.length) this.map.setView(this.bounds[0], 13, { animate: false });
+  }
+
+  focusStudio() {
+    if (!this.storyBounds?.length)return false;
+    this.map.invalidateSize({pan:false});
+    if(this.storyBounds.length>1) this.map.fitBounds(this.storyBounds,
+      {padding:[54,54],maxZoom:16,animate:!quietMotion()});
+    else this.map.setView(this.storyBounds[0],15,{animate:!quietMotion()});
+    return true;
+  }
+
+  focusStudioStop(index) {
+    const stop=this.storyStops?.[index];
+    if(!stop?.point)return false;
+    this.map.invalidateSize({pan:false});
+    this.map.setView(stop.point,Math.max(13,Math.min(this.map.getZoom(),17)),
+      {animate:!quietMotion()});
+    return true;
   }
 
   focusConnection(a, b) {
