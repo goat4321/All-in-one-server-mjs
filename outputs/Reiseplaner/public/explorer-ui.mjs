@@ -38,8 +38,15 @@ export function explorerToolbar(ctx) {
       + chip('explorer-mode', 'ÖPNV', ex.routeMode === 'transit', 'transit', 'train')
       + '<label for="explorer-time">Abfahrt</label><input id="explorer-time" type="time" value="' + esc(ex.routeTime) + '">'
       + btn('explorer-route', 'Verbindung prüfen', 'arrow')
+      + btn('explorer-swap', 'Start & Ziel tauschen', 'shuffle')
+      + (from?.point && to?.point ? btn('explorer-zoom-route', 'Route vergrößern', 'target') : '')
       + btn('explorer-clear-route', 'Zurücksetzen', 'reset') + '</div>'
-    + '<p role="status" class="explorer-status">' + esc(statusLine) + '</p>'
+    + '<div class="explorer-route-result" aria-live="polite"><span class="explorer-route-status-dot">'
+      + (route?.walkOnly ? '✓' : '•') + '</span><div><strong>'
+      + esc(route?.walkOnly?'Echte Fußweg-Geometrie geladen'
+        :route?.legs?.length?'ÖPNV-Fahrplanreferenz geladen':'Verbindung vorbereiten')
+      + '</strong><p role="status" class="explorer-status">' + esc(statusLine)
+      + '</p></div></div>'
     + (from && to ? '<div class="inline">' + (ex.routeMode === 'walk' ? (urlLink(externalFootUrl(from, to), 'Fußweg in OpenStreetMap') || '') : '')
       + (urlLink(externalTransitUrl(from, to,ctx.cities), 'Google Maps · ÖPNV A → B') || '')
       + (urlLink(googleMapsDirectionsUrl(from,to,ctx.cities,'walking'), 'Google Maps · Zu Fuß A → B') || '')
