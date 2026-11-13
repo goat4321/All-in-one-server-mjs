@@ -525,7 +525,9 @@ async function action(name, value = '') {
       if (item?.point) selectPoint(value, true); break;
     case 'explorer-start':
     case 'explorer-end':
-      if (!item?.point) { say('Für diesen Ort fehlen exakte Koordinaten.'); break; }
+      // Google Maps can search by name/address even when the internal map has
+      // no precise point. Internal route calculation still requires both points.
+      if (!item?.name || !item?.city) { say('Für diesen Ort fehlt eine verwertbare Ortsangabe.'); break; }
       if (name === 'explorer-start') view.mapFrom = value;
       else view.mapTo = value;
       view.mapRouteResult = null;
