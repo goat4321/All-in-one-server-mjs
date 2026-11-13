@@ -1,6 +1,6 @@
 import { transitNetworks } from './transit.mjs';
 import { localParts } from './model.mjs';
-import { explorerCategory } from './map-explorer.mjs';
+import { explorerCategory, explorerUnlocatedCityClusters } from './map-explorer.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
@@ -123,6 +123,24 @@ export class TripMap {
           () => this.handlers.select(key), offset);
         area.push(item.point);
       });
+    }
+    // Deliberately one city-reference cluster for many unlocated records,
+    // never pretend that an accommodation or POI is at the city centre.
+    // A cluster is not stored in this.markers and cannot be used as a route point.
+    for (const row of explorerUnlocatedCityClusters(explorer, cities)) {
+      const legend=document.createElement('span');
+      legend.className='city-reference-count';
+      legend.textContent='?'+row.count;
+      const icon=L.divIcon({className:'city-reference-icon',html:legend.outerHTML,
+        iconSize:[52,36],iconAnchor:[-19,18]});
+      const title=row.name+': '+row.count+' Einträge nur mit Stadtbezug – keine bestätigten POI-Koordinaten';
+      const marker=L.marker(row.point,{icon,title,alt:title,keyboard:true,
+        zIndexOffset:-100}).addTo(this.features);
+      const examples=row.exampleNames.join(' · ');
+      marker.bindTooltip(labelNode(title + (examples?' · Beispiele: '+examples:'')),
+        {direction:'top'});
+      marker.on('click',()=>this.handlers.visitCity(row.city));
+      if(!area.length) area.push(row.point);
     }
     if (explorer?.connection?.route?.points?.length > 1) {
       const route = explorer.connection.route;
