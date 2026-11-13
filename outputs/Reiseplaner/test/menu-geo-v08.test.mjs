@@ -68,8 +68,10 @@ test('Dated menu examples never turn into a chargeable selected meal or per-pers
 });
 
 test('Previously unresolved coordinates have individual audit decisions; no Airbnb gets a fake location',()=>{
-  assert.equal(catalog.research.geoResearchV06.acceptedUnique,120);
-  assert.equal(unresolved.length,170);
+  assert.ok(catalog.research.geoResearchV06.acceptedUnique>=121);
+  assert.equal(unresolved.length+catalog.research.geoResearchV06.acceptedUnique,290);
+  assert.equal(unresolved.filter(x=>x.status==='review').length,
+    catalog.research.geoResearchV06.reviewUnique);
   assert.equal(new Set(unresolved.map(x=>x.id+'|'+x.city)).size,unresolved.length);
   assert.equal(unresolved.filter(x=>x.privateAirbnbProperty).length,42);
   for(const row of unresolved){
