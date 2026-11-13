@@ -99,6 +99,10 @@ export function sourceList(item, sources) {
   const googleMaps = googleMapsSearchUrl(item);
   if (googleMaps) links.push('<li>' + urlLink(googleMaps, googleMapsSearchLabel(item))
     + ' · Kartensuche, kein bestätigter Standortnachweis</li>');
+  if (item.geoEvidence?.url) links.push('<li>' + urlLink(item.geoEvidence.url, 'OpenStreetMap · geprüfte Geodatenquelle')
+    + ' · ' + esc(item.geoEvidence.confidence === 'street_address_match' ? 'Adresse und Hausnummer zugeordnet' : 'Namens- und Ortsabgleich')
+    + ' · ' + esc(item.geoEvidence.isCentroid ? 'OSM-Objektmittelpunkt (Eingang nicht bestätigt)' : 'OSM-POI')
+    + '</li>');
   if (item.importSource) links.push('<li>' + esc(item.importSource.file + ' · ' + item.importSource.provider + ' · ' + dateText(item.importSource.date.slice(0, 10))) + '</li>');
   return '<div class="chips">' + status(item.origin ?? 'manuell') + status(item.verification ?? 'ungeprüft', 'warn') + '</div>'
     + (links.length ? '<ul class="sources-list">' + links.join('') + '</ul>' : '<small>Quellenlink offen.</small>');
