@@ -989,3 +989,14 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 /* Keep the map-only overlays inside the Leaflet viewport; the legend follows it in normal flow. */
 .map-wrap{isolation:isolate}
 .map-selection-preview{bottom:12px}
+
+
+/* On phones the selected place is a readable card below the map, rather than
+   a fixed overlay hidden by the persistent bottom navigation. */
+@media(max-width:650px){
+  .map-selection-preview{position:relative;bottom:auto;left:auto;max-width:none;
+    margin:9px 10px;z-index:3}
+  .map-selected-place{box-shadow:none;border:1px solid var(--line);
+    background:var(--paper);padding:11px}
+  .map-wrap:has(.map-selected-place) .map-hint{bottom:24px}
+}

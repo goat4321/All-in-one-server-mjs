@@ -457,6 +457,14 @@ try {
   assert.ok(await js('document.documentElement.scrollWidth <= window.innerWidth + 5'), 'Mobiles Layout hat horizontalen Überlauf.');
   await js('document.querySelector(".map-explorer-split").scrollIntoView({block:"start"})');
   await screenshot('04-atlas-smartphone-390.png');
+  await click('[data-action=explorer-scope][data-value=city]');
+  await click('[data-action=explorer-group][data-value=food]');
+  await click('[data-action=explorer-focus][data-value="local:bormuth"]');
+  await until(()=>js('Boolean(document.querySelector(".map-selected-place"))'),'Mobile selected POI card');
+  assert.ok(await js('(() => { const card=document.querySelector(".map-selection-preview")?.getBoundingClientRect(); const map=document.querySelector("#map")?.getBoundingClientRect(); return card&&map&&card.top>=map.bottom-1&&card.width<=390; })()'),
+    'Mobile POI preview is in document flow below map; never under the dock');
+  await js('document.querySelector(".map-selection-preview").scrollIntoView({block:"center"})');
+  await screenshot('06-atlas-smartphone-auswahl-390.png');
   await cdp('Emulation.setDeviceMetricsOverride',{width:820,height:1180,deviceScaleFactor:1,mobile:false});
   await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===1'),
     'Tablet uses readable stacked atlas layout');
