@@ -2,6 +2,7 @@ import { groupPrice, money } from './model.mjs';
 import { explorerCategory, explorerDetail } from './map-explorer.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, googleMapsLocationStatus } from './google-maps.mjs';
 import { esc, sourceList, urlLink } from './ui.mjs';
+import { curatedPlacePhoto } from './curated-place-photos.mjs';
 
 // Consistent, source-aware place facts. Missing information stays explicitly
 // unknown; wishlist screenshots must never be promoted to bookable prices.
@@ -59,7 +60,7 @@ export function placeProfileModel(item, ctx = {}) {
     priceLabel,priceKnown:total!=null,sampleLabel,rating,observed,
     facts,details:detail.extra,sourceStatus:detail.sourceStatus,
     maps:googleMapsSearchUrl(item,ctx.cities),route:googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),
-    providerUrl:item.website??null,photo:photo && /^https:\/\//.test(photo.url??'') ? photo:null,
+    providerUrl:item.website??null,photo:photo && /^https:\/\//.test(photo.url??'') ? photo:curatedPlacePhoto(item),
   };
 }
 
