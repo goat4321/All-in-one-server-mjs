@@ -274,3 +274,19 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 .explorer-idea-list>div>span{overflow-wrap:anywhere}
 .explorer-idea-list .button{min-height:31px;font-size:.72rem}
 @media(max-width:650px){.explorer-ideas{padding:11px}.explorer-idea-list{display:grid;grid-template-columns:1fr}.explorer-idea-list>div{justify-content:space-between}}
+
+.day-route-builder{display:grid;gap:12px;margin:12px 0}
+.day-route-controls{display:flex;align-items:end;flex-wrap:wrap;gap:8px}
+.day-route-controls label{display:flex;align-items:center;gap:8px;font-size:.81rem}
+.day-route-controls input[type=time]{min-height:38px;width:110px}
+.day-route-stops{margin:0;padding:0 0 0 23px;display:grid;gap:7px}
+.day-route-stops>li{padding:8px 10px;line-height:1.4;border:1px solid var(--line);border-radius:10px;background:var(--light)}
+.day-route-stops>li>div{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.day-route-stops strong{font-size:.87rem}
+.day-route-stops small{color:var(--muted);margin-left:6px;font-size:.77rem}
+.day-route-stops .row-actions{margin-left:auto}
+.day-route-stops .button{min-width:33px;min-height:33px;padding:5px}
+.day-route-preview{background:var(--light);border-radius:10px;padding:10px;display:grid;gap:6px}
+.day-route-preview h3{font-size:.9rem}
+.day-route-preview p{font-size:.81rem}
+@media(max-width:650px){.day-route-builder{padding:12px}.day-route-controls{display:grid;grid-template-columns:1fr 1fr}.day-route-controls .button{width:100%}.day-route-stops>li>div{align-items:flex-start;gap:6px}.day-route-stops .row-actions{flex-basis:100%;justify-content:flex-end}}
