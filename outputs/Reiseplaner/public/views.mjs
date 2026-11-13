@@ -8,6 +8,7 @@ import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import { placeQuickFacts, placeProfileHtml, placeImageHtml } from './place-profile.mjs';
+import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
 import { assessStay, sortStayOptions } from './stay-analysis.mjs';
 import { auditInterrailRoute, railAlternativeStatus } from './rail-analysis.mjs';
 
@@ -278,6 +279,7 @@ function options(ctx, lodging) {
     if (optionFilter === 'known') return groupPrice(item.price, people.length) != null;
     if (optionFilter === 'kitchen') return Boolean(item.kitchen);
     if (optionFilter === 'search') return Boolean(item.quote);
+    if (optionFilter === 'budget') return lodging && lodgingPriceInsight(item,people.length,ctx.nightlyTargetEuro)?.status==='within-budget';
     if (optionFilter === 'self_reviewed') return lodging && reviewProgress('lodging',state.verifications?.[item.id],people.length).complete;
     if (optionFilter === 'evening') return Boolean(item.minAge) || item.tags?.some(t => /abend|nightlife|bar/i.test(t));
     if (optionFilter === 'food') return item.category === 'food';
@@ -287,6 +289,10 @@ function options(ctx, lodging) {
   if (sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'de'));
   if (sort === 'score' && !lodging) list.sort((a, b) =>
     (b.preference?.score ?? -1) - (a.preference?.score ?? -1) || a.name.localeCompare(b.name, 'de'));
+  if (lodging && sort==='person-night') list.sort((a,b)=>
+    (lodgingPriceInsight(a,people.length,ctx.nightlyTargetEuro)?.personNightCents??Infinity)
+     -(lodgingPriceInsight(b,people.length,ctx.nightlyTargetEuro)?.personNightCents??Infinity)
+     || a.name.localeCompare(b.name,'de'));
   if (lodging && ['total','station','documentation'].includes(sort)) {
     const resorted = sortStayOptions(list,people,ctx.hotelWalks,state.verifications ?? {},sort);
     list.splice(0,list.length,...resorted);
@@ -310,7 +316,7 @@ function options(ctx, lodging) {
     ...(lodging ? [esc((() => { const a=assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]); return a.personNightEuroCents==null ? 'Preis offen' : money(a.personNightEuroCents) + ' p. P./Nacht'; })()),
       esc(assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]).risk.slice(0,3).join(' · ')||'Eigenprüfung dokumentiert')] : [])]);
   const filters = [['all', 'Alle Optionen'], ['saved', 'Merkliste'], ['known', 'Mit Preisreferenz'],
-    ...(lodging ? [['kitchen', 'Mit Küche'], ['search', '2027-Suchpreise'], ['self_reviewed','Eigenprüfung dokumentiert']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
+    ...(lodging ? [['kitchen', 'Mit Küche'], ['search', '2027-Suchpreise'], ['budget','Im persönlichen Nachtbudget'], ['self_reviewed','Eigenprüfung dokumentiert']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
   const cards = list.map(item => {
     const active = activeSet.has(item.id);
     const highlighted = compareIds.has(item.id);
@@ -345,6 +351,7 @@ function options(ctx, lodging) {
         + ' · Für drei Personen nicht verbindlich bestätigt</p>' : ''}
       ${rankLine}<p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
       ${placeQuickFacts(item,ctx)}
+      ${lodging ? lodgingPriceMeter(item,people.length,ctx.nightlyTargetEuro) : ''}
       ${stayStats ? '<p class="muted"><strong>Vergleich:</strong> ' + (stayStats.personNightEuroCents == null ? 'Preis pro Person/Nacht offen' : money(stayStats.personNightEuroCents) + ' pro Person/Nacht') + ' · ' + (stayStats.stationWalkMinutes==null?'Bahnhof-Weg offen':stayStats.stationWalkMinutes + ' Min. tatsächlicher Fußweg') + ' · ' + stayStats.risk.length + ' offene Prüfpunkte. Gehzeit und Geldbetrag nicht miteinander verrechnet.</p>' : ''}
       ${item.quote?.sampleTotalCents != null ? '<p class="muted"><strong>Airbnb-Preisreferenz:</strong> '
         + esc(money(item.quote.sampleTotalCents)) + ' für ' + esc(item.quote.sampleAdults ?? 'unbekannt')
@@ -369,9 +376,11 @@ function options(ctx, lodging) {
   return heading(lodging ? 'Unterkünfte' : 'Entdecken', cities[city].name + (lodging && stay ? ' · ' + dateLabel(stay.from, stay.to) : ' · ' + found.length + ' Einträge'),
     btn('page', 'Zum Tagesplan', 'calendar', 'plan'))
     + '<div class="filterbar">' + filters.map(([id, label]) => chip('option-filter', label, optionFilter === id, id)).join('')
+    + (lodging ? '<label class="nightly-budget-control">Ziel pro Person/Nacht <input id="nightly-target" type="number" min="5" max="1000" step="1" value="'+esc(ctx.nightlyTargetEuro)+'" aria-label="Individuelles Nachtbudget in Euro"> €</label>' : '')
     + '<label>Sortieren <select id="sort"><option value="source">Quelle</option><option value="price"' + (sort === 'price' ? ' selected' : '') + '>Preis</option><option value="name"' + (sort === 'name' ? ' selected' : '') + '>Name</option>'
-    + (lodging ? '<option value="total"' + (sort === 'total'?' selected':'') + '>EUR-Gruppensumme</option><option value="station"' + (sort === 'station'?' selected':'') + '>Bahnhof-Fußweg</option><option value="documentation"' + (sort === 'documentation'?' selected':'') + '>Datenvollständigkeit</option>' : '')
+    + (lodging ? '<option value="total"' + (sort === 'total'?' selected':'') + '>EUR-Gruppensumme</option><option value="person-night"' + (sort === 'person-night'?' selected':'') + '>EUR p. P./Nacht</option><option value="station"' + (sort === 'station'?' selected':'') + '>Bahnhof-Fußweg</option><option value="documentation"' + (sort === 'documentation'?' selected':'') + '>Datenvollständigkeit</option>' : '')
     + (lodging ? '' : '<option value="score"' + (sort === 'score' ? ' selected' : '') + '>Gruppeninteresse</option>') + '</select></label></div>'
+    + (lodging ? '<p class="muted">Preis-Einordnung nur gegenüber deinem frei wählbaren Nachtbudget – keine städtischen Durchschnittspreise. Airbnb-Suchwerte können beim Vergleich erscheinen, werden aber niemals als gebuchte Reisekosten behandelt.</p>' : '')
     + (lodging ? alert('Angebote sind lediglich datierte Suchpreis-Snapshots. Zimmer, Steuern und Endpreis müssen für dieselbe Belegung im Checkout bestätigt werden; es gibt keine automatische Reservierung.') : '')
     + (lodging ? '<section class="section panel panel-pad"><h2>Datenlücken im Hotelvergleich</h2><div class="chips">'
       + comparisonGaps.map(([label,count]) => status(label+': '+count,'warn')).join('')
