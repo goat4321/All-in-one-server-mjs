@@ -39,10 +39,10 @@
   "eligible": 243,
   "queried": 243,
   "totals": {
-    "accepted": 121,
-    "review": 60,
-    "unmatched": 63,
-    "skipped": 46,
+    "accepted": 144,
+    "review": 45,
+    "unmatched": 57,
+    "skipped": 44,
     "requestFailures": 0
   },
   "points": [
@@ -2743,9 +2743,200 @@
       "isCentroid": false,
       "manuallyReviewed": true,
       "locationDescription": "VeniceWiki map of Al Mercà, address San Polo 213, geolocation 45.43877/12.33513. More detailed entrance location not independently surveyed."
-    }
-  ],
-  "review": [
+    },
+    {
+      "id": "research:bcom_85890",
+      "city": "genoa",
+      "name": "Hotel Britannia",
+      "address": null,
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Hotel Britannia, Genova",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        44.41624,
+        8.92353
+      ],
+      "sourceUrl": "https://findit.city/en/italy/genoa/places/hotels/ostello-bello-4081977659",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Historische Hoteladresse: das Gebäude Via Balbi 38 heißt heute Ostello Bello (ehemals Hotel Britannia). Der alte Hotelname ist kein gültig nachgewiesenes Buchungsangebot."
+    },
+    {
+      "id": "research:bcom_787203",
+      "city": "genoa",
+      "name": "Palazzo Cambiaso Albergo Etico Genova",
+      "address": null,
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Palazzo Cambiaso Albergo Etico Genova, Genova",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        44.41189,
+        8.92865
+      ],
+      "sourceUrl": "https://mapcarta.com/N2824480248",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "OSM-Objekt Palazzo Cambiaso Apartments, Via al Ponte Calvi 6; Gebäudeanker, nicht gebuchtes Zimmer."
+    },
+    {
+      "id": "research:bcom_51188",
+      "city": "nice",
+      "name": "Greet Hotel Nice Aéroport Promenade des Anglais",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Greet Hotel Nice Aéroport Promenade des Anglais, Nice",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        43.670519,
+        7.22274
+      ],
+      "sourceUrl": "https://all.accor.com/hotel/C229/index.de.shtml",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "GPS-Koordinate ausdrücklich von Hotelbetreiber Accor für Greet Nice Aéroport veröffentlicht."
+    },
+    {
+      "id": "research:bcom_2592525",
+      "city": "paris",
+      "name": "Appart'hôtel Odalys City Paris XVII",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Appart'hôtel Odalys City Paris XVII, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        48.8997159,
+        2.3215052
+      ],
+      "sourceUrl": "https://www.hotelaparis.com/hotel-charme-paris/porte-de-clichy/odalys-city-paris-xvii.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Geografische Hotel-GPS-Koordinate und offizielle Hotelanschrift; kein Zimmerpreis 2027."
+    },
+    {
+      "id": "research:bcom_882071",
+      "city": "paris",
+      "name": "Kyriad Paris 18 Porte de Clignancourt",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Kyriad Paris 18 Porte de Clignancourt, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        48.8970073,
+        2.3455111
+      ],
+      "sourceUrl": "https://www.tourisme93.com/document.php?engine_zoom=HOTIDFC930003544&pagendx=749",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Exakte Hotel-GPS-Position aus öffentlichem Tourismuseintrag, 78 Boulevard Ornano, Paris."
+    },
+    {
+      "id": "research:bcom_230783",
+      "city": "paris",
+      "name": "Libertel Montmartre Opéra",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Libertel Montmartre Opéra, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        48.88208,
+        2.33454
+      ],
+      "sourceUrl": "https://tofromfrance.com/en/lieu/libertel-montmartre-opera",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Gelistete GPS-Koordinate Libertel Montmartre Opéra; Betreiber bestätigt Hausnummer 32 Rue Duperré."
+    },
+    {
+      "id": "research:bcom_307250",
+      "city": "grindelwald",
+      "name": "Naturfreunde Hostel Grindelwald",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Naturfreunde Hostel Grindelwald, Grindelwald",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        46.62789,
+        8.032883
+      ],
+      "sourceUrl": "https://grindelwald.nfh.ch/anreise/",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Offizielle GPS-Koordinate vom Naturfreundehaus Grindelwald, Terrassenweg 18. Betriebszeit Sommer 2027 bereits veröffentlicht."
+    },
+    {
+      "id": "tripsy:lodging:seed:iv-kandersteg",
+      "city": "kandersteg",
+      "name": "Alpina Appartment 2",
+      "address": null,
+      "variants": [
+        "interrail_swiss"
+      ],
+      "query": "Alpina Appartment 2, Kandersteg",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        46.4989,
+        7.67522
+      ],
+      "sourceUrl": "https://www.gites.fr/gites_alpina-appartment-2_kandersteg_h6979054.htm",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Genaue veröffentlichte Koordinate Alpina Appartment 2, Äussere Dorfstrasse 76; NICHT das Hotel Alpina."
+    },
+    {
+      "id": "local:food-v03-027",
+      "city": "grindelwald",
+      "name": "Eiger Bean The Coffee Roastery",
+      "address": "Dorfstrasse 195, 3818 Grindelwald, Switzerland",
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Eiger Bean The Coffee Roastery, Dorfstrasse 195, 3818 Grindelwald, Switzerland, Grindelwald",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        46.6245404,
+        8.0432661
+      ],
+      "sourceUrl": "https://yellowpages.swiss/company/CHE-185.050.981/eigerbean-the-coffee-roastery-gmbh-grindelwald",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Schweizer Firmenregister-Standort EigerBean Dorfstrasse 195; tatsächlicher Ladeneingang nicht separat vermessen."
+    },
     {
       "id": "tripsy:activity:seed:a006",
       "city": "barcelona",
@@ -2756,34 +2947,16 @@
       ],
       "query": "Barceloneta Strand, Barcelona",
       "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.3834321,
-            2.1956638
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/23430607",
-          "osmName": "Somorrostro Beach",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3713457,
-            2.1892624
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/7333375",
-          "osmName": "Sant Sebastià Beach",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        41.38083,
+        2.19375
+      ],
+      "sourceUrl": "https://mapcarta.com/25260254",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Geografischer Referenzpunkt des Strandes Platja de la Barceloneta. Kein bestimmter Treffpunkt und keine Badezone verifiziert."
     },
     {
       "id": "tripsy:activity:seed:a013",
@@ -2795,58 +2968,16 @@
       ],
       "query": "Bunkers del Carmel, Barcelona",
       "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.4183478,
-            2.1532733
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/6285892140",
-          "osmName": "Turó del Carmel",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.4184659,
-            2.1549126
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/52513962",
-          "osmName": "Parc del Carmel",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.4151802,
-            2.155979
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/284401162",
-          "osmName": "Carretera del Carmel",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.4223905,
-            2.1583229
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/145408205",
-          "osmName": "Rambla del Carmel",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        41.41936,
+        2.16194
+      ],
+      "sourceUrl": "https://mapcarta.com/33036580",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Geografischer POI Bunkers del Carmel am Turó de la Rovira; aktuelle Zugangsbeschränkung/Öffnungszeiten gesondert prüfen."
     },
     {
       "id": "tripsy:activity:seed:a007",
@@ -2858,58 +2989,16 @@
       ],
       "query": "El Born & Tapas, Barcelona",
       "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.385712,
-            2.1836373
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/14022328893",
-          "osmName": "El Born",
-          "street": "Plaça Comercial",
-          "houseNumber": "12",
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3818417,
-            2.1745121
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3441700493",
-          "osmName": "Santos Tapas",
-          "street": "Plaçeta del Pi",
-          "houseNumber": "6",
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3786247,
-            2.1737031
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/12855666401",
-          "osmName": "Güell Tapas",
-          "street": "Carrer Nou de la Rambla",
-          "houseNumber": "20",
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3794968,
-            2.1762117
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/6312738485",
-          "osmName": "Tapas Royale",
-          "street": "Carrer dels Escudellers",
-          "houseNumber": "19",
-          "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        41.385712,
+        2.1836373
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/node/14022328893",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Nur Orientierungspunkt im Viertel El Born; die geplanten Tapas sind nicht ein spezifisch gebuchtes Restaurant."
     },
     {
       "id": "tripsy:activity:seed:a012",
@@ -2921,59 +3010,230 @@
       ],
       "query": "Gràcia Viertel, Barcelona",
       "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.3925571,
-            2.1653626
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4743352986",
-          "osmName": "Barcelona-Passeig de Gràcia",
-          "street": "Carrer d'Aragó",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.39253,
-            2.1653922
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4743352987",
-          "osmName": "Barcelona-Passeig de Gràcia",
-          "street": "Carrer d'Aragó",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3925448,
-            2.1653802
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/7201979113",
-          "osmName": "Barcelona-Passeig de Gràcia",
-          "street": "Carrer d'Aragó",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3989009,
-            2.1528524
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/38915350",
-          "osmName": "Barcelona-Vallès Line",
-          "street": "Via Augusta",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        41.4002,
+        2.15761
+      ],
+      "sourceUrl": "https://mapcarta.com/33031062",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Plaça de la Vila de Gràcia als öffentlicher Orientierungsanker für den Stadtteil; nicht der Mittelpunkt eines gebuchten Programms."
     },
+    {
+      "id": "research:suggest_021",
+      "city": "nice",
+      "name": "Villefranche: Port de la Darse und Altstadt",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Villefranche: Port de la Darse und Altstadt, Nice",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        43.6984088,
+        7.3081666
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/relation/10708913",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Port de la Darse als quellenbelegter Teil dieser Kombinationsaktivität; Altstadt und Fußweg liegen NICHT an einem einzigen Pin."
+    },
+    {
+      "id": "tripsy:activity:seed:a053",
+      "city": "bachalpsee",
+      "name": "Bachalpsee-Wanderung",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Bachalpsee-Wanderung, Bachalpsee",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        46.6695806,
+        8.0209533
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/relation/2192945",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Bachalpsee-Gewässeranker für die Wanderung; keine Route, kein Einstieg und nicht die First-Gondelstation."
+    },
+    {
+      "id": "research:suggest_039",
+      "city": "grindelwald",
+      "name": "Bachalpsee als gemeinsamer Natur-Highlight-Block",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Bachalpsee als gemeinsamer Natur-Highlight-Block, Grindelwald",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        46.6695806,
+        8.0209533
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/relation/2192945",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Bachalpsee als Ziel- und Gebietsreferenz, nicht exakte Treffposition oder berechneter Wanderweg."
+    },
+    {
+      "id": "tripsy:activity:seed:a048",
+      "city": "seealpsee",
+      "name": "Seealpsee Ufer",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Seealpsee Ufer, Seealpsee",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        47.2682729,
+        9.4007692
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/28829836",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Seealpsee-Gewässermittelpunkt, NICHT ein bestimmter Uferpunkt, Wanderweg oder Zugang."
+    },
+    {
+      "id": "tripsy:activity:seed:a049",
+      "city": "kloental",
+      "name": "Klöntalersee Wanderung",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Klöntalersee Wanderung, Klöntal",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        47.0278388,
+        8.9864897
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/4900844",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Klöntalersee-Gewässerreferenz; keine exakte Position der geplanten Wanderung oder ihrer Route."
+    },
+    {
+      "id": "research:a042",
+      "city": "kloental",
+      "name": "Klöntalersee Rundweg",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Klöntalersee Rundweg, Klöntal",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        47.0278388,
+        8.9864897
+      ],
+      "sourceUrl": "https://www.openstreetmap.org/way/4900844",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Klöntalersee als Zielreferenz. Rundweg führt um den See und ist nicht durch diesen Einzelpin geometrisch abgebildet."
+    },
+    {
+      "id": "research:suggest_026",
+      "city": "genoa",
+      "name": "Parchi di Nervi Spaziergang (wenn geöffnet)",
+      "address": null,
+      "variants": [],
+      "query": "Parchi di Nervi Spaziergang (wenn geöffnet)",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        44.38142,
+        9.045
+      ],
+      "sourceUrl": "https://mapcarta.com/36058328",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Parchi di Nervi Parkzentrum für den geplanten Spaziergang; kein verbindlicher Eingang oder vollständiger Weg."
+    },
+    {
+      "id": "research:suggest_023",
+      "city": "nice",
+      "name": "Cap-Ferrat Küstenspaziergang (Abschnitt optional)",
+      "address": null,
+      "variants": [],
+      "query": "Cap-Ferrat Küstenspaziergang (Abschnitt optional)",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        43.67436,
+        7.32662
+      ],
+      "sourceUrl": "https://mapcarta.com/de/18383006",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Cap Ferrat Landspitze als geografischer Orientierungsanker für OPTIONALEN Küstenspaziergang; kein genauer Start/Ende/Route."
+    },
+    {
+      "id": "research:suggest_004",
+      "city": "paris",
+      "name": "Butte Bergeyre Aussicht und Fotostopp",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Butte Bergeyre Aussicht und Fotostopp, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        48.8773203,
+        2.3756325
+      ],
+      "sourceUrl": "https://www.cirkwi.com/fr/point-interet/1829576-point-de-vue-de-la-butte-bergeyre",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Öffentlich beschriebener Aussichtspunkt Butte Bergeyre an der Rue Georges Lardennois; eingeschränkt zugängliche Gartenfläche nicht als frei zugänglich darstellen."
+    },
+    {
+      "id": "research:a071",
+      "city": "appenzell",
+      "name": "Äscher/Seealpsee-Abstieg NICHT als leichte Route",
+      "address": null,
+      "variants": [
+        "interrail_swiss",
+        "swiss_lakes"
+      ],
+      "query": "Äscher/Seealpsee-Abstieg NICHT als leichte Route, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "Independently verified building or geographic feature",
+      "point": [
+        47.2833889,
+        9.4143611
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q56239682",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Berggasthaus Äscher als geografischer Tourenanker, NICHT der Abstiegsweg; ausdrückliche Warnung: Route über Seealpsee nicht als leichte Wanderung einstufen."
+    }
+  ],
+  "review": [
     {
       "id": "tripsy:activity:seed:a005",
       "city": "paris",
@@ -3408,33 +3668,6 @@
       ]
     },
     {
-      "id": "research:bcom_85890",
-      "city": "genoa",
-      "name": "Hotel Britannia",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Hotel Britannia, Genova",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            44.4162376,
-            8.9235314
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4081977659",
-          "osmName": "Ostello Bello",
-          "street": "Via Balbi",
-          "houseNumber": "38",
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "research:bcom_3955394",
       "city": "genoa",
       "name": "Le stanze della Lanterna",
@@ -3721,127 +3954,6 @@
       ]
     },
     {
-      "id": "research:bcom_51188",
-      "city": "nice",
-      "name": "Greet Hotel Nice Aéroport Promenade des Anglais",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Greet Hotel Nice Aéroport Promenade des Anglais, Nice",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.6675713,
-            7.2143076
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/87599060",
-          "osmName": "Ibis Budget Nice Aéroport Promenade des Anglais",
-          "street": "Promenade des Anglais",
-          "houseNumber": "455",
-          "nameScore": 0.564,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.6670993,
-            7.2149138
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3430015560",
-          "osmName": "Hôtel Campanile Nice Aéroport",
-          "street": "Promenade des Anglais",
-          "houseNumber": "459-461",
-          "nameScore": 0.376,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.6665553,
-            7.2121703
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3086331297",
-          "osmName": "Aéroport / Promenade",
-          "street": "Promenade des Anglais",
-          "houseNumber": null,
-          "nameScore": 0.376,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.6673298,
-            7.2139321
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/465376350",
-          "osmName": "Ibis budget Nice Aeroport",
-          "street": "Promenade des Anglais",
-          "houseNumber": "455",
-          "nameScore": 0.188,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:suggest_021",
-      "city": "nice",
-      "name": "Villefranche: Port de la Darse und Altstadt",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Villefranche: Port de la Darse und Altstadt, Nice",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.6984088,
-            7.3081666
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/10708913",
-          "osmName": "Port de la Darse",
-          "street": "Quai de la Corderie",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_2592525",
-      "city": "paris",
-      "name": "Appart'hôtel Odalys City Paris XVII",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Appart'hôtel Odalys City Paris XVII, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            48.8280249,
-            2.3153561
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2034698945",
-          "osmName": "Citadines Apart'Hotel",
-          "street": "Rue Didot",
-          "houseNumber": null,
-          "nameScore": 0.188,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "research:bcom_51591",
       "city": "paris",
       "name": "Campanile Paris 12 Bercy Village",
@@ -3906,70 +4018,6 @@
       ]
     },
     {
-      "id": "research:bcom_882071",
-      "city": "paris",
-      "name": "Kyriad Paris 18 Porte de Clignancourt",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Kyriad Paris 18 Porte de Clignancourt, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            48.8973976,
-            2.3448521
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/1780486821",
-          "osmName": "Porte de Clignancourt",
-          "street": "Passage du Mont Cenis",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8992045,
-            2.3452588
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/13249829980",
-          "osmName": "Porte de Clignancourt - Croisset - Paris 18",
-          "street": "Rue Francis de Croisset",
-          "houseNumber": "11",
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8995177,
-            2.3443891
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/1226939262",
-          "osmName": "Avenue de la Porte de Clignancourt",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.9006471,
-            2.3440759
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/1565485125",
-          "osmName": "Avenue de la Porte de Clignancourt",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "research:bcom_1105489",
       "city": "paris",
       "name": "Les Patios du Marais 1",
@@ -4029,70 +4077,6 @@
           "street": "Place du Marché Saint-Honoré",
           "houseNumber": null,
           "nameScore": 0.235,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_230783",
-      "city": "paris",
-      "name": "Libertel Montmartre Opéra",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Libertel Montmartre Opéra, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            48.8820719,
-            2.334511
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2046946530",
-          "osmName": "Libertel Montmartre Duperré",
-          "street": "Rue Duperré",
-          "houseNumber": "32",
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8776389,
-            2.3340807
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4519649589",
-          "osmName": "BVJ Opéra Montmartre",
-          "street": "Rue de la Tour des Dames",
-          "houseNumber": "1",
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8713219,
-            2.3426051
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/253987375",
-          "osmName": "Hôtel Paris Opéra",
-          "street": "Boulevard Montmartre",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8763662,
-            2.3471296
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/13190908801",
-          "osmName": "9 Hotel Opéra Paris",
-          "street": "Rue Papillon",
-          "houseNumber": null,
-          "nameScore": 0.313,
           "addressMatch": false
         }
       ]
@@ -5094,57 +5078,6 @@
       ]
     },
     {
-      "id": "tripsy:activity:seed:a053",
-      "city": "bachalpsee",
-      "name": "Bachalpsee-Wanderung",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Bachalpsee-Wanderung, Bachalpsee",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            46.6695806,
-            8.0209533
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/2192945",
-          "osmName": "Bachalpsee",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.3368179,
-            7.6969776
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/468348252",
-          "osmName": "Bachalpstrasse",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.3466039,
-            7.68448
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/1096229924",
-          "osmName": "Bachalpstrasse",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "tripsy:transport:3762693",
       "city": "kandersteg",
       "name": "Kandersteg → Oeschinensee Talstation",
@@ -5310,69 +5243,6 @@
       ]
     },
     {
-      "id": "tripsy:activity:seed:a049",
-      "city": "kloental",
-      "name": "Klöntalersee Wanderung",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Klöntalersee Wanderung, Klöntal",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            47.0278388,
-            8.9864897
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/4900844",
-          "osmName": "Klöntalersee",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.0361436,
-            9.0047253
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/12192288512",
-          "osmName": "SUP Klöntalersee",
-          "street": "Klöntalerstrasse",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.0344327,
-            9.0069118
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/12096424473",
-          "osmName": "Mitfahrbänggli Klöntal",
-          "street": "Klöntalerstrasse",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.0364493,
-            9.0028416
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/903447995",
-          "osmName": "Klöntalerstrasse",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "tripsy:transport:3762687",
       "city": "munich",
       "name": "München → Appenzell",
@@ -5431,69 +5301,6 @@
           "street": "Appenzeller Straße",
           "houseNumber": null,
           "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:activity:seed:a048",
-      "city": "seealpsee",
-      "name": "Seealpsee Ufer",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Seealpsee Ufer, Seealpsee",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            47.2682729,
-            9.4007692
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/28829836",
-          "osmName": "Seealpsee",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.2696329,
-            9.4012589
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/209080040",
-          "osmName": "Seealpsee",
-          "street": "Seealpsee",
-          "houseNumber": "10",
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.2702361,
-            9.4025372
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/443070031",
-          "osmName": "Seealpsee",
-          "street": "Mörderwägli",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.2701138,
-            9.4016074
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/10741529392",
-          "osmName": "Seealpsee",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
           "addressMatch": false
         }
       ]
@@ -5688,57 +5495,6 @@
       ]
     },
     {
-      "id": "research:bcom_307250",
-      "city": "grindelwald",
-      "name": "Naturfreunde Hostel Grindelwald",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Naturfreunde Hostel Grindelwald, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            46.6289587,
-            8.0274536
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/13055850208",
-          "osmName": "Grindelwald Youth Hostel",
-          "street": "Geissstutzstrasse",
-          "houseNumber": "12",
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.6281008,
-            8.0332985
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/320771673",
-          "osmName": "Naturfreundehaus",
-          "street": "Terrassenweg",
-          "houseNumber": "18",
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.6282256,
-            8.0326773
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/264386582",
-          "osmName": "Naturfreundehaus",
-          "street": "Terrassenweg",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "research:bcom_356588",
       "city": "kandersteg",
       "name": "Alpen Chalet",
@@ -5851,69 +5607,6 @@
           "street": null,
           "houseNumber": null,
           "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:a042",
-      "city": "kloental",
-      "name": "Klöntalersee Rundweg",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Klöntalersee Rundweg, Klöntal",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            47.0278388,
-            8.9864897
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/4900844",
-          "osmName": "Klöntalersee",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.0361436,
-            9.0047253
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/12192288512",
-          "osmName": "SUP Klöntalersee",
-          "street": "Klöntalerstrasse",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.0344327,
-            9.0069118
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/12096424473",
-          "osmName": "Mitfahrbänggli Klöntal",
-          "street": "Klöntalerstrasse",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.0364493,
-            9.0028416
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/903447995",
-          "osmName": "Klöntalerstrasse",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
           "addressMatch": false
         }
       ]
@@ -6098,19 +5791,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:bcom_787203",
-      "city": "genoa",
-      "name": "Palazzo Cambiaso Albergo Etico Genova",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Palazzo Cambiaso Albergo Etico Genova, Genova",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:bcom_11815614",
       "city": "nice",
       "name": "APPARTEMENT-NICE 01 VUE MER - PANORAMIQUE",
@@ -6178,21 +5858,6 @@
         "interrail_august"
       ],
       "query": "Nizza Tram zur Stadt, Nice",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:suggest_004",
-      "city": "paris",
-      "name": "Butte Bergeyre Aussicht und Fotostopp",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Butte Bergeyre Aussicht und Fotostopp, Paris",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -6466,33 +6131,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:a071",
-      "city": "appenzell",
-      "name": "Äscher/Seealpsee-Abstieg NICHT als leichte Route",
-      "address": null,
-      "variants": [
-        "interrail_swiss",
-        "swiss_lakes"
-      ],
-      "query": "Äscher/Seealpsee-Abstieg NICHT als leichte Route, Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "tripsy:lodging:seed:iv-kandersteg",
-      "city": "kandersteg",
-      "name": "Alpina Appartment 2",
-      "address": null,
-      "variants": [
-        "interrail_swiss"
-      ],
-      "query": "Alpina Appartment 2, Kandersteg",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:suggest_042",
       "city": "kandersteg",
       "name": "Kandersteg Naturtag als Schlechtwetter-Backup",
@@ -6650,19 +6288,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:suggest_039",
-      "city": "grindelwald",
-      "name": "Bachalpsee als gemeinsamer Natur-Highlight-Block",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Bachalpsee als gemeinsamer Natur-Highlight-Block, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:bcom_16340567",
       "city": "grindelwald",
       "name": "Chalet Amaryllis Eiger View Apartment",
@@ -6671,19 +6296,6 @@
         "swiss_lakes"
       ],
       "query": "Chalet Amaryllis Eiger View Apartment, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "local:food-v03-027",
-      "city": "grindelwald",
-      "name": "Eiger Bean The Coffee Roastery",
-      "address": "Dorfstrasse 195, 3818 Grindelwald, Switzerland",
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Eiger Bean The Coffee Roastery, Dorfstrasse 195, 3818 Grindelwald, Switzerland, Grindelwald",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -6872,12 +6484,6 @@
       "reason": "private_airbnb_location_unpublished"
     },
     {
-      "id": "research:suggest_026",
-      "city": "genoa",
-      "name": "Parchi di Nervi Spaziergang (wenn geöffnet)",
-      "reason": "generic_or_not_a_geocodable_place"
-    },
-    {
       "id": "wishlist:airbnb:1282461140270076865",
       "city": "nice",
       "name": "Airbnb · 2 Zimmer nahe Flughafen, Tram und Bahnhof",
@@ -6930,12 +6536,6 @@
       "city": "nice",
       "name": "Airbnb · Studio im Herzen der Innenstadt",
       "reason": "private_airbnb_location_unpublished"
-    },
-    {
-      "id": "research:suggest_023",
-      "city": "nice",
-      "name": "Cap-Ferrat Küstenspaziergang (Abschnitt optional)",
-      "reason": "generic_or_not_a_geocodable_place"
     },
     {
       "id": "wishlist:airbnb:22927200",
@@ -7467,5 +7067,266 @@
     ],
     "accepted": 16,
     "notes": "Hotel privacy preserved; matched streets/bahnhofs are external source mapped. Transport entries use start-station only, never a route shape."
+  },
+  "manualResearchV09": {
+    "observedOn": "2026-11-13",
+    "added": 23,
+    "entries": [
+      {
+        "id": "research:bcom_85890",
+        "name": "Hotel Britannia",
+        "city": "genoa",
+        "source": "review",
+        "point": [
+          44.41624,
+          8.92353
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "research:bcom_787203",
+        "name": "Palazzo Cambiaso Albergo Etico Genova",
+        "city": "genoa",
+        "source": "unmatched",
+        "point": [
+          44.41189,
+          8.92865
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "research:bcom_51188",
+        "name": "Greet Hotel Nice Aéroport Promenade des Anglais",
+        "city": "nice",
+        "source": "review",
+        "point": [
+          43.670519,
+          7.22274
+        ],
+        "isCentroid": false
+      },
+      {
+        "id": "research:bcom_2592525",
+        "name": "Appart'hôtel Odalys City Paris XVII",
+        "city": "paris",
+        "source": "review",
+        "point": [
+          48.8997159,
+          2.3215052
+        ],
+        "isCentroid": false
+      },
+      {
+        "id": "research:bcom_882071",
+        "name": "Kyriad Paris 18 Porte de Clignancourt",
+        "city": "paris",
+        "source": "review",
+        "point": [
+          48.8970073,
+          2.3455111
+        ],
+        "isCentroid": false
+      },
+      {
+        "id": "research:bcom_230783",
+        "name": "Libertel Montmartre Opéra",
+        "city": "paris",
+        "source": "review",
+        "point": [
+          48.88208,
+          2.33454
+        ],
+        "isCentroid": false
+      },
+      {
+        "id": "research:bcom_307250",
+        "name": "Naturfreunde Hostel Grindelwald",
+        "city": "grindelwald",
+        "source": "review",
+        "point": [
+          46.62789,
+          8.032883
+        ],
+        "isCentroid": false
+      },
+      {
+        "id": "tripsy:lodging:seed:iv-kandersteg",
+        "name": "Alpina Appartment 2",
+        "city": "kandersteg",
+        "source": "unmatched",
+        "point": [
+          46.4989,
+          7.67522
+        ],
+        "isCentroid": false
+      },
+      {
+        "id": "local:food-v03-027",
+        "name": "Eiger Bean The Coffee Roastery",
+        "city": "grindelwald",
+        "source": "unmatched",
+        "point": [
+          46.6245404,
+          8.0432661
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "tripsy:activity:seed:a006",
+        "name": "Barceloneta Strand",
+        "city": "barcelona",
+        "source": "review",
+        "point": [
+          41.38083,
+          2.19375
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "tripsy:activity:seed:a013",
+        "name": "Bunkers del Carmel",
+        "city": "barcelona",
+        "source": "review",
+        "point": [
+          41.41936,
+          2.16194
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "tripsy:activity:seed:a007",
+        "name": "El Born & Tapas",
+        "city": "barcelona",
+        "source": "review",
+        "point": [
+          41.385712,
+          2.1836373
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "tripsy:activity:seed:a012",
+        "name": "Gràcia Viertel",
+        "city": "barcelona",
+        "source": "review",
+        "point": [
+          41.4002,
+          2.15761
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "research:suggest_021",
+        "name": "Villefranche: Port de la Darse und Altstadt",
+        "city": "nice",
+        "source": "review",
+        "point": [
+          43.6984088,
+          7.3081666
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "tripsy:activity:seed:a053",
+        "name": "Bachalpsee-Wanderung",
+        "city": "bachalpsee",
+        "source": "review",
+        "point": [
+          46.6695806,
+          8.0209533
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "research:suggest_039",
+        "name": "Bachalpsee als gemeinsamer Natur-Highlight-Block",
+        "city": "grindelwald",
+        "source": "unmatched",
+        "point": [
+          46.6695806,
+          8.0209533
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "tripsy:activity:seed:a048",
+        "name": "Seealpsee Ufer",
+        "city": "seealpsee",
+        "source": "review",
+        "point": [
+          47.2682729,
+          9.4007692
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "tripsy:activity:seed:a049",
+        "name": "Klöntalersee Wanderung",
+        "city": "kloental",
+        "source": "review",
+        "point": [
+          47.0278388,
+          8.9864897
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "research:a042",
+        "name": "Klöntalersee Rundweg",
+        "city": "kloental",
+        "source": "review",
+        "point": [
+          47.0278388,
+          8.9864897
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "research:suggest_026",
+        "name": "Parchi di Nervi Spaziergang (wenn geöffnet)",
+        "city": "genoa",
+        "source": "skipped",
+        "point": [
+          44.38142,
+          9.045
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "research:suggest_023",
+        "name": "Cap-Ferrat Küstenspaziergang (Abschnitt optional)",
+        "city": "nice",
+        "source": "skipped",
+        "point": [
+          43.67436,
+          7.32662
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "research:suggest_004",
+        "name": "Butte Bergeyre Aussicht und Fotostopp",
+        "city": "paris",
+        "source": "unmatched",
+        "point": [
+          48.8773203,
+          2.3756325
+        ],
+        "isCentroid": true
+      },
+      {
+        "id": "research:a071",
+        "name": "Äscher/Seealpsee-Abstieg NICHT als leichte Route",
+        "city": "appenzell",
+        "source": "unmatched",
+        "point": [
+          47.2833889,
+          9.4143611
+        ],
+        "isCentroid": true
+      }
+    ],
+    "classification": "Source-backed public POI, building, or labelled geographic area anchor; private Airbnb properties never geocoded",
+    "caveat": "Outdoor areas/lakes/trails are represented by area-anchor coordinates only; not access, arrival or trail geometry. Old Britannia hotel site is now Ostello Bello."
   }
 }
