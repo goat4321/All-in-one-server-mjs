@@ -39,9 +39,9 @@
   "eligible": 243,
   "queried": 243,
   "totals": {
-    "accepted": 168,
-    "review": 34,
-    "unmatched": 44,
+    "accepted": 174,
+    "review": 33,
+    "unmatched": 39,
     "skipped": 44,
     "requestFailures": 0
   },
@@ -3816,9 +3816,29 @@
       "locationDescription": "Vollständige öffentliche Anbieteranschrift Voie Romaine 69, 06000 Nice, France gegen OSM-Straße und Hausnummer Voie Romaine 69 geprüft. Adresse-/Gebäude-Punkt; bestimmter Eingang, Etage und 2027-Verfügbarkeit sind nicht nachgewiesen.",
       "geocodingMethod": "Photon strict exact address match; human-reviewed publication; no room/entrance claim",
       "houseNumberMapped": "69"
-    }
-  ],
-  "review": [
+    },
+    {
+      "id": "local:food-v03-033",
+      "city": "toulouse",
+      "name": "Picto Sandwicherie",
+      "address": "64 Boulevard Pierre Semard, Gare SNCF, 31500 Toulouse, France",
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "Picto Sandwicherie, 64 Boulevard Pierre Semard, Gare SNCF, 31500 Toulouse, France, Toulouse",
+      "observedOn": "2026-11-13",
+      "provider": "Official municipal / tourism / OSM map reference",
+      "point": [
+        43.61179,
+        1.45365
+      ],
+      "sourceUrl": "https://mapcarta.com/W1165136278",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "OSM-Geometrie benennt ausdrücklich 'Picto Sandwicherie' im Hall 1 des Bahnhofs Toulouse Matabiau; Gebäude-/Ladenfläche, nicht garantierter Counter-Eingang.",
+      "geocodingMethod": "named point or clearly labelled regional orientation only"
+    },
     {
       "id": "tripsy:activity:seed:a005",
       "city": "paris",
@@ -3829,59 +3849,110 @@
       ],
       "query": "Oberkampf Abendviertel, Paris",
       "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            48.8641124,
-            2.3694232
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/256896059",
-          "osmName": "Oberkampf",
-          "street": "Boulevard Voltaire",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8632005,
-            2.3687155
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/50557198",
-          "osmName": "Rue Oberkampf",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8644647,
-            2.3717367
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/376511253",
-          "osmName": "Rue Oberkampf",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8651042,
-            2.3749433
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/62173025",
-          "osmName": "Rue Oberkampf",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
+      "provider": "Official municipal / tourism / OSM map reference",
+      "point": [
+        48.86411,
+        2.36942
+      ],
+      "sourceUrl": "https://mapcarta.com/de/N256896059",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Metrostation Oberkampf als öffentlich verorteter Einstiegspunkt in das Abendviertel; kein konkreter Club, keine gebuchte Abendveranstaltung.",
+      "geocodingMethod": "named point or clearly labelled regional orientation only"
     },
+    {
+      "id": "tripsy:activity:seed:a014",
+      "city": "sete",
+      "name": "Kanäle und Hafen",
+      "address": null,
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Kanäle und Hafen, Sète",
+      "observedOn": "2026-11-13",
+      "provider": "Official municipal / tourism / OSM map reference",
+      "point": [
+        43.40324,
+        3.69723
+      ],
+      "sourceUrl": "https://de.tourisme-sete.com/le-cadre-royal.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "GPS 'Le Cadre Royal' des Tourismusbüros Sète als Orientierung am Canal Royal. Nicht identisch mit allen Kanälen, Hafenwegen oder einem konkreten Treffpunkt.",
+      "geocodingMethod": "named point or clearly labelled regional orientation only"
+    },
+    {
+      "id": "research:suggest_029",
+      "city": "genoa",
+      "name": "Nervi Strandpause und Küstenstimmung",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_august"
+      ],
+      "query": "Nervi Strandpause und Küstenstimmung, Genova",
+      "observedOn": "2026-11-13",
+      "provider": "Official municipal / tourism / OSM map reference",
+      "point": [
+        44.379248,
+        9.047195
+      ],
+      "sourceUrl": "https://www.comune.genova.it/sites/default/files/2025-05/NERVI_2025.pdf",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Genua: öffentlich dokumentierter kommunaler Badegewässer-Messpunkt an Passeggiata Anita Garibaldi in Nervi. Kein festgelegter Strandzugang, kein Bade- oder Sicherheitsnachweis für 2027.",
+      "geocodingMethod": "named point or clearly labelled regional orientation only"
+    },
+    {
+      "id": "research:suggest_036",
+      "city": "appenzell",
+      "name": "Altstadt Appenzell: lokale Spezialitäten",
+      "address": null,
+      "variants": [
+        "interrail_swiss",
+        "swiss_lakes"
+      ],
+      "query": "Altstadt Appenzell: lokale Spezialitäten, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "Official municipal / tourism / OSM map reference",
+      "point": [
+        47.33087,
+        9.40965
+      ],
+      "sourceUrl": "https://mapcarta.com/W240765962",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Öffentlich belegtes Rathaus Appenzell als Altstadt-Orientierung für Spezialitäten und Innenstadt; kein bestimmtes Geschäft oder Essenslokal.",
+      "geocodingMethod": "named point or clearly labelled regional orientation only"
+    },
+    {
+      "id": "tripsy:activity:seed:a046",
+      "city": "appenzell",
+      "name": "Altstadt Appenzell",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Altstadt Appenzell, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "Official municipal / tourism / OSM map reference",
+      "point": [
+        47.33087,
+        9.40965
+      ],
+      "sourceUrl": "https://mapcarta.com/W240765962",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Rathaus Appenzell als Hauptgasse-/Altstadt-Orientierung; kein bestimmter Spaziergang-Einstieg und keine Route.",
+      "geocodingMethod": "named point or clearly labelled regional orientation only"
+    }
+  ],
+  "review": [
     {
       "id": "tripsy:activity:seed:a031",
       "city": "venice",
@@ -5562,19 +5633,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "tripsy:activity:seed:a014",
-      "city": "sete",
-      "name": "Kanäle und Hafen",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Kanäle und Hafen, Sète",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:suggest_009",
       "city": "barcelona",
       "name": "Bogatell: Basketballkorb und Outdoor-Fitness",
@@ -5668,20 +5726,6 @@
         "interrail_august"
       ],
       "query": "Focaccia-Picknick an der Promenade, Genova",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "research:suggest_029",
-      "city": "genoa",
-      "name": "Nervi Strandpause und Küstenstimmung",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_august"
-      ],
-      "query": "Nervi Strandpause und Küstenstimmung, Genova",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -5958,20 +6002,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "research:suggest_036",
-      "city": "appenzell",
-      "name": "Altstadt Appenzell: lokale Spezialitäten",
-      "address": null,
-      "variants": [
-        "interrail_swiss",
-        "swiss_lakes"
-      ],
-      "query": "Altstadt Appenzell: lokale Spezialitäten, Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:suggest_042",
       "city": "kandersteg",
       "name": "Kandersteg Naturtag als Schlechtwetter-Backup",
@@ -6038,19 +6068,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "local:food-v03-033",
-      "city": "toulouse",
-      "name": "Picto Sandwicherie",
-      "address": "64 Boulevard Pierre Semard, Gare SNCF, 31500 Toulouse, France",
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "Picto Sandwicherie, 64 Boulevard Pierre Semard, Gare SNCF, 31500 Toulouse, France, Toulouse",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "tripsy:lodging:seed:aug-venice",
       "city": "venice",
       "name": "Unterkunft offen Venedig/Mestre",
@@ -6059,19 +6076,6 @@
         "interrail_august"
       ],
       "query": "Unterkunft offen Venedig/Mestre, Venezia",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "tripsy:activity:seed:a046",
-      "city": "appenzell",
-      "name": "Altstadt Appenzell",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Altstadt Appenzell, Appenzell",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -7353,5 +7357,18 @@
       "All 24 new points indicate sourced building/address locations, not apartment doors or 2027 bookings.",
       "Campanile Paris 12 address 17 vs official tourism address 19 unresolved as to entrance; mapped operator-side 17 only."
     ]
+  },
+  "namedOrientationPromotionsV09": {
+    "date": "2026-11-13",
+    "count": 6,
+    "ids": [
+      "local:food-v03-033",
+      "tripsy:activity:seed:a005",
+      "tripsy:activity:seed:a014",
+      "research:suggest_029",
+      "research:suggest_036",
+      "tripsy:activity:seed:a046"
+    ],
+    "rule": "Only official named point or explicit area orientation, never a fake individual meeting point."
   }
 }
