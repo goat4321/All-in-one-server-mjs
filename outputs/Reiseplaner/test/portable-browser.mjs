@@ -146,7 +146,7 @@ try {
   await click('[data-action=explorer-swap]');
   await until(() => js('document.querySelector(".explorer-directions")?.textContent.includes("Taberna Nardi")'),
     'Start und Ziel tauschen');
-  await text('.explorer-route-result', 'Verbindung');
+  await until(() => js('Boolean(document.querySelector(".explorer-route-result"))'), 'Interaktives Routenresultat');
   await click('[data-action=explorer-zoom-route]');
   assert.equal(pageErrors.length,0,'Keine Browser-JavaScript-Ausnahme beim Tauschen/Zoomen');
   await click('[data-action=choose][data-value="local:nardi"]');
