@@ -42,7 +42,7 @@ export function explorerData(items, trip, { city = null, group = 'all', search =
     return [item, ...arrivals];
   });
   for (const item of entries) {
-    if (!validCities.has(item.city) || item.duplicateOf || item.removed || item.positionIssue && !validPoint(item.point)) continue;
+    if (!validCities.has(item.city) || item.duplicateOf || item.removed) continue;
     if (!['activity', 'transport', 'lodging'].includes(item.kind)) continue;
     if (city && item.city !== city) continue;
     const category = explorerCategory(item);
