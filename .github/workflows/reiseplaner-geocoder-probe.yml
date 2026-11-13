@@ -1,8 +1,7 @@
 name: Reiseplaner einmaliger Geocoder-Netztest
+# Do not re-run external provider test probes on each PR update.
 on:
-  pull_request:
-    branches: [feature/v7-unified-map-and-day-builder]
-    paths: [.github/workflows/reiseplaner-geocoder-probe.yml]
+  workflow_dispatch:
 
 permissions:
   contents: read
