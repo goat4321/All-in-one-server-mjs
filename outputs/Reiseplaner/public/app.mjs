@@ -5,7 +5,7 @@ import { renderShell, mapDetail } from './views.mjs';
 import { TripMap } from './map.mjs';
 import { transitFares } from './transit.mjs';
 import { railSalesStatus } from './verification.mjs';
-import { explorerData, explorerRouteInput } from './map-explorer.mjs';
+import { explorerData, explorerRouteInput, validPoint } from './map-explorer.mjs';
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
 import { btn, empty, esc, icon } from './ui.mjs';
@@ -22,6 +22,7 @@ const view = {
   filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
   optionFilter: 'all', sort: 'source', compareIds: new Set(),
   mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
+  mapNearPointId: null, mapNearRadiusKm: 3,
   mapFrom: null, mapTo: null, mapRouteMode: 'walk', mapRouteTime: '10:00', mapRouteResult: null,
   dayQueueIds: [], dayQueueRoutes: [], dayQueueTime: '09:00', dayQueueStatus: '',
   dayQueueFocus: 0, dayQueueDisplay: 'all',
@@ -116,12 +117,16 @@ function buildContext() {
     && !i.mealPlanId && !i.duplicateOf && !i.removed);
   const foodWalks = Object.fromEntries(foodPlaces.map(item => [item.id, walks.get(walkKey(mealHotel?.point, item.point))]));
   let detail = day.find(i => i.entryKey === view.selected) ?? all.find(i => i.id === view.selected);
+  const nearbyAnchor = all.find(i=>i.id===view.mapNearPointId&&validPoint(i.point)) ?? null;
   const explorer = view.page === 'map' ? {
     ...explorerData(all, trip, {
       city: view.mapScope === 'city' ? city : null,
       group: view.mapGroup, search: view.mapSearch,
+      nearbyPoint: nearbyAnchor?.point??null, radiusKm:view.mapNearRadiusKm,
     }),
     scope: view.mapScope, group: view.mapGroup, search: view.mapSearch,
+    nearby:nearbyAnchor?{id:nearbyAnchor.id,name:nearbyAnchor.name,
+      point:nearbyAnchor.point,radiusKm:view.mapNearRadiusKm}:null,
     showCityReferences: view.mapShowCityReferences,
     limit: view.mapListLimit, routeMode: view.mapRouteMode, routeTime: view.mapRouteTime,
     connection: {
@@ -289,6 +294,7 @@ async function switchVariant(id) {
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
     view.mapFrom = view.mapTo = view.mapRouteResult = null;
+    view.mapNearPointId=null;
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0; view.geocodeReview=null;
     view.total = view.menu = false;
     view.compareIds.clear();
@@ -308,6 +314,7 @@ function showCity(id, date, wholeDay = false) {
   view.date = date || (context.city === id ? context.date : context.dates.find(d => context.cityForDay(d) === id)
     ?? context.trip.stayByCity[id]?.from ?? context.dates.find(d => dayEntries(context.active, d, id).length) ?? context.date);
   view.selected = null;
+  view.mapNearPointId=null;
   view.total = view.menu = false;
   view.compareIds.clear();
   render();
@@ -563,6 +570,25 @@ async function action(name, value = '') {
     case 'explorer-search':
       view.mapSearch = document.querySelector('#map-search')?.value?.trim().slice(0, 100) ?? '';
       view.mapListLimit = 60; render({ restoreView: true }); break;
+    case 'explorer-nearby': {
+      if(!item||!validPoint(item.point)){say('Für eine Umkreissuche ist ein belegter Kartenpunkt nötig.');break;}
+      view.mapNearPointId=item.id;view.mapNearRadiusKm=3;
+      view.total=false;view.mapListLimit=60;
+      render({restoreView:true,fetchRoutes:false});
+      currentMap?.focusNearby();
+      break;
+    }
+    case 'explorer-near-radius': {
+      const radius=Number(value);
+      if(![1,3,10].includes(radius)||!view.mapNearPointId)break;
+      view.mapNearRadiusKm=radius;view.mapListLimit=60;
+      render({restoreView:true,fetchRoutes:false});
+      currentMap?.focusNearby();
+      break;
+    }
+    case 'explorer-near-clear':
+      view.mapNearPointId=null;view.mapListLimit=60;
+      render({restoreView:true,fetchRoutes:false});break;
     case 'explorer-more':
       view.mapListLimit += 60; render({ restoreView: true }); break;
     case 'explorer-focus':

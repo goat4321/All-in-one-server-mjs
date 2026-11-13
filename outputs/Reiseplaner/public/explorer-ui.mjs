@@ -22,6 +22,11 @@ export function explorerToolbar(ctx) {
     + chip('explorer-scope', 'Gesamte Reise', ex.scope === 'trip', 'trip', 'map')
     + chip('explorer-scope', 'Nur ' + (ctx.cities[ctx.city]?.name ?? ctx.city), ex.scope === 'city', 'city', 'pin')
     + '<span class="muted">' + ex.placed.length + ' Kartenpunkte · ' + ex.unlocated.length + ' ohne genaue Koordinaten</span></div>'
+    + (ex.nearby?'<div class="explorer-nearby-bar" role="group" aria-label="Umkreissuche">'
+      +'<div><strong>Im Umkreis von '+esc(ex.nearby.name)+'</strong>'
+      +'<small>Nur vorhandene Kartenpunkte; keine Stadtmittelpunkt-Schätzung</small></div>'
+      +'<div class="inline">'+[1,3,10].map(km=>chip('explorer-near-radius',km+' km',ex.nearby.radiusKm===km,String(km))).join('')
+      +btn('explorer-near-clear','Umkreis entfernen','close')+'</div></div>':'')
     + '<div class="explorer-search"><label for="map-search">Orte und Angebote durchsuchen</label>'
     + '<input id="map-search" type="search" maxlength="100" value="' + esc(ex.search) + '" placeholder="Ort, Restaurant, Hostel, Sehenswürdigkeit …">'
     + btn('explorer-search', 'Suchen', 'search') + '</div>'
@@ -88,7 +93,8 @@ export function explorerList(ctx) {
       + '<p class="muted">Quellenstand: ' + esc(details.sourceStatus)
       + ' · ' + esc(googleMapsLocationStatus(item)) + '</p>'
       + (item.positionIssue ? '<p class="muted">Positionskonflikt: ' + esc(item.positionIssue) + '</p>' : '')
-      + '<div class="row-actions">' + (located ? btn('explorer-focus', 'Auf Karte', 'map', item.id) : '')
+      + '<div class="row-actions">' + (located ? btn('explorer-focus', 'Auf Karte', 'map', item.id)
+        +btn('explorer-nearby','Im Umkreis','target',item.id) : '')
       + (urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item)) || '')
       + (urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),'Google Maps · ÖPNV-Anreise') || '')
       + btn('details', 'Alle Details & Quellen', 'folder', item.id)

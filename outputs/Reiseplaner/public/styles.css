@@ -851,3 +851,13 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
  .workspace{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
  #toast{bottom:calc(82px + env(safe-area-inset-bottom))}
 }
+
+
+.explorer-nearby-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+ border-radius:13px;padding:12px 14px;background:var(--accent);border:1px solid var(--line)}
+.explorer-nearby-bar>div:first-child{display:grid;gap:3px}
+.explorer-nearby-bar strong{font-size:.85rem}
+.explorer-nearby-bar small{font-size:.71rem}
+.explorer-nearby-bar .chip-button{background:var(--paper)}
+.explorer-nearby-bar .chip-button[aria-pressed=true]{background:var(--green);color:var(--paper)}
+.leaflet-interactive.explorer-nearby-ring{stroke-dasharray:7 9}

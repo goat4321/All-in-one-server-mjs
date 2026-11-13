@@ -44,7 +44,25 @@ export function explorerUnlocatedCityClusters(explorer, cities={}) {
   return [...counts.values()].sort((a,b)=>a.name.localeCompare(b.name,'de'));
 }
 
-export function explorerData(items, trip, { city = null, group = 'all', search = '' } = {}) {
+// Distances are computed only between actual recorded POI points: never city-centre guesses.
+export function mapDistanceKm(a,b) {
+  if(!validPoint(a)||!validPoint(b))return Infinity;
+  const rad=Math.PI/180;
+  const dLat=(a[0]-b[0])*rad,dLon=(a[1]-b[1])*rad;
+  const h=Math.sin(dLat/2)**2+Math.cos(a[0]*rad)*Math.cos(b[0]*rad)*Math.sin(dLon/2)**2;
+  return 6371*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));
+}
+
+export function mapPointInBounds(point,bounds) {
+  if(!validPoint(point)||!Array.isArray(bounds)||bounds.length!==4
+    ||!bounds.every(Number.isFinite))return false;
+  const [south,west,north,east]=bounds;
+  return point[0]>=south&&point[0]<=north
+    &&(west<=east?point[1]>=west&&point[1]<=east:point[1]>=west||point[1]<=east);
+}
+
+export function explorerData(items, trip, { city = null, group = 'all', search = '',
+  nearbyPoint = null, radiusKm = 3 } = {}) {
   const validCities = new Set(trip.route);
   const norm = text => String(text ?? '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('de');
   const needle = norm(search).trim().slice(0, 100);
@@ -64,6 +82,8 @@ export function explorerData(items, trip, { city = null, group = 'all', search =
     if (!validCities.has(item.city) || item.duplicateOf || item.removed) continue;
     if (!['activity', 'transport', 'lodging'].includes(item.kind)) continue;
     if (city && item.city !== city) continue;
+    if (validPoint(nearbyPoint) && (!validPoint(item.point)
+      || mapDistanceKm(item.point,nearbyPoint)>radiusKm)) continue;
     const category = explorerCategory(item);
     if (group !== 'all' && category !== group) continue;
     const label = [item.name, item.city, item.address, item.detail, ...(item.tags ?? [])].join(' ');

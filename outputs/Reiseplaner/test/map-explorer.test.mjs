@@ -4,7 +4,8 @@ import { loadCatalog } from '../lib/catalog.mjs';
 import { activeItems } from '../public/model.mjs';
 import { initialState } from '../lib/store.mjs';
 import { explorerCategory, explorerData, explorerDetail, validPoint,
-  explorerRouteInput, externalFootUrl, externalTransitUrl, explorerUnlocatedCityClusters } from '../public/map-explorer.mjs';
+  explorerRouteInput, externalFootUrl, externalTransitUrl, explorerUnlocatedCityClusters,
+  mapDistanceKm, mapPointInBounds } from '../public/map-explorer.mjs';
 
 const catalog = await loadCatalog();
 const classic = catalog.trips.find(t => t.id === 'interrail_classic');
@@ -135,4 +136,25 @@ test('All unlocated options can be shown as explicitly theoretical city clusters
     // City cluster coordinates must never alter an underlying precise venue pin.
     assert.ok(found.placed.every(x=>validPoint(x.point)),trip.id);
   }
+});
+
+
+test('Geographic nearby selection uses only actual POI positions, not approximate city references',()=>{
+ const a=[41.387,2.17],b=[41.3875,2.1705];
+ assert.ok(mapDistanceKm(a,b)<1);
+ assert.equal(mapDistanceKm(a,null),Infinity);
+ assert.equal(mapPointInBounds(a,[41.38,2.16,41.39,2.18]),true);
+ assert.equal(mapPointInBounds(a,[41.40,2.16,41.42,2.18]),false);
+ assert.equal(mapPointInBounds(null,[41.38,2.16,41.39,2.18]),false);
+ const trip={route:['barcelona']};
+ const all=[
+  {id:'near',city:'barcelona',name:'Bogatell',kind:'activity',point:a},
+  {id:'near2',city:'barcelona',name:'Parc',kind:'activity',point:b},
+  {id:'unknown',city:'barcelona',name:'Unbekannt',kind:'activity',point:null},
+  {id:'far',city:'barcelona',name:'Auswärts',kind:'activity',point:[41.7,2.9]}
+ ];
+ const result=explorerData(all,trip,{nearbyPoint:a,radiusKm:1});
+ assert.deepEqual(result.placed.map(x=>x.id),['near','near2']);
+ assert.equal(result.unlocated.length,0);
+ assert.equal(result.total,2);
 });
