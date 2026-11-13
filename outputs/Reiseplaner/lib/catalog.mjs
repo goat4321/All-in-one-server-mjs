@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises';
+import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsLocationStatus } from '../public/google-maps.mjs';
 import { localParts, minor, utcFromLocal } from '../public/model.mjs';
 import { italyLodgings, italyPlaces, italySources, italyStations } from './italy.mjs';
 import { rivieraAlpsLodgings, rivieraAlpsPlaces, rivieraAlpsSources, rivieraAlpsStations } from './riviera-alps.mjs';
@@ -582,7 +583,12 @@ export async function loadCatalog() {
       importCounts: Object.fromEntries(Object.entries(snapshot.resources).map(([k, v]) => [k, v.count])),
       referenceExpenses: snapshot.resources.expenses.items,
       budgetReference: budgets.find(b => b.trip_id === trip.id),
-      items: [...legs, ...planned, ...hotels, ...options, ...researchedHotels], stayByCity, arrivalByDay,
+      items: [...legs, ...planned, ...hotels, ...options, ...researchedHotels].map(item => ({
+        ...item,
+        googleMapsUrl: googleMapsSearchUrl(item,cities),
+        googleTransitUrl: googleMapsDirectionsUrl(null,item,cities,'transit'),
+        mapLocationQuality: googleMapsLocationStatus(item),
+      })), stayByCity, arrivalByDay,
       notes: research.data_quality.filter(q => q.trip_id === 'all' || q.trip_id === trip.id),
     };
   });
