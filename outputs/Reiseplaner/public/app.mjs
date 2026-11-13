@@ -31,6 +31,8 @@ const view = {
   mapExpanded: false,
   guideIndex: null,
   showAllVotes: false,
+  providerOnlyBudget: false,
+  providerSort: 'price',
   dailyBudgetDate: null,
   dailyBudgetInputs: { ...dailyBudgetDefaults },
   geocodeReview: null,
@@ -908,6 +910,7 @@ async function action(name, value = '') {
       render({ restoreView: true }); break;
     case 'compare-clear': view.compareIds.clear(); render({ restoreView: true }); break;
     case 'votes-expand': view.showAllVotes=!view.showAllVotes; render({ restoreView: true }); break;
+    case 'provider-budget': view.providerOnlyBudget=!view.providerOnlyBudget; render({ restoreView: true }); break;
     case 'option-filter': view.optionFilter = value; render({ restoreView: true }); break;
     case 'optimize': optimize(); break;
     case 'reorder': await reorder(...JSON.parse(value)); closeDialog(); break;
@@ -1001,6 +1004,9 @@ document.addEventListener('click', event => {
 app.addEventListener('change', event => {
   if (event.target.id === 'variant') void switchVariant(event.target.value).catch(error => say(error.message));
   if (event.target.id === 'sort') { view.sort = event.target.value; render({ restoreView: true }); }
+  if (event.target.id==='provider-quote-sort' && ['price','rating','name'].includes(event.target.value)) {
+    view.providerSort=event.target.value; render({ restoreView:true });
+  }
   if (event.target.id === 'daily-budget-date') {
     if (context.dates.includes(event.target.value)) {
       view.dailyBudgetDate=event.target.value; render({ restoreView: true });

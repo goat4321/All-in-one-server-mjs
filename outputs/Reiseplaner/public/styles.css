@@ -738,3 +738,44 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 .media-coverage-item strong{font-size:.8rem}
 .media-coverage-item small{font-size:.7rem}
 .media-coverage-item .button{font-size:.71rem;min-height:33px;padding:5px 9px}
+
+
+/* Provider research stays strictly separate from active budget or booked hotels. */
+.provider-quote-panel,.provider-location-panel{display:grid;gap:14px}
+.provider-quote-heading,.provider-location-head{display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap}
+.provider-quote-heading h2,.provider-location-head h2{font-size:1.3rem}
+.provider-quote-heading p,.provider-location-head p{color:var(--muted);font-size:.79rem;margin-top:5px;line-height:1.55}
+.provider-quote-tag{font-size:.69rem;font-weight:800;border-radius:8px;padding:6px 10px;background:var(--warm);color:var(--warn)}
+.provider-quote-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.provider-quote-metrics>div{display:grid;gap:4px;border-radius:12px;padding:12px;background:var(--light)}
+.provider-quote-metrics strong{font-size:1.3rem;font-variant-numeric:tabular-nums}
+.provider-quote-metrics small{font-size:.69rem}
+.provider-quote-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.provider-quote-controls label{font-size:.79rem;font-weight:700}
+.provider-quote-controls select{border:1px solid var(--line);background:var(--paper);color:var(--text);padding:7px;border-radius:9px}
+.provider-quote-notice{border-left:3px solid var(--warn);padding:10px 12px;background:var(--light);font-size:.78rem;line-height:1.6}
+.provider-quote-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.provider-quote-card{border:1px solid var(--line);border-radius:13px;padding:12px;background:var(--paper);display:grid;gap:10px;min-width:0}
+.provider-quote-head,.provider-quote-price,.provider-quote-foot{display:flex;justify-content:space-between;align-items:start;gap:9px;flex-wrap:wrap}
+.provider-quote-head strong{font-size:.85rem;overflow-wrap:anywhere}
+.provider-quote-head small{font-size:.73rem;white-space:nowrap;color:var(--green)}
+.provider-quote-price{background:var(--accent);border-radius:9px;padding:8px 10px}
+.provider-quote-price strong{font-size:1.06rem}
+.provider-quote-price span{font-size:.74rem;color:var(--text)}
+.provider-quote-card p{font-size:.73rem;color:var(--muted)}
+.provider-quote-foot small{font-size:.7rem;line-height:1.5;max-width:260px}
+.provider-quote-foot a{font-size:.73rem;font-weight:700}
+.provider-quote-more summary,.provider-location-panel summary{cursor:pointer;font-size:.83rem;font-weight:700;padding:8px}
+.provider-quote-more .provider-quote-grid{margin-top:10px}
+.provider-location-head>strong{color:var(--warn);padding:6px 10px;border-radius:9px;background:var(--warm);font-size:.8rem}
+.provider-location-stats{display:flex;gap:8px;flex-wrap:wrap}
+.provider-location-stats>span{font-size:.75rem;padding:8px 10px;border:1px solid var(--line);border-radius:9px}
+.provider-location-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.provider-location-item{display:grid;gap:7px;align-content:start;border:1px solid var(--line);border-radius:12px;padding:12px}
+.provider-location-item.has-conflict{border-color:var(--warn);background:var(--warm)}
+.provider-location-item strong{font-size:.85rem}
+.provider-location-item small,.provider-location-item p{font-size:.72rem;line-height:1.5}
+.provider-location-item .row-actions{margin-top:auto}
+.provider-location-status{font-weight:700;color:var(--warn)}
+@media(max-width:680px){.provider-quote-grid,.provider-location-list{grid-template-columns:1fr}
+ .provider-quote-metrics strong{font-size:1.06rem}}

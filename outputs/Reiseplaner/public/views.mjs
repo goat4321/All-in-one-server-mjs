@@ -1,3 +1,5 @@
+import { providerQuotePanel } from './provider-quotes-v13.mjs';
+import { providerLocationPanel } from './provider-location-v13.mjs';
 import { mediaCoveragePanel } from './media-coverage.mjs';
 import { readinessPanel } from './readiness-panel.mjs';
 import { optionMatchesFilter, smartFilterHelp } from './smart-filters.mjs';
@@ -392,6 +394,7 @@ function options(ctx, lodging) {
     + (lodging ? '<section class="section panel panel-pad"><h2>Datenlücken im Hotelvergleich</h2><div class="chips">'
       + comparisonGaps.map(([label,count]) => status(label+': '+count,'warn')).join('')
       + '</div><p class="muted">Niedrige Kosten oder gute Lage ersetzen keinen nachgewiesenen Checkout. Fußweg, Bettaufteilung, Küche, Gebühr und Storno werden getrennt bewertet.</p></section>' : '')
+    + (lodging ? providerQuotePanel(ctx) : '')
     + (lodging && compared.length ? stayComparisonBoard(compared,ctx) : '')
     + (compared.length ? '<section class="section"><h2>Direkter Vergleich</h2>' + table(['Option', 'Für die Gruppe', 'Pro Person', lodging ? 'Küche' : 'Dauer', lodging ? 'Zimmer' : 'Erlebnis', 'Anbindung', lodging ? 'Storno' : 'Einlass', ...(lodging ? ['EUR je Person/Nacht','Offene Nachweise'] : [])], compareRows) + '</section>' : '')
     + (cards ? '<div class="grid-cards">' + cards + '</div>' : empty('Keine Optionen in dieser Ansicht', 'Wechsle den Filter, wähle einen anderen Ort oder importiere deine Recherche.'));
@@ -848,6 +851,7 @@ function data(ctx) {
     btn('export', 'JSON sichern', 'download') + btn('ics', 'Kalender exportieren', 'calendar'))
     + readinessPanel(ctx)
     + mediaCoveragePanel(ctx)
+    + providerLocationPanel(ctx)
     + coveragePanel
     + auditV08Panel
     + '<section class="section panel panel-pad"><h2>Recherche importieren</h2><p class="muted">JSON oder CSV in die aktuelle Variante einlesen. Dateieinträge beginnen als Alternativen.</p>'

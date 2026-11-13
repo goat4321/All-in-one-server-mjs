@@ -251,6 +251,27 @@ export async function loadCatalog() {
   const [trips, destinations, activities, accommodations, transport, fares, budgets, sources, quality] =
     await Promise.all(['trips', 'destinations', 'activities', 'accommodations', 'transport', 'fares', 'budgets', 'sources', 'data_quality'].map(file));
   const research = await loadResearchV02(trips);
+  const [providerSearchV13,providerLocationsV13]=await Promise.all([
+    readFile(new URL('../data/research-v13/provider-search-september-2027.json',import.meta.url),'utf8').then(JSON.parse),
+    readFile(new URL('../data/research-v13/provider-location-leads.json',import.meta.url),'utf8').then(JSON.parse),
+  ]);
+  const providerRows=providerSearchV13.searches?.flatMap(group=>group.results)??[];
+  if(providerSearchV13.schema!=='provider_search_snapshot_v13'
+    ||providerSearchV13.searches?.length!==6||providerRows.length!==60
+    ||new Set(providerRows.map(row=>row.bookingId)).size!==60
+    ||providerSearchV13.searches.some(group=>group.adults!==3||group.rooms!==1
+      ||!/^2027-09-\d{2}$/.test(group.from)||!/^2027-09-\d{2}$/.test(group.to)
+      ||group.from>=group.to)
+    ||providerRows.some(row=>row.bookingConfirmed!==false||row.roomBedsConfirmed!==false
+      ||row.mandatoryFeesConfirmed!==false||row.cancellationConfirmed!==false
+      ||row.pointStatus!=='provider_reported_unverified'
+      ||!Number.isSafeInteger(row.searchTotalCents)||row.searchTotalCents<0
+      ||!/^https:\/\/www\.booking\.com\/hotel\//.test(row.url))
+    ||providerLocationsV13.schema!=='public_lodging_provider_location_leads_v13'
+    ||providerLocationsV13.items?.length!==17
+    ||providerLocationsV13.items.some(row=>row.independentGpsVerified!==false
+      ||row.bookingConfirmed!==false||row.id.startsWith('wishlist:airbnb:')))
+    throw new Error('Unbestätigte September-Anbietersuche V13 verletzt Provenienzregeln.');
   const [newFoodResearch, officialActivityEvidence] = await Promise.all([
     readFile(new URL('../data/research-v03/food-venues.json', import.meta.url), 'utf8').then(JSON.parse),
     readFile(new URL('../data/research-v03/official-activity-evidence.json', import.meta.url), 'utf8').then(JSON.parse),
@@ -883,6 +904,7 @@ export async function loadCatalog() {
   return { trips: output, cities, fares: fareMap, mealPlans,
     research: {
       version: research.import_rules.version,
+      providerSearchV13,providerLocationsV13,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
       cityCoverage: Object.fromEntries(coverageArchive.rows.map(([id, activityCount, lodgingCount, quoteCount, newActivities]) =>
