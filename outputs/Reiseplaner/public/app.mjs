@@ -4,6 +4,7 @@ import { TripMap } from './map.mjs';
 import { transitFares } from './transit.mjs';
 import { railSalesStatus } from './verification.mjs';
 import { explorerData, explorerRouteInput } from './map-explorer.mjs';
+import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
 import { btn, empty, esc, icon } from './ui.mjs';
 import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
@@ -19,6 +20,7 @@ const view = {
   optionFilter: 'all', sort: 'source', compareIds: new Set(),
   mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60,
   mapFrom: null, mapTo: null, mapRouteMode: 'walk', mapRouteTime: '10:00', mapRouteResult: null,
+  dayQueueIds: [], dayQueueRoutes: [], dayQueueTime: '09:00', dayQueueStatus: '',
 };
 const walks = new Map();
 const pendingWalks = new Map();
@@ -120,6 +122,8 @@ function buildContext() {
     ...view, catalog, variant, variants: catalog.variants, trip, cities: catalog.cities, state, people, all, active, activeSet,
     budget: calculateBudget(active, state), day, fullDay, dates, date, city, cityForDay, dayCities, wholeDay, dayTravel, detail, hotelWalks, station,
     mealHotel, foodPlaces, foodWalks, explorer,
+    dayRoute: { items: view.dayQueueIds.map(id => all.find(x => x.id === id)).filter(Boolean),
+      routes: view.dayQueueRoutes, time: view.dayQueueTime, status: view.dayQueueStatus },
     stops: stops.filter((item, i) => stops.indexOf(item) === i), segments, routes, conflictRoutes, saving, timetablePreview,
     options: all.filter(i => i.city === city && !activeSet.has(i.id) && !i.duplicateOf && !i.removed),
   };
@@ -261,6 +265,7 @@ async function switchVariant(id) {
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
     view.mapFrom = view.mapTo = view.mapRouteResult = null;
+    view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = '';
     view.total = view.menu = false;
     view.compareIds.clear();
     render();
@@ -269,6 +274,9 @@ async function switchVariant(id) {
 
 function showCity(id, date, wholeDay = false) {
   if (!context.trip.route.includes(id)) return;
+  if (id !== view.city || (date && date !== view.date)) {
+    view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = '';
+  }
   view.city = id;
   view.timetablePreview = null;
   view.wholeDay = wholeDay;
@@ -342,6 +350,68 @@ async function calculateExplorerRoute() {
   }
 }
 
+
+async function fetchDayQueueRoutes() {
+  const ctx = context;
+  if (!ctx || ctx.page !== 'map' || view.dayQueueIds.length < 2) throw new Error('Wähle mindestens zwei Aktivitäten.');
+  const items = view.dayQueueIds.map(id => ctx.all.find(i => i.id === id));
+  if (items.some(i => !i || !i.point || i.city !== ctx.city)) throw new Error('Stopps müssen geolokalisiert und in derselben gewählten Stadt liegen.');
+  view.dayQueueRoutes = [];
+  view.dayQueueStatus = 'Berechne die Fußwege über den Router …';
+  render({ restoreView:true, fetchRoutes:false });
+  for (let i = 1; i < items.length; i++) {
+    const from = items[i-1], to = items[i];
+    const input = explorerRouteInput(from,to);
+    if (!input?.sameCity || !input.canWalk) {
+      view.dayQueueStatus = 'Keine belegbare Fußroute für ' + from.name + ' → ' + to.name;
+      render({ restoreView:true, fetchRoutes:false });
+      return;
+    }
+    try {
+      const route = walks.get(walkKey(from.point,to.point)) ?? await api('/api/walk','POST',{points:[from.point,to.point]});
+      if (!route?.walkOnly || !route?.points?.length || !Number.isFinite(route.minutes)) throw new Error('Unvollständige Fußwegantwort.');
+      walks.set(walkKey(from.point,to.point), route);
+      view.dayQueueRoutes.push(route);
+    } catch (e) {
+      view.dayQueueStatus = 'Fußweg ' + from.name + ' → ' + to.name + ' nicht bestätigt: ' + e.message;
+      render({ restoreView:true, fetchRoutes:false });
+      return;
+    }
+  }
+  view.dayQueueStatus = 'Alle Fußwegstrecken berechnet. Öffnungszeiten und Ticketverfügbarkeit weiterhin prüfen.';
+  render({ restoreView:true, fetchRoutes:false });
+}
+
+async function commitDayQueue() {
+  const ctx = context;
+  const items = view.dayQueueIds.map(id=>ctx.all.find(x=>x.id===id));
+  const preview = buildMultiStopDay(items,view.dayQueueRoutes,view.dayQueueTime);
+  if (!preview.complete || !items.every(i=>i && i.city === ctx.city && !i.locked && !i.booked
+      && !ctx.activeSet.has(i.id))) throw new Error('Nur freie, noch nicht eingeplante Aktivitäten mit vollständig berechneten Fußwegen übernehmen.');
+  const edits = {...ctx.state.edits};
+  const newWindows = preview.rows.map(r=>{
+    const item=items.find(x=>x.id===r.id);
+    const start=utcFromLocal(ctx.date,r.at,item.zone,item.start);
+    const end=Date.parse(start) + r.duration * 60000;
+    return {item,r,start:Date.parse(start),end};
+  });
+  const existing=ctx.active.filter(item=>item.kind==='activity' && dayOf(item)===ctx.date
+    && item.start && !items.some(i=>i.id===item.id));
+  if(newWindows.some(({start,end})=>existing.some(i=>{
+    const x=Date.parse(i.start), y=x+(i.duration??60)*60000;
+    return start<y && end>x;
+  }))) throw new Error('Deine Tagesroute überschneidet sich mit bestehenden Aktivitäten. Bearbeite erst den bisherigen Tagesplan.');
+  for(const {item,r} of newWindows) {
+    if (item.minAge && ctx.people.some(p=>p.age!=null && p.age<item.minAge))
+      throw new Error(item.name + ': Altersgrenze nicht für alle erfüllt.');
+    if (item.requiresKitchen) throw new Error('Für ' + item.name + ' bitte Kochmöglichkeit separat prüfen.');
+    edits[item.id]={...edits[item.id],selected:true,removed:false,date:ctx.date,
+      start:utcFromLocal(ctx.date,r.at,item.zone,item.start),end:null,duration:r.duration};
+  }
+  await save({...ctx.state,edits},newWindows.length + ' Stopps in den Tagesplan übernommen');
+  view.dayQueueIds=[];view.dayQueueRoutes=[];view.dayQueueStatus='';
+  view.page='plan';view.mobile='plan';render();
+}
 function changePage(page) {
   if (!['overview', 'plan', 'map', 'rail', 'lodging', 'discover', 'food', 'budget', 'group', 'data'].includes(page)) return;
   view.page = page;
@@ -464,6 +534,44 @@ async function action(name, value = '') {
     case 'explorer-route':
       view.mapRouteTime = document.querySelector('#explorer-time')?.value ?? view.mapRouteTime;
       await calculateExplorerRoute(); break;
+
+    case 'day-route-add':
+      if (!item || item.kind !== 'activity' || !item.point || item.city !== ctx.city
+        || ctx.activeSet.has(item.id) || item.locked || item.booked) {
+        say('Wähle eine nicht eingeplante Aktivität mit genauer Position in der aktuellen Stadt.'); break;
+      }
+      if (view.dayQueueIds.includes(value)) { say('Dieser Stopp steht bereits in der Route.'); break; }
+      if (view.dayQueueIds.length >= 8) { say('Maximal acht Stopps pro Tagesroute.'); break; }
+      view.dayQueueIds=[...view.dayQueueIds,value];view.dayQueueRoutes=[];view.dayQueueStatus='';
+      render({restoreView:true}); break;
+    case 'day-route-remove':
+      view.dayQueueIds=view.dayQueueIds.filter(id=>id!==value);
+      view.dayQueueRoutes=[];view.dayQueueStatus='';render({restoreView:true}); break;
+    case 'day-route-up':
+    case 'day-route-down': {
+      const at=view.dayQueueIds.indexOf(value), next=at+(name==='day-route-up'?-1:1);
+      if (at>=0 && next>=0 && next<view.dayQueueIds.length) {
+        [view.dayQueueIds[at],view.dayQueueIds[next]]=[view.dayQueueIds[next],view.dayQueueIds[at]];
+        view.dayQueueRoutes=[];view.dayQueueStatus='';
+        render({restoreView:true});
+      }
+      break;
+    }
+    case 'day-route-optimize': {
+      const items=view.dayQueueIds.map(id=>ctx.all.find(i=>i.id===id));
+      view.dayQueueIds=arrangeDayStops(items).map(i=>i.id);
+      view.dayQueueRoutes=[];
+      view.dayQueueStatus='Luftlinien-Vorsortierung. Vor Zeitübernahme echte Fußwege berechnen.';
+      render({restoreView:true});break;
+    }
+    case 'day-route-check':
+      view.dayQueueTime=document.querySelector('#day-route-start')?.value??view.dayQueueTime;
+      await fetchDayQueueRoutes(); break;
+    case 'day-route-clear':
+      view.dayQueueIds=[];view.dayQueueRoutes=[];view.dayQueueStatus='';
+      render({restoreView:true}); break;
+    case 'day-route-commit':
+      await commitDayQueue(); break;
     case 'explorer-clear-route':
       view.mapFrom = view.mapTo = view.mapRouteResult = null;
       render({ restoreView: true }); break;
@@ -665,6 +773,7 @@ app.addEventListener('change', event => {
   if (event.target.id === 'sort') { view.sort = event.target.value; render({ restoreView: true }); }
   if (event.target.id === 'map-search') { view.mapSearch = event.target.value.trim().slice(0, 100); view.mapListLimit = 60; render({ restoreView: true }); }
   if (event.target.id === 'explorer-time') { view.mapRouteTime = event.target.value; view.mapRouteResult = null; render({ restoreView: true }); }
+  if (event.target.id === 'day-route-start') { view.dayQueueTime=event.target.value; view.dayQueueRoutes=[]; render({restoreView:true}); }
   if (event.target.id === 'meal-date' && context.dates.includes(event.target.value)) showCity(context.city, event.target.value);
 });
 app.addEventListener('submit', async event => {
