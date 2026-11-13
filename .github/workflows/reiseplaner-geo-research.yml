@@ -1,10 +1,6 @@
 name: Reiseplaner · Einmalige OSM-Ortsrecherche v0.5
+# Explicit one-off job: never re-run this external research on every PR commit.
 on:
-  pull_request:
-    branches:
-      - feature/v7-unified-map-and-day-builder
-    paths:
-      - .github/workflows/reiseplaner-geo-research.yml
   workflow_dispatch:
 
 permissions:
