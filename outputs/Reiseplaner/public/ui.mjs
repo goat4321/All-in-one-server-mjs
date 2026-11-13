@@ -29,6 +29,8 @@ const paths = {
   lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/>',
   menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
   arrow:'<path d="M3 12h17m-6-6 6 6-6 6"/>',
+  'arrow-left':'<path d="M21 12H4m6-6-6 6 6 6"/>',
+  'arrow-right':'<path d="M3 12h17m-6-6 6 6-6 6"/>',
   compare:'<path d="M4 20h16M7 17V8m5 9V3m5 14v-6"/>',
   bookmark:'<path d="M6 4h12v17l-6-4-6 4z"/>',
   check:'<path d="m5 12 4 4L19 6"/>',
