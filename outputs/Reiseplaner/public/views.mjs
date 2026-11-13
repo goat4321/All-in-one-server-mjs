@@ -362,9 +362,10 @@ function overview(ctx) {
     const photoItem=ctx.all.find(item=>item.city===id&&item.kind==='activity'&&curatedPlacePhoto(item));
     const photo=photoItem?curatedPlacePhoto(photoItem):null;
     return '<article class="destination-card"><button type="button" data-action="trip-city" data-value="'+esc(id)+'">'
-      +'<span class="destination-cover">'+(photo
-        ?'<img src="'+esc(photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="'+esc(photoItem.name)+'">'
-        :'<span class="destination-placeholder" aria-label="Kein verifiziertes Ortsfoto">'+icon('map')+'</span>')+'</span>'
+      +'<span class="destination-cover">'
+      +'<span class="destination-placeholder" aria-hidden="true">'+icon('map')+'</span>'
+      +(photo?'<img src="'+esc(photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="'+esc(photoItem.name)+'">':'')
+      +'</span>'
       +'<span class="destination-name">'+esc(ctx.cities[id]?.name??id)+'</span>'
       +'<small>'+esc(photoItem?.name??'Reiseort erkunden')+'</small></button>'
       +(photo?'<a class="destination-credit" href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer" title="'+esc(photo.credit)+'">Bild: '+esc(photo.credit)+'</a>'

@@ -1125,6 +1125,23 @@ app.addEventListener('toggle',event=>{
   if(event.target.matches('.sidebar-places'))view.cityNavOpen=event.target.open;
   if(event.target.matches('.map-design-details'))view.mapDesignOpen=event.target.open;
 },true);
+// Commons and explicitly sourced photos can fail when offline or blocked.
+ // Keep a designed category fallback, not broken alt-text inside a photo tile.
+app.addEventListener('error',event=>{
+  const image=event.target;
+  if(!(image instanceof HTMLImageElement))return;
+  const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo');
+  if(!frame||image.dataset.fallbackApplied)return;
+  image.dataset.fallbackApplied='true';
+  image.style.display='none';
+  frame.dataset.imageUnavailable='true';
+  if(frame.classList.contains('place-photo')&&!frame.querySelector('.place-photo-unavailable')){
+    const label=document.createElement('span');
+    label.className='place-photo-unavailable';
+    label.textContent='Bild gerade nicht verfügbar · Bildquelle in den Details';
+    frame.append(label);
+  }
+},true);
 app.addEventListener('keydown',event=>{
   if(event.target.id==='map-search'&&event.key==='Enter'){
     event.preventDefault();

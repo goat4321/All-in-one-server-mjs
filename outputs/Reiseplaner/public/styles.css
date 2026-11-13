@@ -1235,3 +1235,16 @@ h2{font-size:1.37rem}
 @media(prefers-reduced-motion:reduce){
  .cockpit-welcome,.cockpit-progress,.page-head,.timeline-panel,.map-selected-place{animation:none}
 }
+
+
+/* Offline/blocked image loading must never show broken browser image glyphs. */
+.destination-cover,.place-thumbnail{position:relative}
+.destination-cover>.destination-placeholder{position:absolute;inset:0;display:grid}
+.destination-cover>img{position:absolute;inset:0;z-index:1}
+.place-thumbnail>.place-thumbnail-fallback{position:absolute;inset:0}
+.place-thumbnail>img{position:absolute;inset:0;z-index:1}
+.destination-cover[data-image-unavailable=true],
+.place-thumbnail[data-image-unavailable=true]{background:linear-gradient(135deg,var(--accent),var(--light))}
+.place-photo-unavailable{position:absolute;inset:0;z-index:1;
+ display:grid;place-items:center;text-align:center;color:#fff;background:#194336b8;
+ padding:16px;font-size:.75rem;font-weight:700}

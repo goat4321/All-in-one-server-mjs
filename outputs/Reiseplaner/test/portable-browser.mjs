@@ -113,6 +113,12 @@ try {
   await until(() => js('document.querySelectorAll(".cockpit-progress-item").length===4'),'Vier nachvollziehbare Fortschrittsanzeigen');
   assert.equal(await js('document.querySelector(".cockpit-disclaimer")?.textContent.includes("keine bestätigten Buchungen")'),true);
   await screenshot('01-uebersicht-desktop.png');
+  const imageStatus=await js('(() => { const img=document.querySelector(".destination-cover img"); if(!img)return "no-photo"; img.dispatchEvent(new Event("error")); return img.style.display; })()');
+  assert.ok(['none','no-photo'].includes(imageStatus),'Ein fehlendes Wikimedia-Bild darf keine defekte Bildanzeige hinterlassen');
+  if(await js('Boolean(document.querySelector(".cockpit-progress"))')){
+    await js('document.querySelector(".cockpit-progress").scrollIntoView({block:"center"})');
+    await screenshot('07-dashboard-fortschritt.png');
+  }
   await click('.sidebar [data-action=page][data-value=plan]');
   await text('h1','Barcelona');
   await until(()=>js('document.querySelectorAll(".timeline-price").length===document.querySelectorAll(".timeline-event").length'),'Kostenkennzeichen nur bei echten Tageinträgen');

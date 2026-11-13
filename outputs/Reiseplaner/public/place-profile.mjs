@@ -77,8 +77,8 @@ export function placeThumbnailHtml(item,ctx={}) {
   if(!model)return '';
   const symbol={lodging:'bed',food:'food',shop:'wallet',activity:'compass',transport:'train'}[model.category]??'pin';
   return '<span class="place-thumbnail" data-licensed="'+Boolean(model.photo)+'">'
-    +(model.photo?'<img src="'+esc(model.photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="" title="'+esc(model.photo.credit)+'">'
-      :'<span class="place-thumbnail-fallback" aria-hidden="true">'+icon(symbol)+'</span>')
+    +'<span class="place-thumbnail-fallback" aria-hidden="true">'+icon(symbol)+'</span>'
+    +(model.photo?'<img src="'+esc(model.photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="" title="'+esc(model.photo.credit)+'">':'')
     +'</span>';
 }
 
