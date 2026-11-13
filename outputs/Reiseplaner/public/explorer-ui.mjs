@@ -1,5 +1,6 @@
 import { EXPLORER_GROUPS, explorerDetail, externalFootUrl, externalTransitUrl } from './map-explorer.mjs';
 import { esc, btn, chip, status, urlLink, empty, transitPlanners } from './ui.mjs';
+import { dayRouteView } from './day-route-ui.mjs';
 
 export function explorerToolbar(ctx) {
   const ex = ctx.explorer;
@@ -68,6 +69,7 @@ export function explorerList(ctx) {
       + '<div class="row-actions">' + (located ? btn('explorer-focus', 'Auf Karte', 'map', item.id) : '')
       + btn('details', 'Alle Details & Quellen', 'folder', item.id)
       + actions
+      + (canPlan && located ? btn('day-route-add','Zur Mehrstopp-Route','plus',item.id) : '')
       + (canPlan ? btn('choose', 'Zum Tagesplan hinzufügen', 'plus', item.id, 'subtle')
         : active && item.kind === 'activity' ? btn('edit', 'Im Plan bearbeiten', 'edit', item.id) : '')
       + '</div></article>';
