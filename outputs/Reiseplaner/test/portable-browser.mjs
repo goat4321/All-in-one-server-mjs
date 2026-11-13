@@ -115,7 +115,7 @@ try {
   await screenshot('01-uebersicht-desktop.png');
   await click('.sidebar [data-action=page][data-value=plan]');
   await text('h1','Barcelona');
-  await until(()=>js('document.querySelectorAll(".timeline-price").length>0'),'€-Kennzeichen im Tagesablauf');
+  await until(()=>js('document.querySelectorAll(".timeline-price").length===document.querySelectorAll(".timeline-event").length'),'Kostenkennzeichen nur bei echten Tageinträgen');
   // Global trip explorer: all source-backed categories, geographic scope,
   // search, real routing attempt and explicitly adding a restaurant to a day.
   await click('.sidebar [data-action=page][data-value=map]');
@@ -159,6 +159,8 @@ try {
   await until(() => js('document.querySelector(".map-legend-control[data-value=food]")?.getAttribute("aria-pressed")==="true"'),'Kategorie direkt auf Kartenlegende gewählt');
   await click('[data-action=explorer-reset]');
   await until(() => js('document.querySelector(".explorer-scope")?.textContent.includes("Gesamte Reise")'), 'Kartenfilter zurückgesetzt');
+  await click('.map-design-details summary');
+  await until(()=>js('document.querySelector(".map-design-details")?.open===true'),'Kartengestaltung über Details erreichbar');
   await click('[data-action=map-tone][data-value=midnight]');
   await until(() => js('document.querySelector(".map-wrap")?.dataset.mapTone === "midnight"'), 'Midnight Kartenstil');
   assert.equal(await js('localStorage.getItem("reiseplan-map-tone")'),'midnight');
@@ -172,6 +174,12 @@ try {
     'Kategorie-Pins im Reiseatlas');
   await text('#main', 'Tagesideen aus deinem älteren Reiseprofil');
   await click('[data-action=explorer-scope][data-value=city]');
+  await until(()=>js('document.querySelector(".map-atlas-hud strong")?.textContent.includes("Barcelona")===true'),'Reisedatum und Stadt als Kartenkontext');
+  if(await js('document.querySelectorAll(".map-day-stop").length>0')){
+    await click('.map-day-stop');
+    await until(()=>js('document.querySelector(".map-day-stop")?.getAttribute("aria-pressed")==="true"'),
+      'Tagesstopp über Zeitachse auswählbar');
+  }
   await click('[data-action=explorer-group][data-value=food]');
   await until(() => js('(document.querySelectorAll("#map .pin.place-food").length + document.querySelectorAll("#map .poi-cluster-icon").length) > 0 && document.querySelectorAll("#map .pin.place-lodging").length === 0'), 'Nur Restaurantkategorie im Städtefilter');
   await text('#main', 'Bormuth');

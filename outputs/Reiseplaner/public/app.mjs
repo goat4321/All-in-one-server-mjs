@@ -189,6 +189,9 @@ function selectPoint(id, focusMap = true) {
     const card=[...app.querySelectorAll('.explorer-place')].find(el=>el.dataset.placeId===id);
     card?.scrollIntoView({block:'nearest',behavior:'smooth'});
   }
+  app.querySelectorAll('.map-day-stop').forEach(button=>{
+    button.setAttribute('aria-pressed',String(button.dataset.value===id));
+  });
   app.querySelectorAll('.event-content').forEach(button => {
     const pressed = button.dataset.value === id;
     button.setAttribute('aria-pressed', pressed);

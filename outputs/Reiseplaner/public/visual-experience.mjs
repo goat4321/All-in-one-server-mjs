@@ -5,6 +5,7 @@ export function dayPeriod(time) {
   const match=/^([01]\d|2[0-3]):[0-5]\d$/.exec(String(time??''));
   if(!match)return null;
   const hour=Number(match[1]);
+  if(hour<5)return {key:'night',title:'Nacht',icon:'moon'};
   if(hour<11)return {key:'morning',title:'Morgen',icon:'sun'};
   if(hour<14)return {key:'lunch',title:'Mittag',icon:'food'};
   if(hour<18)return {key:'afternoon',title:'Nachmittag',icon:'compass'};

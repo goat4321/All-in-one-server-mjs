@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {dayPeriod,planCostSignal} from '../public/visual-experience.mjs';
 test('Recorded day periods are grouped; flexible times are never invented',()=>{
+ assert.equal(dayPeriod('01:15')?.title,'Nacht');
  assert.equal(dayPeriod('08:45')?.title,'Morgen');
  assert.equal(dayPeriod('11:00')?.title,'Mittag');
  assert.equal(dayPeriod('14:15')?.title,'Nachmittag');
