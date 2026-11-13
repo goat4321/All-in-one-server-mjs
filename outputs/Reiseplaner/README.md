@@ -107,3 +107,11 @@ Im Menü **Karte** gibt es jetzt einen gemeinsamen Karten-Explorer für **alle v
 **Tagesplan:** Reisetag oben auswählen, Vorschläge ansehen, gewünschte Aktivitäten bewusst in den vorhandenen Tagesplan übernehmen. Das frühere vollständige Forschungs-ZIP wurde nochmals abgeglichen: 21 Ortspakete und 14 optionale klassische September-Tagesideen sind als `data/research-v02/city-coverage-v02.json` und `day-suggestions-v02.json` neu berücksichtigt. Sie enthalten keine eigenständigen Buchungen und verändern keine Tripsy-Originalroute.
 
 Ausführliche Anleitung: `MAP_EXPLORER.md`. Ehrliche Einzelabdeckung pro Reise und Ort: `MAP_DATA_COVERAGE.md`. Aktuelle Auswertung: `npm run report:map` oder `node test/map-coverage.mjs --json`. Die Tests bleiben im Node-24-GitHub-Workflow; private vollständige Tripsy-Dateien müssen weiterhin auf dem Originalrechner separat mit `Pruefen.cmd` geprüft werden.
+
+## Prioritäten 1–4 · Ergänzungen vom 13.11.2026
+
+Details und offene Datenlücken: `PHASE_1_TO_4.md`. Die Karte/Entdecken-Ansicht enthält nun 39 weitere (als 2026er Recherche gekennzeichnete) Restaurants, Cafés und Einkaufsmöglichkeiten aus 12 Städten sowie sechs offizielle Eintritts-/Öffnungsinformationen zu beliebten Sehenswürdigkeiten. Nicht verfügbare Preise und genaue Koordinaten werden weiterhin als unbekannt ausgewiesen. Unter `Kartenstandort prüfen` können vorhandene Adressen mit einer **einzelnen nutzerinitiierten** OpenStreetMap/Nominatim-Suche abgeglichen und ein Treffer lokal übernommen werden – nie automatisch.
+
+Unter **Karte → Mehrstopp-Tagesroute** lassen sich 2–8 bestehende Punkte in einer Stadt sammeln, sortieren, die tatsächlichen Fußwege berechnen und nach Konfliktprüfung in den Tagesplan übertragen. Ohne echte Wege bleibt die Zeitplanung unvollständig. **Unterkünfte** bieten jetzt prüfbare EUR-Gesamtpreise, Person/Nacht-Werte, Bahnhof-Wege, Betten-/Steuer-/Storno-/Checkoutstatus und entsprechende Sortieroptionen. **Bahn & Interrail** zeigt eine eigene Pass-Tage-Prüfung, Nachtzugkonstellationen, knappe Anschlüsse sowie ausdrücklich unbestätigte 2027er Fahrpläne und Reservierungen.
+
+Vor Änderungen an echten Buchungen oder Daten der Anbieter muss der Nutzer die Aktion separat beim Anbieter bestätigen. Die Website tätigt keine Käufe und ist weiterhin eine lokale Node.js-Anwendung; `main` wurde nicht geändert.
