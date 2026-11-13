@@ -27,6 +27,7 @@ export function initialState(trip) {
   return {
     people: Array.from({ length: trip.travellers }, (_, i) => ({ id: 'p' + (i + 1), name: 'Person ' + (i + 1), age: null })),
     edits: {}, manual: [], expenses: [], favorites: [], deadlines: [], localRoutes: {},
+    placePhotos: {}, votes: {},
     pass: { from: trip.from, to: trip.to, days: 7, cost: null, rides: 0, purchased: false, budgetMode: 'tickets', includeReferences: false },
     mobility: {}, groceryOverrides: {}, verifications: {},
     budgetLimit: null, title: null,
@@ -62,6 +63,18 @@ export function validateState(state, trip, imported) {
       || (p.budgetMode != null && !['tickets', 'interrail'].includes(p.budgetMode))
       || (p.cost != null && (!Number.isSafeInteger(p.cost) || p.cost < 0 || p.cost > 100_000_000))) error('Ungültige Passangaben.');
   const itemMap = new Map([...trip.items, ...imported, ...state.manual].map(i => [i.id, i]));
+  if (state.placePhotos != null) {
+    if (!object(state.placePhotos) || Object.keys(state.placePhotos).length > 500)
+      error('Ungültige Bildersammlung.');
+    for (const [id,photo] of Object.entries(state.placePhotos)) {
+      if (!itemMap.has(id) || !object(photo)
+        || !goodText(photo.url,1200) || !/^https:\/\/[^\s]+$/i.test(photo.url)
+        || !goodText(photo.credit,180) || !photo.credit.trim()
+        || !goodText(photo.sourceUrl,1200) || !/^https:\/\/[^\s]+$/i.test(photo.sourceUrl))
+        error('Ein Ortsfoto braucht HTTPS-Bildlink, Namensnennung und Bildquelle.');
+    }
+  }
+
   if (state.verifications != null) {
     if (!object(state.verifications) || Object.keys(state.verifications).length > 400)
       error('Ungültiges Prüfarchiv.');
