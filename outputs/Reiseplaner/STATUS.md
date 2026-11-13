@@ -1,5 +1,13 @@
 # Projektstand · 13.11.2026
 
+## Nachtrag 13.11.2026 – v1.7 Designreferenzen integriert
+
+Angelehnt an die vom Nutzer geteilten Designyow-/Navica-/Wanderlog-Vorlagen: weniger harte Kacheln, systemnahe Sans-Serif-Typografie, diskrete Animationen, Reise-Cockpit mit korrekten Statusbalken, bildorientierte Reiseort-Leiste mit Quellenhinweisen, einfachere Planungs- und Quellen-Accordions. Tagesplan mit belegten Fotos oder Kategorie-Icons sowie Uhrzeitgruppen (nur wenn wirklich eingeplant). An Orten zusätzlich transparente, planwertbasierte Preisstufen `€`/`€€`/`€€€` bzw. `€?` für offene/nicht vergleichbare Werte. Karte mit Datums-/Stadt-HUD, nur bei vorhandenen Einträgen mit Zeitfolge, Bildminiaturen in Auswahlvorschau und einklappbaren Zusatzeinstellungen. Kompakte Ortsliste mit `Weitere Aktionen` statt zwölf gleichzeitig sichtbaren Schaltflächen. Bildfehler werden ohne kaputte Icons abgefangen. **Keine erdachten Live-Bewertungen, Orte, 2027-Tickets, Freundesstandorte oder angeblich bestätigten Endpreise.**
+
+Regression mit echten Chrome-Screenshots einschließlich `07-dashboard-fortschritt.png` und isoliertem Offline-Seed. Visual-Referenzen sind Inspiration, nicht ein Screenshot-Klon. Noch offen: echtes Browser-/Geräte-Testing mit externen Kacheln, zusätzliche belegte Bilder für die Mehrheit der Einträge, zeitlich und preislich bestätigte 2027-Daten. Details siehe `PHASE_17_VISUAL_REDESIGN.md`.
+
+
+
 ## Nachtrag 13.11.2026 – v1.6 Atlas-Synchronisierung und Screenshot-QA
 
 Karten-Explorer für Desktop im nebeneinanderliegenden Karten-/Listenlayout, synchronisierte Ortsauswahl über Marker und Listenkarte sowie Quellendetails im Dialog. Lokale, je Reisevariante unabhängige Karten-Merkliste mit Filter und Pin-Hervorhebung (max. 120 IDs), ausdrücklich nicht Teil von Buchungen/Budget oder SQLite. Doppelte große Leaflet-Popups entfernt. Fehlerhaft ungeschlossenes `map-wrap`-Element korrigiert. Mobil wird die Auswahlkarte nicht unter dem unteren Navigationsdock überdeckt, sondern im Dokumentfluss direkt unter der Karte gezeigt.

@@ -1,3 +1,21 @@
+## v1.7 – Weiches, bildorientiertes Reise-Cockpit (13.11.2026)
+
+**Ziel:** An die vom Nutzer gelieferten Wanderlog-, mobilen Trip-Plan-, Designyow- und Navica-Beispielbilder angelehnte Informationsarchitektur, aber mit eigenständigem Interface und ausschließlich echten Reise- und Quellenwerten. Das Programm bleibt ein privater Interrail-/Schweiz-Planer; es wurden keine Live-Freunde-Standorte, Benachrichtigungen, Wetterberichte, Flugtickets oder Buchungen erfunden.
+
+- **Ruhigere Oberfläche:** systemnahe Inter-/Segoe-UI-Variable-Typografie, leichtere Flächen/Schatten und dezente Animationen mit Unterstützung für `prefers-reduced-motion`; nur wenige primäre Aktionen auf einmal.
+- **Bild-/Reise-Cockpit:** Startseite zeigt den aktuellen Variantentitel, echte Daten, Gruppe, Anzahl Reiseorte, bisher bekannte Plankosten und nicht geklärte Preisposten. Darunter ein horizontal scrollbarerer Zielort-Filmstreifen. Er verwendet ausschließlich die bereits zugeordneten, lizenzierten Wikimedia-Commons-Ortsbilder (keine zufälligen Provider-/Airbnb-Fotos) und zeigt Quellenhinweise an. Ein Klick auf einen Reiseort öffnet seinen Tagesplan. Ist kein Foto vorhanden oder ein Bild nicht erreichbar, erscheint ein gestaltetes Symbol statt eines defekten Bildsymbols.
+- **Planungsstatus statt dekorativer KPIs:** vier echte Fortschrittsbalken für abgedeckte Aufenthalte, dokumentierte Unterkunfts-Checks, dokumentierte Zug-Checks und erfasste Planpreise. Die Berechnung stammt aus `readinessOverview` und weist `0/0` bei nicht vorhandenen Vergleichsobjekten aus, statt 100 % zu behaupten. Umfangreiche Planungs-Checks, amtliche Hinweise und Varianten bleiben in aufklappbaren Abschnitten erhalten.
+- **Schlankerer Tagesplan:** Bildminiaturen mit Quellenbezug bzw. Kategorie-Symbol, flachere interaktive Zeilen und Zeitabschnitte Nacht/Morgen/Mittag/Nachmittag/Abend. Nicht vorhandene Uhrzeiten bleiben `Flexibel`; die Zeiten sind Planangaben und keine geprüften Öffnungszeiten.
+- **Preiszeichen:** `€`, `€€` und `€€€` als transparent definierte, *relative*, aus vorhandenen EUR-Planwerten pro Person berechnete Orientierung; zusätzlich wird der bekannte Gruppenbetrag angezeigt. Bei fehlenden/nicht vergleichbaren Werten `€?`/`Preis offen`. Für Unterkunftsangebote wird **keine** vergleichbare Nachtpreis-Klasse aus einem nicht bestätigten Gesamtwert abgeleitet. Diese Zeichen sind weder Endpreise noch verbindliche Tarife.
+- **Aufgeräumter Atlas:** Ortsliste zeigt Miniaturbilder oder Kategorie-Symbole, Preisangaben und nur die häufigsten Aktionen direkt. Google-Maps-Routen, Umkreissuche, Plan-Einträge und die vollständige Recherche sind im aufklappbaren `Weitere Aktionen`-Bereich weiterhin vorhanden. Gekürzter Forschungsdaten-Hinweis mit sichtbar bleibender Warnung.
+- **Zeit und Ort direkt auf der Karte:** Datums-/Stadtkontext im Karten-HUD und eine anklickbare chronologische Planzeit-Leiste nur für Tage, an denen wirklich Einträge vorhanden sind. Der Klick markiert denselben Ort wie die Karte und der Tagesplan. Die ohnehin vorhandene animierte Routenlinie für reale Fußweggeometrie bleibt, nicht bestätigte Verbindungen sind weiter als schematisch erkennbar. Design-/Größeneinstellungen sind ausblendbar und merken den geöffneten Zustand bei Auswahl.
+- **Browser-Fallback:** Bei externer Bildstörung zeigt die App einen Kategorien-/Ortsplatzhalter, nie einen kaputten Browser-`<img>`-Text. Quellen und Namenszuordnung bleiben sichtbar.
+
+**Geprüft:** Node-Test `test/visual-experience.test.mjs`, bestehende Preis-/Bildquellen-/Karten- und Daten-Tests, echter Chrome-End-to-End-Test samt zusätzlichen Screenshot `07-dashboard-fortschritt.png`. Das Browser-Screenshot-Artefakt (`reiseplaner-ui-review`) enthält jetzt **7 Bilder** und wird in GitHub Actions 14 Tage gehalten.
+
+**Standort:** Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, Draft [PR #5](https://github.com/goat4321/All-in-one-server-mjs/pull/5), **nicht** nach `main` gemergt oder deployed. Ausführliche Notizen: [PHASE_17_VISUAL_REDESIGN.md](PHASE_17_VISUAL_REDESIGN.md).
+
+---
 ## v1.6 – Synchronisierter Kartenatlas, Merkliste und visuelle QA (13.11.2026)
 
 **Entwicklungsbranch:** `feature/v7-data-day-accommodation-rail` · Draft PR #5 · keine Änderung an `main`, keine Veröffentlichung.
