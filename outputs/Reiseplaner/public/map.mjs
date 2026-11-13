@@ -164,7 +164,7 @@ export class TripMap {
           const line = L.polyline(leg.points,{
             color:leg.verified?'#ffffff':'#f8e6c4',
             weight:leg.verified?(active?11:8):6,
-            opacity:faint?.35:.9,
+            opacity:faint ? 0.35 : 0.9,
             interactive:false,
             className:'route-studio-halo',
             dashArray:leg.verified?null:'5 10',
@@ -172,7 +172,7 @@ export class TripMap {
           const top = L.polyline(leg.points,{
             color:leg.verified?(active?'#00ad82':'#16a085'):'#b97a27',
             weight:leg.verified?(active?7:5):3.5,
-            opacity:faint?.3:.98,
+            opacity:faint ? 0.3 : 0.98,
             dashArray:leg.verified?null:'5 10',
             className:'route-studio-map-line'+(active?' current':'')
               +(leg.verified?' measured':' schematic'),
