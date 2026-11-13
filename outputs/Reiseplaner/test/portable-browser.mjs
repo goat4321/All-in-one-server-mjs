@@ -80,6 +80,27 @@ try {
   await cdp('Page.enable');
   await cdp('Page.navigate', { url: address });
   await text('h1', 'Barcelona');
+  // The tour navigates read-only and is dismissible by Escape.
+  await click('[data-action=guide-start]');
+  await text('.guide-panel', 'Tagesplan verstehen');
+  assert.equal(await js('document.querySelector(".guide-panel")?.getAttribute("aria-modal")'),'true');
+  await click('.guide-panel [data-action=guide-next]');
+  await text('h1','Karten-Explorer');
+  await text('.guide-panel', 'Orte und Routen entdecken');
+  await click('.guide-panel [data-action=guide-next]');
+  await text('h1','Unterkünfte');
+  await text('.guide-panel', 'Unterkünfte vergleichen');
+  await click('.guide-panel [data-action=guide-prev]');
+  await text('h1','Karten-Explorer');
+  await js('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
+  await until(() => js('document.querySelector(".guide-panel") === null'), 'Tour per Escape geschlossen');
+  await click('[data-action=guide-start]');
+  for(let i=1;i<7;i++)await click('.guide-panel [data-action=guide-next]');
+  await text('.guide-panel','Quellen und offene Fragen');
+  await click('.guide-panel [data-action=guide-finish]');
+  assert.equal(await js('localStorage.getItem("reiseplan-guide-completed")'),'1');
+  await click('.sidebar [data-action=page][data-value=plan]');
+  await text('h1','Barcelona');
   // Global trip explorer: all source-backed categories, geographic scope,
   // search, real routing attempt and explicitly adding a restaurant to a day.
   await click('.sidebar [data-action=page][data-value=map]');

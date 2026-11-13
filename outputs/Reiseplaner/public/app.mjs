@@ -1,3 +1,4 @@
+import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
 import { renderShell, mapDetail } from './views.mjs';
 import { TripMap } from './map.mjs';
@@ -27,6 +28,7 @@ const view = {
   mapTone: ['standard','midnight','sand'].includes(localStorage.getItem('reiseplan-map-tone'))
     ? localStorage.getItem('reiseplan-map-tone') : 'standard',
   mapExpanded: false,
+  guideIndex: null,
   geocodeReview: null,
 };
 const walks = new Map();
@@ -186,6 +188,10 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   context = buildContext();
   document.documentElement.dataset.theme = view.theme;
   app.innerHTML = renderShell(context);
+  if (guideStep(view.guideIndex)) {
+    app.querySelector(guideStep(view.guideIndex).focus)?.classList.add('guide-spotlight');
+    app.querySelector('.guide-next')?.focus({ preventScroll: true });
+  }
   const sidebar = app.querySelector('.sidebar-inner');
   if (sidebar && sideScroll) sidebar.scrollTop = sideScroll;
   const days = app.querySelector('.days');
@@ -427,6 +433,18 @@ async function commitDayQueue() {
   view.dayQueueIds=[];view.dayQueueRoutes=[];view.dayQueueStatus='';
   view.page='plan';view.mobile='plan';render();
 }
+function guideNavigate(next) {
+  if (!guideStep(next)) return;
+  view.guideIndex = next;
+  const page = GUIDE_STEPS[next].page;
+  if (view.page !== page) changePage(page);
+  else render({ restoreView: true });
+}
+function closeGuide(completed = false) {
+  view.guideIndex = null;
+  if (completed) localStorage.setItem('reiseplan-guide-completed', '1');
+  render({ restoreView: true });
+}
 function changePage(page) {
   if (!['overview', 'plan', 'map', 'rail', 'lodging', 'discover', 'food', 'budget', 'group', 'data'].includes(page)) return;
   view.page = page;
@@ -505,6 +523,12 @@ async function action(name, value = '') {
     ?? ctx.explorer?.placed.find(i => i.id === value)
     ?? ctx.explorer?.unlocated.find(i => i.id === value);
   switch (name) {
+    case 'guide-start': guideNavigate(0); break;
+    case 'guide-next': guideNavigate(Math.min(GUIDE_STEPS.length-1,view.guideIndex+1)); break;
+    case 'guide-prev': guideNavigate(Math.max(0,view.guideIndex-1)); break;
+    case 'guide-jump': guideNavigate(Number(value)); break;
+    case 'guide-close': closeGuide(); break;
+    case 'guide-finish': closeGuide(true); say('Einführung abgeschlossen. Du kannst sie oben jederzeit erneut starten.'); break;
     case 'page': changePage(value); break;
     case 'menu': view.menu = !view.menu; render({ restoreView: true }); break;
     case 'theme':
@@ -932,6 +956,19 @@ async function action(name, value = '') {
   }
 }
 
+document.addEventListener('keydown', event => {
+  if (!guideStep(view.guideIndex)) return;
+  if (event.key === 'Escape') { event.preventDefault(); closeGuide(); return; }
+  if (event.key !== 'Tab') return;
+  const dialog = app.querySelector('.guide-panel');
+  const controls = [...(dialog?.querySelectorAll('button:not([disabled])') ?? [])];
+  if (!controls.length) return;
+  if (event.shiftKey && document.activeElement === controls[0]) {
+    event.preventDefault(); controls.at(-1).focus();
+  } else if (!event.shiftKey && document.activeElement === controls.at(-1)) {
+    event.preventDefault(); controls[0].focus();
+  }
+});
 document.addEventListener('click', event => {
   const button = event.target.closest('[data-action]');
   if (button) void action(button.dataset.action, button.dataset.value).catch(error => say(error.message));

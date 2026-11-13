@@ -601,3 +601,45 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
  border-radius:inherit;transition:width .22s ease}
 .group-vote-item>.button{font-size:.74rem;justify-content:center}
 @media(prefers-reduced-motion:reduce){.group-vote-bar>span{transition:none}}
+
+
+/* Read-only, restartable onboarding with mobile and reduced-motion support. */
+.guide-launch{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;min-height:37px;background:var(--accent);
+ color:var(--green);border:1px solid var(--line);border-radius:10px;font-weight:750;font-size:.83rem}
+.guide-launch:hover{background:var(--light)}
+.guide-launch svg{width:17px;height:17px}
+.guide-scrim{position:fixed;inset:0;z-index:990;background:#061e1694;backdrop-filter:blur(1.5px)}
+.guide-panel{position:fixed;z-index:1010;right:clamp(12px,4vw,45px);bottom:clamp(12px,4vh,38px);
+ width:min(460px,calc(100vw - 24px));max-height:min(740px,calc(100dvh - 24px));overflow:auto;
+ background:var(--paper);color:var(--text);border:1px solid var(--line);border-radius:22px;
+ padding:23px;box-shadow:0 26px 70px #071e1ab8;display:grid;gap:13px}
+.guide-top,.guide-actions{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.guide-kicker{display:flex;align-items:center;gap:7px;font-size:.75rem;font-weight:800;color:var(--green)}
+.guide-kicker svg{width:18px;height:18px}
+.guide-close{border:1px solid var(--line);background:var(--light);color:var(--text);width:36px;height:36px;
+ display:grid;place-items:center;border-radius:10px}
+.guide-close svg{width:16px;height:16px}
+.guide-count{font-size:.76rem;color:var(--muted);font-weight:700}
+.guide-progress{height:5px;border-radius:99px;background:var(--line);overflow:hidden}
+.guide-progress>span{display:block;height:100%;background:#299568;border-radius:99px;transition:width .22s ease}
+.guide-panel h2{font-size:clamp(1.4rem,3vw,1.8rem)}
+.guide-panel #guide-description{font-size:.94rem;line-height:1.65}
+.guide-tip{background:var(--light);padding:12px;border-radius:12px;border-left:3px solid var(--green);
+ font-size:.83rem;line-height:1.55}
+.guide-dots{display:flex;gap:7px;justify-content:space-between}
+.guide-dot{width:31px;height:31px;border-radius:9px;background:var(--light);color:var(--muted);
+ border:1px solid var(--line);font-size:.75rem;font-weight:750}
+.guide-dot[aria-current=step]{background:var(--accent);border-color:var(--green);color:var(--green)}
+.guide-actions{flex-wrap:wrap;justify-content:flex-end;padding-top:4px}
+.guide-actions .button{font-size:.8rem}
+.guide-disclaimer{font-size:.72rem;color:var(--muted)}
+.guide-spotlight{outline:3px solid #79dfb2;outline-offset:4px}
+@media(max-width:650px){
+ .guide-launch{min-width:35px;width:35px;height:35px;justify-content:center;padding:5px}
+ .guide-launch span{display:none}
+ .guide-panel{right:8px;bottom:8px;width:calc(100vw - 16px);padding:17px;gap:10px;
+  max-height:min(710px,calc(100dvh - 16px));border-radius:17px}
+ .guide-actions .button{min-height:37px;padding:6px 10px}
+ .guide-scrim{backdrop-filter:none}
+}
+@media(prefers-reduced-motion:reduce){.guide-progress>span{transition:none}}

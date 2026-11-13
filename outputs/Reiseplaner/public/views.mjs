@@ -1,3 +1,4 @@
+import { guideMarkup } from './tutorial.mjs';
 import { googleMapsSearchUrl, googleMapsSearchLabel, googleMapsDirectionsUrl, googleMapsLocationStatus } from './google-maps.mjs';
 import { categories, budgetBreakdown, calculateBudget, activeItems, conflicts, groupPrice, groceryBasket, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange, planReadiness } from './model.mjs';
 import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn, chip, empty, alert, categoryIcon, cost, unit, urlLink, sourceList, timeText, transitPlanners } from './ui.mjs';
@@ -53,10 +54,11 @@ export function renderShell(ctx) {
   </aside><div class="main-column"><header class="topbar">
     <div class="crumb"><span class="mobile-menu">${iconBtn('menu', 'Navigation öffnen', 'menu')}</span><strong>${esc(currentTitle)}</strong>${icon('chevron')}<span>${esc(tabTitle)}</span></div>
     <div class="top-actions"><span class="status-icon">${saving ? 'Speichert …' : 'Lokal gespeichert'}</span>
+    <button type="button" class="guide-launch" data-action="guide-start" aria-label="Interaktive Tour starten" title="Interaktive Tour starten">${icon('spark')}<span>Tour</span></button>
     ${iconBtn('theme', theme === 'dark' ? 'Helles Design' : 'Dunkles Design', theme === 'dark' ? 'sun' : 'moon')}
     ${iconBtn('undo', 'Letzte Änderung rückgängig', 'reset')}
     ${iconBtn('page', 'Daten importieren', 'upload', 'data')}</div>
-  </header><main class="workspace" id="main">${sourceNotice}${content(ctx, cityName)}</main></div></div>`;
+  </header><main class="workspace" id="main">${sourceNotice}${content(ctx, cityName)}</main>${guideMarkup(ctx.guideIndex)}</div></div>`;
 }
 
 function content(ctx, city) {
