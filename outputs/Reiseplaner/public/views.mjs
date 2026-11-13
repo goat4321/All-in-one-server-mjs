@@ -446,6 +446,19 @@ function rail(ctx) {
   const ticketUnknown = singles.filter(p => p == null).length;
   const researchQueue = (catalog.research?.transportQueue ?? []).filter(row => row.trip_id === trip.id);
   const suggestions = (catalog.research?.transportCandidates ?? []).filter(row => row.trip_id === trip.id);
+  const railReference = catalog.research?.railReferenceV04;
+  const corridors = (railReference?.corridors ?? []).filter(ref =>
+    trip.route.includes(ref.from) && trip.route.includes(ref.to));
+  const corridorRows = corridors.map(ref => [
+    esc((catalog.cities[ref.from]?.name ?? ref.from) + ' → '
+      + (catalog.cities[ref.to]?.name ?? ref.to)),
+    esc(ref.planning),
+    ref.operators.map(operator => {
+      const provider = railReference.operator_planners.find(x => x.id === operator);
+      return provider ? urlLink(provider.url, provider.name) : '';
+    }).filter(Boolean).join(' · '),
+    status('2027: Fahrzeit, Verfügbarkeit und Preise offen', 'warn'),
+  ]);
   const audit = auditInterrailRoute(legs,state.pass,researchQueue);
   const researchRows = researchQueue.map(row => {
     const window = railSalesStatus(row);
@@ -520,6 +533,12 @@ function rail(ctx) {
     + (reference ? '<small>Recherchewert ' + esc(reference.tariff_year) + ' · ' + money(reference.amount * 100) + ' Jugendpass p. P. · für 2027 offen.</small>' : '')
     + candidates.map(alert).join('') + pass.issues.map(i => alert(i.text)).join('') + '</div>'
     + '<section class="section"><h2>Verbindungen in Reihenfolge</h2><div class="stack">' + (connections || empty('Keine Verbindungen', 'Ergänze eine Fahrt oder wähle eine andere Variante.')) + '</div></section>'
+    + (corridorRows.length ? '<section class="section"><h2>Bahnkorridore & offizielle Betreiber</h2>'
+      + '<p class="muted">Planungshypothesen ohne bestätigte Abfahrtszeiten oder reservierbare Sitzplätze im September 2027. Diese Optionen werden nicht automatisch gebucht und nicht in den aktiven Tagesplan übernommen.</p>'
+      + table(['Korridor', 'Zu prüfende Verbindung', 'Betreiber-Fahrplan', 'Stand'], corridorRows)
+      + '<h3>Regel-Referenzen</h3>' + (railReference?.rules ?? []).map(rule =>
+        '<p class="muted">' + esc(rule.text) + ' ' + (urlLink(rule.url, 'Quelle') ?? '') + '</p>').join('')
+      + '</section>' : '')
     + '<section class="section"><h2>Fahrplan- und Preisrecherche · 2027</h2>'
     + '<p class="muted">Offene Aufgaben, keine Echtzeitverbindungen. Jede Abfahrt und jeder Ticketpreis muss später für das konkrete Reisedatum beim Anbieter bestätigt werden.</p>'
     + (researchRows.length ? table(['Originalabschnitt', 'Reisedatum', 'Recherchestatus', 'Ticketpreis', 'Noch prüfen', 'Orientierungsfenster', 'Verkaufsregel', 'Eigenprüfung', 'Wiedervorlage'], researchRows)
