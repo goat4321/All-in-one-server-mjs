@@ -39,9 +39,9 @@
   "eligible": 243,
   "queried": 243,
   "totals": {
-    "accepted": 102,
-    "review": 74,
-    "unmatched": 68,
+    "accepted": 118,
+    "review": 60,
+    "unmatched": 66,
     "skipped": 46,
     "requestFailures": 0
   },
@@ -2332,9 +2332,53 @@
       "isCentroid": false,
       "manuallyReviewed": true,
       "locationDescription": "Wasserauen Ausgangsregion Seealpsee-Wanderung; der Verlauf der Fahrstraße ist hier nicht als Punkt modelliert."
-    }
-  ],
-  "review": [
+    },
+    {
+      "id": "local:food-v03-008",
+      "city": "sete",
+      "name": "Miam's d'ici et d'ailleurs",
+      "address": "Passage du Dauphin, 16 Rue Gambetta, 34200 Sète, France",
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Miam's d'ici et d'ailleurs, Passage du Dauphin, 16 Rue Gambetta, 34200 Sète, France, Sète",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        43.403048,
+        3.6960773
+      ],
+      "sourceUrl": "https://en.tourisme-sete.com/miam-s-d-ici-et-d-ailleurs-sete.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Tourismus Sète bestätigt Restaurant Miam's 16 Rue Gambetta, Passage du Dauphin und GPS-Adresse; Eingang im Gebäude 1. Stock."
+    },
+    {
+      "id": "local:food-v03-010",
+      "city": "sete",
+      "name": "Chez François",
+      "address": "8 Quai Général Durand, 34200 Sète, France",
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Chez François, 8 Quai Général Durand, 34200 Sète, France, Sète",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        43.4018321,
+        3.6970714
+      ],
+      "sourceUrl": "https://de.tourisme-sete.com/chez-francois-sete.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Tourismus Sète bestätigt Chez François an 7–8 Quai Général Durand mit GPS; nicht gleichnamiges Restaurant in Rue Paul Valéry."
+    },
     {
       "id": "tripsy:transport:3842727",
       "city": "barcelona",
@@ -2345,59 +2389,296 @@
       ],
       "query": "Barcelona Sants → Gare de Sète, Barcelona",
       "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.3751208,
-            2.1411047
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/6480120336",
-          "osmName": "Galerías Sants",
-          "street": "Carrer de la Creu Coberta",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3622804,
-            2.1595033
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/61892111",
-          "osmName": "Botanical Garden of Barcelona",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3745401,
-            2.1632263
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/753508648",
-          "osmName": "Carrer de Blasco de Garay",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3719467,
-            2.1622511
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/245321066",
-          "osmName": "Carrer de Blasco de Garay",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
+      "provider": "Published exact place/area reference",
+      "point": [
+        41.37896,
+        2.14047
+      ],
+      "sourceUrl": "https://mapcarta.com/N4037261690",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhof Barcelona Sants als Abfahrtsanker, keine gefahrene Strecke und keine Gleis-/Fahrplanbestätigung."
     },
+    {
+      "id": "tripsy:transport:3890060",
+      "city": "barcelona",
+      "name": "Barcelona Sants → Gare de Sète",
+      "address": null,
+      "variants": [
+        "interrail_swiss"
+      ],
+      "query": "Barcelona Sants → Gare de Sète, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        41.37896,
+        2.14047
+      ],
+      "sourceUrl": "https://mapcarta.com/N4037261690",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhof Barcelona Sants als Abfahrtsanker, keine gefahrene Strecke und keine Gleis-/Fahrplanbestätigung."
+    },
+    {
+      "id": "tripsy:transport:3769533",
+      "city": "barcelona",
+      "name": "Barcelona Sants → Narbonne",
+      "address": null,
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "Barcelona Sants → Narbonne, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        41.37896,
+        2.14047
+      ],
+      "sourceUrl": "https://mapcarta.com/N4037261690",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhof Barcelona Sants als Abfahrtsanker, keine gefahrene Strecke und keine Gleis-/Fahrplanbestätigung."
+    },
+    {
+      "id": "tripsy:transport:3769536",
+      "city": "marseille",
+      "name": "Marseille St Charles → Nice Ville",
+      "address": null,
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "Marseille St Charles → Nice Ville, Marseille",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        43.30326,
+        5.38119
+      ],
+      "sourceUrl": "https://mapcarta.com/de/18308082",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Marseille Saint-Charles Bahnhofsreferenz für Ausgangspunkt, keine Gleis- oder konkrete Zugverbindungsbestätigung."
+    },
+    {
+      "id": "tripsy:transport:3769532",
+      "city": "narbonne",
+      "name": "Narbonne → Barcelona Sants",
+      "address": null,
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "Narbonne → Barcelona Sants, Narbonne",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        43.19063,
+        3.00562
+      ],
+      "sourceUrl": "https://mapcarta.com/28922554",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Gare de Narbonne als Ausgangspunkt; nicht die Zugroute selbst."
+    },
+    {
+      "id": "tripsy:transport:3769534",
+      "city": "narbonne",
+      "name": "Narbonne → Sète",
+      "address": null,
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "Narbonne → Sète, Narbonne",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        43.19063,
+        3.00562
+      ],
+      "sourceUrl": "https://mapcarta.com/28922554",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Gare de Narbonne als Ausgangspunkt; nicht die Zugroute selbst."
+    },
+    {
+      "id": "tripsy:transport:3762689",
+      "city": "appenzell",
+      "name": "Appenzell → Klöntalersee",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Appenzell → Klöntalersee, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        47.32858,
+        9.40952
+      ],
+      "sourceUrl": "https://mapcarta.com/N2040133184",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhof Appenzell als Orientierung des Reisestarts; Verkehrsmittel und Zielpunkt offen."
+    },
+    {
+      "id": "tripsy:transport:3762688",
+      "city": "appenzell",
+      "name": "Appenzell → Wasserauen",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Appenzell → Wasserauen, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        47.32858,
+        9.40952
+      ],
+      "sourceUrl": "https://mapcarta.com/N2040133184",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhof Appenzell als Orientierung des Reisestarts; Verkehrsmittel und Zielpunkt offen."
+    },
+    {
+      "id": "tripsy:transport:3762690",
+      "city": "glarus",
+      "name": "Glarus → Grindelwald",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Glarus → Grindelwald, Glarus",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        47.04,
+        9.07151
+      ],
+      "sourceUrl": "https://mapcarta.com/36272312",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhof Glarus als Anker des Reiseabschnitts; nicht vollständiger Streckenverlauf."
+    },
+    {
+      "id": "tripsy:transport:3762692",
+      "city": "grindelwald",
+      "name": "Grindelwald → Kandersteg",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Grindelwald → Kandersteg, Grindelwald",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        46.62453,
+        8.03254
+      ],
+      "sourceUrl": "https://mapcarta.com/N6037884614",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhof Grindelwald als Anker des Reiseabschnitts; nicht vollständiger Streckenverlauf."
+    },
+    {
+      "id": "tripsy:transport:3762694",
+      "city": "kandersteg",
+      "name": "Kandersteg → München",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Kandersteg → München, Kandersteg",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        46.49556,
+        7.67151
+      ],
+      "sourceUrl": "https://mapcarta.com/33109784",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Bahnhof Kandersteg als Anker des Reiseabschnitts; nicht vollständiger Streckenverlauf."
+    },
+    {
+      "id": "research:suggest_015",
+      "city": "sete",
+      "name": "Mont Saint-Clair Treppenaufstieg vom Zentrum",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Mont Saint-Clair Treppenaufstieg vom Zentrum, Sète",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        43.4021,
+        3.68564
+      ],
+      "sourceUrl": "https://de.tourisme-sete.com/der-mont-saint-clair.html",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Mont Saint-Clair Panorama-Orientierungspunkt laut Tourismusamt; Treppenaufstieg aus dem Zentrum ist kein einzelner Punkt."
+    },
+    {
+      "id": "research:suggest_002",
+      "city": "paris",
+      "name": "Parc de la Villette und Canal de l’Ourcq",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Parc de la Villette und Canal de l’Ourcq, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        48.89299,
+        2.39081
+      ],
+      "sourceUrl": "https://mapcarta.com/de/25251258",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Parc de la Villette, Parkzentrum als Orientierungsanker; Canal de l’Ourcq-Promenade ohne eindeutigen Punkt."
+    },
+    {
+      "id": "tripsy:activity:seed:a020",
+      "city": "nice",
+      "name": "Villefranche-sur-Mer Strand",
+      "address": null,
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Villefranche-sur-Mer Strand, Nice",
+      "observedOn": "2026-11-13",
+      "provider": "Published exact place/area reference",
+      "point": [
+        43.7067556,
+        7.3154667
+      ],
+      "sourceUrl": "https://ville-data.com/images/pdf/OUEST-3098.pdf",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Plage des Marinières Referenzpunkt aus öffentlich dokumentierten GPS-Koordinaten der Kommune; Strandabschnitt, kein bestimmter Badeplatz."
+    }
+  ],
+  "review": [
     {
       "id": "tripsy:activity:seed:a006",
       "city": "barcelona",
@@ -2622,69 +2903,6 @@
           "street": "Via Augusta",
           "houseNumber": null,
           "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:activity:seed:a020",
-      "city": "nice",
-      "name": "Villefranche-sur-Mer Strand",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Villefranche-sur-Mer Strand, Nice",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.7069401,
-            7.3141855
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/33016767",
-          "osmName": "Villefranche-sur-Mer",
-          "street": "Promenade des Marinières",
-          "houseNumber": null,
-          "nameScore": 0.705,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.720115,
-            7.3344912
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/2500856",
-          "osmName": "Villefranche-sur-Mer",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.705,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.7035631,
-            7.3095444
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/1297318884",
-          "osmName": "Villefranche-sur-Mer",
-          "street": "Escalier Baptistin Saliva",
-          "houseNumber": null,
-          "nameScore": 0.705,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.7068141,
-            7.3133283
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/8086010945",
-          "osmName": "Villefranche-sur-Mer",
-          "street": "Rue du Poilu",
-          "houseNumber": null,
-          "nameScore": 0.705,
           "addressMatch": false
         }
       ]
@@ -3942,47 +4160,6 @@
       ]
     },
     {
-      "id": "research:suggest_002",
-      "city": "paris",
-      "name": "Parc de la Villette und Canal de l’Ourcq",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Parc de la Villette und Canal de l’Ourcq, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            48.8886688,
-            2.3842513
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/11872022620",
-          "osmName": "La Fabrique du Canal",
-          "street": "Rue de l'Ourcq",
-          "houseNumber": "14B",
-          "nameScore": 0.235,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8885703,
-            2.384377
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/377054371",
-          "osmName": "Résidence universitaire Ourcq",
-          "street": "Rue de l'Ourcq",
-          "houseNumber": null,
-          "nameScore": 0.235,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "local:food-v03-002",
       "city": "paris",
       "name": "Quick Gare du Nord",
@@ -4239,35 +4416,6 @@
           "street": "Allée des Jeux de Boules",
           "houseNumber": null,
           "nameScore": 0.188,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:suggest_015",
-      "city": "sete",
-      "name": "Mont Saint-Clair Treppenaufstieg vom Zentrum",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Mont Saint-Clair Treppenaufstieg vom Zentrum, Sète",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.3951025,
-            3.6613397
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/135812302",
-          "osmName": "Port Saint-Clair rive droite",
-          "street": "Quai de la Grand Voile",
-          "houseNumber": null,
-          "nameScore": 0.313,
           "addressMatch": false
         }
       ]
@@ -4609,69 +4757,6 @@
       ]
     },
     {
-      "id": "tripsy:transport:3890060",
-      "city": "barcelona",
-      "name": "Barcelona Sants → Gare de Sète",
-      "address": null,
-      "variants": [
-        "interrail_swiss"
-      ],
-      "query": "Barcelona Sants → Gare de Sète, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.3751208,
-            2.1411047
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/6480120336",
-          "osmName": "Galerías Sants",
-          "street": "Carrer de la Creu Coberta",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3622804,
-            2.1595033
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/61892111",
-          "osmName": "Botanical Garden of Barcelona",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3745401,
-            2.1632263
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/753508648",
-          "osmName": "Carrer de Blasco de Garay",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3719467,
-            2.1622511
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/245321066",
-          "osmName": "Carrer de Blasco de Garay",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "tripsy:lodging:seed:iv-nice",
       "city": "nice",
       "name": "Appartement Vieux-Nice",
@@ -4755,222 +4840,6 @@
           "osmRef": "https://www.openstreetmap.org/way/662187597",
           "osmName": "Néphrologie Dialyse Saint-Guilhem",
           "street": "Boulevard Camille Blanc",
-          "houseNumber": null,
-          "nameScore": 0.235,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:transport:3769533",
-      "city": "barcelona",
-      "name": "Barcelona Sants → Narbonne",
-      "address": null,
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "Barcelona Sants → Narbonne, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.3790068,
-            2.1400042
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2158044594",
-          "osmName": "Barcelona - Sants",
-          "street": "Plaça dels Països Catalans",
-          "houseNumber": "1-7",
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3788309,
-            2.1406159
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/1305698291",
-          "osmName": "Barcelona - Sants",
-          "street": "Rodalies",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3790121,
-            2.1399602
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/36306316",
-          "osmName": "Barcelona Sants railway station",
-          "street": "Vestíbul de l'AVE",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3745776,
-            2.1486246
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/13575528247",
-          "osmName": "Barcelona-Plaça Espanya",
-          "street": "Gran Via de les Corts Catalanes",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:transport:3769536",
-      "city": "marseille",
-      "name": "Marseille St Charles → Nice Ville",
-      "address": null,
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "Marseille St Charles → Nice Ville, Marseille",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.3019371,
-            5.3824187
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/10315214746",
-          "osmName": "Salon de Thé de la Gare Saint-Charles",
-          "street": "Rue Villeneuve",
-          "houseNumber": null,
-          "nameScore": 0.235,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:transport:3769532",
-      "city": "narbonne",
-      "name": "Narbonne → Barcelona Sants",
-      "address": null,
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "Narbonne → Barcelona Sants, Narbonne",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.159353,
-            2.9806633
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/9766205417",
-          "osmName": "Keyce Santé Narbonne",
-          "street": "Rue Blaise Pascal",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.189482,
-            2.9845421
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/92072821",
-          "osmName": "Funérarium Grand Narbonne",
-          "street": "Voie des Elysiques",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.1801299,
-            3.0324379
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/13612654769",
-          "osmName": "Centre de Santé Dentaire Narbonne",
-          "street": "Rue Ernest Cognacq",
-          "houseNumber": "29",
-          "nameScore": 0.235,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.1605826,
-            2.9790291
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/13565030696",
-          "osmName": "Centre de Santé Dentaire Narbonne",
-          "street": "Avenue Gustave Eiffel",
-          "houseNumber": null,
-          "nameScore": 0.235,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:transport:3769534",
-      "city": "narbonne",
-      "name": "Narbonne → Sète",
-      "address": null,
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "Narbonne → Sète, Narbonne",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.1749803,
-            3.0303176
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/10688824",
-          "osmName": "Narbonne-Est",
-          "street": "La Languedocienne",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.156006,
-            2.9528304
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4728057703",
-          "osmName": "Aire de Narbonne-Jonquières",
-          "street": "Autoroute des Deux Mers",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.1630288,
-            3.1651951
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/1547221808",
-          "osmName": "Piscine de Narbonne-Plage",
-          "street": "Chemin de la Fontaine de Verre",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.1544061,
-            2.9556827
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/204971108",
-          "osmName": "Aire de Repos de Narbonne-Jonquières",
-          "street": "Autoroute des Deux Mers",
           "houseNumber": null,
           "nameScore": 0.235,
           "addressMatch": false
@@ -5158,132 +5027,6 @@
       ]
     },
     {
-      "id": "tripsy:transport:3762689",
-      "city": "appenzell",
-      "name": "Appenzell → Klöntalersee",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Appenzell → Klöntalersee, Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            47.2570307,
-            9.1990562
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/11342353",
-          "osmName": "Appenzell Alps",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.2570307,
-            9.1990562
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/11342353",
-          "osmName": "Appenzell Alps",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.3293447,
-            9.4086718
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/14020839028",
-          "osmName": "Appenzeller Kantonalbank",
-          "street": "Jakob Signer-Strasse",
-          "houseNumber": null,
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.330965,
-            9.4125069
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4229854758",
-          "osmName": "Besucherzentrum Brauerei Locher / Appenzeller Bier",
-          "street": "Brauereiplatz",
-          "houseNumber": "1",
-          "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:transport:3762688",
-      "city": "appenzell",
-      "name": "Appenzell → Wasserauen",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Appenzell → Wasserauen, Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            47.2857062,
-            9.4286904
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2040794201",
-          "osmName": "Wasserauen",
-          "street": "Schwendetalstrasse",
-          "houseNumber": "85",
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.2834518,
-            9.4256791
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/11163201413",
-          "osmName": "Wasserauen",
-          "street": "Schwendetalstrasse",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.2855082,
-            9.4287396
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2040794196",
-          "osmName": "Wasserauen",
-          "street": "Schwendetalstrasse",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.2827752,
-            9.4252884
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3738047768",
-          "osmName": "Wasserauen",
-          "street": "Schwendetalstrasse",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "tripsy:activity:seed:a053",
       "city": "bachalpsee",
       "name": "Bachalpsee-Wanderung",
@@ -5330,195 +5073,6 @@
           "street": null,
           "houseNumber": null,
           "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:transport:3762690",
-      "city": "glarus",
-      "name": "Glarus → Grindelwald",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Glarus → Grindelwald, Glarus",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            47.1064925,
-            9.0797716
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/1683140",
-          "osmName": "Glarus Nord",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.0400002,
-            9.0715056
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3136256208",
-          "osmName": "Glarus",
-          "street": "Im Volksgarten",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.9185058,
-            9.0927839
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/1683141",
-          "osmName": "Glarus Süd",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.9796562,
-            9.108812
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/1685673",
-          "osmName": "Glarus",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:transport:3762692",
-      "city": "grindelwald",
-      "name": "Grindelwald → Kandersteg",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Grindelwald → Kandersteg, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            46.635832,
-            7.9888793
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/456009765",
-          "osmName": "Grindelwald-First",
-          "street": "Grindelwaldstrasse",
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.5686485,
-            8.0452364
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/131338",
-          "osmName": "Grindelwald-Fiescherfirn",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.6599665,
-            8.0538029
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4492435070",
-          "osmName": "SOS Notfalldienst Grindelwald-First",
-          "street": "50",
-          "houseNumber": null,
-          "nameScore": 0.235,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.6061895,
-            7.9214123
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4492270435",
-          "osmName": "Winnercard Terminal Wengen Grindelwald-Wengen",
-          "street": "Wengiboden",
-          "houseNumber": "1350f",
-          "nameScore": 0.188,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:transport:3762694",
-      "city": "kandersteg",
-      "name": "Kandersteg → München",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Kandersteg → München, Kandersteg",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            46.4914254,
-            7.6558941
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/612254152",
-          "osmName": "Klettersteig Kandersteg-Allmenalp",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.4916375,
-            7.6569366
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/612254160",
-          "osmName": "Klettersteig Kandersteg-Allmenalp",
-          "street": "Klettersteig Kandersteg-Allmenalp",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.4907478,
-            7.6551559
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/34657201",
-          "osmName": "Luftseilbahn Kandersteg-Allmenalp",
-          "street": "Klettersteig Kandersteg-Allmenalp",
-          "houseNumber": null,
-          "nameScore": 0.313,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.4908985,
-            7.655086
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/612254147",
-          "osmName": "Klettersteig Kandersteg-Allmenalp",
-          "street": "Klettersteig Kandersteg-Allmenalp",
-          "houseNumber": null,
-          "nameScore": 0.313,
           "addressMatch": false
         }
       ]
@@ -6635,21 +6189,6 @@
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
     },
     {
-      "id": "local:food-v03-010",
-      "city": "sete",
-      "name": "Chez François",
-      "address": "8 Quai Général Durand, 34200 Sète, France",
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Chez François, 8 Quai Général Durand, 34200 Sète, France, Sète",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
       "id": "research:suggest_017",
       "city": "sete",
       "name": "Corniche-Aussicht mit Rad oder zu Fuß",
@@ -6731,21 +6270,6 @@
         "interrail_swiss"
       ],
       "query": "LOFT COCON EN PLEIN CENTRE DE SETE, Sète",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "local:food-v03-008",
-      "city": "sete",
-      "name": "Miam's d'ici et d'ailleurs",
-      "address": "Passage du Dauphin, 16 Rue Gambetta, 34200 Sète, France",
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Miam's d'ici et d'ailleurs, Passage du Dauphin, 16 Rue Gambetta, 34200 Sète, France, Sète",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
@@ -7906,5 +7430,17 @@
       "notes": "Wasserauen Ausgangsregion Seealpsee-Wanderung; der Verlauf der Fahrstraße ist hier nicht als Punkt modelliert.",
       "origin": "unmatched"
     }
-  ]
+  ],
+  "manualLocationResearchV08": {
+    "observedOn": "2026-11-13",
+    "individualChecks": 17,
+    "dropped": [
+      {
+        "id": "tripsy:transport:3762687",
+        "reason": "Abfahrtspunkt wurde im Original nur als München beschrieben; München Hbf ist nicht belegte Ortswahl"
+      }
+    ],
+    "accepted": 16,
+    "notes": "Hotel privacy preserved; matched streets/bahnhofs are external source mapped. Transport entries use start-station only, never a route shape."
+  }
 }
