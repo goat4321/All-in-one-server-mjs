@@ -593,6 +593,10 @@ async function action(name, value = '') {
     case 'city':
       if (view.page === 'map') { view.mapScope = 'city'; view.total = false; }
       showCity(value); break;
+    case 'trip-city':
+      if (!context.trip.route.includes(value)) break;
+      view.page='plan';view.total=false;
+      showCity(value);break;
     case 'day': showCity(ctx.cityForDay(value), value, view.wholeDay === true || ctx.trip.id === 'swiss_lakes'); break;
     case 'day-place':
       showCity(value === 'all' ? ctx.cityForDay(ctx.date) : value, ctx.date, value === 'all'); break;

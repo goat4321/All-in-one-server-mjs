@@ -109,6 +109,9 @@ try {
   await until(() => js('document.querySelectorAll(".sidebar-section").length === 3'), 'Gruppierte Navigation');
   await click('.sidebar [data-action=page][data-value=overview]');
   await until(() => js('document.querySelectorAll(".overview-quick-card").length === 4'), 'Vier Schnellzugriffe');
+  await until(() => js('document.querySelectorAll(".destination-card").length>=4'),'Filmstreifen aus echten Reiseorten');
+  await until(() => js('document.querySelectorAll(".cockpit-progress-item").length===4'),'Vier nachvollziehbare Fortschrittsanzeigen');
+  assert.equal(await js('document.querySelector(".cockpit-disclaimer")?.textContent.includes("keine bestätigten Buchungen")'),true);
   await screenshot('01-uebersicht-desktop.png');
   await click('.sidebar [data-action=page][data-value=plan]');
   await text('h1','Barcelona');

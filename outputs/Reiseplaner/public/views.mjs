@@ -2,7 +2,7 @@ import { railReviewTimeline } from './rail-review-timeline.mjs';
 import { providerQuotePanel } from './provider-quotes-v13.mjs';
 import { providerLocationPanel } from './provider-location-v13.mjs';
 import { mediaCoveragePanel } from './media-coverage.mjs';
-import { readinessPanel } from './readiness-panel.mjs';
+import { readinessPanel, readinessOverview } from './readiness-panel.mjs';
 import { optionMatchesFilter, smartFilterHelp } from './smart-filters.mjs';
 import { dailyBudgetHtml } from './daily-budget.mjs';
 import { guideMarkup } from './tutorial.mjs';
@@ -16,6 +16,7 @@ import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import { placeQuickFacts, placeProfileHtml, placeImageHtml } from './place-profile.mjs';
+import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
 import { stayComparisonBoard } from './stay-compare-ui.mjs';
 import { voteSnippet, groupVoteBoard } from './group-vote.mjs';
@@ -327,23 +328,68 @@ function overview(ctx) {
     ['lodging','Unterkünfte vergleichen','Suchpreise und Lage prüfen','bed'],
     ['rail','Zugfahrten prüfen','Buchungsfenster und Reservierungen','train']
   ];
+  // Source-scoped destination imagery: never substitute a random hotel/provider
+  // picture. Commons license credit and source stay visible with every photo.
+  const destinationCards=[...new Set(trip.route)].slice(0,9).map(id=>{
+    const photoItem=ctx.all.find(item=>item.city===id&&item.kind==='activity'&&curatedPlacePhoto(item));
+    const photo=photoItem?curatedPlacePhoto(photoItem):null;
+    return '<article class="destination-card"><button type="button" data-action="trip-city" data-value="'+esc(id)+'">'
+      +'<span class="destination-cover">'+(photo
+        ?'<img src="'+esc(photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="'+esc(photoItem.name)+'">'
+        :'<span class="destination-placeholder" aria-label="Kein verifiziertes Ortsfoto">'+icon('map')+'</span>')+'</span>'
+      +'<span class="destination-name">'+esc(ctx.cities[id]?.name??id)+'</span>'
+      +'<small>'+esc(photoItem?.name??'Reiseort erkunden')+'</small></button>'
+      +(photo?'<a class="destination-credit" href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer" title="'+esc(photo.credit)+'">Bild: '+esc(photo.credit)+'</a>'
+      :'<small class="destination-credit">Bild noch offen</small>')
+      +'</article>';
+  }).join('');
+  const progress=readinessOverview(ctx).filter(r=>['stays','hotel-review','rail-review','cost'].includes(r.key));
+  const progressLink={stays:'lodging','hotel-review':'lodging','rail-review':'rail',cost:'budget'};
   return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
+    + '<section class="cockpit-welcome" aria-label="Reise auf einen Blick">'
+    + '<div class="cockpit-intro"><span class="cockpit-eyebrow">'+icon('compass')+' DEIN REISE-COCKPIT</span>'
+    +'<h2>Deine Reise. Alles an einem Ort.</h2>'
+    +'<p>'+esc(trip.description||'Reiseorte, Route, Budget und Vorbereitung auf einen Blick.')+'</p>'
+    +'<div class="cockpit-facts">'
+    +'<span>'+icon('calendar')+esc(dateLabel(trip.from,trip.to))+'</span>'
+    +'<span>'+icon('pin')+new Set(trip.route).size+' Orte</span>'
+    +'<span>'+icon('people')+ctx.people.length+' Reisende</span>'
+    +'<span title="Bekannte Plankosten – kein endgültiger Buchungspreis">'+icon('wallet')+'Bekannte Plankosten: '+esc(money(ctx.budget.total))+'</span>'
+    +'</div><p class="cockpit-disclaimer">'+ctx.budget.unknown+' Preisposten offen · Planwerte, keine bestätigten Buchungen</p></div>'
+    +'<div class="cockpit-journey"><div class="cockpit-section-head"><div><strong>Reiseorte entdecken</strong>'
+    +'<small>Fotos nur bei belegter Bildquelle</small></div>'
+    +btn('show-route','Route öffnen','arrow')+'</div>'
+    +'<div class="destination-filmstrip" aria-label="Reiseorte mit Quellenfotos">'+destinationCards+'</div></div></section>'
+    + '<section class="cockpit-progress" aria-label="Vorbereitung nachprüfen">'
+    +'<div class="cockpit-section-head"><div><strong>Was ist schon vorbereitet?</strong>'
+    +'<small>Nur in deinem Plan dokumentiert, nicht extern bestätigt</small></div>'
+    +btn('page','Details & Fristen','arrow','data')+'</div>'
+    +'<div class="cockpit-progress-track">'+progress.map(r=>{
+      const pct=r.total?Math.min(100,Math.round(r.done/r.total*100)):0;
+      return '<button type="button" class="cockpit-progress-item" data-action="page" data-value="'
+      +progressLink[r.key]+'" aria-label="'+esc(r.title)+': '+r.done+' von '+r.total+'">'
+      +'<span class="cockpit-progress-label"><strong>'+esc(r.title)+'</strong>'
+      +'<small>'+r.done+' / '+r.total+'</small></span>'
+      +'<span class="cockpit-progress-line" role="progressbar" aria-label="'+esc(r.title)
+      +'" aria-valuemin="0" aria-valuemax="'+r.total+'" aria-valuenow="'+r.done+'"><i style="width:'+pct+'%"></i></span></button>';
+    }).join('')+'</div></section>'
     + '<section class="overview-start" aria-label="Schnell zum nächsten Planungsschritt">'
     + '<div class="overview-start-copy"><strong>Wo möchtest du weiterplanen?</strong><span>Direkter Zugang zu den wichtigsten Aufgaben</span></div>'
     + '<div class="overview-quick-grid">'+shortcuts.map(([id,label,note,symbol])=>
       '<button type="button" class="overview-quick-card" data-action="page" data-value="'+id+'">'
       +'<span class="overview-quick-icon">'+icon(symbol)+'</span><span><strong>'+esc(label)+'</strong><small>'+esc(note)+'</small></span>'
       +icon('arrow')+'</button>').join('')+'</div></section>'
-    + '<div class="stat-grid">' + stat('Zeitraum', dateLabel(trip.from, trip.to)) + stat('Reisegruppe', ctx.people.length + ' Personen')
-    + stat('Reiseorte', new Set(trip.route).size + ' Orte') + stat('Bekannte Plankosten', money(ctx.budget.total), ctx.budget.unknown + ' Posten ohne EUR-Summe') + '</div>'
-    + '<section class="section"><h2>Planungs-Check</h2><p class="muted">Direkt aus den aktuell ausgewählten Einträgen berechnet. Fehlende Angaben sind keine bestätigten Buchungen.</p>' + table(['Prüffeld', 'Aktueller Stand', 'Nächster Schritt'], readinessRows) + '</section>'
-    + (ruleRows.length ? '<section class="section"><h2>Offizielle Reiseregeln für 2027</h2>'
-      + '<p class="muted">Nur belegte Saison- und Zugangsregeln, keine Garantie für aktuelle Tickets, geöffneten Betrieb oder die Gültigkeit im Reisedatum.</p>'
-      + table(['Ort / Thema', 'Bekannte Regel und offene Punkte', 'Quellenstand', 'Prüfen'], ruleRows)
-      + '</section>' : '')
-    + '<section class="section panel panel-pad"><h2>Originalroute</h2><p>' + esc(trip.route.map(id => ctx.cities[id]?.name).join(' → ')) + '</p><p class="muted">' + esc(trip.description) + '</p>'
-    + '<div class="row-actions section">' + btn('show-route', 'Gesamtroute öffnen', 'map') + btn('page', 'Zum Tagesplan', 'calendar', 'plan') + '</div></section>'
-    + '<section class="section"><h2>Varianten im Vergleich</h2>' + table(['Variante', 'Zeitraum', 'Originalroute', 'Bekannte Plankosten', 'Personenanteile', 'Preise offen', 'Pass-Tage', 'Gruppe'], variants) + '</section>';
+    + '<details class="cockpit-reference section"><summary><strong>Planungs-Check</strong>'
+    +'<small>Alle Prüfungen und offenen Aufgaben anzeigen</small>'+icon('chevron')+'</summary>'
+    +'<div class="cockpit-reference-body"><p class="muted">Direkt aus den ausgewählten Einträgen berechnet. Fehlende Angaben sind keine bestätigten Buchungen.</p>'
+    +table(['Prüffeld', 'Aktueller Stand', 'Nächster Schritt'], readinessRows)+'</div></details>'
+    + (ruleRows.length ? '<details class="cockpit-reference section"><summary><strong>Offizielle Reiseregeln für 2027</strong>'
+      +'<small>Saisonale Hinweise und Quellen aufklappen</small>'+icon('chevron')+'</summary><div class="cockpit-reference-body">'
+      +'<p class="muted">Nur belegte Saison- und Zugangsregeln, keine Garantie für Buchungen und Gültigkeit am Reisetag.</p>'
+      +table(['Ort / Thema', 'Bekannte Regel und offene Punkte', 'Quellenstand', 'Prüfen'], ruleRows)+'</div></details>' : '')
+    + '<details class="cockpit-reference section"><summary><strong>Varianten im Vergleich</strong>'
+    +'<small>Kosten, Gruppen, Reisedauer und Pass-Tage vergleichen</small>'+icon('chevron')+'</summary>'
+    +'<div class="cockpit-reference-body">'+table(['Variante', 'Zeitraum', 'Originalroute', 'Bekannte Plankosten', 'Personenanteile', 'Preise offen', 'Pass-Tage', 'Gruppe'], variants)+'</div></details>';
 }
 
 function options(ctx, lodging) {
