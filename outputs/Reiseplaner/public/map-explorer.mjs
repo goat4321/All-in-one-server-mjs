@@ -119,6 +119,23 @@ export function explorerDetail(item, people = 3) {
     if (item.menuNote) extra.push('Speisen / Speisekarte: ' + item.menuNote);
     if (explorerCategory(item) === 'food' && !item.menuNote)
       extra.push('Speisekarte, Einzelpreise und konkrete Gerichtsauswahl: noch nicht vollständig geprüft');
+    if (item.menuPriceResearchV08) {
+      const menu=item.menuPriceResearchV08,ref=menu.menuReference;
+      if (!ref) extra.push('Einzelgericht-/Menü-Endpreise: trotz Quellenprüfung nicht veröffentlicht oder dem Restaurant nicht eindeutig zuzuordnen.');
+      else {
+        const money=amount=>new Intl.NumberFormat('de-DE',{style:'currency',currency:ref.currency})
+          .format(amount/100);
+        extra.push('Historische Menüpreise ('+ref.dateLabel+'; nicht als September-2027-Kaufpreis):');
+        for(const sample of ref.sample) extra.push(sample.name+': '+money(sample.amountCents)
+          +(sample.note?' · '+sample.note:''));
+        if(ref.extraPercentage)extra.push('ZUSCHLAG: '+ref.extraPercentage+' %'
+          +' für '+ref.extraAppliesTo+' laut Karte; nicht im Grundpreis enthalten.');
+        if(ref.note)extra.push('Preisbegrenzung: '+ref.note);
+        if(['delivery_menu_only','operator_retail_price_not_cafe_menu'].includes(ref.sourceType))
+          extra.push('Achtung: Dieser Wert ist KEIN vollständiger Restaurantpreis vor Ort.');
+        extra.push('Menü-Originalquelle: '+ref.sourceUrl);
+      }
+    }
     if (item.estimatedCostNote != null && amount == null)
       extra.push('Unbestätigte Kostenreferenz: ' + item.estimatedCostNote);
     if (item.eligibilityOrRisk) extra.push('Zu prüfen: ' + item.eligibilityOrRisk);
