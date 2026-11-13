@@ -317,6 +317,11 @@ function options(ctx, lodging) {
       <div class="chips">${(lodging ? [item.kitchen || 'Küche offen'] : item.tags?.slice(0, 3) ?? []).map(t => status(t)).join('')}</div>
       ${rankLine}<p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
       ${stayStats ? '<p class="muted"><strong>Vergleich:</strong> ' + (stayStats.personNightEuroCents == null ? 'Preis pro Person/Nacht offen' : money(stayStats.personNightEuroCents) + ' pro Person/Nacht') + ' · ' + (stayStats.stationWalkMinutes==null?'Bahnhof-Weg offen':stayStats.stationWalkMinutes + ' Min. tatsächlicher Fußweg') + ' · ' + stayStats.risk.length + ' offene Prüfpunkte. Gehzeit und Geldbetrag nicht miteinander verrechnet.</p>' : ''}
+      ${item.quote?.sampleTotalCents != null ? '<p class="muted"><strong>Airbnb-Preisreferenz:</strong> '
+        + esc(money(item.quote.sampleTotalCents)) + ' für ' + esc(item.quote.sampleAdults ?? 'unbekannt')
+        + ' Gäste im damaligen Suchzeitraum' + (item.quote.sampleFrom && item.quote.sampleTo
+          ? ' (' + esc(dateLabel(item.quote.sampleFrom, item.quote.sampleTo)) + ')' : ' (genaues Suchdatum offen)')
+        + '. Kein verbindlicher Endpreis für den Reiseplan; nicht in das Budget eingerechnet.</p>' : ''}
       ${item.quote ? '<p class="muted">Suchstand ' + esc(item.quote.observedOn) + ' · Zimmer/Betten, Steuern, Stornierung und Checkout offen. '
         + esc(item.quote.location ?? '') + '</p>' : ''}${targetLine}
       <div class="option-facts"><small>${esc(lodging ? (item.stayFrom && item.stayTo ? dateLabel(item.stayFrom, item.stayTo) : 'Aufenthaltsdaten offen') : item.duration ? item.duration + ' Min.' : 'Dauer offen')}
