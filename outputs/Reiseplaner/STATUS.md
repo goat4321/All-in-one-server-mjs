@@ -1,5 +1,13 @@
 # Projektstand · 13.11.2026
 
+## Nachtrag 13.11.2026 – v1.6 Atlas-Synchronisierung und Screenshot-QA
+
+Karten-Explorer für Desktop im nebeneinanderliegenden Karten-/Listenlayout, synchronisierte Ortsauswahl über Marker und Listenkarte sowie Quellendetails im Dialog. Lokale, je Reisevariante unabhängige Karten-Merkliste mit Filter und Pin-Hervorhebung (max. 120 IDs), ausdrücklich nicht Teil von Buchungen/Budget oder SQLite. Doppelte große Leaflet-Popups entfernt. Fehlerhaft ungeschlossenes `map-wrap`-Element korrigiert. Mobil wird die Auswahlkarte nicht unter dem unteren Navigationsdock überdeckt, sondern im Dokumentfluss direkt unter der Karte gezeigt.
+
+Screenshot-Vergleich in GitHub Actions: 1280-/1440-Pixel-Desktop, 390-Pixel-Smartphone und 820-Pixel-Tablet, jeweils isoliertes Seed-/Offline-Kartenlayout; sechs Dateien im 14 Tage gehaltenen Artefakt `reiseplaner-ui-review`. Zusätzliche Node- und Chrome-Regressionsprüfungen sichern die Bedienabläufe. **Echte Endgeräte, Performance mit allen Online-Kacheln und vollständige 2027-Datenrecherche bleiben offen.**
+
+
+
 ## Nachtrag 13.11.2026 – v1.5 Übersicht & interaktiver Karten-Explorer
 
 Navigationsgruppen, Reiseübersichts-Schnellzugriffe, mobile Dock-Navigation und persistente Reiseort-Accordion-Ansicht. Karte vor Mehrstopp-Builder, zusätzliche aufklappbare Routenplanung. Leaflet-POI-Zoomcluster ab Zoom 12 und kleiner, klickbare Kategorien in der Legende und Kartenkennzahlen. Individuelle POI-Umkreissuche mit 1/3/10 km und visuellem Radius; Live-Filter der Ergebnisliste nach aktuellem Kartenausschnitt; umschaltbare kompakte und detaillierte Ortskarten, Ein-Klick-Filter-Reset. **Keine Kartenpunkt-Erfindungen, keine veränderten Buchungen oder Budgetdaten.** Siehe `PHASE_15_UI_MAP.md`.

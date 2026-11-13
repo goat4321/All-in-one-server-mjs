@@ -1,3 +1,18 @@
+## v1.6 – Synchronisierter Kartenatlas, Merkliste und visuelle QA (13.11.2026)
+
+**Entwicklungsbranch:** `feature/v7-data-day-accommodation-rail` · Draft PR #5 · keine Änderung an `main`, keine Veröffentlichung.
+
+Der Karten-Explorer ist bei breiten Desktop-Ansichten als **Karte links + separat scrollbarerer Ortsliste rechts** aufgebaut; auf schmalen Bildschirmen bleiben die Bereiche untereinander. Das Antippen eines Markers markiert die passende Ortskarte und zeigt eine kompakte Vorschau mit `In Liste` und `Details`; umgekehrt führt `Auf Karte` zum Marker. Bei nicht in den ersten 60 Ergebnissen sichtbaren Einträgen lädt `In Liste` bei Bedarf weitere Ergebnisse nach. Der frühere doppelte große Leaflet-Popup und die duplizierte Detailsektion unterhalb des Atlas wurden im Explorer entfernt. Der ausführliche quellengestützte Dialog ist weiter erreichbar.
+
+**Neue Merkliste:** `Merken`/`Merken entfernen` direkt in Ortskarte und Kartenvorschau, Filter `Merkliste (N)`, Hervorhebung gemerkter Einzelpins bzw. Sternanzahl in Zoom-Clustern. Die maximal 120 gespeicherten IDs liegen **nur im Browser-localStorage pro Reisevarianten-ID** (`reiseplan-map-shortlist:<variant>`), nicht in der SQLite-Reisedatenbank. Browserdaten löschen oder anderer Browser/Gerät bedeutet eine separate Merkliste. Sie sind keine Reisebuchungen, Budgetposten, Anbieterlisten oder Gruppenstimmen. Fehlerhafte localStorage-Inhalte werden ignoriert; die IDs werden im aktuellen Reise-Katalog gefiltert.
+
+**Visuelle Abnahme:** Der echte Chrome-Regressionstest erzeugt neue Screenshots für Desktop-Übersicht (1280 px), Desktop-Atlas mit Karte/Liste und ausgewähltem Marker (1440 px), Smartphone (390 px) inklusive eigenständiger Ortsvorschau sowie Tablet (820 px). Die Bilder liegen 14 Tage als GitHub-Actions-Artefakt `reiseplaner-ui-review` im jeweiligen erfolgreichen Lauf. Getestet wird der isolierte lokale Seed bei ausgeschalteten Online-Kartenkacheln; die Bildprüfung ist keine Abnahme an echten Smartphones und keine Prüfung externer OSM-Kartenserver.
+
+**Behobener QA-Befund:** `map-wrap` war im Kartenmarkup nicht geschlossen, wodurch die Vorschau über die Legende hinausragen konnte. Der DOM-Aufbau ist repariert; ein echter Chrome-Test kontrolliert jetzt, dass auf Desktop die Vorschau vollständig im Kartenausschnitt bleibt und auf dem Handy als eigene Karte darunter erscheint, ohne vom unteren Dock verdeckt zu werden.
+
+Tests: `npm run test:portable` inkl. neuem `test/map-shortlist.test.mjs`, Katalog-/Server-Smoke, Chrome-Browser-End-to-End-Suite und sechs Screenshots. Architektur und noch offene Grenzen: [PHASE_16_ATLAS_VISUAL_QA.md](PHASE_16_ATLAS_VISUAL_QA.md).
+
+---
 ## v1.5 – Navigations- und Karten-Redesign (13.11.2026)
 
 Die Reiseplaner-App wurde funktional **umstrukturiert**, ohne Datensätze, Buchungen oder Reisevarianten zu ändern:
