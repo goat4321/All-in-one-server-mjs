@@ -125,7 +125,11 @@ try {
   await click('[data-action=option-filter][data-value=search]');
   await text('.grid-cards', 'HeyLola! Hostel');
   await text('.grid-cards', '31,77');
-  assert.equal(await js('document.querySelectorAll(".option-card").length'), 13);
+  const scopedHotelSearchCount = catalog.trips.find(trip => trip.id === 'interrail_classic')
+    .items.filter(item => item.city === 'barcelona' && item.kind === 'lodging'
+      && item.quote && !item.duplicateOf).length;
+  assert.equal(await js('document.querySelectorAll(".option-card").length'), scopedHotelSearchCount);
+  await text('.grid-cards', 'Airbnb');
   assert.ok(await js('!document.querySelector(".option-card").textContent.includes("gebucht")')
     || await js('document.querySelector(".option-card").textContent.includes("nicht gebucht")'));
   await click('.sidebar [data-action=page][data-value=discover]');
@@ -137,6 +141,8 @@ try {
   await text('#main', 'Fahrplan- und Preisrecherche · 2027');
   await text('#main', 'Pass-Reisetage und Tarifprüfung');
   await text('#main', 'Alternative Bahnverbindungen · Hypothesen');
+  await text('#main', 'Bahnkorridore & offizielle Betreiber');
+  await text('#main', '2027: Fahrzeit, Verfügbarkeit und Preise offen');
   await click('.sidebar [data-action=page][data-value=data]');
   await text('#main', 'Forschungsarchiv');
   await text('#main', 'Offene Datenqualitätsbefunde');
