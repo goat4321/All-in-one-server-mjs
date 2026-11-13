@@ -15,7 +15,8 @@ import { official2027Notices } from './official-rules-2027.mjs';
 import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
-import { placeQuickFacts, placeProfileHtml, placeImageHtml } from './place-profile.mjs';
+import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
+import { dayPeriod,planCostSignal } from './visual-experience.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
 import { stayComparisonBoard } from './stay-compare-ui.mjs';
@@ -138,6 +139,11 @@ function plan(ctx, name) {
         anchor && first?.from.anchor ? connector(first, routes[0], 0, 'Ab Unterkunft', people.length) : '',
         ...day.map((item, index) => {
           const after = ctx.segments.findIndex(segment => segment.from.entryKey === item.entryKey);
+          const period=dayPeriod(item.time);
+          const lastPeriod=index?dayPeriod(day[index-1].time):null;
+          const periodLabel=period&&period.key!==lastPeriod?.key
+            ?'<div class="timeline-period '+period.key+'">'+icon(period.icon)+'<strong>'+period.title+'</strong></div>':'';
+          const signal=planCostSignal(item,people.length);
           const pinned = selected === item.entryKey;
           const name = item.kind === 'transport' ? item.role + ' · ' + (item.role === 'Ankunft' ? item.arrival : item.departure)
             : item.role ? item.role + ' · ' + item.name : item.name;
@@ -145,11 +151,12 @@ function plan(ctx, name) {
           const place = ctx.wholeDay ? (ctx.cities[item.placeCity]?.name ?? 'Ort offen') + ' · ' : '';
           const line = place + (item.kind === 'transport' ? item.name + (item.mode === 'roadtrip' ? ' · Autofahrt' : ' · Entwurf')
             : duration + (item.tags?.slice(0, 2).join(' · ') || item.category || 'Geplant'));
-          return `<article class="timeline-event"><time>${esc(item.time ?? 'Flexibel')}</time><div class="axis"><span class="number">${index + 1}</span></div>
+          return periodLabel+`<article class="timeline-event"><time>${esc(item.time ?? 'Flexibel')}</time><div class="axis"><span class="number">${index + 1}</span></div>
           <div class="event-card ${pinned ? 'selected' : ''}" data-event-id="${esc(item.id)}" ${!item.locked && !item.booked && item.kind !== 'transport' && item.kind !== 'lodging' ? 'draggable="true"' : ''}>
           <button type="button" class="event-content" data-action="select" data-value="${esc(item.entryKey)}" aria-pressed="${pinned}">
-          <span class="category-icon ${item.category === 'food' ? 'food' : item.kind === 'transport' ? 'train' : ''}">${icon(categoryIcon(item))}</span><div>
-          <h3>${esc(name)} ${item.locked || item.booked ? icon('lock') : ''}</h3><small>${esc(line)}</small></div></button>
+          ${placeThumbnailHtml(item,ctx)}<div class="timeline-event-copy">
+          <h3>${icon(categoryIcon(item))}${esc(name)} ${item.locked || item.booked ? icon('lock') : ''}</h3>
+          <small>${esc(line)}</small><span class="timeline-price" title="${esc(signal.note)}">${esc(signal.tier)} · ${esc(signal.amount)}</span></div></button>
           <button type="button" class="mini-action" data-action="edit" data-value="${esc(item.id)}" aria-label="Bearbeiten: ${esc(item.name)}">${icon('edit')}</button></div></article>`
           + (after >= 0 ? connector(ctx.segments[after], routes[after], after, ctx.segments[after] === last && last.to.anchor ? 'Zur Unterkunft' : '', people.length) : '');
         }),

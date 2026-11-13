@@ -2,7 +2,7 @@ import { curatedPlacePhoto, curatedPhotoCount } from '../public/curated-place-ph
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadCatalog } from '../lib/catalog.mjs';
-import { placeProfileModel, placeProfileHtml, placeQuickFacts, placeImageHtml, placePopupHtml, placeGalleryHtml } from '../public/place-profile.mjs';
+import { placeProfileModel, placeProfileHtml, placeQuickFacts, placeImageHtml, placeThumbnailHtml, placePopupHtml, placeGalleryHtml } from '../public/place-profile.mjs';
 
 const catalog = await loadCatalog();
 const ctx={people:[{id:'p1'},{id:'p2'},{id:'p3'}],cities:catalog.cities,catalog,state:{}};
@@ -48,6 +48,8 @@ test('Place photos require a credited explicit source and never appear for unkno
    credit:'Example author · CC BY 4.0'
  }}}};
  const html=placeImageHtml(item,ctxWithPhoto);
+ assert.match(placeThumbnailHtml(item,ctxWithPhoto),/data-licensed="true"/);
+ assert.match(placeThumbnailHtml(item,ctx),/data-licensed="false"/);
  assert.match(html,/<img loading="lazy"/);
  assert.match(html,/Example author/);
  assert.match(html,/Bildquelle/);

@@ -115,11 +115,14 @@ try {
   await screenshot('01-uebersicht-desktop.png');
   await click('.sidebar [data-action=page][data-value=plan]');
   await text('h1','Barcelona');
+  await until(()=>js('document.querySelectorAll(".timeline-price").length>0'),'€-Kennzeichen im Tagesablauf');
   // Global trip explorer: all source-backed categories, geographic scope,
   // search, real routing attempt and explicitly adding a restaurant to a day.
   await click('.sidebar [data-action=page][data-value=map]');
   await text('h1', 'Karten-Explorer');
   await text('#main', 'Alle passenden Orte');
+  await until(()=>js('document.querySelectorAll(".place-price-signal").length>0'),'€-Kennzeichen an Ortslisten');
+  await until(()=>js('document.querySelector(".explorer-compact-media .place-thumbnail")!==null'),'Kompakte Ortsliste mit Miniaturbild oder Symbol');
   // Review at an actual wide desktop CSS viewport; default CI Chrome starts at 1280px.
   await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===2'),

@@ -2,7 +2,8 @@ import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, go
 import { EXPLORER_GROUPS, explorerDetail, externalFootUrl, externalTransitUrl, mapPointInBounds } from './map-explorer.mjs';
 import { esc, btn, chip, status, urlLink, empty, transitPlanners } from './ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
-import { placeQuickFacts, placeImageHtml } from './place-profile.mjs';
+import { placeQuickFacts, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
+import { planCostSignal } from './visual-experience.mjs';
 import { voteSnippet } from './group-vote.mjs';
 
 export function explorerToolbar(ctx) {
@@ -87,6 +88,7 @@ export function explorerList(ctx) {
     const located = Array.isArray(item.point) && item.point.length === 2;
     const active = ctx.activeSet.has(item.id);
     const bookmarked=ex.saved?.has(item.id)??false;
+    const signal=planCostSignal(item,ctx.people.length);
     const canPlan = !active && item.kind !== 'transport';
     // A and B can be researched in Google Maps even before an exact POI pin is confirmed.
     // Internal OSRM/GTFS routing still requires exact coordinates.
@@ -95,11 +97,15 @@ export function explorerList(ctx) {
         + btn('explorer-end', 'Als Ziel', 'arrow', item.id) : '';
     return '<article class="explorer-place panel" data-place-id="' + esc(item.id)
       + '" data-selected="' + (ctx.selected===item.id) + '" data-bookmarked="'+bookmarked+'">'
-      + placeImageHtml(item,ctx,{small:true})
+      + (ex.compact?'<div class="explorer-compact-media">'+placeThumbnailHtml(item,ctx)+'</div>'
+        :placeImageHtml(item,ctx,{small:true}))
       + '<div class="explorer-place-title"><span class="category-swatch ' + category + '"></span><div><h3>'
       + esc(item.name) + '</h3><small>' + esc(ctx.cities[item.city]?.name ?? item.city) + ' · '
       + esc(details.group.label) + '</small></div>' + (active ? status('Im Plan', 'green') : '') + '</div>'
       + '<p class="explorer-description">' + esc(details.description) + '</p>'
+      + '<div class="place-price-signal" title="'+esc(signal.note)+'">'
+      +'<span>'+esc(signal.tier)+'</span><small>'+esc(signal.amount)
+      +' · Plan-/Suchwert, kein bestätigter Endpreis</small></div>'
       + placeQuickFacts(item,ctx)
       + (['activity','lodging'].includes(item.kind)?voteSnippet(item,ctx):'')
       + '<div class="explorer-facts"><span><strong>Preis:</strong> ' + esc(details.priceText) + '</span>'

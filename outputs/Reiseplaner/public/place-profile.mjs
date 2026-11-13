@@ -3,6 +3,7 @@ import { explorerCategory, explorerDetail } from './map-explorer.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, googleMapsLocationStatus } from './google-maps.mjs';
 import { esc, sourceList, urlLink } from './ui.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
+import { icon } from './ui.mjs';
 
 // Consistent, source-aware place facts. Missing information stays explicitly
 // unknown; wishlist screenshots must never be promoted to bookable prices.
@@ -67,6 +68,18 @@ export function placeProfileModel(item, ctx = {}) {
     maps:googleMapsSearchUrl(item,ctx.cities),route:googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),
     providerUrl:item.website??null,photo:photos[0]??null,photos,ownPhotoCount:ownPhotos.length,
   };
+}
+
+/** Source-safe short image used by lightweight list and itinerary rows.
+ * Full photo credit and direct source remain in the detailed place profile. */
+export function placeThumbnailHtml(item,ctx={}) {
+  const model=placeProfileModel(item,ctx);
+  if(!model)return '';
+  const symbol={lodging:'bed',food:'food',shop:'wallet',activity:'compass',transport:'train'}[model.category]??'pin';
+  return '<span class="place-thumbnail" data-licensed="'+Boolean(model.photo)+'">'
+    +(model.photo?'<img src="'+esc(model.photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="" title="'+esc(model.photo.credit)+'">'
+      :'<span class="place-thumbnail-fallback" aria-hidden="true">'+icon(symbol)+'</span>')
+    +'</span>';
 }
 
 // Only photos explicitly entered with source and credit are displayed.
