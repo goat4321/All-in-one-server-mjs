@@ -75,6 +75,18 @@ export function validateState(state, trip, imported) {
     }
   }
 
+  if (state.votes != null) {
+    if (!object(state.votes) || Object.keys(state.votes).length > 500)
+      error('Ungültiges Gruppenabstimmungsarchiv.');
+    const validPeople=new Set(state.people.map(x=>x.id));
+    for (const [id,ballot] of Object.entries(state.votes)) {
+      if (!itemMap.has(id) || !object(ballot)
+        || Object.keys(ballot).length > state.people.length
+        || Object.entries(ballot).some(([person,score])=>
+          !validPeople.has(person) || !Number.isInteger(score) || score<1 || score>5))
+        error('Ungültige Gruppenbewertung. Nur 1–5 Punkte je Person sind erlaubt.');
+    }
+  }
   if (state.verifications != null) {
     if (!object(state.verifications) || Object.keys(state.verifications).length > 400)
       error('Ungültiges Prüfarchiv.');
