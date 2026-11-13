@@ -4,6 +4,7 @@ import { TripMap } from './map.mjs';
 import { transitFares } from './transit.mjs';
 import { railSalesStatus } from './verification.mjs';
 import { explorerData, explorerRouteInput } from './map-explorer.mjs';
+import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
 import { btn, empty, esc, icon } from './ui.mjs';
 import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
@@ -312,7 +313,10 @@ async function calculateExplorerRoute() {
   const to = pooled.find(item => item.id === view.mapTo);
   const input = explorerRouteInput(from, to);
   if (!input) {
-    view.mapRouteResult = { status: 'Bitte zwei verschiedene Orte mit belegten Koordinaten auswählen.', route: null };
+    const external = from?.id !== to?.id && googleMapsDirectionsUrl(from, to, ctx.cities, view.mapRouteMode === 'walk' ? 'walking' : 'transit');
+    view.mapRouteResult = { status: external
+      ? 'Keine genaue lokale Routenberechnung möglich. Google Maps kann mit Name bzw. Adresse eine Verbindung suchen; Ergebnis dort prüfen.'
+      : 'Bitte zuerst zwei verschiedene Reiseorte auswählen.', route: null };
     render({ restoreView: true, fetchRoutes: false });
     return;
   }
