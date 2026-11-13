@@ -1,6 +1,7 @@
 import { categories, groupPrice, localParts, mealDate, mealEstimate, minor, money, utcFromLocal } from './model.mjs';
 import { alert, btn, esc, iconBtn, dateLabel, dateText, sourceList, urlLink, cost, unit, timeText, transitPlanners } from './ui.mjs';
 import { transitNetworks } from './transit.mjs';
+import { placeProfileHtml } from './place-profile.mjs';
 import { VERIFICATION_FIELDS, reviewProgress } from './verification.mjs';
 
 const dialog = document.querySelector('#dialog');
@@ -187,24 +188,13 @@ export function chooseItem(ctx, item, save, after) {
 }
 
 export function itemDetails(ctx, item) {
-  const local = localParts(item.start, item.zone);
-  const details = [
-    item.address, item.kind === 'transport' && item.arrivalAddress ? 'Ziel: ' + item.arrivalAddress : null,
-    item.kind === 'transport' ? timeText(item) + ' · Ortszeiten · ' + item.verification : local.date ? local.date + ' ' + (local.time ?? '') : null,
-    item.kind === 'lodging' ? [item.kitchen, item.room, 'Gebühren: ' + (item.fees ?? 'offen'), 'Storno: ' + (item.cancellation ?? 'offen')].filter(Boolean).join(' · ') : null,
-    item.duration ? 'Dauer ' + item.duration + ' Min.' : null,
-    item.detail, item.access, item.price?.label, item.eligibility ? 'Berechtigung: ' + item.eligibility : null,
-    item.originalName && item.originalName !== item.name ? 'Originaleintrag: ' + item.originalName : null,
-    item.externalId ? 'Tripsy-ID ' + item.externalId : null,
-  ].filter(Boolean);
-  openDialog(item.name, '<p><strong>' + esc(cost(item, ctx.people.length)) + '</strong> gesamt · ' + esc(unit(item, ctx.people.length))
-    + '</p>' + details.map(value => '<p>' + esc(value) + '</p>').join('') + (item.positionIssue ? alert(item.positionIssue) : '')
+  openDialog(item.name, placeProfileHtml(item,ctx)
+    + (item.positionIssue ? alert(item.positionIssue) : '')
     + (item.importConflict ? alert(item.importConflict) : '')
-    + sourceList(item, ctx.catalog.sources) + '<div class="dialog-foot">'
+    + '<div class="dialog-foot">'
     + (item.mealSlot && ctx.activeSet.has(item.id) ? btn('meal-cost', 'Ausgabe zur Mahlzeit', 'wallet', item.id) : '')
     + btn('close', 'Schließen') + '</div>');
 }
-
 
 const checklistLabels = {
   room: 'Die konkrete Zimmerkategorie passt für die Reisegruppe',
