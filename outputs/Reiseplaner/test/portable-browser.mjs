@@ -96,6 +96,13 @@ try {
   await set('#map-search', '');
   await click('[data-action=explorer-search]');
   await text('#main', 'Taberna Nardi');
+  await text('#main', 'Mehrstopp-Tagesroute');
+  await click('[data-action=day-route-add][data-value="local:bormuth"]');
+  await click('[data-action=day-route-add][data-value="local:nardi"]');
+  await text('.day-route-builder', '2/8 gewählt');
+  await click('[data-action=day-route-optimize]');
+  await text('.day-route-builder', 'Luftlinien-Vorsortierung');
+  assert.equal(store.current('interrail_classic').state.edits['local:nardi'], undefined);
   await click('[data-action=explorer-start][data-value="local:bormuth"]');
   await click('[data-action=explorer-end][data-value="local:nardi"]');
   await until(() => js('document.querySelector(".explorer-status")?.textContent.includes("Fußweg")'),
@@ -114,6 +121,7 @@ try {
   await text('#main', '60 €');
   await click('.sidebar [data-action=page][data-value=lodging]');
   await text('#main', 'Suchpreis-Snapshots');
+  await text('#main', 'Datenlücken im Hotelvergleich');
   await click('[data-action=option-filter][data-value=search]');
   await text('.grid-cards', 'HeyLola! Hostel');
   await text('.grid-cards', '31,77');
@@ -127,6 +135,7 @@ try {
   await text('#main', 'Gruppeninteresse');
   await click('.sidebar [data-action=page][data-value=rail]');
   await text('#main', 'Fahrplan- und Preisrecherche · 2027');
+  await text('#main', 'Pass-Reisetage und Tarifprüfung');
   await text('#main', 'Alternative Bahnverbindungen · Hypothesen');
   await click('.sidebar [data-action=page][data-value=data]');
   await text('#main', 'Forschungsarchiv');
