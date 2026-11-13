@@ -20,7 +20,7 @@ test('39 curated cafes, food and groceries are scoped to actual route cities wit
     assert.equal(added.length,applicable.length,trip.id);
     assert.ok(added.every(x=>x.point==null && x.price==null && x.selected===false));
     assert.ok(added.every(x=>x.website?.startsWith('https://www.google.com/maps/search/')));
-    assert.ok(added.every(x=>x.openingHoursNote?.includes('13.11.2026')));
+    assert.deepEqual(added.filter(x=>!x.openingHoursNote?.includes('13.11.2026')).map(x=>({id:x.id,hours:x.openingHoursNote})),[],trip.id);
     const active=activeItems(trip,initialState(trip));
     assert.equal(active.filter(x=>x.id.startsWith('local:food-v03-')).length,0);
   }
@@ -29,7 +29,7 @@ test('39 curated cafes, food and groceries are scoped to actual route cities wit
 });
 
 test('Official landmark rules enrich details but never force a new booking or budget price', () => {
-  const sf=classic.items.find(x=>/Sagrada Família Innenbesichtigung/.test(x.name));
+  const sf=classic.items.find(x=>x.id==='research:a035');
   const eiffel=classic.items.find(x=>/Eiffelturm zweite Etage/.test(x.name));
   const orsay=classic.items.find(x=>x.id==='official:orsay');
   assert.ok(sf && eiffel && orsay);
