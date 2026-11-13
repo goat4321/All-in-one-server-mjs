@@ -264,6 +264,7 @@ function mapPanel(ctx, full = false) {
           +ctx.dayRoute.items.length+' Stopps · '
           +(ctx.dayRoute.routes.filter(r=>r?.walkOnly).length)+' Fußwege berechnet</span></div>' : ''}
       <div class="map-hint" id="map-hint" hidden></div>
+    </div>
     <div class="map-legend"><span><i class="legend-line ${ctx.total ? 'dashed' : ''}"></i> ${ctx.total ? 'Städtefolge · Schema' : 'Berechneter Fußweg'}</span>
     ${ctx.explorer ? Object.entries(EXPLORER_GROUPS).map(([id, group]) =>
       '<button type="button" class="map-legend-control" data-action="explorer-group" data-value="'+esc(id)

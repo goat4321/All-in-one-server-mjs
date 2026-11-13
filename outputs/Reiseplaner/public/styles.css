@@ -984,3 +984,8 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 .explorer-place[data-bookmarked=true] .explorer-place-title h3::after{content:" ★";color:#a47816}
 .pin.bookmarked{box-shadow:0 0 0 4px #f3c75094,0 2px 8px #0b241d8a}
 .pin.bookmarked.focused{box-shadow:0 0 0 5px #f0c544bd,0 2px 8px #0b241d8a}
+
+
+/* Keep the map-only overlays inside the Leaflet viewport; the legend follows it in normal flow. */
+.map-wrap{isolation:isolate}
+.map-selection-preview{bottom:12px}

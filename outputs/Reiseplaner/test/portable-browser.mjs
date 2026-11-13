@@ -186,6 +186,10 @@ try {
     'Clicking a real map marker synchronizes the selected preview');
   assert.ok(await js('(() => { const element=document.querySelector(".map-selected-place"); const r=element?.getBoundingClientRect();return r&&r.width>120&&r.height>50&&getComputedStyle(element).visibility==="visible"; })()'),
     'Auswahlvorschau muss tatsächlich sichtbar sein, nicht nur im DOM stehen');
+  assert.equal(await js('document.querySelector(".map-wrap").contains(document.querySelector(".map-legend"))'),false,
+    'Kartenlegende ist ein eigenes Layout-Element und kein Teil des Karten-Overlays');
+  assert.ok(await js('(() => { const p=document.querySelector(".map-selection-preview")?.getBoundingClientRect(); const m=document.querySelector("#map")?.getBoundingClientRect(); return p&&m&&p.bottom<=m.bottom+1&&p.top>=m.top-1; })()'),
+    'Kartenauswahl muss vollständig innerhalb des sichtbaren Leaflet-Ausschnitts bleiben');
   assert.equal(await js('document.querySelectorAll("#map .leaflet-popup").length'),0,
     'No redundant Leaflet popup may hide the selected map marker');
   assert.equal(await js('document.querySelector("#detail-container .map-detail")===null'),true,
