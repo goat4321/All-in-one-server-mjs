@@ -1,8 +1,7 @@
 name: Reiseplaner · Import geprüfter Koordinaten v0.6
+# One-time, explicit import only. Never repeat artifact imports on every PR update.
 on:
-  pull_request:
-    branches: [feature/v7-unified-map-and-day-builder]
-    paths: [.github/workflows/reiseplaner-photon-import.yml]
+  workflow_dispatch:
 
 permissions:
   actions: read
