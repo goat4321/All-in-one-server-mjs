@@ -131,6 +131,56 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
     return task;
   }
 
+
+  // Single user-initiated search only: no autocomplete, background bulk
+  // geocoding or map-centre substitution. Nominatim 1 request/second and cache.
+  const geocodeCache=new Map();
+  let geocodeQueue=Promise.resolve(), lastGeocode=0;
+  async function geocode(input) {
+    const {variantId,itemId}=input??{};
+    if(typeof variantId!=='string' || variantId.length>150 || typeof itemId!=='string' || itemId.length>180)
+      throw new InputError('Variante und Ort müssen angegeben werden.');
+    const current=store.current(variantId);
+    const item=[...current.trip.items,...current.imported,...current.state.manual]
+      .find(x=>x.id===itemId && x.address && x.city && !x.booked);
+    if(!item)throw new InputError('Nur vorhandene, ungebuchte Ortsadressen dürfen abgeglichen werden.',404);
+    if(typeof item.address!=='string' || item.address.length>200)throw new InputError('Die Adresse ist für die Geokodierung ungeeignet.');
+    const city=catalog.cities[item.city];
+    if(!city?.point)throw new InputError('Stadtkoordinate für Plausibilitätsprüfung fehlt.');
+    const key=item.city+'|'+item.address.trim().toLowerCase();
+    if(geocodeCache.has(key))return geocodeCache.get(key);
+    if(!upstream)throw new InputError('Online-Adressprüfung deaktiviert. Kartenposition kann weiterhin manuell ergänzt werden.',503);
+    const task=geocodeQueue.then(async()=>{
+      await new Promise(resolve=>setTimeout(resolve,Math.max(0,1250-(Date.now()-lastGeocode))));
+      lastGeocode=Date.now();
+      const url='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=3&addressdetails=1&q='
+        +encodeURIComponent(item.address);
+      let rows=[];
+      try {
+        const response=await fetcher(url,{signal:AbortSignal.timeout(7000),headers:{
+          'User-Agent':'Naol-Reiseplaner/1.0 (https://github.com/goat4321/All-in-one-server-mjs)',
+          'Accept':'application/json','Accept-Language':'de'
+        }});
+        if(!response.ok)throw new Error('Provider '+response.status);
+        rows=await response.json();
+        if(!Array.isArray(rows))throw new Error('Unbekanntes Anbieterformat');
+      }catch(e){throw new InputError('Online-Adressprüfung ist nicht erreichbar. Bestehende Daten bleiben unverändert.',503);}
+      const candidates=rows.filter(r=>Number.isFinite(Number(r.lat))&&Number.isFinite(Number(r.lon)))
+        .map(r=>({displayName:String(r.display_name??'').slice(0,300),
+          point:[Number(r.lat),Number(r.lon)],osmType:String(r.osm_type??''),
+          osmId:String(r.osm_id??'')}))
+        .filter(r=>distanceKm(city.point,r.point)<=35).slice(0,3);
+      const value={name:item.name,address:item.address,city:item.city,candidates,
+        source:'OpenStreetMap Nominatim · einzelne nutzerinitiierte Suche',
+        warning:'Vorschläge können nahe Gebäuden oder Straßen liegen. Vor Übernahme Eingang und Name prüfen.'};
+      if(geocodeCache.size>=150)geocodeCache.clear();
+      geocodeCache.set(key,value);
+      return value;
+    });
+    geocodeQueue=task.catch(()=>{});
+    return task;
+  }
+
   const server = createServer(async (req, res) => {
     const localHost = req.headers.host;
     if (!/^(?:localhost|127\.0\.0\.1)(?::\d{1,5})?$/.test(localHost ?? '')) return json(res, { error: 'Lokaler Host erforderlich.' }, 403);
@@ -145,6 +195,7 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
     try {
       const pathname = new URL(req.url, origin).pathname;
       if (pathname === '/api/bootstrap' && req.method === 'GET') return json(res, { ...catalog, transitSchedules, variants: store.list() });
+      if (pathname === '/api/geocode' && req.method === 'POST') return json(res, await geocode(await readJson(req)));
       if (pathname === '/api/transit' && req.method === 'POST') return json(res, await transit(await readJson(req)));
       if (pathname === '/api/walk' && req.method === 'POST') {
         const { points, cachedOnly } = await readJson(req);
