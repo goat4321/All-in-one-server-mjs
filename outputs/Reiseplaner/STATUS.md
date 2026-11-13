@@ -1,5 +1,11 @@
 # Projektstand · 13.11.2026
 
+## Nachtrag 13.11.2026 – v1.3 Anbieter-Recherche
+
+60 neue datierte Booking.com-Suchwerte für sechs echte September-2027-Aufenthaltsfenster und drei Erwachsene/ein Zimmer: sichtbar im separaten Hotel-Vergleich, **nicht** als finale Checkouts oder Reisekosten. Filter/Sortierung greifen nur bei identischen Reisedaten und Gruppengröße. 17 öffentliche Adressfälle: 13 Anbieter-Geohinweise, 4 ohne Treffer, **0 neu unabhängig bestätigte Punkte**. Ein Konflikt bei `research:bcom_12257788` in Genua bleibt unaufgelöst und ist im UI dokumentiert. JSON-/CSV-Archive in `data/research-v13/`; Tests und Methodik in `PHASE_13_PROVIDER_RESEARCH.md`.
+
+
+
 ## Nachtrag 13.11.2026 – v1.2 Benutzerführung und datenbewusste Qualitätsverbesserung
 
 **Entwicklung im Branch `feature/v7-data-day-accommodation-rail`, PR #5; kein Merge oder Deployment.** Die ursprüngliche Übersicht vom 12.11.2026 bleibt im Folgenden als Baseline erhalten.

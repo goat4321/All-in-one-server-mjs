@@ -221,6 +221,21 @@ try {
     'Interaktiver Vergleich von zwei Unterkünften');
   await text('.stay-compare-board','Küche');
   await text('#main', 'Suchpreis-Snapshots');
+  await text('.provider-quote-panel', '2027-09-03 bis 2027-09-06');
+  await until(() => js('document.querySelectorAll(".provider-quote-card").length === 10'),
+    '10 unbooked September Barcelona provider offers');
+  assert.ok(await js('document.querySelector(".provider-quote-card")?.textContent.includes("HeyLola!")'));
+  const priorProviderState=JSON.stringify(store.current('interrail_classic').state);
+  await click('.provider-quote-panel [data-action=provider-budget]');
+  await until(() => js('document.querySelectorAll(".provider-quote-card").length < 10'),
+    'Provider nightly budget filter');
+  await click('.provider-quote-panel [data-action=provider-budget]');
+  await set('#provider-quote-sort', 'rating');
+  await js('document.querySelector("#provider-quote-sort").dispatchEvent(new Event("change",{bubbles:true}))');
+  await until(() => js('document.querySelector(".provider-quote-card")?.textContent.includes("SM Hotel Sant Antoni")'),
+    'Booking score sorting');
+  assert.equal(JSON.stringify(store.current('interrail_classic').state),priorProviderState,
+    'Research controls must not write to the trip');
   await text('#main', 'Datenlücken im Hotelvergleich');
   await click('[data-action=option-filter][data-value=search]');
   await text('.grid-cards', 'HeyLola! Hostel');
@@ -246,6 +261,10 @@ try {
   await click('.sidebar [data-action=page][data-value=data]');
   await text('#main', 'Forschungsarchiv');
   await text('#main', 'Offene Datenqualitätsbefunde');
+  await text('#main', 'Standortprüfung · öffentliche Adressen');
+  await text('#main', 'Bildabdeckung & offene Quellenfotos');
+  assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("Adress-/Identitätskonflikte")'));
+  assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("Via Giuseppe Ratti")'));
   await click('.sidebar [data-action=page][data-value=budget]');
   await text('#main', 'Was-wäre-wenn-Szenarien');
   await click('.sidebar [data-action=page][data-value=overview]');

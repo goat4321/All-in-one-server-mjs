@@ -1,3 +1,25 @@
+## v1.3 – September-2027-Anbieterpreise, Standortabgleich und Prüfung (13.11.2026)
+
+**Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, PR #5, noch nicht gemergt oder öffentlich deployed.**
+
+Unter **Unterkünfte** zeigt der neue Quellenvergleich 60 Booking.com-Suchergebnisse, je zehn für Paris, Barcelona, Sète, Nizza, Genua und Venedig. Die Daten wurden am 13.11.2026 für **drei Erwachsene und ein Zimmer** zu exakt diesen Aufenthalten abgefragt:
+
+| Stadt | Zeitraum |
+|---|---|
+| Paris | 01.–03.09.2027 |
+| Barcelona | 03.–06.09.2027 |
+| Sète | 06.–08.09.2027 |
+| Nizza | 08.–10.09.2027 |
+| Genua | 10.–12.09.2027 |
+| Venedig | 12.–14.09.2027 |
+
+Sortierbar nach Preis, Anbieterbewertung (/10) und Name; eigener Budgetfilter, Anbieterlink, Gruppensuchwert sowie rechnerischer Preis pro Person/Nacht. Keine automatische Auswahl oder Budgetanrechnung. **Suchwerte sind keine bestätigten Checkouts**: Steuer-/Pflichtgebühren, drei Betten im konkreten Zimmer, Storno, Buchbarkeit und finaler Tarif sind noch ungeprüft. Bei anderen Reisezeiträumen oder Gruppengrößen werden diese Snapshots nicht angezeigt.
+
+Unter **Daten & Fristen → Standortprüfung** bleiben 17 öffentliche Gebäude ohne unabhängige Einzelverortung offen. 13 erhielten Anbieter-Koordinaten als separate Recherchehinweise, vier keinen Treffernachweis und kein Punkt wurde automatisch auf die Karte übernommen. Der Widerspruch bei **A due passi dalla Lanterna** in Genua (bisher Via Giuseppe Ratti 4; jetzt Anbieter Via Venezia 50a/6 mit unterschiedlichem Listing-Link) ist dokumentiert und wird nicht stillschweigend überschrieben.
+
+**Datenpaket:** `data/research-v13/` enthält JSON und CSV für 60 Anbieter-Suchergebnisse sowie JSON und CSV für 17 Standortprüfungen. Siehe [PHASE_13_PROVIDER_RESEARCH.md](PHASE_13_PROVIDER_RESEARCH.md).
+
+---
 ## v1.2 – Bedienqualität, Tutorial, Bilder, Smart Filter und Reisevorbereitung (13.11.2026)
 
 **Status: Im GitHub-Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, Pull Request #5; noch nicht gemergt oder öffentlich deployed.** Der bisherige v1.1-Abschnitt ist ein historischer Zwischenstand. Die folgenden Änderungen ergänzen seine bestehenden Detailprofile, Quellenansichten, Karten-Popups und die lokale Gruppenbewertung.
