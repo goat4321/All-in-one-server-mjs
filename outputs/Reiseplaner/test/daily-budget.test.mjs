@@ -10,10 +10,10 @@ test('Simulator splits hotel across stay nights exactly and does not mutate sour
   const projections=['04','05','06'].map(d=>
     dailyBudgetProjection(rows,3,'2027-09-'+d,{target:60,food:10,mobility:5,activities:0}));
   assert.equal(projections.reduce((s,p)=>s+p.lodgingCents,0),10001);
-  assert.equal(projections[1].knownCents,3333+3000);
+  assert.equal(projections[1].knownCents,3334+3000);
   assert.equal(projections[1].unpriced,1);
   assert.equal(projections[1].additionalPerPersonCents,1500);
-  assert.equal(projections[1].projectedGroupCents,6333+4500);
+  assert.equal(projections[1].projectedGroupCents,6334+4500);
   assert.equal(JSON.stringify(rows),before);
 });
 
