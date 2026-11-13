@@ -1,0 +1,916 @@
+{
+  "schema": "food_menu_audit_v08",
+  "observedOn": "2026-11-13",
+  "provenance": "Manual web search of all 39 named food venues; priced entries only for link-backed observed dishes/menus. No guarantee of September 2027 prices.",
+  "counts": {
+    "total": 39,
+    "priced": 17,
+    "siteOnly": 8,
+    "noPrice": 14
+  },
+  "exchangeRatesUsed": false,
+  "partySizeForMealEstimate": 3,
+  "warnings": [
+    "An exact menu item price is not a full restaurant bill: drinks, service, cover, terrace, reservation, season, and delivery fees can change totals.",
+    "Italian restaurant coperto is not presumed included unless a date-specific operator source says so.",
+    "Third-party delivery prices do not equal restaurant in-person prices.",
+    "The 2027 Sète group menu is restricted to eligible groups, group size may exceed 3; not a bookable three-person checkout.",
+    "No individual Airbnb property address is inferred from public listing labels.",
+    "EUR and CHF never converted without separate exchange-rate evidence."
+  ],
+  "items": [
+    {
+      "id": "food-v03-001",
+      "city": "paris",
+      "name": "PLAN B PARIS",
+      "address": "3 Rue de Compiègne, 75010 Paris, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=PLAN%20B%20PARIS%203%20Rue%20de%20Compi%C3%A8gne%2C%2075010%20Paris%2C%20France",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-002",
+      "city": "paris",
+      "name": "Quick Gare du Nord",
+      "address": "27 Rue de Dunkerque, 75010 Paris, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Quick%20Gare%20du%20Nord%2027%20Rue%20de%20Dunkerque%2C%2075010%20Paris%2C%20France",
+      "status": "provider_found_no_exact_menu_price",
+      "menuReference": null,
+      "providerSite": "https://www.quick.fr/restaurants/paris-gare-du-nord",
+      "resolutionNote": "Anbieter-/Tourismusseite vorhanden, aber kein eindeutig zugehöriger tagesaktueller Endpreis pro Menü gefunden."
+    },
+    {
+      "id": "food-v03-003",
+      "city": "paris",
+      "name": "Les Cafés San José",
+      "address": "13 Rue de Paradis, 75010 Paris, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Les%20Caf%C3%A9s%20San%20Jos%C3%A9%2013%20Rue%20de%20Paradis%2C%2075010%20Paris%2C%20France",
+      "status": "provider_found_no_exact_menu_price",
+      "menuReference": null,
+      "providerSite": "https://lescafessanjose.com/",
+      "resolutionNote": "Anbieter-/Tourismusseite vorhanden, aber kein eindeutig zugehöriger tagesaktueller Endpreis pro Menü gefunden."
+    },
+    {
+      "id": "food-v03-004",
+      "city": "paris",
+      "name": "Terminus Nord",
+      "address": "23 Rue de Dunkerque, 75010 Paris, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Terminus%20Nord%2023%20Rue%20de%20Dunkerque%2C%2075010%20Paris%2C%20France",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://www.terminusnord.com/menus-carte/",
+        "sourceType": "operator_menu",
+        "precision": "full_set_menu",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Mittag 2 Gänge, Mo–Fr",
+            "amountCents": 2450,
+            "kind": "fixed_menu",
+            "note": "Vorspeise+Hauptgericht oder Hauptgericht+Dessert; Getränke extra"
+          },
+          {
+            "name": "Mittag 3 Gänge, Mo–Fr",
+            "amountCents": 2950,
+            "kind": "fixed_menu",
+            "note": "Vorspeise+Hauptgericht+Dessert; Getränke extra"
+          },
+          {
+            "name": "Brasserie 3 Gänge, Abend/Wochenende",
+            "amountCents": 3950,
+            "kind": "fixed_menu",
+            "note": "Getränke extra"
+          }
+        ],
+        "dateLabel": "Onlinekarte November 2026",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-005",
+      "city": "barcelona",
+      "name": "La Plata",
+      "address": "Carrer de la Mercè 28, 08002 Barcelona, Spain",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=La%20Plata%20Carrer%20de%20la%20Merc%C3%A8%2028%2C%2008002%20Barcelona%2C%20Spain",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://vdvermut.es/bar-la-plata/",
+        "sourceType": "independent_visit_2026",
+        "precision": "per_dish",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Pincho de butifarra",
+            "amountCents": 250,
+            "kind": "dish"
+          },
+          {
+            "name": "Pescadito frito",
+            "amountCents": 350,
+            "kind": "dish"
+          },
+          {
+            "name": "Pan con tomate",
+            "amountCents": 300,
+            "kind": "dish"
+          }
+        ],
+        "dateLabel": "Restaurantbesuch August 2026",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-006",
+      "city": "barcelona",
+      "name": "Sagradas Tapas",
+      "address": "Avinguda de Gaudí 48, 08025 Barcelona, Spain",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Sagradas%20Tapas%20Avinguda%20de%20Gaud%C3%AD%2048%2C%2008025%20Barcelona%2C%20Spain",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://www.sagradastapas.com/nuestra-carta/",
+        "sourceType": "operator_menu",
+        "precision": "per_dish",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Patatas bravas",
+            "amountCents": 510,
+            "kind": "dish"
+          },
+          {
+            "name": "Croquetas de pollo",
+            "amountCents": 620,
+            "kind": "dish"
+          },
+          {
+            "name": "Paella de marisco",
+            "amountCents": 810,
+            "kind": "dish"
+          },
+          {
+            "name": "Crema catalana",
+            "amountCents": 600,
+            "kind": "dish"
+          }
+        ],
+        "dateLabel": "Onlinekarte November 2026",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-007",
+      "city": "barcelona",
+      "name": "Taller de Tapas Sant Josep Oriol",
+      "address": "Plaça de Sant Josep Oriol 9, 08002 Barcelona, Spain",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Taller%20de%20Tapas%20Sant%20Josep%20Oriol%20Pla%C3%A7a%20de%20Sant%20Josep%20Oriol%209%2C%2008002%20Barcelona%2C%20Spain",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://panel.refoodlution.com/preview/618",
+        "sourceType": "restaurant_menu_platform",
+        "precision": "per_dish",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Gazpacho",
+            "amountCents": 650,
+            "kind": "dish"
+          },
+          {
+            "name": "Cod fritters mit Aioli",
+            "amountCents": 900,
+            "kind": "dish"
+          },
+          {
+            "name": "Gebackene Dorade",
+            "amountCents": 1900,
+            "kind": "dish"
+          }
+        ],
+        "dateLabel": "Digitale Karte 2026",
+        "note": "Auf der Terrasse laut Speisekarte 15 % Zuschlag; nicht im angegebenen Grundbetrag enthalten.",
+        "extraPercentage": 15,
+        "extraAppliesTo": "terrace",
+        "extraIncluded": false,
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-008",
+      "city": "sete",
+      "name": "Miam's d'ici et d'ailleurs",
+      "address": "Passage du Dauphin, 16 Rue Gambetta, 34200 Sète, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Miam's%20d'ici%20et%20d'ailleurs%20Passage%20du%20Dauphin%2C%2016%20Rue%20Gambetta%2C%2034200%20S%C3%A8te%2C%20France",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://restaurantguru.com/Miams-Dici-et-Dailleurs-Sete/menu",
+        "sourceType": "operator_uploaded_third_party_menu",
+        "precision": "per_dish",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Poulet façon tagine",
+            "amountCents": 1500,
+            "kind": "dish"
+          },
+          {
+            "name": "Miam bœuf",
+            "amountCents": 2000,
+            "kind": "dish"
+          },
+          {
+            "name": "Miam de la mer",
+            "amountCents": 1900,
+            "kind": "dish"
+          },
+          {
+            "name": "Tiramisu",
+            "amountCents": 600,
+            "kind": "dish"
+          }
+        ],
+        "dateLabel": "Vom Eigentümer hochgeladene Sommerkarte 2026",
+        "note": "Abweichende ältere Preise im Tourismusportal; jüngere Sommerkarte als Referenz, für 2027 keine Garantie.",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-009",
+      "city": "sete",
+      "name": "Le Monte Christo",
+      "address": "31 Quai Général Durand, 34200 Sète, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Le%20Monte%20Christo%2031%20Quai%20G%C3%A9n%C3%A9ral%20Durand%2C%2034200%20S%C3%A8te%2C%20France",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://www.tourisme-occitanie.com/fr/fiche/restauration/le-monte-christo-sete_TFORESLAR034FS001R7/",
+        "sourceType": "tourism_2027_group_offer",
+        "precision": "restricted_group_menu_from",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Gruppenmenü 2027 ab",
+            "amountCents": 2800,
+            "kind": "group_menu_per_person",
+            "note": "Vorspeise+Hauptgericht+Dessert+1/4 Wein+Kaffee; Mindestgruppe/Verfügbarkeit unbekannt"
+          }
+        ],
+        "dateLabel": "Offizielles Regionalportal: Menügruppe 2027",
+        "note": "Keine Zusage, dass der GRUPPEN-Tarif für drei Gäste oder ihr konkretes Datum gilt. Nicht als regulärer À-la-carte-Preis nutzbar.",
+        "partySizeCondition": "group_unspecified",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-010",
+      "city": "sete",
+      "name": "Chez François",
+      "address": "8 Quai Général Durand, 34200 Sète, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Chez%20Fran%C3%A7ois%208%20Quai%20G%C3%A9n%C3%A9ral%20Durand%2C%2034200%20S%C3%A8te%2C%20France",
+      "status": "provider_found_no_exact_menu_price",
+      "menuReference": null,
+      "providerSite": "https://chezfrancois.eatbu.com/?lang=fr",
+      "resolutionNote": "Anbieter-/Tourismusseite vorhanden, aber kein eindeutig zugehöriger tagesaktueller Endpreis pro Menü gefunden."
+    },
+    {
+      "id": "food-v03-011",
+      "city": "nice",
+      "name": "Chez Palmyre",
+      "address": "5 Rue Droite, 06300 Nice, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Chez%20Palmyre%205%20Rue%20Droite%2C%2006300%20Nice%2C%20France",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://fr.gaultmillau.com/fr/restaurants/chez-palmyre",
+        "sourceType": "guide_price_snapshot_2026",
+        "precision": "fixed_menu_indicative",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Menü à la carte / Formel",
+            "amountCents": 2200,
+            "kind": "fixed_menu",
+            "note": "Bewertungsführer 2026 nennt Formel 22 €; Getränke extra"
+          }
+        ],
+        "dateLabel": "Gault&Millau 2026",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-012",
+      "city": "nice",
+      "name": "Cantina de la Bourse",
+      "address": "7 Place Saint-François, 06300 Nice, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Cantina%20de%20la%20Bourse%207%20Place%20Saint-Fran%C3%A7ois%2C%2006300%20Nice%2C%20France",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-013",
+      "city": "nice",
+      "name": "Popote Bistrot",
+      "address": "20 Cours Saleya, 06300 Nice, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Popote%20Bistrot%2020%20Cours%20Saleya%2C%2006300%20Nice%2C%20France",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://www.tripadvisor.fr/Restaurant_Review-g187234-d6468837-Reviews-Popote_Bistrot-Nice_French_Riviera_Cote_d_Azur_Provence_Alpes_Cote_d_Azur.html",
+        "sourceType": "third_party_menu",
+        "precision": "per_dish",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Brunch Popote",
+            "amountCents": 2200,
+            "kind": "fixed_menu",
+            "note": "Leistungsumfang laut Karte, verifizieren"
+          },
+          {
+            "name": "Salade César",
+            "amountCents": 1600,
+            "kind": "dish"
+          },
+          {
+            "name": "Salade Burrata",
+            "amountCents": 1400,
+            "kind": "dish"
+          }
+        ],
+        "dateLabel": "Plattform-Menü November 2026",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-014",
+      "city": "genoa",
+      "name": "Ristorante Zimino",
+      "address": "Vico delle Scuole Pie 4, 16123 Genova GE, Italy",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Ristorante%20Zimino%20Vico%20delle%20Scuole%20Pie%204%2C%2016123%20Genova%20GE%2C%20Italy",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://www.mycia.it/menu/genova/zimino-NrKsLNUoZ",
+        "sourceType": "third_party_menu_date_unconfirmed",
+        "precision": "per_dish",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Minestrone alla genovese",
+            "amountCents": 550,
+            "kind": "dish"
+          },
+          {
+            "name": "Lasagne al pesto",
+            "amountCents": 650,
+            "kind": "dish"
+          },
+          {
+            "name": "Ravioli di borragine",
+            "amountCents": 650,
+            "kind": "dish"
+          }
+        ],
+        "dateLabel": "Onlinekarte, Gültigkeit unbestätigt",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-015",
+      "city": "genoa",
+      "name": "Cavour modo21",
+      "address": "Piazza Cavour 21r, 16128 Genova GE, Italy",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Cavour%20modo21%20Piazza%20Cavour%2021r%2C%2016128%20Genova%20GE%2C%20Italy",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://glovoapp.com/it/it/genova/stores/cavour-modo-21-gen",
+        "sourceType": "delivery_menu_only",
+        "precision": "per_dish_delivery",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Trofie al pesto (Lieferung)",
+            "amountCents": 1080,
+            "kind": "delivery",
+            "note": "Liefergebühr und Service unbekannt"
+          },
+          {
+            "name": "Pansoti in Walnusssauce (Lieferung)",
+            "amountCents": 960,
+            "kind": "delivery"
+          },
+          {
+            "name": "Penne all’arrabbiata (Lieferung)",
+            "amountCents": 420,
+            "kind": "delivery"
+          }
+        ],
+        "dateLabel": "Glovo-Bestellkarte November 2026",
+        "note": "KEIN Restaurant-Endpreis vor Ort: Lieferplattform, zusätzliche Gebühren möglich.",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-016",
+      "city": "genoa",
+      "name": "Pastificio Artigianale di Canneto",
+      "address": "Via di Canneto Il Curto 49r, 16123 Genova GE, Italy",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Pastificio%20Artigianale%20di%20Canneto%20Via%20di%20Canneto%20Il%20Curto%2049r%2C%2016123%20Genova%20GE%2C%20Italy",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://www.pastificioartigianaledicanneto.it/menu-e-street-food/",
+        "sourceType": "operator_menu",
+        "precision": "per_dish",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Lasagne ragù/pesto",
+            "amountCents": 800,
+            "kind": "dish"
+          },
+          {
+            "name": "Gefüllte Pasta klein",
+            "amountCents": 700,
+            "kind": "dish"
+          },
+          {
+            "name": "Gefüllte Pasta groß",
+            "amountCents": 1100,
+            "kind": "dish"
+          },
+          {
+            "name": "Tiramisu",
+            "amountCents": 400,
+            "kind": "dish"
+          }
+        ],
+        "dateLabel": "Offizielle Karte 2026",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-017",
+      "city": "venice",
+      "name": "Al Mercà",
+      "address": "Campo Bella Vienna 213, 30125 Venezia VE, Italy",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Al%20Merc%C3%A0%20Campo%20Bella%20Vienna%20213%2C%2030125%20Venezia%20VE%2C%20Italy",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://www.tripadvisor.it/Restaurant_Review-g187870-d1009506-Reviews-Al_Merca-Venice_Veneto.html",
+        "sourceType": "individual_customer_receipt_reference_2026",
+        "precision": "per_dish",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Cicchetto (angegebener Stückpreis)",
+            "amountCents": 200,
+            "kind": "cicchetto",
+            "note": "Preis aus Rezension März 2026, kein offizieller Menü-Endpreis"
+          }
+        ],
+        "dateLabel": "Gästebericht März 2026",
+        "note": "Nur historischer Kundenbericht; kein offiziell bestätigter Preis 2027.",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-018",
+      "city": "venice",
+      "name": "Bar All'Arco",
+      "address": "San Polo 436, 30125 Venezia VE, Italy",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Bar%20All'Arco%20San%20Polo%20436%2C%2030125%20Venezia%20VE%2C%20Italy",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://entrtn.com/en/venice/allarco/",
+        "sourceType": "independent_menu_guide",
+        "precision": "per_dish",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Baccalà mantecato Cicchetto",
+            "amountCents": 250,
+            "kind": "dish"
+          },
+          {
+            "name": "Sarde in saor Cicchetto",
+            "amountCents": 250,
+            "kind": "dish"
+          },
+          {
+            "name": "Gamberi in saor Cicchetto",
+            "amountCents": 300,
+            "kind": "dish"
+          }
+        ],
+        "dateLabel": "Guide-Speisekarte November 2026",
+        "note": "Nicht Betreiber-Originalkarte, vor Ort prüfen.",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-019",
+      "city": "venice",
+      "name": "Bacarino",
+      "address": "Salizada San Giovanni Grisostomo 5755, 30121 Venezia VE, Italy",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Bacarino%20Salizada%20San%20Giovanni%20Grisostomo%205755%2C%2030121%20Venezia%20VE%2C%20Italy",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-020",
+      "city": "appenzell",
+      "name": "s'plätzli",
+      "address": "Hauptgasse 15, 9050 Appenzell, Switzerland",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=s'pl%C3%A4tzli%20Hauptgasse%2015%2C%209050%20Appenzell%2C%20Switzerland",
+      "status": "provider_found_no_exact_menu_price",
+      "menuReference": null,
+      "providerSite": "https://www.appenzell.ch/de/gastronomie/restaurants/cafe-splaetzli.html",
+      "resolutionNote": "Anbieter-/Tourismusseite vorhanden, aber kein eindeutig zugehöriger tagesaktueller Endpreis pro Menü gefunden."
+    },
+    {
+      "id": "food-v03-021",
+      "city": "appenzell",
+      "name": "Restaurant AZADI",
+      "address": "Marktgasse 13, 9050 Appenzell, Switzerland",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Restaurant%20AZADI%20Marktgasse%2013%2C%209050%20Appenzell%2C%20Switzerland",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://www.just-eat.ch/speisekarte/azadi-bistro",
+        "sourceType": "delivery_menu_only",
+        "precision": "per_dish_delivery",
+        "currency": "CHF",
+        "sample": [
+          {
+            "name": "Schawarma-Teller",
+            "amountCents": 2000,
+            "kind": "delivery"
+          },
+          {
+            "name": "Kebab-Teller",
+            "amountCents": 1800,
+            "kind": "delivery"
+          },
+          {
+            "name": "Spaghetti Bolognese",
+            "amountCents": 1800,
+            "kind": "delivery"
+          }
+        ],
+        "dateLabel": "Just Eat-Karte November 2026",
+        "note": "Liefer-/Abholpreis, weitere Liefergebühren möglich; nicht als Restaurant-Menüpreis vor Ort interpretieren.",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-022",
+      "city": "appenzell",
+      "name": "Bäckerei Drei Könige",
+      "address": "Hauptgasse 24/26, 9050 Appenzell, Switzerland",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=B%C3%A4ckerei%20Drei%20K%C3%B6nige%20Hauptgasse%2024%2F26%2C%209050%20Appenzell%2C%20Switzerland",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://www.drei-koenig.ch/",
+        "sourceType": "operator_daily_menu",
+        "precision": "specific_day_fixed_menu",
+        "currency": "CHF",
+        "sample": [
+          {
+            "name": "Tagesmenü mit Salat und Fleischkäse",
+            "amountCents": 2350,
+            "kind": "fixed_menu"
+          },
+          {
+            "name": "Vegi-Menü mit Salat und Ofenkartoffel",
+            "amountCents": 2000,
+            "kind": "fixed_menu"
+          },
+          {
+            "name": "Tagessuppe",
+            "amountCents": 950,
+            "kind": "dish"
+          }
+        ],
+        "dateLabel": "Tagesangebot 13.11.2026",
+        "note": "Tageskarte 13.11.2026, nicht September 2027.",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-023",
+      "city": "appenzell",
+      "name": "Restaurant Maatplatz",
+      "address": "Kronengarten 2, 9050 Appenzell, Switzerland",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Restaurant%20Maatplatz%20Kronengarten%202%2C%209050%20Appenzell%2C%20Switzerland",
+      "status": "provider_found_no_exact_menu_price",
+      "menuReference": null,
+      "providerSite": "https://www.appenzell.ch/de/gastronomie/restaurants/restaurant-marktplatz-1.html",
+      "resolutionNote": "Anbieter-/Tourismusseite vorhanden, aber kein eindeutig zugehöriger tagesaktueller Endpreis pro Menü gefunden."
+    },
+    {
+      "id": "food-v03-024",
+      "city": "grindelwald",
+      "name": "QRAFTwerk",
+      "address": "Dorfstrasse 123, 3818 Grindelwald, Switzerland",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=QRAFTwerk%20Dorfstrasse%20123%2C%203818%20Grindelwald%2C%20Switzerland",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://qraftwerk.ch/",
+        "sourceType": "operator_retail_price_not_cafe_menu",
+        "precision": "retail_item_only",
+        "currency": "CHF",
+        "sample": [
+          {
+            "name": "Bio Naturriegel, Online-Shop",
+            "amountCents": 390,
+            "kind": "retail_product",
+            "note": "Kein Preis für Cafégetränk/Restaurantmenü"
+          }
+        ],
+        "dateLabel": "Webshop-Preise November 2026",
+        "note": "Laden-/Versandprodukt und kein Beleg für Café-Menüs oder Getränke.",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-025",
+      "city": "grindelwald",
+      "name": "Café 3692",
+      "address": "Terrassenweg 61, 3818 Grindelwald, Switzerland",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Caf%C3%A9%203692%20Terrassenweg%2061%2C%203818%20Grindelwald%2C%20Switzerland",
+      "status": "provider_found_no_exact_menu_price",
+      "menuReference": null,
+      "providerSite": "https://www.myswitzerland.com/de/erlebnisse/essen-trinken/restaurant/cafe-3692/",
+      "resolutionNote": "Anbieter-/Tourismusseite vorhanden, aber kein eindeutig zugehöriger tagesaktueller Endpreis pro Menü gefunden."
+    },
+    {
+      "id": "food-v03-026",
+      "city": "grindelwald",
+      "name": "Tea n Take Away",
+      "address": "Dorfstrasse 103, 3818 Grindelwald, Switzerland",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Tea%20n%20Take%20Away%20Dorfstrasse%20103%2C%203818%20Grindelwald%2C%20Switzerland",
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://speisekarte.menu/restaurants/grindelwald/tea-n-take-away/menu",
+        "sourceType": "third_party_menu",
+        "precision": "per_dish",
+        "currency": "CHF",
+        "sample": [
+          {
+            "name": "Pizza Margherita",
+            "amountCents": 1300,
+            "kind": "dish"
+          },
+          {
+            "name": "Pizza Salami",
+            "amountCents": 1500,
+            "kind": "dish"
+          },
+          {
+            "name": "Pizza Quattro Formaggi",
+            "amountCents": 1600,
+            "kind": "dish"
+          }
+        ],
+        "dateLabel": "Menüplattform November 2026",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false
+      },
+      "resolutionNote": "Mindestens ein konkreter veröffentlichten Artikelpreis, kein bestätigter September-2027-Checkout."
+    },
+    {
+      "id": "food-v03-027",
+      "city": "grindelwald",
+      "name": "Eiger Bean The Coffee Roastery",
+      "address": "Dorfstrasse 195, 3818 Grindelwald, Switzerland",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Eiger%20Bean%20The%20Coffee%20Roastery%20Dorfstrasse%20195%2C%203818%20Grindelwald%2C%20Switzerland",
+      "status": "provider_found_no_exact_menu_price",
+      "menuReference": null,
+      "providerSite": "https://www.eigerness.ch/kulinarik/",
+      "resolutionNote": "Anbieter-/Tourismusseite vorhanden, aber kein eindeutig zugehöriger tagesaktueller Endpreis pro Menü gefunden."
+    },
+    {
+      "id": "food-v03-028",
+      "city": "kandersteg",
+      "name": "Cafe Rauber Supermarket",
+      "address": "Äussere Dorfstrasse 57, 3718 Kandersteg, Switzerland",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Cafe%20Rauber%20Supermarket%20%C3%84ussere%20Dorfstrasse%2057%2C%203718%20Kandersteg%2C%20Switzerland",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-029",
+      "city": "kandersteg",
+      "name": "Tea Room Marmotte",
+      "address": "Innere Dorfstrasse 19, 3718 Kandersteg, Switzerland",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Tea%20Room%20Marmotte%20Innere%20Dorfstrasse%2019%2C%203718%20Kandersteg%2C%20Switzerland",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-030",
+      "city": "kandersteg",
+      "name": "Restaurant Schweizerhof",
+      "address": "Bahnhofstrasse 1, 3718 Kandersteg, Switzerland",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Restaurant%20Schweizerhof%20Bahnhofstrasse%201%2C%203718%20Kandersteg%2C%20Switzerland",
+      "status": "provider_found_no_exact_menu_price",
+      "menuReference": null,
+      "providerSite": "https://schweizerhofkandersteg.ch/",
+      "resolutionNote": "Anbieter-/Tourismusseite vorhanden, aber kein eindeutig zugehöriger tagesaktueller Endpreis pro Menü gefunden."
+    },
+    {
+      "id": "food-v03-031",
+      "city": "toulouse",
+      "name": "La thé'rapie du bonheur",
+      "address": "24 Rue Matabiau, 31000 Toulouse, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=La%20th%C3%A9'rapie%20du%20bonheur%2024%20Rue%20Matabiau%2C%2031000%20Toulouse%2C%20France",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-032",
+      "city": "toulouse",
+      "name": "Brasserie Ô Mana",
+      "address": "Gare Toulouse Matabiau, Boulevard Pierre Semard, 31500 Toulouse, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Brasserie%20%C3%94%20Mana%20Gare%20Toulouse%20Matabiau%2C%20Boulevard%20Pierre%20Semard%2C%2031500%20Toulouse%2C%20France",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-033",
+      "city": "toulouse",
+      "name": "Picto Sandwicherie",
+      "address": "64 Boulevard Pierre Semard, Gare SNCF, 31500 Toulouse, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Picto%20Sandwicherie%2064%20Boulevard%20Pierre%20Semard%2C%20Gare%20SNCF%2C%2031500%20Toulouse%2C%20France",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-034",
+      "city": "marseille",
+      "name": "Délices du Port",
+      "address": "10 Rue Glandeves, 13001 Marseille, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=D%C3%A9lices%20du%20Port%2010%20Rue%20Glandeves%2C%2013001%20Marseille%2C%20France",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-035",
+      "city": "marseille",
+      "name": "La Saveur chez Nadia",
+      "address": "17 Rue Poids de la Farine, 13001 Marseille, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=La%20Saveur%20chez%20Nadia%2017%20Rue%20Poids%20de%20la%20Farine%2C%2013001%20Marseille%2C%20France",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-036",
+      "city": "marseille",
+      "name": "French Burger Vieux Port",
+      "address": "28 Rue Coutellerie, 13002 Marseille, France",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=French%20Burger%20Vieux%20Port%2028%20Rue%20Coutellerie%2C%2013002%20Marseille%2C%20France",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-037",
+      "city": "milan",
+      "name": "City Life Self Service Restaurant",
+      "address": "Via Vittor Pisani 26, 20124 Milano MI, Italy",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=City%20Life%20Self%20Service%20Restaurant%20Via%20Vittor%20Pisani%2026%2C%2020124%20Milano%20MI%2C%20Italy",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-038",
+      "city": "milan",
+      "name": "Lambretta Café",
+      "address": "Via Fabio Filzi 41, 20124 Milano MI, Italy",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Lambretta%20Caf%C3%A9%20Via%20Fabio%20Filzi%2041%2C%2020124%20Milano%20MI%2C%20Italy",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    },
+    {
+      "id": "food-v03-039",
+      "city": "milan",
+      "name": "Bar Queen",
+      "address": "Via Giovanni Battista Sammartini 15, 20125 Milano MI, Italy",
+      "observedOn": "2026-11-13",
+      "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Bar%20Queen%20Via%20Giovanni%20Battista%20Sammartini%2015%2C%2020125%20Milano%20MI%2C%20Italy",
+      "status": "no_reliable_item_price_found",
+      "menuReference": null,
+      "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
+    }
+  ]
+}
