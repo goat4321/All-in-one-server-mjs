@@ -93,6 +93,8 @@ export function placePopupHtml(item,ctx={}) {
     +'<p><b>Bewertung:</b> '+esc(p.rating)+'</p>'
     +'<p class="muted">'+esc(p.isAirbnb?'Nur Umgebung bekannt':p.facts.find(x=>x[0]==='Standort')?.[1]??'')+'</p>'
     +'<div class="place-popup-actions"><button type="button" data-action="details" data-value="'+esc(p.id)+'">Details & Quellen</button>'
+    +(['activity','lodging'].includes(item.kind)
+      ?'<button type="button" data-action="vote-open" data-value="'+esc(p.id)+'">Gruppe bewerten</button>':'')
     +urlLink(p.maps,'Google Maps')+'</div></div></div>';
 }
 
