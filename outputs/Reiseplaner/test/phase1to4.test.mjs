@@ -19,7 +19,9 @@ test('39 curated cafes, food and groceries are scoped to actual route cities wit
     const applicable=catalog.research.foodVenueResearchV03.filter(x=>trip.route.includes(x.city));
     assert.equal(added.length,applicable.length,trip.id);
     assert.ok(added.every(x=>x.price==null && x.selected===false
-      && (x.point==null || x.geoEvidence?.url?.startsWith('https://www.openstreetmap.org/'))));
+      && (x.point==null || (x.geoEvidence?.url?.startsWith('https://')
+        && ['verified_external_coordinates','street_address_match',
+          'unique_osm_named_poi','reviewed_osm_named_location'].includes(x.geoEvidence.confidence)))));
     assert.ok(added.every(x=>x.website?.startsWith('https://www.google.com/maps/search/')));
     assert.deepEqual(added.filter(x=>!x.openingHoursNote?.includes('13.11.2026')).map(x=>({id:x.id,hours:x.openingHoursNote})),[],trip.id);
     const active=activeItems(trip,initialState(trip));
