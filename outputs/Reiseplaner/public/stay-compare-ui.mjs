@@ -39,7 +39,8 @@ export function stayComparisonBoard(items,ctx={}) {
   return '<section class="stay-compare-board section" aria-label="Visueller Unterkunftsvergleich">'
     +'<div class="stay-compare-heading"><div><h2>Unterkünfte im Direktvergleich</h2>'
     +'<p>Bis zu vier Optionen · Ungeprüfte Suchpreise, Buchbarkeit und Ausstattung bleiben getrennt erkennbar.</p></div>'
-    +'<strong>'+rows.length+'/4 gewählt</strong></div>'
+    +'<div class="stay-compare-tools"><strong>'+rows.length+'/4 gewählt</strong>'
+    +btn('compare-clear','Alle entfernen','x')+'</div></div>'
     +(baseline==null?'<p class="muted">Keine belastbare Preis-Rangfolge: Daten, Übernachtungen oder Referenzstatus sind nicht vollständig vergleichbar.</p>'
       :'<p class="muted">Preisunterschiede nur zwischen gleich datierten Referenzwerten, nicht als garantiertes Sparpotenzial verstehen.</p>')
     +'<div class="stay-compare-grid">'+rows.map(r=>{

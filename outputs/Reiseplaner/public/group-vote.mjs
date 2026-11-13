@@ -36,12 +36,13 @@ export function groupVoteBoard(ctx) {
         || Number(favored.has(b.id))-Number(favored.has(a.id))
         || Number(ctx.activeSet.has(b.id))-Number(ctx.activeSet.has(a.id))
         || a.name.localeCompare(b.name,'de');
-    }).slice(0,15);
+    });
+  const shown=ctx.showAllVotes?cards:cards.slice(0,15);
   return '<section class="section panel panel-pad group-vote-board">'
     +'<div class="subheading compact"><div><h2>Gemeinsam entscheiden</h2>'
     +'<p>Bewertet Unterkünfte und Aktivitäten unabhängig mit 1–5 Punkten. Jede Person wird separat gespeichert.</p></div></div>'
     +'<p class="muted">Lokale Abstimmung in dieser Reisevariante. Keine Konten, keine externen Benachrichtigungen, keine synchronisierten Live-Stimmen.</p>'
-    +'<div class="group-vote-grid">'+cards.map(item=>{
+    +'<div class="group-vote-grid">'+shown.map(item=>{
       const summary=voteSummary(item,ctx.people,ctx.state.votes);
       const percent=summary.average==null?0:summary.average/5*100;
       return '<article class="group-vote-item"><div><strong>'+esc(item.name)+'</strong><small>'
@@ -53,5 +54,7 @@ export function groupVoteBoard(ctx) {
         +'<div class="group-vote-bar" aria-hidden="true"><span style="width:'+percent+'%"></span></div>'
         +btn('vote-open','Stimmen bearbeiten','people',item.id)
         +'</article>';
-    }).join('')+'</div></section>';
+    }).join('')+'</div>'
+    +(cards.length>15?btn('votes-expand',ctx.showAllVotes?'Weniger anzeigen':'Alle '+cards.length+' Optionen anzeigen','list'):'')
+    +'</section>';
 }

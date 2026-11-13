@@ -1,3 +1,4 @@
+import { dailyBudgetDefaults } from './daily-budget.mjs';
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
 import { renderShell, mapDetail } from './views.mjs';
@@ -29,6 +30,9 @@ const view = {
     ? localStorage.getItem('reiseplan-map-tone') : 'standard',
   mapExpanded: false,
   guideIndex: null,
+  showAllVotes: false,
+  dailyBudgetDate: null,
+  dailyBudgetInputs: { ...dailyBudgetDefaults },
   geocodeReview: null,
 };
 const walks = new Map();
@@ -286,6 +290,7 @@ async function switchVariant(id) {
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0; view.geocodeReview=null;
     view.total = view.menu = false;
     view.compareIds.clear();
+    view.dailyBudgetDate=null; view.showAllVotes=false;
     render();
   } finally { loading = false; }
 }
@@ -883,6 +888,8 @@ async function action(name, value = '') {
       else if (view.compareIds.size < 4) view.compareIds.add(value);
       else { say('Bis zu vier Optionen gleichzeitig vergleichen.'); break; }
       render({ restoreView: true }); break;
+    case 'compare-clear': view.compareIds.clear(); render({ restoreView: true }); break;
+    case 'votes-expand': view.showAllVotes=!view.showAllVotes; render({ restoreView: true }); break;
     case 'option-filter': view.optionFilter = value; render({ restoreView: true }); break;
     case 'optimize': optimize(); break;
     case 'reorder': await reorder(...JSON.parse(value)); closeDialog(); break;
@@ -976,6 +983,20 @@ document.addEventListener('click', event => {
 app.addEventListener('change', event => {
   if (event.target.id === 'variant') void switchVariant(event.target.value).catch(error => say(error.message));
   if (event.target.id === 'sort') { view.sort = event.target.value; render({ restoreView: true }); }
+  if (event.target.id === 'daily-budget-date') {
+    if (context.dates.includes(event.target.value)) {
+      view.dailyBudgetDate=event.target.value; render({ restoreView: true });
+    }
+  }
+  if (event.target.dataset.budgetAssumption) {
+    const field=event.target.dataset.budgetAssumption;
+    const number=Number(event.target.value);
+    if (Object.hasOwn(dailyBudgetDefaults,field)&&Number.isFinite(number)
+      &&number>=(field==='target'?5:0)&&number<=1000) {
+      view.dailyBudgetInputs={...view.dailyBudgetInputs,[field]:number};
+      render({ restoreView: true });
+    }
+  }
   if (event.target.id === 'nightly-target') { const v=Number(event.target.value); if(Number.isFinite(v)&&v>=5&&v<=1000){view.nightlyTargetEuro=v;localStorage.setItem('reiseplan-nightly-target',String(v));render({restoreView:true});} }
   if (event.target.id === 'map-search') { view.mapSearch = event.target.value.trim().slice(0, 100); view.mapListLimit = 60; render({ restoreView: true }); }
   if (event.target.id === 'explorer-time') { view.mapRouteTime = event.target.value; view.mapRouteResult = null; render({ restoreView: true }); }

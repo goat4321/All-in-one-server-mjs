@@ -27,14 +27,15 @@ export function lodgingPriceInsight(item, people=3, nightlyTargetEuro=35) {
   const difference=eachNight!=null&&target!=null?eachNight-target:null;
   const status=eachNight==null?'unavailable':target==null?'no-target'
     :difference<=0?'within-budget':'over-budget';
-  const percentage=eachNight!=null&&target?Math.min(100,Math.round(eachNight/target*100)):0;
+  const percentageExact=eachNight!=null&&target?Math.round(eachNight/target*100):null;
+  const percentage=percentageExact==null?0:Math.min(100,percentageExact);
   const summary=eachNight==null?'Vergleich offen: Gesamtpreis, Belegung oder Nächte nicht belegt'
     :target==null?'Budgetziel noch nicht eingestellt'
     :money(Math.abs(difference))+' '+(difference<=0?'unter bzw. genau im Ziel':'über dem Ziel')+' je Person/Nacht';
   return {id:item.id,people,nights,groupTotalCents:total,personNightCents:eachNight,
     isSample,source:total==null?'keine vergleichbare EUR-Referenz':isSample
       ?'Airbnb-Wunschlistensuchwert (kein Checkout)':'Hotel-/Plan- oder Suchpreis (nicht automatisch bestätigt)',
-    targetCents:target,differenceCents:difference,status,percentage,summary};
+    targetCents:target,differenceCents:difference,status,percentage,percentageExact,summary};
 }
 export function lodgingPriceMeter(item,people=3,target=35) {
   const p=lodgingPriceInsight(item,people,target);
@@ -45,7 +46,7 @@ export function lodgingPriceMeter(item,people=3,target=35) {
     +'</strong><small>'+esc(p.summary)+'</small></div>'
     +(p.personNightCents!=null&&p.targetCents!=null
       ?'<div class="lodging-price-meter-track" role="meter" aria-label="Anteil des persönlichen Nachtbudgets" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'
-        +p.percentage+'"><span style="width:'+p.percentage+'%"></span></div>':'')
+        +p.percentage+'" aria-valuetext="'+p.percentageExact+' Prozent des persönlichen Nachtbudgets"><span style="width:'+p.percentage+'%"></span></div>':'')
     +'<small>'+esc(p.source)
     +(p.nights!=null?' · '+p.nights+' Nächte':' · Übernachtungen nicht eindeutig')+'</small>'
     +'</div>';

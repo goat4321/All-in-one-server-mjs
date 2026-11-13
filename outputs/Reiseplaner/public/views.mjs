@@ -1,3 +1,4 @@
+import { dailyBudgetHtml } from './daily-budget.mjs';
 import { guideMarkup } from './tutorial.mjs';
 import { googleMapsSearchUrl, googleMapsSearchLabel, googleMapsDirectionsUrl, googleMapsLocationStatus } from './google-maps.mjs';
 import { categories, budgetBreakdown, calculateBudget, activeItems, conflicts, groupPrice, groceryBasket, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange, planReadiness } from './model.mjs';
@@ -12,7 +13,7 @@ import { placeQuickFacts, placeProfileHtml, placeImageHtml } from './place-profi
 import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
 import { stayComparisonBoard } from './stay-compare-ui.mjs';
 import { voteSnippet, groupVoteBoard } from './group-vote.mjs';
-import { assessStay, sortStayOptions } from './stay-analysis.mjs';
+import { assessStay, sortStayOptions, kitchenAccess } from './stay-analysis.mjs';
 import { auditInterrailRoute, railAlternativeStatus } from './rail-analysis.mjs';
 
 const tabs = [
@@ -281,7 +282,7 @@ function options(ctx, lodging) {
   const list = found.filter(item => {
     if (optionFilter === 'saved') return state.favorites.includes(item.id);
     if (optionFilter === 'known') return groupPrice(item.price, people.length) != null;
-    if (optionFilter === 'kitchen') return Boolean(item.kitchen);
+    if (optionFilter === 'kitchen') return kitchenAccess(item) !== 'unknown';
     if (optionFilter === 'search') return Boolean(item.quote);
     if (optionFilter === 'budget') return lodging && lodgingPriceInsight(item,people.length,ctx.nightlyTargetEuro)?.status==='within-budget';
     if (optionFilter === 'self_reviewed') return lodging && reviewProgress('lodging',state.verifications?.[item.id],people.length).complete;
@@ -320,7 +321,7 @@ function options(ctx, lodging) {
     ...(lodging ? [esc((() => { const a=assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]); return a.personNightEuroCents==null ? 'Preis offen' : money(a.personNightEuroCents) + ' p. P./Nacht'; })()),
       esc(assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]).risk.slice(0,3).join(' · ')||'Eigenprüfung dokumentiert')] : [])]);
   const filters = [['all', 'Alle Optionen'], ['saved', 'Merkliste'], ['known', 'Mit Preisreferenz'],
-    ...(lodging ? [['kitchen', 'Mit Küche'], ['search', '2027-Suchpreise'], ['budget','Im persönlichen Nachtbudget'], ['self_reviewed','Eigenprüfung dokumentiert']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
+    ...(lodging ? [['kitchen', 'Kochmöglichkeit beschrieben'], ['search', '2027-Suchpreise'], ['budget','Im persönlichen Nachtbudget'], ['self_reviewed','Eigenprüfung dokumentiert']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
   const cards = list.map(item => {
     const active = activeSet.has(item.id);
     const highlighted = compareIds.has(item.id);
@@ -689,7 +690,8 @@ function budget(ctx) {
     + '<div class="stat-grid">' + stat('Bekannte Gesamtkosten', money(b.total), b.unknown + ' Posten offen')
     + stat('Netto bezahlt', money(b.paid)) + stat('Noch offen aus bekannten Kosten', money(b.total - b.paid))
     + stat('Budget nach bekannten Kosten', state.budgetLimit == null ? 'Kein Limit' : money(state.budgetLimit - b.total)) + '</div>'
-    + '<div class="split"><section class="panel panel-pad"><h2>Kategorien</h2>' + (charts || '<p class="muted">Noch keine bezifferten Kosten im Plan.</p>') + '</section>'
+    + dailyBudgetHtml(ctx)
+     + '<div class="split"><section class="panel panel-pad"><h2>Kategorien</h2>' + (charts || '<p class="muted">Noch keine bezifferten Kosten im Plan.</p>') + '</section>'
     + '<section class="panel panel-pad"><h2>Aufteilung & Ausgleich</h2><ul class="sources-list">' + people.map((p, i) => '<li>' + esc(p.name) + ' · Anteil '
       + money(b.balances[i].share) + ' · bezahlt ' + money(b.balances[i].paid) + '</li>').join('') + '</ul>'
     + (b.transfers.length ? b.transfers.map(t => '<p>' + esc(people[t.from].name + ' → ' + people[t.to].name) + ' · ' + money(t.cents) + '</p>').join('')

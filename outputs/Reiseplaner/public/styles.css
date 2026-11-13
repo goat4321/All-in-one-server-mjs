@@ -643,3 +643,38 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
  .guide-scrim{backdrop-filter:none}
 }
 @media(prefers-reduced-motion:reduce){.guide-progress>span{transition:none}}
+
+
+/* Transparent daily cost projection; cost assumptions never change bookings. */
+.daily-budget{display:grid;gap:17px}
+.daily-budget-title{display:flex;align-items:start;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.daily-budget-title h2{font-size:1.28rem}
+.daily-budget-title p{font-size:.83rem;margin-top:5px;color:var(--muted)}
+.daily-budget-tag{font-size:.7rem;font-weight:750;padding:6px 9px;border-radius:9px;
+ background:var(--light);color:var(--green)}
+.daily-budget-controls{display:grid;grid-template-columns:repeat(5,minmax(135px,1fr));gap:10px}
+.daily-budget-controls label{font-size:.76rem;font-weight:750;display:grid;gap:5px}
+.daily-budget-controls label>span{font-size:.67rem;color:var(--muted);font-weight:500}
+.daily-budget-controls input,.daily-budget-controls select{min-width:0;width:100%;min-height:40px;
+ background:var(--paper);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.daily-budget-results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.daily-budget-results>div{padding:13px;border:1px solid var(--line);border-radius:12px;
+ background:var(--light);display:grid;gap:5px;align-content:start}
+.daily-budget-results strong{font-size:1.35rem;letter-spacing:-.045em}
+.daily-budget-results small{font-size:.7rem;color:var(--muted)}
+.daily-budget-results .daily-budget-positive{background:#e6f4e8;color:#0e563b}
+.daily-budget-results .daily-budget-negative{background:#fff0e5;color:#8f401e}
+.daily-budget-results .daily-budget-positive small,.daily-budget-results .daily-budget-negative small{color:inherit}
+.daily-budget-note{font-size:.77rem;color:var(--muted);line-height:1.6}
+.stay-compare-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.stay-compare-tools>strong{background:var(--accent);padding:5px 9px;color:var(--green);border-radius:9px;font-size:.74rem}
+.stay-compare-tools .button{padding:6px 8px;min-height:32px;font-size:.72rem}
+.group-vote-board>.button{justify-self:start}
+:root[data-theme=dark] .daily-budget-results .daily-budget-positive{background:#264737;color:#b4f2c7}
+:root[data-theme=dark] .daily-budget-results .daily-budget-negative{background:#5b3425;color:#ffcb9e}
+@media(max-width:1100px){.daily-budget-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:750px){.daily-budget-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.daily-budget-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .daily-budget-results strong{font-size:1.1rem}
+ .daily-budget-title{gap:8px}
+}

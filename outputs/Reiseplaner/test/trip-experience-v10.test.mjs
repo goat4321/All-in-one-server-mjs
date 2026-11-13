@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadCatalog } from '../lib/catalog.mjs';
 import { initialState, validateState } from '../lib/store.mjs';
+import { kitchenAccess } from '../public/stay-analysis.mjs';
 import { lodgingPriceInsight, lodgingPriceMeter } from '../public/price-insights.mjs';
 import { stayComparisonRows, stayComparisonBoard } from '../public/stay-compare-ui.mjs';
 import { voteSummary, groupVoteBoard, voteSnippet } from '../public/group-vote.mjs';
@@ -12,12 +13,22 @@ const people=initialState(trip).people;
 const ctx={people,cities:catalog.cities,catalog,city:'barcelona',
   state:initialState(trip),all:trip.items,activeSet:new Set(),hotelWalks:{},nightlyTargetEuro:35};
 
+test('Kitchen filter distinguishes documented cooking options from unknown and negated text',()=>{
+ assert.equal(kitchenAccess({kitchen:'Küche offen'}),'unknown');
+ assert.equal(kitchenAccess({kitchen:'Keine Küche'}),'unknown');
+ assert.equal(kitchenAccess({kitchenMode:'shared'}),'usable');
+ assert.equal(kitchenAccess({kitchenMode:'limited'}),'limited');
+ assert.equal(kitchenAccess({kitchen:'Gemeinschaftsküche'}),'usable');
+ assert.equal(kitchenAccess({kitchen:'Küchenausstattung noch nicht bestätigt'}),'unknown');
+});
+
 test('Daily accommodation budget uses actual stay nights and group size',()=>{
  const item={id:'test:hotel',kind:'lodging',name:'Testhostel',city:'barcelona',
    stayFrom:'2027-09-04',stayTo:'2027-09-06',price:{cents:21000,currency:'EUR',scope:'group'}};
  const insight=lodgingPriceInsight(item,3,35);
  assert.equal(insight.personNightCents,3500);
  assert.equal(insight.status,'within-budget');
+ assert.equal(insight.percentageExact,100);
  assert.equal(insight.isSample,false);
  assert.match(lodgingPriceMeter(item,3,35),/data-price-state="within-budget"/);
  assert.equal(lodgingPriceInsight(item,3,30).status,'over-budget');
