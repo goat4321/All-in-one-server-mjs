@@ -462,6 +462,17 @@ function rail(ctx) {
   const railReference = catalog.research?.railReferenceV04;
   const corridors = (railReference?.corridors ?? []).filter(ref =>
     trip.route.includes(ref.from) && trip.route.includes(ref.to));
+  const operatorV07 = catalog.research?.operatorV07;
+  const railExamplesV07=(operatorV07?.railExamples ?? []).filter(x=>
+    x.from == null || (trip.route.includes(x.from) && trip.route.includes(x.to)));
+  const railExamplesRowsV07=railExamplesV07.map(x=>[
+    esc(x.direction),esc(x.journeyReferenceDate),esc(x.sampleTime??'Keine Musterabfahrt'),
+    x.durationMinutes==null?'Dauer offen':Math.floor(x.durationMinutes/60)+' h '+String(x.durationMinutes%60).padStart(2,'0')+' Min.',
+    status('Nur Referenz, nicht für September 2027 bestätigt','warn'),
+    urlLink(x.sourceUrl,'Offizielle SNCF-Quelle')
+  ]);
+  const bookingRulesV07=(operatorV07?.railBookingSources ?? []).map(x=>
+    '<p class="muted">' + esc(x.note) + ' ' + (urlLink(x.url,'Offizielle Quelle') || '') + '</p>').join('');
   const corridorRows = corridors.map(ref => [
     esc((catalog.cities[ref.from]?.name ?? ref.from) + ' → '
       + (catalog.cities[ref.to]?.name ?? ref.to)),
@@ -557,6 +568,10 @@ function rail(ctx) {
       + '<h3>Regel-Referenzen</h3>' + (railReference?.rules ?? []).map(rule =>
         '<p class="muted">' + esc(rule.text) + ' ' + (urlLink(rule.url, 'Quelle') ?? '') + '</p>').join('')
       + '</section>' : '')
+    + (railExamplesRowsV07.length ? '<section class="section"><h2>Bahn-Beispielverbindungen und 2027er Verkaufsstand</h2>'
+      + '<p class="muted">Das sind echte Betreiber-Referenzen oder Veröffentlichungen aus 2026, keine Züge, Reservierungen oder Ticketangebote für September 2027. Preise bleiben offen.</p>'
+      + table(['Abschnitt','Beispieldatum','Uhrzeit','Referenzdauer','Gültigkeit','Originalquelle'],railExamplesRowsV07)
+      + bookingRulesV07 + '</section>' : '')
     + '<section class="section"><h2>Fahrplan- und Preisrecherche · 2027</h2>'
     + '<p class="muted">Offene Aufgaben, keine Echtzeitverbindungen. Jede Abfahrt und jeder Ticketpreis muss später für das konkrete Reisedatum beim Anbieter bestätigt werden.</p>'
     + (researchRows.length ? table(['Originalabschnitt', 'Reisedatum', 'Recherchestatus', 'Ticketpreis', 'Noch prüfen', 'Orientierungsfenster', 'Verkaufsregel', 'Eigenprüfung', 'Wiedervorlage'], researchRows)
@@ -631,7 +646,22 @@ function budget(ctx) {
 
 function localMobility(ctx) {
   const fare = transitFares[ctx.city];
-  if (!fare) return '';
+  const operators = ctx.catalog.research?.operatorV07;
+  const catalogFares = (ctx.catalog.research?.mappedFareRowsV07 ?? {})[ctx.city] ?? [];
+  const cityPlanner=operators?.providerPlanning?.[ctx.city] ?? transitPlanners[ctx.city];
+  const formatFare=ref=>new Intl.NumberFormat('de-DE',{style:'currency',
+    currency:ref.currency}).format(ref.amountCents / 100);
+  const officialTable=catalogFares.length
+    ? '<details class="panel panel-pad"><summary>Alle ' + catalogFares.length
+      + ' nachrecherchierten Ticketvarianten (2026)</summary>'
+      + '<p class="muted">Die Beträge gelten nur als Betreiber-Referenzen für 2026; Tarifzonen, Ermäßigungen und 2027er Gültigkeit beim Kauf prüfen. Sie werden nicht automatisch ins Reisebudget übernommen.</p>'
+      + table(['Ticket','Referenzpreis','Geltung','Hinweis','Quelle'],catalogFares.map(x=>[
+        esc(x.name),esc(formatFare(x)),esc(x.scope),esc(x.qualifier),
+        urlLink(x.sourceUrl,'Betreiber-Tarif')])) + '</details>' : '';
+  if (!fare) return !cityPlanner ? '' : '<section class="section panel panel-pad"><h2>Nahverkehr · '
+    + esc(ctx.cities[ctx.city]?.name ?? ctx.city)
+    + '</h2><p>Für diesen Ort liegen keine verifizierten, vergleichbaren ÖPNV-Ticketpreise für 2027 vor. Der offizielle Betreiberplaner kann Zug-, Bus- und Bergbahnverbindungen getrennt prüfen.</p>'
+    + (urlLink(cityPlanner,'Verbindungen beim Betreiber prüfen') || '') + officialTable + '</section>';
   const tickets = ctx.state.mobility?.[ctx.city] ?? 0;
   const compare = ticketBreakEven({ single: fare.single, pass: fare.pass, rides: tickets, travellers: ctx.people.length });
   return '<section class="section panel panel-pad"><h2>Nahverkehr · ' + esc(ctx.cities[ctx.city].name) + '</h2><p>'
@@ -640,7 +670,8 @@ function localMobility(ctx) {
     + stat(compare.savings >= 0 ? 'Ersparnis' : 'Mehrkosten', money(Math.abs(compare.savings)), 'Vorteil ab ' + compare.firstSaving + ' Einzeltickets p. P.')
     + '</div>' + btn('mobility', 'Einzeltickets eingeben', 'edit') + ' ' + urlLink(fare.source, 'Offizielle Tarife')
     + (fare.singleSource ? ' ' + urlLink(fare.singleSource, 'Einzelfahrkarte') : '')
-    + '<p class="muted">' + esc(fare.details) + ' Preisvergleich außerhalb des aktiven Budgets.</p></section>';
+    + '<p class="muted">' + esc(fare.details) + ' Preisvergleich außerhalb des aktiven Budgets.</p>'
+    + (urlLink(cityPlanner,'Routenplaner öffnen') || '') + '</section>' + officialTable;
 }
 
 function group(ctx) {
@@ -671,6 +702,28 @@ function data(ctx) {
   const { trip, state, variant, all, catalog } = ctx;
   const imported = Object.entries(trip.importCounts).map(([key, value]) => [esc(({activities:'Aktivitäten',transportations:'Verbindungen',hostings:'Unterkünfte',expenses:'Budgetreferenzen',documents:'Dokumente'})[key] ?? key), esc(value ?? 'Kein Zugriff')]);
   const research = catalog.research;
+  const coverage=research?.coverageV07?.find(record=>record.variant===trip.id);
+  const auditRows=(coverage?.entries??[]).map(x=>[
+    esc(catalog.cities[x.city]?.name ?? x.city),esc(x.name),esc(x.category),
+    x.geolocationMissing?status('Nur theoretische Stadtorientierung','warn'):status(
+      x.pointStatus==='sourced_area_center'?'Quellbezogener Gebiets-/Objektmittelpunkt':'Kartenpunkt belegt',''),
+    esc(x.priceStatus==='source_price_reference'?'Historische Preisreferenz':
+      x.priceStatus==='old_wishlist_sample_not_a_trip_price'?'Airbnb-Suchpreis-Snapshot':'2027-Preis offen'),
+    esc(x.hoursStatus==='published_reference_recheck_2027'?'Öffnungsreferenz / Datum prüfen':'Öffnungszeiten offen'),
+    esc(x.sourceStatus==='linked_source_reference'?'Quellenbezug vorhanden':'Kein eindeutiger Anbieterbeleg'),
+    (urlLink(x.googleMapsUrl,'Karte') || '')+' '+(urlLink(x.googleTransitUrl,'ÖPNV') || ''),
+  ]);
+  const coveragePanel=coverage ? '<section class="section panel panel-pad"><h2>Vollständige Datenabdeckung dieser Reisevariante</h2>'
+    + '<div class="stat-grid">'
+    + stat('Datensätze',String(coverage.total),'Alle Kategorien')
+    + stat('Kartenpunkte',String(coverage.withPrecisePoint),coverage.withoutPrecisePoint+' ohne präzisen Punkt')
+    + stat('Preisreferenzen',String(coverage.withPriceReference),'Nicht gleich 2027er Checkout')
+    + stat('Öffnungsreferenzen',String(coverage.withHoursReference),'Am Reisetag prüfen')
+    + '</div><p class="muted">Jeder Eintrag ist einzeln geprüft und in der folgenden Datenmatrix enthalten. Der theoretische Stadtanker wird niemals als exakter Kartenpin dargestellt. Wo Preise/Öffnungszeiten nicht belegt sind, bleibt der Wert offen.</p>'
+    + '<p class="muted">Kategorien: ' + Object.entries(coverage.byCategory).map(([k,v])=>esc(k)+': '+v).join(' · ') + '</p>'
+    + '<details><summary>Alle ' + coverage.total + ' Datensätze, Quellenstände und Google-Maps-/ÖPNV-Links anzeigen</summary>'
+    + table(['Ort','Eintrag','Kategorie','Kartengeometrie','Preis','Öffnungszeiten','Quellenstatus','Google Maps'],auditRows)
+    + '</details></section>' : '';
   const quality = (research?.quality ?? []).filter(item => !item.resolved
     && (item.trip_id === 'all' || item.trip_id === trip.id));
   const priorities = { critical: 0, high: 1, medium: 2, low: 3 };
@@ -690,6 +743,7 @@ function data(ctx) {
   });
   return heading('Daten & Fristen', 'Quellen, lokale Sicherung und Wiedervorlagen',
     btn('export', 'JSON sichern', 'download') + btn('ics', 'Kalender exportieren', 'calendar'))
+    + coveragePanel
     + '<section class="section panel panel-pad"><h2>Recherche importieren</h2><p class="muted">JSON oder CSV in die aktuelle Variante einlesen. Dateieinträge beginnen als Alternativen.</p>'
     + '<form id="import-form" class="row-actions section"><label class="field"><span>Datei</span><input type="file" name="file" accept=".csv,.json" required></label><button class="button primary" type="submit">' + icon('upload') + 'Importieren</button>'
     + '<div class="form-error" aria-live="polite"></div></form><small>Spalten: name, city oder destination_id, kind, id, amount, currency, price_scope, latitude, longitude, source_url.</small></section>'
