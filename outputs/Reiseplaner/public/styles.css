@@ -449,3 +449,17 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
  .route-studio-stop,.route-city-step{transition:none}
  .route-studio-stop:hover,.route-city-step:hover{transform:none}
 }
+
+/* A→B inspector: verified-geometry and timetable-source status remains readable
+   even when the map is dark, expanded or displayed on a small device. */
+.explorer-route-result{display:flex;gap:11px;align-items:center;padding:11px 12px;
+  border:1px solid var(--line);border-radius:12px;background:var(--light)}
+.explorer-route-result>div{display:grid;gap:3px;flex:1;min-width:0}
+.explorer-route-result strong{font-size:.82rem;color:var(--text)}
+.explorer-route-result .explorer-status{margin:0;padding:0;background:transparent;
+  line-height:1.5;color:var(--muted)}
+.explorer-route-status-dot{display:grid;place-items:center;flex:0 0 27px;width:27px;
+  height:27px;border-radius:50%;background:var(--accent);color:var(--green);
+  font-size:1rem;font-weight:800}
+@media(max-width:650px){.explorer-route-result{align-items:flex-start}
+  .explorer-route-status-dot{margin-top:1px}}
