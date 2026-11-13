@@ -267,6 +267,16 @@ export async function loadCatalog() {
       || (item.sampleQuote?.totalCents !== null &&
         (!Number.isSafeInteger(item.sampleQuote?.totalCents) || item.sampleQuote.totalCents < 0))))
     throw new Error('Airbnb-Wunschlistendaten sind unvollständig oder unplausibel.');
+  const railReferenceV04 = JSON.parse(await readFile(
+    new URL('../data/research-v04/rail-reference.json', import.meta.url), 'utf8'));
+  if (railReferenceV04.schema !== 'rail_reference_v04'
+    || railReferenceV04.corridors.length !== 12 || railReferenceV04.rules.length !== 3
+    || railReferenceV04.corridors.some(x =>
+      !destinations.some(city => city.id === x.from)
+      || !destinations.some(city => city.id === x.to)
+      || x.timetable2027Verified !== false || x.exactFareCents !== null
+      || x.departureLocal !== null || x.arrivalLocal !== null))
+    throw new Error('Bahn-Referenz enthält unbestätigte oder widersprüchliche Live-Daten.');
   const uniqueFoodIds = new Set(newFoodResearch.items.map(p => p.id));
   if (uniqueFoodIds.size !== newFoodResearch.items.length
     || newFoodResearch.items.some(p => !destinations.some(city => city.id === p.city)
@@ -593,10 +603,12 @@ export async function loadCatalog() {
       transportCandidates: research.transport_comparison_candidates,
       budgetScenarios: research.budget_scenarios,
       quality: research.data_quality,
+      railReferenceV04,
       airbnbWishlistResearchV04: airbnbResearch.items,
       foodVenueResearchV03: newFoodResearch.items,
       activityEvidenceV03: officialActivityEvidence.entries,
       counts: {
+        railReferenceCorridorsV04: railReferenceV04.corridors.length,
         airbnbWishlistAddsV04: airbnbResearch.items.length,
         foodVenueAddsV03: newFoodResearch.items.length,
         officialActivityRefsV03: officialActivityEvidence.entries.length,
@@ -612,6 +624,10 @@ export async function loadCatalog() {
       },
     },
     sources: Object.fromEntries([...sources, ...research.sources,
+      ...railReferenceV04.rules.map(rule => ({
+        id: 'rail-rule-v04:' + rule.id, publisher: 'Interrail · offizielle Regeln',
+        url: rule.url, accessed_on: railReferenceV04.observed_on, validity: rule.validity,
+      })),
       ...airbnbResearch.items.map(ref => ({
         id: 'wishlist-v04:' + ref.providerId,
         publisher: 'Airbnb-Wunschliste · ' + ref.name,
