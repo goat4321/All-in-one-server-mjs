@@ -23,6 +23,7 @@ const view = {
   filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
   optionFilter: 'all', sort: 'source', compareIds: new Set(),
   mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
+  cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
   mapViewportOnly:false,mapViewportBounds:null,mapCompact:true,
   mapFrom: null, mapTo: null, mapRouteMode: 'walk', mapRouteTime: '10:00', mapRouteResult: null,
@@ -1066,6 +1067,15 @@ document.addEventListener('keydown', event => {
 document.addEventListener('click', event => {
   const button = event.target.closest('[data-action]');
   if (button) void action(button.dataset.action, button.dataset.value).catch(error => say(error.message));
+});
+app.addEventListener('toggle',event=>{
+  if(event.target.matches('.sidebar-places'))view.cityNavOpen=event.target.open;
+},true);
+app.addEventListener('keydown',event=>{
+  if(event.target.id==='map-search'&&event.key==='Enter'){
+    event.preventDefault();
+    void action('explorer-search').catch(error=>say(error.message));
+  }
 });
 app.addEventListener('change', event => {
   if (event.target.id === 'variant') void switchVariant(event.target.value).catch(error => say(error.message));

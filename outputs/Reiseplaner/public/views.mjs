@@ -70,7 +70,7 @@ export function renderShell(ctx) {
         return '<option value="' + esc(v.id) + '"' + (v.id === variant.id ? ' selected' : '') + '>' + esc(v.state.title ?? base.title) + '</option>';
       }).join('')}</select><small>${dateLabel(trip.from, trip.to)} · ${variant.state.people.length} Reisende</small></div>
       ${activeNav}
-      <details class="sidebar-places" open><summary>Reiseorte <span>${places.length}</span></summary>
+      <details class="sidebar-places" ${ctx.cityNavOpen?'open':''}><summary>Reiseorte <span>${places.length}</span></summary>
       <nav aria-label="Reiseorte">${places.map(id => '<button type="button" class="city-btn" data-action="city" data-value="' + id
         + '" aria-current="' + (city === id) + '"><span class="dot"></span>' + esc(cities[id]?.name ?? id) + '</button>').join('')}</nav>
       </details>

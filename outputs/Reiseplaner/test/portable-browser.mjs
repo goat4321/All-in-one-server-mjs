@@ -404,8 +404,12 @@ try {
   await text('h1', 'Barcelona');
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
   await until(() => js('Boolean(document.querySelector(".mobile-switch"))'), 'mobiler Schalter');
+  await until(() => js('getComputedStyle(document.querySelector(".mobile-dock")).display==="grid"'), 'Fixe mobile Schnellnavigation');
   await click('[data-action=mobile][data-value=map]');
   await until(() => js('Boolean(document.querySelector("#map .leaflet-pane"))'), 'mobile Karte');
+  await click('.mobile-dock [data-action=page][data-value=map]');
+  await text('h1','Karten-Explorer');
+  await until(() => js('Boolean(document.querySelector("#map .leaflet-pane"))'),'Karte auch über mobile Dock erreichbar');
   assert.ok(await js('document.documentElement.scrollWidth <= window.innerWidth + 5'), 'Mobiles Layout hat horizontalen Überlauf.');
   console.log('PASS: echter Chrome-Flow · Mahlzeit, gemeinsamer Warenkorb, Preisänderung, Persistenz, Budget und mobile Karte');
 } finally {
