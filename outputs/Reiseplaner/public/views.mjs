@@ -427,7 +427,43 @@ function food(ctx) {
       btn('details', 'Details', 'folder', i.id) + (i.point ? iconBtn('option-map', 'Auf Karte: ' + i.name, 'pin', i.id) : '')
       + (ctx.activeSet.has(i.id) ? '' : btn(meal ? 'meal-choose' : 'choose', 'Einplanen', 'plus', meal?.id ?? i.id))];
   });
+  const menuItems=ctx.all.filter(item=>item.city===city && item.menuPriceResearchV08 && !item.duplicateOf && !item.removed);
+  const priced=menuItems.filter(item=>item.menuPriceResearchV08.menuReference);
+  const menuRows=menuItems.map(item=>{
+    const audit=item.menuPriceResearchV08,ref=audit.menuReference;
+    const displayed=ref?.sample?.map(sample=>{
+      const amount=new Intl.NumberFormat('de-DE',{style:'currency',currency:ref.currency})
+        .format(sample.amountCents/100);
+      return esc(sample.name)+' · <strong>'+esc(amount)+'</strong>'
+        +(sample.note?'<br><small>'+esc(sample.note)+'</small>':'');
+    }).join('<hr>') ?? 'Kein genauer Einzelgericht- oder Komplettmenüpreis belegt';
+    const kind=!ref?'Preis offen'
+      :ref.sourceType==='delivery_menu_only'?'Nur Liefer-/Abholmenü'
+      :ref.sourceType==='operator_retail_price_not_cafe_menu'?'Nur Laden-/Webshoppreis'
+      :ref.sourceType==='tourism_2027_group_offer'?'2027 Gruppenmenü, Mindestgruppe prüfen'
+      :['full_set_menu','fixed_menu_indicative','specific_day_fixed_menu'].includes(ref.precision)
+        ?'Menüpreis / Festangebot':'Einzelgerichtpreis (kein kompletter Checkout)';
+    return [
+      esc(item.name)+'<br><small>'+esc(item.address??'Adresse ungeprüft')+'</small>',
+      displayed,
+      esc(kind)+'<br><small>'+esc(ref?.dateLabel??'Kein verlässlicher Preis')+'</small>'
+        +(ref?.note?'<br><small>'+esc(ref.note)+'</small>':'')
+        +(ref?.extraPercentage?'<br><small>Zusatz: '+ref.extraPercentage+'% '+esc(ref.extraAppliesTo)+'</small>':''),
+      urlLink(audit.sourceUrl,'Speisekarte / Anbieter') || 'Original-Menü offen',
+      urlLink(item.googleMapsUrl,'Google Maps')+' '+(urlLink(item.googleTransitUrl,'ÖPNV')||''),
+    ];
+  });
+  const menuSection=menuRows.length
+    ? '<section class="section panel panel-pad"><h2>Nachrecherchierte Speisekarten & Einzelpreise · '
+      +esc(ctx.cities[city].name)+'</h2><p class="muted">'
+      +priced.length+' von '+menuItems.length+' erfassten Lokalen mit veröffentlichten Preisbeispielen. '
+      +'Diese Preise sind historische Betreiber-/Plattformbelege oder Angebote mit Bedingungen, KEINE garantierten September-2027-Endpreise. '
+      +'Liefergebühren, italienischer Coperto, Getränke und Terrassenzuschlag sind nur bei ausdrücklichem Nachweis enthalten. CHF nicht in Euro umgerechnet. '
+      +'Die Menüpreise werden nicht automatisch in das Gruppenbudget übernommen.</p>'
+      +table(['Lokal','Konkrete Preisbeispiele','Art / Gültigkeit','Quelle','Anreise'],menuRows)
+      +'</section>' : '';
   return heading('Verpflegung', ctx.cities[city].name + ' · ' + count + ' Reisende', planDate)
+    + menuSection
     + '<section class="section panel panel-pad"><h2>Abendessen am ' + dateText(date) + '</h2><p>'
     + (planned.length ? planned.map(i => {
       const actual = budget.rows.find(row => row.forItem === i.id);
@@ -709,11 +745,36 @@ function data(ctx) {
     x.geolocationMissing?status('Nur theoretische Stadtorientierung','warn'):status(
       x.pointStatus==='sourced_area_center'?'Quellbezogener Gebiets-/Objektmittelpunkt':'Kartenpunkt belegt',''),
     esc(x.priceStatus==='source_price_reference'?'Historische Preisreferenz':
-      x.priceStatus==='old_wishlist_sample_not_a_trip_price'?'Airbnb-Suchpreis-Snapshot':'2027-Preis offen'),
+      x.priceStatus==='old_wishlist_sample_not_a_trip_price'?'Airbnb-Suchpreis-Snapshot'
+      :x.priceStatus==='menu_observation_not_trip_price'?'Menüpreis-Beispiel · kein September-Checkout'
+      :'2027-Preis offen'),
     esc(x.hoursStatus==='published_reference_recheck_2027'?'Öffnungsreferenz / Datum prüfen':'Öffnungszeiten offen'),
     esc(x.sourceStatus==='linked_source_reference'?'Quellenbezug vorhanden':'Kein eindeutiger Anbieterbeleg'),
     (urlLink(x.googleMapsUrl,'Karte') || '')+' '+(urlLink(x.googleTransitUrl,'ÖPNV') || ''),
   ]);
+  const allMenuAudit=research?.foodMenuV08;
+  const missingGeo=research?.geoUnresolvedV08?.filter(item=>trip.route.includes(item.city))??[];
+  const pendingGeoRows=missingGeo.map(item=>[
+    esc(item.name),esc(catalog.cities[item.city]?.name??item.city),
+    esc(item.status==='review'?'Mehrdeutiger Kartentreffer'
+      :item.status==='skipped'?'Nicht eindeutig geokodierbar':'Noch kein genauer Treffer'),
+    esc(item.privateAirbnbProperty?'Private Unterkunftsadresse nicht veröffentlicht':item.nextAction),
+    urlLink(item.url,'Google Maps Suche')??'Suche offen',
+  ]);
+  const auditV08Panel=(allMenuAudit||missingGeo.length)
+    ? '<section class="section panel panel-pad"><h2>Einzelrecherche: fehlende Koordinaten und Menüpreise v0.8</h2>'
+      + '<div class="stat-grid">'
+      + stat('Gastro-Einträge geprüft',String(allMenuAudit?.counts.total??0),
+        (allMenuAudit?.counts.priced??0)+' mit Menü-/Artikelpreisbelegen')
+      + stat('Einmalige ungeklärte Ortsdatensätze',String(missingGeo.length),
+        'Innerhalb dieser Reisevariante, nicht 1:1 Kartenpins')
+      + '</div><p class="muted">Jeder noch unlokalisierte Eintrag hat eine Begründung und eine Karten-Suche. '
+      +'Auch für Airbnb ohne veröffentlichte Adresse und flexible Aktivitäten wird kein fingierter Punkt erzeugt. '
+      +'Original-Ergebnisse der früheren Photon-Recherche sind gesichert; offene Kandidaten dürfen nicht ungeprüft übernommen werden.</p>'
+      + (pendingGeoRows.length
+        ? '<details><summary>Alle '+missingGeo.length+' noch offenen unterschiedlichen Orte dieser Route anzeigen</summary>'
+          + table(['Name','Ort','Rechercheergebnis','Nächste Prüfung','Karte'],pendingGeoRows)+'</details>'
+        : '')+'</section>' : '';
   const coveragePanel=coverage ? '<section class="section panel panel-pad"><h2>Vollständige Datenabdeckung dieser Reisevariante</h2>'
     + '<div class="stat-grid">'
     + stat('Datensätze',String(coverage.total),'Alle Kategorien')
@@ -745,6 +806,7 @@ function data(ctx) {
   return heading('Daten & Fristen', 'Quellen, lokale Sicherung und Wiedervorlagen',
     btn('export', 'JSON sichern', 'download') + btn('ics', 'Kalender exportieren', 'calendar'))
     + coveragePanel
+    + auditV08Panel
     + '<section class="section panel panel-pad"><h2>Recherche importieren</h2><p class="muted">JSON oder CSV in die aktuelle Variante einlesen. Dateieinträge beginnen als Alternativen.</p>'
     + '<form id="import-form" class="row-actions section"><label class="field"><span>Datei</span><input type="file" name="file" accept=".csv,.json" required></label><button class="button primary" type="submit">' + icon('upload') + 'Importieren</button>'
     + '<div class="form-error" aria-live="polite"></div></form><small>Spalten: name, city oder destination_id, kind, id, amount, currency, price_scope, latitude, longitude, source_url.</small></section>'
