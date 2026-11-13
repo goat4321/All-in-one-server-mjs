@@ -27,6 +27,10 @@ const areaOnly = item => item?.provider === 'Airbnb' || String(item?.id ?? '').s
 
 export function googleMapsLocationStatus(item) {
   if (areaOnly(item)) return 'Nur Umgebung bekannt (kein exakter Unterkunfts-Pin)';
+  if (pointOk(item?.point) && item?.geoEvidence?.isCentroid)
+    return 'Geprüfter Gebiets- oder Objektmittelpunkt · Zugang / Eingang separat prüfen';
+  if (pointOk(item?.point) && item?.geoEvidence)
+    return 'Nachrecherchierter Kartenpunkt mit verlinkter Koordinatenquelle';
   if (pointOk(item?.point)) return 'Kartenkoordinate in Quelldaten vorhanden';
   if (text(item?.address)) return 'Adresse angegeben, Position noch nicht geokodiert';
   return 'Namenssuche, genaue Position ungeprüft';
