@@ -723,6 +723,37 @@ export async function loadCatalog() {
       mapLocationQuality:googleMapsLocationStatus(aligned),
     };
   });
+  // Individually reasoned research status for every remaining non-geocoded
+  // reference. Reconcile against current sourced coordinates on every load:
+  // if new points are later verified, stale open issues are suppressed.
+  const unresolvedReasonsV09=JSON.parse(await readFile(
+    new URL('../data/research-v09/individual-unresolved-reasons.json',import.meta.url),'utf8'));
+  if(unresolvedReasonsV09.schema!=='geo_final_individual_reason_v09'
+    ||!Array.isArray(unresolvedReasonsV09.items)
+    ||unresolvedReasonsV09.items.length!==146
+    ||new Set(unresolvedReasonsV09.items.map(x=>x.id+'|'+x.city)).size!==146
+    ||unresolvedReasonsV09.items.some(x=>!x.id||!x.city||!x.reason||!x.nextStep
+      ||x.coordinate!==null||x.coordinateStatus!=='not_verifiably_exact'
+      ||x.privateAirbnbProperty!==x.id.startsWith('wishlist:airbnb:')))
+    throw new Error('Einzelbegründungen für offene Kartenobjekte v0.9 unvollständig.');
+  const reasonsV09ByKey=new Map(unresolvedReasonsV09.items.map(x=>[x.id+'|'+x.city,x]));
+  const activeUnresolvedV09=unresolvedReasonsV09.items.filter(x=>
+    !geoByKey.has(x.id+'|'+x.city));
+  let openReasonReferencesV09=0;
+  for(const trip of output)trip.items=trip.items.map(item=>{
+    if(item.point)return item;
+    const unresolved=reasonsV09ByKey.get(item.id+'|'+item.city);
+    if(!unresolved)return item;
+    openReasonReferencesV09++;
+    return{...item,geoReviewV09:{
+      reasonCode:unresolved.reasonCode,reason:unresolved.reason,
+      nextStep:unresolved.nextStep,
+      sourceUrl:unresolved.providerAddressSource,
+      knownPublicAddress:unresolved.knownPublicAddress,
+      exactPointKnown:false,
+      lastReviewedOn:unresolved.lastReviewedOn,
+    }};
+  });
   const mappedFareRowsV07 = Object.fromEntries(destinations.map(city => [
     city.id, operatorFares.filter(ref => ref.city === city.id),
   ]));
@@ -827,7 +858,9 @@ export async function loadCatalog() {
           :item.menuPriceResearchV08?.status==='priced_reference_found'
             ?'menu_observation_not_trip_price':'no_confirmed_2027_price',
         menuV08Status:item.menuPriceResearchV08?.status??'not_a_v08_curated_eatery',
-        unresolvedGeoReason:geoUnresolvedById.get(item.id+'|'+item.city)?.reviewReason??null,
+        unresolvedGeoReason:reasonsV09ByKey.get(item.id+'|'+item.city)?.reason
+          ??geoUnresolvedById.get(item.id+'|'+item.city)?.reviewReason??null,
+        sourceBasedPostalAddress:item.addressEvidenceV09?.publishedAddress??null,
         hoursStatus:hours?'published_reference_recheck_2027':'no_published_hours',
         sourceStatus:publisherRefs.length?'linked_source_reference':'source_unspecified',
         bookingStatus:item.kind==='lodging'?(item.booked?'recorded_as_booked':'unbooked_alternative'):null,
@@ -881,6 +914,12 @@ export async function loadCatalog() {
       publicAddressesV09:{
         ...publicAddressesV09,
         appliedAcrossVariants:addressAppliedV09,
+      },
+      unresolvedReasonsV09:{
+        ...unresolvedReasonsV09,
+        items:activeUnresolvedV09,
+        actuallyUnresolvedUnique:activeUnresolvedV09.length,
+        appliedAcrossVariants:openReasonReferencesV09,
       },
       foodMenuV08,
       geoUnresolvedV08,
