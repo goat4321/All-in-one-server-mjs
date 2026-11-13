@@ -175,6 +175,10 @@ function connector(segment, route, index, label, peopleCount) {
 }
 
 export function mapDetail(ctx) {
+  // Atlas visitors use the compact overlay, highlighted list card and
+  // explicit full-details dialog. Avoid duplicating entire profiles below
+  // the map (a second panel could make the sticky map taller than viewport).
+  if(ctx.explorer)return '';
   const item = ctx.detail;
   if (!item) return '';
   const rows = ctx.segments.flatMap((segment, index) => [segment.from, segment.to].some(stop => item.entryKey ? stop.entryKey === item.entryKey : stop.id === item.id)

@@ -2,7 +2,6 @@ import { transitNetworks } from './transit.mjs';
 import { localParts } from './model.mjs';
 import { explorerCategory, explorerUnlocatedCityClusters } from './map-explorer.mjs';
 import { routeStudioModel } from './route-studio.mjs';
-import { placePopupHtml } from './place-profile.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
@@ -297,7 +296,7 @@ export class TripMap {
           'place-'+category+' explorer-pin'+(this.poiFocused===id?' focused':'')
             +(this.poiSaved?.has(item.id)?' bookmarked':''),
           ()=>this.handlers.select(id),offset,
-          placePopupHtml(item,this.poiProfileCtx??{}),this.poiLayer);
+          null,this.poiLayer);
         this.poiKeys.add(id);
       });
     }

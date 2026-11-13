@@ -260,7 +260,7 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   const element = document.querySelector('#map');
   if (element && mapVisible(context) && window.L) {
     currentMap = new TripMap(element, {
-      select: id => { selectPoint(id, false); currentMap?.markers.get(id)?.openPopup(); },
+      select: id => { selectPoint(id, false); },
       leg: index => action('leg', index), visitCity: id => action('city', id),
       routeStop: index => action('day-route-focus', String(index)),
       report: message => {
