@@ -162,6 +162,19 @@ export function explorerDetail(item, people = 3) {
     extra.push('Betreiber: ' + (item.operator || 'noch nicht bestätigt'));
     extra.push('Fahrplan 2027: ' + (item.verification || 'nicht bestätigt'));
   }
+  if (item.addressEvidenceV09) {
+    const info=item.addressEvidenceV09;
+    extra.push('Quellenbelegte öffentliche Anbieteradresse: '+info.publishedAddress);
+    extra.push('Adressprüfung: '+info.remark);
+    extra.push('Quellenlink zur Hausadresse: '+info.sourceUrl);
+    if(!item.point)extra.push('Für diese Adresse gibt es noch keinen unabhängig bestätigten genauen Gebäude-Pin; Google Maps kann nach der Hausanschrift suchen.');
+  }
+  if(item.geoReviewV09) {
+    const info=item.geoReviewV09;
+    extra.push('Warum noch keine genaue Kartenkoordinate: '+info.reason);
+    extra.push('Nächster sinnvoller Prüfschritt: '+info.nextStep);
+    if(info.sourceUrl)extra.push('Öffentliche Originalquelle der erfassten Hausadresse: '+info.sourceUrl);
+  }
   if (item.locationReferenceV07?.precision === 'city_only_not_a_pin')
     extra.push('Standortstatus: nur die Stadt als theoretische Orientierung bekannt; kein echter POI-Kartenpunkt.');
   else if (item.locationReferenceV07?.precision === 'sourced_area_center')
