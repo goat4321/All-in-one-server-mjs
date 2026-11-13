@@ -39,9 +39,9 @@
   "eligible": 243,
   "queried": 243,
   "totals": {
-    "accepted": 120,
+    "accepted": 121,
     "review": 60,
-    "unmatched": 64,
+    "unmatched": 63,
     "skipped": 46,
     "requestFailures": 0
   },
@@ -2722,6 +2722,27 @@
       "locationDescription": "Published coordinate of a registered business sharing Innere Dorfstrasse 19 with Tea Room Marmotte, confirmed as same-address tenant in source; BUILDING-LEVEL reference only, exact café entrance not proven.",
       "providerAddressVerified": true,
       "actualEntranceVerified": false
+    },
+    {
+      "id": "local:food-v03-017",
+      "city": "venice",
+      "name": "Al Mercà",
+      "address": "Campo Bella Vienna 213, 30125 Venezia VE, Italy",
+      "variants": [
+        "interrail_classic",
+        "interrail_august"
+      ],
+      "observedOn": "2026-11-13",
+      "provider": "VeniceWiki place map (San Polo 213)",
+      "point": [
+        45.43877,
+        12.33513
+      ],
+      "sourceUrl": "https://venicewiki.org/wiki/Al_Merc%C3%A0",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "VeniceWiki map of Al Mercà, address San Polo 213, geolocation 45.43877/12.33513. More detailed entrance location not independently surveyed."
     }
   ],
   "review": [
@@ -6360,20 +6381,6 @@
         "interrail_august"
       ],
       "query": "Wassersport am Corniche-Abschnitt (erst prüfen), Sète",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
-    },
-    {
-      "id": "local:food-v03-017",
-      "city": "venice",
-      "name": "Al Mercà",
-      "address": "Campo Bella Vienna 213, 30125 Venezia VE, Italy",
-      "variants": [
-        "interrail_classic",
-        "interrail_august"
-      ],
-      "query": "Al Mercà, Campo Bella Vienna 213, 30125 Venezia VE, Italy, Venezia",
       "observedOn": "2026-11-13",
       "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
       "reason": "Keine eindeutig örtlich passende OSM-Geometrie gefunden"
