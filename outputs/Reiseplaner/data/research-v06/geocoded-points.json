@@ -2,13 +2,13 @@
   "schema": "osm_photon_geocoded_v06",
   "observedOn": "2026-11-13",
   "attribution": "© OpenStreetMap contributors (ODbL)",
-  "method": "One-off private travel dataset research using public Photon, 1 sequential request per 1.5 seconds, no Airbnb private property geocoding. Two wrong same-name hotel matches were corrected using independently published addresses/coordinates.",
+  "method": "One-off private travel dataset research using public Photon, 1 sequential request per 1.5 seconds, no Airbnb private property geocoding. Two wrong same-name hotel matches were corrected using independently published addresses/coordinates. After automated research, 19 unambiguous reviewed candidates were manually reconciled with public map features and/or independent published coordinates. Area/path centroids are explicitly labelled.",
   "status": "completed_with_possible_unmatched",
   "legend": {
     "street_address_match": "Street/number aligned with named entity",
     "unique_osm_named_poi": "One uniquely named OSM object near source city; may be polygon centre"
   },
-  "accuracy": "OSM map coordinates are source identifiers or polygon centroids; not surveyed entrances; no 2027 routing claims.",
+  "accuracy": "OSM map coordinates are source identifiers or polygon centroids; not surveyed entrances; no 2027 routing claims. Source map points do not imply real-time opening hours or walking access.",
   "variantBefore": [
     {
       "id": "interrail_classic",
@@ -39,8 +39,8 @@
   "eligible": 243,
   "queried": 243,
   "totals": {
-    "accepted": 53,
-    "review": 97,
+    "accepted": 72,
+    "review": 78,
     "unmatched": 93,
     "skipped": 47,
     "requestFailures": 0
@@ -1264,6 +1264,432 @@
         "reason": "wrong same-name location, independently checked against provider address"
       },
       "sourceUrl": "https://yellowpages.swiss/location.cfm?company=Hotel-Alpina-Kandersteg&key=37888"
+    },
+    {
+      "id": "tripsy:activity:seed:a009",
+      "city": "barcelona",
+      "name": "Parc de la Ciutadella",
+      "address": null,
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Parc de la Ciutadella, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        41.388416,
+        2.1862546
+      ],
+      "osmRef": "https://www.openstreetmap.org/relation/271463",
+      "osmName": "Parc de la Ciutadella",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Area/path centre from OpenStreetMap; not a confirmed accessible entry point"
+    },
+    {
+      "id": "tripsy:activity:seed:a015",
+      "city": "sete",
+      "name": "Pointe Courte",
+      "address": null,
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Pointe Courte, Sète",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        43.413359,
+        3.6924743
+      ],
+      "osmRef": "https://www.openstreetmap.org/way/457483163",
+      "osmName": "La pointe courte",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Area/path centre from OpenStreetMap; not a confirmed accessible entry point"
+    },
+    {
+      "id": "research:bcom_13970",
+      "city": "barcelona",
+      "name": "Barcelona Pere Tarrés Youth Hostel",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Barcelona Pere Tarrés Youth Hostel, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        41.3879092,
+        2.1334542
+      ],
+      "osmRef": "https://www.openstreetmap.org/node/10878176107",
+      "osmName": "Alberg Hostel Barcelona Pere Tarrés",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Publicly named place/building matched against the city and its OSM feature"
+    },
+    {
+      "id": "research:bcom_427235",
+      "city": "barcelona",
+      "name": "Sant Jordi Hostels Gracia",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Sant Jordi Hostels Gracia, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        41.4032657,
+        2.1583154
+      ],
+      "osmRef": "https://www.openstreetmap.org/node/3429302693",
+      "osmName": "Sant Jordi Gracia",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Publicly named place/building matched against the city and its OSM feature"
+    },
+    {
+      "id": "research:bcom_175889",
+      "city": "barcelona",
+      "name": "Sant Jordi Hostels Sagrada Familia",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Sant Jordi Hostels Sagrada Familia, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        41.4097979,
+        2.1790486
+      ],
+      "osmRef": "https://www.openstreetmap.org/node/6343313724",
+      "osmName": "Sant Jordi Hostel Sagrada Familia",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Publicly named place/building matched against the city and its OSM feature"
+    },
+    {
+      "id": "research:bcom_576580",
+      "city": "barcelona",
+      "name": "The Central House Barcelona Gracia",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "The Central House Barcelona Gracia, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        41.3956717,
+        2.1584212
+      ],
+      "osmRef": "https://www.openstreetmap.org/node/6366099464",
+      "osmName": "The Central House",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Publicly named place/building matched against the city and its OSM feature"
+    },
+    {
+      "id": "research:suggest_025",
+      "city": "genoa",
+      "name": "Passeggiata Anita Garibaldi in Nervi",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_august"
+      ],
+      "query": "Passeggiata Anita Garibaldi in Nervi, Genova",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        44.381961,
+        9.0334361
+      ],
+      "osmRef": "https://www.openstreetmap.org/way/646935859",
+      "osmName": "Passeggiata Anita Garibaldi",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Area/path centre from OpenStreetMap; not a confirmed accessible entry point"
+    },
+    {
+      "id": "research:suggest_022",
+      "city": "nice",
+      "name": "Plage de la Darse Badeoption",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Plage de la Darse Badeoption, Nice",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        43.6970799,
+        7.3075678
+      ],
+      "osmRef": "https://www.openstreetmap.org/relation/1770827",
+      "osmName": "Plage de la Darse",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Area/path centre from OpenStreetMap; not a confirmed accessible entry point"
+    },
+    {
+      "id": "tripsy:activity:seed:a052",
+      "city": "grindelwald",
+      "name": "First Cliff Walk optional",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "First Cliff Walk optional, Grindelwald",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        46.6593101,
+        8.053271
+      ],
+      "osmRef": "https://www.openstreetmap.org/way/510863442",
+      "osmName": "First Cliff Walk by Tissot",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Area/path centre from OpenStreetMap; not a confirmed accessible entry point"
+    },
+    {
+      "id": "research:bcom_7867225",
+      "city": "appenzell",
+      "name": "Alte Metzg Hostel",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Alte Metzg Hostel, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        47.3315468,
+        9.4118032
+      ],
+      "osmRef": "https://www.openstreetmap.org/node/13544408371",
+      "osmName": "Alte Metzg",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Publicly named place/building matched against the city and its OSM feature"
+    },
+    {
+      "id": "research:bcom_286916",
+      "city": "appenzell",
+      "name": "Hotel Appenzell",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Hotel Appenzell, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        47.3311584,
+        9.4074899
+      ],
+      "osmRef": "https://www.openstreetmap.org/way/241639247",
+      "osmName": "Café-Hotel Appenzell",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Publicly named place/building matched against the city and its OSM feature"
+    },
+    {
+      "id": "research:bcom_5763718",
+      "city": "appenzell",
+      "name": "Traube Restaurant & Hotel",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Traube Restaurant & Hotel, Appenzell",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        47.3313241,
+        9.408535
+      ],
+      "osmRef": "https://www.openstreetmap.org/way/240787989",
+      "osmName": "Hotel Traube",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Publicly named place/building matched against the city and its OSM feature"
+    },
+    {
+      "id": "research:bcom_65960",
+      "city": "grindelwald",
+      "name": "Hotel Hirschen Grindelwald",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Hotel Hirschen Grindelwald, Grindelwald",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        46.6234346,
+        8.0383846
+      ],
+      "osmRef": "https://www.openstreetmap.org/way/279367090",
+      "osmName": "Hotel Hirschen",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Publicly named place/building matched against the city and its OSM feature"
+    },
+    {
+      "id": "tripsy:transport:3842726",
+      "city": "paris",
+      "name": "Paris Gare de Lyon → Barcelona Sants",
+      "address": null,
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "Paris Gare de Lyon → Barcelona Sants, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        48.8446832,
+        2.3737743
+      ],
+      "osmRef": "https://www.openstreetmap.org/node/26824135",
+      "osmName": "Gare de Lyon",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "OSM station reference, not a train departure platform or time"
+    },
+    {
+      "id": "tripsy:transport:3890059",
+      "city": "paris",
+      "name": "Paris Gare de Lyon → Barcelona Sants",
+      "address": null,
+      "variants": [
+        "interrail_swiss"
+      ],
+      "query": "Paris Gare de Lyon → Barcelona Sants, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        48.8446832,
+        2.3737743
+      ],
+      "osmRef": "https://www.openstreetmap.org/node/26824135",
+      "osmName": "Gare de Lyon",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "OSM station reference, not a train departure platform or time"
+    },
+    {
+      "id": "tripsy:transport:3769531",
+      "city": "toulouse",
+      "name": "Toulouse Matabiau → Narbonne",
+      "address": null,
+      "variants": [
+        "interrail_august"
+      ],
+      "query": "Toulouse Matabiau → Narbonne, Toulouse",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        43.6114306,
+        1.4542101
+      ],
+      "osmRef": "https://www.openstreetmap.org/node/6132514816",
+      "osmName": "Toulouse-Matabiau",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "OSM station reference, not a train departure platform or time"
+    },
+    {
+      "id": "research:bcom_75669",
+      "city": "kandersteg",
+      "name": "Seilers Vintage Hotel Spa",
+      "address": null,
+      "variants": [
+        "swiss_lakes"
+      ],
+      "query": "Seilers Vintage Hotel Spa, Kandersteg",
+      "observedOn": "2026-11-13",
+      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
+      "point": [
+        46.5004402,
+        7.6766655
+      ],
+      "osmRef": "https://www.openstreetmap.org/node/2403628645",
+      "osmName": "Seiler’s vintage Hotel",
+      "confidence": "reviewed_osm_named_location",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Publicly named place/building matched against the city and its OSM feature"
+    },
+    {
+      "id": "research:bcom_93600",
+      "city": "barcelona",
+      "name": "Inout",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss"
+      ],
+      "query": "Inout, Barcelona",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published place coordinates",
+      "point": [
+        41.4230623,
+        2.0984009
+      ],
+      "confidence": "verified_external_coordinates",
+      "sourceUrl": "https://www.bcnsostenible.cat/en/web/punt/inout-hostel",
+      "isCentroid": false,
+      "manuallyReviewed": true,
+      "locationDescription": "Barcelona municipal sustainability map lists INOUT Hostel at Carrer Major del Rectoret 2 with geographic coordinates; operator independently confirms exact street address."
+    },
+    {
+      "id": "official:orsay",
+      "city": "paris",
+      "name": "Musée d’Orsay",
+      "address": null,
+      "variants": [
+        "interrail_classic",
+        "interrail_swiss",
+        "interrail_august"
+      ],
+      "query": "Musée d’Orsay, Paris",
+      "observedOn": "2026-11-13",
+      "provider": "Independently published place coordinates",
+      "point": [
+        48.85992,
+        2.32653
+      ],
+      "confidence": "verified_external_coordinates",
+      "sourceUrl": "https://mapcarta.com/25251064",
+      "isCentroid": true,
+      "manuallyReviewed": true,
+      "locationDescription": "Museum building centre for OSM way 63178753 (museum itself, not RER stop); mapped centroid is not entrance."
     }
   ],
   "review": [
@@ -1559,69 +1985,6 @@
       ]
     },
     {
-      "id": "tripsy:activity:seed:a009",
-      "city": "barcelona",
-      "name": "Parc de la Ciutadella",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Parc de la Ciutadella, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.388416,
-            2.1862546
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/271463",
-          "osmName": "Parc de la Ciutadella",
-          "street": "Passeig de Picasso",
-          "houseNumber": "21",
-          "nameScore": 1,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3888152,
-            2.1835111
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/9868074500",
-          "osmName": "Parc de la Ciutadella",
-          "street": "Passeig de Pujades",
-          "houseNumber": null,
-          "nameScore": 1,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3858521,
-            2.1859357
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/9868074506",
-          "osmName": "Parc de la Ciutadella",
-          "street": "Passeig de Picasso",
-          "houseNumber": null,
-          "nameScore": 1,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3877869,
-            2.1831005
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/5243064482",
-          "osmName": "Parc de la Ciutadella - Princesa",
-          "street": "Passeig de Picasso",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "tripsy:activity:seed:a008",
       "city": "barcelona",
       "name": "Poblenou & Bogatell Beach",
@@ -1811,132 +2174,6 @@
       ]
     },
     {
-      "id": "tripsy:transport:3842726",
-      "city": "paris",
-      "name": "Paris Gare de Lyon → Barcelona Sants",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Paris Gare de Lyon → Barcelona Sants, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            48.8446832,
-            2.3737743
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/26824135",
-          "osmName": "Gare de Lyon",
-          "street": "Place Louis Armand",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8436645,
-            2.3744881
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/14337410537",
-          "osmName": "Gare de Lyon",
-          "street": "Allée de Bercy",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8436635,
-            2.3744869
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/1309031698",
-          "osmName": "Gare de Lyon",
-          "street": "Allée de Bercy",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8451709,
-            2.3725553
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/5228032209",
-          "osmName": "Gare de Lyon",
-          "street": "Place Louis Armand",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:activity:seed:a015",
-      "city": "sete",
-      "name": "Pointe Courte",
-      "address": null,
-      "variants": [
-        "interrail_classic"
-      ],
-      "query": "Pointe Courte, Sète",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.4120652,
-            3.6930667
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/5334990384",
-          "osmName": "Pointe Courte",
-          "street": "Route de Balaruc",
-          "houseNumber": null,
-          "nameScore": 1,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.4140233,
-            3.6915219
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/1811749720",
-          "osmName": "Pointe Courte",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 1,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.413359,
-            3.6924743
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/457483163",
-          "osmName": "La pointe courte",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.94,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.4139028,
-            3.6926564
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/463228129",
-          "osmName": "Port de la Pointe Courte",
-          "street": "Promenade Louis Vaillé",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "tripsy:activity:seed:a031",
       "city": "venice",
       "name": "Letzter Kanalabend",
@@ -1983,74 +2220,6 @@
           "street": "Piazza Indipendenza",
           "houseNumber": null,
           "nameScore": 0,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_13970",
-      "city": "barcelona",
-      "name": "Barcelona Pere Tarrés Youth Hostel",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Barcelona Pere Tarrés Youth Hostel, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.3879092,
-            2.1334542
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/10878176107",
-          "osmName": "Alberg Hostel Barcelona Pere Tarrés",
-          "street": "Carrer de Numància",
-          "houseNumber": "149-151",
-          "nameScore": 0.705,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.3879045,
-            2.1333983
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/652901159",
-          "osmName": "Alberg Hostel Barcelona Pere Tarrés",
-          "street": "Carrer de Joan Gamper",
-          "houseNumber": "20",
-          "nameScore": 0.705,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_93600",
-      "city": "barcelona",
-      "name": "Inout",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Inout, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.4225537,
-            2.097242
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/647512597",
-          "osmName": "INOUT Hostel",
-          "street": "Carrer Major del Rectoret",
-          "houseNumber": null,
-          "nameScore": 0.47,
           "addressMatch": false
         }
       ]
@@ -2315,138 +2484,6 @@
       ]
     },
     {
-      "id": "research:bcom_427235",
-      "city": "barcelona",
-      "name": "Sant Jordi Hostels Gracia",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Sant Jordi Hostels Gracia, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.4032657,
-            2.1583154
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3429302693",
-          "osmName": "Sant Jordi Gracia",
-          "street": "Carrer de Terol",
-          "houseNumber": "35",
-          "nameScore": 0.705,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.4131801,
-            2.1441447
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4461558029",
-          "osmName": "Parròquia de Sant Jordi",
-          "street": "Viaducte de Vallcarca",
-          "houseNumber": "11",
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.4131801,
-            2.1441447
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4461558029",
-          "osmName": "Parròquia de Sant Jordi",
-          "street": "Viaducte de Vallcarca",
-          "houseNumber": "7",
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.4131801,
-            2.1441447
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4461558029",
-          "osmName": "Parròquia de Sant Jordi",
-          "street": "Viaducte de Vallcarca",
-          "houseNumber": "9",
-          "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_175889",
-      "city": "barcelona",
-      "name": "Sant Jordi Hostels Sagrada Familia",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "Sant Jordi Hostels Sagrada Familia, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.4097979,
-            2.1790486
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/6343313724",
-          "osmName": "Sant Jordi Hostel Sagrada Familia",
-          "street": "Carrer del Freser",
-          "houseNumber": null,
-          "nameScore": 0.752,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            41.4119231,
-            2.1749464
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/288931982",
-          "osmName": "Sant Jordi",
-          "street": "Carrer de Sant Antoni Maria Claret",
-          "houseNumber": null,
-          "nameScore": 0.376,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_576580",
-      "city": "barcelona",
-      "name": "The Central House Barcelona Gracia",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss"
-      ],
-      "query": "The Central House Barcelona Gracia, Barcelona",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            41.3956717,
-            2.1584212
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/6366099464",
-          "osmName": "The Central House",
-          "street": "Carrer de Còrsega",
-          "houseNumber": "302",
-          "nameScore": 0.627,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "research:bcom_9743748",
       "city": "genoa",
       "name": "Appartamento in centro",
@@ -2686,34 +2723,6 @@
           "street": "Passo dell'Acquidotto",
           "houseNumber": null,
           "nameScore": 0.235,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:suggest_025",
-      "city": "genoa",
-      "name": "Passeggiata Anita Garibaldi in Nervi",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_august"
-      ],
-      "query": "Passeggiata Anita Garibaldi in Nervi, Genova",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            44.381961,
-            9.0334361
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/646935859",
-          "osmName": "Passeggiata Anita Garibaldi",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.705,
           "addressMatch": false
         }
       ]
@@ -3037,59 +3046,6 @@
           "street": "Promenade des Anglais",
           "houseNumber": "455",
           "nameScore": 0.188,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:suggest_022",
-      "city": "nice",
-      "name": "Plage de la Darse Badeoption",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Plage de la Darse Badeoption, Nice",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.6970799,
-            7.3075678
-          ],
-          "osmRef": "https://www.openstreetmap.org/relation/1770827",
-          "osmName": "Plage de la Darse",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.7250087,
-            7.2747805
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2781387698",
-          "osmName": "La coupe d'argent",
-          "street": "Place Commandant Marcel Gérome",
-          "houseNumber": "3",
-          "nameScore": 0,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            44.0355546,
-            7.3284505
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/1803211204",
-          "osmName": "Place d'Armes",
-          "street": "Route des Blancons",
-          "houseNumber": null,
-          "nameScore": 0,
           "addressMatch": false
         }
       ]
@@ -3532,71 +3488,6 @@
           "street": "Tunnel des Tuileries",
           "houseNumber": null,
           "nameScore": 0.94,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "official:orsay",
-      "city": "paris",
-      "name": "Musée d’Orsay",
-      "address": null,
-      "variants": [
-        "interrail_classic",
-        "interrail_swiss",
-        "interrail_august"
-      ],
-      "query": "Musée d’Orsay, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            48.8605888,
-            2.3259096
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2379542204",
-          "osmName": "Musée d'Orsay",
-          "street": "Rue de Lille",
-          "houseNumber": "62",
-          "nameScore": 1,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8608464,
-            2.3241015
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2042462210",
-          "osmName": "Musée d'Orsay",
-          "street": "Rue de Solférino",
-          "houseNumber": null,
-          "nameScore": 1,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8606263,
-            2.32618
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2379542206",
-          "osmName": "Musée d'Orsay",
-          "street": "Place Henry de Montherlant",
-          "houseNumber": null,
-          "nameScore": 1,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8605527,
-            2.3260909
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2379542203",
-          "osmName": "Musée d'Orsay",
-          "street": "Quai Valéry Giscard d'Estaing",
-          "houseNumber": null,
-          "nameScore": 1,
           "addressMatch": false
         }
       ]
@@ -4332,69 +4223,6 @@
       ]
     },
     {
-      "id": "tripsy:transport:3890059",
-      "city": "paris",
-      "name": "Paris Gare de Lyon → Barcelona Sants",
-      "address": null,
-      "variants": [
-        "interrail_swiss"
-      ],
-      "query": "Paris Gare de Lyon → Barcelona Sants, Paris",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            48.8446832,
-            2.3737743
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/26824135",
-          "osmName": "Gare de Lyon",
-          "street": "Place Louis Armand",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8436645,
-            2.3744881
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/14337410537",
-          "osmName": "Gare de Lyon",
-          "street": "Allée de Bercy",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8436635,
-            2.3744869
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/1309031698",
-          "osmName": "Gare de Lyon",
-          "street": "Allée de Bercy",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            48.8451709,
-            2.3725553
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/5228032209",
-          "osmName": "Gare de Lyon",
-          "street": "Place Louis Armand",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "tripsy:lodging:seed:iv-nice",
       "city": "nice",
       "name": "Appartement Vieux-Nice",
@@ -4696,69 +4524,6 @@
           "street": "Autoroute des Deux Mers",
           "houseNumber": null,
           "nameScore": 0.235,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:transport:3769531",
-      "city": "toulouse",
-      "name": "Toulouse Matabiau → Narbonne",
-      "address": null,
-      "variants": [
-        "interrail_august"
-      ],
-      "query": "Toulouse Matabiau → Narbonne, Toulouse",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            43.6114306,
-            1.4542101
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/6132514816",
-          "osmName": "Toulouse-Matabiau",
-          "street": "Boulevard Pierre Semard",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.6114273,
-            1.4541299
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3409198080",
-          "osmName": "Toulouse-Matabiau",
-          "street": "Boulevard Pierre Semard",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.6114495,
-            1.45434
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/3409198082",
-          "osmName": "Toulouse-Matabiau",
-          "street": "Boulevard Pierre Semard",
-          "houseNumber": null,
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            43.6114652,
-            1.4544915
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/9117741691",
-          "osmName": "Toulouse-Matabiau",
-          "street": "Passage souterrain Sud",
-          "houseNumber": null,
-          "nameScore": 0.627,
           "addressMatch": false
         }
       ]
@@ -5179,69 +4944,6 @@
           "street": null,
           "houseNumber": null,
           "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "tripsy:activity:seed:a052",
-      "city": "grindelwald",
-      "name": "First Cliff Walk optional",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "First Cliff Walk optional, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            46.6593101,
-            8.053271
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/510863442",
-          "osmName": "First Cliff Walk by Tissot",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.705,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.6598969,
-            8.0533432
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/4361655612",
-          "osmName": "First Cliff Walk by Tissot",
-          "street": "First Cliff Walk by Tissot - bridge",
-          "houseNumber": null,
-          "nameScore": 0.705,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.6598642,
-            8.0532017
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/510863432",
-          "osmName": "First Cliff Walk by Tissot - bridge",
-          "street": null,
-          "houseNumber": null,
-          "nameScore": 0.564,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            46.6574329,
-            8.0551795
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/1206410722",
-          "osmName": "First",
-          "street": "First Cliff Walk by Tissot",
-          "houseNumber": null,
-          "nameScore": 0.235,
           "addressMatch": false
         }
       ]
@@ -5790,33 +5492,6 @@
       ]
     },
     {
-      "id": "research:bcom_7867225",
-      "city": "appenzell",
-      "name": "Alte Metzg Hostel",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Alte Metzg Hostel, Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            47.3315468,
-            9.4118032
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/13544408371",
-          "osmName": "Alte Metzg",
-          "street": "Gaiserstrasse",
-          "houseNumber": "6",
-          "nameScore": 0.627,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
       "id": "research:bcom_12518316",
       "city": "appenzell",
       "name": "Ferienwohnung Bärli Appenzell",
@@ -5875,120 +5550,6 @@
           "street": "Neuhaus",
           "houseNumber": "510",
           "nameScore": 0.313,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_286916",
-      "city": "appenzell",
-      "name": "Hotel Appenzell",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Hotel Appenzell, Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            47.3311584,
-            9.4074899
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/241639247",
-          "osmName": "Café-Hotel Appenzell",
-          "street": "Hauptgasse",
-          "houseNumber": "37",
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.3311584,
-            9.4074899
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/241639247",
-          "osmName": "Café-Hotel Appenzell",
-          "street": "Hauptgasse",
-          "houseNumber": "37",
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.3305723,
-            9.4102142
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/240766734",
-          "osmName": "Hotel Hecht",
-          "street": "Hauptgasse",
-          "houseNumber": "9",
-          "nameScore": 0.47,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.3304888,
-            9.4109584
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/239880238",
-          "osmName": "Hotel Adler",
-          "street": "Weissbadstrasse",
-          "houseNumber": "2",
-          "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_5763718",
-      "city": "appenzell",
-      "name": "Traube Restaurant & Hotel",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Traube Restaurant & Hotel, Appenzell",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            47.3313241,
-            9.408535
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/240787989",
-          "osmName": "Hotel Traube",
-          "street": "Marktgasse",
-          "houseNumber": "7",
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.3313241,
-            9.408535
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/240787989",
-          "osmName": "Hotel Traube",
-          "street": "Marktgasse",
-          "houseNumber": "7",
-          "nameScore": 0.627,
-          "addressMatch": false
-        },
-        {
-          "point": [
-            47.300652,
-            9.4361647
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/239591012",
-          "osmName": "Hotel und Restaurant Alpenblick",
-          "street": "Küchenrain",
-          "houseNumber": "5",
-          "nameScore": 0.627,
           "addressMatch": false
         }
       ]
@@ -6115,33 +5676,6 @@
           "street": "Terrassenweg",
           "houseNumber": "141",
           "nameScore": 0.47,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_65960",
-      "city": "grindelwald",
-      "name": "Hotel Hirschen Grindelwald",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Hotel Hirschen Grindelwald, Grindelwald",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            46.6234346,
-            8.0383846
-          ],
-          "osmRef": "https://www.openstreetmap.org/way/279367090",
-          "osmName": "Hotel Hirschen",
-          "street": "Dorfstrasse",
-          "houseNumber": "135",
-          "nameScore": 0.627,
           "addressMatch": false
         }
       ]
@@ -6283,33 +5817,6 @@
           "street": "Innere Dorfstrasse",
           "houseNumber": "131",
           "nameScore": 0.313,
-          "addressMatch": false
-        }
-      ]
-    },
-    {
-      "id": "research:bcom_75669",
-      "city": "kandersteg",
-      "name": "Seilers Vintage Hotel Spa",
-      "address": null,
-      "variants": [
-        "swiss_lakes"
-      ],
-      "query": "Seilers Vintage Hotel Spa, Kandersteg",
-      "observedOn": "2026-11-13",
-      "provider": "OSM / Photon (© OpenStreetMap contributors, ODbL)",
-      "reason": "Mehrdeutiger Ort oder keine genaue Namens-/Adressübereinstimmung",
-      "candidates": [
-        {
-          "point": [
-            46.5004402,
-            7.6766655
-          ],
-          "osmRef": "https://www.openstreetmap.org/node/2403628645",
-          "osmName": "Seiler’s vintage Hotel",
-          "street": "Aeussere Dorfstrasse",
-          "houseNumber": "99",
-          "nameScore": 0.47,
           "addressMatch": false
         }
       ]
@@ -7970,6 +7477,177 @@
       "city": "kandersteg",
       "coordinateSource": "https://yellowpages.swiss/location.cfm?company=Hotel-Alpina-Kandersteg&key=37888",
       "note": "Hotel Alpina: Aeussere Dorfstrasse 92, 3718 Kandersteg; original OSM candidate belonged to Hotel Alpina Adelboden."
+    }
+  ],
+  "manualPromotions": [
+    {
+      "id": "tripsy:activity:seed:a009",
+      "city": "barcelona",
+      "point": [
+        41.388416,
+        2.1862546
+      ],
+      "source": "https://www.openstreetmap.org/relation/271463"
+    },
+    {
+      "id": "tripsy:activity:seed:a015",
+      "city": "sete",
+      "point": [
+        43.413359,
+        3.6924743
+      ],
+      "source": "https://www.openstreetmap.org/way/457483163"
+    },
+    {
+      "id": "research:bcom_13970",
+      "city": "barcelona",
+      "point": [
+        41.3879092,
+        2.1334542
+      ],
+      "source": "https://www.openstreetmap.org/node/10878176107"
+    },
+    {
+      "id": "research:bcom_427235",
+      "city": "barcelona",
+      "point": [
+        41.4032657,
+        2.1583154
+      ],
+      "source": "https://www.openstreetmap.org/node/3429302693"
+    },
+    {
+      "id": "research:bcom_175889",
+      "city": "barcelona",
+      "point": [
+        41.4097979,
+        2.1790486
+      ],
+      "source": "https://www.openstreetmap.org/node/6343313724"
+    },
+    {
+      "id": "research:bcom_576580",
+      "city": "barcelona",
+      "point": [
+        41.3956717,
+        2.1584212
+      ],
+      "source": "https://www.openstreetmap.org/node/6366099464"
+    },
+    {
+      "id": "research:suggest_025",
+      "city": "genoa",
+      "point": [
+        44.381961,
+        9.0334361
+      ],
+      "source": "https://www.openstreetmap.org/way/646935859"
+    },
+    {
+      "id": "research:suggest_022",
+      "city": "nice",
+      "point": [
+        43.6970799,
+        7.3075678
+      ],
+      "source": "https://www.openstreetmap.org/relation/1770827"
+    },
+    {
+      "id": "tripsy:activity:seed:a052",
+      "city": "grindelwald",
+      "point": [
+        46.6593101,
+        8.053271
+      ],
+      "source": "https://www.openstreetmap.org/way/510863442"
+    },
+    {
+      "id": "research:bcom_7867225",
+      "city": "appenzell",
+      "point": [
+        47.3315468,
+        9.4118032
+      ],
+      "source": "https://www.openstreetmap.org/node/13544408371"
+    },
+    {
+      "id": "research:bcom_286916",
+      "city": "appenzell",
+      "point": [
+        47.3311584,
+        9.4074899
+      ],
+      "source": "https://www.openstreetmap.org/way/241639247"
+    },
+    {
+      "id": "research:bcom_5763718",
+      "city": "appenzell",
+      "point": [
+        47.3313241,
+        9.408535
+      ],
+      "source": "https://www.openstreetmap.org/way/240787989"
+    },
+    {
+      "id": "research:bcom_65960",
+      "city": "grindelwald",
+      "point": [
+        46.6234346,
+        8.0383846
+      ],
+      "source": "https://www.openstreetmap.org/way/279367090"
+    },
+    {
+      "id": "tripsy:transport:3842726",
+      "city": "paris",
+      "point": [
+        48.8446832,
+        2.3737743
+      ],
+      "source": "https://www.openstreetmap.org/node/26824135"
+    },
+    {
+      "id": "tripsy:transport:3890059",
+      "city": "paris",
+      "point": [
+        48.8446832,
+        2.3737743
+      ],
+      "source": "https://www.openstreetmap.org/node/26824135"
+    },
+    {
+      "id": "tripsy:transport:3769531",
+      "city": "toulouse",
+      "point": [
+        43.6114306,
+        1.4542101
+      ],
+      "source": "https://www.openstreetmap.org/node/6132514816"
+    },
+    {
+      "id": "research:bcom_75669",
+      "city": "kandersteg",
+      "point": [
+        46.5004402,
+        7.6766655
+      ],
+      "source": "https://www.openstreetmap.org/node/2403628645"
+    },
+    {
+      "id": "research:bcom_93600",
+      "point": [
+        41.4230623,
+        2.0984009
+      ],
+      "source": "https://www.bcnsostenible.cat/en/web/punt/inout-hostel"
+    },
+    {
+      "id": "official:orsay",
+      "point": [
+        48.85992,
+        2.32653
+      ],
+      "source": "https://mapcarta.com/25251064"
     }
   ]
 }
