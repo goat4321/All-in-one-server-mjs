@@ -12,7 +12,7 @@ const unresolved=catalog.research.geoUnresolvedV08;
 test('All 39 curated restaurants have an independently classified menu research row',()=>{
   assert.equal(menu.schema,'food_menu_audit_v08');
   assert.equal(menu.items.length,39);
-  assert.deepEqual(menu.counts,{total:39,priced:17,siteOnly:8,noPrice:14});
+  assert.deepEqual(menu.counts,{total:39,priced:19,siteOnly:6,noPrice:14});
   assert.equal(new Set(menu.items.map(x=>x.id)).size,39);
   for(const row of menu.items){
     assert.ok(row.address);
@@ -68,8 +68,8 @@ test('Dated menu examples never turn into a chargeable selected meal or per-pers
 });
 
 test('Previously unresolved coordinates have individual audit decisions; no Airbnb gets a fake location',()=>{
-  assert.equal(catalog.research.geoResearchV06.acceptedUnique,118);
-  assert.equal(unresolved.length,172);
+  assert.equal(catalog.research.geoResearchV06.acceptedUnique,120);
+  assert.equal(unresolved.length,170);
   assert.equal(new Set(unresolved.map(x=>x.id+'|'+x.city)).size,unresolved.length);
   assert.equal(unresolved.filter(x=>x.privateAirbnbProperty).length,42);
   for(const row of unresolved){
