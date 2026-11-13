@@ -190,6 +190,7 @@ function mapPanel(ctx, full = false) {
     <div class="map-wrap"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div><div class="map-hint" id="map-hint" hidden></div></div>
     <div class="map-legend"><span><i class="legend-line ${ctx.total ? 'dashed' : ''}"></i> ${ctx.total ? 'Städtefolge · Schema' : 'Berechneter Fußweg'}</span>
     ${ctx.explorer ? Object.entries(EXPLORER_GROUPS).map(([id, group]) => '<span><i class="category-swatch ' + id + '"></i>' + esc(group.label) + '</span>').join('') : ''}
+    ${ctx.explorer?.showCityReferences && ctx.explorer.unlocated.length ? '<span>Grau gestrichelt ? = Stadt-Sammelmarker, keine nachgewiesene Objektposition</span>' : ''}
     ${!ctx.total && t.stations && ctx.dayTravel.length ? '<span><i class="legend-line dashed"></i> Tagesfahrt · Schema</span>' : ''}
     ${!ctx.total && (ctx.timetablePreview || ctx.routes.some(route => route?.legs?.length)) ? '<span>ÖPNV · gespeicherter / referenzierter Fahrplan, Reisedatum prüfen</span>' : ''}
     ${!ctx.total ? '<span><i class="legend-dot"></i> Alternative</span>' : ''}
