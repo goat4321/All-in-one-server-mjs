@@ -1,0 +1,49 @@
+name: Reiseplaner · Einmalige Photon-Geodatenprüfung
+on:
+  pull_request:
+    branches: [feature/v7-unified-map-and-day-builder]
+    paths:
+      - outputs/Reiseplaner/scripts/geo-research-photon-v06.mjs
+      - .github/workflows/reiseplaner-photon-geocoding.yml
+
+permissions:
+  contents: write
+
+jobs:
+  geocode:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Validate geocoding audit syntax
+        working-directory: outputs/Reiseplaner
+        run: node --check scripts/geo-research-photon-v06.mjs
+      - name: Bounded OSM Photon lookup (one-time, single worker)
+        working-directory: outputs/Reiseplaner
+        run: node scripts/geo-research-photon-v06.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: osm-photon-geocoded-points-v06
+          path: outputs/Reiseplaner/data/research-v06/geocoded-points.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Commit sourced points and unresolved results to PR branch
+        env:
+          GH_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add outputs/Reiseplaner/data/research-v06/geocoded-points.json
+          if git diff --cached --quiet; then
+            echo "No geocoding changes to commit"
+          else
+            git commit -m "data: add source-audited OSM coordinates and unresolved POIs"
+            git push origin "HEAD:${GH_HEAD_REF}"
+          fi
