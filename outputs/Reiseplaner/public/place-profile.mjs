@@ -63,6 +63,39 @@ export function placeProfileModel(item, ctx = {}) {
   };
 }
 
+// Only photos explicitly entered with source and credit are displayed.
+// In particular no arbitrary provider listing is assumed to offer image reuse rights.
+export function placeImageHtml(item,ctx={}, {small=false}={}) {
+  const p=placeProfileModel(item,ctx);
+  if(!p)return '';
+  const type=p.facts[0][1];
+  const label=esc(p.name);
+  return '<div class="place-photo'+(small?' small':'')+'" data-photo-category="'+esc(p.category)+'">'
+    + (p.photo
+      ? '<img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(p.photo.url)
+        +'" alt="Hinterlegtes Bild: '+label+'">'
+        +'<small class="place-photo-credit">Bild: '+esc(p.photo.credit)+' · '
+        +'<a href="'+esc(p.photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a></small>'
+      : '<div class="place-photo-placeholder" aria-label="Noch kein quellenbelegtes Foto hinterlegt">'
+        + '<span aria-hidden="true">'+({lodging:'⌂',food:'✦',shop:'◇',activity:'⌖',transport:'⇄'}[p.category]??'⌖')+'</span>'
+        +'<strong>'+label+'</strong><small>'+esc(type)+' · Bildquelle offen</small></div>')
+    +'</div>';
+}
+
+export function placePopupHtml(item,ctx={}) {
+  const p=placeProfileModel(item,ctx);
+  if(!p)return '';
+  return '<div class="place-map-popup">'
+    +placeImageHtml(item,ctx,{small:true})
+    +'<div class="place-map-popup-body"><span class="place-profile-eyebrow">'+esc(p.facts[0][1])+'</span>'
+    +'<strong>'+esc(p.name)+'</strong>'
+    +'<p><b>Preis:</b> '+esc(p.priceLabel)+'</p>'
+    +'<p><b>Bewertung:</b> '+esc(p.rating)+'</p>'
+    +'<p class="muted">'+esc(p.isAirbnb?'Nur Umgebung bekannt':p.facts.find(x=>x[0]==='Standort')?.[1]??'')+'</p>'
+    +'<div class="place-popup-actions"><button type="button" data-action="details" data-value="'+esc(p.id)+'">Details & Quellen</button>'
+    +urlLink(p.maps,'Google Maps')+'</div></div></div>';
+}
+
 export function placeQuickFacts(item,ctx={}) {
   const p=placeProfileModel(item,ctx);
   if(!p)return '';
@@ -78,6 +111,7 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
   if(!p)return '';
   const visible=compact?p.facts.slice(0,5):p.facts;
   return '<section class="place-profile'+(compact?' compact':'')+'" aria-label="Objektdetails: '+esc(p.name)+'">'
+    + placeImageHtml(item,ctx,{small:compact})
     + '<div class="place-profile-top"><div><span class="place-profile-eyebrow">'+esc(p.facts[0][1])
     + '</span><h3>'+esc(p.name)+'</h3><p>'+esc(p.description)+'</p></div></div>'
     + '<dl class="place-profile-facts">'+visible.map(([label,value])=>'<div><dt>'
