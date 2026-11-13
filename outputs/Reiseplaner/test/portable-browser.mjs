@@ -154,6 +154,30 @@ try {
   await save();
   assert.equal(store.current('interrail_classic').state.edits['local:nardi'].selected, true);
   assert.equal(store.current('interrail_swiss').state.edits['local:nardi'], undefined);
+  // Unified sourced details, image editing and variant-scoped group voting.
+  await click('[data-action=details][data-value="local:nardi"]');
+  await text('dialog', 'Objektdetails');
+  await text('dialog', 'Preis für die Gruppe');
+  await click('dialog [data-action=photo-edit]');
+  await text('dialog','Foto und Bildquelle');
+  await set('dialog [name=url]', 'https://upload.wikimedia.org/wikipedia/commons/example.jpg');
+  await set('dialog [name=credit]', 'Eigene Testfreigabe · Beispielbild');
+  await set('dialog [name=sourceUrl]', 'https://commons.wikimedia.org/wiki/File:example.jpg');
+  await save();
+  assert.equal(store.current('interrail_classic').state.placePhotos['local:nardi'].credit,
+    'Eigene Testfreigabe · Beispielbild');
+  assert.equal(store.current('interrail_swiss').state.placePhotos?.['local:nardi'],undefined);
+  await until(() => js('Boolean(document.querySelector(".explorer-place img"))'), 'Quellenfoto in Ortskarten');
+  await click('[data-action=vote-open][data-value="local:nardi"]');
+  await text('dialog','Gruppenbewertung');
+  await set('dialog select[name=p1]', '5');
+  await set('dialog select[name=p2]', '3');
+  await js('document.querySelector("dialog select[name=p1]").value="5"');
+  await js('document.querySelector("dialog select[name=p2]").value="3"');
+  await save();
+  assert.equal(store.current('interrail_classic').state.votes['local:nardi'].p1,5);
+  assert.equal(store.current('interrail_classic').state.votes['local:nardi'].p2,3);
+  assert.equal(store.current('interrail_swiss').state.votes?.['local:nardi'],undefined);
   await text('h1', 'Barcelona');
   // All archived research areas are exposed in the actual UI, read-only by default.
   await click('.sidebar [data-action=page][data-value=group]');
@@ -161,6 +185,17 @@ try {
   await text('#main', 'Meer und Strände besuchen');
   await text('#main', '60 €');
   await click('.sidebar [data-action=page][data-value=lodging]');
+  await until(() => js('Boolean(document.querySelector("#nightly-target"))'), 'Nachtbudget-Eingabe');
+  await until(() => js('document.querySelectorAll(".lodging-price-meter").length > 0'), 'Unterkunfts-Budgetbalken');
+  await set('#nightly-target', '40');
+  await js('document.querySelector("#nightly-target").dispatchEvent(new Event("change",{bubbles:true}))');
+  await until(() => js('document.querySelector("#nightly-target")?.value === "40"'),'Budgetziel angepasst');
+  assert.equal(await js('localStorage.getItem("reiseplan-nightly-target")'),'40');
+  await js('document.querySelectorAll(".option-card [data-action=compare]")[0].click()');
+  await js('document.querySelectorAll(".option-card [data-action=compare]")[1].click()');
+  await until(() => js('document.querySelectorAll(".stay-compare-card").length === 2'),
+    'Interaktiver Vergleich von zwei Unterkünften');
+  await text('.stay-compare-board','Küche');
   await text('#main', 'Suchpreis-Snapshots');
   await text('#main', 'Datenlücken im Hotelvergleich');
   await click('[data-action=option-filter][data-value=search]');
