@@ -1,0 +1,41 @@
+name: Reiseplaner · Einmalige V09-Hausnummernprüfung
+on:
+  pull_request:
+    branches: [feature/v7-unified-map-and-day-builder]
+    paths: [.github/workflows/reiseplaner-public-address-v09.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - name: Check one-time strict geocoder syntax
+        run: node --check outputs/Reiseplaner/scripts/public-address-geo-v09.mjs
+      - name: Check only exact published street and house numbers via Photon
+        run: node outputs/Reiseplaner/scripts/public-address-geo-v09.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-public-address-geocodes-v09
+          path: outputs/Reiseplaner/data/research-v09/address-candidates.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Persist candidate report (never auto-promote unknown building geometry)
+        env: {GH_HEAD_REF: ${{ github.event.pull_request.head.ref }}}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add outputs/Reiseplaner/data/research-v09/address-candidates.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "research: save exact-house-number candidate geodata with individual source checks"
+          git pull --rebase origin "${GH_HEAD_REF}"
+          git push origin "HEAD:${GH_HEAD_REF}"
