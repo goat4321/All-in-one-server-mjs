@@ -184,8 +184,7 @@ try {
   await click('#map .pin.place-food');
   await until(()=>js('document.querySelector(".map-selected-place")?.textContent.includes("Bormuth")===true'),
     'Clicking a real map marker synchronizes the selected preview');
-  assert.ok(await js('(() => { const element=document.querySelector(".map-selected-place");
-    const r=element?.getBoundingClientRect();return r&&r.width>120&&r.height>50&&getComputedStyle(element).visibility==="visible"; })()'),
+  assert.ok(await js('(() => { const element=document.querySelector(".map-selected-place"); const r=element?.getBoundingClientRect();return r&&r.width>120&&r.height>50&&getComputedStyle(element).visibility==="visible"; })()'),
     'Auswahlvorschau muss tatsächlich sichtbar sein, nicht nur im DOM stehen');
   assert.equal(await js('document.querySelectorAll("#map .leaflet-popup").length'),0,
     'No redundant Leaflet popup may hide the selected map marker');
