@@ -68,6 +68,7 @@ export function explorerList(ctx) {
       + (located ? '' : ' · Exakter Kartenpunkt nicht belegt') + '</p>'
       + '<div class="row-actions">' + (located ? btn('explorer-focus', 'Auf Karte', 'map', item.id) : '')
       + btn('details', 'Alle Details & Quellen', 'folder', item.id)
+      + (!located && item.address && !item.booked ? btn('geocode-lookup', 'Kartenstandort prüfen', 'pin', item.id) : '')
       + actions
       + (canPlan && located ? btn('day-route-add','Zur Mehrstopp-Route','plus',item.id) : '')
       + (canPlan ? btn('choose', 'Zum Tagesplan hinzufügen', 'plus', item.id, 'subtle')
