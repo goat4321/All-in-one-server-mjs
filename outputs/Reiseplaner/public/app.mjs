@@ -684,6 +684,38 @@ async function action(name, value = '') {
     case 'transit': view.filters.transit[value] = !view.filters.transit[value]; render({ restoreView: true }); break;
     case 'layers': layerForm(ctx); break;
     case 'select': selectPoint(value); break;
+    case 'vote-open': {
+      if (!item || !['activity','lodging'].includes(item.kind)) break;
+      const saved=ctx.state.votes?.[item.id]??{};
+      const selectors=ctx.people.map(person=>{
+        const options=[[0,'Keine Stimme'],[1,'1 · Nein'],[2,'2 · Eher nicht'],
+          [3,'3 · Neutral'],[4,'4 · Gerne'],[5,'5 · Unbedingt']];
+        return '<label class="field"><span>'+esc(person.name)+'</span>'
+          +'<select name="'+esc(person.id)+'">'
+          +options.map(([n,label])=>'<option value="'+n+'"'
+            +(saved[person.id]===n?' selected':'')+'>'+esc(label)+'</option>').join('')
+          +'</select></label>';
+      }).join('');
+      openDialog('Gruppenbewertung · '+item.name,
+        '<p class="muted">Jede Person hat eine Stimme mit 1–5 Punkten. Ihr tragt sie gemeinsam auf diesem Gerät ein; diese Funktion synchronisiert keine separaten Konten und bewertet nicht die Qualität des Anbieters.</p>'
+        +'<form id="modal-form"><div class="form-grid">'+selectors
+        +'</div><div class="form-error" aria-live="polite"></div><div class="dialog-foot">'
+        +'<button type="button" data-action="close" class="button">Abbrechen</button>'
+        +'<button class="button primary" type="submit">Stimmen speichern</button></div></form>',
+        async data=>{
+          const ballot={};
+          for(const person of ctx.people){
+            const value=Number(data.get(person.id));
+            if(!Number.isInteger(value)||value<0||value>5)
+              throw new Error('Erlaubte Bewertung: 0 (offen) oder 1–5.');
+            if(value>0)ballot[person.id]=value;
+          }
+          const votes={...(ctx.state.votes??{})};
+          if(Object.keys(ballot).length)votes[item.id]=ballot;else delete votes[item.id];
+          await save({...ctx.state,votes},'Gruppenstimmen für diese Reisevariante aktualisiert');
+        });
+      break;
+    }
     case 'photo-edit': {
       if (!item) break;
       const current=ctx.state.placePhotos?.[item.id]??{};
