@@ -1,5 +1,6 @@
 import { buildMultiStopDay } from './day-route.mjs';
-import { esc, btn, status } from './ui.mjs';
+import { esc, btn, status, urlLink } from './ui.mjs';
+import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel } from './google-maps.mjs';
 import { groupPrice } from './model.mjs';
 
 export function dayRouteView(ctx) {
@@ -24,12 +25,15 @@ export function dayRouteView(ctx) {
       + btn('day-route-optimize','Reihenfolge vorschlagen','shuffle')
       + btn('day-route-check','Fußwege und Zeiten berechnen','walk')
       + btn('day-route-clear','Liste leeren','reset') + '</div>'
+    + '<p class="muted">Zwischen den gewählten Stopps findest du jetzt direkte Google-Maps-ÖPNV-Routen, deren Fahrplan und Fahrtzeit erst Google Maps bestimmt. Die Zeitplanung unten rechnet weiter ausschließlich mit berechneten Fußwegen.</p>'
     + '<p class="muted">„Reihenfolge vorschlagen“ verwendet nur Luftlinienentfernungen. Die echte Gehzeit entsteht ausschließlich aus den tatsächlich berechneten Fußwegen. Bestehende Buchungen werden nie verändert.</p>'
     + (items.length ? '<ol class="day-route-stops">' + items.map((item,i) =>
       '<li><div><strong>' + esc(item.name) + '</strong><small>'
       + esc(ctx.cities[item.city]?.name ?? item.city) + ' · '
       + (item.duration == null ? '60 Min. angenommene Besuchsdauer' : item.duration + ' Min. laut Planung')
       + '</small></div><div class="row-actions">'
+      + (urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item)) || '')
+      + (i > 0 ? (urlLink(googleMapsDirectionsUrl(items[i-1],item,ctx.cities,'transit'),'ÖPNV vom vorigen Stopp') || '') : '')
       + btn('day-route-up','Hoch','arrow-up',item.id) + btn('day-route-down','Runter','arrow-down',item.id)
       + btn('day-route-remove','Entfernen','x',item.id)
       + '</div></li>').join('') + '</ol>' : '<p>Wähle in der Ortsliste „Zur Tagesroute“.</p>')
