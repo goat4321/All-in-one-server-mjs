@@ -1,0 +1,249 @@
+{
+  "schema": "rail_reference_v04",
+  "observed_on": "2026-11-13",
+  "status": "corridor_research_not_2027_timetable_or_reservation",
+  "rules": [
+    {
+      "id": "ir-night",
+      "text": "Nachtzug ohne zusätzlichen Zugwechsel nach Mitternacht: Abfahrtstag ist der Interrail-Reisetag; spätere neue Zugfahrt benötigt den Folgetag.",
+      "url": "https://help.interrail.com/hc/de/articles/38312789999261-Wie-funktionieren-Reisetage-bei-Nachtz%C3%BCgen",
+      "validity": "current Interrail rule, recheck before trip"
+    },
+    {
+      "id": "ir-advance",
+      "text": "Die meisten Sitzplatzreservierungen öffnen ungefähr 60–90 Tage vor Fahrt; Eurostar teilweise bis 6 Monate. Noch nicht sichtbare Verbindung ist nicht gleich ausverkauft.",
+      "url": "https://help.interrail.com/hc/de/articles/11830323682077-Wie-weit-im-Voraus-kann-ich-Sitzplatzreservierungen-buchen",
+      "validity": "Interrail knowledge base 2026"
+    },
+    {
+      "id": "nightjet",
+      "text": "Bei Nightjet ist eine Reservierung Pflicht. Kontingente und Aufpreise sind dynamisch; meist bis ca. 6 Monate vor Abfahrt buchbar.",
+      "url": "https://www.interrail.com/en/plan-your-trip/tips-and-tricks/trains-europe/night-trains/obb-nightjet",
+      "validity": "Interrail information 2026"
+    }
+  ],
+  "operator_planners": [
+    {
+      "id": "db",
+      "name": "DB",
+      "url": "https://int.bahn.de/en"
+    },
+    {
+      "id": "sncf",
+      "name": "SNCF Connect",
+      "url": "https://www.sncf-connect.com/en-en"
+    },
+    {
+      "id": "renfe",
+      "name": "Renfe",
+      "url": "https://www.renfe.com/es/en"
+    },
+    {
+      "id": "trenitalia",
+      "name": "Trenitalia",
+      "url": "https://www.trenitalia.com/en.html"
+    },
+    {
+      "id": "sbb",
+      "name": "SBB",
+      "url": "https://www.sbb.ch/en"
+    },
+    {
+      "id": "oebb",
+      "name": "ÖBB",
+      "url": "https://www.oebb.at/en/"
+    }
+  ],
+  "corridors": [
+    {
+      "id": "corridor-v04-01",
+      "from": "munich",
+      "to": "paris",
+      "planning": "DB/SNCF-Verbindungsvarianten suchen; mögliche Umstiege, Reservierung und 2027er Fahrzeiten offen.",
+      "operators": [
+        "db",
+        "sncf"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    },
+    {
+      "id": "corridor-v04-02",
+      "from": "paris",
+      "to": "barcelona",
+      "planning": "Internationale Schnellzug-/Umsteigevarianten und TGV/AVE-Reservierung bei SNCF und Renfe prüfen.",
+      "operators": [
+        "sncf",
+        "renfe"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    },
+    {
+      "id": "corridor-v04-03",
+      "from": "barcelona",
+      "to": "sete",
+      "planning": "Internationale Verbindung mit spanisch-französischem Grenzübertritt und gegebenenfalls Umstieg prüfen.",
+      "operators": [
+        "renfe",
+        "sncf"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    },
+    {
+      "id": "corridor-v04-04",
+      "from": "sete",
+      "to": "nice",
+      "planning": "Französische Fern-/Regionalverbindungen; Abschnitte über Montpellier/Marseille gesondert prüfen.",
+      "operators": [
+        "sncf"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    },
+    {
+      "id": "corridor-v04-05",
+      "from": "nice",
+      "to": "genoa",
+      "planning": "Grenzübergang Ventimiglia und französische/italienische Regionalzugabschnitte prüfen.",
+      "operators": [
+        "sncf",
+        "trenitalia"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    },
+    {
+      "id": "corridor-v04-06",
+      "from": "genoa",
+      "to": "venice",
+      "planning": "Italienische Verbindungen und Umstiegsmöglichkeiten, etwa über Mailand, vergleichen.",
+      "operators": [
+        "trenitalia"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    },
+    {
+      "id": "corridor-v04-07",
+      "from": "venice",
+      "to": "munich",
+      "planning": "Direkt- und Umsteigeverbindungen sowie etwaige Nachtzug-/Reservierungsangebote prüfen.",
+      "operators": [
+        "oebb",
+        "db",
+        "trenitalia"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    },
+    {
+      "id": "corridor-v04-08",
+      "from": "nice",
+      "to": "kandersteg",
+      "planning": "Schweizer Alternativroute (via italienische/schweizerische Grenzbahnhöfe) ohne geprüfte konkrete Verbindung.",
+      "operators": [
+        "sncf",
+        "trenitalia",
+        "sbb"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    },
+    {
+      "id": "corridor-v04-09",
+      "from": "kandersteg",
+      "to": "appenzell",
+      "planning": "Schweizer Binnenverbindungen inklusive letzte Regionalabschnitte prüfen.",
+      "operators": [
+        "sbb"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    },
+    {
+      "id": "corridor-v04-10",
+      "from": "appenzell",
+      "to": "munich",
+      "planning": "Schweiz–München über mögliche Grenzbahnhöfe/Umstiege suchen.",
+      "operators": [
+        "sbb",
+        "db"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    },
+    {
+      "id": "corridor-v04-11",
+      "from": "paris",
+      "to": "toulouse",
+      "planning": "Französische Nachtzugoptionen und Buchungsfenster prüfen; kein konkreter Nachtzug 2027 bestätigt.",
+      "operators": [
+        "sncf"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    },
+    {
+      "id": "corridor-v04-12",
+      "from": "toulouse",
+      "to": "barcelona",
+      "planning": "Weiterreise über passende Umstiege und französisch-spanische Grenze prüfen; keine Zugnummer festgelegt.",
+      "operators": [
+        "sncf",
+        "renfe"
+      ],
+      "timetable2027Verified": false,
+      "exactFareCents": null,
+      "departureLocal": null,
+      "arrivalLocal": null,
+      "reservationAvailability": "unknown",
+      "state": "hypothesis_not_for_automatic_day_plan"
+    }
+  ]
+}
