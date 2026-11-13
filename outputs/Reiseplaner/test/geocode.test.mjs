@@ -34,7 +34,9 @@ test('Single explicit known-address lookup is rate-limited, cacheable, and never
     const after=store.current('interrail_classic').state;
     assert.deepEqual(after.edits,before.edits,'lookup must never change local map or provider data');
     assert.equal((await request({variantId:'interrail_classic',itemId:'not-real'})).status,404);
-    assert.equal((await request({variantId:'interrail_august',itemId:input.itemId})).status,404);
+    assert.equal((await request({variantId:'interrail_august',itemId:input.itemId})).status,200);
+    assert.equal(store.current('interrail_august').state.edits[input.itemId],undefined);
+    assert.equal(requests,1,'shared public address cached, local variant states separate');
   }finally{
     await new Promise(resolve=>server.close(resolve));
   }
