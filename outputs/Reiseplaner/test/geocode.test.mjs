@@ -37,7 +37,6 @@ test('Single explicit known-address lookup is rate-limited, cacheable, and never
     assert.equal((await request({variantId:'interrail_august',itemId:input.itemId})).status,404);
   }finally{
     await new Promise(resolve=>server.close(resolve));
-    store.close();
   }
 });
 
@@ -53,6 +52,5 @@ test('Offline mode blocks new network lookups and does not silently pin city cen
     assert.equal(store.current('interrail_classic').state.edits['local:food-v03-005'],undefined);
   }finally{
     await new Promise(resolve=>server.close(resolve));
-    store.close();
   }
 });
