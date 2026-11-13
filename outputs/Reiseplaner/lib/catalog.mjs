@@ -627,7 +627,8 @@ export async function loadCatalog() {
         url: match.sourceUrl ?? match.osmRef,
         confidence: match.confidence, observedOn: match.observedOn,
         isCentroid: match.isCentroid,
-        note: match.isCentroid ? 'OSM-Objektmittelpunkt, nicht zwingend Eingang.' : 'OSM-POI-Position.',
+        note: match.locationDescription ?? (match.isCentroid
+          ? 'OSM-Objektmittelpunkt, nicht zwingend Eingang.' : 'OSM-POI-Position.'),
       },
     };
     return { ...placed,
