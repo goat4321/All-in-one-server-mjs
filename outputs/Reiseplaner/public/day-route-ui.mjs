@@ -37,6 +37,7 @@ export function dayRouteView(ctx) {
       + preview.rows.map(r => '<p><strong>' + r.at + '–' + r.until + '</strong> · '
         + esc(r.name) + (r.walkMinutes != null ? ' · Fußweg vorher: ' + r.walkMinutes + ' Min.' : '')
         + (r.durationAssumed ? ' · <em>Dauer geschätzt</em>' : '') + '</p>').join('') + '</div>' : '')
+    + (route.status ? '<p class="muted" role="status">' + esc(route.status) + '</p>' : '')
     + '<p class="explorer-status" role="status">' + esc(preview?.status ?? (items.length === 1
       ? 'Wähle einen zweiten Stopp, um die Route zu berechnen.' : 'Noch keine Stopps gewählt.')) + '</p>'
     + '<p><strong>Kostenreferenzen der Stopps:</strong> '
