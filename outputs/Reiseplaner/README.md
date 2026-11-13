@@ -1,3 +1,21 @@
+## v1.5 – Navigations- und Karten-Redesign (13.11.2026)
+
+Die Reiseplaner-App wurde funktional **umstrukturiert**, ohne Datensätze, Buchungen oder Reisevarianten zu ändern:
+
+- **Neue Aufgabenstruktur:** Sidebar in `Planung`, `Reise organisieren` und `Verwalten` gegliedert, Reiseorte aufklappbar (Offen/Zugeklappt wird bei normalen Seitenwechseln beibehalten). Schnellzugriff im Desktop-Kopfbereich, feste vierspaltige Dock-Navigation auf kleinen Bildschirmen. Reiseübersicht mit vier klickbaren Einstiegen (Tagesplan, Karte, Unterkünfte, Bahn).
+- **Karte zuerst:** Der Karten-Explorer zeigt die eigentliche interaktive Karte nun **vor** dem umfangreichen Mehrstopp-Tagesroutenplaner. Die Start-/Zielplanung und Hinweise zu ungeklärten Stadt-Sammelmarkern liegen in aufklappbaren Bereichen; der Routenplaner öffnet sich bei Wahl von Start/Ziel.
+- **Weniger Marker-Chaos:** Leaflet bündelt bei Zoomstufen bis einschließlich 12 nahe, tatsächlich verortete Orte nach Stadt und Kartenraster zu **anklickbaren Sammelkreisen**. Ein Klick zoomt hinein. Ab höherer Zoomstufe erscheinen die einzelnen belegten Markerpunkte; die Sammler werden ausdrücklich **nicht** als exakte Objektkoordinate behandelt.
+- **Umkreissuche:** Von einem bereits vorhandenen Kartenpunkt aus lassen sich alle Einträge in 1, 3 oder 10 km Entfernung herausfiltern. Der Radius wird als Ring angezeigt; nur verzeichnete Koordinaten zählen. Keine Stadtzentren als erfundene Hoteladresse.
+- **Sichtbarer Kartenausschnitt:** Der Knopf `Nur sichtbare Orte in der Liste` filtert die Liste anhand des Leaflet-Kartenausschnitts und aktualisiert sie beim Schwenken/Zoomen **ohne Kartenneustart**. Einträge ohne genaue Koordinate werden in diesem Modus ausdrücklich ausgeschlossen.
+- **Kompaktere Listen:** Initial schlanke Ergebnis-Karten mit jederzeit umschaltbarer Detailansicht, unveränderten Quellendetails und Buchungs-/Planungsaktionen.
+- **Direkte Kartenfilter:** Kategorien in der Kartenlegende sind jetzt anklickbar. Kartenpunkt- und fehlende-Position-Zähler im Kartenoverlay sowie ein Knopf zum Zurücksetzen aller Ortsfilter.
+- **Bedienbarkeit:** Enter löst die Kartensuche aus; Mobilnavigation wurde in einem echten Chrome-Durchlauf überprüft.
+
+**Quellschutz bleibt:** Airbnb-Wunschlisten ohne genaue Adressen behalten ihre offene Position. Historische Suchpreise, unbestätigte Zugverbindungen, Lizenznachweise und 2027-Checkout werden durch das UI nicht künstlich als bestätigt angezeigt. Keine Buchung und keine Budgetänderung durch diese Entwicklung.
+
+Alle Änderungen auf Entwicklungsbranch `feature/v7-data-day-accommodation-rail` / Draft-[PR #5](https://github.com/goat4321/All-in-one-server-mjs/pull/5), weiterhin **nicht** in `main` oder öffentlich live. Bedienung und Qualitätsgrenzen: [PHASE_15_UI_MAP.md](PHASE_15_UI_MAP.md).
+
+---
 ## v1.4 – Bahn-Kaufprüfung als interaktive Zeitleiste (13.11.2026)
 
 Im Modul **Bahn & Interrail** befindet sich oberhalb der bisherigen Pass-/Zugtabellen eine neue **Bahn-Prüfzeitleiste** mit den tatsächlich im Originalreiseplan enthaltenen Bahnabschnitten. Sie zeigt Reisetag, Strecke, approximativen Beginn des sinnvollen Buchungschecks und einen Link zur Betreiber-Verkaufsregel. Über **Prüfung vormerken** öffnet sich die bereits vorhandene lokale Kalender-/Fristfunktion.

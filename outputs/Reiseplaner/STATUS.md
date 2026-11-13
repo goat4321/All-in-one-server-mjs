@@ -1,5 +1,11 @@
 # Projektstand · 13.11.2026
 
+## Nachtrag 13.11.2026 – v1.5 Übersicht & interaktiver Karten-Explorer
+
+Navigationsgruppen, Reiseübersichts-Schnellzugriffe, mobile Dock-Navigation und persistente Reiseort-Accordion-Ansicht. Karte vor Mehrstopp-Builder, zusätzliche aufklappbare Routenplanung. Leaflet-POI-Zoomcluster ab Zoom 12 und kleiner, klickbare Kategorien in der Legende und Kartenkennzahlen. Individuelle POI-Umkreissuche mit 1/3/10 km und visuellem Radius; Live-Filter der Ergebnisliste nach aktuellem Kartenausschnitt; umschaltbare kompakte und detaillierte Ortskarten, Ein-Klick-Filter-Reset. **Keine Kartenpunkt-Erfindungen, keine veränderten Buchungen oder Budgetdaten.** Siehe `PHASE_15_UI_MAP.md`.
+
+
+
 ## Nachtrag 13.11.2026 – v1.4 Bahn-Prüfzeitleiste
 
 Sieben originale Bahnabschnitte der September-Klassikroute werden als **ungefähre Prüfzeitpunkte** mit Betreiberlink und lokaler Wiedervorlage angezeigt. SNCF hatte am 12.11.2026 Ticketverkäufe für große Teile des Netzes bis zum 02.07.2027 freigegeben; kein September-Fahrplan, Reservierungsplatz oder exakter Fahrpreis wurde dadurch bestätigt. Die frühere Statusbedingung für die veröffentlichte SNCF-Verkaufsgrenze wurde für den 13.11.2026 korrigiert. Regressionstests und Headless-Chrome-Flow im CI-Workflow.
