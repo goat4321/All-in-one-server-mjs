@@ -2,7 +2,7 @@ import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, go
 import { EXPLORER_GROUPS, explorerDetail, externalFootUrl, externalTransitUrl } from './map-explorer.mjs';
 import { esc, btn, chip, status, urlLink, empty, transitPlanners } from './ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
-import { placeQuickFacts } from './place-profile.mjs';
+import { placeQuickFacts, placeImageHtml } from './place-profile.mjs';
 
 export function explorerToolbar(ctx) {
   const ex = ctx.explorer;
@@ -72,6 +72,7 @@ export function explorerList(ctx) {
       ? btn('explorer-start', 'Als Start', 'pin', item.id)
         + btn('explorer-end', 'Als Ziel', 'arrow', item.id) : '';
     return '<article class="explorer-place panel" data-place-id="' + esc(item.id) + '">'
+      + placeImageHtml(item,ctx,{small:true})
       + '<div class="explorer-place-title"><span class="category-swatch ' + category + '"></span><div><h3>'
       + esc(item.name) + '</h3><small>' + esc(ctx.cities[item.city]?.name ?? item.city) + ' · '
       + esc(details.group.label) + '</small></div>' + (active ? status('Im Plan', 'green') : '') + '</div>'
