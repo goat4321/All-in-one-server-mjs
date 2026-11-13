@@ -4,8 +4,8 @@
   "provenance": "Manual web search of all 39 named food venues; priced entries only for link-backed observed dishes/menus. No guarantee of September 2027 prices.",
   "counts": {
     "total": 39,
-    "priced": 17,
-    "siteOnly": 8,
+    "priced": 19,
+    "siteOnly": 6,
     "noPrice": 14
   },
   "exchangeRatesUsed": false,
@@ -37,10 +37,41 @@
       "address": "27 Rue de Dunkerque, 75010 Paris, France",
       "observedOn": "2026-11-13",
       "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Quick%20Gare%20du%20Nord%2027%20Rue%20de%20Dunkerque%2C%2075010%20Paris%2C%20France",
-      "status": "provider_found_no_exact_menu_price",
-      "menuReference": null,
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://deliveroo.fr/fr/menu/paris/10eme-gare-du-nord/quick-paris-gare-du-nord",
+        "sourceType": "delivery_menu_only",
+        "precision": "complete_menu_delivery_only",
+        "currency": "EUR",
+        "sample": [
+          {
+            "name": "Menu Giant",
+            "amountCents": 1150,
+            "kind": "delivery_complete_menu",
+            "note": "Komplettangebot auf Deliveroo, Liefer-/Servicegebühr nicht inklusive"
+          },
+          {
+            "name": "Menu Long Bacon",
+            "amountCents": 1195,
+            "kind": "delivery_complete_menu",
+            "note": "Komplettangebot auf Deliveroo, Liefer-/Servicegebühr nicht inklusive"
+          },
+          {
+            "name": "Menu Giant Max",
+            "amountCents": 1320,
+            "kind": "delivery_complete_menu",
+            "note": "Komplettangebot auf Deliveroo, Liefer-/Servicegebühr nicht inklusive"
+          }
+        ],
+        "dateLabel": "Liefermenü, Live-Webansicht 13.11.2026",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false,
+        "note": "Delivery-only quote, not necessarily same as in-store end total."
+      },
       "providerSite": "https://www.quick.fr/restaurants/paris-gare-du-nord",
-      "resolutionNote": "Anbieter-/Tourismusseite vorhanden, aber kein eindeutig zugehöriger tagesaktueller Endpreis pro Menü gefunden."
+      "resolutionNote": "Konkrete 2026er Komplettmenüs im Deliveroo-Checkout; kein garantierter Filialpreis oder finaler 2027er Betrag"
     },
     {
       "id": "food-v03-003",
@@ -724,10 +755,29 @@
       "address": "Terrassenweg 61, 3818 Grindelwald, Switzerland",
       "observedOn": "2026-11-13",
       "geographicSearchUrl": "https://www.google.com/maps/search/?api=1&query=Caf%C3%A9%203692%20Terrassenweg%2061%2C%203818%20Grindelwald%2C%20Switzerland",
-      "status": "provider_found_no_exact_menu_price",
-      "menuReference": null,
+      "status": "priced_reference_found",
+      "menuReference": {
+        "sourceUrl": "https://speisekarte.menu/restaurants/grindelwald/cafe-3692-m-kaufmann/menu",
+        "sourceType": "third_party_menu",
+        "precision": "single_drink_not_complete_meal",
+        "currency": "CHF",
+        "sample": [
+          {
+            "name": "Alpen-Cappuccino",
+            "amountCents": 700,
+            "kind": "beverage",
+            "note": "Drittanbieter-Karte, Getränk allein; Speisenpreise nicht veröffentlicht"
+          }
+        ],
+        "dateLabel": "Speisekartenplattform, gelesen 13.11.2026",
+        "sep2027Confirmed": false,
+        "includeInTripBudget": false,
+        "pricesAreCents": true,
+        "mealGroupCheckoutVerified": false,
+        "note": "Only CHF 7 beverage priced, not full breakfast or dinner"
+      },
       "providerSite": "https://www.myswitzerland.com/de/erlebnisse/essen-trinken/restaurant/cafe-3692/",
-      "resolutionNote": "Anbieter-/Tourismusseite vorhanden, aber kein eindeutig zugehöriger tagesaktueller Endpreis pro Menü gefunden."
+      "resolutionNote": "Nur einzelner Getränkepreis gefunden; vollständiges Menü/Frühstückspreis weiterhin offen"
     },
     {
       "id": "food-v03-026",
@@ -912,5 +962,8 @@
       "menuReference": null,
       "resolutionNote": "Offizieller oder eindeutig zugehöriger datierter Menü-Endpreis offen; bisherige Google-Maps-Suche bleibt erhalten."
     }
+  ],
+  "notesV08": [
+    "Added a complete Quick delivered menu (not an in-store checkout); Cafe 3692 has only an independently posted drink price (not a meal)."
   ]
 }
