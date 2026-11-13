@@ -328,3 +328,124 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 .city-reference-icon:hover .city-reference-count{
   border-color:var(--text,#111827);color:var(--text,#111827);
 }
+
+/* Route Studio v1.0 · map interaction, real vs schematic lines, accessible
+   motion and three cartographic looks. No external image dependency. */
+.route-studio{
+  --studio-ink:#eafbf3;--studio-muted:#a5c7b8;
+  position:relative;overflow:hidden;border-radius:20px;
+  background:linear-gradient(138deg,#10271f 0%,#193e31 54%,#176044 100%);
+  border:1px solid #49746055;color:var(--studio-ink);
+  padding:17px;display:grid;gap:16px;isolation:isolate;
+  box-shadow:0 15px 38px #0e3d281b
+}
+.route-studio:before{
+  content:"";position:absolute;inset:-90px -110px auto auto;z-index:-1;
+  width:390px;height:300px;border-radius:50%;
+  background:radial-gradient(ellipse,#50dda82d,transparent 70%);pointer-events:none
+}
+.route-studio-header{display:flex;align-items:start;justify-content:space-between;gap:18px}
+.route-studio-header h3{font-size:clamp(1.25rem,2.4vw,1.7rem);margin:6px 0 5px;letter-spacing:-.035em;color:#f5fff8}
+.route-studio-header p{font-size:.81rem;color:var(--studio-muted);max-width:60ch;line-height:1.5}
+.route-studio-eyebrow,.route-studio-label{display:block;font-weight:800;text-transform:uppercase;
+ letter-spacing:.135em;font-size:.62rem;color:#89efc5}
+.route-studio-kpis{display:flex;gap:7px;flex-shrink:0}
+.route-studio-kpis>span{display:grid;gap:1px;text-align:center;min-width:76px;
+  padding:9px 12px;border-radius:12px;background:#ffffff12;border:1px solid #ffffff24}
+.route-studio-kpis strong{font-size:1.17rem;color:#fafffc;line-height:1.15;font-variant-numeric:tabular-nums}
+.route-studio-kpis small{color:#b5d7c8;font-size:.65rem}
+.route-studio-track{display:flex;gap:8px;overflow-x:auto;padding:3px 2px 9px;
+  scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:#88d5b4 transparent}
+.route-studio-stop{position:relative;display:flex;align-items:center;text-align:left;
+  gap:10px;padding:10px 11px;flex:1 0 176px;min-width:174px;max-width:320px;
+  color:#e2f4e8;background:#ffffff0e;border:1px solid #ffffff29;border-radius:13px;
+  scroll-snap-align:start;transition:background .18s,border-color .18s,transform .18s}
+.route-studio-stop:hover{background:#ffffff1c;border-color:#8ce8b2a8;transform:translateY(-2px)}
+.route-studio-stop[aria-pressed=true]{background:#dcfff026;border-color:#79e5aa;box-shadow:inset 0 0 0 1px #79e5aa44}
+.route-studio-stop:focus-visible{outline:2px solid #b4f5d2;outline-offset:2px}
+.route-studio-number{display:grid;place-items:center;flex:0 0 34px;height:34px;
+  border-radius:11px;background:#ddfbea;color:#123f2e;font-size:.86rem;font-weight:900}
+.route-studio-stop[aria-pressed=true] .route-studio-number{background:#64e5ac}
+.route-studio-stop-copy{min-width:0;display:grid;gap:4px}
+.route-studio-stop-copy strong{font-size:.8rem;line-height:1.28;overflow-wrap:anywhere;color:#fafffa}
+.route-studio-stop-copy small{font-size:.68rem;color:#adcfbe;line-height:1.3}
+.route-studio-arrow{margin-left:auto;font-size:1.4rem;color:#96dfb3;line-height:1}
+.route-studio-empty{color:#b9d8c7;font-size:.85rem;padding:10px;line-height:1.5}
+.route-studio-spotlight{display:flex;gap:12px;align-items:center;justify-content:space-between;
+  padding:13px 15px;background:#061d155c;border:1px solid #b5f8d32b;border-radius:13px}
+.route-studio-spotlight>div:first-child{display:grid;gap:4px;min-width:0}
+.route-studio-spotlight strong{font-size:1rem;color:#fafffb;overflow-wrap:anywhere}
+.route-studio-spotlight small{font-size:.72rem;color:#b0d6c2}
+.route-studio-navigation{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:6px}
+.route-studio-navigation .button{background:#e9fff1;color:#11402b;border:1px solid #e9fff1;
+  min-height:36px;font-size:.76rem;font-weight:700}
+.route-studio-navigation .button:hover{background:#aeffda;color:#103922}
+.route-studio-settings{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.route-studio-settings .chip-button{background:#ffffff16;color:#e7ffee;border-color:#ffffff38}
+.route-studio-settings .chip-button[aria-pressed=true]{color:#0d4730;background:#a2e5c0;border-color:#a2e5c0}
+.route-studio-settings small{color:#c2dccc;font-size:.72rem;line-height:1.4}
+.route-studio-map-pin{display:grid;place-items:center;width:36px;height:36px;
+  background:#d7fff0;color:#124b35;font-weight:900;font-size:1rem;border:3px solid #fff;
+  border-radius:13px 13px 13px 4px;transform:rotate(-8deg);
+  box-shadow:0 4px 17px #0b392e70}
+.route-studio-map-pin.selected{background:#0eaa7d;color:#fff;border-color:#d8fff1;
+  box-shadow:0 0 0 5px #16a0853d,0 5px 22px #073e3380}
+.route-studio-pin-icon{background:transparent;border:none}
+.route-studio-map-line.current{filter:drop-shadow(0 0 4px #33c99a9c)}
+.route-studio-map-line.schematic{stroke-dasharray:5 10}
+.route-studio-map-flow{stroke-dashoffset:0;animation:routeStudioFlow 1.2s linear infinite;
+  pointer-events:none;filter:drop-shadow(0 0 2px #fff6)}
+@keyframes routeStudioFlow{to{stroke-dashoffset:-38}}
+.map-design-controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+  padding:0 14px 12px;border-bottom:1px solid var(--line)}
+.map-design-caption{font-size:.74rem;font-weight:750;color:var(--muted);margin-right:5px}
+.map-design-controls .chip-button{padding:5px 9px;min-height:34px;font-size:.73rem}
+.map-design-controls .chip-button:last-child{margin-left:auto}
+.map-wrap[data-map-tone=midnight] #map{background:#1b2e37}
+.map-wrap[data-map-tone=midnight] .leaflet-tile-pane{
+  filter:invert(.87) hue-rotate(157deg) saturate(.62) brightness(.75) contrast(1.18)}
+.map-wrap[data-map-tone=sand] #map{background:#e8e0d0}
+.map-wrap[data-map-tone=sand] .leaflet-tile-pane{filter:sepia(.44) saturate(.81) brightness(1.035)}
+.map-immersive #map,.map-immersive.map-full #map{height:min(80dvh,900px);min-height:440px}
+.route-map-hud{position:absolute;z-index:490;top:12px;left:12px;
+  display:flex;align-items:center;gap:8px;max-width:calc(100% - 96px);
+  background:#102e28e6;color:#edfff2;border:1px solid #b1ffd65c;
+  padding:8px 11px;border-radius:11px;box-shadow:0 4px 20px #04291e45;
+  font-size:.73rem;pointer-events:none;backdrop-filter:blur(10px)}
+.route-map-hud>span:last-child{color:#c5e0d5}
+.route-map-pulse{width:8px;height:8px;background:#6af0ad;border-radius:50%;
+  box-shadow:0 0 0 4px #6af0ad26;flex:0 0 8px}
+.route-city-showcase{padding:14px;border-top:1px solid var(--line);
+  background:linear-gradient(105deg,var(--paper),var(--light));display:grid;gap:11px}
+.route-city-showcase-head{display:flex;justify-content:space-between;gap:9px;align-items:center}
+.route-city-showcase-head strong{font-size:.92rem}
+.route-city-showcase-head span{font-size:.74rem;color:var(--muted)}
+.route-city-steps{display:flex;align-items:stretch;gap:9px;overflow-x:auto;padding:2px 2px 9px;
+  scroll-snap-type:x proximity;scrollbar-width:thin}
+.route-city-step{flex:0 0 auto;display:grid;align-items:start;gap:3px;min-width:115px;
+  padding:10px 13px;border:1px solid var(--line);border-radius:12px;
+  text-align:left;background:var(--paper);scroll-snap-align:start;
+  transition:transform .18s,border-color .18s,background .18s}
+.route-city-step:hover{border-color:#43a581;transform:translateY(-2px);background:var(--accent)}
+.route-city-step>span{display:grid;place-items:center;background:var(--accent);
+  color:var(--green);width:24px;height:24px;border-radius:8px;font-size:.72rem;font-weight:800}
+.route-city-step strong{font-size:.83rem;overflow-wrap:anywhere}
+.route-city-step small{font-size:.68rem}
+@media(max-width:760px){
+ .route-studio{padding:13px;gap:11px;border-radius:15px}
+ .route-studio-header{align-items:start;flex-wrap:wrap}
+ .route-studio-kpis{width:100%}
+ .route-studio-kpis>span{flex:1;min-width:0}
+ .route-studio-spotlight{display:grid;gap:10px;padding:12px}
+ .route-studio-navigation{justify-content:flex-start}
+ .route-studio-stop{flex-basis:170px}
+ .route-city-showcase-head{display:grid;gap:4px}
+ .map-design-controls{padding:8px 11px}
+ .map-design-controls .chip-button:last-child{margin-left:0}
+ .map-immersive #map,.map-immersive.map-full #map{height:77dvh;min-height:390px}
+}
+@media(prefers-reduced-motion:reduce){
+ .route-studio-map-flow{animation:none}
+ .route-studio-stop,.route-city-step{transition:none}
+ .route-studio-stop:hover,.route-city-step:hover{transform:none}
+}
