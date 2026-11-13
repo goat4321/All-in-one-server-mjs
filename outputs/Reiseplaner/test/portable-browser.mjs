@@ -156,7 +156,7 @@ try {
   assert.equal(store.current('interrail_swiss').state.edits['local:nardi'], undefined);
   // Unified sourced details, image editing and variant-scoped group voting.
   await click('[data-action=details][data-value="local:nardi"]');
-  await text('dialog', 'Objektdetails');
+  await until(() => js('Boolean(document.querySelector("dialog .place-profile"))'), 'Einheitliches Detailprofil im Dialog');
   await text('dialog', 'Preis für die Gruppe');
   await click('dialog [data-action=photo-edit]');
   await text('dialog','Foto und Bildquelle');
