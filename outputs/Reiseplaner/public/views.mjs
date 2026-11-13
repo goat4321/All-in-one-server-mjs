@@ -753,16 +753,21 @@ function data(ctx) {
     (urlLink(x.googleMapsUrl,'Karte') || '')+' '+(urlLink(x.googleTransitUrl,'ÖPNV') || ''),
   ]);
   const allMenuAudit=research?.foodMenuV08;
-  const missingGeo=research?.geoUnresolvedV08?.filter(item=>trip.route.includes(item.city))??[];
+  const missingGeo=research?.unresolvedReasonsV09?.items
+    .filter(item=>trip.route.includes(item.city))??[];
   const pendingGeoRows=missingGeo.map(item=>[
     esc(item.name),esc(catalog.cities[item.city]?.name??item.city),
-    esc(item.status==='review'?'Mehrdeutiger Kartentreffer'
-      :item.status==='skipped'?'Nicht eindeutig geokodierbar':'Noch kein genauer Treffer'),
-    esc(item.privateAirbnbProperty?'Private Unterkunftsadresse nicht veröffentlicht':item.nextAction),
-    urlLink(item.url,'Google Maps Suche')??'Suche offen',
+    esc(item.reason),
+    item.knownPublicAddress
+      ? esc(item.knownPublicAddress)
+        + (item.providerAddressSource?' '+(urlLink(item.providerAddressSource,'Anschriftenquelle')||''):'')
+      : esc(item.privateAirbnbProperty?'Exakte Airbnb-Adresse nicht öffentlich':'Keine eindeutige Hausadresse bestätigt'),
+    esc(item.nextStep),
+    (urlLink(item.googleMapsSearchUrl,'Google Maps')??'Suche offen')+' '
+      +(urlLink(item.googleTransitUrl,'ÖPNV-Anfahrt')??''),
   ]);
   const auditV08Panel=(allMenuAudit||missingGeo.length)
-    ? '<section class="section panel panel-pad"><h2>Einzelrecherche: fehlende Koordinaten und Menüpreise v0.8</h2>'
+    ? '<section class="section panel panel-pad"><h2>Einzelrecherche: offene Standorte und Menüpreise v0.9</h2>'
       + '<div class="stat-grid">'
       + stat('Gastro-Einträge geprüft',String(allMenuAudit?.counts.total??0),
         (allMenuAudit?.counts.priced??0)+' mit Menü-/Artikelpreisbelegen')
@@ -773,7 +778,7 @@ function data(ctx) {
       +'Original-Ergebnisse der früheren Photon-Recherche sind gesichert; offene Kandidaten dürfen nicht ungeprüft übernommen werden.</p>'
       + (pendingGeoRows.length
         ? '<details><summary>Alle '+missingGeo.length+' noch offenen unterschiedlichen Orte dieser Route anzeigen</summary>'
-          + table(['Name','Ort','Rechercheergebnis','Nächste Prüfung','Karte'],pendingGeoRows)+'</details>'
+          + table(['Name','Ort','Individuelle Begründung','Öffentliche Adresse / Beleg','Nächster Prüfschritt','Google Maps'],pendingGeoRows)+'</details>'
         : '')+'</section>' : '';
   const coveragePanel=coverage ? '<section class="section panel panel-pad"><h2>Vollständige Datenabdeckung dieser Reisevariante</h2>'
     + '<div class="stat-grid">'
