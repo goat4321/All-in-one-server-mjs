@@ -28,6 +28,10 @@ export function explorerToolbar(ctx) {
     + keys.map(([id, group]) => '<button class="explorer-chip" type="button" data-action="explorer-group" data-value="'
       + id + '" aria-pressed="' + (ex.group === id) + '"><i class="category-swatch ' + id
       + '"></i>' + esc(group.label) + '</button>').join('') + '</div>'
+    + '<div class="inline">'
+    + chip('explorer-references', 'Schematische Stadt-Sammelmarker (' + ex.unlocated.length + ')',
+      ex.showCityReferences === true, 'toggle', 'pin')
+    + '<span class="muted">Grau gestrichelte Marker stehen nur für Städte mit ungeklärten Orten, nicht für genaue Standorte. Zum Ausblenden erneut antippen.</span></div>'
     + '<div class="explorer-directions"><div><strong>Route von A nach B</strong><p class="muted">'
     + esc(from?.name ?? 'Startpunkt wählen') + ' → ' + esc(to?.name ?? 'Zielpunkt wählen') + '</p></div>'
     + '<div class="inline">' + chip('explorer-mode', 'Zu Fuß', ex.routeMode === 'walk', 'walk', 'walk')
