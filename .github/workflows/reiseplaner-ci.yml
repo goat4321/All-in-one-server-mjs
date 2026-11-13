@@ -64,7 +64,7 @@ jobs:
   # One-time public-address research. Idempotent: once candidates are committed,
   # subsequent runs skip all external queries. No Airbnb location requests.
   public-address-audit:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/feature/v7-data-day-accommodation-rail'
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'feature/v7-data-day-accommodation-rail' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 8
     permissions:
