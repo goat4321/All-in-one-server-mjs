@@ -592,6 +592,48 @@ export async function loadCatalog() {
       notes: research.data_quality.filter(q => q.trip_id === 'all' || q.trip_id === trip.id),
     };
   });
+  // Validated, place-specific OSM coordinates from the one-off research.
+  // The research file may not yet exist on a freshly cloned branch. Never
+  // replace an already sourced coordinate or infer a private Airbnb address.
+  const geoResearchV06 = await readFile(
+    new URL('../data/research-v06/geocoded-points.json', import.meta.url), 'utf8')
+    .then(JSON.parse).catch(error => {
+      if (error.code === 'ENOENT') return null;
+      throw error;
+    });
+  if (geoResearchV06 && (geoResearchV06.schema !== 'osm_photon_geocoded_v06'
+      || !Array.isArray(geoResearchV06.points) || !Array.isArray(geoResearchV06.review)
+      || geoResearchV06.points.some(record =>
+        !record.id || !record.city || !record.osmRef?.startsWith('https://www.openstreetmap.org/')
+        || !['street_address_match', 'unique_osm_named_poi'].includes(record.confidence)
+        || !point(record.point?.[0], record.point?.[1])
+        || !cities[record.city]?.point
+        || distanceKm(record.point, cities[record.city].point) > 45))) {
+    throw new Error('OSM-Geodaten v0.6 enthalten ungeprüfte oder unzulässige Koordinaten.');
+  }
+  const geoByKey = new Map((geoResearchV06?.points ?? [])
+    .map(record => [record.id + '|' + record.city, record]));
+  let appliedGeo = 0;
+  for (const trip of output) trip.items = trip.items.map(item => {
+    const match = geoByKey.get(item.id + '|' + item.city);
+    if (!match || item.point || item.provider === 'Airbnb'
+        || String(item.id).startsWith('wishlist:airbnb:')) return item;
+    appliedGeo++;
+    const placed = {
+      ...item, point: match.point, positionIssue: null,
+      geoEvidence: {
+        source: 'OpenStreetMap / Photon', url: match.osmRef,
+        confidence: match.confidence, observedOn: match.observedOn,
+        isCentroid: match.isCentroid,
+        note: match.isCentroid ? 'OSM-Objektmittelpunkt, nicht zwingend Eingang.' : 'OSM-POI-Position.',
+      },
+    };
+    return { ...placed,
+      googleMapsUrl: googleMapsSearchUrl(placed, cities),
+      googleTransitUrl: googleMapsDirectionsUrl(null, placed, cities, 'transit'),
+      mapLocationQuality: googleMapsLocationStatus(placed),
+    };
+  });
   return { trips: output, cities, fares: fareMap, mealPlans,
     research: {
       version: research.import_rules.version,
@@ -612,6 +654,17 @@ export async function loadCatalog() {
       transportCandidates: research.transport_comparison_candidates,
       budgetScenarios: research.budget_scenarios,
       quality: research.data_quality,
+      geoResearchV06: geoResearchV06 ? {
+        observedOn: geoResearchV06.observedOn,
+        eligible: geoResearchV06.eligible,
+        acceptedUnique: geoResearchV06.points.length,
+        reviewUnique: geoResearchV06.review.length,
+        unresolvedUnique: geoResearchV06.unmatched?.length ?? 0,
+        skippedUnique: geoResearchV06.skipped?.length ?? 0,
+        requestsFailed: geoResearchV06.failures?.length ?? 0,
+        appliedAcrossVariants: appliedGeo,
+        attribution: geoResearchV06.attribution,
+      } : null,
       railReferenceV04,
       airbnbWishlistResearchV04: airbnbResearch.items,
       foodVenueResearchV03: newFoodResearch.items,
