@@ -2,6 +2,7 @@ import { transitNetworks } from './transit.mjs';
 import { localParts } from './model.mjs';
 import { explorerCategory, explorerUnlocatedCityClusters } from './map-explorer.mjs';
 import { routeStudioModel } from './route-studio.mjs';
+import { placePopupHtml } from './place-profile.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
@@ -53,18 +54,19 @@ export class TripMap {
     this.map.on('blur', () => this.map.scrollWheelZoom.disable());
   }
 
-  marker(point, id, text, number, style, click, offset = 0) {
+  marker(point, id, text, number, style, click, offset = 0, popupHtml = null) {
     const icon = L.divIcon({ className: '', html: '<span class="pin ' + style + '"><span>' + number + '</span></span>',
       iconSize: [30, 30], iconAnchor: [14 - offset, 29] });
     const marker = L.marker(point, { icon, title: text, alt: text, keyboard: true,
       zIndexOffset: style.includes('focused') ? 1000 : 0 }).addTo(this.features);
     marker.bindTooltip(labelNode(text), { direction: 'top', offset: [offset, -22] });
     marker.on('click', click);
+    if (popupHtml) marker.bindPopup(popupHtml, { maxWidth: 320, minWidth: 230, closeButton: true });
     this.markers.set(id, marker);
     return marker;
   }
 
-  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null }) {
+  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null, profileCtx = null }) {
     this.city = city;
     this.features.clearLayers();
     this.markers.clear();
@@ -126,7 +128,8 @@ export class TripMap {
         const offset = (index - (cluster.length - 1) / 2) * 24;
         this.marker(item.point, key, item.name, {lodging:'H',food:'R',shop:'S',activity:'A',transport:'B'}[category],
           'place-' + category + ' explorer-pin' + (focused === key ? ' focused' : ''),
-          () => this.handlers.select(key), offset);
+          () => this.handlers.select(key), offset,
+          placePopupHtml(item,profileCtx??{}));
         area.push(item.point);
       });
     }
