@@ -34,6 +34,7 @@ const view = {
   mapTone: ['standard','midnight','sand'].includes(localStorage.getItem('reiseplan-map-tone'))
     ? localStorage.getItem('reiseplan-map-tone') : 'standard',
   mapExpanded: false,
+  mapDesignOpen:false,
   guideIndex: null,
   showAllVotes: false,
   providerOnlyBudget: false,
@@ -1122,6 +1123,7 @@ document.addEventListener('click', event => {
 });
 app.addEventListener('toggle',event=>{
   if(event.target.matches('.sidebar-places'))view.cityNavOpen=event.target.open;
+  if(event.target.matches('.map-design-details'))view.mapDesignOpen=event.target.open;
 },true);
 app.addEventListener('keydown',event=>{
   if(event.target.id==='map-search'&&event.key==='Enter'){

@@ -95,6 +95,21 @@ export function explorerList(ctx) {
     const actions = googleMapsPlaceQuery(item,ctx.cities)
       ? btn('explorer-start', 'Als Start', 'pin', item.id)
         + btn('explorer-end', 'Als Ziel', 'arrow', item.id) : '';
+    // A compact row exposes two frequent actions; all research and route
+    // controls remain one deliberate disclosure away, not silently removed.
+    const primary=btn('explorer-save',bookmarked?'Merken entfernen':'Merken',
+      bookmarked?'check':'bookmark',item.id)
+      +(located?btn('explorer-focus','Auf Karte','map',item.id)
+        :btn('details','Details','folder',item.id));
+    const secondary=(located?btn('explorer-nearby','Im Umkreis','target',item.id):'')
+      +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
+      +(urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),'Google Maps · ÖPNV-Anreise')||'')
+      +(located?btn('details','Alle Details & Quellen','folder',item.id):'')
+      +(!located&&item.address&&!item.booked?btn('geocode-lookup','Kartenstandort prüfen','pin',item.id):'')
+      +actions
+      +(canPlan&&located?btn('day-route-add','Zur Mehrstopp-Route','plus',item.id):'')
+      +(canPlan?btn('choose','Zum Tagesplan hinzufügen','plus',item.id,'subtle')
+        :active&&item.kind==='activity'?btn('edit','Im Plan bearbeiten','edit',item.id):'');
     return '<article class="explorer-place panel" data-place-id="' + esc(item.id)
       + '" data-selected="' + (ctx.selected===item.id) + '" data-bookmarked="'+bookmarked+'">'
       + (ex.compact?'<div class="explorer-compact-media">'+placeThumbnailHtml(item,ctx)+'</div>'
@@ -116,26 +131,18 @@ export function explorerList(ctx) {
       + '<p class="muted">Quellenstand: ' + esc(details.sourceStatus)
       + ' · ' + esc(googleMapsLocationStatus(item)) + '</p>'
       + (item.positionIssue ? '<p class="muted">Positionskonflikt: ' + esc(item.positionIssue) + '</p>' : '')
-      + '<div class="row-actions">'
-      + btn('explorer-save',bookmarked?'Merken entfernen':'Merken',bookmarked?'check':'bookmark',item.id)
-      + (located ? btn('explorer-focus', 'Auf Karte', 'map', item.id)
-        +btn('explorer-nearby','Im Umkreis','target',item.id) : '')
-      + (urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item)) || '')
-      + (urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),'Google Maps · ÖPNV-Anreise') || '')
-      + btn('details', 'Alle Details & Quellen', 'folder', item.id)
-      + (!located && item.address && !item.booked ? btn('geocode-lookup', 'Kartenstandort prüfen', 'pin', item.id) : '')
-      + actions
-      + (canPlan && located ? btn('day-route-add','Zur Mehrstopp-Route','plus',item.id) : '')
-      + (canPlan ? btn('choose', 'Zum Tagesplan hinzufügen', 'plus', item.id, 'subtle')
-        : active && item.kind === 'activity' ? btn('edit', 'Im Plan bearbeiten', 'edit', item.id) : '')
-      + '</div></article>';
+      + '<div class="row-actions explorer-place-actions">'+primary
+      +(ex.compact?'<details class="explorer-more-actions"><summary>Weitere Aktionen</summary>'
+        +'<div class="row-actions">'+secondary+'</div></details>':secondary)
+      +'</div></article>';
   }).join('');
   return '<section class="section explorer-list'+(ex.compact?' is-compact':'')+'"><div class="subheading"><div><h2>Alle passenden Orte & Angebote</h2>'
     + '<p>'+items.length+(ex.viewportOnly?' im sichtbaren Kartenausschnitt':' passende Einträge')
       +' · '+ex.placed.length+' Kartenpunkte'
       +(ex.viewportOnly?' · Einträge ohne genaue Position ausgeblendet'
         :' · '+ex.unlocated.length+' ohne belegte Koordinaten')+'</p></div></div>'
-    + '<p class="muted">Alle Angebote haben eine ortsbezogene Google-Maps-Suche sowie einen ÖPNV-Anreiselink. Bei fehlendem Pin wird nach Name/Adresse gesucht; Airbnb zeigt nur den bekannten Ortsbereich. Google ermittelt Fahrten erst beim Öffnen, es werden keine 2027er Zeiten vorgetäuscht.</p>'
+    + '<details class="explorer-data-note"><summary>Hinweise zu Standort- und Routendaten</summary>'
+    +'<p>Google Maps sucht nach veröffentlichter Adresse oder bekanntem Ortsbereich. Bei fehlendem Pin bleibt die genaue Position unbekannt. Google berechnet Fahrten erst beim Öffnen; 2027er Fahrzeiten sind nicht bestätigt.</p></details>'
     + (items.length ? '<div class="explorer-list-grid">' + cards + '</div>' : empty('Keine passenden Einträge', 'Karte verschieben, Zoom ändern oder Filter zurücksetzen.'))
     + (items.length > ex.limit ? '<div class="explorer-more">' + btn('explorer-more', 'Weitere ' + Math.min(60, items.length - ex.limit) + ' anzeigen', 'plus') + '</div>' : '')
     + '</section>';

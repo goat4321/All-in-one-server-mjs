@@ -48,7 +48,9 @@ export function renderShell(ctx) {
   const places = [...new Set(trip.route)];
   const currentTitle = variant.state.title ?? trip.title;
   const sourceNotice = trip.dataMode === 'research_seed_fallback'
-    ? '<div class="alert" role="status">Nur Forschungsdaten verfügbar: Die privaten Tripsy-Originaldateien fehlen in diesem Projektordner. Termine, Quellenbezüge und Buchungsdetails sind unvollständig. Es wurden keine Buchungen oder Live-Fahrpläne importiert.</div>'
+    ? '<details class="source-notice"><summary>'+icon('alert')
+      +'<strong>Forschungsstand · Reisedaten teilweise unvollständig</strong><span>Mehr erfahren</span></summary>'
+      +'<p>Nur Forschungsdaten verfügbar: Die privaten Tripsy-Originaldateien fehlen in diesem Projektordner. Termine, Quellenbezüge und Buchungsdetails sind unvollständig. Es wurden keine Buchungen oder Live-Fahrpläne importiert.</p></details>'
     : '';
   const activeNav=navSections.map(section=>
     '<section class="sidebar-section"><div class="side-label">'+esc(section.title)+'</div><nav aria-label="'+esc(section.title)+'">'
@@ -266,7 +268,7 @@ function mapPanel(ctx, full = false) {
         + (quickLayer ? chip('transit', network.groups[quickLayer].title, t.transit[quickLayer], quickLayer, 'train') : '')
         + (ctx.cities[ctx.city].country === 'CH' ? chip('filter', 'Wanderwege', t.hiking, 'hiking', 'walk') : '') : ''}
     </div>
-    <details class="map-design-details"><summary>Darstellung & Kartengröße</summary>
+    <details class="map-design-details" ${ctx.mapDesignOpen?'open':''}><summary>Darstellung & Kartengröße</summary>
     <div class="map-design-controls" role="group" aria-label="Design und Größe der Karte">
       <span class="map-design-caption">Kartenlook</span>
       ${chip('map-tone','Klassisch',ctx.mapTone==='standard','standard','map')}

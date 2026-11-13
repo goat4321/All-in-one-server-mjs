@@ -123,6 +123,8 @@ try {
   await text('#main', 'Alle passenden Orte');
   await until(()=>js('document.querySelectorAll(".place-price-signal").length>0'),'€-Kennzeichen an Ortslisten');
   await until(()=>js('document.querySelector(".explorer-compact-media .place-thumbnail")!==null'),'Kompakte Ortsliste mit Miniaturbild oder Symbol');
+  await until(()=>js('document.querySelector(".explorer-place.is-compact, .explorer-place .explorer-more-actions")!==null'),'Sekundäre Ortsaktionen einklappbar');
+  assert.equal(await js('document.querySelector(".explorer-more-actions")?.open'),false,'Kompaktliste zunächst ohne Aktionsüberladung');
   // Review at an actual wide desktop CSS viewport; default CI Chrome starts at 1280px.
   await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===2'),
@@ -161,6 +163,8 @@ try {
   await until(() => js('document.querySelector(".explorer-scope")?.textContent.includes("Gesamte Reise")'), 'Kartenfilter zurückgesetzt');
   await click('.map-design-details summary');
   await until(()=>js('document.querySelector(".map-design-details")?.open===true'),'Kartengestaltung über Details erreichbar');
+  await click('[data-action=map-tone][data-value=sand]');
+  await until(()=>js('document.querySelector(".map-design-details")?.open===true'),'Karten-Designpanel bleibt nach Stilwahl geöffnet');
   await click('[data-action=map-tone][data-value=midnight]');
   await until(() => js('document.querySelector(".map-wrap")?.dataset.mapTone === "midnight"'), 'Midnight Kartenstil');
   assert.equal(await js('localStorage.getItem("reiseplan-map-tone")'),'midnight');

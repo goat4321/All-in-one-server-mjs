@@ -1195,3 +1195,43 @@ h2{font-size:1.37rem}
  .map-selected-place{gap:9px}
 }
 @media(prefers-reduced-motion:reduce){.map-day-stop{transition:none}}
+
+
+/* Reference-inspired progressive disclosure and reduced redundant framing. */
+.source-notice{margin:1px 0 14px;border:1px solid #b99b4938;border-radius:12px;
+ background:color-mix(in srgb,var(--warm) 48%,var(--paper));color:var(--text)}
+.source-notice summary{list-style:none;display:flex;align-items:center;gap:8px;
+ padding:9px 12px;cursor:pointer;font-size:.75rem}
+.source-notice summary::-webkit-details-marker{display:none}
+.source-notice summary>svg{width:15px;height:15px;color:var(--warn)}
+.source-notice summary strong{font-weight:720}
+.source-notice summary span{margin-left:auto;color:var(--muted)}
+.source-notice p{font-size:.77rem;padding:0 12px 12px;line-height:1.55;color:var(--muted)}
+.explorer-data-note{color:var(--muted);margin:6px 0 10px;font-size:.71rem}
+.explorer-data-note summary{cursor:pointer;list-style:none;color:var(--muted);font-size:.73rem}
+.explorer-data-note summary::-webkit-details-marker{display:none}
+.explorer-data-note summary::before{content:"ⓘ";margin-right:6px}
+.explorer-data-note p{margin:6px 0 3px;line-height:1.5}
+.explorer-more-actions{min-width:0;position:relative}
+.explorer-more-actions>summary{display:inline-flex;align-items:center;
+ border-radius:9px;padding:6px 9px;color:var(--muted);
+ font-size:.71rem;cursor:pointer;min-height:28px;list-style:none;
+ background:var(--light)}
+.explorer-more-actions>summary::-webkit-details-marker{display:none}
+.explorer-more-actions>summary::before{content:"+";font-weight:800;margin-right:5px}
+.explorer-more-actions[open]>summary::before{content:"−"}
+.explorer-more-actions>.row-actions{display:flex;gap:6px;flex-wrap:wrap;padding:9px 0 2px;
+ border-top:1px solid var(--line);margin-top:7px}
+.explorer-list.is-compact .explorer-place-actions{gap:6px}
+.explorer-list.is-compact .explorer-more-actions{width:100%}
+.explorer-list.is-compact .explorer-more-actions[open]{flex-basis:100%}
+.explorer-list.is-compact .explorer-place>.row-actions{border-top:0}
+@keyframes experienceReveal{
+ from{opacity:.38;transform:translateY(7px)}
+ to{opacity:1;transform:translateY(0)}
+}
+.cockpit-welcome,.cockpit-progress,.page-head,.timeline-panel{animation:experienceReveal .32s ease-out both}
+.map-selected-place{animation:experienceReveal .23s ease-out both}
+@media(prefers-reduced-motion:reduce){
+ .cockpit-welcome,.cockpit-progress,.page-head,.timeline-panel,.map-selected-place{animation:none}
+}
