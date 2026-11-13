@@ -604,8 +604,9 @@ export async function loadCatalog() {
   if (geoResearchV06 && (geoResearchV06.schema !== 'osm_photon_geocoded_v06'
       || !Array.isArray(geoResearchV06.points) || !Array.isArray(geoResearchV06.review)
       || geoResearchV06.points.some(record =>
-        !record.id || !record.city || !record.osmRef?.startsWith('https://www.openstreetmap.org/')
-        || !['street_address_match', 'unique_osm_named_poi'].includes(record.confidence)
+        !record.id || !record.city
+        || !/^https:\/\//.test(record.sourceUrl ?? record.osmRef ?? '')
+        || !['street_address_match', 'unique_osm_named_poi', 'verified_external_coordinates'].includes(record.confidence)
         || !point(record.point?.[0], record.point?.[1])
         || !cities[record.city]?.point
         || distanceKm(record.point, cities[record.city].point) > 45))) {
@@ -622,7 +623,8 @@ export async function loadCatalog() {
     const placed = {
       ...item, point: match.point, positionIssue: null,
       geoEvidence: {
-        source: 'OpenStreetMap / Photon', url: match.osmRef,
+        source: match.confidence === 'verified_external_coordinates' ? 'Extern anhand der Unterkunftsadresse gegengeprüft' : 'OpenStreetMap / Photon',
+        url: match.sourceUrl ?? match.osmRef,
         confidence: match.confidence, observedOn: match.observedOn,
         isCentroid: match.isCentroid,
         note: match.isCentroid ? 'OSM-Objektmittelpunkt, nicht zwingend Eingang.' : 'OSM-POI-Position.',
