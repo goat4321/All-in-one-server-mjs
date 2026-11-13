@@ -3,6 +3,7 @@ import { EXPLORER_GROUPS, explorerDetail, externalFootUrl, externalTransitUrl } 
 import { esc, btn, chip, status, urlLink, empty, transitPlanners } from './ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import { placeQuickFacts, placeImageHtml } from './place-profile.mjs';
+import { voteSnippet } from './group-vote.mjs';
 
 export function explorerToolbar(ctx) {
   const ex = ctx.explorer;
@@ -78,6 +79,7 @@ export function explorerList(ctx) {
       + esc(details.group.label) + '</small></div>' + (active ? status('Im Plan', 'green') : '') + '</div>'
       + '<p class="explorer-description">' + esc(details.description) + '</p>'
       + placeQuickFacts(item,ctx)
+      + (['activity','lodging'].includes(item.kind)?voteSnippet(item,ctx):'')
       + '<div class="explorer-facts"><span><strong>Preis:</strong> ' + esc(details.priceText) + '</span>'
       + '<span><strong>Öffnung:</strong> ' + esc(details.hours) + '</span>'
       + (item.address ? '<span><strong>Adresse:</strong> ' + esc(item.address) + '</span>' : '')
