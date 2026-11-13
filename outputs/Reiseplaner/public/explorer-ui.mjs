@@ -71,6 +71,7 @@ export function explorerList(ctx) {
       + '</div>'
       + '<p class="muted">Quellenstand: ' + esc(details.sourceStatus)
       + ' · ' + esc(googleMapsLocationStatus(item)) + '</p>'
+      + (item.positionIssue ? '<p class="muted">Positionskonflikt: ' + esc(item.positionIssue) + '</p>' : '')
       + '<div class="row-actions">' + (located ? btn('explorer-focus', 'Auf Karte', 'map', item.id) : '')
       + (urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item)) || '')
       + (urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),'Google Maps · ÖPNV-Anreise') || '')
