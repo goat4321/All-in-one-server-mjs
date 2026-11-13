@@ -698,3 +698,19 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
  padding:10px 12px;border:1px solid var(--line);background:var(--paper);border-radius:10px;
  color:var(--muted);font-size:.78rem}
 .option-result-summary strong{color:var(--text)}
+
+
+/* Travel-readiness matrix: sourced progress, never invented confirmations. */
+.readiness-panel{display:grid;gap:14px}
+.readiness-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.readiness-heading p{margin-top:4px;font-size:.8rem;color:var(--muted)}
+.readiness-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(195px,100%),1fr));gap:9px}
+.readiness-card{border-radius:12px;border:1px solid var(--line);padding:12px;background:var(--light);
+ display:grid;gap:9px;align-content:start}
+.readiness-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;font-size:.76rem}
+.readiness-top strong{font-size:.78rem}
+.readiness-top>span{font-variant-numeric:tabular-nums;color:var(--green);font-weight:800;white-space:nowrap}
+.readiness-track{height:9px;background:var(--line);overflow:hidden;border-radius:20px}
+.readiness-track>span{display:block;height:100%;border-radius:inherit;background:#37926c}
+.readiness-card p{font-size:.71rem;line-height:1.5;color:var(--muted)}
+.readiness-warning{font-size:.77rem;line-height:1.55;color:var(--muted)}
