@@ -141,15 +141,62 @@ export function mapFloatingControls(ctx){
     +icon('bookmark')+'<span>Merkliste</span></button></nav>';
 }
 
+/**
+ * Choose at most eight sourced photos distributed across the actual trip route,
+ * with the current city first.  Only render a source if both the picture URL
+ * and original file page + a meaningful author/credit are present. Never
+ * invent images or allow transient synthesized arrival markers into gallery.
+ */
+export function selectDiscoveryPhotos(ctx,limit=8){
+  if(!ctx?.explorer)return [];
+  const known=new Set((ctx.all??[]).filter(x=>!x.removed&&!x.duplicateOf).map(x=>x.id));
+  const rows=stableRows([...(ctx.explorer.placed??[]),...(ctx.explorer.unlocated??[])])
+    .filter(item=>known.has(item.id)&&!item.explorerParent);
+  const groups=new Map();
+  for(const item of rows){
+    const photo=placeProfileModel(item,ctx)?.photo;
+    if(!photo||!/^https:\/\//.test(photo.url??'')
+      ||!/^https:\/\//.test(photo.sourceUrl??'')
+      ||!photo.credit?.trim())continue;
+    if(!groups.has(item.city))groups.set(item.city,[]);
+    groups.get(item.city).push({item,photo});
+  }
+  const cities=[...new Set([ctx.city,...(ctx.trip?.route??[]),...groups.keys()])]
+    .filter(city=>groups.has(city));
+  const taken=new Set(),selected=[];
+  const take=city=>{
+    const remaining=groups.get(city)??[];
+    while(remaining.length){
+      const row=remaining.shift();
+      const fileKey=row.photo.sourceUrl.split('#')[0].toLowerCase();
+      if(taken.has(fileKey))continue;
+      taken.add(fileKey);
+      selected.push(row);
+      return true;
+    }
+    return false;
+  };
+  if(groups.has(ctx.city)){take(ctx.city);take(ctx.city);}
+  while(selected.length<Math.max(0,limit)){
+    let advanced=false;
+    for(const city of cities){
+      if(selected.length>=limit)break;
+      if(take(city))advanced=true;
+    }
+    if(!advanced)break;
+  }
+  return selected.slice(0,Math.max(0,limit));
+}
+
 export function mapPhotoDiscovery(ctx){
   if(!ctx?.explorer)return '';
-  const rows=stableRows([...(ctx.explorer.placed??[]),...(ctx.explorer.unlocated??[])]);
   const people=ctx.people?.length??1;
-  const withPhoto=rows.map(item=>({item,photo:placeProfileModel(item,ctx)?.photo}))
-    .filter(row=>row.photo&&/^https:\/\//.test(row.photo.url)
-      &&/^https:\/\//.test(row.photo.sourceUrl)).slice(0,8);
+  const withPhoto=selectDiscoveryPhotos(ctx,8);
   const cards=withPhoto.map(({item,photo})=>{
     const signal=planCostSignal(item,people);
+    const located=Array.isArray(item.point)&&item.point.length===2
+      &&item.point.every(Number.isFinite);
+    const planned=(ctx.day??[]).some(entry=>entry.id===item.id);
     return '<article class="reference-discovery-card">'
       +'<div class="reference-discovery-image"><img loading="lazy" decoding="async"'
       +' referrerpolicy="no-referrer" src="'+esc(photo.url)+'" alt="'
@@ -160,9 +207,11 @@ export function mapPhotoDiscovery(ctx){
       +esc(signal.note)+'">'+esc(signal.tier)+'</span></div>'
       +'<p>'+esc(ctx.cities?.[item.city]?.name??item.city)+' · '
       +esc(item.kind==='lodging'?'Unterkunft':
-        item.kind==='transport'?'Verbindung':'Ort & Aktivität')+'</p>'
+        item.kind==='transport'?'Verbindung':'Ort & Aktivität')
+      +(planned?' · Im heutigen Plan':'')+'</p>'
       +'<div class="reference-discovery-actions">'
-      +btn('details','Details','arrow',item.explorerId??item.id,'subtle')
+      +btn('details','Details','arrow',item.id,'subtle')
+      +(located?btn('explorer-focus','Auf Karte','pin',item.id,'subtle'):'')
       +'<a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer"'
       +' title="'+esc(photo.credit)+'">Bildquelle</a></div></div></article>';
   }).join('');
