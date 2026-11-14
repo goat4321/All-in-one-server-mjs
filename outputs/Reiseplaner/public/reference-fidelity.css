@@ -193,3 +193,15 @@
 }
 @media(prefers-reduced-motion:reduce){.reference-travel-shell .reference-agenda-select{transition:none}}
 :root[data-motion=off] .reference-travel-shell .reference-agenda-select{transition:none}
+
+/* Tablet header: prevent old HUD, desktop navigation and search from
+ * competing for the same 820px width; all actions remain accessible. */
+.reference-topbar>.journey-top-progress{display:none!important}
+@media(min-width:651px) and (max-width:1090px){
+ .reference-topbar{gap:9px;padding:0 15px}
+ .reference-main-nav button span{display:none}
+ .reference-main-nav button{padding:9px 10px;min-width:39px;justify-content:center}
+ .reference-nav-brand strong{font-size:1.07rem}
+ .reference-global-search{min-width:0;flex:1 1 100px;max-width:none}
+ .reference-topbar>.top-actions .guide-launch{display:none}
+}
