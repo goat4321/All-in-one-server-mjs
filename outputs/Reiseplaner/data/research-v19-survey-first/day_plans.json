@@ -1,0 +1,348 @@
+{
+  "version": "2026-11-13-survey-first-v1",
+  "plans": [
+    {
+      "id": "idea-day-01",
+      "trip_id": "ir-classic",
+      "date": "2027-09-01",
+      "city_id": "paris",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-002",
+        "act-007"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "after_arrival",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-02",
+      "trip_id": "ir-classic",
+      "date": "2027-09-02",
+      "city_id": "paris",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-001",
+        "act-003",
+        "act-004"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon",
+        "evening"
+      ],
+      "style": "active",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-03",
+      "trip_id": "ir-classic",
+      "date": "2027-09-03",
+      "city_id": "barcelona",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-009"
+      ],
+      "time_windows": [
+        "morning"
+      ],
+      "style": "after_arrival",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-04",
+      "trip_id": "ir-classic",
+      "date": "2027-09-04",
+      "city_id": "barcelona",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-008",
+        "act-015",
+        "act-016"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon",
+        "evening"
+      ],
+      "style": "beach_day_with_optional_evening",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-05",
+      "trip_id": "ir-classic",
+      "date": "2027-09-05",
+      "city_id": "barcelona",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-014",
+        "act-010"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "flexible",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-06",
+      "trip_id": "ir-classic",
+      "date": "2027-09-06",
+      "city_id": "sete",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-019",
+        "act-020"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "after_arrival",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-07",
+      "trip_id": "ir-classic",
+      "date": "2027-09-07",
+      "city_id": "sete",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-017",
+        "act-018"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "beach_and_view",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-08",
+      "trip_id": "ir-classic",
+      "date": "2027-09-08",
+      "city_id": "nice",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-023",
+        "act-028"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "after_arrival",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-09",
+      "trip_id": "ir-classic",
+      "date": "2027-09-09",
+      "city_id": "nice",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-026",
+        "act-024"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "beach_and_view",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-10",
+      "trip_id": "ir-classic",
+      "date": "2027-09-10",
+      "city_id": "genoa",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-035",
+        "act-034"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "after_arrival",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-11",
+      "trip_id": "ir-classic",
+      "date": "2027-09-11",
+      "city_id": "genoa",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-032",
+        "act-030"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "long_coast_day",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-12",
+      "trip_id": "ir-classic",
+      "date": "2027-09-12",
+      "city_id": "venice",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-037",
+        "act-038"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "after_arrival",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-13",
+      "trip_id": "ir-classic",
+      "date": "2027-09-13",
+      "city_id": "venice",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-040",
+        "act-039"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "beach_with_transit",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-14",
+      "trip_id": "swiss-week",
+      "date": "2027-09-06",
+      "city_id": "appenzell",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-045",
+        "act-046"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "hiking",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-15",
+      "trip_id": "swiss-week",
+      "date": "2027-09-07",
+      "city_id": "glarus",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-047",
+        "act-048"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "hiking",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-16",
+      "trip_id": "swiss-week",
+      "date": "2027-09-08",
+      "city_id": "grindelwald",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-049",
+        "act-050"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "weather_conditional",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    },
+    {
+      "id": "idea-day-17",
+      "trip_id": "swiss-week",
+      "date": "2027-09-10",
+      "city_id": "kandersteg",
+      "proposal_not_active": true,
+      "activity_option_ids_ordered": [
+        "act-053",
+        "act-054"
+      ],
+      "time_windows": [
+        "morning",
+        "afternoon"
+      ],
+      "style": "hiking",
+      "requires_transit_validation": true,
+      "requires_opening_hours_validation": true,
+      "rain_alternative_policy": "Active indoor sport/experience; real venue to be researched. Do not auto-add art museum.",
+      "change_original_tripsy_trip": false
+    }
+  ],
+  "note": "Placeholders are not clock-based reservations. Multi-city variant-specific activities require separate date mapping and re-search."
+}
