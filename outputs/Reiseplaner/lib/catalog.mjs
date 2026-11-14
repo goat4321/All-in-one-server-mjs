@@ -6,6 +6,7 @@ import { rivieraAlpsLodgings, rivieraAlpsPlaces, rivieraAlpsSources, rivieraAlps
 import { barcelonaFoodPlaces, mealPlans, mealSources } from './barcelona-meals.mjs';
 import { seedSnapshot } from './seed-fallback.mjs';
 import { loadResearchV02, scopedQuote, quoteCandidate } from './research-v02.mjs';
+import { loadSurveyFirstV19, applySurveyFirstV19 } from './research-v19.mjs';
 
 const file = name => readFile(new URL('../data/' + name + '.json', import.meta.url), 'utf8')
   .then(content => JSON.parse(content.replace(/^\uFEFF/, '')));
@@ -251,6 +252,7 @@ export async function loadCatalog() {
   const [trips, destinations, activities, accommodations, transport, fares, budgets, sources, quality] =
     await Promise.all(['trips', 'destinations', 'activities', 'accommodations', 'transport', 'fares', 'budgets', 'sources', 'data_quality'].map(file));
   const research = await loadResearchV02(trips);
+  const surveyFirstV19Archive = await loadSurveyFirstV19();
   const [providerSearchV13,providerLocationsV13]=await Promise.all([
     readFile(new URL('../data/research-v13/provider-search-september-2027.json',import.meta.url),'utf8').then(JSON.parse),
     readFile(new URL('../data/research-v13/provider-location-leads.json',import.meta.url),'utf8').then(JSON.parse),
@@ -775,6 +777,9 @@ export async function loadCatalog() {
       lastReviewedOn:unresolved.lastReviewedOn,
     }};
   });
+  // Import candidates after legacy location evidence, before per-entry coverage audits.
+  // Never alter original Tripsy items or commit anything into active trip state.
+  const surveyFirstV19 = applySurveyFirstV19(output, cities, surveyFirstV19Archive);
   const mappedFareRowsV07 = Object.fromEntries(destinations.map(city => [
     city.id, operatorFares.filter(ref => ref.city === city.id),
   ]));
@@ -904,6 +909,7 @@ export async function loadCatalog() {
   return { trips: output, cities, fares: fareMap, mealPlans,
     research: {
       version: research.import_rules.version,
+      surveyFirstV19,
       providerSearchV13,providerLocationsV13,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
@@ -968,7 +974,7 @@ export async function loadCatalog() {
         issues: research.data_quality.length,
       },
     },
-    sources: Object.fromEntries([...sources, ...research.sources,
+    sources: Object.fromEntries([...sources, ...research.sources, ...surveyFirstV19.sources,
       ...operatorFares.map(ref => ({ id:'operator-v07-fare:'+ref.id,
         publisher:'Offizieller Nahverkehr · '+ref.city+' · '+ref.name,
         url:ref.sourceUrl, accessed_on:operatorV07.observedOn,
