@@ -13,15 +13,21 @@ test('57 independently sourced official guides preserve IDs, dates and non-booki
  assert.equal(archive.entries.length,57);
  assert.equal(archive.total,57);
  assert.equal(catalog.research.researchV22.entries.length,57);
- assert.ok(catalog.research.researchV22.assignments>=57);
+ assert.equal(catalog.research.researchV22.assignedUnique,56);
+ assert.deepEqual(catalog.research.researchV22.archiveOnly,['act-056']);
+ assert.ok(catalog.research.researchV22.assignments>=56);
  assert.equal(new Set(archive.entries.map(x=>x.id)).size,57);
  for(const row of archive.entries){
    assert.match(row.sourceUrl,/^https:\/\//);
    assert.ok(row.highlights.length>=2);
    assert.equal(row.bookingConfirmed,false);
    assert.equal(row.photoRightsProvided,false);
-   assert.ok(catalog.trips.some(t=>t.items.some(x=>x.id==='survey-v19:'+row.id&&
-     x.guideV22?.sourceUrl===row.sourceUrl)));
+   const assigned=catalog.trips.some(t=>t.items.some(x=>x.id==='survey-v19:'+row.id&&
+     x.guideV22?.sourceUrl===row.sourceUrl));
+   if(catalog.research.researchV22.archiveOnly.includes(row.id)){
+     assert.equal(row.id,'act-056','only explicitly unselected Montpellier alternative is archive-only');
+     assert.equal(assigned,false,'archived alternative must not be added to any current itinerary');
+   }else assert.equal(assigned,true,'guide is in an applicable trip: '+row.id);
  }
  const classic=catalog.trips.find(x=>x.id==='interrail_classic');
  const eiffel=classic.items.find(x=>x.id==='survey-v19:act-006');
