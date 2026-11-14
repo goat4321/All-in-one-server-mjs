@@ -21,6 +21,17 @@ export function mapDayAgenda(ctx){
   const city=ctx.cities?.[ctx.city]?.name??ctx.city;
   const planned=day.filter(x=>isValidTime(x.time)).length;
   const flexible=day.length-planned;
+  const days=ctx.dates??[];
+  const currentIndex=days.indexOf(ctx.date);
+  const prevDay=currentIndex>0?days[currentIndex-1]:null;
+  const nextDay=currentIndex>=0&&currentIndex<days.length-1?days[currentIndex+1]:null;
+  const dayNavigation='<div class="reference-day-steps" role="group" aria-label="Zwischen Reisetagen wechseln">'
+    +'<button type="button" data-action="day" '+(prevDay?'data-value="'+esc(prevDay)+'"':'disabled')
+    +' aria-label="Vorheriger Reisetag" title="Vorheriger Reisetag">'+icon('left')+'</button>'
+    +'<span>Tag '+(currentIndex+1)+' / '+days.length+'</span>'
+    +'<button type="button" data-action="day" '+(nextDay?'data-value="'+esc(nextDay)+'"':'disabled')
+    +' aria-label="Nächster Reisetag" title="Nächster Reisetag">'+icon('right')+'</button>'
+    +'</div>';
   const groups=day.slice(0,8).map((item,i)=>{
     const price=planCostSignal(item,people);
     const time=isValidTime(item.time)?item.time:'Flexibel';
@@ -72,9 +83,16 @@ export function mapDayAgenda(ctx){
     +'<h2>'+esc(city)+' · '+esc(shortDay(ctx.date))+'</h2>'
     +'<p>'+day.length+' '+(day.length===1?'Stopp':'Stopps')+' · '+planned
     +' mit Uhrzeit · '+flexible+' flexibel</p></div>'
-    +btn('page','Vollständiger Tagesplan','arrow','plan')+'</div>'
+    +dayNavigation+btn('page','Vollständiger Tagesplan','arrow','plan')+'</div>'
     +'<ol class="reference-agenda-list">'+(groups||'<li class="reference-agenda-empty">'
-      +'Für diesen Tag sind noch keine Stopps ausgewählt. Die Karte zeigt recherchierte Optionen.</li>')
+      +'Für diesen Tag sind noch keine Stopps ausgewählt.'
+      +(ctx.explorer.scope==='day'
+        ?' Die Tageskarte zeigt deshalb keine noch nicht eingeplanten Orte.'
+        :' Die Karte zeigt recherchierte Optionen.')
+      +(ctx.explorer.scope==='day'
+        ?'<button type="button" data-action="map-mode" data-value="city"'
+          +' class="reference-empty-discover">Recherchierte Stadtorte anzeigen</button>'
+        :'')+'</li>')
     +'</ol>'
     +examplesHtml
     +(day.length>8?'<p class="reference-agenda-extra">+'+(day.length-8)
@@ -107,10 +125,16 @@ export function mapFloatingControls(ctx){
   if(!ctx.explorer)return '';
   const total=Boolean(ctx.total);
   const saved=Boolean(ctx.explorer.savedOnly);
+  const scope=ctx.explorer.scope??(total?'trip':'city');
   return '<nav class="reference-map-floating" aria-label="Kartenansicht direkt umschalten">'
-    +'<button type="button" data-action="map-mode" data-value="day" aria-pressed="'+(!total)+'">'
+    +'<button type="button" data-action="map-mode" data-value="day"'
+    +' aria-pressed="'+(scope==='day')+'" title="Nur für diesen Tag eingeplante Stopps">'
     +icon('calendar')+'<span>Mein Tag</span></button>'
-    +'<button type="button" data-action="map-mode" data-value="total" aria-pressed="'+total+'">'
+    +'<button type="button" data-action="map-mode" data-value="city"'
+    +' aria-pressed="'+(scope==='city')+'" title="Recherchierte Orte dieser Stadt">'
+    +icon('pin')+'<span>Stadt</span></button>'
+    +'<button type="button" data-action="map-mode" data-value="total"'
+    +' aria-pressed="'+(scope==='trip')+'" title="Alle Städte entlang der Reise">'
     +icon('map')+'<span>Gesamtroute</span></button>'
     +'<button type="button" data-action="explorer-saved-only"'
     +' aria-pressed="'+saved+'" title="Nur gemerkte Orte anzeigen">'
