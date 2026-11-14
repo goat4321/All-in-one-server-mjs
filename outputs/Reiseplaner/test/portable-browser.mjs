@@ -173,6 +173,17 @@ try {
     'Die sichtbare Kartenfläche muss im ersten Desktop-Screen beginnen, nicht nur das Panel');
   await js('window.scrollTo({top:0,behavior:"instant"})');
   await screenshot('08-atlas-oben-desktop.png');
+  assert.ok(await js('(() => { const m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect(),a=document.querySelector(".reference-map-workspace>.explorer-right")?.getBoundingClientRect();return m&&a&&m.left>a.left&&m.width>a.width*1.12; })()'),
+    'Reference layout uses compact agenda on left and wider interactive map on right');
+  assert.ok(await js('Boolean(document.querySelector(".reference-map-intro h1"))'),
+    'Source photo / airy city header appears before the map');
+  assert.ok(await js('Boolean(document.querySelector(".reference-map-floating [data-action=map-mode]"))'),
+    'Floating map route/day controls are real click actions');
+  assert.ok(await js('Boolean(document.querySelector(".reference-agenda-list"))'),
+    'Synchronized timeline is present next to the map');
+  assert.ok(await js('Boolean(document.querySelector(".reference-discovery-card,.reference-discovery-empty"))'),
+    'Only proven licensed pictures enter the discovery strip');
+  await screenshot('18-reference-day-map-desktop-1440.png');
   await js('document.querySelector(".map-design-details:not([open]) > summary")?.click()');
   await click('[data-action=map-motion][data-value=off]');
   assert.equal(await js('document.documentElement.dataset.motion'),'off');
@@ -613,6 +624,11 @@ try {
     'Mobile POI preview is in document flow below map; never under the dock');
   await js('document.querySelector(".map-selection-preview").scrollIntoView({block:"center"})');
   await screenshot('06-atlas-smartphone-auswahl-390.png');
+  assert.ok(await js('(() => { const map=document.querySelector(".reference-map-workspace>.map-panel"),a=document.querySelector(".reference-map-workspace>.explorer-right");if(!map||!a)return false;const m=map.getBoundingClientRect(),l=a.getBoundingClientRect();return m.top<l.top&&m.right<=innerWidth+3&&l.right<=innerWidth+3; })()'),
+    'Mobile reference layout stacks map above day timeline without horizontal overflow');
+  assert.ok(await js('Boolean(document.querySelector(".reference-map-floating"))'),
+    'Floating map controls become mobile-accessible below map viewport');
+  await screenshot('19-reference-day-map-mobile-390.png');
   await click('.map-selected-place [data-action=details]');
   await until(()=>js('document.querySelector("dialog")?.open===true'),
     'Mobile destination inspector opened');
