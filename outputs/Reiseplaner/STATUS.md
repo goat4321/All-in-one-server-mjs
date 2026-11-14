@@ -1,3 +1,15 @@
+## 14.11.2026 – Phase 26: Designbild-Abgleich tatsächlich durchgeführt und korrigierte Desktop-/Smartphone-Komposition
+
+**Originale Referenzen wieder geöffnet:** die früheren Dateien `Barcelona-Reise im grünen Reiseplaner.png`, `image-gen-1(4).png` (InterrailPlan), Designyow- und Navica-Screenshots sowie der frühere `reiseplaner_v18_designvergleich(1).png`. Aus den Screenshots wurde die konkrete Hierarchie **Tag-/Aktivitätsliste links, große Karte rechts, Bildvorschläge darunter** abgeleitet, statt nur Farben und Rundungen anzupassen.
+
+**Neu umgesetzt:** In `Karte` stehen auf Desktop die horizontalen Reisetage jetzt **innerhalb der linken Spalte**, darunter ein bebilderter Mini-Tagesablauf mit den wirklichen geplanten Stopps/Uhrzeiten und relativen €-Stufen; rechts beginnt auf gleicher Höhe eine größere Leaflet-Karte. Bei noch leeren Tagen gibt es bis zu vier ausdrücklich **nicht eingeplante** Aktivitäten mit offiziellen Ortsguides und Detail-Links. Ortsrecherche und Such-/Filterfunktionen bleiben darunter, die aktualisierte Bildgalerie zeigt nur vorhandene Quellenfotos mit Lizenzlink und echten Preisen bzw. `€?`. Ein neuer kompakter Fotobanner, weiße Karten-HUD-Einblendung, echte Route-/Tag-/Merkliste-Kontrollen und kurze reduzierte Animationen orientieren sich an den Referenzen. Auf Smartphones: Datumsauswahl oben, Karte darunter, Planung und Suche anschließend. Externe Fotos können offline ausfallen; die Darstellung fällt dann auf eine gestalterische Grafik zurück.
+
+**Screenshot-Korrektur:** Während des visuellen QA wurde ein leerer linker Kartenbereich durch CSS-Grid-Automatik entdeckt. Die Tages-/Explorer-Spalte beginnt nun unmittelbar unter dem Datum, und ein eigener Chrome-Test verhindert diese Layoutregression. `132/132` Unit-Tests plus realer Desktop-/Tablet-/Smartphone-Chrome-Flow erfolgreich im Workflow **43605073840**. Die aktuellen Screenshots heißen `18-reference-day-map-desktop-1440.png` und `19-reference-day-map-mobile-390.png` im `reiseplaner-ui-review`-Artifact.
+
+Die Umsetzung, Quellenvorbehalte und Referenzbilddetails stehen in `PHASE_26_REFERENCE_DESIGN_REVIEW.md`. **Kein Merge/Deployment, keine 2027-Buchungsbehauptung, keine Veränderung der ursprünglichen Reisebudgets.**
+
+---
+
 ## 14.11.2026 – Phase 25: Interaktiver Quellen-HUD, optimierte Mikroanimationen, echte Datenintegration
 
 Im vorhandenen Entwicklungsbranch wurden die Tag-/Kartenoberflächen mit einem neuen, datengestützten **Reise-HUD** erweitert. Die Desktop-Kopfzeile und die bisherige Tagesübersicht zeigen die Position des **ausgewählten zukünftigen Plankalendertags**, echte Tagesstopps und dokumentierte Uhrzeiten, bisher erfasste EUR-Planwerte und den stadtbezogenen Weblink-Abdeckungsstand. Eine Datumsanzeige ist kein Echtzeitfortschritt. Die interaktive Karten-Einblendung zählt Kartenpunkte ohne falsche Eingangsgenauigkeit, unplatzierte Einträge, Quellenfotos, HTTPS-Webbelege und individuelle Ortsguides – inklusive eines nativen aufklappbaren Quellenbereichs.
