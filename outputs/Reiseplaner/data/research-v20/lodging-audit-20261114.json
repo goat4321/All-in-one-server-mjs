@@ -3,7 +3,7 @@
   "observedOn": "2026-11-14",
   "notes": "Property list snapshot, never a booking; top 10 list absence is not unavailability. No private accommodation addresses inferred.",
   "total": 35,
-  "updatedSearchOffers": 8,
+  "updatedSearchOffers": 22,
   "independentPointMatches": 19,
   "providerLocationConflicts": 1,
   "items": [
@@ -53,7 +53,8 @@
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": 0
     },
     {
       "id": "lod-002",
@@ -101,7 +102,8 @@
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": 0
     },
     {
       "id": "lod-003",
@@ -127,14 +129,15 @@
         "isCentroid": false
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_in_first_10_results_does_not_mean_unavailable",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-004",
@@ -151,14 +154,15 @@
       "providerUrl": "https://www.booking.com/hotel/fr/studio-paris-centre-republique.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_in_first_10_results_does_not_mean_unavailable",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-005",
@@ -184,14 +188,15 @@
         "isCentroid": false
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_in_first_10_results_does_not_mean_unavailable",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-006",
@@ -217,14 +222,15 @@
         "isCentroid": false
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_in_first_10_results_does_not_mean_unavailable",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-007",
@@ -241,14 +247,15 @@
       "providerUrl": "https://www.booking.com/hotel/es/barcelona-urbany-hostel.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_in_first_10_results_does_not_mean_unavailable",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-008",
@@ -265,14 +272,15 @@
       "providerUrl": "https://www.booking.com/hotel/es/bird-house.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_in_first_10_results_does_not_mean_unavailable",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-009",
@@ -298,14 +306,30 @@
         "isCentroid": false
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 17843,
+        "address": "12 Rue de Tunis",
+        "url": "https://www.booking.com/hotel/fr/le-chic-cadre-royal-centre-ville.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 3,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": 0
     },
     {
       "id": "lod-010",
@@ -322,14 +346,30 @@
       "providerUrl": "https://www.booking.com/hotel/fr/charming-two-rooms-appartment-with-terrace-and-view.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 17260,
+        "address": "4eme etage 21 Rue de la Liberté",
+        "url": "https://www.booking.com/hotel/fr/charming-two-rooms-appartment-with-terrace-and-view.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 3,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": 0
     },
     {
       "id": "lod-011",
@@ -346,14 +386,30 @@
       "providerUrl": "https://www.booking.com/hotel/fr/jolie-maison-de-pecheur-la-pointe-courte.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 22069,
+        "address": "11 Rue de la Pétanque",
+        "url": "https://www.booking.com/hotel/fr/jolie-maison-de-pecheur-la-pointe-courte.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 3,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": 0
     },
     {
       "id": "lod-012",
@@ -370,14 +426,30 @@
       "providerUrl": "https://www.booking.com/hotel/fr/loft-cocon-en-plein-centre-de-sete.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 21800,
+        "address": "42BIS Rue Pierre Semard",
+        "url": "https://www.booking.com/hotel/fr/loft-cocon-en-plein-centre-de-sete.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 3,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": 0
     },
     {
       "id": "lod-013",
@@ -403,14 +475,15 @@
         "isCentroid": false
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-014",
@@ -436,14 +509,15 @@
         "isCentroid": false
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-015",
@@ -460,14 +534,15 @@
       "providerUrl": "https://www.booking.com/hotel/fr/2-spacious-bedrooms-near-riquier-station.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-016",
@@ -493,14 +568,30 @@
         "isCentroid": false
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 31854,
+        "address": "58/60 Avenue de la Californie",
+        "url": "https://www.booking.com/hotel/fr/ibis-budget-nice-californie-lenval.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 3,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": 0
     },
     {
       "id": "lod-017",
@@ -539,7 +630,8 @@
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": 0
     },
     {
       "id": "lod-018",
@@ -556,14 +648,15 @@
       "providerUrl": "https://www.booking.com/hotel/it/a-due-passi-dalla-lanterna.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_in_first_10_results_does_not_mean_unavailable",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-019",
@@ -611,7 +704,8 @@
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": 0
     },
     {
       "id": "lod-020",
@@ -659,7 +753,8 @@
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": 0
     },
     {
       "id": "lod-021",
@@ -685,14 +780,15 @@
         "isCentroid": false
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-022",
@@ -709,14 +805,30 @@
       "providerUrl": "https://www.booking.com/hotel/it/ca-parco-venezia.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 32160,
+        "address": "Cannaregio, 440/A 1 piano",
+        "url": "https://www.booking.com/hotel/it/ca-parco-venezia.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 3,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": 0
     },
     {
       "id": "lod-023",
@@ -733,14 +845,15 @@
       "providerUrl": "https://www.booking.com/hotel/it/residenza-ca-39-matta.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-024",
@@ -757,14 +870,15 @@
       "providerUrl": "https://www.booking.com/hotel/it/angelas-rooms.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "not_returned_in_first_results_2026_11_14_not_unavailable",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": null
     },
     {
       "id": "lod-025",
@@ -790,14 +904,30 @@
         "isCentroid": false
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 49771,
+        "address": "Gaiserstrasse 6 ALTE METZG",
+        "url": "https://www.booking.com/hotel/ch/alte-metzg-hostel-appenzell1.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 4,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": -25
     },
     {
       "id": "lod-026",
@@ -823,14 +953,30 @@
         "isCentroid": false
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 56912,
+        "address": "6 Gaiserstrasse",
+        "url": "https://www.booking.com/hotel/ch/alte-metzg-boutique-pension.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 4,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": -28
     },
     {
       "id": "lod-027",
@@ -856,14 +1002,30 @@
         "isCentroid": true
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 75739,
+        "address": "Gaiserstrasse 1",
+        "url": "https://www.booking.com/hotel/ch/ferienwohnung-barli-appenzell-appenzell.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 4,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": -37
     },
     {
       "id": "lod-028",
@@ -880,14 +1042,30 @@
       "providerUrl": "https://www.booking.com/hotel/ch/post-glarnerhof.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 40033,
+        "address": "2 Bahnhofstrasse",
+        "url": "https://www.booking.com/hotel/ch/post-glarnerhof.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 4,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": -20
     },
     {
       "id": "lod-029",
@@ -913,14 +1091,30 @@
         "isCentroid": false
       },
       "geographyStatus": "independent_named_poi_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 51676,
+        "address": "Klöntalerstrasse 36",
+        "url": "https://www.booking.com/hotel/ch/rhodannenberg-ag.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 4,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": -25
     },
     {
       "id": "lod-030",
@@ -968,7 +1162,8 @@
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": -17
     },
     {
       "id": "lod-031",
@@ -1016,7 +1211,8 @@
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": -18
     },
     {
       "id": "lod-032",
@@ -1064,7 +1260,8 @@
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearchDifferenceCents": -21
     },
     {
       "id": "lod-033",
@@ -1081,14 +1278,30 @@
       "providerUrl": "https://www.booking.com/hotel/ch/cute-chalet-in-kandersteg.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 48104,
+        "address": "Innere Dorfstrasse 60",
+        "url": "https://www.booking.com/hotel/ch/cute-chalet-in-kandersteg.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 4,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": -24
     },
     {
       "id": "lod-034",
@@ -1110,14 +1323,31 @@
         "otherSourceUrl": "https://yellowpages.swiss/location.cfm?company=Hotel-Alpina-Kandersteg&key=37888",
         "note": "Abweichende Positionen: keine automatische Übernahme."
       },
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 53017,
+        "address": "Äussere Dorfstrasse 92",
+        "url": "https://www.booking.com/hotel/ch/alpina-kandersteg.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 4,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": -4962,
+      "rateConflictNotice": "Neue Suchanzeige 49,62 € unter alter Referenz. Gleicher Unterkunftsname und Reisedaten, aber Zimmerart/Betten/Steuern nicht abgeglichen – nicht als Preisverfall für dasselbe Zimmer interpretieren."
     },
     {
       "id": "lod-035",
@@ -1134,14 +1364,43 @@
       "providerUrl": "https://www.booking.com/hotel/ch/chalets-adler.html",
       "independentMapEvidence": null,
       "geographyStatus": "provider_coordinates_not_independently_confirmed",
-      "recheckStatus": "not_searched_individually_in_2026_11_14_round",
+      "recheckStatus": "returned_in_2026_11_14_booking_search",
       "remaining": [
         "Betten und Zimmerart für ganze Gruppe",
         "Vollständiger Checkout-Endpreis, lokale Steuern und Gebühren",
         "Storno-/Umbuchungsbedingungen",
         "Tatsächliche Verfügbarkeit im bezahlbaren Zimmer",
         "Anreise/Hausschlüssel/Check-in-Regeln"
-      ]
+      ],
+      "newSearch": {
+        "propertyId": null,
+        "totalCents": 76388,
+        "address": "Aeussere Dorfstrasse 19",
+        "url": "https://www.booking.com/hotel/ch/chalets-adler.html",
+        "observedOn": "2026-11-14",
+        "currency": "EUR",
+        "guests": 4,
+        "roomsRequested": 1,
+        "bookingConfirmed": false,
+        "roomConfigurationVerified": false,
+        "fullMandatoryFeesVerified": false,
+        "freeCancellationVerified": false,
+        "note": "Booking.com provider list display for exact dates and adult count. Room type, separate beds, mandatory taxes and cancellation not guaranteed."
+      },
+      "newSearchDifferenceCents": -37
     }
-  ]
+  ],
+  "hotelSearchLocations": [
+    "paris",
+    "barcelona",
+    "sete",
+    "nice",
+    "genoa",
+    "venice",
+    "appenzell",
+    "glarus",
+    "grindelwald",
+    "kandersteg"
+  ],
+  "noteRecheck": "Ten distinct city/guest/date result searches on 2026-11-14. Only offers returned in their limited result pages have repeated price snapshots; absence never proves nonavailability. 2027 rooms/fees/unbooked unchanged."
 }
