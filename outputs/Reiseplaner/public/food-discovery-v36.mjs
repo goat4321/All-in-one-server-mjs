@@ -23,6 +23,12 @@ export function foodDirectory(ctx,loadedMarkets=[]){
     ||key==='cook'&&Boolean(item.requiresKitchen);
   const shown=candidates.filter(item=>categoryMatches(item)
     &&(!ctx.browseFoodSavedOnly||favorites.has(item.id)));
+  // Clicking "Supermärkte laden" should expose the newly fetched places
+  // immediately, not bury them beyond the first 24 existing research cards.
+  if(key==='markets'&&loadedMarkets.length){
+    shown.sort((a,b)=>Number(Boolean(b.readOnlyExternal))
+      -Number(Boolean(a.readOnlyExternal))||a.name.localeCompare(b.name,'de'));
+  }
   const available={
     all:candidates.length,
     restaurants:candidates.filter(item=>explorerCategory(item)==='food').length,
