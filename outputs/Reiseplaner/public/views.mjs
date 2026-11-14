@@ -954,7 +954,7 @@ function data(ctx) {
   const auditRows=(coverage?.entries??[]).map(x=>[
     esc(catalog.cities[x.city]?.name ?? x.city),esc(x.name),esc(x.category),
     x.geolocationMissing?status('Nur theoretische Stadtorientierung','warn'):status(
-      x.pointStatus==='sourced_area_center'?'Quellbezogener Gebiets-/Objektmittelpunkt':'Kartenpunkt belegt',''),
+      x.pointStatus==='sourced_area_center'?'Quellbezogener Gebiets-/Objektmittelpunkt':x.pointStatus==='provider_reported_unverified'?'Anbieterkoordinate · nicht unabhängig geprüft':'Kartenpunkt belegt',''),
     esc(x.priceStatus==='source_price_reference'?'Historische Preisreferenz':
       x.priceStatus==='old_wishlist_sample_not_a_trip_price'?'Airbnb-Suchpreis-Snapshot'
       :x.priceStatus==='menu_observation_not_trip_price'?'Menüpreis-Beispiel · kein September-Checkout'
