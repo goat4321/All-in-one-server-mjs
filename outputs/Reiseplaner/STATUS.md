@@ -1,3 +1,15 @@
+## 14.11.2026 – Phase 24: 57/57 Quellen-Guides zu V19-Aktivitäten, 37 freie Bildregeln, filterbare Qualitätsliste
+
+Der Reiseplaner verfügt jetzt für **alle 57 V19-Aktivitätsideen** über einen individuell zugeordneten Recherchetext mit konkretem offiziellen Tourismus- oder Betreiberlink, Hinweisen und Einschränkungen (vorher: 37). Einige sind explizit **Konzept- / Beispielbetriebsreferenzen**, *kein* nachgewiesener spezifischer 2027-Aufenthalt, Clubabend, Kurs oder gebuchter Platz. Die übrigen 828 variantebezogenen Katalogeinträge sind nicht dadurch insgesamt vollständig belegt.
+
+**Sieben weitere persönlich anhand ihrer Commons-Dateiseiten überprüfte Creative-Commons-Motive** für Sète (Plage de la Corniche, Canal Royal, Pointe Courte), Montpellier, Toulouse und Venedig (Cannaregio, Zattere). Damit sind es **37 fest zugeordnete Motivregeln** – keine Behauptung einer 100%-Fotoabdeckung. Quellen und Urheber bleiben sichtbar.
+
+**Neu in Daten & Fristen:** sofortige Suche und Filter nach Stadt, Eintragsart, fehlendem Foto, Preis, Beschreibung, Öffnungs-/Fahrzeit, Koordinate, individueller Webquelle, Checkout-Daten oder fehlendem Ortsguide. Die Trefferzahl aktualisiert sich ohne Seitenlade- und Karten-Rerender; nur passende Zeilen/Städte werden sichtbar. **Zurücksetzen** stellt alle offenen Datensätze wieder her. Beim Ortsguide gibt es nun ein sichtbares Kennzeichen, ob die Quelle einen konkreten Ort oder nur ein Beispiel/Konzept belegt. Keine automatischen Kosten- oder Buchungsänderungen.
+
+Quellen, Bild-Urheberrechte, Bedienung, technische Module, Tests und unvermeidbare 2027-Datenlücken sind detailliert in `PHASE_24_57_GUIDES_IMAGE_FILTER.md` dokumentiert. Änderungen nur auf `feature/v7-data-day-accommodation-rail`, nicht produktiv deployed oder gemergt.
+
+---
+
 ## 14.11.2026 – Phase 23: 37 quellenbasierte Ortsguides, 30 kuratierte Bildregeln, interaktiver Drei-Wege-Ortsvergleich
 
 Die vorhandenen 21 offiziellen Ortsguides wurden um **16 einzeln recherchierte Orte/Teilabschnitte** auf **37** erweitert. Neue Quellen umfassen Paris (Canal Saint-Martin, Quartier Latin, Seine), Sète (Canal Royal und Pointe Courte), Barcelona (Bogatell Strand), Nice/Villefranche, Genua (Corso Italia und Altstadt) sowie Grindelwald (First Flyer) und Klöntalersee/Rhodannenberg. Betreiberinformationen bleiben als datierte Referenzen dargestellt; insbesondere **Badeassistenzzeiten sind nicht Strandöffnungszeiten**, **6-km-Küstenwege sind nicht kurze Hafenrunden**, und **21-km-Trailruns sind nicht Picknickspaziergänge**. Keine neuen Buchungen oder Planpreis-Überschreibungen.
