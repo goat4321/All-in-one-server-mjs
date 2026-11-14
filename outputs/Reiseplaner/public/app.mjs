@@ -1,5 +1,6 @@
 import { dailyBudgetDefaults } from './daily-budget.mjs';
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
+import {createMotionController} from './motion-ux.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
 import { renderShell, mapDetail, mapSelectionPreview } from './views.mjs';
 import { TripMap } from './map.mjs';
@@ -18,6 +19,7 @@ import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, 
 
 const app = document.querySelector('#app');
 const toast = document.querySelector('#toast');
+const motion = createMotionController(document);
 let catalog, variant, currentMap, context, toastTimer, undo, revisionToken = 0, dragged, timetableSearch;
 let saving = false, loading = false;
 let commonsPhotoPick = null;
@@ -221,6 +223,7 @@ function selectPoint(id, focusMap = true) {
     button.closest('.event-card').classList.toggle('selected', pressed);
   });
   paintMap();
+  motion.spotlight(app,mapKey);
   if (focusMap) currentMap?.focus(context.page==='map'?mapKey:selectedKey);
   if (focusMap && matchMedia('(max-width:910px)').matches && context.mobile === 'plan') {
     const item = context.detail;
@@ -266,6 +269,8 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   document.documentElement.dataset.theme = view.theme;
   document.documentElement.dataset.motion = view.mapMotion;
   app.innerHTML = renderShell(context);
+  motion.reveal(app,context);
+  motion.images(app);
   if (guideStep(view.guideIndex)) {
     app.querySelector(guideStep(view.guideIndex).focus)?.classList.add('guide-spotlight');
     app.querySelector('.guide-next')?.focus({ preventScroll: true });
@@ -766,7 +771,9 @@ async function action(name, value = '') {
       }
       const result=toggleMapBookmark(localStorage,variant.id,item.id);
       say(result.saved?'Ort für diese Reisevariante gemerkt.':'Ort aus der Merkliste entfernt.');
-      render({restoreView:true,fetchRoutes:false});break;
+      render({restoreView:true,fetchRoutes:false});
+      if(result.saved)motion.animateSaved(app,item.id);
+      break;
     }
     case 'explorer-saved-only':
       view.mapSavedOnly=!view.mapSavedOnly;view.mapListLimit=60;
