@@ -1,3 +1,9 @@
+## Phase 36 – weitere Bedienungs- und Datenoptimierungen
+
+Aktueller Stand: Verpflegungsliste mit auf Anfrage nachgeladenen Supermärkten, gemeinsamer Merkliste aus Karten- und Planfavoriten, direkter Suchfilterung, Zurücksetzen leerer Ergebnisse, korrekter Stadt-/Tagesauswahl und sauberer Angabe unbestätigter Buchungen. [Ausführlicher Plan, Umsetzung und Prüfgrenzen](PHASE_36_OPTIMIZATION_PLAN_AND_EXECUTION.md).
+
+---
+
 ## Phase 35 – Reiseorte, Unterkünfte und Verpflegung unabhängig vom einzelnen Reisetag
 
 **Karte:** Über den neuen sichtbaren Schalter **Mein Tag / Stadt entdecken / Alle Reiseorte** werden entweder tatsächliche Tagesideen, sämtliche vorhandenen Stadtorte oder das komplette Reiseprofil angezeigt. Im Stadt- und Reise-Modus führt eine übersichtliche Kategorieliste direkt zu **Unterkünften, Restaurants/Cafés, Supermärkten, Aktivitäten und Verkehr**. Die Karte darf das gewählte Tagesdatum nicht mehr als Filtervoraussetzung benutzen.
