@@ -202,3 +202,16 @@
  .workspace:has(.cockpit-layout)>.overview-start .overview-quick-icon{
   flex-basis:33px;width:33px;height:33px}
 }
+
+/* Decision-first location cards: a short description and exactly three
+ * obvious actions, with specialist map tools behind the existing disclosure. */
+.simple-map-mode .reference-map-workspace .explorer-place .explorer-description{
+ display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+ line-clamp:2;overflow:hidden;max-width:100%;font-size:.72rem;
+ line-height:1.45;color:var(--muted);margin:5px 0}
+.simple-map-mode .reference-map-workspace .explorer-place-actions>.button:first-child{
+ background:var(--paper);color:var(--green);border-color:var(--atlas-line)}
+.simple-map-mode .reference-map-workspace .explorer-place-actions>.button[data-action=choose]{
+ background:var(--green);border-color:var(--green);color:white;flex-grow:1}
+.simple-map-mode .reference-map-workspace .explorer-place-actions>.button[data-action=explorer-save][data-value]{
+ min-width:85px}

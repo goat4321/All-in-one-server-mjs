@@ -108,19 +108,19 @@ export function explorerList(ctx) {
     // A compact row exposes two frequent actions; all research and route
     // controls remain one deliberate disclosure away, not silently removed.
     const primary=simple
-      ?(canPlan?btn('choose','Zum Tag hinzufügen','plus',item.id,'primary'):'')
+      ?btn('details','Details','folder',item.id)
         +btn('explorer-save',bookmarked?'Gemerkt':'Merken',
           bookmarked?'check':'bookmark',item.id)
-        +(located?btn('explorer-focus','Karte','map',item.id)
-          :btn('details','Details','folder',item.id))
+        +(canPlan?btn('choose','Zum Tag hinzufügen','plus',item.id,'primary'):'')
       :btn('explorer-save',bookmarked?'Merken entfernen':'Merken',
         bookmarked?'check':'bookmark',item.id)
         +(located?btn('explorer-focus','Auf Karte','map',item.id)
           :btn('details','Details','folder',item.id));
-    const secondary=(located?btn('explorer-nearby','Im Umkreis','target',item.id):'')
+    const secondary=(simple&&located?btn('explorer-focus','Auf Karte zeigen','map',item.id):'')
+      +(located?btn('explorer-nearby','Im Umkreis','target',item.id):'')
       +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
       +(urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),'Google Maps · ÖPNV-Anreise')||'')
-      +(located?btn('details','Alle Details & Quellen','folder',item.id):'')
+      +(located&&!simple?btn('details','Alle Details & Quellen','folder',item.id):'')
       +(!located&&item.address&&!item.booked?btn('geocode-lookup','Kartenstandort prüfen','pin',item.id):'')
       +actions
       +(canPlan&&located?btn('day-route-add','Zur Mehrstopp-Route','plus',item.id):'')

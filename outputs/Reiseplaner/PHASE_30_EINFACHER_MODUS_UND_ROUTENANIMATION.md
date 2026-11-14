@@ -27,3 +27,6 @@ Nach dem ersten Umbau waren oben drei Schaltflächen und **darunter immer noch v
 
 ## Iteration 4 – Startseite vereinfacht
 Die vier bereits vorhandenen großen Schnellzugriffe waren **unter** dem Reise-Cockpit, den Route-Karten und der Fortschrittsübersicht versteckt. Der HTML-Baustein `overview-start` ist nun **vor** `cockpit-layout` gerückt: Tagesplan, Karte, Unterkünfte und Bahn direkt im ersten Sichtbereich. Vier gut beschriftete Karten (min. 76px Höhe; mobil 2×2, min. 84px) ersetzen kein bestehendes Dashboard und brechen keine Datenfunktionen. Die Reisefakten, die schematische Route und alle Prüfdetails bleiben darunter.
+
+## Iteration 5 – Ortsentscheidung statt Kartentechnik
+Ein Ort mit belegtem Kartenpunkt zeigte bisher **Auf Karte** unmittelbar, während **Details** in „Weitere Aktionen“ versteckt waren. In der einfachen Ansicht sind jetzt `Details`, `Merken` und `Zum Tag hinzufügen` die drei direkten Aktionen, die letzte als grüne primäre Schaltfläche. Das Öffnen der Kartenposition und Spezialfunktionen (Umkreis, Routen-A/B, Standortprüfung und Gruppenabstimmung) sind unter „Weitere Aktionen“. Eine auf zwei Zeilen begrenzte Ortsbeschreibung ist wieder sichtbar; die langen Quellen-/Kosten-/Koordinatenlisten bleiben in der ausführlichen Ortsansicht.
