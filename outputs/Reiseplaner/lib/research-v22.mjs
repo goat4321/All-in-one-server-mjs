@@ -23,7 +23,18 @@ export async function loadResearchV22(){
   }
   return archive;
 }
-export function applyResearchV22(trips,archive){
+export function applyResearchV22(trips,archive,originalActivities=null){
+  // A surveyed alternative can exist in the archive without belonging to any
+  // itinerary. Validate it against the original 57 records instead of
+  // silently inserting it into a trip (e.g. Montpellier act-056).
+  if(originalActivities){
+    const originals=new Map(originalActivities.map(x=>[x.id,x]));
+    for(const row of archive.entries){
+      const candidate=originals.get(row.id);
+      if(!candidate||candidate.destination_id!==row.city)
+        failure('source activity mismatch '+row.id);
+    }
+  }
   const byId=new Map(archive.entries.map(row=>['survey-v19:'+row.id,row]));
   const matched=new Set();
   let assignments=0;
@@ -36,10 +47,16 @@ export function applyResearchV22(trips,archive){
         source:[...new Set([...(item.source??[]),'guide-v22:'+row.id])]};
     });
   }
-  if(matched.size!==archive.total)
-    failure('unmatched archived IDs: '+archive.entries.filter(x=>!matched.has(x.id)).map(x=>x.id).join(', '));
+  const archiveOnly=archive.entries.filter(x=>!matched.has(x.id)).map(x=>x.id);
+  if(archiveOnly.length){
+    if(!originalActivities)failure('unmatched archived IDs without archive validation: '+archiveOnly.join(', '));
+    const originals=new Map(originalActivities.map(x=>[x.id,x]));
+    if(archiveOnly.some(id=>(originals.get(id)?.trip_applicability??[]).length!==0))
+      failure('unmatched active trip candidate: '+archiveOnly.join(', '));
+  }
   return {
     version:archive.reviewedOn,entries:archive.entries,assignments,
+    assignedUnique:matched.size,archiveOnly,
     sources:archive.entries.map(x=>({
       id:'guide-v22:'+x.id,publisher:'Offizieller Ortsinspektor · '+x.title,
       url:x.sourceUrl,accessed_on:x.reviewedOn,
