@@ -188,8 +188,8 @@ export function chooseItem(ctx, item, save, after) {
     });
 }
 
-export function itemDetails(ctx, item) {
-  openDialog(item.name, placeInspectorHtml(ctx,item)
+export function itemDetails(ctx, item, compareIds=[]) {
+  openDialog(item.name, placeInspectorHtml(ctx,item,compareIds)
     + (item.positionIssue ? alert(item.positionIssue) : '')
     + (item.importConflict ? alert(item.importConflict) : '')
     + '<div class="dialog-foot">'
