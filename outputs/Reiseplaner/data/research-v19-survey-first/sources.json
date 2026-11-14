@@ -1,0 +1,287 @@
+{
+  "version": "2026-11-13-survey-first-v1",
+  "retrieved_on": "2026-11-13",
+  "sources": [
+    {
+      "id": "survey",
+      "publisher": "Uploaded three-person survey",
+      "source_kind": "local_input",
+      "url": null,
+      "retrieved_on": null,
+      "method": "local survey file",
+      "coverage": "survey answers, not public",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "tripsy",
+      "publisher": "Authenticated Tripsy",
+      "source_kind": "private_connector",
+      "url": null,
+      "retrieved_on": null,
+      "method": "read-only trip records",
+      "coverage": "Trip route skeleton and dates; not third-party verification",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "booking",
+      "publisher": "Booking.com",
+      "source_kind": "connector_search",
+      "url": null,
+      "retrieved_on": "2026-11-13",
+      "method": "accommodations_search_v2",
+      "coverage": "Date- and occupancy-specific search results, recheck final room/fees/availability",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "interrail_pass",
+      "publisher": "Interrail",
+      "source_kind": "official",
+      "url": "https://www.interrail.com/en/interrail-passes/global-pass",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "7-day 1-month youth pass and reservation exclusion",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "interrail_res",
+      "publisher": "Interrail",
+      "source_kind": "official",
+      "url": "https://www.interrail.com/en/book-reservations/reservation-fees/international-train-reservation-fees",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "International reservation examples",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "interrail_day",
+      "publisher": "Interrail",
+      "source_kind": "official",
+      "url": "https://www.interrail.com/en/support/interested-in-interrailing/what-is-a-travel-day",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Night train travel day logic",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "interrail_home",
+      "publisher": "Interrail",
+      "source_kind": "official",
+      "url": "https://www.interrail.com/de/interrail-passes",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "One outbound and one inbound home-country travel day",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "sncf_sales",
+      "publisher": "SNCF Connect",
+      "source_kind": "official",
+      "url": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Booking window only up to July 2027 at present",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "louvre",
+      "publisher": "Musée du Louvre",
+      "source_kind": "official",
+      "url": "https://www.louvre.fr/en/visit/hours-admission",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "EEA residents/citizens under 26 free with ID",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "eiffel",
+      "publisher": "Tour Eiffel",
+      "source_kind": "official",
+      "url": "https://www.toureiffel.paris/en/rates-opening-times",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Youth ticket prices; 2027 rates must be selected on official site",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "sagrada",
+      "publisher": "Sagrada Família",
+      "source_kind": "official",
+      "url": "https://sagradafamilia.org/en/prices?inheritRedirect=true",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Under-30 ticket",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "parkguell",
+      "publisher": "Park Güell",
+      "source_kind": "official",
+      "url": "https://parkguell.barcelona/en/planning-your-visit/prices-and-times",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "2026 standard general ticket and windows",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "nice_castle",
+      "publisher": "Office de Tourisme Nice Côte d’Azur",
+      "source_kind": "official",
+      "url": "https://www.explorenicecotedazur.com/culture/parc-de-la-colline-du-chateau/",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "2027 seasonal opening hours and no charge",
+      "date_specific_2027_guarantee": true
+    },
+    {
+      "id": "villefranche_beach",
+      "publisher": "Office de Tourisme Nice Côte d’Azur",
+      "source_kind": "official",
+      "url": "https://www.explorenicecotedazur.com/explorer/villes-villages/littoral/villefranche-sur-mer/les-plages/",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Beach locations",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "genoa_coast",
+      "publisher": "VisitGenoa",
+      "source_kind": "official",
+      "url": "https://www.visitgenoa.it/en/node/21375",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Boccadasse and Corso Italia",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "genoa_nervi",
+      "publisher": "VisitGenoa",
+      "source_kind": "official",
+      "url": "https://www.visitgenoa.it/en/node/29989",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Nervi park and promenade, check closures",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "genoa_walks",
+      "publisher": "VisitGenoa",
+      "source_kind": "official",
+      "url": "https://www.visitgenoa.it/en/node/21689",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Free outdoor walks, no entry quote",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "venice_rolling",
+      "publisher": "Venezia Unica",
+      "source_kind": "official",
+      "url": "https://www.veneziaunica.it/en/rolling-venice?page=1",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Youth transport card, conditions",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "venice_access",
+      "publisher": "Comune di Venezia",
+      "source_kind": "official",
+      "url": "https://cda.veneziaunica.it/en/access-fee",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "2027 access fee, date and exemptions must be verified",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "venice_actv",
+      "publisher": "Venezia Unica",
+      "source_kind": "official",
+      "url": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Transport 75-min/24/48/72 hours",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "oeschi",
+      "publisher": "Oeschinensee",
+      "source_kind": "official",
+      "url": "https://www.oeschinensee.ch/en/tarife-fahrplan/",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Published summer 2027 gondola hours",
+      "date_specific_2027_guarantee": true
+    },
+    {
+      "id": "first",
+      "publisher": "Jungfrau / Grindelwald-First",
+      "source_kind": "official",
+      "url": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "From- prices and 2027 seasonal adventure package",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "first_flyer",
+      "publisher": "Jungfrau / Grindelwald-First",
+      "source_kind": "official",
+      "url": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/first-flyer/",
+      "retrieved_on": "2026-11-13",
+      "method": "web_lookup",
+      "coverage": "Weather and weight restrictions",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "sette_tourism",
+      "publisher": "Tourisme Sète",
+      "source_kind": "link_for_research",
+      "url": "https://www.tourisme-sete.com/",
+      "retrieved_on": null,
+      "method": "web_lookup",
+      "coverage": "City official portal, per-place claims not independently confirmed",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "paris_tourism",
+      "publisher": "Paris je t’aime",
+      "source_kind": "link_for_research",
+      "url": "https://parisjetaime.com/",
+      "retrieved_on": null,
+      "method": "web_lookup",
+      "coverage": "City visitor portal; specific activities require checking",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "barcelona_tourism",
+      "publisher": "Turisme de Barcelona",
+      "source_kind": "link_for_research",
+      "url": "https://www.barcelonaturisme.com/",
+      "retrieved_on": null,
+      "method": "web_lookup",
+      "coverage": "City visitor portal; specific activities require checking",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "appenzell_tourism",
+      "publisher": "Appenzellerland Tourismus",
+      "source_kind": "link_for_research",
+      "url": "https://www.appenzell.ch/",
+      "retrieved_on": null,
+      "method": "web_lookup",
+      "coverage": "Hiking status needs check",
+      "date_specific_2027_guarantee": false
+    },
+    {
+      "id": "swiss_mobility",
+      "publisher": "SchweizMobil",
+      "source_kind": "link_for_research",
+      "url": "https://schweizmobil.ch/",
+      "retrieved_on": null,
+      "method": "web_lookup",
+      "coverage": "Trail closures/walking route need check",
+      "date_specific_2027_guarantee": false
+    }
+  ],
+  "context": "As of date is a research snapshot. Search-engine retrieval does not guarantee booking availability or exact local POI coordinates."
+}
