@@ -160,8 +160,8 @@ export function applySurveyFirstV19(trips,cities,archive) {
       'trip dates/guest count mismatch for '+trip.id);
     const checkCities=new Set(Object.keys(cities));
     const incoming=[];
-    const allowed=entry=>checkCities.has(entry.destination_id)
-      && trip.route.includes(entry.destination_id);
+    // Excursions outside the overnight route (e.g. Glarus/Grindelwald) are valid ideas.
+    const allowed=entry=>checkCities.has(entry.destination_id);
     const relevantActs=archive.activities.items.filter(x=>x.trip_applicability.includes(row.id));
     const relevantHotels=archive.accommodations.items.filter(x=>x.trip_context.includes(row.id));
     for(const a of relevantActs){
