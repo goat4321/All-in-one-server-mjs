@@ -23,6 +23,7 @@ import { official2027Notices } from './official-rules-2027.mjs';
 import { EXPLORER_GROUPS, explorerDetail, explorerCategory } from './map-explorer.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
+import {foodDirectory,marketCoverage} from './food-discovery-v36.mjs';
 import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
   mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview} from './day-plans-ui.mjs';
@@ -734,35 +735,39 @@ function food(ctx) {
       +'Die Menüpreise werden nicht automatisch in das Gruppenbudget übernommen.</p>'
       +table(['Lokal','Konkrete Preisbeispiele','Art / Gültigkeit','Quelle','Anreise'],menuRows)
       +'</section>' : '';
-  const candidates=browseItems(ctx.all,ctx,{kind:'activity'}).filter(item=>{
-    const group=explorerCategory(item);
-    return group==='food'||group==='shop'||Boolean(item.requiresKitchen);
-  });
+  // The directory is independent of the selected day; imported supermarkets
+  // stay explicitly read-only and never become a price or booking record.
+  const {available,shown,total}=foodDirectory(ctx,ctx.marketItems??[]);
   const selectedType=ctx.browseFoodType??'all';
-  const available={
-    all:candidates.length,
-    restaurants:candidates.filter(item=>explorerCategory(item)==='food').length,
-    markets:candidates.filter(item=>explorerCategory(item)==='shop').length,
-    cook:candidates.filter(item=>item.requiresKitchen).length,
-  };
-  const shown=candidates.filter(item=>selectedType==='all'
-    ||selectedType==='restaurants'&&explorerCategory(item)==='food'
-    ||selectedType==='markets'&&explorerCategory(item)==='shop'
-    ||selectedType==='cook'&&item.requiresKitchen);
-  const allFood=browseItems(ctx.all,{...ctx,browseSearch:''},{kind:'activity'})
-    .filter(item=>['food','shop'].includes(explorerCategory(item))
-      ||Boolean(item.requiresKitchen));
+  const market=ctx.foodMarketCoverage??{};
+  const marketStatus=marketCoverage({
+    cityName:ctx.cities[city]?.name??city,cityLoaded:market.cityLoaded,
+    loadedCities:market.loadedCities??0,totalCities:market.totalCities??1,
+    scope:ctx.browseScope,count:market.count??0,checkedOn:market.checkedOn,
+  });
+  const marketCTA=selectedType==='all'||selectedType==='markets'
+    ?'<section class="hub-market-access" aria-label="Zusätzliche Supermärkte">'
+      +'<div><strong>'+icon('wallet')+' Offene Supermarkt-Kartendaten</strong>'
+      +'<p>'+esc(marketStatus)+'</p>'
+      +(market.error?'<p role="alert" class="hub-market-error">'+esc(market.error)+'</p>':'')
+      +'</div>'
+      +(market.loading?'<button type="button" class="button" disabled aria-busy="true">'
+        +icon('clock')+' Datenquelle wird abgefragt …</button>'
+        :market.cityLoaded
+          ?btn('browse-supermarkets','Auf der Karte zeigen','map','','subtle')
+          :btn('browse-market-load','Supermärkte laden','plus','','primary'))
+      +'</section>':'';
   const visualBrowse=browseHero(ctx,'food',shown.length)
-    +browseToolbar(ctx,{kind:'food',total:allFood.length,filtered:shown.length})
-    +foodTypeTabs(ctx,available)
-    +(selectedType==='markets'?'<p class="hub-market-note">'
-       +'Noch mehr Lebensmittelgeschäfte? '
-       +btn('browse-supermarkets','Supermärkte auf Karte suchen','map','','primary')
-       +'<small>Nachladbare offene Geodaten, keine vollständige Stadtinventur.</small></p>':'')
+    +browseToolbar(ctx,{kind:'food',total,filtered:shown.length})
+    +foodTypeTabs(ctx,available)+marketCTA
+    +(ctx.browseFoodSavedOnly?'<p class="hub-saved-notice">'
+      +icon('bookmark')+' Nur selbst gemerkte Orte · '
+      +btn('browse-food-saved','Alle anzeigen','close')+'</p>':'')
     +foodBrowseCards(ctx,shown.slice(0,ctx.browseLimit??24))
     +(shown.length>(ctx.browseLimit??24)
        ?'<div class="hub-more-button">'
-         +btn('browse-more','Weitere Restaurants & Geschäfte','plus','','primary')+'</div>':'');
+         +btn('browse-more','Weitere '+Math.min(24,shown.length-(ctx.browseLimit??24))
+           +' Orte anzeigen','plus','','primary')+'</div>':'');
   return visualBrowse + '<details class="hub-food-planning"'
     +(ctx.browseMealsOpen?' open':'')+'><summary>'
     +icon('calendar')+' Tagesmenüs, Einkaufswarenkorb & detaillierte Preisrecherche'
