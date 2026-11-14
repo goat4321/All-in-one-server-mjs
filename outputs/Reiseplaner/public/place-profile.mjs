@@ -86,6 +86,7 @@ export function placeProfileModel(item, ctx = {}) {
       +' Personen · '+latest.observedOn+' · keine Checkoutbestätigung']);
     if(latest && item.price?.cents!=null && latest.totalCents!==item.price.cents)
       facts.push(['Vorherige Suchanzeige',money(item.price.cents,item.price.currency)+' · historisch']);
+    if(review.rateConflictNotice)facts.push(['Preisabweichung / anderes Zimmer möglich',review.rateConflictNotice]);
     if(review.pointConflict)facts.push(['Standortkonflikt',
       review.pointConflict.distanceMetres+' m zwischen zwei Quellen · vor Routenberechnung prüfen']);
     facts.push(['Noch zu verifizieren',review.pending.join('; ')]);
