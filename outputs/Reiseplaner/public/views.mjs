@@ -312,15 +312,18 @@ function mapPanel(ctx, full = false) {
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
     <div class="map-wrap" data-map-tone="${esc(ctx.mapTone)}"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div>
       ${mapFloatingControls(ctx)}
-      ${ctx.page==='map'&&!ctx.total?'<div class="map-place-switches">'
-        +'<button type="button" class="market-toggle" data-action="map-supermarkets" aria-pressed="'
-        +Boolean(ctx.explorer?.marketsShown)+'">'+icon('folder')
-        +(ctx.explorer?.marketsLoading?' Suche läuft …':ctx.explorer?.marketsShown
-          ?ctx.explorer.marketCount+' Supermärkte':'Supermärkte anzeigen')
-        +'</button>'
+      ${ctx.page==='map'?'<div class="map-place-switches">'
+        +'<button type="button" class="point-overview-toggle" data-action="map-points-toggle" aria-pressed="'
+        +Boolean(ctx.total)+'">'+icon('pin')
+        +(ctx.total?'Stadtansicht':'Alle Kartenpunkte')+'</button>'
+        +(!ctx.total?'<button type="button" class="market-toggle" data-action="map-supermarkets" aria-pressed="'
+          +Boolean(ctx.explorer?.marketsShown)+'">'+icon('folder')
+          +(ctx.explorer?.marketsLoading?' Suche läuft …':ctx.explorer?.marketsShown
+            ?ctx.explorer.marketCount+' Supermärkte':'Supermärkte anzeigen')
+          +'</button>':'')
         +(ctx.explorer?.marketsError?'<span class="market-status">'+esc(ctx.explorer.marketsError)+'</span>':'')
-        +(ctx.explorer?.marketsShown&&ctx.explorer.marketsNote
-          ?'<span class="market-status" title="'+esc(ctx.explorer.marketsNote)+'">6,5 km Umkreis · Geodaten, keine Öffnungsprüfung</span>':'')
+        +(ctx.explorer?.marketsShown&&!ctx.total&&ctx.explorer.marketsNote
+          ?'<span class="market-status" title="'+esc(ctx.explorer.marketsNote)+'">6,5 km Umkreis · Geodaten, Öffnung unbestätigt</span>':'')
         +'</div>':''}
       <div id="map-selection-preview" class="map-selection-preview" aria-live="polite">${mapSelectionPreview(ctx)}</div>
       ${renderMapHud(ctx)}

@@ -25,6 +25,7 @@ let catalog, variant, currentMap, context, toastTimer, undo, revisionToken = 0, 
 let saving = false, loading = false;
 let commonsPhotoPick = null;
 const supermarketByCity=new Map();
+const marketRequests=new Map();
 const query = new URLSearchParams(location.search);
 const view = {
   page: 'overview', date: null, city: null, wholeDay: null, total: false, selected: null, mobile: 'plan', menu: false, timetablePreview: null,
@@ -138,7 +139,10 @@ function buildContext() {
   let detail = day.find(i => i.entryKey === view.selected) ?? all.find(i => i.id === view.selected);
   const nearbyAnchor = all.find(i=>i.id===view.mapNearPointId&&validPoint(i.point)) ?? null;
   const savedIds = readMapBookmarks(localStorage,variant.id);
-  const marketData=view.mapMarketsShown?(supermarketByCity.get(city)?.items??[]):[];
+  const marketData=view.mapMarketsShown
+    ?(view.mapScope==='trip'
+      ?[...supermarketByCity.values()].flatMap(data=>data.items??[])
+      :supermarketByCity.get(city)?.items??[]):[];
   const explorer = view.page === 'map' ? {
     ...explorerData([...all,...marketData], trip, {
       city: view.mapScope === 'city' ? city : null,
@@ -394,6 +398,25 @@ async function switchVariant(id) {
   } finally { loading = false; }
 }
 
+async function loadCityMarkets(cityId){
+  if(supermarketByCity.has(cityId))return supermarketByCity.get(cityId);
+  if(marketRequests.has(cityId))return marketRequests.get(cityId);
+  const task=api('/api/supermarkets?city='+encodeURIComponent(cityId))
+   .then(data=>{supermarketByCity.set(cityId,data);return data})
+   .finally(()=>marketRequests.delete(cityId));
+  marketRequests.set(cityId,task);
+  return task;
+}
+function refreshMarketsOnCityChange(cityId){
+  if(!view.mapMarketsShown||supermarketByCity.has(cityId))return;
+  view.mapMarketsLoading=true;
+  void loadCityMarkets(cityId).catch(error=>{
+    view.mapMarketsError=error.message;
+  }).finally(()=>{
+    view.mapMarketsLoading=false;
+    if(!loading&&!saving&&view.page==='map')render({restoreView:true,fetchRoutes:false});
+  });
+}
 function showCity(id, date, wholeDay = false) {
   if (!context.trip.route.includes(id)) return;
   if (id !== view.city || (date && date !== view.date)) {
@@ -409,6 +432,7 @@ function showCity(id, date, wholeDay = false) {
   view.total = view.menu = false;
   view.compareIds.clear();
   render();
+  refreshMarketsOnCityChange(id);
 }
 
 function showTimetable(ctx, search) {
@@ -767,6 +791,14 @@ async function action(name, value = '') {
       view.mapViewportOnly=false;view.mapViewportBounds=null;view.mapNearPointId=null;view.mapSavedOnly=false;
       view.mapListLimit=60;
       render({fetchRoutes:false});break;
+    case 'map-points-toggle':
+      view.total=!view.total;
+      view.mapScope=view.total?'trip':'city';
+      view.mapGroup='all';view.mapSearch='';view.mapListLimit=60;
+      view.mapViewportOnly=false;view.mapViewportBounds=null;
+      view.selected=null;view.mapSavedOnly=false;view.mapNearPointId=null;
+      render({fetchRoutes:false});
+      break;
     case 'map-supermarkets': {
       view.mapMarketsShown=!view.mapMarketsShown;
       view.mapMarketsError=null;
@@ -778,9 +810,8 @@ async function action(name, value = '') {
       view.mapMarketsLoading=true;
       render({restoreView:true,fetchRoutes:false});
       try{
-        const response=await api('/api/supermarkets?city='+encodeURIComponent(cityId));
-        supermarketByCity.set(cityId,response);
-        say(response.count+' Supermärkte im begrenzten Stadtumkreis gefunden.');
+        const response=await loadCityMarkets(cityId);
+        say(response.count+' Supermärkte aus der offenen Geodatenquelle gefunden.');
       }catch(error){
         view.mapMarketsError=error.message;
         say('Supermärkte: '+error.message);
