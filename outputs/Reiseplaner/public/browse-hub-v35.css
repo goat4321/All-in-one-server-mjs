@@ -357,3 +357,55 @@
 @media(max-width:650px){
  .hub-food-research .hub-research-body{padding:3px 10px 13px}
 }
+
+/* Phase 36 – supermarket directory and saved-food browsing */
+.hub-market-access{
+ display:flex;gap:16px;align-items:center;justify-content:space-between;
+ padding:16px 18px;margin:0 0 16px;
+ border:1px solid #d6e6d8;border-radius:18px;
+ background:linear-gradient(100deg,#edf7ed,#f9fcf4 60%,#f3f8eb);
+ box-shadow:0 4px 15px #183c2511;
+}
+.hub-market-access>div{display:grid;gap:5px;min-width:0}
+.hub-market-access strong{display:inline-flex;gap:9px;align-items:center;
+ font-size:.83rem;color:#245f3e;letter-spacing:-.01em}
+.hub-market-access strong .ui-icon{height:19px;width:19px}
+.hub-market-access p{font-size:.72rem;line-height:1.48;color:#587360}
+.hub-market-access>.button{flex-shrink:0;min-height:45px;padding:10px 16px;
+ font-size:.75rem;font-weight:780;border-radius:12px}
+.hub-market-access>.button.primary{background:#287c4e;color:white}
+.hub-market-access>.button:disabled{opacity:.74;cursor:progress}
+.hub-market-access .hub-market-error{color:#a64328;font-weight:720}
+.hub-food-tabs>.hub-food-favorites{margin-left:auto;background:#fffaf0}
+.hub-food-tabs>.hub-food-favorites[aria-pressed=true]{
+ background:#287b4d;color:white;border-color:#287b4d}
+.hub-market-precision{display:flex;align-items:center;gap:6px;
+ padding:7px 8px;margin:0;border-radius:9px;
+ background:#f4f7f1;color:#596e5b;font-size:.68rem;
+ line-height:1.4}
+.hub-market-precision>.ui-icon{height:14px;width:14px;flex-shrink:0}
+.hub-food-card-actions>a{
+ display:inline-flex;align-items:center;justify-content:center;gap:5px;
+ font-size:.7rem;border:1px solid #dbe8de;border-radius:11px;
+ background:#fafdf8;padding:10px 12px;min-height:43px;
+ color:#286e46;font-weight:750;text-decoration:none}
+.hub-food-card-actions>a:hover{background:#e8f5e9}
+.hub-saved-notice{display:flex;gap:9px;flex-wrap:wrap;align-items:center;
+ border-radius:14px;padding:10px 13px;
+ background:#eaf5e8;color:#286b48;font-size:.74rem;font-weight:730;
+ margin:0 0 12px}
+.hub-saved-notice>.ui-icon{width:16px;height:16px}
+.hub-saved-notice>.button{min-height:39px;border-radius:10px}
+.hub-market-dialog{display:grid;gap:12px;max-width:540px}
+.hub-market-dialog h3{font-size:1.08rem;font-weight:800;color:var(--text)}
+.hub-market-dialog p{font-size:.79rem;line-height:1.54;color:var(--muted)}
+.hub-market-dialog a{font-size:.78rem;line-height:1.5;overflow-wrap:anywhere}
+@media(max-width:650px){
+ .hub-market-access{padding:13px;gap:9px;flex-direction:column;
+ align-items:stretch;border-radius:15px}
+ .hub-market-access>.button{width:100%;min-height:46px}
+ .hub-food-tabs>.hub-food-favorites{margin-left:0}
+ .hub-food-card-actions>a{flex:1 1 auto;min-height:46px}
+}
+:root[data-motion=off] .hub-market-access,.hub-food-favorites,
+:root[data-motion=off] .hub-food-card-actions>a{transition:none!important}
