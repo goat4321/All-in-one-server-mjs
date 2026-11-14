@@ -1,6 +1,7 @@
 import { dailyBudgetDefaults } from './daily-budget.mjs';
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
+import {dayPlanDraftEdits} from './day-plans-logic.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
 import { renderShell, mapDetail, mapSelectionPreview } from './views.mjs';
 import { TripMap } from './map.mjs';
@@ -162,6 +163,7 @@ function buildContext() {
   return {
     ...view, catalog, variant, variants: catalog.variants, trip, cities: catalog.cities, state, people, all, active, activeSet,
     budget: calculateBudget(active, state), day, fullDay, dates, date, city, cityForDay, dayCities, wholeDay, dayTravel, detail, hotelWalks, station,
+    dayPlan:trip.dayPlansV32?.find(row=>row.date===date)??null,
     mealHotel, foodPlaces, foodWalks, explorer,
     dayRoute: { items: view.dayQueueIds.map(id => all.find(x => x.id === id)).filter(Boolean),
       routes: view.dayQueueRoutes, time: view.dayQueueTime, status: view.dayQueueStatus,
@@ -686,6 +688,26 @@ async function action(name, value = '') {
       view.page='plan';view.total=false;
       showCity(value);break;
     case 'day': showCity(ctx.cityForDay(value), value, view.wholeDay === true || ctx.trip.id === 'swiss_lakes'); break;
+    case 'day-plan-go':
+      if(!ctx.trip.dayPlansV32?.some(row=>row.date===value))break;
+      view.page='plan';view.mobile='plan';
+      showCity(ctx.cityForDay(value),value);
+      break;
+    case 'day-plan-add':
+    case 'day-plan-adopt': {
+      if(!ctx.dayPlan)break;
+      const prepared=dayPlanDraftEdits(ctx,{
+        activityId:name==='day-plan-add'?value:null
+      });
+      if(prepared.skipped){
+        say('Dieser Vorschlag ist bereits eingeplant oder nicht übernehmbar.');
+        break;
+      }
+      await save({...ctx.state,edits:prepared.edits},
+        prepared.added.length+' '+(prepared.added.length===1?'Aktivität':'Aktivitäten')
+        +' als unverbindliche Ideen für '+ctx.date+' hinzugefügt');
+      break;
+    }
     case 'day-place':
       showCity(value === 'all' ? ctx.cityForDay(ctx.date) : value, ctx.date, value === 'all'); break;
     case 'mobile': view.mobile = value; render(); break;

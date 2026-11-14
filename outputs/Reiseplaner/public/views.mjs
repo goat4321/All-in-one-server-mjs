@@ -23,6 +23,7 @@ import { official2027Notices } from './official-rules-2027.mjs';
 import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
+import {dayPlanPanel,dayPlanOverview} from './day-plans-ui.mjs';
 import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
 import { dayPeriod,planCostSignal } from './visual-experience.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
@@ -128,7 +129,7 @@ function content(ctx, city) {
       + '<div class="map-explorer-split reference-map-workspace" aria-label="Tagesroute, Karte und passende Orte">'
       + '<div class="reference-stage-days">'+explorerDayStrip(ctx)+'</div>'
       + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Tagesroute, Suche, Filter und Ortsliste">'
-      + mapDayAgenda(ctx) + fieldNoteStrip(ctx) + explorerToolbar(ctx) + explorerList(ctx) + '</div></div>'
+      + mapDayAgenda(ctx) + dayPlanPanel(ctx,{compact:true}) + fieldNoteStrip(ctx) + explorerToolbar(ctx) + explorerList(ctx) + '</div></div>'
       + mapPhotoDiscovery(ctx) + dayRouteView(ctx);
     case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
     case 'lodging': return options(ctx, true);
@@ -163,6 +164,7 @@ function plan(ctx, name) {
     <div class="mobile-switch" aria-label="Ansicht">${chip('mobile', 'Liste', mobile === 'plan', 'plan', 'list')}${chip('mobile', 'Karte', mobile === 'map', 'map', 'map')}</div></div>
     <div class="days" aria-label="Reisetage">${dates.map(d => '<button type="button" class="day" data-action="day" data-value="' + d + '" aria-pressed="' + (d === date) + '"><strong>' + esc(shortDay(d)) + '</strong><small>' + esc(ctx.cities[ctx.cityForDay(d)]?.name ?? 'Reise') + '</small></button>').join('')}</div>
     ${dayPlaces(ctx)}
+    ${dayPlanPanel(ctx)}
     <div class="plan-grid" data-mobile="${mobile}">
       <section class="panel timeline-panel"><div class="panel-head"><div><h2>Tagesablauf</h2><p>${day.length} ${day.length === 1 ? 'Eintrag' : 'Einträge'} · ${dayTotal ? money(dayTotal) + ' erfasst' : 'Kosten zum Teil offen'}</p></div>
       ${iconBtn('add', 'Planeintrag hinzufügen', 'plus')}</div>
@@ -439,6 +441,7 @@ function overview(ctx) {
       +icon('arrow')+'</button>').join('')+'</div></section>';
   return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
     + quickStartHtml
+    + dayPlanOverview(ctx)
     + '<div class="cockpit-layout">'
     + '<section class="cockpit-welcome" aria-label="Reise auf einen Blick">'
     + '<div class="cockpit-intro"><span class="cockpit-eyebrow">'+icon('compass')+' DEIN REISE-COCKPIT</span>'
