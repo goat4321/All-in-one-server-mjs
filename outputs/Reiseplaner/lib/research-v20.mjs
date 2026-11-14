@@ -189,8 +189,8 @@ export function applyResearchV20(trips,cities,archive){
        researchV20:{type:'activity',reviewStatus:'operator_venue_found_2027_unverified',
          condition:row.priceNote,geoNote:row.locationNote,reviewedOn:archive.indoor.reviewedOn,
          priceKind:row.priceKind,
-         priceReference:row.currency!=='EUR' && row.basePriceCents!=null
-           ?{amountCents:row.basePriceCents,currency:row.currency,kind:row.priceKind,
+         priceReference:row.referencePriceCents!=null
+           ?{amountCents:row.referencePriceCents,currency:row.currency,kind:row.priceKind,
              sourceUrl:row.sourceUrl}:null,
          sourceUrl:row.sourceUrl},
      };
