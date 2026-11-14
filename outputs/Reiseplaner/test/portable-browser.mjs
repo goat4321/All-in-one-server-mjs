@@ -132,10 +132,19 @@ try {
   await click('.sidebar [data-action=page][data-value=plan]');
   await text('h1','Barcelona');
   await until(()=>js('document.querySelectorAll(".timeline-price").length===document.querySelectorAll(".timeline-event").length'),'Kostenkennzeichen nur bei echten Tageinträgen');
+  await text('.travel-day-hud','Plankalendertag');
+  await text('.travel-day-hud','mit Weblink');
+  assert.equal(await js('Boolean(document.querySelector(".travel-day-track > span"))'),true,
+    'Tages-HUD nutzt den tatsächlich ausgewählten Reisetag');
   // Global trip explorer: all source-backed categories, geographic scope,
   // search, real routing attempt and explicitly adding a restaurant to a day.
   await click('.sidebar [data-action=page][data-value=map]');
   await text('h1', 'Karten-Explorer');
+  await text('.travel-map-hud','Kartenpunkte');
+  await text('.travel-map-hud','ohne Pin');
+  assert.equal(await js('document.querySelector(".travel-map-hud-track")?.getAttribute("role")'),"meter");
+  await js('document.querySelector(".travel-map-evidence summary").click()');
+  await text('.travel-map-hud','mit Weblink');
   await text('#main', 'Alle passenden Orte');
   await until(()=>js('document.querySelectorAll(".place-price-signal").length>0'),'€-Kennzeichen an Ortslisten');
   assert.equal(await js('document.querySelector(".explorer-day-notes")?.open'),false,'Zusätzliche Tagesideen anfangs zugeklappt');
@@ -164,6 +173,14 @@ try {
     'Die sichtbare Kartenfläche muss im ersten Desktop-Screen beginnen, nicht nur das Panel');
   await js('window.scrollTo({top:0,behavior:"instant"})');
   await screenshot('08-atlas-oben-desktop.png');
+  await js('document.querySelector(".map-design-details:not([open]) > summary")?.click()');
+  await click('[data-action=map-motion][data-value=off]');
+  assert.equal(await js('document.documentElement.dataset.motion'),'off');
+  assert.equal(await js('getComputedStyle(document.querySelector(".travel-map-hud")).animationName'),'none',
+    'Benutzerpräferenz unterdrückt die HUD-Animation');
+  await click('[data-action=map-motion][data-value=on]');
+  assert.equal(await js('document.documentElement.dataset.motion'),'auto');
+  await screenshot('16-hud-motion-controls-desktop.png');
   await js('document.querySelector(".map-explorer-split").scrollIntoView({block:"start"})');
   await screenshot('02-atlas-desktop-map-list.png');
   assert.ok(await js('document.querySelector("#map").compareDocumentPosition(document.querySelector(".day-route-builder")) & 4'),
@@ -426,7 +443,12 @@ try {
     'Seven original rail departures have review windows');
   await text('.rail-review-panel','Prüfung vormerken');
   await text('#main', '2027: Fahrzeit, Verfügbarkeit und Preise offen');
-  await click('.sidebar [data-action=page][data-value=data]');
+  await click('.sidebar [data-action=page][data-value=map]');
+  await click('.travel-map-hud [data-action=hud-audit][data-value=photo]');
+  await text('#main', 'Welche Einträge haben noch fehlende Angaben oder Bilder?');
+  assert.equal(await js('document.querySelector("#coverage-filter-gap")?.value'),'photo',
+    'HUD öffnet sofort den passenden fehlende-Fotos-Filter');
+  await screenshot('17-map-hud-to-evidence-workqueue.png');
   await text('#main', 'Forschungsarchiv');
   await text('#main', 'Offene Datenqualitätsbefunde');
   await text('#main', 'Einzelprüfung aller alten und neuen Datensätze');
