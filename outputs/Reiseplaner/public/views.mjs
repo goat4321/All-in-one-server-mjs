@@ -424,7 +424,14 @@ function overview(ctx) {
       :'<div class="cockpit-route-empty">Für diese Variante sind noch keine zwei Stadt-Anker hinterlegt.</div>')
     +'</div><div class="cockpit-route-foot"><span>'+icon('map')+' Schematische Übersicht</span>'
     +'<span>'+esc(dateLabel(trip.from,trip.to))+'</span></div></section>';
+  const quickStartHtml='<section class="overview-start" aria-label="Schnell zum nächsten Planungsschritt">'
+    + '<div class="overview-start-copy"><strong>Wo möchtest du weiterplanen?</strong><span>Direkter Zugang zu den wichtigsten Aufgaben</span></div>'
+    + '<div class="overview-quick-grid">'+shortcuts.map(([id,label,note,symbol])=>
+      '<button type="button" class="overview-quick-card" data-action="page" data-value="'+id+'">'
+      +'<span class="overview-quick-icon">'+icon(symbol)+'</span><span><strong>'+esc(label)+'</strong><small>'+esc(note)+'</small></span>'
+      +icon('arrow')+'</button>').join('')+'</div></section>';
   return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
+    + quickStartHtml
     + '<div class="cockpit-layout">'
     + '<section class="cockpit-welcome" aria-label="Reise auf einen Blick">'
     + '<div class="cockpit-intro"><span class="cockpit-eyebrow">'+icon('compass')+' DEIN REISE-COCKPIT</span>'
@@ -455,12 +462,6 @@ function overview(ctx) {
       +'<span class="cockpit-progress-line" role="progressbar" aria-label="'+esc(r.title)
       +'" aria-valuemin="0" aria-valuemax="'+r.total+'" aria-valuenow="'+r.done+'"><i style="width:'+pct+'%"></i></span></button>';
     }).join('')+'</div></section>'
-    + '<section class="overview-start" aria-label="Schnell zum nächsten Planungsschritt">'
-    + '<div class="overview-start-copy"><strong>Wo möchtest du weiterplanen?</strong><span>Direkter Zugang zu den wichtigsten Aufgaben</span></div>'
-    + '<div class="overview-quick-grid">'+shortcuts.map(([id,label,note,symbol])=>
-      '<button type="button" class="overview-quick-card" data-action="page" data-value="'+id+'">'
-      +'<span class="overview-quick-icon">'+icon(symbol)+'</span><span><strong>'+esc(label)+'</strong><small>'+esc(note)+'</small></span>'
-      +icon('arrow')+'</button>').join('')+'</div></section>'
     + '<details class="cockpit-reference section"><summary><strong>Planungs-Check</strong>'
     +'<small>Alle Prüfungen und offenen Aufgaben anzeigen</small>'+icon('chevron')+'</summary>'
     +'<div class="cockpit-reference-body"><p class="muted">Direkt aus den ausgewählten Einträgen berechnet. Fehlende Angaben sind keine bestätigten Buchungen.</p>'

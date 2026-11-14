@@ -24,3 +24,6 @@ Die Hauptkarte ist im Einfach-Modus weiterhin von den konkreten Plan- und Bildda
 
 ## Iteration 3 – echte Redundanz entfernt
 Nach dem ersten Umbau waren oben drei Schaltflächen und **darunter immer noch vier Floating-Modi** sowie eine zweite globale Suche sichtbar. Das widerspricht der simplen Bedienung. Darum sind in der einfachen Ansicht die duplizierten Floating-Modi, die globale Suche und unwichtige Karten-/Topbar-Icons jetzt vollständig ausgeblendet. Die weiterhin sichtbare Ortssuche im linken Bereich bekommt einen 46px-Eingabebereich und die drei Hauptaktionen jeweils mindestens 44px. Die mobile Navigation zeigt explizite Textlabels statt nur drei ungeklärte Icons. Beim Umschalten auf „Alle Funktionen“ erscheinen die vollständigen Kontrollen wieder.
+
+## Iteration 4 – Startseite vereinfacht
+Die vier bereits vorhandenen großen Schnellzugriffe waren **unter** dem Reise-Cockpit, den Route-Karten und der Fortschrittsübersicht versteckt. Der HTML-Baustein `overview-start` ist nun **vor** `cockpit-layout` gerückt: Tagesplan, Karte, Unterkünfte und Bahn direkt im ersten Sichtbereich. Vier gut beschriftete Karten (min. 76px Höhe; mobil 2×2, min. 84px) ersetzen kein bestehendes Dashboard und brechen keine Datenfunktionen. Die Reisefakten, die schematische Route und alle Prüfdetails bleiben darunter.

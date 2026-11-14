@@ -169,3 +169,36 @@
   display:inline!important;font-size:.68rem}
  .simple-map-mode .reference-main-nav button .ui-icon{width:15px;height:15px}
 }
+
+/* The same 4 big entry points now appear ABOVE dense dashboard material,
+ * not after progress charts. Other dashboard data is still there below. */
+.workspace:has(.cockpit-layout)>.overview-start{
+ margin:0 0 16px;padding:14px 16px;border-radius:18px;
+ border:1px solid var(--atlas-line);background:var(--paper);
+ box-shadow:0 4px 18px #1538250d}
+.workspace:has(.cockpit-layout)>.overview-start .overview-start-copy strong{
+ font-size:1.06rem;letter-spacing:-.025em}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-grid{gap:10px}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-card{
+ min-height:76px;border-radius:14px;gap:12px;padding:12px 14px;
+ border:1px solid var(--atlas-line);box-shadow:none;
+ transition:transform .18s ease,box-shadow .18s ease}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-card:first-child{
+ background:color-mix(in srgb,var(--green) 5%,var(--paper));
+ border-color:color-mix(in srgb,var(--green) 22%,var(--atlas-line))}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-icon{
+ flex:0 0 40px;width:40px;height:40px;border-radius:12px}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-card strong{font-size:.86rem}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-card small{
+ font-size:.72rem;line-height:1.4}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-card:focus-visible{
+ outline:3px solid var(--green);outline-offset:3px}
+@media(max-width:650px){
+ .workspace:has(.cockpit-layout)>.overview-start{padding:12px}
+ .workspace:has(.cockpit-layout)>.overview-start .overview-quick-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .workspace:has(.cockpit-layout)>.overview-start .overview-quick-card{
+  min-height:84px;padding:11px 8px;gap:7px;align-items:start}
+ .workspace:has(.cockpit-layout)>.overview-start .overview-quick-icon{
+  flex-basis:33px;width:33px;height:33px}
+}
