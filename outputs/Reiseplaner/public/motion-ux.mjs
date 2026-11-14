@@ -36,6 +36,12 @@ export function createMotionController(doc){
     if(!canMove()||!image.isConnected)return;
     image.classList.add('motion-photo-loaded');
   };
+  // A single delegated load listener also catches modal images added AFTER
+  // the main page render. Capturing is required because load does not bubble.
+  doc.addEventListener('load',event=>{
+    const image=event.target;
+    if(image?.tagName==='IMG'&&image.matches?.(IMAGE_TARGETS))imageReady(image);
+  },true);
   // Interactions must never change or intercept a control's click semantics.
   doc.addEventListener('pointerdown',event=>{
     if(!canMove()||event.button!==0||event.isPrimary===false)return;

@@ -367,3 +367,56 @@ dialog .dialog-head,.guide-panel .guide-actions{
  transition-duration:.01ms!important;
  scroll-behavior:auto!important
 }
+
+/* Extra surfaces: drawer, onboarding, calendar selection and interactive photos. */
+.sidebar.open{
+ animation:ux-slide-right .29s var(--motion-spring) both
+}
+.guide-panel{
+ animation:ux-modal-in .32s var(--motion-spring) both
+}
+.mobile-dock button[aria-current=page]{
+ background:color-mix(in srgb,var(--green) 7%,var(--paper));
+ transition:background-color .22s ease
+}
+.mobile-dock button[aria-current=page] .ui-icon{
+ animation:ux-pop .29s var(--motion-spring)
+}
+.explorer-place.atlas-hover{
+ box-shadow:0 7px 23px #144e2e1a;
+ border-color:color-mix(in srgb,var(--green) 35%,var(--atlas-line));
+ transition:border-color .19s ease,box-shadow .24s ease
+}
+.reference-agenda-suggestion,
+.explorer-place,.destination-card,.map-day-stop,.place-thumbnail,
+.inspector-nearby-row,.day-route-stops>li{
+ transition:transform .22s var(--motion-spring),
+  box-shadow .24s ease,background-color .18s ease,border-color .2s ease
+}
+.map-day-stop[aria-pressed=true]{
+ background:color-mix(in srgb,var(--green) 8%,var(--paper));
+ border-color:color-mix(in srgb,var(--green) 35%,var(--atlas-line))
+}
+.route-studio-spotlight{
+ animation:ux-reveal .29s var(--motion-spring)
+}
+dialog img.motion-photo-loaded{
+ animation:ux-image-in .35s ease-out both
+}
+.details-open-icon,.inspector-tab .ui-icon,
+.reference-discovery-save .ui-icon{
+ transition:transform var(--motion-quick) var(--motion-spring)
+}
+@media(hover:hover) and (pointer:fine){
+ .reference-agenda-suggestion:hover,
+ .inspector-nearby-row:hover,
+ .day-route-stops>li:hover{
+  transform:translateY(-2px)
+ }
+ .reference-agenda-suggestion:hover .place-thumbnail,
+ .inspector-nearby-row:hover .place-thumbnail{transform:scale(1.06)}
+ .reference-discovery-save:hover .ui-icon{
+  transform:rotate(-8deg) scale(1.11)
+ }
+ .reference-map-floating button:hover .ui-icon{transform:scale(1.09)}
+}

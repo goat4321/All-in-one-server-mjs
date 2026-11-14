@@ -94,6 +94,18 @@ try {
     'The home screen shows the large quick-start actions before technical dashboards');
   assert.equal(await js('document.querySelectorAll(".overview-quick-card").length'),4,
     'Four clearly named home choices are present');
+  assert.ok(await js('Boolean(document.querySelector("link[href=\"/motion-polish.css\"]"))'),
+    'Shared motion stylesheet is loaded');
+  await until(()=>js('Boolean(document.querySelector(".overview-quick-card.motion-revealed"))'),
+    'Viewport cards receive a one-shot entrance animation');
+  await js('document.querySelector(".overview-quick-card").dispatchEvent(new PointerEvent("pointerdown",{bubbles:true,button:0,clientX:95,clientY:180,pointerType:"mouse",isPrimary:true}))');
+  assert.ok(await js('Boolean(document.querySelector(".overview-quick-card .motion-ripple"))'),
+    'Primary button gives responsive click feedback');
+  await js('document.documentElement.dataset.motion="off"');
+  await js('document.querySelector(".overview-quick-card").dispatchEvent(new PointerEvent("pointerdown",{bubbles:true,button:0,clientX:95,clientY:180,pointerType:"mouse",isPrimary:true}))');
+  assert.equal(await js('document.querySelectorAll(".overview-quick-card .motion-ripple").length'),1,
+    'Explicit off preference prevents additional ripple animations');
+  await js('document.documentElement.dataset.motion="auto"');
   await screenshot('25-einfacher-startbildschirm-1280.png');
   await click('.overview-quick-card[data-value=plan]');
   await text('h1', 'Barcelona');
