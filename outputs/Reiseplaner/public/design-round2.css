@@ -1,0 +1,135 @@
+/* v1.9 – second reference-led design pass, visually lighter and information-first.
+   No remote fonts, no invented photos, no values inferred from missing data. */
+:root{
+  --atlas-line:color-mix(in srgb,var(--line) 74%,transparent);
+  --atlas-soft:color-mix(in srgb,var(--paper) 92%,var(--bg));
+  --atlas-lift:0 8px 30px #1b37260a;
+}
+body{font-feature-settings:"tnum" 1;text-rendering:optimizeLegibility}
+.workspace{padding-top:21px}
+.page-head{margin-bottom:17px}
+.page-head h1{font-size:clamp(1.5rem,2.4vw,2.08rem);letter-spacing:-.045em}
+.page-head p{max-width:64ch;line-height:1.45}
+.panel{box-shadow:none;border-color:var(--atlas-line)}
+.nav-btn[aria-current=page]{border-radius:11px}
+.topbar{background:var(--paper)}
+.button,.chip-button,.icon-btn{transition:background-color .15s ease,border-color .15s ease,transform .15s ease}
+.button:active,.chip-button:active{transform:translateY(1px)}
+.hero{border-radius:23px;min-height:178px;box-shadow:var(--atlas-lift)}
+.hero h1{font-size:clamp(2rem,3.1vw,3.2rem);letter-spacing:-.06em}
+.subheading h2,.panel-head h2{letter-spacing:-.035em}
+
+/* A single low-noise context strip replaces another row of four KPI tiles. */
+.atlas-day-glance{display:flex;align-items:center;flex-wrap:wrap;gap:8px 17px;
+  margin:11px 0 17px;padding:8px 2px;color:var(--muted);font-size:.77rem}
+.atlas-day-glance>strong{font-size:.81rem;color:var(--text)}
+.atlas-day-glance>span{display:inline-flex;align-items:center;gap:6px}
+.atlas-day-glance>span+span:before{content:"";width:3px;height:3px;margin-right:6px;background:var(--muted);border-radius:50%;opacity:.55}
+.atlas-day-glance .ui-icon{width:14px;height:14px}
+
+/* Clear date/stop hierarchy without imposing boxes on every entry. */
+.days{gap:9px;scroll-padding:12px}
+.day{border-radius:13px;min-width:97px;padding:9px 12px 8px;box-shadow:none;
+ border-color:transparent;background:var(--atlas-soft);transition:background-color .16s,border-color .16s}
+.day:hover{border-color:var(--line);background:var(--light)}
+.day[aria-pressed=true]{border-color:color-mix(in srgb,var(--green) 43%,transparent);
+ background:var(--accent);box-shadow:inset 0 -2px var(--green)}
+.day strong{font-size:.84rem;letter-spacing:-.015em}
+.day small{font-size:.69rem;max-width:125px;overflow:hidden;text-overflow:ellipsis}
+.plan-grid{gap:15px}
+.timeline-panel{border-color:var(--atlas-line)}
+.timeline{padding:0 15px 12px}
+.timeline-event{grid-template-columns:58px 21px minmax(0,1fr);gap:7px}
+.timeline-event time{font-size:.72rem;line-height:1.4}
+.timeline-event .event-card{border:0;border-bottom:1px solid var(--atlas-line);
+ padding:10px 5px 13px 0;margin:0 0 3px;border-radius:0;background:transparent}
+.timeline-event .event-card.selected{box-shadow:inset 3px 0 var(--green);padding-left:9px;
+ background:var(--light);border-radius:10px}
+.timeline-event .number{width:19px;height:19px}
+.timeline-event h3{line-height:1.36}
+.timeline-event .timeline-event-copy{min-width:0}
+.timeline-period{margin-top:10px}
+.journey-connection .connector{padding-top:5px;padding-bottom:7px;font-size:.7rem}
+.timeline-panel>.panel-pad.inline{border-top:1px solid var(--atlas-line)}
+.map-panel .panel-head{padding-bottom:9px}
+.map-panel .map-tools{border-bottom:0}
+.map-wrap{border-color:var(--atlas-line)}
+.map-atlas-hud{backdrop-filter:blur(8px)}
+.map-design-details>summary{font-size:.73rem}
+.map-legend{line-height:1.35}
+.map-selected-place{backdrop-filter:blur(8px)}
+
+/* Compact map+research workspace, still usable on 1280px laptops. */
+.map-explorer-split{gap:14px;align-items:start}
+.map-explorer-split>.explorer-right{border-color:var(--atlas-line);box-shadow:var(--atlas-lift);
+ border-radius:18px}
+.map-explorer-split>.explorer-right .explorer-toolbar{background:var(--paper);border-bottom-color:var(--atlas-line)}
+.map-explorer-split>.explorer-right .explorer-toolbar .explorer-categories{margin-top:2px}
+.map-explorer-split>.explorer-right .explorer-search input{background:var(--atlas-soft);border-color:var(--line)}
+.map-explorer-split>.explorer-right .explorer-search input:focus{background:var(--paper)}
+.atlas-day-context{display:flex;flex-wrap:wrap;justify-content:space-between;
+ align-items:center;gap:7px 15px;margin:0 2px 9px}
+.atlas-day-context>div{display:flex;flex-wrap:wrap;gap:7px 12px;align-items:baseline}
+.atlas-day-context strong{font-size:.91rem;letter-spacing:-.02em}
+.atlas-day-context small{font-size:.73rem;color:var(--muted)}
+.atlas-day-context .button{min-height:30px;padding:4px 9px;font-size:.73rem}
+.explorer-day .days{scroll-snap-type:x proximity}
+.explorer-day .day{scroll-snap-align:start}
+.explorer-list.is-compact .explorer-list-grid{gap:0}
+.explorer-list.is-compact .explorer-place{border:0;border-bottom:1px solid var(--atlas-line);
+ border-radius:0!important;box-shadow:none!important;margin:0}
+.explorer-list.is-compact .explorer-place:last-child{border-bottom:0}
+.explorer-list.is-compact .explorer-place:hover{background:var(--atlas-soft)}
+.explorer-list.is-compact .explorer-place[data-selected=true]{box-shadow:inset 3px 0 var(--green)!important;
+ background:var(--light);border-radius:10px!important}
+.explorer-list.is-compact .explorer-place-title h3{font-size:.88rem;line-height:1.28}
+.explorer-list.is-compact .explorer-place-title small{font-size:.69rem}
+.explorer-list.is-compact .explorer-compact-media>.place-thumbnail{width:59px;height:59px;flex-basis:59px;
+ border-radius:10px}
+.explorer-list.is-compact .explorer-place{grid-template-columns:62px minmax(0,1fr)}
+.explorer-list.is-compact .explorer-description{white-space:normal;display:-webkit-box;
+ -webkit-line-clamp:2;-webkit-box-orient:vertical;line-clamp:2;overflow:hidden;line-height:1.35}
+.explorer-list.is-compact .place-price-signal{align-items:baseline}
+.explorer-list.is-compact .explorer-place-actions .button{border-radius:7px}
+.explorer-more-actions>summary{cursor:pointer}
+.destination-filmstrip{scroll-snap-type:x proximity}
+.destination-card{scroll-snap-align:start}
+.cockpit-layout{gap:16px}
+.cockpit-welcome,.cockpit-route-surface{box-shadow:var(--atlas-lift)}
+.overview-quick-card{transition:background-color .16s ease,transform .16s ease}
+.overview-quick-card:hover{transform:translateY(-2px)}
+
+@media(min-width:1180px){
+  .map-explorer-split{grid-template-columns:minmax(0,1.43fr) minmax(320px,.9fr)}
+  .map-explorer-split>.map-panel{position:sticky;top:12px}
+  .map-explorer-split>.explorer-right{max-height:min(87dvh,900px);overflow-y:auto;background:var(--paper);border:1px solid var(--atlas-line)}
+  .map-explorer-split>.explorer-right .explorer-toolbar{position:sticky;top:0;border:0;border-bottom:1px solid var(--atlas-line);border-radius:0;margin:0}
+  .map-explorer-split>.explorer-right>.explorer-list{border:0;border-radius:0;margin:0;background:var(--paper)}
+  .map-explorer-split #map{height:clamp(420px,61dvh,740px)}
+}
+@media(max-width:1179px){
+  .map-explorer-split{grid-template-columns:minmax(0,1fr)}
+  .map-explorer-split>.map-panel{position:static}
+  .map-explorer-split>.explorer-right{max-height:none;overflow:visible;border:0;box-shadow:none;background:transparent}
+  .map-explorer-split>.explorer-right .explorer-toolbar{position:static;border:1px solid var(--atlas-line);
+   border-radius:14px;margin:8px 0}
+  .map-explorer-split>.explorer-right>.explorer-list{border:1px solid var(--atlas-line);
+   border-radius:14px;padding:12px;background:var(--paper)}
+}
+@media(max-width:650px){
+  .workspace{padding-top:14px}
+  .hero{border-radius:17px;min-height:145px}
+  .atlas-day-glance{margin:9px 0 12px;gap:5px 10px}
+  .atlas-day-glance>span+span:before{display:none}
+  .days{gap:6px}
+  .day{min-width:90px;padding:8px 10px}
+  .atlas-day-context{align-items:flex-start}
+  .map-explorer-split>.explorer-right .explorer-toolbar{margin-top:0}
+  .explorer-list.is-compact .explorer-compact-media>.place-thumbnail{width:53px;height:53px;flex-basis:53px}
+  .explorer-list.is-compact .explorer-place{grid-template-columns:56px minmax(0,1fr)}
+  .timeline-event{grid-template-columns:50px 21px minmax(0,1fr);gap:5px}
+}
+@media(prefers-reduced-motion:reduce){
+  .button,.chip-button,.icon-btn,.day,.overview-quick-card{transition:none}
+  .overview-quick-card:hover{transform:none}
+}
