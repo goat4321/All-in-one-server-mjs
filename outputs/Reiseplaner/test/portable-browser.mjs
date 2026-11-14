@@ -313,6 +313,19 @@ try {
   await click('[data-action=details][data-value="local:nardi"]');
   await until(() => js('Boolean(document.querySelector("dialog .place-profile"))'), 'Einheitliches Detailprofil im Dialog');
   await text('dialog', 'Preis für die Gruppe');
+  await until(()=>js('document.querySelectorAll("dialog .inspector-tab").length===5'),
+    'five real inspector tabs');
+  await screenshot('11-place-inspector-overview.png');
+  await click('dialog [data-action=inspector-tab][data-value=cost]');
+  assert.equal(await js('document.querySelector("#inspector-panel-cost").hidden'),false);
+  assert.equal(await js('document.querySelector("#inspector-panel-overview").hidden'),true);
+  await screenshot('12-place-inspector-cost.png');
+  await click('dialog [data-action=inspector-tab][data-value=sources]');
+  await text('dialog #inspector-panel-sources','Webbelege');
+  await click('dialog [data-action=inspector-tab][data-value=nearby]');
+  await text('dialog #inspector-panel-nearby','Luftlinie');
+  await click('dialog [data-action=inspector-tab][data-value=overview]');
+  assert.equal(await js('document.querySelector("#inspector-panel-overview").hidden'),false);
   await click('dialog [data-action=photo-edit]');
   await text('dialog','Foto und Bildquelle');
   await set('dialog [name=url]', 'https://upload.wikimedia.org/wikipedia/commons/example.jpg');
