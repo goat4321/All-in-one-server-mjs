@@ -16,7 +16,7 @@ const labelByCategory = {
 const ccLicenseUrl=photo=>{
   if(/^https:\/\/[^\s]+$/.test(photo?.licenseUrl??''))return photo.licenseUrl;
   const label=String(photo?.credit??'');
-  const match=label.match(/\bCC (BY-SA|BY) ([234]\.0)\b/i);
+  const match=label.match(/\bCC (BY-SA|BY) (2\.5|[234]\.0)\b/i);
   if(match)return 'https://creativecommons.org/licenses/'+match[1].toLowerCase()+'/'+match[2]+'/';
   return /\bCC0 1\.0\b/i.test(label)?'https://creativecommons.org/publicdomain/zero/1.0/':null;
 };
