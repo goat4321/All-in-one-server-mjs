@@ -158,3 +158,24 @@ test('Geographic nearby selection uses only actual POI positions, not approximat
  assert.equal(result.unlocated.length,0);
  assert.equal(result.total,2);
 });
+
+test('Planned-day geographic scope contains only its original items and linked arrival points',()=>{
+  const transport=classic.items.find(x=>x.kind==='transport'&&x.toCity
+    &&validPoint(x.toPoint)&&classic.route.includes(x.toCity));
+  const activity=classic.items.find(x=>x.kind==='activity'&&x.city==='barcelona'
+    &&!x.duplicateOf);
+  assert.ok(transport&&activity,'A real train and a Barcelona activity must exist');
+  const dayItemIds=new Set([transport.id,activity.id]);
+  const scoped=explorerData(classic.items,classic,{dayItemIds});
+  assert.ok(scoped.total>=2);
+  assert.ok(scoped.total<explorerData(classic.items,classic).total);
+  const rows=[...scoped.placed,...scoped.unlocated];
+  assert.ok(rows.every(x=>dayItemIds.has(x.explorerParent??x.id)),
+    'An arrival may only inherit the original transport item from the selected day');
+  assert.ok(rows.some(x=>x.id===activity.id));
+  assert.ok(rows.some(x=>x.id===transport.id));
+  assert.equal(explorerData(classic.items,classic,{dayItemIds:new Set()}).total,0,
+    'An empty day displays no unplanned city suggestions as planned stops');
+  assert.ok(explorerData(classic.items,classic,{city:'barcelona'}).total>1,
+    'City discovery is independent from the planned-day scope');
+});
