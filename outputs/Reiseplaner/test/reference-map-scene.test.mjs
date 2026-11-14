@@ -25,6 +25,13 @@ test('All trip variants render city-labeled hero, map floating scope controls an
    const ctx=context(trip);
    const intro=mapImageIntro(ctx),nav=mapFloatingControls(ctx),
      photo=mapPhotoDiscovery(ctx);
+   const easy=mapImageIntro({...ctx,mapSimple:true});
+   assert.match(easy,/Orte finden/);
+   assert.match(easy,/Mein Tag/);
+   assert.match(easy,/Route zeigen/);
+   assert.match(easy,/data-action="map-simple-toggle"/);
+   assert.match(easy,/1\. Ort finden/);
+   assert.doesNotMatch(easy,/onclick=|javascript:/i);
    assert.match(intro,new RegExp(ctx.variant.state.title));
    assert.match(intro,/DEINE REISE/);
    assert.match(intro,new RegExp(ctx.trip.from));

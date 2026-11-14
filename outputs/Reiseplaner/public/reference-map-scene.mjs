@@ -137,7 +137,9 @@ export function mapImageIntro(ctx){
    +esc(city)+' · DEINE REISE</small>'
    +'<h1>'+esc(title)+'</h1>'
    +'<p>'+esc(from)+' – '+esc(to)+' · '+(ctx.people?.length??0)+' Reisende'
-   +' · Recherche und Entwurf, nicht gebucht</p></div>'
+   +' · Recherche und Entwurf, nicht gebucht</p>'
+   +(ctx.mapSimple?'<small class="simple-hero-hint">1. Ort finden · 2. Merken oder zum Tag hinzufügen · 3. Route ansehen</small>':'')
+   +'</div>'
    +'<div class="reference-map-intro-actions">'
    +(ctx.mapSimple
      ?'<nav class="simple-main-actions" aria-label="Die drei wichtigsten Reiseaktionen">'
@@ -152,7 +154,7 @@ export function mapImageIntro(ctx){
        +'</nav>'
       :btn('page','Reise bearbeiten','edit','plan'))
    +'<button type="button" class="simple-mode-switch" data-action="map-simple-toggle"'
-   +' aria-pressed="'+Boolean(ctx.mapSimple)+'">'
+   +' aria-label="'+esc(ctx.mapSimple?'Alle Funktionen anzeigen':'Einfachen Modus aktivieren')+'">'
    +esc(ctx.mapSimple?'Alle Funktionen':'Einfacher Modus')+'</button>'
    +'</div></header>';
 }

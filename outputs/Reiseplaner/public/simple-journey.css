@@ -129,3 +129,22 @@
 :root[data-motion=off] .reference-travel-shell .trip-schematic-flow,
 :root[data-motion=off] .reference-travel-shell .route-studio-map-flow{animation:none!important}
 :root[data-motion=off] .simple-main-button{transition:none!important}
+
+/* Targeted secondary motion – only first 8 cards, no infinite animations except
+ * the route direction marker. Do not move users' focus or alter map data. */
+.simple-map-mode .simple-hero-hint{display:block;font-size:.68rem;
+ color:var(--green);font-weight:700;line-height:1.4;margin-top:4px}
+.simple-map-mode .reference-map-intro .reference-map-intro-copy{
+ align-self:center;gap:1px}
+.simple-map-mode .reference-map-workspace .explorer-place:nth-child(-n+8){
+ animation:journeyListArrive .26s ease both}
+.simple-map-mode .reference-map-workspace .explorer-place:nth-child(2){animation-delay:.025s}
+.simple-map-mode .reference-map-workspace .explorer-place:nth-child(3){animation-delay:.05s}
+.simple-map-mode .reference-map-workspace .explorer-place:nth-child(4){animation-delay:.075s}
+@keyframes journeyListArrive{from{opacity:.55;transform:translateY(5px)}
+ to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){
+ .simple-map-mode .reference-map-workspace .explorer-place:nth-child(-n+8){
+  animation:none!important}}
+:root[data-motion=off] .simple-map-mode .reference-map-workspace .explorer-place:nth-child(-n+8){
+ animation:none!important}

@@ -219,6 +219,8 @@ try {
   assert.ok(await js('(() => {const c=document.querySelector(".reference-discovery");return c&&c.getBoundingClientRect().top<810;})()'),
     'Photo-led discovery belongs in the opening desktop screen, not below a large data panel');
   await click('.reference-map-floating [data-action=map-mode][data-value=total]');
+  assert.ok(await js('document.querySelector(".trip-schematic-flow")!==null'),
+    'Route animation is present only as a schematically labeled line when motion is enabled');
   assert.ok(await js('(() => { const m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect(),a=document.querySelector(".reference-map-workspace>.explorer-right")?.getBoundingClientRect();return m&&a&&m.left>a.left&&m.width>a.width*1.12; })()'),
     'Reference layout uses compact agenda on left and wider interactive map on right');
   assert.ok(await js('Boolean(document.querySelector(".reference-map-intro h1"))'),
