@@ -4,6 +4,8 @@
 
 ## I. Alle 57 V19-Aktivitätskandidaten mit eigenen Quellenhinweisen
 
+**Archivabgleich und ehrliche Routenzuordnung:** 57 Quellenprofile decken alle 57 `research-v19-survey-first/activities.json`-IDs ab. **56 davon** sind wenigstens einer der vier bestehenden Reisevarianten zugewiesen. Die Montpellier-Option `act-056` hat im Originalarchiv `trip_applicability: []` und wird deshalb **nicht** in irgendeine Route importiert. Sie erscheint neu unter **Daten & Fristen → Zusätzliche recherchierte Alternativen außerhalb der aktuellen vier Routen**, inklusive Beschreibung und Originalquelle, aber ohne falschen Plan-/Buchungsstatus. `lib/research-v22.mjs` prüft die Unzuordenbarkeit ausdrücklich anhand der Original-Umfragedaten statt eine Programm-Ausnahme oder automatische Aufnahme auszulösen.
+
 Der Forschungsbestand `data/research-v22/operator-guides.json` enthält nun **57 einzeln zugeordnete Guide-Datensätze mit HTTPS-Quellen**. Die vorherigen 37 wurden um **20** ergänzt. In der Datenpipeline erzwingt `lib/research-v22.mjs` eine exakte und eindeutige ID-Zuordnung (z. B. `survey-v19:act-010`), passende Stadt, Text, praktische Hinweise, Quelle und verifizierten *Nichtbuchungsstatus*.
 
 **Wichtig:** „57 von 57“ heißt **57 V19-Aktivitätsideen besitzen jeweils einen individuellen Recherchetext und eine zugeordnete externe Quelle**. Es heißt NICHT, dass für alle Ideen ein einzelner verifizierter Anbieter, Eintritt, Gebäude-POI, Foto, Ende-2027-Preis oder konkretes Zeitfenster vorliegt. Konzeptionelle Ideen (Clubabend, Picknick, Paddeltour, Abendrundgang) bleiben konsequent Konzept und ausgewiesene Betreiberbeispiele. Die übrigen **828 variantebezogenen Gesamt-Katalogeinträge** sind damit nicht alle vollständig recherchiert.
