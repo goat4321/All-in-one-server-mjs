@@ -13,6 +13,14 @@ const labelByCategory = {
   lodging:'Unterkunft', food:'Restaurant / Café', shop:'Einkaufen',
   activity:'Sehenswürdigkeit / Aktivität',transport:'Verkehr',
 };
+const ccLicenseUrl=photo=>{
+  if(/^https:\/\/[^\s]+$/.test(photo?.licenseUrl??''))return photo.licenseUrl;
+  const label=String(photo?.credit??'');
+  const match=label.match(/\bCC (BY-SA|BY) ([234]\.0)\b/i);
+  if(match)return 'https://creativecommons.org/licenses/'+match[1].toLowerCase()+'/'+match[2]+'/';
+  return /\bCC0 1\.0\b/i.test(label)?'https://creativecommons.org/publicdomain/zero/1.0/':null;
+};
+
 
 export function placeProfileModel(item, ctx = {}) {
   if (!item || !item.id) return null;
@@ -127,7 +135,9 @@ export function placeImageHtml(item,ctx={}, {small=false}={}) {
       ? '<img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(p.photo.url)
         +'" alt="Hinterlegtes Bild: '+label+'">'
         +'<small class="place-photo-credit">Bild: '+esc(p.photo.credit)+' · '
-        +'<a href="'+esc(p.photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a></small>'
+        +'<a href="'+esc(p.photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a>'
+        +(ccLicenseUrl(p.photo)?' · <a href="'+esc(ccLicenseUrl(p.photo))
+          +'" target="_blank" rel="noopener noreferrer">Lizenz</a>':'')+'</small>'
       : '<div class="place-photo-placeholder" aria-label="Noch kein quellenbelegtes Foto hinterlegt">'
         + '<span aria-hidden="true">'+({lodging:'⌂',food:'✦',shop:'◇',activity:'⌖',transport:'⇄'}[p.category]??'⌖')+'</span>'
         +'<strong>'+label+'</strong><small>'+esc(type)+' · Bildquelle offen</small></div>')
@@ -174,7 +184,9 @@ export function placeGalleryHtml(item,ctx={}) {
       +'<img src="'+esc(photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer"'
       +' alt="Foto '+(index+1)+': '+esc(profile.name)+'"></a>'
       +'<figcaption>'+esc(photo.credit)+' · '
-      +'<a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Lizenzquelle</a>'
+      +'<a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a>'
+      +(ccLicenseUrl(photo)?' · <a href="'+esc(ccLicenseUrl(photo))
+        +'" target="_blank" rel="noopener noreferrer">Lizenztext</a>':'')
       +(index<profile.ownPhotoCount
         ?'<button type="button" class="place-gallery-remove" data-action="photo-remove-one" data-value="'
           +esc(JSON.stringify([profile.id,index]))+'">Eigenes Foto entfernen</button>'
