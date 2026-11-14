@@ -15,6 +15,10 @@ const label = (id) => ({
   'active':'Aktiv',
   'beach_day_with_optional_evening':'Strand & Abend',
   'flexible':'Flexibel',
+  'morning':'Vormittag',
+  'afternoon':'Nachmittag',
+  'evening':'Abend',
+  'night':'Nacht',
 })[id] ?? String(id??'Idee').replaceAll('_',' ');
 const link = (href,title) => typeof href==='string' && /^https:\/\//.test(href)
   ? '<a href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+esc(title)+'</a>' : '';
@@ -99,7 +103,7 @@ export function surveyV19BudgetPanel(ctx) {
         +'<strong class="survey-v19-money">'+(total==null?'Gesamtkosten offen':money(total))+'</strong>'
         +'<small>Gruppe: '+s.group_size+' Personen, '+s.stay_nights+' Nächte'
         +' · Unterkunft '+(parts.accommodation==null?'offen':money(parts.accommodation))+'</small>'
-        +'<small>'+ (total!=null?'Ohne Interrail-Pass · optional '+money(s.interrail_pass_group_optional_minor??0):
+        +'<small>'+ (total!=null?'Ohne Interrail-Pass · '+(s.interrail_pass_group_optional_minor==null?'Passpreis offen':'optionaler Pass '+money(s.interrail_pass_group_optional_minor)):
         'Unvollständige Kostengrundlage')+'</small>'
         +'<p>'+esc(s.notes??'')+'</p>'+status('Nur Vergleich · nicht gebucht')+'</article>';
     }).join('')+'</div>');
