@@ -1,3 +1,13 @@
+## Nachtrag 14.11.2026 – v1.9 zweite Designrunde + Survey-First-Import
+
+Zweite visuelle Überarbeitung anhand der bisherigen Nutzerreferenzen: Tageskontext in Plan und Atlas, luftigere Termin-/Ortslisten, responsives Karte-Liste-Layout ab 1180 px und größere belegte Ortsbilder bzw. gekennzeichnete Illustrationen. Technischer Eingriff in CSS, UI-Modulen und lokalem Katalog, kein neues externes Deployment.
+
+20 zusätzlich hochgeladene Originaldateien als separates `data/research-v19-survey-first/` archiviert. Der Validator besteht 56/56 Prüfungen. `lib/research-v19.mjs` integriert 57 unterschiedliche neue Aktivitäten und 35 Unterkunftskandidaten mit `survey-v19:`-IDs in die 4 existierenden Varianten: Aktivitäten 43 / 41 / 44 / 12, Unterkünfte 24 / 0 / 0 / 11. Sechs Ausflugsoptionen in Glarus und Grindelwald bleiben erhalten. Die 29 Bahnabschnitte ohne bestätigte 2027-Zeiten, 17 nichtaktive Tagesvorschläge, 40 Essens-/Abendideen und 4 Budgetszenarien erscheinen in gesonderten Ansichten. 28 Quellen, 24 offene Qualitätsfragen. Alle Kandidaten bleiben ungebucht/unselektiert, keine aktive Budgetänderung; genaue Aktivitätspins sind nicht erfunden. Anbieterpositionsreferenzen der Unterkünfte werden als nicht unabhängig verifiziert markiert.
+
+**GitHub Actions:** Erste vollständige neue Import-CI #43575436978 (einschließlich Node-Modelltests, Python 20-Dateien-Check, Browser, Kartenreport und Server-Smoke) erfolgreich. Weitere Dokumentations-/Kennzeichnungscommits erhalten eigene CI-Läufe; nicht nach main mergen. Vollständiges Protokoll und Ausnahmen: `PHASE_19_DESIGN_ROUND2_SURVEY_IMPORT.md`.
+
+---
+
 # Projektstand · 14.11.2026
 
 ## Nachtrag 14.11.2026 – v1.8 iterative Screenshot-Abgleiche
