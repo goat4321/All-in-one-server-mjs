@@ -200,3 +200,17 @@ test('The 2027 suggested day appears as a visual period timeline without false b
  const blank=mapDayAgenda({...ctx,dayPlan:null});
  assert.doesNotMatch(blank,/reference-agenda-preview-list/);
 });
+
+test('Preview suppresses the old empty-state placeholder and gives current city photo priority',()=>{
+ const trip=catalog.trips.find(t=>t.id==='interrail_classic');
+ const ctx=context(trip);
+ ctx.city='barcelona';ctx.date='2027-09-04';ctx.mapSimple=true;
+ ctx.dayPlan=trip.dayPlansV32.find(x=>x.date===ctx.date);ctx.activeSet=new Set();
+ const markup=mapDayAgenda(ctx);
+ assert.match(markup,/Tagesideen für Barcelona/);
+ assert.doesNotMatch(markup,/Für diesen Tag sind noch keine Stopps ausgewählt/);
+ const suggestionCount=(markup.match(/class="reference-agenda-preview-item"/g)||[]).length;
+ assert.equal(suggestionCount,ctx.dayPlan.slots.length);
+ const gallery=mapPhotoDiscovery(ctx);
+ assert.ok((gallery.match(/class="reference-discovery-card"/g)||[]).length<=4);
+});

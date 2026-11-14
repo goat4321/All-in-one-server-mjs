@@ -395,3 +395,18 @@
 :root[data-motion=off] .reference-agenda-preview-item{
  animation:none!important;transition:none!important
 }
+
+/* Desktop top search is the only map search in the easy mode. This matches
+   the supplied Barcelona header and eliminates the duplicate left search. */
+@media(min-width:1180px){
+ .simple-map-mode .reference-topbar .reference-global-search{
+  display:flex!important;max-width:365px;flex:1 1 260px;
+  margin-left:auto;background:#fffefa
+ }
+ .simple-map-mode .reference-map-workspace>.explorer-right
+   .explorer-toolbar .explorer-search{display:none!important}
+ .simple-map-mode .reference-map-workspace>.explorer-right
+   .explorer-toolbar{padding:9px 12px}
+ .simple-map-mode .reference-map-workspace>.explorer-right
+   .explorer-categories{padding:3px 1px}
+}

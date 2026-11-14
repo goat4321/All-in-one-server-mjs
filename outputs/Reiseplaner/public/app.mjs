@@ -723,8 +723,11 @@ async function action(name, value = '') {
       view.mapViewportOnly=false;view.mapViewportBounds=null;
       view.mapGroup='all';view.mapListLimit=60;
       render({restoreView:true,fetchRoutes:false});
-      app.querySelector('#map-search')?.scrollIntoView({block:'center',behavior:'instant'});
-      app.querySelector('#map-search')?.focus({preventScroll:true});
+      const search=matchMedia('(min-width:1180px)').matches
+        ?app.querySelector('#reference-top-search')??app.querySelector('#map-search')
+        :app.querySelector('#map-search');
+      search?.scrollIntoView({block:'center',behavior:'instant'});
+      search?.focus({preventScroll:true});
       break;
     case 'map-mode':
       if(!['day','city','total'].includes(value))break;

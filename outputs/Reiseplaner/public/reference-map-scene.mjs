@@ -136,7 +136,7 @@ export function mapDayAgenda(ctx){
     +' mit Uhrzeit · '+flexible+' flexibel'
     :(ctx.dayPlan?.slots.length??0)+' Tagesideen verfügbar · noch nicht eingeplant')+'</p></div>'
     +dayNavigation+btn('page','Vollständiger Tagesplan','arrow','plan')+'</div>'
-    +'<ol class="reference-agenda-list">'+(groups||(draftSlots.length?'':'<li class="reference-agenda-empty">')
+    +'<ol class="reference-agenda-list">'+(groups||(draftSlots.length?'':('<li class="reference-agenda-empty">')
       +'Für diesen Tag sind noch keine Stopps ausgewählt.'
       +(ctx.explorer.scope==='day'
         ?' Die Tageskarte zeigt deshalb keine noch nicht eingeplanten Orte.'
@@ -144,7 +144,7 @@ export function mapDayAgenda(ctx){
       +(ctx.explorer.scope==='day'
         ?'<button type="button" data-action="map-mode" data-value="city"'
           +' class="reference-empty-discover">Recherchierte Stadtorte anzeigen</button>'
-        :'')+'</li>')
+        :'')+'</li>'))
     +'</ol>'
     +warningPanel
     +previewHtml
@@ -253,7 +253,7 @@ export function selectDiscoveryPhotos(ctx,limit=8){
     }
     return false;
   };
-  if(groups.has(ctx.city)){take(ctx.city);take(ctx.city);}
+  if(groups.has(ctx.city))for(let i=0;i<4;i++)take(ctx.city);
   while(selected.length<Math.max(0,limit)){
     let advanced=false;
     for(const city of cities){
@@ -268,7 +268,9 @@ export function selectDiscoveryPhotos(ctx,limit=8){
 export function mapPhotoDiscovery(ctx){
   if(!ctx?.explorer)return '';
   const people=ctx.people?.length??1;
-  const withPhoto=selectDiscoveryPhotos(ctx,8);
+  const withPhoto=selectDiscoveryPhotos(ctx,ctx.mapSimple?4:8);
+  const title=withPhoto.length&&withPhoto.every(x=>x.item.city===ctx.city)
+    ?'Heute entdecken':'Orte entlang deiner Route';
   const cards=withPhoto.map(({item,photo})=>{
     const signal=planCostSignal(item,people);
     const located=Array.isArray(item.point)&&item.point.length===2
@@ -301,7 +303,7 @@ export function mapPhotoDiscovery(ctx){
   }).join('');
   return '<section class="reference-discovery" aria-label="Bebilderte Orte und Aktivitäten entlang der Reise">'
     +'<div class="reference-discovery-head"><div><small>MIT QUELLENFOTOS</small>'
-    +'<h2>Orte entlang deiner Route</h2>'
+    +'<h2>'+esc(title)+'</h2>'
     +'<p>Nur Orte mit zugeordneten Fotos und dokumentierter Bildquelle. '
     +'Keine erfundenen Bewertungen oder Öffnungszeiten.</p></div>'
     +btn('page','Alle Orte entdecken','arrow','discover')+'</div>'

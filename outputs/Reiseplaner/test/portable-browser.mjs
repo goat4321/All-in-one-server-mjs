@@ -181,8 +181,10 @@ try {
     'Exactly three large default actions are visible');
   assert.equal(await js('getComputedStyle(document.querySelector(".reference-map-floating")).display'),'none',
     'Redundant floating controls are hidden in easy mode');
-  assert.ok(await js('document.querySelector(".explorer-search input")?.getBoundingClientRect().width>100'),
-    'Single prominent search input remains visible');
+  assert.ok(await js('document.querySelector("#reference-top-search")?.getBoundingClientRect().width>100'),
+    'The reference header has a single visible search input in desktop easy mode');
+  assert.equal(await js('getComputedStyle(document.querySelector(".explorer-search")).display'),'none',
+    'Duplicate explorer search is hidden in desktop easy mode');
   assert.ok(await js('document.querySelector(".simple-main-button").getBoundingClientRect().height>=44'),
     'Easy-mode primary actions use large touch targets');
   await screenshot('23-einfacher-reiseplaner-1280.png');
