@@ -345,6 +345,7 @@ try {
   await click('.sidebar [data-action=page][data-value=lodging]');
   await until(() => js('Boolean(document.querySelector("#nightly-target"))'), 'Nachtbudget-Eingabe');
   await until(() => js('document.querySelectorAll(".lodging-price-meter").length > 0'), 'Unterkunfts-Budgetbalken');
+  await until(() => js('document.querySelectorAll(".option-card .options-euro-band .universal-euro-tier").length > 0'), 'Alte und neue Unterkunftskarten zeigen €/€€/€€€ oder €?');
   await set('#nightly-target', '40');
   await js('document.querySelector("#nightly-target").dispatchEvent(new Event("change",{bubbles:true}))');
   await until(() => js('document.querySelector("#nightly-target")?.value === "40"'),'Budgetziel angepasst');
@@ -391,6 +392,7 @@ try {
   await text('#main', 'Pass-Reisetage und Tarifprüfung');
   await text('#main', 'Alternative Bahnverbindungen · Hypothesen');
   await text('#main', 'Bahnkorridore & offizielle Betreiber');
+  await text('#main', 'Bahnprüfung: September 2027');
   await text('.rail-review-panel','Bahn-Prüfzeitleiste 2027');
   await until(() => js('document.querySelectorAll(".rail-review-step").length === 7'),
     'Seven original rail departures have review windows');
@@ -399,6 +401,7 @@ try {
   await click('.sidebar [data-action=page][data-value=data]');
   await text('#main', 'Forschungsarchiv');
   await text('#main', 'Offene Datenqualitätsbefunde');
+  await text('#main', 'Einzelprüfung aller alten und neuen Datensätze');
   await text('#main', 'Standortprüfung · öffentliche Adressen');
   await text('#main', 'Bildabdeckung & offene Quellenfotos');
   assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("Adress-/Identitätskonflikte")'));
@@ -415,6 +418,7 @@ try {
   await text('#main', 'Preise offen');
   await click('.sidebar [data-action=page][data-value=food]');
   await text('#main', 'Selbst kochen oder auswärts essen');
+  await text('#main', 'Verifizierte Anbieter & offene Essensideen');
   await click('.meal-card [data-action=meal-choose][data-value=pasta]');
   await text('dialog', 'Pasta mit Tomate');
   await save();
