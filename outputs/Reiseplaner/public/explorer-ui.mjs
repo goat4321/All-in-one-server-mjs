@@ -187,7 +187,11 @@ export function explorerDayStrip(ctx) {
   const info = ctx.catalog.research?.cityCoverage?.[ctx.city];
   const suggestions = idea ? [...idea.anchors.map(x=>({...x,role:'Tagesanker'})),
     ...idea.alternatives.map(x=>({...x,role:'Optional'}))] : [];
-  return '<section class="explorer-day"><div class="days" aria-label="Reisetag auswählen">'
+  return '<section class="explorer-day"><div class="atlas-day-context"><div><strong>'
+    + esc(ctx.cities[ctx.city]?.name ?? ctx.city) + ' · ' + esc(ctx.date.split('-').reverse().join('.'))
+    + '</strong><small>' + ctx.day.length + (ctx.day.length === 1 ? ' Stopp' : ' Stopps')
+    + ' im ausgewählten Tagesplan · weitere Orte in der Liste</small></div>'
+    + btn('page','Tagesplan ansehen','arrow','plan') + '</div><div class="days" aria-label="Reisetag auswählen">'
     + ctx.dates.map(date => '<button type="button" class="day" data-action="day" data-value="' + esc(date)
       + '" aria-pressed="' + (date === ctx.date) + '"><strong>' + esc(date.split('-').reverse().slice(0,2).join('.'))
       + '</strong><small>' + esc(ctx.cities[ctx.cityForDay(date)]?.name ?? 'Reise') + '</small></button>').join('')
