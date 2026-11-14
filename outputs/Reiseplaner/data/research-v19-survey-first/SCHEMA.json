@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "created_on": "2026-11-13",
+  "package_version": "2026-11-13-survey-first-v1",
+  "files": {
+    "survey_profiles.json": "profiles and source answer payloads",
+    "preference_matrix.csv": "per-interest score matrix",
+    "trips.json": "four separate original Tripsy trip frames, NOT full raw import",
+    "destinations.json": "approximate centers with precision flag",
+    "activities.json": "new unselected survey-scored candidate activities",
+    "activities.csv": "tabular activity subset",
+    "accommodations.json": "new booking-provider search quotes for actual dates/occupancy",
+    "accommodations.csv": "tabular lodging subset",
+    "transport.json": "date-only planned legs, timetable null",
+    "transport.csv": "tabular rail leg subset",
+    "fare_rules.json": "operator fares and conditions with as_of",
+    "budget_scenarios.json": "transparent unselected scenarios with integer cents",
+    "day_plans.json": "option sets, no fixed clock itinerary",
+    "food_evenings.json": "non-vendor-specific ideas, missing prices explicit",
+    "sources.json": "source and access register",
+    "quality_issues.csv": "validation and research backlog",
+    "README.md": "summary and decisions",
+    "CODEX_IMPORT.md": "safe import instructions",
+    "SCHEMA.json": "this data dictionary",
+    "validate.py": "stdlib validation of key constraints"
+  },
+  "common_enums": {
+    "verification": [
+      "operator_supported",
+      "concept_reverify",
+      "unverified",
+      "not_confirmed_for_2027"
+    ],
+    "booking_status": [
+      "not_booked",
+      "held",
+      "booked",
+      "cancelled"
+    ],
+    "selection": [
+      "candidate",
+      "selected"
+    ],
+    "monetary_units": "integer_minor_units_cents_for_EUR_and_rappen_for_CHF",
+    "known_missing": "null, not 0",
+    "travel_datetime": "ISO-8601 plus IANA timezone; do not infer exact hour from date-only Tripsy plans"
+  },
+  "rules": [
+    "Never merge trip variants",
+    "Original Tripsy source remains read-only",
+    "Survey 0 is low interest, not hard veto",
+    "Search quote != confirmed checkout or booking",
+    "Alternative activities/lodgings excluded from booked budget",
+    "Prices based on exact party count and date; other variants require fresh searches",
+    "Precise map pins require verified coordinates",
+    "Every sourced fact carries source id or explicit unsourced status"
+  ]
+}
