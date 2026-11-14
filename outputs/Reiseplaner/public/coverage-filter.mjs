@@ -56,4 +56,7 @@ export function resetCoverageFilters(panel){
     if(input)input.value='all';
   }
   applyCoverageFilters(panel);
+  // Restoring defaults also collapses auto-opened matching city groups.
+  // Otherwise a subsequent user click would unexpectedly close a group.
+  for(const group of panel.querySelectorAll('.coverage-city'))group.open=false;
 }
