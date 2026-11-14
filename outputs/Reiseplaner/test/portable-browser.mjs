@@ -145,6 +145,12 @@ try {
     'Map starts in easy mode for a new visitor');
   assert.equal(await js('document.querySelectorAll(".simple-main-actions button").length'),3,
     'Exactly three large default actions are visible');
+  assert.equal(await js('getComputedStyle(document.querySelector(".reference-map-floating")).display'),'none',
+    'Redundant floating controls are hidden in easy mode');
+  assert.ok(await js('document.querySelector(".explorer-search input")?.getBoundingClientRect().width>100'),
+    'Single prominent search input remains visible');
+  assert.ok(await js('document.querySelector(".simple-main-button").getBoundingClientRect().height>=44'),
+    'Easy-mode primary actions use large touch targets');
   await screenshot('23-einfacher-reiseplaner-1280.png');
   await click('[data-action=map-simple-toggle]');
   assert.ok(await js('document.querySelector(".simple-map-mode")===null'),

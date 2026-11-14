@@ -21,3 +21,6 @@ Die GitHub-Actions-Läufe nach Phase 29 wurden bereits vor dem ersten Testschrit
 
 ## Verbleibende Punkte
 Die Hauptkarte ist im Einfach-Modus weiterhin von den konkreten Plan- und Bilddaten abhängig. Bei einem noch leeren Tag fehlen echte Stopps, die nicht erfunden werden. Die vorgegebenen Bilder können in CI teilweise nicht geladen werden, daher bleiben Ortskarten teilweise ohne Fotos. Der nächste vollständige CI-Lauf muss Layout/Touch-Ziele/Suche und Routenanimation an Desktop 1440×900 sowie Mobil 390×844 prüfen, bevor eine visuelle Annäherung behauptet wird.
+
+## Iteration 3 – echte Redundanz entfernt
+Nach dem ersten Umbau waren oben drei Schaltflächen und **darunter immer noch vier Floating-Modi** sowie eine zweite globale Suche sichtbar. Das widerspricht der simplen Bedienung. Darum sind in der einfachen Ansicht die duplizierten Floating-Modi, die globale Suche und unwichtige Karten-/Topbar-Icons jetzt vollständig ausgeblendet. Die weiterhin sichtbare Ortssuche im linken Bereich bekommt einen 46px-Eingabebereich und die drei Hauptaktionen jeweils mindestens 44px. Die mobile Navigation zeigt explizite Textlabels statt nur drei ungeklärte Icons. Beim Umschalten auf „Alle Funktionen“ erscheinen die vollständigen Kontrollen wieder.

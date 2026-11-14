@@ -148,3 +148,24 @@
   animation:none!important}}
 :root[data-motion=off] .simple-map-mode .reference-map-workspace .explorer-place:nth-child(-n+8){
  animation:none!important}
+
+/* Third pass: remove truly redundant navigational chrome in simple mode. */
+.simple-map-mode .reference-topbar>.top-actions,
+.simple-map-mode .reference-topbar .reference-global-search,
+.simple-map-mode .reference-map-workspace .reference-map-floating,
+.simple-map-mode .reference-map-workspace>.map-panel>.panel-head>.inline{
+ display:none!important}
+.simple-map-mode .reference-topbar{justify-content:flex-start}
+.simple-map-mode .reference-main-nav{margin-left:clamp(8px,2vw,30px);gap:10px}
+.simple-map-mode .reference-main-nav button{
+ min-height:43px;font-size:.85rem;gap:8px}
+.simple-map-mode .reference-map-intro .reference-map-intro-copy{min-width:0}
+.simple-map-mode .reference-map-workspace>.map-panel>.panel-head{
+ max-width:min(210px,calc(100% - 30px));padding:11px 14px}
+@media(max-width:650px){
+ .simple-map-mode .reference-main-nav{gap:1px;margin-left:0}
+ .simple-map-mode .reference-main-nav button{gap:4px;padding:7px 7px;min-height:38px}
+ .simple-map-mode .reference-main-nav button span{
+  display:inline!important;font-size:.68rem}
+ .simple-map-mode .reference-main-nav button .ui-icon{width:15px;height:15px}
+}
