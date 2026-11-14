@@ -61,7 +61,7 @@ test('Every trip record is audited, provenance gaps never fabricated away',async
     assert.equal(data.incomplete.length+data.counters.complete,data.counters.total);
     const content=entryCoveragePanel(ctx);
     assert.match(content,/Welche Einträge haben noch fehlende Angaben oder Bilder/);
-    assert.match(content,/Lizenzierte Commons/);
+    assert.match(content,/Wikimedia Commons/);
     if(data.missingByType.photo)assert.match(content,/Bild suchen/);
     const hotel=trip.items.find(x=>x.kind==='lodging');
     if(hotel){
