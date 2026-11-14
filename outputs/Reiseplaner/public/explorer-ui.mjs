@@ -31,6 +31,15 @@ export function explorerToolbar(ctx) {
     + '<div class="explorer-search"><label for="map-search">Orte und Angebote durchsuchen</label>'
     + '<input id="map-search" type="search" maxlength="100" value="' + esc(ex.search) + '" placeholder="Ort, Restaurant, Hostel, Sehenswürdigkeit …">'
     + btn('explorer-search', 'Suchen', 'search') + '</div>'
+    + '<div class="explorer-categories" aria-label="Orte filtern">'
+    + chip('explorer-group', 'Alle Kategorien', ex.group === 'all', 'all')
+    + keys.map(([id, group]) => '<button class="explorer-chip" type="button" data-action="explorer-group" data-value="'
+      + id + '" aria-pressed="' + (ex.group === id) + '"><i class="category-swatch ' + id
+      + '"></i>' + esc(group.label) + '</button>').join('')
+    +chip('explorer-saved-only','Merkliste ('+ex.saved.size+')',ex.savedOnly===true,'toggle','bookmark')
+    +btn('explorer-reset','Alle Ortsfilter zurücksetzen','reset')+'</div>'
+    + '<details class="explorer-view-advanced"'+(ctx.mapAdvancedOpen?' open':'')
+    +'><summary>Listenansicht & weitere Filter</summary>'
     + '<div class="explorer-view-controls">'
     + '<div class="inline">'+chip('explorer-viewport','Nur sichtbare Orte in der Liste',ex.viewportOnly===true,'toggle','target')
     + '<span id="explorer-viewport-stat" class="muted" aria-live="polite">'
@@ -39,17 +48,12 @@ export function explorerToolbar(ctx) {
     + chip('explorer-display','Kompakt',ex.compact===true,'compact','list')
     + chip('explorer-display','Detailliert',ex.compact!==true,'details','folder')
     + '</div></div>'
-    + '<div class="explorer-categories" aria-label="Orte filtern">'
-    + chip('explorer-group', 'Alle Kategorien', ex.group === 'all', 'all')
-    + keys.map(([id, group]) => '<button class="explorer-chip" type="button" data-action="explorer-group" data-value="'
-      + id + '" aria-pressed="' + (ex.group === id) + '"><i class="category-swatch ' + id
-      + '"></i>' + esc(group.label) + '</button>').join('')
-    +chip('explorer-saved-only','Merkliste ('+ex.saved.size+')',ex.savedOnly===true,'toggle','bookmark')
-    +btn('explorer-reset','Alle Ortsfilter zurücksetzen','reset')+'</div>'
+
     + '<details class="explorer-map-extras"><summary>Weitere Kartenhinweise & ungenaue Standorte</summary><div class="inline">'
     + chip('explorer-references', 'Schematische Stadt-Sammelmarker (' + ex.unlocated.length + ')',
       ex.showCityReferences === true, 'toggle', 'pin')
     + '<span class="muted">Grau gestrichelte Marker stehen nur für Städte mit ungeklärten Orten, nicht für genaue Standorte. Zum Ausblenden erneut antippen.</span></div></details>'
+    + '</details>'
     + '<details class="explorer-route-settings"'+(from||to?' open':'')+'>'
     + '<summary><strong>Route zwischen zwei Orten planen</strong><span>'
     +esc(from?.name??'Start auswählen')+' → '+esc(to?.name??'Ziel auswählen')+'</span></summary>'
@@ -186,7 +190,8 @@ export function explorerDayStrip(ctx) {
     + ctx.dates.map(date => '<button type="button" class="day" data-action="day" data-value="' + esc(date)
       + '" aria-pressed="' + (date === ctx.date) + '"><strong>' + esc(date.split('-').reverse().slice(0,2).join('.'))
       + '</strong><small>' + esc(ctx.cities[ctx.cityForDay(date)]?.name ?? 'Reise') + '</small></button>').join('')
-    + '</div>'
+    + '</div><details class="explorer-day-notes"'+(ctx.mapDayNotesOpen?' open':'')
+    +'><summary>Ältere Tagesideen & Datenlage <small>Optional</small></summary>'
     + (info ? '<p class="muted">Vorhandenes Stadtpaket ' + esc(ctx.cities[ctx.city]?.name ?? ctx.city)
       + ': ' + info.activityCount + ' Aktivitäten, ' + info.lodgingCount + ' Unterkunftskandidaten, '
       + info.quoteCount + ' Hotel-Suchpreise. Keine vollständigen 2027er Fahrpläne, finalen Zimmer-Checkouts oder verifizierten ÖPNV-Routen im alten Paket.</p>' : '')
@@ -199,6 +204,6 @@ export function explorerDayStrip(ctx) {
         + '</div>').join('')
       + '</div><small>Nur Vorschläge. Keine Termine, Preise oder Buchungen wurden automatisch übernommen.</small></div>'
       : '<p class="muted">Für diesen Tag liegt keine frühere Tagesvorlage vor. Nutze Karte, Filter und „Zum Tagesplan hinzufügen“, um ihn selbst zu gestalten.</p>')
-    + '</section>';
+    + '</details></section>';
 }
 

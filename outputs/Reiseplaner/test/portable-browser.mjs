@@ -73,6 +73,9 @@ try {
   const screenshotDir=process.env.REISEPLAN_SCREENSHOT_DIR;
   const screenshot=async filename=>{
     if(!screenshotDir)return;
+    // Observe the settled visual state, without transient entrance/toast overlays.
+    await waitMs(460);
+    await js('document.querySelector("#toast")?.replaceChildren()');
     await mkdir(screenshotDir,{recursive:true});
     const image=await cdp('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
     await writeFile(join(screenshotDir,filename),Buffer.from(image.data,'base64'));
@@ -135,6 +138,13 @@ try {
   await text('h1', 'Karten-Explorer');
   await text('#main', 'Alle passenden Orte');
   await until(()=>js('document.querySelectorAll(".place-price-signal").length>0'),'€-Kennzeichen an Ortslisten');
+  assert.equal(await js('document.querySelector(".explorer-day-notes")?.open'),false,'Zusätzliche Tagesideen anfangs zugeklappt');
+  assert.equal(await js('document.querySelector(".explorer-view-advanced")?.open'),false,'Zusätzliche Kartenfilter anfangs zugeklappt');
+  await click('.explorer-view-advanced summary');
+  await until(()=>js('document.querySelector(".explorer-view-advanced")?.open===true'),'Zusätzliche Kartenfilter erreichbar');
+  await click('[data-action=explorer-display][data-value=details]');
+  await until(()=>js('document.querySelector(".explorer-view-advanced")?.open===true'),'Listenansicht merkt offene Filter');
+  await click('[data-action=explorer-display][data-value=compact]');
   await until(()=>js('document.querySelector(".explorer-compact-media .place-thumbnail")!==null'),'Kompakte Ortsliste mit Miniaturbild oder Symbol');
   await until(()=>js('document.querySelector(".explorer-place.is-compact, .explorer-place .explorer-more-actions")!==null'),'Sekundäre Ortsaktionen einklappbar');
   assert.equal(await js('document.querySelector(".explorer-more-actions")?.open'),false,'Kompaktliste zunächst ohne Aktionsüberladung');

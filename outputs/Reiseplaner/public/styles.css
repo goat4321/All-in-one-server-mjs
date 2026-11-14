@@ -1370,3 +1370,53 @@ h2{font-size:1.37rem}
  box-shadow:0 0 0 5px #b8ead18a,0 5px 18px #0f4d4090}
 .leaflet-marker-icon.atlas-hover{z-index:900!important}
 @media(prefers-reduced-motion:reduce){.destination-art{transition:none}}
+
+
+/* Visual QA round 4: map first, extra sources and advanced filters on demand. */
+.destination-placeholder .destination-art{width:100%!important;height:100%!important;
+ display:block!important;max-width:none;max-height:none}
+.explorer-day{margin-bottom:8px}
+.explorer-day>.days{padding:0 2px 5px;margin:0}
+.explorer-day-notes{margin:4px 1px 0;color:var(--muted)}
+.explorer-day-notes>summary{display:flex;gap:9px;align-items:center;cursor:pointer;
+ font-size:.73rem;font-weight:720;padding:6px 4px;list-style:none}
+.explorer-day-notes>summary::-webkit-details-marker{display:none}
+.explorer-day-notes>summary:before{content:"+";color:var(--green);font-weight:850}
+.explorer-day-notes[open]>summary:before{content:"−"}
+.explorer-day-notes>summary small{font-size:.67rem;font-weight:500}
+.explorer-day-notes>.muted{font-size:.73rem;padding:5px 9px}
+.explorer-day-notes>.explorer-ideas{margin:7px 0 6px}
+.explorer-toolbar{display:grid;grid-template-columns:minmax(200px,.8fr) minmax(0,1.5fr);
+ gap:8px 12px;padding:11px 14px 8px;margin-bottom:10px;
+ background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:none}
+.explorer-toolbar .explorer-scope{grid-column:1;min-width:0;gap:5px}
+.explorer-toolbar .explorer-scope .muted{display:none}
+.explorer-toolbar .explorer-scope>strong{font-size:.73rem}
+.explorer-toolbar .explorer-search{grid-column:2;margin:0;min-width:0}
+.explorer-toolbar .explorer-search label{font-size:.7rem}
+.explorer-toolbar .explorer-categories{grid-column:1/-1;padding:0;gap:5px;display:flex;flex-wrap:wrap}
+.explorer-toolbar .explorer-categories .explorer-chip,
+.explorer-toolbar .explorer-categories .chip-button{font-size:.7rem;min-height:31px}
+.explorer-toolbar .explorer-view-advanced,
+.explorer-toolbar .explorer-route-settings,
+.explorer-toolbar .explorer-nearby-bar{grid-column:1/-1}
+.explorer-toolbar .explorer-view-advanced>summary{font-size:.72rem;color:var(--muted);
+ cursor:pointer;padding:5px 3px;list-style:none}
+.explorer-toolbar .explorer-view-advanced>summary::-webkit-details-marker{display:none}
+.explorer-toolbar .explorer-view-advanced>summary:before{content:"+";font-weight:850;color:var(--green);margin-right:7px}
+.explorer-toolbar .explorer-view-advanced[open]>summary:before{content:"−"}
+.explorer-toolbar .explorer-view-controls{border:0;padding:7px 2px}
+.explorer-toolbar .explorer-route-settings{padding-top:2px}
+.explorer-toolbar .explorer-route-settings>summary{font-size:.74rem;padding:5px 3px}
+@media(max-width:850px){
+ .explorer-toolbar{grid-template-columns:minmax(0,1fr)}
+ .explorer-toolbar .explorer-scope,.explorer-toolbar .explorer-search{grid-column:1}
+ .explorer-toolbar .explorer-scope{flex-wrap:wrap}
+}
+@media(max-width:650px){
+ .explorer-toolbar{padding:10px;gap:6px}
+ .explorer-day-notes{margin-bottom:5px}
+ .explorer-day>.days{gap:6px}
+ .explorer-toolbar .explorer-categories .explorer-chip{min-height:34px}
+ .map-explorer-split #map{height:57dvh;min-height:350px}
+}

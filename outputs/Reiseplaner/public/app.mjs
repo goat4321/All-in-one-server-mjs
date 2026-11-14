@@ -35,6 +35,8 @@ const view = {
     ? localStorage.getItem('reiseplan-map-tone') : 'standard',
   mapExpanded: false,
   mapDesignOpen:false,
+  mapAdvancedOpen:false,
+  mapDayNotesOpen:false,
   guideIndex: null,
   showAllVotes: false,
   providerOnlyBudget: false,
@@ -1138,6 +1140,8 @@ app.addEventListener('pointerout',event=>hoverAtlasCard(event,false));
 app.addEventListener('toggle',event=>{
   if(event.target.matches('.sidebar-places'))view.cityNavOpen=event.target.open;
   if(event.target.matches('.map-design-details'))view.mapDesignOpen=event.target.open;
+  if(event.target.matches('.explorer-view-advanced'))view.mapAdvancedOpen=event.target.open;
+  if(event.target.matches('.explorer-day-notes'))view.mapDayNotesOpen=event.target.open;
 },true);
 // Commons and explicitly sourced photos can fail when offline or blocked.
  // Keep a designed category fallback, not broken alt-text inside a photo tile.
