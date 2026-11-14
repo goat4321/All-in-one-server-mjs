@@ -2,6 +2,7 @@ import { railReviewTimeline } from './rail-review-timeline.mjs';
 import { surveyV19DayPanel, surveyV19RailPanel, surveyV19FoodPanel, surveyV19BudgetPanel, surveyV19DataPanel } from './survey-v19-ui.mjs';
 import {v20RailStatus,v20FoodResearch,v20DataLedger} from './research-v20-ui.mjs';
 import {entryCoveragePanel} from './entry-coverage-ui.mjs';
+import {renderHeaderHud,renderDayHud,renderMapHud,mapSelectionEvidence} from './travel-hud.mjs';
 import { routeSketch } from './route-mini-map.mjs';
 import { destinationIllustration } from './destination-illustration.mjs';
 import { providerQuotePanel } from './provider-quotes-v13.mjs';
@@ -87,6 +88,7 @@ export function renderShell(ctx) {
     <div class="sidebar-bottom">${icon('lock')} <span>Privat auf diesem Gerät</span></div>
   </aside><div class="main-column"><header class="topbar">
     <div class="crumb"><span class="mobile-menu">${iconBtn('menu', 'Navigation öffnen', 'menu')}</span><strong>${esc(currentTitle)}</strong>${icon('chevron')}<span>${esc(tabTitle)}</span></div>
+    ${renderHeaderHud(ctx)}
     <div class="top-actions"><nav class="topbar-shortcuts" aria-label="Schnellzugriff">
       <button type="button" data-action="page" data-value="plan" aria-current="${page==='plan'?'page':'false'}">${icon('calendar')} Tag</button>
       <button type="button" data-action="page" data-value="map" aria-current="${page==='map'?'page':'false'}">${icon('map')} Karte</button>
@@ -135,7 +137,8 @@ function plan(ctx, name) {
     <h1>${esc(name)}</h1><div class="hero-meta"><span>${icon('calendar')} ${esc(longDay(date))}</span>
     <span>${icon('people')} ${people.length} Reisende</span><span>${icon('train')} ${esc(ctx.variant.state.title ?? trip.title)}</span></div></div>
     ${btn('show-route', 'Gesamtroute', 'map')}</section>
-    <div class="atlas-day-glance" role="status" aria-label="Tagesüberblick"><strong>${esc(name)} · ${esc(shortDay(date))}</strong><span>${icon('pin')} ${day.length} ${day.length === 1 ? 'Stopp' : 'Stopps'}</span><span>${icon('clock')} ${day.filter(item => item.time).length} mit Planzeit · ${day.filter(item => !item.time).length} flexibel</span><span>${icon('wallet')} ${dayTotal > 0 ? money(dayTotal) + ' bisher erfasst' : 'Kosten offen bzw. kostenlos'}</span></div>\n    <div class="subheading"><div><h2>Reiseplan</h2><p>${dateLabel(trip.from, trip.to)} · ${dates.length} Reisetage im Kalender</p></div>
+    ${renderDayHud(ctx,dayTotal)}
+    <div class="subheading"><div><h2>Reiseplan</h2><p>${dateLabel(trip.from, trip.to)} · ${dates.length} Reisetage im Kalender</p></div>
     <div class="mobile-switch" aria-label="Ansicht">${chip('mobile', 'Liste', mobile === 'plan', 'plan', 'list')}${chip('mobile', 'Karte', mobile === 'map', 'map', 'map')}</div></div>
     <div class="days" aria-label="Reisetage">${dates.map(d => '<button type="button" class="day" data-action="day" data-value="' + d + '" aria-pressed="' + (d === date) + '"><strong>' + esc(shortDay(d)) + '</strong><small>' + esc(ctx.cities[ctx.cityForDay(d)]?.name ?? 'Reise') + '</small></button>').join('')}</div>
     ${dayPlaces(ctx)}
@@ -229,7 +232,8 @@ export function mapSelectionPreview(ctx) {
     +(item.point?' · Kartenpunkt vorhanden':' · Standort offen')
     +'</small><small class="map-selected-cost" title="'+esc(signal.note)+'">'
     +esc(signal.tier)+' · '+esc(signal.amount)
-    +(item.time?' · '+esc(item.time):'')+'</small></div><div class="map-selected-actions">'
+    +(item.time?' · '+esc(item.time):'')+'</small>'
+    +mapSelectionEvidence(item,ctx)+'</div><div class="map-selected-actions">'
     +btn('explorer-save',bookmarked?'Merken entfernen':'Merken',bookmarked?'check':'bookmark',id)
     +btn('explorer-list-focus','In Liste','list',id)
     +btn('details','Details','folder',id)+'</div></div>';
@@ -285,10 +289,7 @@ function mapPanel(ctx, full = false) {
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
     <div class="map-wrap" data-map-tone="${esc(ctx.mapTone)}"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div>
       <div id="map-selection-preview" class="map-selection-preview" aria-live="polite">${mapSelectionPreview(ctx)}</div>
-      ${ctx.explorer?'<div class="map-atlas-hud" aria-live="polite"><strong>'
-        +esc(ctx.total?'Gesamte Reise':shortDay(ctx.date)+' · '+(ctx.cities[ctx.city]?.name??ctx.city))
-        +'</strong><small>'+ctx.explorer.placed.length+' belegte Kartenpunkte · '
-        +ctx.explorer.unlocated.length+' Ortsangaben ohne Pin</small></div>':''}
+      ${renderMapHud(ctx)}
       ${ctx.explorer && ctx.dayRoute.items.length>1 && !ctx.total
         ? '<div class="route-map-hud"><span class="route-map-pulse"></span><strong>Route Studio</strong><span>'
           +ctx.dayRoute.items.length+' Stopps · '
@@ -302,6 +303,7 @@ function mapPanel(ctx, full = false) {
       ${chip('map-tone','Midnight',ctx.mapTone==='midnight','midnight','moon')}
       ${chip('map-tone','Sand',ctx.mapTone==='sand','sand','sun')}
       ${chip('map-expand',ctx.mapExpanded?'Normalgröße':'Großansicht',ctx.mapExpanded,'toggle','target')}
+      ${chip('map-motion',ctx.mapMotion==='off'?'Animationen aus':'Sanfte Animationen',ctx.mapMotion!=='off',ctx.mapMotion==='off'?'on':'off','spark')}
     </div></details>
     ${tripJourney}
     <div class="map-legend"><span><i class="legend-line ${ctx.total ? 'dashed' : ''}"></i> ${ctx.total ? 'Städtefolge · Schema' : 'Berechneter Fußweg'}</span>
