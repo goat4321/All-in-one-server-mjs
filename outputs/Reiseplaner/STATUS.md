@@ -1,3 +1,17 @@
+## Nachtrag 14.11.2026 – v2.0 Web-Einzelprüfung & einheitliche €-Preisstufen
+
+**Entwicklungsbranch `feature/v7-data-day-accommodation-rail` (Draft-PR #5), kein Merge/Deployment.** Alle 57 Umfrageaktivitäten sind einzeln quellengeprüft; für 24 liegen nach alten und ergänzenden belegten öffentlichen Orts-/Gebietsreferenzen nutzbare Kartenpositionen vor. 33 Aktivitäten behalten individuelle offene Geobegründungen. Bedingte Freieintritte (Louvre) sind nicht mehr fälschlich pauschal 0 €. Eiffelturm erhält den offiziell veröffentlichten 2027er Jugend-Treppenpreis 7,60 €; Nizza-Schlossberg die bereits publizierten 2027-Zeiten; Sagrada/Park Güell bleiben als 2026-Referenzen gekennzeichnet. Oeschinensee 2027-Betriebszeiten sind bestätigt, 2027-Gondelpreis dagegen nicht.
+
+**Alle 35 Unterkünfte wurden in zehn Suchgebieten mit identischer Personenzahl/Datumsfenster erneut mit dem Anbieter abgeglichen:** 22 Angebote in den Suchresultaten wiedergefunden, 13 nicht in der begrenzten Ergebnisliste (keine Aussage über Nichtverfügbarkeit). 19 unabhängig benannte öffentliche OSM-Ortsreferenzen bestätigt, ein Alpina-Kandersteg-Ortskonflikt von 392 m und eine ungeklärte neue Preisabweichung von 49,62 € offengelegt. Keine sichere Bettanzahl, Steuern oder Checkout aus dem Suchresultat abgeleitet. Original-Suchwerte und aktive Budgets unangetastet.
+
+Die 29 datierten Bahn-/Transferabschnitte und 40 allgemeinen Essen-/Abendideen sind einzeln mit offener Betreiber-/Preis-/Zeit-/Menü-Frage sowie nächstem Prüfschritt dokumentiert. Acht **zusätzliche** verlinkte Indoor-Aktivitäten (Paris, Barcelona, Sète, Nizza, Genua, Mestre, Grindelwald zweimal) stehen nicht ausgewählt im Entdecken-Katalog; sieben Regenideen können darauf verweisen. Betreiber-/Kommunaltarife von 2025/26 bleiben Referenzen.
+
+**Preiszeichen global harmonisiert** über sämtliche alten und neuen Orts-, Unterkunfts-, Tagesplan-, Popup-/Detail-, Kartenlisten- und Ideenansichten: € / €€ / €€€ aus vergleichbaren EUR-Zahlen; 0 € bei belegter kostenloser Basisleistung, €? bei fehlender Vergleichbarkeit, Zuschlags-/EWR-Bedingung oder CHF ohne bestätigten Wechselkurs. Unterkunftsstufen pro Person/Nacht, Speisen nach kompletten Menüs (nicht nur Getränk oder einzelne Häppchen), Aktivitäten und Transport pro Person. Keine Livepreisbehauptungen.
+
+Einzelbelege, technische Regeln, Quellen und offene Ausnahmen stehen in `PHASE_20_WEB_RECHECK_PRICE_SIGNALS.md` und `data/research-v20/`. CI-Regression wurde um `test/research-v20.test.mjs` ergänzt. Kein externer Buchungsvorgang und keine Änderung an Tripsy oder `main`.
+
+---
+
 ## Nachtrag 14.11.2026 – v1.9 zweite Designrunde + Survey-First-Import
 
 Zweite visuelle Überarbeitung anhand der bisherigen Nutzerreferenzen: Tageskontext in Plan und Atlas, luftigere Termin-/Ortslisten, responsives Karte-Liste-Layout ab 1180 px und größere belegte Ortsbilder bzw. gekennzeichnete Illustrationen. Technischer Eingriff in CSS, UI-Modulen und lokalem Katalog, kein neues externes Deployment.
