@@ -109,7 +109,9 @@ export function explorerList(ctx) {
       +actions
       +(canPlan&&located?btn('day-route-add','Zur Mehrstopp-Route','plus',item.id):'')
       +(canPlan?btn('choose','Zum Tagesplan hinzufügen','plus',item.id,'subtle')
-        :active&&item.kind==='activity'?btn('edit','Im Plan bearbeiten','edit',item.id):'');
+        :active&&item.kind==='activity'?btn('edit','Im Plan bearbeiten','edit',item.id):'')
+      +(['activity','lodging'].includes(item.kind)
+        ?btn('vote-open','Gruppenstimme abgeben','people',item.id):'');
     return '<article class="explorer-place panel" data-place-id="' + esc(item.id)
       + '" data-selected="' + (ctx.selected===item.id) + '" data-bookmarked="'+bookmarked+'">'
       + (ex.compact?'<div class="explorer-compact-media">'+placeThumbnailHtml(item,ctx)+'</div>'
@@ -120,9 +122,9 @@ export function explorerList(ctx) {
       + '<p class="explorer-description">' + esc(details.description) + '</p>'
       + '<div class="place-price-signal" title="'+esc(signal.note)+'">'
       +'<span>'+esc(signal.tier)+'</span><small>'+esc(signal.amount)
-      +' · Plan-/Suchwert, kein bestätigter Endpreis</small></div>'
+      +(ex.compact?'':' · Plan-/Suchwert, kein bestätigter Endpreis')+'</small></div>'
       + placeQuickFacts(item,ctx)
-      + (['activity','lodging'].includes(item.kind)?voteSnippet(item,ctx):'')
+      + (!ex.compact&&['activity','lodging'].includes(item.kind)?voteSnippet(item,ctx):'')
       + '<div class="explorer-facts"><span><strong>Preis:</strong> ' + esc(details.priceText) + '</span>'
       + '<span><strong>Öffnung:</strong> ' + esc(details.hours) + '</span>'
       + (item.address ? '<span><strong>Adresse:</strong> ' + esc(item.address) + '</span>' : '')
@@ -141,8 +143,8 @@ export function explorerList(ctx) {
       +' · '+ex.placed.length+' Kartenpunkte'
       +(ex.viewportOnly?' · Einträge ohne genaue Position ausgeblendet'
         :' · '+ex.unlocated.length+' ohne belegte Koordinaten')+'</p></div></div>'
-    + '<details class="explorer-data-note"><summary>Hinweise zu Standort- und Routendaten</summary>'
-    +'<p>Google Maps sucht nach veröffentlichter Adresse oder bekanntem Ortsbereich. Bei fehlendem Pin bleibt die genaue Position unbekannt. Google berechnet Fahrten erst beim Öffnen; 2027er Fahrzeiten sind nicht bestätigt.</p></details>'
+    + '<details class="explorer-data-note"><summary>Quellen, Kosten und Standortgenauigkeit</summary>'
+    +'<p>Die €-Stufen basieren nur auf historischen oder erfassten Planwerten und sind keine verbindlichen Anbieterpreise. Google Maps sucht nach veröffentlichter Adresse oder bekanntem Ortsbereich. Bei fehlendem Pin bleibt die genaue Position unbekannt. Google berechnet Fahrten erst beim Öffnen; 2027er Fahrzeiten sind nicht bestätigt.</p></details>'
     + (items.length ? '<div class="explorer-list-grid">' + cards + '</div>' : empty('Keine passenden Einträge', 'Karte verschieben, Zoom ändern oder Filter zurücksetzen.'))
     + (items.length > ex.limit ? '<div class="explorer-more">' + btn('explorer-more', 'Weitere ' + Math.min(60, items.length - ex.limit) + ' anzeigen', 'plus') + '</div>' : '')
     + '</section>';

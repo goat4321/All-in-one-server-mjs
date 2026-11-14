@@ -109,6 +109,7 @@ try {
   await until(() => js('document.querySelectorAll(".sidebar-section").length === 3'), 'Gruppierte Navigation');
   await click('.sidebar [data-action=page][data-value=overview]');
   await until(() => js('document.querySelectorAll(".overview-quick-card").length === 4'), 'Vier Schnellzugriffe');
+  await js('document.querySelector("#toast")?.replaceChildren()');
   await until(() => js('document.querySelectorAll(".destination-card").length>=4'),'Filmstreifen aus echten Reiseorten');
   await until(()=>js('document.querySelectorAll(".cockpit-route-point").length>=4'),'Routenkarte mit verorteten Städten');
   assert.ok(await js('document.querySelector(".cockpit-route-surface")?.textContent.includes("keine berechnete Bahntrasse")'),'Städtefolge bleibt klar als Schema gekennzeichnet');
@@ -137,6 +138,8 @@ try {
   await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===2'),
     'Desktop atlas has a real two-column split');
+  await js('window.scrollTo({top:0,behavior:"instant"})');
+  await screenshot('08-atlas-oben-desktop.png');
   await js('document.querySelector(".map-explorer-split").scrollIntoView({block:"start"})');
   await screenshot('02-atlas-desktop-map-list.png');
   assert.ok(await js('document.querySelector("#map").compareDocumentPosition(document.querySelector(".day-route-builder")) & 4'),
@@ -144,6 +147,10 @@ try {
   assert.equal(await js('document.querySelector(".explorer-route-settings")?.open'),false,
     'Erweiterter Routenplaner ist anfangs zugeklappt');
   await until(() => js('Boolean(document.querySelector(".explorer-list.is-compact"))'), 'Kompakte Ortsliste');
+  assert.equal(await js('document.querySelector(".explorer-list.is-compact .group-vote-snippet")===null'),true,
+    'Kompaktliste ohne wiederholte Gruppenabstimmungs-Kästen');
+  assert.ok(await js('document.querySelector(".explorer-more-actions [data-action=vote-open]")!==null'),
+    'Gruppenabstimmung bleibt über weitere Aktionen erreichbar');
   await until(() => js('Boolean(document.querySelector(".map-explorer-split > .map-panel")) && Boolean(document.querySelector(".map-explorer-split > .explorer-list"))'), 'Karte und Liste nebeneinander');
   await click('[data-action=explorer-focus][data-value="local:bormuth"]');
   await until(() => js('Boolean(document.querySelector(".map-selected-place"))'),'Auswahlvorschau direkt auf der Karte');

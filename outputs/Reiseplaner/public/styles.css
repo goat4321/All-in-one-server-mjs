@@ -1308,3 +1308,52 @@ h2{font-size:1.37rem}
  .cockpit-route-canvas{min-height:205px}.cockpit-route-head h2{font-size:1.12rem}
  .cockpit-route-point small{font-size:.58rem;max-width:62px}}
 @media(prefers-reduced-motion:reduce){.cockpit-route-line{animation:none}.cockpit-route-point span{transition:none}}
+
+
+/* v1.8: compact map results feel like lightweight travel recommendations. */
+.map-explorer-split{gap:12px;grid-template-columns:minmax(0,1.58fr) minmax(315px,.83fr)}
+.map-explorer-split>.explorer-list{border-color:var(--line);padding:15px 13px;
+ box-shadow:none;background:var(--paper)}
+.map-explorer-split .explorer-list>.subheading h2{font-size:1.14rem}
+.map-explorer-split .explorer-list>.subheading p{font-size:.7rem;line-height:1.35}
+.map-explorer-split .explorer-list>.subheading{margin:0 0 6px}
+.explorer-data-note{margin:4px 0}
+.explorer-list.is-compact .explorer-place{padding:12px 7px;row-gap:5px;
+ grid-template-columns:52px minmax(0,1fr);column-gap:11px;
+ border-bottom:1px solid var(--line);min-height:115px}
+.explorer-list.is-compact .explorer-place-title h3{font-size:.82rem;line-height:1.37;font-weight:730}
+.explorer-list.is-compact .explorer-place-title small{font-size:.66rem}
+.explorer-list.is-compact .explorer-description{font-size:.7rem;line-height:1.36;
+ overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:block}
+.explorer-list.is-compact .place-price-signal{font-size:.69rem;gap:5px}
+.explorer-list.is-compact .place-price-signal span{padding:1px 5px}
+.explorer-list.is-compact .place-price-signal small{font-size:.67rem}
+.explorer-list.is-compact .explorer-place-actions{margin-top:0;padding:0;gap:6px}
+.explorer-list.is-compact .explorer-place-actions .button{min-height:28px;padding:4px 7px;
+ border:0;background:var(--light);font-size:.68rem}
+.explorer-list.is-compact .explorer-place-actions .button:hover{background:var(--accent)}
+.explorer-list.is-compact .explorer-more-actions{width:auto}
+.explorer-list.is-compact .explorer-more-actions>summary{font-size:.68rem;background:none;
+ color:var(--muted);padding:3px 6px}
+.explorer-list.is-compact .explorer-more-actions[open]{flex:1 0 100%}
+.explorer-list.is-compact .explorer-more-actions>.row-actions{padding:9px 0 4px}
+.explorer-compact-media>.place-thumbnail{width:50px;height:50px;flex-basis:50px}
+.explorer-place .status.green{font-size:.62rem;white-space:nowrap}
+.route-city-showcase{border-bottom:1px solid var(--line);padding:10px 14px}
+.route-city-showcase-head{margin-bottom:6px}
+.route-city-step{border:0;background:transparent;padding:8px 10px;min-width:110px;
+ border-radius:12px;position:relative}
+.route-city-step:hover{background:var(--light)}
+.route-city-step>span:first-child{border-radius:50%;background:var(--accent);color:var(--green);
+ width:25px;height:25px}
+.route-city-step strong{font-size:.8rem;font-weight:760}
+.route-city-step small{font-size:.67rem;color:var(--muted)}
+.map-panel{overflow:hidden}
+.map-panel .map-tools{padding:7px 13px;gap:5px}
+.map-panel .map-tools .muted{font-size:.71rem}
+.map-panel .panel-head h2{font-size:1.24rem}
+.map-panel .panel-head{padding:13px 15px 8px}
+.map-full #map{min-height:420px}
+@media(max-width:1300px){.map-explorer-split{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:650px){.explorer-list.is-compact .explorer-place{padding:10px 5px;min-height:95px}}
+@media(prefers-reduced-motion:reduce){.route-city-step{transition:none}}

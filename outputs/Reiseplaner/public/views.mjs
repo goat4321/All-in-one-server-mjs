@@ -240,7 +240,12 @@ function mapPanel(ctx, full = false) {
         '<button type="button" class="route-city-step" data-action="city" data-value="'+esc(id)
         +'" aria-label="Reiseort '+(i+1)+': '+esc(ctx.cities[id].name)+' öffnen">'
         +'<span>'+(i+1)+'</span><strong>'+esc(ctx.cities[id].name)
-        +'</strong><small>Entdecken</small></button>').join('')+'</div></div>'
+        +'</strong><small>'
+        +esc(ctx.trip.stayByCity?.[id]?.from
+          ?shortDay(ctx.trip.stayByCity[id].from)
+            +(ctx.trip.stayByCity[id].to?' – '+shortDay(ctx.trip.stayByCity[id].to):'')
+          :'Reiseort')
+        +'</small></button>').join('')+'</div></div>'
     : '';
   const t = ctx.filters;
   const network = transitNetworks[ctx.city];
