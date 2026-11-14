@@ -156,6 +156,10 @@ try {
   await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===2'),
     'Desktop atlas has a real two-column split');
+  assert.ok(await js('(() => { const e=document.querySelector(".explorer-search input")?.getBoundingClientRect(),b=document.querySelector(".explorer-search .button")?.getBoundingClientRect(); return e&&b&&b.left>=e.right-2&&Math.abs(e.top-b.top)<9; })()'),
+    'Suchfeld und Suchknopf stehen auf Desktop in derselben Zeile');
+  assert.equal(await js('getComputedStyle(document.querySelector(".explorer-categories")).flexWrap'),'nowrap',
+    'Ortskategorien sind eine scrollbare Zeile statt mehrerer Kachelreihen');
   await until(()=>js('document.querySelector("#map").getBoundingClientRect().top < window.innerHeight*.62'),
     'Die sichtbare Kartenfläche muss im ersten Desktop-Screen beginnen, nicht nur das Panel');
   await js('window.scrollTo({top:0,behavior:"instant"})');

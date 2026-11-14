@@ -1465,3 +1465,27 @@ h2{font-size:1.37rem}
  .map-explorer-split #map{height:57dvh;min-height:350px}
  .map-explorer-split>.explorer-right .explorer-toolbar{margin:0 0 9px;padding:10px}
 }
+
+
+/* Atlas search/list micro-polish: dense single-row horizontal categories. */
+.map-explorer-split .explorer-right .explorer-search{display:grid!important;
+ grid-template-columns:minmax(0,1fr) 40px;gap:5px;align-items:end}
+.map-explorer-split .explorer-right .explorer-search label{grid-column:1/-1;margin:0}
+.map-explorer-split .explorer-right .explorer-search input{grid-column:1;min-width:0}
+.map-explorer-split .explorer-right .explorer-search .button{grid-column:2;
+ width:40px;min-width:40px;min-height:38px;padding:7px;font-size:0;overflow:hidden}
+.map-explorer-split .explorer-right .explorer-search .button svg{width:18px;height:18px;flex:none}
+.map-explorer-split .explorer-right .explorer-categories{display:flex;flex-wrap:nowrap!important;
+ gap:5px;overflow-x:auto;scrollbar-width:thin;overscroll-behavior-x:contain;
+ scroll-snap-type:x proximity;padding-bottom:4px}
+.map-explorer-split .explorer-right .explorer-categories>*{flex:0 0 auto;white-space:nowrap;
+ scroll-snap-align:start}
+.map-explorer-split .explorer-right .explorer-scope{display:flex;align-items:center;flex-wrap:wrap;
+ gap:5px}
+.map-explorer-split .explorer-right .explorer-scope>.button{min-height:30px;
+ border:0;background:var(--light);padding:4px 7px;font-size:.67rem;color:var(--muted)}
+.map-explorer-split .explorer-right .explorer-scope>.button svg{width:14px;height:14px}
+@media(max-width:650px){
+ .map-explorer-split .explorer-right .explorer-search{grid-template-columns:minmax(0,1fr) 42px}
+ .map-explorer-split .explorer-right .explorer-search .button{width:42px;min-width:42px}
+}

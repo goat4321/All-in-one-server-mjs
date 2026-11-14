@@ -22,6 +22,7 @@ export function explorerToolbar(ctx) {
     + '<div class="explorer-scope"><strong>Orte anzeigen</strong>'
     + chip('explorer-scope', 'Gesamte Reise', ex.scope === 'trip', 'trip', 'map')
     + chip('explorer-scope', 'Nur ' + (ctx.cities[ctx.city]?.name ?? ctx.city), ex.scope === 'city', 'city', 'pin')
+    +btn('explorer-reset','Reset','reset')
     + '<span class="muted">' + ex.placed.length + ' Kartenpunkte · ' + ex.unlocated.length + ' ohne genaue Koordinaten</span></div>'
     + (ex.nearby?'<div class="explorer-nearby-bar" role="group" aria-label="Umkreissuche">'
       +'<div><strong>Im Umkreis von '+esc(ex.nearby.name)+'</strong>'
@@ -37,7 +38,7 @@ export function explorerToolbar(ctx) {
       + id + '" aria-pressed="' + (ex.group === id) + '"><i class="category-swatch ' + id
       + '"></i>' + esc(group.label) + '</button>').join('')
     +chip('explorer-saved-only','Merkliste ('+ex.saved.size+')',ex.savedOnly===true,'toggle','bookmark')
-    +btn('explorer-reset','Alle Ortsfilter zurücksetzen','reset')+'</div>'
+    +'</div>'
     + '<details class="explorer-view-advanced"'+(ctx.mapAdvancedOpen?' open':'')
     +'><summary>Listenansicht & weitere Filter</summary>'
     + '<div class="explorer-view-controls">'
