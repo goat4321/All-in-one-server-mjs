@@ -35,7 +35,7 @@ test('Work queue visibly maps every source item with its actual gap codes',()=>{
     assert.match(html,/Alle offenen Angaben/);
     assert.match(html,/Ohne zusätzlichen Ortsguide/);
     assert.match(html,/zusätzliche recherchierte Alternative\(n\) außerhalb der aktuellen vier Routen/);
-    assert.match(html,/Altstadt Montpellier/);
+    assert.match(html,/Montpellier – Altstadt als optionaler Zwischenstopp/);
     assert.match(html,/keiner Reisevariante zugeteilt/);
     assert.match(html,/data-coverage-gaps="[^"]+"/);
     assert.match(html,/data-coverage-city="/);
