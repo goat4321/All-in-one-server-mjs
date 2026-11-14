@@ -5,6 +5,7 @@ import { spawn } from 'node:child_process';
 import { promisify } from 'node:util';
 import { gunzip } from 'node:zlib';
 import { loadCatalog, distanceKm } from './lib/catalog.mjs';
+import {fetchSupermarkets} from './lib/supermarket-source.mjs';
 import { InputError, openStore } from './lib/store.mjs';
 import { routeTransit } from './lib/transit-route.mjs';
 
@@ -181,6 +182,30 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
     return task;
   }
 
+  const marketCache=new Map();
+  let marketQueue=Promise.resolve();
+  let lastMarketQuery=0;
+  async function supermarkets(cityId){
+    const place=catalog.cities[cityId];
+    if(!place||!Array.isArray(place.point)
+      ||!catalog.trips.some(trip=>trip.route.includes(cityId)))
+      throw new InputError('Unbekannter Reiseort.',404);
+    const hit=marketCache.get(cityId);
+    if(hit&&Date.now()-hit.t<86400000)return {...hit.data,cached:true};
+    if(!upstream)throw new InputError('Supermarktsuche offline: bitte später erneut versuchen.',503);
+    const work=marketQueue.then(async()=>{
+      const cached=marketCache.get(cityId);
+      if(cached&&Date.now()-cached.t<86400000)return {...cached.data,cached:true};
+      await new Promise(resolve=>setTimeout(resolve,Math.max(0,1800-(Date.now()-lastMarketQuery))));
+      lastMarketQuery=Date.now();
+      const data=await fetchSupermarkets(cityId,place.point,{fetcher});
+      marketCache.set(cityId,{t:Date.now(),data});
+      return data;
+    });
+    marketQueue=work.catch(()=>{});
+    return work;
+  }
+
   const server = createServer(async (req, res) => {
     const localHost = req.headers.host;
     if (!/^(?:localhost|127\.0\.0\.1)(?::\d{1,5})?$/.test(localHost ?? '')) return json(res, { error: 'Lokaler Host erforderlich.' }, 403);
@@ -191,9 +216,21 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'DENY');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://tile.openstreetmap.org https://basemaps.cartocdn.com https://wms.geo.admin.ch; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
+    res.setHeader('Content-Security-Policy',
+      "default-src 'self'; "+
+      "script-src 'self' https://unpkg.com 'sha256-VwxUbM8Aa6fXOFgyj+XuKWSCSgp5VLJbBskEKbQGEKw='; "+
+      "style-src 'self' 'unsafe-inline' https://unpkg.com; "+
+      "img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://basemaps.cartocdn.com https://commons.wikimedia.org https://upload.wikimedia.org https://tiles.openfreemap.org https://wms.geo.admin.ch; "+
+      "connect-src 'self' https://tiles.openfreemap.org https://unpkg.com https://*.basemaps.cartocdn.com; "+
+      "worker-src blob:; font-src 'self' data: https://tiles.openfreemap.org https://unpkg.com; "+
+      "object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
     try {
       const pathname = new URL(req.url, origin).pathname;
+      if(pathname==='/api/supermarkets'&&req.method==='GET'){
+        const cityId=new URL(req.url,origin).searchParams.get('city')??'';
+        if(!/^[a-z_-]{2,30}$/.test(cityId))throw new InputError('Ungültiger Stadtparameter.');
+        return json(res,await supermarkets(cityId));
+      }
       if (pathname === '/api/bootstrap' && req.method === 'GET') return json(res, { ...catalog, transitSchedules, variants: store.list() });
       if (pathname === '/api/geocode' && req.method === 'POST') return json(res, await geocode(await readJson(req)));
       if (pathname === '/api/transit' && req.method === 'POST') return json(res, await transit(await readJson(req)));
