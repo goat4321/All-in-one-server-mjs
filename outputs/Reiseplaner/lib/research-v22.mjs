@@ -5,7 +5,7 @@ const external=u=>typeof u==='string'&&/^https:\/\/[a-z0-9.-]+\//i.test(u);
 export async function loadResearchV22(){
   const archive=JSON.parse(await readFile(url,'utf8'));
   if(archive.schema!=='operator_guides_v22'
-    ||archive.total!==18||!Array.isArray(archive.entries)
+    ||archive.total!==21||!Array.isArray(archive.entries)
     ||archive.entries.length!==archive.total
     ||!/^\d{4}-\d{2}-\d{2}$/.test(archive.reviewedOn)
     ||new Set(archive.entries.map(x=>x.id)).size!==archive.total)
