@@ -1,6 +1,7 @@
 import {esc,btn,urlLink,sourceList} from './ui.mjs';
 import {placeProfileModel,placeProfileHtml,placeImageHtml,placeGalleryHtml,placeThumbnailHtml} from './place-profile.mjs';
 import {entryCompleteness} from './entry-completeness.mjs';
+import {inspectorTerm} from './inspector-glossary.mjs';
 const labels={activity:'Aktivität',lodging:'Unterkunft',transport:'Verbindung',food:'Essen',shop:'Einkaufen'};
 const valid=p=>Array.isArray(p)&&p.length===2&&p.every(Number.isFinite)&&Math.abs(p[0])<=90&&Math.abs(p[1])<=180;
 const distance=(a,b)=>{const r=Math.PI/180,p=a[0]*r,q=b[0]*r,lat=(b[0]-a[0])*r,lon=(b[1]-a[1])*r;
@@ -53,13 +54,14 @@ export function placeInspectorHtml(ctx,item){
      +officialGuide(guide)
      +'<details class="inspector-all-fields"><summary>Alle vorhandenen Einzelangaben anzeigen</summary>'
      +placeProfileHtml(item,ctx)+'</details></div>',
-   gallery:'<div class="inspector-gallery">'
+   gallery:'<div class="inspector-gallery">'+inspectorTerm('image')
      +(p.photo?placeImageHtml(item,ctx):'<p>Noch kein quellenbelegtes Foto zu diesem Ort hinterlegt.</p>')
      +placeGalleryHtml(item,ctx)
      +'<p class="muted">Achte auf Motivtreue, Lizenz und Urheber. Hotelbilder zeigen nicht zwingend die konkrete Zimmerkategorie.</p>'
      +btn('commons-photo-search','Lizenzierte Fotos suchen','compass',item.id)
      +btn('photo-edit','Bildlink manuell hinzufügen','pin',item.id)+'</div>',
-   cost:'<div class="inspector-cost"><div class="inspector-cost-amount">'
+   cost:'<div class="inspector-cost">'+inspectorTerm('priceTier')+inspectorTerm('booking')
+     +'<div class="inspector-cost-amount">'
      +'<strong>'+esc(price.tier)+'</strong><span>'+esc(price.amount)+'</span></div>'
      +'<p>'+esc(price.note)+'</p>'
      +'<dl><div><dt>Bisheriger Plan- bzw. Suchwert</dt><dd>'+esc(p.priceLabel)+'</dd></div>'
@@ -72,7 +74,8 @@ export function placeInspectorHtml(ctx,item){
        +urlLink(guide.sourceUrl,'Betreiberquelle öffnen')+'</section>':'')
      +'<p class="muted">€-Kennzeichen sind Vergleichskategorien. Fremdwährungen, optionale Tickets,'
      +' Rabatte und nicht geprüfte Gebühren ergeben keinen bestätigten Reise-Gesamtpreis.</p></div>',
-   sources:'<div class="inspector-sources"><p><strong>'+srcCount
+   sources:'<div class="inspector-sources">'+inspectorTerm('source')+inspectorTerm('future')
+     +'<p><strong>'+srcCount
      +' verknüpfte Webbelege</strong> · Quellenangaben sind nicht automatisch live.</p>'
      +sourceList(item,ctx.catalog?.sources??{})
      +(guide?'<div class="inspector-operator-guide"><strong>Neue Betreiberrecherche</strong>'
@@ -81,7 +84,8 @@ export function placeInspectorHtml(ctx,item){
      +'<details class="inspector-all-fields"><summary>Fehlende Nachweise ('+quality.gaps.length+')</summary>'
      +'<ul>'+quality.gaps.map(x=>'<li><strong>'+esc(x.label)+'</strong><p>'
        +esc(x.next)+'</p></li>').join('')+'</ul></details></div>',
-   nearby:'<div class="inspector-nearby"><p class="muted">Nur Luftlinie zwischen gespeicherten POI-Punkten,'
+   nearby:'<div class="inspector-nearby">'+inspectorTerm('airDistance')+inspectorTerm('geography')
+     +'<p class="muted">Nur Luftlinie zwischen gespeicherten POI-Punkten,'
      +' keine echten Fuß-, Zug- oder ÖPNV-Zeiten; Gebietskoordinaten sind nicht zwingend Eingänge.</p>'
      +(near.length?near.map(({item:x,km})=>
        '<div class="inspector-nearby-row">'+placeThumbnailHtml(x,ctx)
