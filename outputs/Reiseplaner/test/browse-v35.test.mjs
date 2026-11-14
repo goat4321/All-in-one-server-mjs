@@ -78,7 +78,7 @@ test('Lodging cards offer prominent essentials while retaining sources and group
  assert.match(markup,/Preisorientierung/);
  assert.match(markup,/data-action="choose"/);
  assert.match(markup,/data-action="details"/);
- assert.match(markup,/data-action="favorite"/);
+ assert.match(markup,/data-action="browse-save"/);
  assert.match(markup,/data-action="compare"/);
  assert.match(markup,/class="hub-option-evidence"/);
  assert.match(markup,/group-vote-snippet/);
