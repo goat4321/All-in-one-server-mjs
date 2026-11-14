@@ -193,7 +193,8 @@ export function itemDetails(ctx, item) {
     + (item.importConflict ? alert(item.importConflict) : '')
     + '<div class="dialog-foot">'
     + (item.mealSlot && ctx.activeSet.has(item.id) ? btn('meal-cost', 'Ausgabe zur Mahlzeit', 'wallet', item.id) : '')
-    + btn('photo-edit', 'Foto zur Galerie hinzufügen', 'pin', item.id)
+    + btn('commons-photo-search', 'Lizenzfotos suchen', 'compass', item.id)
+    + btn('photo-edit', 'Bildlink manuell hinzufügen', 'pin', item.id)
     + (ctx.state.placePhotos?.[item.id] ? btn('photo-remove','Alle eigenen Fotos entfernen','x',item.id) : '')
     + btn('close', 'Schließen') + '</div>');
 }
