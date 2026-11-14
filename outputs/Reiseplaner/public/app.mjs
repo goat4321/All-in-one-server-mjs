@@ -37,6 +37,7 @@ const view = {
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
   browseScope:'city',browseSearch:'',browseFoodType:'all',browseLimit:24,
+  browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
   dayPlanOpen:false,
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
@@ -578,6 +579,10 @@ function closeGuide(completed = false) {
 }
 function changePage(page) {
   if (!['overview', 'plan', 'map', 'rail', 'lodging', 'discover', 'food', 'budget', 'group', 'data'].includes(page)) return;
+  if(view.page!==page){
+    view.browseFilterOpen=false;view.browseResearchOpen=false;
+    view.browseMealsOpen=false;view.browseFoodResearchOpen=false;
+  }
   view.page = page;
   view.menu = false;
   view.optionFilter = 'all';
@@ -1541,6 +1546,11 @@ app.addEventListener('toggle',event=>{
   if(event.target.matches('.explorer-view-advanced'))view.mapAdvancedOpen=event.target.open;
   if(event.target.matches('.explorer-day-notes'))view.mapDayNotesOpen=event.target.open;
   if(event.target.matches('.day-plan-compact'))view.dayPlanOpen=event.target.open;
+  if(event.target.matches('.hub-filter-more'))view.browseFilterOpen=event.target.open;
+  if(event.target.matches('.hub-food-planning'))view.browseMealsOpen=event.target.open;
+  if(event.target.matches('.hub-food-research'))view.browseFoodResearchOpen=event.target.open;
+  if(event.target.matches('.hub-technical-details:not(.hub-food-research)'))
+    view.browseResearchOpen=event.target.open;
 },true);
 // Commons and explicitly sourced photos can fail when offline or blocked.
  // Keep a designed category fallback, not broken alt-text inside a photo tile.

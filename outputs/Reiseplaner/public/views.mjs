@@ -142,7 +142,8 @@ function content(ctx, city) {
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
     case 'food': return food(ctx)
-      +'<details class="hub-technical-details hub-food-research"><summary>'
+      +'<details class="hub-technical-details hub-food-research"'
+      +(ctx.browseFoodResearchOpen?' open':'')+'><summary>'
       +icon('chevron')+'<span><strong>Weitere Recherche & Quellen</strong>'
       +'<small>Umfrageauswertung, Betreiberinformationen und Preisbeispiele</small>'
       +'</span></summary><div class="hub-research-body">'
@@ -583,7 +584,8 @@ function options(ctx, lodging) {
     +browseToolbar(ctx,{kind:lodging?'lodging':'discover',total:found.length,
        filtered:list.length})
     +'<div class="hub-result-settings"><div class="hub-quick-filters">'+quick
-    +'<details class="hub-filter-more"><summary>'+icon('layers')
+    +'<details class="hub-filter-more"'+(ctx.browseFilterOpen?' open':'')
+      +'><summary>'+icon('layers')
       +' Weitere Filter</summary><div>'+advanced+'</div></details></div>'
     +'<div class="hub-sort-controls">'
     +(lodging?'<label>Nachtbudget <input id="nightly-target" type="number"'
@@ -613,7 +615,8 @@ function options(ctx, lodging) {
       ?'<div class="hub-more-button">'
         +btn('browse-more','Weitere '+Math.min(24,list.length-(ctx.browseLimit??24))
           +' Optionen anzeigen','plus','','primary')+'</div>':'')
-    +'<details class="hub-technical-details"><summary>'+icon('chevron')
+    +'<details class="hub-technical-details"'+(ctx.browseResearchOpen?' open':'')
+     +'><summary>'+icon('chevron')
      +'<span><strong>Detaillierter Preis- und Quellenvergleich</strong>'
      +'<small>Prüfpunkte, Suchwerte, Gruppenvergleich und Originaldaten</small></span></summary>'
     +(lodging
@@ -760,7 +763,8 @@ function food(ctx) {
     +(shown.length>(ctx.browseLimit??24)
        ?'<div class="hub-more-button">'
          +btn('browse-more','Weitere Restaurants & Geschäfte','plus','','primary')+'</div>':'');
-  return visualBrowse + '<details class="hub-food-planning"><summary>'
+  return visualBrowse + '<details class="hub-food-planning"'
+    +(ctx.browseMealsOpen?' open':'')+'><summary>'
     +icon('calendar')+' Tagesmenüs, Einkaufswarenkorb & detaillierte Preisrecherche'
     +icon('chevron')+'</summary><div class="hub-food-planning-content">'
     +heading('Mahlzeiten am Reisetag',ctx.cities[city].name+' · '+count+' Reisende',planDate)
