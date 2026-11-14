@@ -51,8 +51,7 @@ export function dayPlanPanel(ctx,{compact=false}={}){
   +'<strong>'+esc(day.title)+'</strong>'
   +'<small>'+day.slots.length+' Aktivitätsideen · '+day.rides.length+' vorläufige Fahrten</small>';
  if(compact){
-  const open=!(ctx.active??[]).some(i=>i.kind==='activity'
-   &&(i.date===ctx.date||i.start?.slice(0,10)===ctx.date));
+  const open=ctx.dayPlanOpen===true;
   return '<details class="day-plan-panel day-plan-compact"'+(open?' open':'')
     +' aria-label="Tagesideen für '+esc(ctx.date)+'">'
     +'<summary>'+heading+icon('chevron')+'</summary>'+body+'</details>';

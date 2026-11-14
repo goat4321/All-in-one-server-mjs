@@ -32,6 +32,7 @@ const view = {
   optionFilter: 'all', sort: 'source', compareIds: new Set(), inspectorCompareIds: [],
   mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
+  dayPlanOpen:false,
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
@@ -691,7 +692,7 @@ async function action(name, value = '') {
     case 'day-plan-go':
       if(!ctx.trip.dayPlansV32?.some(row=>row.date===value))break;
       view.page='plan';view.mobile='plan';
-      showCity(ctx.cityForDay(value),value);
+      showCity(ctx.cityForDay(value),value,ctx.trip.id==='swiss_lakes');
       break;
     case 'day-plan-add':
     case 'day-plan-adopt': {

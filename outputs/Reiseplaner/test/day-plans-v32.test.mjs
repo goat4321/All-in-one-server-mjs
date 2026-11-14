@@ -83,3 +83,12 @@ test('All trips render discoverable day index and correct selected-day proposals
   assert.doesNotMatch(open,/on(?:click|load|change)=/i);
  }
 });
+
+test('Compact proposal cards start collapsed and expand when state requests it',()=>{
+ const trip=trips.find(t=>t.id==='swiss_lakes');
+ const ctx=sample(trip,'2027-09-06');
+ const closed=dayPlanPanel({...ctx,day:[]},{compact:true});
+ assert.doesNotMatch(closed,/class="day-plan-panel day-plan-compact" open/);
+ const expanded=dayPlanPanel({...ctx,day:[],dayPlanOpen:true},{compact:true});
+ assert.match(expanded,/class="day-plan-panel day-plan-compact" open/);
+});

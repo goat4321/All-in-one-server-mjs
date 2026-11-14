@@ -131,3 +131,10 @@
 }
 :root[data-motion=off] .day-plan-panel .day-plan-stop,
 :root[data-motion=off] .day-plan-overview[open] .day-plan-overview-row{animation:none!important}
+
+/* The compact map panel starts closed to keep location search prominent.
+ * It remains manually expandable, remembers its state across map rerenders. */
+.simple-map-mode .day-plan-compact{box-shadow:none}
+.day-plan-compact>summary:hover{background:var(--atlas-soft,var(--light))}
+.day-plan-compact>summary:focus-visible{
+ outline:3px solid var(--green);outline-offset:-3px}
