@@ -1,3 +1,15 @@
+## 14.11.2026 – Phase 23: 37 quellenbasierte Ortsguides, 30 kuratierte Bildregeln, interaktiver Drei-Wege-Ortsvergleich
+
+Die vorhandenen 21 offiziellen Ortsguides wurden um **16 einzeln recherchierte Orte/Teilabschnitte** auf **37** erweitert. Neue Quellen umfassen Paris (Canal Saint-Martin, Quartier Latin, Seine), Sète (Canal Royal und Pointe Courte), Barcelona (Bogatell Strand), Nice/Villefranche, Genua (Corso Italia und Altstadt) sowie Grindelwald (First Flyer) und Klöntalersee/Rhodannenberg. Betreiberinformationen bleiben als datierte Referenzen dargestellt; insbesondere **Badeassistenzzeiten sind nicht Strandöffnungszeiten**, **6-km-Küstenwege sind nicht kurze Hafenrunden**, und **21-km-Trailruns sind nicht Picknickspaziergänge**. Keine neuen Buchungen oder Planpreis-Überschreibungen.
+
+Fünf weitere einzeln lizenz- und motivgeprüfte Wikimedia-Commons-Fotos für Trocadéro, Canal Saint-Martin, Montjuïc, Cours-Saleya-Markt und Corso Italia ergänzen die kuratierte Sammlung auf **30** Regeln. CC BY-SA 2.5 wird mit direktem Lizenzlink angezeigt. Fehlende Fotos bleiben sichtbar, Hotelzimmerfotos ohne Nutzungsrechte werden nicht kopiert.
+
+**Neu in jedem Ortsinspektor:** „Zum Vergleich“ sammelt bis zu **drei** verschiedene Einträge derselben Stadt und Kategorie. „Vergleich (n)“ zeigt sie tabellarisch mit Bildern, realen vorhandenen Preisstufen, Quellen, offiziellen Betreiberhinweisen, Position und dokumentierten Datenlücken. Der Vergleich ist **flüchtiger Browserzustand**, setzt sich beim Variantenwechsel zurück und verändert weder Reisebudget noch Buchung noch Tagesplanung. Desktop-/Mobile-Design einschließlich Quellen- und Zugänglichkeitsprüfungen ergänzt. Vollständige Dokumentation: `PHASE_23_COMPARISON_IMAGES_RESEARCH.md`.
+
+**Noch nicht vollständig:** Alle 828 variantebezogenen Einträge haben noch nicht individuelle Bilder, veröffentlichte 2027-Endpreise oder alle exakten Zugverbindungen. Die dynamische Abdeckungsprüfung unter `Daten & Fristen` bleibt dafür die verbindliche Lückenliste.
+
+---
+
 ## 14.11.2026 – Phase 22: 21 neue offizielle Ortsguides und ausgereifter Fünf-Tab-Ortsinspektor
 
 **Im Entwicklungsbranch implementiert, nicht in `main` gemergt und nicht deployed.** Zusätzlich zum V20-Quellenbestand und dem V21-Bild-/Lückenbericht enthalten **21** exakte V19-Aktivitätseinträge eigene, neu recherchierte Betreiber-/Tourismusguides mit Fakten, Saison-/Tarifhinweisen, praktischen Einschränkungen, klaren Gültigkeitsdaten und Original-HTTPS-Links. Dazu gehören die separate T2-Rundwanderung Wasserauen–Seealpsee (**nicht** mit dem leichteren Fahrstraßenweg gleichsetzen), der offizielle 2027-Eiffelturmtarif und die 2027-Oeschinensee-Gondelsaison. 2026-Referenzpreise werden nicht zu gebuchten 2027-Preisen.
