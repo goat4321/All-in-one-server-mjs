@@ -47,7 +47,7 @@ test('Only photo files with a clear eligible licence, source and artist can be o
 test('Every trip record is audited, provenance gaps never fabricated away',async()=>{
   const catalog=await loadCatalog();
   assert.equal(catalog.trips.length,4);
-  assert.equal(curatedPhotoCount,20);
+  assert.equal(curatedPhotoCount,25);
   for(const trip of catalog.trips){
     const ctx={catalog,trip,cities:catalog.cities,
       people:Array.from({length:trip.travellers},()=>({})),state:initialState(trip),
