@@ -198,6 +198,8 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
        (lodging?'Unterkunft mit noch offenen Angaben':'Reiseidee aus der Recherche'))+'</p>'
    +'<div class="hub-option-amenities">'
    +amenity.filter(Boolean).slice(0,3).map(a=>'<span>'+esc(a)+'</span>').join('')
+   +(item.preference?.score!=null?'<span>Gruppeninteresse '
+     +esc(item.preference.score)+'/100 · Heuristik</span>':'')
    +'</div>'
    +'<div class="hub-option-pricing"><div><small>Preisorientierung</small>'
    +'<strong>'+esc(signal.tier)+' · '+esc(signal.amount)+'</strong>'

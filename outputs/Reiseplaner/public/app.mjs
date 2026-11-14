@@ -1387,9 +1387,20 @@ async function action(name, value = '') {
     case 'add': editItem(ctx, null, 'activity', save); break;
     case 'add-rail': editItem(ctx, null, 'transport', save); break;
     case 'edit': if (item) editItem(ctx, item, item.kind, save); break;
-    case 'choose': if (item) chooseItem(ctx, item, save, (city, date) => {
-      view.page = 'plan'; showCity(city, date); view.selected = item.id; render({ focusMap: true });
-    }); break;
+    case 'choose': if(item){
+      // Browsing the whole trip must open the correct city's booking/plan form,
+      // not silently assign a Nice/Paris option to Barcelona's current day.
+      if(item.city!==ctx.city&&ctx.browseScope==='trip'
+        &&['lodging','discover','food'].includes(ctx.page)){
+        const match=ctx.dates.find(d=>ctx.cityForDay(d)===item.city)
+          ??ctx.trip.stayByCity?.[item.city]?.from??ctx.date;
+        showCity(item.city,match);
+      }
+      chooseItem(context,item,save,(city,date)=>{
+        view.page='plan';showCity(city,date);
+        view.selected=item.id;render({focusMap:true});
+      });
+    }break;
     case 'remove':
       if (item && !item.locked && !item.booked) { await withEdit(item, { removed: true, selected: false }, 'Aus dem Plan entfernt'); closeDialog(); }
       break;
@@ -1436,12 +1447,21 @@ async function action(name, value = '') {
       break;
     }
     case 'meal-choose': {
-      const option = catalog.mealPlans?.[ctx.city]?.find(plan => plan.id === value);
-      if (option) mealForm(ctx, option, save, id => {
-        view.page = 'plan';
-        view.mobile = 'plan';
-        showCity(ctx.city, ctx.date);
-        if (context.day.some(entry => entry.id === id)) selectPoint(id, false);
+      const match=Object.entries(catalog.mealPlans??{}).find(([,plans])=>
+        plans.some(plan=>plan.id===value));
+      if(!match)break;
+      const [mealCity,plans]=match;
+      const option=plans.find(plan=>plan.id===value);
+      if(mealCity!==ctx.city){
+        const day=ctx.dates.find(d=>ctx.cityForDay(d)===mealCity)
+          ??ctx.trip.stayByCity?.[mealCity]?.from??ctx.date;
+        showCity(mealCity,day);
+      }
+      const target=context;
+      mealForm(target,option,save,id=>{
+        view.page='plan';view.mobile='plan';
+        showCity(target.city,target.date);
+        if(context.day.some(entry=>entry.id===id))selectPoint(id,false);
       });
       break;
     }
