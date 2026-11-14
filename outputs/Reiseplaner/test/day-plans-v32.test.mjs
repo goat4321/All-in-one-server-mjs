@@ -114,3 +114,19 @@ test('Overnight train arrival is shown on the following day and transfer duratio
  assert.match(html,/Nachtzug: Ankunft/);
  assert.match(html,/2027 nicht bestätigt/);
 });
+
+test('Progress indicators show only actually selected date-specific ideas',()=>{
+ const trip=trips.find(t=>t.id==='interrail_classic');
+ const ctx=sample(trip,'2027-09-04');
+ const id=ctx.dayPlan.slots[0].id;
+ const item=trip.items.find(i=>i.id===id);
+ const rendered=dayPlanPanel({...ctx,
+  active:[{...item,date:'2027-09-04',start:null,selected:true}],
+  activeSet:new Set([id])});
+ assert.match(rendered,/1 von 3 Tagesideen übernommen/);
+ assert.match(rendered,/aria-valuenow="1"/);
+ assert.match(rendered,/Im Tagesplan/);
+ const index=dayPlanOverview({...ctx,
+  active:[{...item,date:'2027-09-04',start:null,selected:true}]});
+ assert.match(index,/1 übernommen/);
+});

@@ -159,3 +159,19 @@
  .day-plan-photo,.day-plan-photo>.place-thumbnail{width:45px!important;height:45px!important}
  .day-plan-item-actions{grid-column:3}
 }
+
+/* Real progress derived from selected per-date activity IDs, never booked status. */
+.day-plan-progress{display:grid;gap:6px;padding:3px 1px 2px}
+.day-plan-progress>span{font-size:.73rem;color:var(--muted);font-weight:710}
+.day-plan-progress>[role=progressbar]{height:7px;border-radius:9px;
+ background:var(--line);overflow:hidden;position:relative}
+.day-plan-progress>[role=progressbar]>i{display:block;height:100%;border-radius:9px;
+ background:linear-gradient(90deg,var(--green),#56b78e);
+ transform-origin:left center;transition:width .4s cubic-bezier(.2,.82,.23,1);
+ animation:dayPlanBar .42s cubic-bezier(.2,.82,.23,1) backwards}
+@keyframes dayPlanBar{from{transform:scaleX(.03);opacity:.3}
+ to{transform:scaleX(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){
+ .day-plan-progress>[role=progressbar]>i{animation:none!important;transition:none!important}}
+:root[data-motion=off] .day-plan-progress>[role=progressbar]>i{
+ animation:none!important;transition:none!important}

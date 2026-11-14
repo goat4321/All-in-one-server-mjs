@@ -1,18 +1,26 @@
 import {esc,icon,btn,shortDay,urlLink} from './ui.mjs';
 import {dayPlanCandidates} from './day-plans-logic.mjs';
 import {placeThumbnailHtml} from './place-profile.mjs';
+import {localParts} from './model.mjs';
 
 const periods={morning:'Vormittag',noon:'Mittag',afternoon:'Nachmittag',evening:'Abend'};
 const styles={reise:'Reisetag',rueckreise:'Rückreise',stadt:'Stadt entdecken',
   wasser:'Meer & Seen',berge:'Berge & Wandern'};
 const types={reise:'train',rueckreise:'train',stadt:'compass',wasser:'beach',berge:'tree'};
-const activeIds=(ctx)=>new Set((ctx.active??[]).filter(item=>item.kind==='activity'
-  &&(item.date===ctx.date||item.start?.slice(0,10)===ctx.date)).map(item=>item.id));
+const activeIds=(ctx,date=ctx.date)=>new Set((ctx.active??[]).filter(item=>item.kind==='activity'
+  &&(localParts(item.start,item.zone).date??item.date)===date).map(item=>item.id));
 
 export function dayPlanPanel(ctx,{compact=false}={}){
  const day=ctx.dayPlan;
  if(!day)return '';
  const added=activeIds(ctx),pending=dayPlanCandidates(ctx);
+ const selected=day.slots.filter(slot=>added.has(slot.id)).length;
+ const total=day.slots.length;
+ const pct=total?Math.round(100*selected/total):0;
+ const progress=total?'<div class="day-plan-progress"><span>'+selected+' von '+total
+   +' Tagesideen übernommen</span><div role="progressbar" aria-label="Tagesideen bereits in deinem Plan"'
+   +' aria-valuemin="0" aria-valuemax="'+total+'" aria-valuenow="'+selected+'">'
+   +'<i style="width:'+pct+'%"></i></div></div>':'';
  const arrivals=(day.overnightArrivals??[]).map(t=>
     '<li class="day-plan-transport day-plan-night-arrival">'
     +'<span class="day-plan-rail-icon">'+icon('moon')+'</span>'
@@ -43,6 +51,7 @@ export function dayPlanPanel(ctx,{compact=false}={}){
     +btn('details','Details','folder',slot.id)+'</div></li>';
  }).join('');
  const body='<div class="day-plan-inner">'
+    +progress
     +(rides||arrivals?'<div class="day-plan-block"><h4>'+icon('train')+' Anreise / Transfers (vorläufig)</h4>'
     +'<ul class="day-plan-ride-list">'+arrivals+rides+'</ul></div>':'')
     +(slots?'<div class="day-plan-block"><h4>'+icon('calendar')+' Ideen nach Tagesabschnitt</h4>'
@@ -74,16 +83,20 @@ export function dayPlanPanel(ctx,{compact=false}={}){
 export function dayPlanOverview(ctx){
  const plans=ctx.trip?.dayPlansV32??[];
  if(!plans.length)return '';
- const rows=plans.map((day,index)=>
-  '<li><button type="button" class="day-plan-overview-row" data-action="day-plan-go"'
+ const rows=plans.map((day,index)=>{
+  const used=activeIds(ctx,day.date);
+  const selected=day.slots.filter(slot=>used.has(slot.id)).length;
+  return '<li><button type="button" class="day-plan-overview-row" data-action="day-plan-go"'
    +' data-value="'+esc(day.date)+'">'
    +'<span class="day-plan-overview-number">'+(index+1)+'</span>'
    +'<span class="day-plan-overview-title"><strong>'+esc(shortDay(day.date))
    +' · '+esc(day.title)+'</strong>'
    +'<small>'+esc(ctx.cities?.[day.city]?.name??day.city)+' · '
    +esc(styles[day.pace]??'Tag')+' · '+day.slots.length+' Ideen'
-   +(day.rides.length?' · '+day.rides.length+' Fahrten':'')+'</small></span>'
-   +icon('chevron')+'</button></li>').join('');
+   +(day.rides.length?' · '+day.rides.length+' Fahrten':'')
+   +(selected?' · '+selected+' übernommen':'')+'</small></span>'
+   +icon('chevron')+'</button></li>';
+ }).join('');
  return '<details class="day-plan-overview">'
    +'<summary><span class="day-plan-overview-head-icon">'+icon('calendar')+'</span>'
    +'<span><strong>Alle '+plans.length+' Tagespläne ansehen</strong>'
