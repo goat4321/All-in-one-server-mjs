@@ -73,7 +73,9 @@ export function validateState(state, trip, imported) {
       for(const photo of photos){
         if(!object(photo)||!goodText(photo.url,1200)||!/^https:\/\/[^\s]+$/i.test(photo.url)
           ||!goodText(photo.credit,180)||!photo.credit.trim()
-          ||!goodText(photo.sourceUrl,1200)||!/^https:\/\/[^\s]+$/i.test(photo.sourceUrl))
+          ||!goodText(photo.sourceUrl,1200)||!/^https:\/\/[^\s]+$/i.test(photo.sourceUrl)
+          ||(photo.licenseUrl!=null&&(!goodText(photo.licenseUrl,1200)
+            ||!/^https:\/\/[^\s]+$/i.test(photo.licenseUrl))))
           error('Ein Ortsfoto braucht HTTPS-Bildlink, Namensnennung und Bildquelle.');
       }
     }
