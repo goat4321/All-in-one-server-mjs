@@ -51,9 +51,11 @@ export async function loadResearchV20(baseItems,cities){
    if(row.priceReference&&!https(row.priceReference.sourceUrl))fail('price reference '+row.id);
  }
  const hotels=new Map(lodging.items.map(x=>[x.id,x]));
- const knownHotelIds=new Set(['lod-001','lod-002','lod-017','lod-019','lod-020','lod-030','lod-031','lod-032']);
- if(lodging.items.filter(x=>x.newSearch).length!==knownHotelIds.size
-   ||lodging.items.some(x=>Boolean(x.newSearch)!==knownHotelIds.has(x.id)))fail('hotel live snapshot scope');
+ if(lodging.updatedSearchOffers!==22
+   ||lodging.items.filter(x=>x.newSearch).length!==lodging.updatedSearchOffers
+   ||lodging.hotelSearchLocations?.length!==10
+   ||lodging.items.some(x=>x.newSearch && x.newSearch.guests!==x.adults))
+   fail('hotel recheck observations exceed validated scope');
  for(const a of lodging.items){
    if(a.newSearch){
      if(!Number.isSafeInteger(a.newSearch.totalCents)||!https(a.newSearch.url)
@@ -133,6 +135,8 @@ export function applyResearchV20(trips,cities,archive){
          independentPoint:fact.independentMapEvidence??null,pointConflict:fact.geographyConflict??null,
          lastSearch:fact.newSearch??null,reviewStatus:fact.recheckStatus,
          pending:fact.remaining,reviewedOn:fact.reviewedOn,
+         rateConflictNotice:fact.rateConflictNotice??null,
+         oldVsNewDifferenceCents:fact.newSearchDifferenceCents??null,
        }:{
          type:'activity',reviewStatus:fact.researchStatus,geoNote:fact.geoNote,
          condition:fact.condition??null,priceKind:fact.priceOverride?.kind??null,
