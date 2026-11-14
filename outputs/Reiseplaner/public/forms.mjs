@@ -2,6 +2,7 @@ import { categories, groupPrice, localParts, mealDate, mealEstimate, minor, mone
 import { alert, btn, esc, iconBtn, dateLabel, dateText, sourceList, urlLink, cost, unit, timeText, transitPlanners } from './ui.mjs';
 import { transitNetworks } from './transit.mjs';
 import { placeProfileHtml } from './place-profile.mjs';
+import { placeInspectorHtml } from './place-inspector.mjs';
 import { VERIFICATION_FIELDS, reviewProgress } from './verification.mjs';
 
 const dialog = document.querySelector('#dialog');
@@ -188,7 +189,7 @@ export function chooseItem(ctx, item, save, after) {
 }
 
 export function itemDetails(ctx, item) {
-  openDialog(item.name, placeProfileHtml(item,ctx)
+  openDialog(item.name, placeInspectorHtml(ctx,item)
     + (item.positionIssue ? alert(item.positionIssue) : '')
     + (item.importConflict ? alert(item.importConflict) : '')
     + '<div class="dialog-foot">'
