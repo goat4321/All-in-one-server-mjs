@@ -160,3 +160,17 @@ test('Day mode gives an actionable city discovery path if the selected day is em
  assert.match(html,/data-action="map-mode" data-value="city"/);
  assert.doesNotMatch(html,/automatisch gebucht/);
 });
+
+test('Real plan warnings are surfaced inline, escaped, and never treated as confirmed reservations',()=>{
+ const ctx=context(catalog.trips[0]);
+ ctx.day=[{id:'warn-1',entryKey:'warn-1',city:ctx.city,kind:'activity',
+   name:'Pasta <script>alert(1)</script>',requiresKitchen:true,kitchenReady:false}];
+ ctx.fullDay=ctx.day;
+ const html=mapDayAgenda(ctx);
+ assert.match(html,/1 Planungshinweis/);
+ assert.match(html,/Küchenzugang offen/);
+ assert.match(html,/data-action="page" data-value="plan"/);
+ assert.match(html,/Keine Buchungs- oder Fahrplangarantie/);
+ assert.doesNotMatch(html,/<script>/);
+ assert.match(html,/&lt;script&gt;/);
+});
