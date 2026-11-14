@@ -44,7 +44,7 @@ export function createMotionController(doc){
   },true);
   // Interactions must never change or intercept a control's click semantics.
   doc.addEventListener('pointerdown',event=>{
-    if(!canMove()||event.button!==0||event.isPrimary===false)return;
+    if(!canMove()||event.button!==0||(event.pointerType==='touch'&&event.isPrimary===false))return;
     const target=event.target?.closest?.('button:not([disabled]),summary,a.button');
     if(!target||target.closest('[hidden],[inert]')||target.matches('[aria-disabled=true]'))return;
     const rect=target.getBoundingClientRect();
