@@ -1,3 +1,18 @@
+## v1.8 – Visuelle Referenzabgleiche / Map-first Layout (14.11.2026)
+
+Die aktuelle UI-Runde überarbeitet das v1.7-Design gezielt anhand der vom Nutzer übermittelten Wanderlog-, Designyow-/Trip-Plan- und Navica-Screenshots. **Kein UI-Klon und keine nacherfundenen Live-Daten.**
+
+- **Startseite:** ein luftig gestaltetes zweispaltiges Cockpit (Reisedaten/Foto-Filmstreifen links, anklickbare schematische Routen-Miniatur rechts). Die Städte sind ausschließlich an vorhandene (teils approximative) Stadt-Anker gebunden; die Linien zeigen **kein** tatsächliches Bahn-/Straßennetz. Die Routenüberschrift zählt tatsächlich dargestellte unterschiedliche Reiseziele.
+- **Bild-Fallback:** bei fehlenden oder blockierten Ortsfotos unterscheiden sich dekorative, lokal erzeugte Stadt-/Küsten-/Bergillustrationen. Sie werden ausdrücklich als **symbolische Illustration, kein echtes Ortsfoto** gekennzeichnet; sobald ein eindeutig zugeordnetes Foto mit Quellen-/Lizenzbeleg vorhanden und erreichbar ist, erscheint dieses darüber. Die 21 zuvor kuratierten Foto-Mappings bleiben erhalten und wurden nicht durch freie Providerbilder ergänzt.
+- **Map first wie Wanderlog:** Tagesleiste unmittelbar über dem zweispaltigen Explorer. **Karte links, Suche/Filter/Ergebnisliste rechts**, statt zuerst mehrere breite Dashboard-Sektionen und Kartensteuerungen abzuarbeiten. Die Map stellt eigene Ebenen und Maßstabsoptionen nach der Kartenfläche bereit; vorhandene ältere Tagesideen und Datendetails sind bewusst aufklappbar.
+- **Kompakte Suchspalte:** Texte und Gruppenvoten der Listenansicht weniger repetitiv, sekundäre Aktionen aufklappbar, Sucheingabe und Lupe in einer Zeile, eine horizontal scrollbarere Kategorienzeile und ein kleiner dauerhaft sichtbarer Reset-Knopf.
+- **Direkte Interaktion:** Map-Marker und der zugehörige Listeneintrag heben sich beim Hover gegenseitig hervor, ohne den Kartenzustand neu zu rendern. Routenminiatur-Städte sind als `button` direkt zum Tagesplan anklickbar. Die bisherigen Route-Studio-Animationen und neu hinzugefügte subtile Routenfluss- und Micro-Transitions bleiben mit `prefers-reduced-motion` abschaltbar.
+- **Datenwahrheit:** keine ersetzten Privat-/Airbnb-Koordinaten, keine erfundenen Hotelbilder, keine Live-Buchungen oder 2027er Fahrpläne. EUR-Symbole bleiben transparente Orientierung aus bekannten Planwerten; Rechnungs- und Anbieterendpreise werden nicht vorgetäuscht.
+- **Qualität:** Node-Test `test/route-mini-map.test.mjs` sichert schematische Routenprojektion; Chrome-E2E prüft Karte innerhalb des ersten 1440×900-Viewports, nebeneinanderliegende Atlas-Flächen, Sucheingabe und Suchknopf in gleicher Zeile, Kategorie-Scrollzeile, gefaltete Zusatzfunktionen, Foto-/Illustrations-Fallbacks, Hover und Mobilansicht. Die GitHub-Actions-Prüfung exportiert acht Chrome-Screenshots inklusive `08-atlas-oben-desktop.png` für 14 Tage.
+
+Ausführliche Vergleiche, Umsetzung und offene Punkte in [PHASE_18_DESIGN_REFERENCE_COMPARE.md](PHASE_18_DESIGN_REFERENCE_COMPARE.md). Änderungen nur im Entwicklungsbranch `feature/v7-data-day-accommodation-rail` ([Draft PR #5](https://github.com/goat4321/All-in-one-server-mjs/pull/5)); weiterhin **nicht** in `main` und **nicht** deployed.
+
+---
 ## v1.7 – Weiches, bildorientiertes Reise-Cockpit (13.11.2026)
 
 **Ziel:** An die vom Nutzer gelieferten Wanderlog-, mobilen Trip-Plan-, Designyow- und Navica-Beispielbilder angelehnte Informationsarchitektur, aber mit eigenständigem Interface und ausschließlich echten Reise- und Quellenwerten. Das Programm bleibt ein privater Interrail-/Schweiz-Planer; es wurden keine Live-Freunde-Standorte, Benachrichtigungen, Wetterberichte, Flugtickets oder Buchungen erfunden.

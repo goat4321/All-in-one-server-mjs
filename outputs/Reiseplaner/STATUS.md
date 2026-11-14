@@ -1,4 +1,12 @@
-# Projektstand · 13.11.2026
+# Projektstand · 14.11.2026
+
+## Nachtrag 14.11.2026 – v1.8 iterative Screenshot-Abgleiche
+
+Mehrere überprüfte Designschleifen im bestehenden Entwicklungsbranch mit Bezug auf vom Nutzer gelieferte hochwertige Trip-App-Screenshots: ein zweispaltiges, luftiges Reise-Cockpit; anklickbare, ausdrücklich **schematische** Route auf Basis vorhandener Stadtkoordinaten; einzigartige symbolische Stadt-, Küsten- und Bergbilder als lokale Foto-Fallbacks; gekoppelte Hover-Hervorhebung zwischen Leaflet und Liste. Der Karten-Explorer wurde **map-first** neu sortiert (Tagesauswahl → Karte links / Suchleiste und Liste rechts), große Tagesvorschläge/Zusatzoptionen sind gefaltet, die gestalterischen Karteneinstellungen und die Stadtabfolge stehen nach der Karte. Suchbutton erscheint in einer Zeile mit Eingabe, Kategorien sind in einer scrollbaren Leiste, kompakte Einträge zeigen nur Wesentliches.
+
+Die visuelle Kontrolle erfolgt anhand echter Chrome-Screenshots, automatisch gegen DOM-Geometrie und Verhalten ergänzt. `test/route-mini-map.test.mjs` und die volle CI wurden erweitert; aktueller Offline-Browserdurchlauf erzeugt acht PNGs. **Noch nicht als identisch mit Referenzbildern oder vollständig live-verifiziert bewerten**: Viele individuelle Fotos fehlen; echte Online-OSM-Tiles, Gerätehardware und fremde Netzbedingungen wurden nicht visuell abgenommen; Unterkunfts-Checkout, Zugreservierungen, Öffnungszeiten 2027 und genaue Privat-/Airbnb-Adressen bleiben offen. Keine Buchung wurde geändert.
+
+
 
 ## Nachtrag 13.11.2026 – v1.7 Designreferenzen integriert
 
