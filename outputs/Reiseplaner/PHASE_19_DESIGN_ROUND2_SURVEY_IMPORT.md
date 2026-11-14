@@ -45,7 +45,7 @@ Alle 20 Nutzer-Dateien sind unverändert dem Inhalt nach und unter ihren kanonis
 2. Die 35 Booking.com-Kandidaten besitzen historische datums- und belegungsabhängige Suchpreise. Zimmer-/Bettenaufteilung, Steuern, Stornobedingungen und finale Checkout-Verfügbarkeit sind nicht bestätigt. Deshalb sind alle zunächst **unselected, unbooked**. Buchbare Preise werden nur für die exakt passenden Reisetermine/Gruppen in den Unterkunftsvergleich übernommen; **keine** Übertragung auf August oder die Interrail-Schweizvariante mit anderen Datumsfenstern.
 3. Für alle 57 neuen Aktivitäten sind genaue POI-Koordinaten null. Ohne eigenen Standortnachweis werden keine erfundenen Pins verwendet; Google Maps kann nach dem Ort suchen. 35 Unterkunftskoordinaten sind ausdrücklich **vom Anbieter gemeldet**, nicht unabhängig geprüfte Eingangspunkte. Sie werden in der Datenprüfung als solche ausgewiesen.
 4. 40 Essen-/Abendideen haben überwiegend keine konkreten Anbieter und belastbaren Menüpreise. Sie bleiben recherchierbare Vorschläge.
-5. Die 17 Tagesideen, vier Budgetvarianten und 14 Tarifreferenzen bleiben unselektiert; bei CHF- und einseitigen Gondeltarifen keine falsche EUR-Summierung. Die fünf externen Buchungen / Entscheidungen werden nicht erfunden (keine neuen Reservierungen).
+5. Die 17 Tagesideen, vier Budgetvarianten und 14 Tarifreferenzen bleiben unselektiert; bei CHF- und einseitigen Gondeltarifen keine falsche EUR-Summierung. Es wurden keine externen Buchungen, Zahlungen oder Reservierungen durchgeführt.
 6. Unbestätigte Reisedaten (Öffnungszeiten, Wetter, regionale Verbindungen) bleiben als unsicher gekennzeichnet; nur verifizierte Referenzen haben datierte Quellen.
 
 ## 4. Qualitätsabsicherung und nächste reale Prüfpunkte
