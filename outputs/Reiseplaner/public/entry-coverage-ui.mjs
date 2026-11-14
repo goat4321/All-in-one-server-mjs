@@ -1,4 +1,4 @@
-import {esc,btn} from './ui.mjs';
+import {esc,btn,urlLink} from './ui.mjs';
 import {entryCompletenessReport} from './entry-completeness.mjs';
 
 const labels={photo:'Foto',description:'Beschreibung',price:'Preis',
@@ -67,6 +67,18 @@ export function entryCoveragePanel(ctx){
         +(e.hasPhoto?'':btn('commons-photo-search','Bild suchen','compass',e.id,'subtle'))
         +'</div></div>').join('')+'</div></details>';
   }).join('');
+  const v22=ctx.catalog?.research?.researchV22;
+  const archiveOnlyGuides=(v22?.entries??[]).filter(x=>
+    (v22.archiveOnly??[]).includes(x.id));
+  const archiveOnly=archiveOnlyGuides.length?
+    '<details class="coverage-archive-only"><summary>'
+      +archiveOnlyGuides.length+' zusätzliche recherchierte Alternative(n) außerhalb der aktuellen vier Routen'
+      +'</summary><p class="muted">Diese Einträge sind Teil der Umfrage, aber bewusst keiner'
+      +' Reisevariante zugeteilt. Sie werden weder automatisch eingeplant noch gebucht.</p>'
+      +archiveOnlyGuides.map(x=>'<article><strong>'+esc(x.title)+'</strong>'
+        +'<p>'+esc(x.summary)+'</p><p class="muted">'+esc(x.practical)+'</p>'
+        +urlLink(x.sourceUrl,'Offizielle Informationsquelle prüfen')+'</article>').join('')
+      +'</details>':'';
   return '<section class="section panel panel-pad entry-coverage">'
     +'<header><span class="survey-v19-kicker">TRANSPARENTE DATENABDECKUNG</span>'
     +'<h2>Welche Einträge haben noch fehlende Angaben oder Bilder?</h2>'
@@ -81,6 +93,7 @@ export function entryCoveragePanel(ctx){
     +'Der Reiseplan, Preise und Buchungsstatus bleiben davon unberührt.</p>'
     +controls
     +'<div class="coverage-cities">'+groups+'</div>'
+    +archiveOnly
     +'<p class="muted">Bilder hinzufügen: „Bild suchen“ nutzt Wikimedia Commons mit Autor und Lizenz. '
     +'Das Motiv muss anschließend durch dich dem konkreten Ort zugeordnet werden. '
     +'Für Hotelzimmer sind Anbieter- oder eigene Fotos nur mit passenden Rechten zu übernehmen.</p>'
