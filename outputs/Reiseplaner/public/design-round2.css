@@ -183,3 +183,59 @@ body{font-feature-settings:"tnum" 1;text-rendering:optimizeLegibility}
  .survey-v19-option{flex-wrap:wrap;gap:6px}
  .survey-v19-option>.button{margin-left:auto}
 }
+
+
+/* Price symbols are relative annotations, NOT provider/star ratings. */
+.universal-euro-tier{display:inline-flex;align-items:center;white-space:nowrap;
+  font-variant-numeric:tabular-nums;font-size:.77rem;font-weight:830;letter-spacing:-.015em;
+  color:var(--green);border:1px solid color-mix(in srgb,var(--green) 20%,transparent);
+  border-radius:7px;padding:2px 6px;background:var(--accent)}
+.options-euro-band{display:flex;flex-wrap:wrap;align-items:center;gap:7px;
+  padding:8px 0 10px;margin:4px 0 2px;border-bottom:1px solid var(--atlas-line)}
+.options-euro-band>span:nth-child(2){font-size:.8rem;font-weight:690}
+.options-euro-band>small{font-size:.66rem;color:var(--muted)}
+.place-profile-facts .universal-euro-tier{font-size:.75rem}
+.place-quick-facts .universal-euro-tier{margin-right:3px}
+.price-tier-explanation{color:var(--muted);font-size:.72rem;line-height:1.5}
+.survey-v19-option .universal-euro-tier{padding:1px 4px;font-size:.67rem}
+.survey-v19-grid .universal-euro-tier{padding:1px 5px;font-size:.68rem}
+.research-v20{border:1px solid var(--atlas-line);box-shadow:none;margin-top:17px}
+.research-v20-heading{margin-bottom:13px}
+.research-v20-heading>span{display:block;font-size:.65rem;letter-spacing:.08em;
+  color:var(--muted);font-weight:720}
+.research-v20-heading h2{font-size:1.15rem;line-height:1.25;margin:5px 0}
+.research-v20-heading p{font-size:.77rem;max-width:75ch;line-height:1.55;color:var(--muted)}
+.research-v20>p{font-size:.79rem;line-height:1.65}
+.research-v20>details{padding:10px 0;border-top:1px solid var(--atlas-line)}
+.research-v20>details summary{cursor:pointer;font-size:.81rem;font-weight:690}
+.research-v20>details>.table-wrap{margin-top:11px}
+.research-v20 table{font-size:.73rem}
+.research-v20 th{white-space:nowrap}
+.research-v20 td{vertical-align:top;min-width:110px}
+.research-v20-ledger{margin:9px 0;display:grid;gap:5px}
+.research-v20-ledger article{border-bottom:1px solid var(--atlas-line);padding:9px 2px}
+.research-v20-ledger article>div:first-child{font-size:.81rem}
+.research-v20-ledger small{display:block;font-size:.71rem;margin:4px 0;line-height:1.45}
+.research-v20-food{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:11px}
+.research-v20-food>article{padding:12px 4px;border-top:2px solid var(--atlas-line);min-width:0}
+.research-v20-food>article>strong{display:block;font-size:.84rem;line-height:1.45}
+.research-v20-food>article>small{font-size:.73rem;display:block;line-height:1.52;margin-top:7px}
+.research-v20-food details{font-size:.74rem;margin-top:9px}
+.research-v20-food details summary{cursor:pointer}
+.research-v20-food details p{margin:9px 0;font-size:.72rem}
+.research-v20-offers{display:grid;gap:8px;margin:10px 0}
+.research-v20-offers>div{padding:10px;border-radius:10px;background:var(--atlas-soft);
+  border:1px solid var(--atlas-line)}
+.research-v20-offers>div>div:first-child strong{display:block;font-size:.8rem}
+.research-v20-offers>div>div:first-child small{font-size:.7rem;margin:4px 0 8px;display:block}
+.research-v20-offers .row-actions{gap:5px}
+.research-v20-offers .button{min-height:30px;padding:5px 8px;font-size:.72rem}
+.research-v20-statline{display:flex;flex-wrap:wrap;gap:10px 19px;
+  padding:8px 0 15px;border-top:1px solid var(--atlas-line)}
+.research-v20-statline>span{color:var(--muted);font-size:.72rem;white-space:normal}
+.research-v20-statline strong{font-weight:810;color:var(--text);font-size:1.06rem}
+@media(max-width:650px){
+ .options-euro-band{gap:6px}
+ .research-v20-food{grid-template-columns:minmax(0,1fr)}
+ .research-v20-statline{gap:7px 12px}
+}
