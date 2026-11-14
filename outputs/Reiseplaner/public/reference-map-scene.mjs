@@ -1,4 +1,5 @@
 import {esc,icon,btn,shortDay} from './ui.mjs';
+import {conflicts} from './model.mjs';
 import {placeProfileModel,placeThumbnailHtml} from './place-profile.mjs';
 import {planCostSignal,dayPeriod} from './visual-experience.mjs';
 import {curatedPlacePhoto} from './curated-place-photos.mjs';
@@ -21,6 +22,19 @@ export function mapDayAgenda(ctx){
   const city=ctx.cities?.[ctx.city]?.name??ctx.city;
   const planned=day.filter(x=>isValidTime(x.time)).length;
   const flexible=day.length-planned;
+  // Reuse the existing itinerary conflict engine. These are local draft
+  // warnings, not verified carrier times or live official opening hours.
+  const warnings=conflicts(day,ctx.conflictRoutes??[],ctx.fullDay??day);
+  const warningPanel=warnings.length?'<aside class="reference-agenda-warnings"'
+    +' aria-label="Planungshinweise für diesen Reisetag">'
+    +'<div class="reference-agenda-warning-head">'+icon('alert')
+    +'<strong>'+warnings.length+' '+(warnings.length===1?'Planungshinweis':'Planungshinweise')
+    +'</strong>'+btn('page','Im Tagesplan prüfen','arrow','plan')+'</div>'
+    +warnings.slice(0,2).map(row=>'<p>'+esc(row.text)+'</p>').join('')
+    +(warnings.length>2?'<small>+'+(warnings.length-2)
+      +' weitere Hinweise im vollständigen Tagesplan</small>':'')
+    +'<small>Aus deinem Plan und hinterlegten Referenzdaten berechnet.'
+    +' Keine Buchungs- oder Fahrplangarantie.</small></aside>':'';
   const days=ctx.dates??[];
   const currentIndex=days.indexOf(ctx.date);
   const prevDay=currentIndex>0?days[currentIndex-1]:null;
@@ -94,6 +108,7 @@ export function mapDayAgenda(ctx){
           +' class="reference-empty-discover">Recherchierte Stadtorte anzeigen</button>'
         :'')+'</li>')
     +'</ol>'
+    +warningPanel
     +examplesHtml
     +(day.length>8?'<p class="reference-agenda-extra">+'+(day.length-8)
       +' weitere Stopps im vollständigen Tagesplan</p>':'')
