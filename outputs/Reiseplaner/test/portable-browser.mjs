@@ -145,13 +145,19 @@ try {
   await click('[data-action=explorer-display][data-value=details]');
   await until(()=>js('document.querySelector(".explorer-view-advanced")?.open===true'),'Listenansicht merkt offene Filter');
   await click('[data-action=explorer-display][data-value=compact]');
-  await until(()=>js('document.querySelector(".explorer-compact-media .place-thumbnail")!==null'),'Kompakte Ortsliste mit Miniaturbild oder Symbol');
+  await click('.explorer-view-advanced summary');
+  await until(()=>js('document.querySelector(".explorer-view-advanced")?.open===false'),
+    'Standardansicht der Karte blendet sekundäre Filter wieder aus');
+  await until(()=>js('document.querySelector(".explorer-compact-media .place-thumbnail")!==null'),
+    'Kompakte Ortsliste mit Miniaturbild oder Symbol');
   await until(()=>js('document.querySelector(".explorer-place.is-compact, .explorer-place .explorer-more-actions")!==null'),'Sekundäre Ortsaktionen einklappbar');
   assert.equal(await js('document.querySelector(".explorer-more-actions")?.open'),false,'Kompaktliste zunächst ohne Aktionsüberladung');
   // Review at an actual wide desktop CSS viewport; default CI Chrome starts at 1280px.
   await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===2'),
     'Desktop atlas has a real two-column split');
+  await until(()=>js('document.querySelector(".map-explorer-split").getBoundingClientRect().top < window.innerHeight*.76'),
+    'Karte muss im ersten Bildschirm beginnen, ohne die Zusatzfilter aufklappen zu müssen');
   await js('window.scrollTo({top:0,behavior:"instant"})');
   await screenshot('08-atlas-oben-desktop.png');
   await js('document.querySelector(".map-explorer-split").scrollIntoView({block:"start"})');
