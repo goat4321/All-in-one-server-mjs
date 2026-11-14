@@ -2,7 +2,7 @@
   "reviewedOn": "2026-11-14",
   "schema": "operator_guides_v22",
   "note": "Operator/tourism facts; do not treat 2026 tariff or descriptive info as 2027 availability",
-  "total": 30,
+  "total": 37,
   "entries": [
     {
       "id": "act-003",
@@ -551,6 +551,136 @@
       "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwaldfirst/first-flieger/",
       "reviewedOn": "2026-11-14",
       "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-008",
+      "city": "barcelona",
+      "title": "Bogatell Beach – Strand und Sport",
+      "summary": "Der städtische Reiseführer Barcelonas führt die Platja del Bogatell im Bezirk Sant Martí am Passeig Marítim del Bogatell 80. Er weist auf die rauchfreien städtischen Strände sowie eine spezielle, nur zu eigenen Zeiten verfügbare Badeassistenz für Menschen mit Mobilitätseinschränkungen hin.",
+      "highlights": [
+        "Bogatell Beach liegt im Stadtteil Poblenou / Sant Martí",
+        "Städtisches Rauchverbot an den Stränden seit 30. Juli 2022, mit benannten Ausnahmen für Saisonbars",
+        "Badeassistenzzeiten aus dem Stadtführer gelten ausschließlich für die Assistenzleistung – nicht als allgemeine Strandöffnungszeiten"
+      ],
+      "practical": "Die angegebenen Badeassistenzzeiten dürfen nicht als Strand-Schließzeit verwendet werden. Für Sportanlagen, Strandwache, Duschen, Wasserbedingungen und konkrete Saison 2027 werden getrennte Nachweise benötigt.",
+      "sourceUrl": "https://guia.barcelona.cat/en/detall/bogatell-beach_92168143754.html",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-019",
+      "city": "sete",
+      "title": "Canal Royal – Hafenrunde durch das Zentrum",
+      "summary": "Die Tourismusorganisation des Archipel de Thau beschreibt den Canal Royal als zentrales Element von Sète. Kanäle und Brücken prägen die Innenstadt, an den Ufern befinden sich Restaurants, historische Boote und Zugänge zu den maritimen Vierteln.",
+      "highlights": [
+        "Canal Royal als zentrale Wasserachse der Innenstadt",
+        "Fußgänger-Spaziergang entlang der Kanal-Ufer",
+        "Fischerboote, Terrassen und Zugbrücken als Ortsmerkmale",
+        "Separat angebotene Kanalrundfahrten sind eigene gebührenpflichtige Leistungen"
+      ],
+      "practical": "Ein Spaziergang auf dem Ufer ist keine gebuchte Kanalfahrt. Die im Ort angebotene 45-Minuten-Bootstour ist eine getrennte Option mit aktuellen Preisen und 2027er Betriebszeiten, die noch zu prüfen sind.",
+      "sourceUrl": "https://www.archipel-thau.com/de/ein-archipel-aus-gemeinden/sete/die-highlights-von-sete/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-020",
+      "city": "sete",
+      "title": "Pointe Courte – Fischerviertel an der Lagune",
+      "summary": "Die offizielle Tourismusinformation beschreibt Pointe Courte als früheres Fischerviertel von Sète mit kleinen, niedrig gebauten Häusern und pastellfarbenen Fassaden am Wasser. Der Ort wurde durch Agnès Vardas Film bekannt.",
+      "highlights": [
+        "Historisches Viertel mit Lagunenfischerei-Tradition",
+        "Niedrige Häuser mit pastellfarbenen Fassaden",
+        "Fotospaziergang durch öffentliche Gassen statt kostenpflichtiger Sehenswürdigkeit",
+        "Der Stadtteil ist ein zusammenhängendes Gebiet, kein einzelner Eingang"
+      ],
+      "practical": "Die Fischerei ist Teil des realen Alltags: Privatgrundstücke und Bewohner respektieren. Keine ungesicherten Angaben zu geöffneten Betrieben, Touren oder einem festen Eintritt erfinden.",
+      "sourceUrl": "https://www.archipel-thau.com/de/ein-archipel-aus-gemeinden/sete/die-highlights-von-sete/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-026",
+      "city": "nice",
+      "title": "Villefranche-sur-Mer – Plage des Marinières",
+      "summary": "Die offizielle Tourismusorganisation nennt die Plage des Marinières als größten Strand von Villefranche-sur-Mer mit kostenlosem Zugang und einer Sommer-Sicherheitsaufsicht. TER-Züge aus Nice halten am Bahnhof Villefranche-sur-Mer in der Nähe des Orts.",
+      "highlights": [
+        "Großer öffentlicher Strand an der Promenade des Marinières",
+        "Offizielle Tourismusseite: Zugang kostenlos",
+        "Badeaufsicht nur in der jeweiligen Sommersaison",
+        "TER-Anreise aus Nizza möglich, ohne daraus eine konkrete 2027-Abfahrtszeit abzuleiten"
+      ],
+      "practical": "Freier Strandzugang bedeutet keine Garantie für freie Liegen, Barleistungen oder sichere Schwimmbedingungen. Für September 2027 Badeaufsicht, Wetter, Wassertemperatur, Zugverbindung und Rückfahrt separat prüfen.",
+      "sourceUrl": "https://www.explorenicecotedazur.com/structure/plage-des-marinieres/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-028",
+      "city": "nice",
+      "title": "Port Lympia – Hafenabend und optionaler Küstenweg",
+      "summary": "Nice Côte d’Azur Tourisme beschreibt den Port Lympia als Beginn eines längeren Küstenwegs, der Richtung Villefranche-sur-Mer führt. Die offizielle Referenzroute bis zum Port de la Darse umfasst ungefähr sechs Kilometer und etwa 2 Stunden 30 Minuten für die einfache Strecke.",
+      "highlights": [
+        "Port Lympia als Startpunkt des Sentier du Littoral Richtung Villefranche",
+        "Offizielle lange Küstenweg-Referenz: 6 km und rund 2h30 für eine Richtung",
+        "Der im Reiseplan gedachte kurze Hafenabend ist eine andere, deutlich kleinere Aktivität"
+      ],
+      "practical": "Nicht die 6-km-Strecke oder 2h30 in den kurzen Port-Lympia-Abendspaziergang übernehmen. Küstenweg nur als separate wetter- und wegezustandsabhängige Zusatzoption behandeln.",
+      "sourceUrl": "https://www.explorenicecotedazur.com/sortir/randonnees/sentiers-du-littoral/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-047",
+      "city": "glarus",
+      "title": "Klöntalersee – Uferweg und optionale lange Runde",
+      "summary": "Schweiz Tourismus beschreibt den Klöntalersee als Ausflugsgebiet mit Bade- und Picknickbereichen. Für eine vollständige Seeumrundung nennt die Informationsseite eine Zeit von ungefähr vier Stunden; das ist nicht automatisch der Umfang der ursprünglich vorgesehenen kurzen Uferroute.",
+      "highlights": [
+        "Klöntalersee mit Blick auf Glärnisch und Dejenstogg",
+        "Seeufer, Picknick und einzelne Badebereiche",
+        "Eine komplette Runde um den See dauert laut Tourismusreferenz ungefähr vier Stunden",
+        "Campingbereiche Güntlenau und Vorauen mit teils saisonalem SUP-/Kanuverleih"
+      ],
+      "practical": "Die vierstündige Seeumrundung ist nur eine eigenständige optionale lange Route. Ein kurzer Uferspaziergang und ein SUP-Ausflug sind andere Leistungen. Zustand der Wege, Badewetter, Verleihpreise und Saison 2027 prüfen.",
+      "sourceUrl": "https://www.myswitzerland.com/de-de/reiseziele/kloentalersee/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-048",
+      "city": "glarus",
+      "title": "Rhodannenberg – Seeufer-Picknick",
+      "summary": "Rhodannenberg liegt am Klöntalersee und ist Ausgangs-/Endbereich von dokumentierten Trails. Schweiz Tourismus beschreibt ein weit umfangreicheres Trailrunning-Angebot mit 21 Kilometern, 1.142 Höhenmetern und Start/Ziel Rhodannenberg – diese Tour ist mit dem hier geplanten kurzen Picknick nicht gleichzusetzen.",
+      "highlights": [
+        "Rhodannenberg als Ausgangspunkt am Klöntalersee",
+        "21-km-Trailrunning-Rundtour gehört zu einer separaten Sportaktivität",
+        "Das Seeufer lässt sich unabhängig vom langen Trail für eine Pause nutzen"
+      ],
+      "practical": "Für ein Picknick weder die 21 km noch 1.142 Höhenmeter als Pflicht-Wanderung darstellen. Essen/Verpflegung und mögliche Saisonregeln werden beim konkreten Besuch geprüft.",
+      "sourceUrl": "https://www.myswitzerland.com/de-at/erlebnisse/route/trail-run-kloentalersee/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
       "price2027Confirmed": false,
       "bookingConfirmed": false,
       "photoRightsProvided": false
