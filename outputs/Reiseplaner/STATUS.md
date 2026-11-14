@@ -1,3 +1,13 @@
+## 14.11.2026 – Phase 22: 21 neue offizielle Ortsguides und ausgereifter Fünf-Tab-Ortsinspektor
+
+**Im Entwicklungsbranch implementiert, nicht in `main` gemergt und nicht deployed.** Zusätzlich zum V20-Quellenbestand und dem V21-Bild-/Lückenbericht enthalten **21** exakte V19-Aktivitätseinträge eigene, neu recherchierte Betreiber-/Tourismusguides mit Fakten, Saison-/Tarifhinweisen, praktischen Einschränkungen, klaren Gültigkeitsdaten und Original-HTTPS-Links. Dazu gehören die separate T2-Rundwanderung Wasserauen–Seealpsee (**nicht** mit dem leichteren Fahrstraßenweg gleichsetzen), der offizielle 2027-Eiffelturmtarif und die 2027-Oeschinensee-Gondelsaison. 2026-Referenzpreise werden nicht zu gebuchten 2027-Preisen.
+
+**Neu in allen Eintragsdetails:** ein responsiver Ortsinspektor mit Foto-Cover oder klar als fehlend markiertem Bild, aufklappbaren Betreiberangaben, fünf umschaltbaren Bereichen **Übersicht / Fotos / Kosten / Quellen / In der Nähe**, sieben kontextbezogenen Begriffserklärungen zu Quellen, Preisen, Buchungen, Geogenauigkeit, Luftlinie, Bildrechten und Tarifgültigkeit, echten Quelle-/Lizenzlinks, Navigation zu weiteren Einträgen, Direktlink zur Karte und benachbarten Aktivitäten (nur belegte Luftlinien ≤5 km). Browser- und Tastaturzugänglichkeit plus schmale 390px-Ansicht getestet. Keine Veränderung der ursprünglichen Budget- und Buchungsdaten. Inspektor, Daten, Tests, Quellen und Designentscheidungen dokumentiert in `PHASE_22_GUIDE_INSPECTOR_NAOL_DESIGN.md`.
+
+**Naol-Websites-Designreferenz:** großzügiger, heller und weniger blockiger Stil aus vorherigen visuellen Vorgaben. Die aktuelle Live-Firmenseite konnte nicht zuverlässig geladen werden; kein angeblich exakter Live-Nachbau.
+
+---
+
 ## Nachtrag 14.11.2026 – v2.1 Eintragsabdeckung und Commons-Fotowahl
 
 **Noch nicht alles vollständig:** Der letzte Kartenreport zählt 829 Einträge über vier Reisevarianten (nicht 829 unterschiedliche Orte), davon 510 mit einer Position und 319 ohne einzelnen Kartenanker. Nach Quellenprüfung sind die manuell fest eingebauten Fotoregeln von 21 auf **25** gestiegen; einzelne Regeln decken mehrere passende Einträge ab. Die dynamische Datenprüfung in **Daten & Fristen** misst für **jeden tatsächlichen Eintrag** je Reisevariante u. a. Quellenfoto, Beschreibung, vergleichbaren Preis, Webquelle, geografische Genauigkeit, Öffnungszeiten, Betten-/Checkoutangaben und bestätigte Fahrpläne. Die Ergebnisse bleiben als offene To-dos mit Eintrags-Details sichtbar, keine behauptete Komplettabdeckung.
