@@ -205,6 +205,10 @@ try {
    'Travel reference: full-width map, no permanent sidebar, map aligned within first 210px');
   await click('.reference-map-floating [data-action=map-mode][data-value=city]');
   await screenshot('22-reference-city-map-1440.png');
+  assert.ok(await js('(() => { const root=document.querySelector(".reference-map-workspace"),map=root?.querySelector("#map"),head=root?.querySelector(".map-panel>.panel-head"),alert=root?.querySelector(".reference-map-schedule-notice"); if(!map||!head||!alert)return false; const m=map.getBoundingClientRect(),h=head.getBoundingClientRect(); return h.top>=m.top-3&&h.top<m.top+45&&alert.querySelector("summary")?.textContent.includes("2027"); })()'),
+    'City view: map starts directly under hero, calendar caveat stays available in a compact disclosure');
+  assert.ok(await js('(() => {const c=document.querySelector(".reference-discovery");return c&&c.getBoundingClientRect().top<810;})()'),
+    'Photo-led discovery belongs in the opening desktop screen, not below a large data panel');
   await click('.reference-map-floating [data-action=map-mode][data-value=total]');
   assert.ok(await js('(() => { const m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect(),a=document.querySelector(".reference-map-workspace>.explorer-right")?.getBoundingClientRect();return m&&a&&m.left>a.left&&m.width>a.width*1.12; })()'),
     'Reference layout uses compact agenda on left and wider interactive map on right');

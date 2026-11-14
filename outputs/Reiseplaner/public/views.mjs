@@ -297,7 +297,7 @@ function mapPanel(ctx, full = false) {
         + (quickLayer ? chip('transit', network.groups[quickLayer].title, t.transit[quickLayer], quickLayer, 'train') : '')
         + (ctx.cities[ctx.city].country === 'CH' ? chip('filter', 'Wanderwege', t.hiking, 'hiking', 'walk') : '') : ''}
     </div>
-    ${!ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
+    ${!full && !ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
     ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
@@ -311,6 +311,10 @@ function mapPanel(ctx, full = false) {
           +(ctx.dayRoute.routes.filter(r=>r?.walkOnly).length)+' Fußwege berechnet</span></div>' : ''}
       <div class="map-hint" id="map-hint" hidden></div>
     </div>
+    ${full && !ctx.total && outside ? '<details class="reference-map-schedule-notice"><summary>'+icon('alert')+'<span>Fahrplan 2027 offen</span></summary>'
+      +'<div>Die lokale Referenz deckt nur '+esc(dateText(timetable.from))+' bis '+esc(dateText(timetable.to))
+      +' ab. Für '+esc(dateText(ctx.date))+' keine bestätigten Echtzeitfahrten. '
+      +urlLink(transitPlanners[ctx.city],'Beim Betreiber prüfen')+'</div></details>' : ''}
     <details class="map-design-details" ${ctx.mapDesignOpen?'open':''}><summary>Darstellung & Kartengröße</summary>
     <div class="map-design-controls" role="group" aria-label="Design und Größe der Karte">
       <span class="map-design-caption">Kartenlook</span>
