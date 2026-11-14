@@ -267,6 +267,10 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
       select: id => { selectPoint(id, false); },
       leg: index => action('leg', index), visitCity: id => action('city', id),
       routeStop: index => action('day-route-focus', String(index)),
+      hover: (id,on)=>{
+        const card=[...app.querySelectorAll('.explorer-place')].find(el=>el.dataset.placeId===id);
+        card?.classList.toggle('atlas-hover',on);
+      },
       report: message => {
         const hint = document.querySelector('#map-hint');
         if (hint) { hint.textContent = message; hint.hidden = !message; }
@@ -1121,6 +1125,16 @@ document.addEventListener('click', event => {
   const button = event.target.closest('[data-action]');
   if (button) void action(button.dataset.action, button.dataset.value).catch(error => say(error.message));
 });
+// Two-way visual focus, without re-rendering Leaflet or changing the selected
+// POI, bookings or map viewport. Clustered markers may not have DOM elements.
+const hoverAtlasCard=(event,on)=>{
+  const card=event.target?.closest?.('.explorer-place[data-place-id]');
+  if(!card||card.contains(event.relatedTarget))return;
+  card.classList.toggle('atlas-hover',on);
+  currentMap?.markers.get(card.dataset.placeId)?.getElement()?.classList.toggle('atlas-hover',on);
+};
+app.addEventListener('pointerover',event=>hoverAtlasCard(event,true));
+app.addEventListener('pointerout',event=>hoverAtlasCard(event,false));
 app.addEventListener('toggle',event=>{
   if(event.target.matches('.sidebar-places'))view.cityNavOpen=event.target.open;
   if(event.target.matches('.map-design-details'))view.mapDesignOpen=event.target.open;

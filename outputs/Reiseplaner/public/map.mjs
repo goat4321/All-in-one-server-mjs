@@ -21,8 +21,8 @@ function dataFile(file) {
 }
 
 export class TripMap {
-  constructor(element, { focus, select, leg, visitCity, report, routeStop }) {
-    this.handlers = { focus, select, leg, visitCity, report, routeStop };
+  constructor(element, { focus, select, leg, visitCity, report, routeStop, hover }) {
+    this.handlers = { focus, select, leg, visitCity, report, routeStop, hover };
     this.map = L.map(element, { zoomControl: true, scrollWheelZoom: false,
       preferCanvas: false, fadeAnimation: false, zoomAnimation: false,
       markerZoomAnimation: false, minZoom: 3, maxZoom: 19 });
@@ -63,6 +63,8 @@ export class TripMap {
       zIndexOffset: style.includes('focused') ? 1000 : 0 }).addTo(group);
     marker.bindTooltip(labelNode(text), { direction: 'top', offset: [offset, -22] });
     marker.on('click', click);
+    marker.on('mouseover',()=>this.handlers.hover?.(id,true));
+    marker.on('mouseout',()=>this.handlers.hover?.(id,false));
     if (popupHtml) marker.bindPopup(popupHtml, { maxWidth: 320, minWidth: 230, closeButton: true });
     this.markers.set(id, marker);
     return marker;

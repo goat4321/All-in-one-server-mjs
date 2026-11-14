@@ -112,6 +112,10 @@ try {
   await js('document.querySelector("#toast")?.replaceChildren()');
   await until(() => js('document.querySelectorAll(".destination-card").length>=4'),'Filmstreifen aus echten Reiseorten');
   await until(()=>js('document.querySelectorAll(".cockpit-route-point").length>=4'),'Routenkarte mit verorteten Städten');
+  assert.ok(await js('document.querySelectorAll(".destination-art").length>=4'),
+    'Jedes Reiseziel hat eine gestaltete lokale Illustration als Bild-Fallback');
+  assert.ok(await js('document.querySelector(".destination-credit")?.textContent.includes("Illustration")===true'),
+    'Illustration ist transparent als Symbolik bezeichnet');
   assert.ok(await js('document.querySelector(".cockpit-route-surface")?.textContent.includes("keine berechnete Bahntrasse")'),'Städtefolge bleibt klar als Schema gekennzeichnet');
   await until(() => js('document.querySelectorAll(".cockpit-progress-item").length===4'),'Vier nachvollziehbare Fortschrittsanzeigen');
   assert.equal(await js('document.querySelector(".cockpit-disclaimer")?.textContent.includes("keine bestätigten Buchungen")'),true);
@@ -147,6 +151,10 @@ try {
   assert.equal(await js('document.querySelector(".explorer-route-settings")?.open'),false,
     'Erweiterter Routenplaner ist anfangs zugeklappt');
   await until(() => js('Boolean(document.querySelector(".explorer-list.is-compact"))'), 'Kompakte Ortsliste');
+  await js('document.querySelector(".explorer-place")?.dispatchEvent(new PointerEvent("pointerover",{bubbles:true}))');
+  assert.equal(await js('document.querySelector(".explorer-place")?.classList.contains("atlas-hover")'),true,
+    'Hover hebt denselben Listenort ohne Karten-Rendering hervor');
+  await js('document.querySelector(".explorer-place")?.dispatchEvent(new PointerEvent("pointerout",{bubbles:true}))');
   assert.equal(await js('document.querySelector(".explorer-list.is-compact .group-vote-snippet")===null'),true,
     'Kompaktliste ohne wiederholte Gruppenabstimmungs-Kästen');
   assert.ok(await js('document.querySelector(".explorer-more-actions [data-action=vote-open]")!==null'),

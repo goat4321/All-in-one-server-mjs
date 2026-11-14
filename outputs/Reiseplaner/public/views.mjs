@@ -1,5 +1,6 @@
 import { railReviewTimeline } from './rail-review-timeline.mjs';
 import { routeSketch } from './route-mini-map.mjs';
+import { destinationIllustration } from './destination-illustration.mjs';
 import { providerQuotePanel } from './provider-quotes-v13.mjs';
 import { providerLocationPanel } from './provider-location-v13.mjs';
 import { mediaCoveragePanel } from './media-coverage.mjs';
@@ -369,13 +370,13 @@ function overview(ctx) {
     const photo=photoItem?curatedPlacePhoto(photoItem):null;
     return '<article class="destination-card"><button type="button" data-action="trip-city" data-value="'+esc(id)+'">'
       +'<span class="destination-cover">'
-      +'<span class="destination-placeholder" aria-hidden="true">'+icon('map')+'</span>'
+      +'<span class="destination-placeholder" aria-hidden="true">'+destinationIllustration(id)+'</span>'
       +(photo?'<img src="'+esc(photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="'+esc(photoItem.name)+'">':'')
       +'</span>'
       +'<span class="destination-name">'+esc(ctx.cities[id]?.name??id)+'</span>'
       +'<small>'+esc(photoItem?.name??'Reiseort erkunden')+'</small></button>'
       +(photo?'<a class="destination-credit" href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer" title="'+esc(photo.credit)+'">Bild: '+esc(photo.credit)+'</a>'
-      :'<small class="destination-credit">Bild noch offen</small>')
+      :'<small class="destination-credit">Symbolische Illustration · kein Ortsfoto</small>')
       +'</article>';
   }).join('');
   const progress=readinessOverview(ctx).filter(r=>['stays','hotel-review','rail-review','cost'].includes(r.key));
@@ -387,7 +388,7 @@ function overview(ctx) {
       +'<span>'+stop.order+'</span><small>'+esc(stop.name)+'</small></button>').join('');
   const overviewRoute='<section class="cockpit-route-surface" aria-label="Schematische Städtefolge der Reise">'
     +'<div class="cockpit-route-head"><div><span class="cockpit-mini-label">DEINE ROUTE</span>'
-    +'<h2>'+esc(trip.route.length)+' Etappen. Eine Reise.</h2>'
+    +'<h2>'+routeGraphic.stops.length+' Reiseziele. Eine Route.</h2>'
     +'<p>Städtefolge im Entwurf · keine berechnete Bahntrasse</p></div>'
     +btn('show-route','Karte öffnen','arrow')+'</div>'
     +'<div class="cockpit-route-canvas">'
