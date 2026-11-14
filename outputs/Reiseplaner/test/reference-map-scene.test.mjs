@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {loadCatalog} from '../lib/catalog.mjs';
 import {initialState} from '../lib/store.mjs';
 import {dateRange} from '../public/model.mjs';
-import {mapDayAgenda,mapImageIntro,mapFloatingControls,mapPhotoDiscovery}
+import {mapDayAgenda,mapImageIntro,mapFloatingControls,mapPhotoDiscovery,selectDiscoveryPhotos}
   from '../public/reference-map-scene.mjs';
 
 const catalog=await loadCatalog();
@@ -84,4 +84,70 @@ test('No photo is invented when city and catalog lack licensed media',()=>{
  assert.doesNotMatch(intro,/reference-intro-photo/);
  assert.match(photo,/noch keine zugeordneten Quellenfotos/);
  assert.match(photo,/data-action="hud-audit" data-value="photo"/);
+});
+
+test('Three explicit map scopes distinguish planned calendar stops, city ideas and entire route',()=>{
+ for(const trip of catalog.trips){
+   const ctx=context(trip);
+   for(const active of ['trip','city','day']){
+     ctx.explorer.scope=active;
+     const html=mapFloatingControls(ctx);
+     assert.match(html,/data-action="map-mode" data-value="day"/);
+     assert.match(html,/data-action="map-mode" data-value="city"/);
+     assert.match(html,/data-action="map-mode" data-value="total"/);
+     assert.equal((html.match(/aria-pressed="true"/g)||[]).length,1,
+       'One map scope must be active when bookmarks are off');
+     const selected=active==='trip'?'total':active;
+     assert.ok(html.includes('data-value="'+selected+'" aria-pressed="true"'),
+       active+' must actually be selected, not inferred from stale total flag');
+   }
+ }
+});
+test('Calendar stepper exposes only neighboring real plan dates and correct disabled ends',()=>{
+ const ctx=context(catalog.trips[0]);
+ const dates=ctx.dates;
+ const start=mapDayAgenda(ctx);
+ assert.match(start,/Tag 1 \/ /);
+ assert.match(start,/Vorheriger Reisetag" title="Vorheriger Reisetag"/);
+ assert.match(start,/data-action="day" disabled aria-label="Vorheriger Reisetag"/);
+ assert.ok(start.includes('data-value="'+dates[1]+'"'));
+ ctx.date=dates[Math.floor(dates.length/2)];
+ const mid=mapDayAgenda(ctx);
+ assert.ok(mid.includes('data-value="'+dates[dates.indexOf(ctx.date)-1]+'"'));
+ assert.ok(mid.includes('data-value="'+dates[dates.indexOf(ctx.date)+1]+'"'));
+ ctx.date=dates.at(-1);
+ const end=mapDayAgenda(ctx);
+ assert.match(end,/data-action="day" disabled aria-label="Nächster Reisetag"/);
+});
+test('Sourced photo discovery favors current city and diversifies route, no repeated Commons file',()=>{
+ for(const trip of catalog.trips){
+   const ctx=context(trip);
+   ctx.explorer.scope='trip';
+   const selected=selectDiscoveryPhotos(ctx,8);
+   assert.ok(selected.length<=8);
+   assert.equal(new Set(selected.map(x=>x.photo.sourceUrl.toLowerCase())).size,
+     selected.length,'A single image file must not be repeated as separate places');
+   assert.ok(selected.every(row=>row.photo.credit&&row.photo.sourceUrl.startsWith('https://')));
+   if(selected.some(row=>row.item.city===ctx.city))
+     assert.equal(selected[0].item.city,ctx.city,
+       'Focus city appears first when a licensed photo exists');
+   const citySet=new Set(selected.map(x=>x.item.city));
+   if(selected.length>3&&trip.route.length>2)assert.ok(citySet.size>=2,
+     'Route carousel should not consist entirely of one city');
+   const gallery=mapPhotoDiscovery(ctx);
+   assert.equal((gallery.match(/class="reference-discovery-card"/g)||[]).length,
+     selected.length);
+   for(const x of selected){
+     assert.ok(gallery.includes('data-value="'+x.item.id+'"'));
+   }
+ }
+});
+test('Day mode gives an actionable city discovery path if the selected day is empty',()=>{
+ const ctx=context(catalog.trips[0]);
+ ctx.explorer.scope='day';
+ assert.equal(ctx.day.length,0);
+ const html=mapDayAgenda(ctx);
+ assert.match(html,/keine noch nicht eingeplanten Orte/);
+ assert.match(html,/data-action="map-mode" data-value="city"/);
+ assert.doesNotMatch(html,/automatisch gebucht/);
 });
