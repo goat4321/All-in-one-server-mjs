@@ -110,6 +110,8 @@ try {
   await click('.sidebar [data-action=page][data-value=overview]');
   await until(() => js('document.querySelectorAll(".overview-quick-card").length === 4'), 'Vier Schnellzugriffe');
   await until(() => js('document.querySelectorAll(".destination-card").length>=4'),'Filmstreifen aus echten Reiseorten');
+  await until(()=>js('document.querySelectorAll(".cockpit-route-point").length>=4'),'Routenkarte mit verorteten Städten');
+  assert.ok(await js('document.querySelector(".cockpit-route-surface")?.textContent.includes("keine berechnete Bahntrasse")'),'Städtefolge bleibt klar als Schema gekennzeichnet');
   await until(() => js('document.querySelectorAll(".cockpit-progress-item").length===4'),'Vier nachvollziehbare Fortschrittsanzeigen');
   assert.equal(await js('document.querySelector(".cockpit-disclaimer")?.textContent.includes("keine bestätigten Buchungen")'),true);
   await screenshot('01-uebersicht-desktop.png');

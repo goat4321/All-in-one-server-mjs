@@ -1248,3 +1248,63 @@ h2{font-size:1.37rem}
 .place-photo-unavailable{position:absolute;inset:0;z-index:1;
  display:grid;place-items:center;text-align:center;color:#fff;background:#194336b8;
  padding:16px;font-size:.75rem;font-weight:700}
+
+
+/* v1.8: visual comparison pass 1 — quiet dual-column dashboard and actual trip sketch. */
+.workspace:has(.cockpit-layout) .page-head{margin:0 0 14px;align-items:center}
+.workspace:has(.cockpit-layout) .page-head h1{font-size:1.85rem}
+.workspace:has(.cockpit-layout) .page-head p{font-size:.76rem;margin-top:2px}
+.cockpit-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+ gap:16px;align-items:stretch}
+.cockpit-layout>.cockpit-welcome{margin:0;min-width:0;box-shadow:none;
+ border:1px solid var(--line);padding:22px;border-radius:18px;
+ background-image:none}
+.cockpit-layout .cockpit-intro h2{font-size:clamp(1.4rem,2.05vw,1.9rem);line-height:1.17}
+.cockpit-layout .cockpit-intro>p{max-width:95%;font-size:.85rem}
+.cockpit-layout .cockpit-facts{margin-top:16px}
+.cockpit-layout .cockpit-facts span{font-size:.72rem;padding:5px 9px}
+.cockpit-layout .cockpit-intro{padding-bottom:14px}
+.cockpit-layout .cockpit-section-head{margin-bottom:8px}
+.cockpit-layout .destination-card{flex-basis:123px}
+.cockpit-layout .destination-cover{height:96px;border-radius:11px}
+.cockpit-layout .destination-filmstrip{gap:10px}
+.cockpit-route-surface{position:relative;overflow:hidden;background:var(--paper);
+ border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;
+ flex-direction:column;min-width:0;min-height:350px}
+.cockpit-route-head{display:flex;align-items:start;justify-content:space-between;gap:12px}
+.cockpit-route-head h2{font-size:1.3rem;margin:4px 0 5px}
+.cockpit-route-head p{font-size:.77rem;color:var(--muted);max-width:330px}
+.cockpit-route-head .button{padding:6px 9px;border:0;background:var(--light);
+ min-height:30px;font-size:.73rem;white-space:nowrap}
+.cockpit-mini-label{color:var(--green);font-size:.66rem;letter-spacing:.11em;font-weight:800}
+.cockpit-route-canvas{position:relative;flex:1;min-height:205px;
+ margin:12px 0 5px;border-radius:14px;overflow:hidden;
+ background:radial-gradient(circle at 20% 25%,#b5d9c92c 0 2px,transparent 3px) 0 0/17px 17px,
+ linear-gradient(125deg,#f4faf6,#edf4f6 70%,#f4f5fb)}
+.cockpit-route-canvas svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.cockpit-route-under{fill:none;stroke:#ffffff;stroke-width:9;stroke-linejoin:round;stroke-linecap:round}
+.cockpit-route-line{fill:none;stroke:#66a5a0;stroke-width:2.8;stroke-linecap:round;
+ stroke-linejoin:round;stroke-dasharray:1 7;stroke-dashoffset:0;animation:routeFlow 9s linear infinite}
+@keyframes routeFlow{to{stroke-dashoffset:-160}}
+.cockpit-route-point{position:absolute;left:var(--px);top:var(--py);
+ border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;
+ transform:translate(-50%,-50%);z-index:2;gap:3px;max-width:90px}
+.cockpit-route-point span{display:grid;place-items:center;width:28px;height:28px;
+ border-radius:50%;border:3px solid #fff;background:#246c54;color:#fff;
+ font-size:.71rem;font-weight:800;box-shadow:0 3px 11px #204f4042;transition:transform .2s}
+.cockpit-route-point:hover span,.cockpit-route-point:focus-visible span{transform:scale(1.17);background:var(--orange)}
+.cockpit-route-point small{display:block;padding:2px 5px;background:#ffffffec;
+ border-radius:5px;max-width:87px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+ box-shadow:0 2px 7px #182b1e0b;font-size:.64rem;color:#23453b;font-weight:660}
+.cockpit-route-foot{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;
+ align-items:center;font-size:.73rem;color:var(--muted);margin-top:4px}
+.cockpit-route-foot span{display:inline-flex;align-items:center;gap:5px}
+.cockpit-route-foot svg{width:15px;height:15px}
+.cockpit-route-empty{height:100%;display:grid;place-items:center;padding:18px;text-align:center;
+ color:var(--muted);font-size:.8rem}
+.cockpit-progress{margin-top:15px;border-radius:15px}
+@media(max-width:1160px){.cockpit-layout{grid-template-columns:minmax(0,1fr)}.cockpit-route-surface{min-height:310px}.cockpit-route-canvas{min-height:225px}}
+@media(max-width:650px){.cockpit-layout{gap:11px}.cockpit-layout>.cockpit-welcome{padding:16px}.cockpit-route-surface{padding:15px;min-height:270px}
+ .cockpit-route-canvas{min-height:205px}.cockpit-route-head h2{font-size:1.12rem}
+ .cockpit-route-point small{font-size:.58rem;max-width:62px}}
+@media(prefers-reduced-motion:reduce){.cockpit-route-line{animation:none}.cockpit-route-point span{transition:none}}

@@ -1,4 +1,5 @@
 import { railReviewTimeline } from './rail-review-timeline.mjs';
+import { routeSketch } from './route-mini-map.mjs';
 import { providerQuotePanel } from './provider-quotes-v13.mjs';
 import { providerLocationPanel } from './provider-location-v13.mjs';
 import { mediaCoveragePanel } from './media-coverage.mjs';
@@ -374,11 +375,31 @@ function overview(ctx) {
   }).join('');
   const progress=readinessOverview(ctx).filter(r=>['stays','hotel-review','rail-review','cost'].includes(r.key));
   const progressLink={stays:'lodging','hotel-review':'lodging','rail-review':'rail',cost:'budget'};
+  const routeGraphic=routeSketch(trip.route,ctx.cities);
+  const routePoints=routeGraphic.stops.map(stop=>
+    '<button class="cockpit-route-point" type="button" style="--px:'+stop.x+'%;--py:'+stop.y+'%"'
+      +' data-action="trip-city" data-value="'+esc(stop.id)+'" title="'+esc(stop.name)+' im Tagesplan öffnen">'
+      +'<span>'+stop.order+'</span><small>'+esc(stop.name)+'</small></button>').join('');
+  const overviewRoute='<section class="cockpit-route-surface" aria-label="Schematische Städtefolge der Reise">'
+    +'<div class="cockpit-route-head"><div><span class="cockpit-mini-label">DEINE ROUTE</span>'
+    +'<h2>'+esc(trip.route.length)+' Etappen. Eine Reise.</h2>'
+    +'<p>Städtefolge im Entwurf · keine berechnete Bahntrasse</p></div>'
+    +btn('show-route','Karte öffnen','arrow')+'</div>'
+    +'<div class="cockpit-route-canvas">'
+    +(routeGraphic.stops.length>1
+      ?'<svg viewBox="0 0 560 280" preserveAspectRatio="none" aria-hidden="true">'
+       +'<path class="cockpit-route-under" d="'+routeGraphic.path+'"/>'
+       +'<path class="cockpit-route-line" d="'+routeGraphic.path+'"/></svg>'+routePoints
+      :'<div class="cockpit-route-empty">Für diese Variante sind noch keine zwei Stadt-Anker hinterlegt.</div>')
+    +'</div><div class="cockpit-route-foot"><span>'+icon('map')+' Schematische Übersicht</span>'
+    +'<span>'+esc(dateLabel(trip.from,trip.to))+'</span></div></section>';
   return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
+    + '<div class="cockpit-layout">'
     + '<section class="cockpit-welcome" aria-label="Reise auf einen Blick">'
     + '<div class="cockpit-intro"><span class="cockpit-eyebrow">'+icon('compass')+' DEIN REISE-COCKPIT</span>'
-    +'<h2>Deine Reise. Alles an einem Ort.</h2>'
-    +'<p>'+esc(trip.description||'Reiseorte, Route, Budget und Vorbereitung auf einen Blick.')+'</p>'
+    +'<h2>'+esc(ctx.variant.state.title??trip.title)+'</h2>'
+    +'<p>'+esc(trip.route.slice(0,5).map(id=>ctx.cities[id]?.name??id).join(' → '))
+      +(trip.route.length>5?' → …':'')+'</p>'
     +'<div class="cockpit-facts">'
     +'<span>'+icon('calendar')+esc(dateLabel(trip.from,trip.to))+'</span>'
     +'<span>'+icon('pin')+new Set(trip.route).size+' Orte</span>'
@@ -389,6 +410,7 @@ function overview(ctx) {
     +'<small>Fotos nur bei belegter Bildquelle</small></div>'
     +btn('show-route','Route öffnen','arrow')+'</div>'
     +'<div class="destination-filmstrip" aria-label="Reiseorte mit Quellenfotos">'+destinationCards+'</div></div></section>'
+    +overviewRoute+'</div>'
     + '<section class="cockpit-progress" aria-label="Vorbereitung nachprüfen">'
     +'<div class="cockpit-section-head"><div><strong>Was ist schon vorbereitet?</strong>'
     +'<small>Nur in deinem Plan dokumentiert, nicht extern bestätigt</small></div>'
