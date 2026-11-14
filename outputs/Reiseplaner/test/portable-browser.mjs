@@ -94,6 +94,8 @@ try {
     'The home screen shows the large quick-start actions before technical dashboards');
   assert.equal(await js('document.querySelectorAll(".overview-quick-card").length'),4,
     'Four clearly named home choices are present');
+  assert.ok(await js('document.querySelector(".day-plan-overview")?.querySelectorAll("[data-action=day-plan-go]").length===14'),
+    '14 day outlines are accessible for the current two-week variant');
   assert.ok(await js('Array.from(document.querySelectorAll("link")).some(l=>l.getAttribute("href")==="/motion-polish.css")'),
     'Shared motion stylesheet is loaded');
   await until(()=>js('Boolean(document.querySelector(".overview-quick-card.motion-revealed"))'),
@@ -117,6 +119,11 @@ try {
     'Motion preference can be enabled again');
   await click('.overview-quick-card[data-value=plan]');
   await text('h1', 'Barcelona');
+  assert.ok(await js('Boolean(document.querySelector(".day-plan-panel .day-plan-stop-list"))'),
+    'Selected travel date displays a full provisional day outline');
+  assert.ok(await js('Boolean(document.querySelector(".day-plan-panel [data-action=day-plan-adopt]"))'),
+    'Planning candidates can be adopted explicitly without silently rewriting trips');
+  await screenshot('27-tagesprogramm-barcelona-1280.png');
   // The tour navigates read-only and is dismissible by Escape.
   await click('[data-action=guide-start]');
   await text('.guide-panel', 'Tagesplan verstehen');
