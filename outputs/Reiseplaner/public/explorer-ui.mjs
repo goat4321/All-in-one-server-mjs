@@ -20,10 +20,14 @@ export function explorerToolbar(ctx) {
   const transitUrl = transitPlanners[from?.city ?? ctx.city];
   return '<section class="panel explorer-toolbar" aria-label="Karten-Explorer-Steuerung">'
     + '<div class="explorer-scope"><strong>Orte anzeigen</strong>'
-    + chip('explorer-scope', 'Gesamte Reise', ex.scope === 'trip', 'trip', 'map')
+    + chip('explorer-scope', 'Mein Tag', ex.scope === 'day', 'day', 'calendar')
     + chip('explorer-scope', 'Nur ' + (ctx.cities[ctx.city]?.name ?? ctx.city), ex.scope === 'city', 'city', 'pin')
+    + chip('explorer-scope', 'Gesamte Reise', ex.scope === 'trip', 'trip', 'map')
     +btn('explorer-reset','Reset','reset')
-    + '<span class="muted">' + ex.placed.length + ' Kartenpunkte · ' + ex.unlocated.length + ' ohne genaue Koordinaten</span></div>'
+    + '<span class="muted">' + ex.placed.length + ' Kartenpunkte · ' + ex.unlocated.length + ' ohne genaue Koordinaten</span>'
+    +(ex.scope==='day'?'<small class="explorer-day-scope-info">Nur die bereits für diesen Tag geplanten Stopps.'
+        +' Für weitere Ideen „Nur '+esc(ctx.cities[ctx.city]?.name??ctx.city)+'“ wählen.</small>':'')
+    +'</div>'
     + (ex.nearby?'<div class="explorer-nearby-bar" role="group" aria-label="Umkreissuche">'
       +'<div><strong>Im Umkreis von '+esc(ex.nearby.name)+'</strong>'
       +'<small>Nur vorhandene Kartenpunkte; keine Stadtmittelpunkt-Schätzung</small></div>'
