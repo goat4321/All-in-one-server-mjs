@@ -27,7 +27,7 @@ const view = {
   theme: localStorage.getItem('reiseplan-theme') ?? 'light',
   filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
   optionFilter: 'all', sort: 'source', compareIds: new Set(), inspectorCompareIds: [],
-  mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
+  mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
@@ -1396,6 +1396,13 @@ document.addEventListener('keydown',event=>{
     }
     return;
   }
+  if(event.target.id==='reference-top-search'&&event.key==='Enter'){
+    event.preventDefault();
+    view.mapSearch=event.target.value.trim().slice(0,100);
+    view.mapListLimit=60;
+    render({restoreView:true,fetchRoutes:false});
+    return;
+  }
   if(event.target.id==='map-search'&&event.key==='Enter'){
     event.preventDefault();
     void action('explorer-search').catch(error=>say(error.message));
@@ -1431,7 +1438,11 @@ app.addEventListener('change', event => {
     }
   }
   if (event.target.id === 'nightly-target') { const v=Number(event.target.value); if(Number.isFinite(v)&&v>=5&&v<=1000){view.nightlyTargetEuro=v;localStorage.setItem('reiseplan-nightly-target',String(v));render({restoreView:true});} }
-  if (event.target.id === 'map-search') { view.mapSearch = event.target.value.trim().slice(0, 100); view.mapListLimit = 60; render({ restoreView: true }); }
+  if (event.target.id === 'map-search' || event.target.id === 'reference-top-search') {
+    view.mapSearch = event.target.value.trim().slice(0,100);
+    view.mapListLimit = 60;
+    render({restoreView:true,fetchRoutes:false});
+  }
   if (event.target.id === 'explorer-time') { view.mapRouteTime = event.target.value; view.mapRouteResult = null; render({ restoreView: true }); }
   if (event.target.id === 'day-route-start') { view.dayQueueTime=event.target.value; view.dayQueueRoutes=[]; render({restoreView:true}); }
   if (event.target.id === 'meal-date' && context.dates.includes(event.target.value)) showCity(context.city, event.target.value);

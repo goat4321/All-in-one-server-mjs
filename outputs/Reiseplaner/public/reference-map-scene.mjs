@@ -118,22 +118,28 @@ export function mapDayAgenda(ctx){
 }
 
 export function mapImageIntro(ctx){
-  const city=ctx.cities?.[ctx.city]?.name??ctx.city??'Reise';
-  const matched=(ctx.all??[]).find(item=>item.city===ctx.city&&curatedPlacePhoto(item));
-  const photo=matched?curatedPlacePhoto(matched):null;
-  return '<header class="reference-map-intro '+(photo?'has-photo':'no-photo')+'">'
-    +(photo?'<div class="reference-intro-photo"><img loading="lazy" decoding="async"'
-      +' referrerpolicy="no-referrer" src="'+esc(photo.url)+'" alt="'
-      +esc('Quellenfoto: '+matched.name)+'"><span>Bildmotiv: '
-      +esc(matched.name)+' · Lizenz im Ortsprofil</span></div>':'')
-    +'<div class="reference-map-intro-copy"><small class="reference-map-eyebrow">'
-    +icon('map')+' REISEPLANUNG · KARTE & TAGESABLAUF</small>'
-    +'<h1>Karten-Explorer</h1>'
-    +'<p>'+esc(ctx.variant?.state?.title??ctx.trip.title)+' · '
-    +esc(ctx.trip?.from??'')+' bis '+esc(ctx.trip?.to??'')+' · '
-    +(ctx.people?.length??0)+' Reisende</p></div>'
-    +'<div class="reference-map-intro-actions">'
-    +btn('page','Tagesplan','calendar','plan')+'</div></header>';
+ const city=ctx.cities?.[ctx.city]?.name??ctx.city??'Reise';
+ const imageCandidate=(ctx.all??[]).find(item=>item.city===ctx.city&&curatedPlacePhoto(item));
+ const photo=imageCandidate?curatedPlacePhoto(imageCandidate):null;
+ const title=ctx.variant?.state?.title??ctx.trip?.title??'Deine Reise';
+ const from=ctx.trip?.from??'',to=ctx.trip?.to??'';
+ const media=photo?
+   '<a class="reference-hero-thumb" href="'+esc(photo.sourceUrl)
+   +'" target="_blank" rel="noopener noreferrer" title="Lizenziertes Ortsmotiv – Bildquelle öffnen">'
+   +'<img src="'+esc(photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer"'
+   +' alt="'+esc('Ortsmotiv: '+imageCandidate.name)+'"></a>'
+   :'<div class="reference-hero-thumb reference-hero-fallback" aria-hidden="true">'+icon('map')+'</div>';
+ return '<header class="reference-map-intro '+(photo?'has-photo':'no-photo')+'">'
+   +(photo?'<div class="reference-intro-photo" aria-hidden="true"><img'
+      +' src="'+esc(photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt=""></div>':'')
+   +media
+   +'<div class="reference-map-intro-copy"><small class="reference-map-eyebrow">'
+   +esc(city)+' · DEINE REISE</small>'
+   +'<h1>'+esc(title)+'</h1>'
+   +'<p>'+esc(from)+' – '+esc(to)+' · '+(ctx.people?.length??0)+' Reisende'
+   +' · Recherche und Entwurf, nicht gebucht</p></div>'
+   +'<div class="reference-map-intro-actions">'
+   +btn('page','Reise bearbeiten','edit','plan')+'</div></header>';
 }
 
 export function mapFloatingControls(ctx){

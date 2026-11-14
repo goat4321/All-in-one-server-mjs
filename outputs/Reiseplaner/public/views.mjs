@@ -67,13 +67,23 @@ export function renderShell(ctx) {
       return '<button type="button" class="nav-btn" data-action="page" data-value="'+id
         +'" aria-current="'+(page===id?'page':'false')+'">'+icon(tab[2])+'<span>'+esc(tab[1])+'</span></button>';
     }).join('')+'</nav></section>').join('');
+  const referenceNav=page==='map'?'<div class="reference-nav-brand"><button type="button" class="reference-brand-menu" data-action="menu" aria-label="Reisevarianten und weitere Seiten öffnen">'
+    +icon('menu')+'</button><strong>Reiseplaner</strong></div>'
+    +'<nav class="reference-main-nav" aria-label="Reise-Navigation">'
+    +'<button type="button" data-action="page" data-value="map" aria-current="page">'+icon('pin')+'<span>Reise</span></button>'
+    +'<button type="button" data-action="page" data-value="discover">'+icon('compass')+'<span>Entdecken</span></button>'
+    +'<button type="button" data-action="explorer-saved-only" aria-pressed="'+Boolean(ctx.explorer?.savedOnly)+'">'+icon('bookmark')+'<span>Merkliste</span></button>'
+    +'</nav><label class="reference-global-search"><span class="sr-only">Reiseorte durchsuchen</span>'
+    +icon('search')+'<input id="reference-top-search" type="search" maxlength="100" autocomplete="off"'
+    +' value="'+esc(ctx.mapSearch??'')+'" placeholder="Ziele, Orte, Aktivitäten suchen …"></label>'
+    : '';
   const mobileDock='<nav class="mobile-dock" aria-label="Schnellnavigation">'
     +mobileTabs.map(id=>{
       const tab=tabs.find(t=>t[0]===id);
       return '<button type="button" data-action="page" data-value="'+id
         +'" aria-current="'+(page===id?'page':'false')+'">'+icon(tab[2])+'<span>'+esc(tab[1])+'</span></button>';
     }).join('')+'</nav>';
-  return `<div class="shell"><aside class="sidebar ${menu ? 'open' : ''}" aria-label="Reisenavigation">
+  return `<div class="shell ${page==='map'?'reference-travel-shell':''}"><aside class="sidebar ${menu ? 'open' : ''}" aria-label="Reisenavigation">
     <div class="brand"><span class="brandmark">${icon('train')}</span> Reiseplaner</div>
     <div class="sidebar-inner">
       <div class="side-label">Reisevariante</div>
@@ -88,7 +98,8 @@ export function renderShell(ctx) {
       </details>
     </div>
     <div class="sidebar-bottom">${icon('lock')} <span>Privat auf diesem Gerät</span></div>
-  </aside><div class="main-column"><header class="topbar">
+  </aside><div class="main-column"><header class="topbar ${page==='map'?'reference-topbar':''}">
+    ${referenceNav}
     <div class="crumb"><span class="mobile-menu">${iconBtn('menu', 'Navigation öffnen', 'menu')}</span><strong>${esc(currentTitle)}</strong>${icon('chevron')}<span>${esc(tabTitle)}</span></div>
     ${renderHeaderHud(ctx)}
     <div class="top-actions"><nav class="topbar-shortcuts" aria-label="Schnellzugriff">
@@ -100,7 +111,7 @@ export function renderShell(ctx) {
     ${iconBtn('theme', theme === 'dark' ? 'Helles Design' : 'Dunkles Design', theme === 'dark' ? 'sun' : 'moon')}
     ${iconBtn('undo', 'Letzte Änderung rückgängig', 'reset')}
     ${iconBtn('page', 'Daten importieren', 'upload', 'data')}</div>
-  </header><main class="workspace" id="main">${sourceNotice}${content(ctx, cityName)}</main>${guideMarkup(ctx.guideIndex)}</div>${mobileDock}</div>`;
+  </header><main class="workspace" id="main">${page==='map'?'':sourceNotice}${content(ctx, cityName)}${page==='map'?sourceNotice:''}</main>${guideMarkup(ctx.guideIndex)}</div>${mobileDock}</div>`;
 }
 
 function content(ctx, city) {
