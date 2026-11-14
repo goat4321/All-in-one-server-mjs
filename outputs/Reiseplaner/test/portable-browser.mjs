@@ -326,6 +326,21 @@ try {
   await text('dialog #inspector-panel-nearby','Luftlinie');
   await click('dialog [data-action=inspector-tab][data-value=overview]');
   assert.equal(await js('document.querySelector("#inspector-panel-overview").hidden'),false);
+  await click('dialog [data-action=inspector-compare-add]');
+  await text('dialog','Aus Vergleich nehmen');
+  await until(()=>js('Boolean(document.querySelector("dialog .inspector-footer-buttons [data-action=inspector-neighbor]"))'),
+    'an adjacent candidate of same city and category');
+  await click('dialog .inspector-footer-buttons [data-action=inspector-neighbor]');
+  await click('dialog [data-action=inspector-compare-add]');
+  await text('dialog','Vergleich (2)');
+  await click('dialog [data-action=inspector-compare-view]');
+  await text('dialog','Optionen gegenüberstellen');
+  assert.equal(await js('document.querySelectorAll("dialog [data-action=inspector-compare-detail]").length'),2);
+  assert.equal(await js('document.querySelectorAll("dialog .inspector-comparison-table tr").length>=9'),true);
+  await screenshot('14-place-comparison-desktop.png');
+  await click('dialog [data-action=inspector-compare-clear]');
+  assert.equal(await js('document.querySelector("dialog").open'),false);
+  await click('[data-action=details][data-value="local:nardi"]');
   await click('dialog [data-action=photo-edit]');
   await text('dialog','Foto und Bildquelle');
   await set('dialog [name=url]', 'https://upload.wikimedia.org/wikipedia/commons/example.jpg');
