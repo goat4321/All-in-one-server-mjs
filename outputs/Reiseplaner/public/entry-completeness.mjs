@@ -15,7 +15,7 @@ export function entryCompleteness(item,ctx={}){
   const photos=ownPhotos(item,ctx.state);
   const curated=curatedPlacePhoto(item);
   const hasPhoto=Boolean(photos.length||curated);
-  const hasStory=Math.max(safeLen(item.detail),safeLen(item.note))>=50
+  const hasStory=Math.max(safeLen(item.detail),safeLen(item.note),safeLen(item.guideV22?.summary))>=50
     ||safeLen(item.researchV20?.condition)>=50;
   const references=Array.isArray(item.source)?item.source:[];
   const urls=references.flatMap(ref=>{
