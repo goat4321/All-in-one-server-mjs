@@ -140,6 +140,33 @@ try {
   // search, real routing attempt and explicitly adding a restaurant to a day.
   await click('.sidebar [data-action=page][data-value=map]');
   await text('h1', 'Karten-Explorer');
+  // The three reference-style map modes must change the actual explorer
+  // dataset, not only the visual heading or the "total" overlay.
+  const allMapCount=await js('document.querySelectorAll(".explorer-place").length');
+  await click('.reference-map-floating [data-action=map-mode][data-value=day]');
+  assert.equal(await js('document.querySelector(".reference-map-floating [data-value=day]").getAttribute("aria-pressed")'),"true");
+  await text('.explorer-day-scope-info','Nur die bereits für diesen Tag geplanten Stopps');
+  const dayMapTotal=await js('Number((document.querySelector(".explorer-list")?.textContent??"").match(/(\\d+) passende Einträge/)?.[1]??0)');
+  const actualDayVisible=await js('document.querySelectorAll(".explorer-place").length');
+  assert.ok(actualDayVisible<=allMapCount,
+    'A day-only map cannot show more search results than the full trip');
+  assert.ok(dayMapTotal<=allMapCount||actualDayVisible<=allMapCount);
+  if(await js('document.querySelectorAll(".reference-agenda-select").length>0')){
+    const chosen=await js('document.querySelector(".reference-agenda-select")?.dataset.value');
+    await click('.reference-agenda-select');
+    assert.equal(await js('document.querySelector(".reference-agenda-select")?.getAttribute("aria-pressed")'),"true",
+      'Clicking a planned stop highlights the corresponding day entry');
+    assert.equal(await js('document.querySelector(".reference-agenda-select")?.dataset.value'),chosen);
+    assert.ok(await js('Boolean(document.querySelector(".map-selected-place"))'),
+      'Selecting a planned entry reveals its actual map inspector');
+  }
+  await click('.reference-map-floating [data-action=map-mode][data-value=city]');
+  assert.equal(await js('document.querySelector(".reference-map-floating [data-value=city]").getAttribute("aria-pressed")'),"true");
+  const cityMapCount=await js('document.querySelectorAll(".explorer-place").length');
+  assert.ok(cityMapCount>=actualDayVisible,
+    'City mode includes the current city research in addition to any planned day');
+  await click('.reference-map-floating [data-action=map-mode][data-value=total]');
+  assert.equal(await js('document.querySelector(".reference-map-floating [data-value=total]").getAttribute("aria-pressed")'),"true");
   await text('.travel-map-hud','Kartenpunkte');
   await text('.travel-map-hud','ohne Pin');
   assert.equal(await js('document.querySelector(".travel-map-hud-track")?.getAttribute("role")'),"meter");
