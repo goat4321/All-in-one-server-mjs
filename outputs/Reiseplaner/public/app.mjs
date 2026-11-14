@@ -1015,7 +1015,7 @@ async function action(name, value = '') {
         const panel=document.getElementById('inspector-panel-'+tab.dataset.value);
         if(panel)panel.hidden=!active;
       }
-      document.querySelector('#dialog .dialog-body')?.scrollTo({top:0,behavior:'instant'});
+      document.querySelector('#dialog .dialog-body')?.scrollTo({top:0,behavior:'auto'});
       break;
     }
     case 'inspector-neighbor': {
@@ -1271,7 +1271,7 @@ app.addEventListener('error',event=>{
     frame.append(label);
   }
 },true);
-app.addEventListener('keydown',event=>{
+document.addEventListener('keydown',event=>{
   const tab=event.target.closest?.('#dialog .inspector-tab');
   if(tab&&['ArrowRight','ArrowLeft','Home','End'].includes(event.key)){
     event.preventDefault();
