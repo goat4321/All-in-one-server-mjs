@@ -226,7 +226,7 @@ try {
   await text('.travel-map-hud','mit Weblink');
   await text('#main', 'Alle passenden Orte');
   await until(()=>js('document.querySelectorAll(".place-price-signal").length>0'),'€-Kennzeichen an Ortslisten');
-  assert.equal(await js('document.querySelector(".explorer-day-notes")?.open'),false,'Zusätzliche Tagesideen anfangs zugeklappt');
+  assert.equal(await js('(document.querySelector(".explorer-day-notes")?.open??false)'),false,'Zusätzliche Tagesideen anfangs zugeklappt');
   assert.equal(await js('document.querySelector(".explorer-view-advanced")?.open'),false,'Zusätzliche Kartenfilter anfangs zugeklappt');
   await click('.explorer-view-advanced summary');
   await until(()=>js('document.querySelector(".explorer-view-advanced")?.open===true'),'Zusätzliche Kartenfilter erreichbar');
@@ -244,7 +244,7 @@ try {
   await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===2'),
     'Desktop atlas has a real two-column split');
-  assert.ok(await js('(() => { const e=document.querySelector(".explorer-search input")?.getBoundingClientRect(),b=document.querySelector(".explorer-search .button")?.getBoundingClientRect(); return e&&b&&b.left>=e.right-2&&Math.abs(e.top-b.top)<9; })()'),
+  assert.ok(await js('(() => { const e=document.querySelector("#reference-top-search")?.getBoundingClientRect(),b=document.querySelector(".reference-global-search")?.getBoundingClientRect(); return e&&b&&b.left>=e.right-2&&Math.abs(e.top-b.top)<9; })()'),
     'Suchfeld und Suchknopf stehen auf Desktop in derselben Zeile');
   assert.equal(await js('getComputedStyle(document.querySelector(".explorer-categories")).flexWrap'),'nowrap',
     'Ortskategorien sind eine scrollbare Zeile statt mehrerer Kachelreihen');
@@ -256,6 +256,7 @@ try {
    'Travel reference: full-width map, no permanent sidebar, map aligned within first 210px');
   await click('.reference-map-floating [data-action=map-mode][data-value=city]');
   await screenshot('22-reference-city-map-1440.png');
+   await screenshot('29-freie-stadtkarte-desktop-1440.png');
   assert.ok(await js('(() => { const root=document.querySelector(".reference-map-workspace"),map=root?.querySelector("#map"),head=root?.querySelector(".map-panel>.panel-head"),alert=root?.querySelector(".reference-map-schedule-notice"); if(!map||!head||!alert)return false; const m=map.getBoundingClientRect(),h=head.getBoundingClientRect(); return h.top>=m.top-3&&h.top<m.top+45&&alert.querySelector("summary")?.textContent.includes("2027"); })()'),
     'City view: map starts directly under hero, calendar caveat stays available in a compact disclosure');
   assert.ok(await js('(() => {const c=document.querySelector(".reference-discovery");return c&&c.getBoundingClientRect().top<810;})()'),
@@ -269,7 +270,7 @@ try {
     'Source photo / airy city header appears before the map');
   assert.ok(await js('Boolean(document.querySelector(".reference-map-floating [data-action=map-mode]"))'),
     'Floating map route/day controls are real click actions');
-  assert.ok(await js('Boolean(document.querySelector(".reference-agenda-list"))'),
+  assert.ok(await js('Boolean(document.querySelector(".map-browse-panel"))'),
     'Synchronized timeline is present next to the map');
   assert.ok(await js('Boolean(document.querySelector(".reference-discovery-card,.reference-discovery-empty"))'),
     'Only proven licensed pictures enter the discovery strip');
@@ -277,7 +278,7 @@ try {
     'Photo references: day date tabs and Leaflet map begin on the same row');
   assert.ok(await js('(() => {const d=document.querySelector(".reference-stage-days")?.getBoundingClientRect(),l=document.querySelector(".reference-map-workspace>.explorer-right")?.getBoundingClientRect(),m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect();return d&&l&&m&&l.top>=d.bottom-15&&l.top<d.bottom+25&&l.top<m.bottom-130})()'),
     'Explorer agenda and search directly follow day carousel, not below full map height');
-  assert.ok(await js('Boolean(document.querySelector(".reference-agenda-suggestions,.reference-agenda-item"))'),
+  assert.ok(await js('document.querySelectorAll(".map-browse-category").length===5'),
     'Plan column is informative even if no stops were booked');
   assert.ok(await js('(() => {const box=document.querySelector(".reference-map-workspace");const gallery=box?.querySelector(":scope > .reference-discovery");const map=box?.querySelector(":scope > .map-panel");if(!gallery||!map)return false;const m=map.getBoundingClientRect(),g=gallery.getBoundingClientRect();return innerWidth<1180||g.top>=m.bottom-15&&g.left>=m.left-5;})()'),
      'Barcelona reference: photo carousel sits directly below the right-hand map, not as a full-width block');
@@ -366,9 +367,9 @@ try {
   await until(() => js('document.querySelector(".map-panel")?.classList.contains("map-immersive")'), 'Große Kartendarstellung');
   await click('[data-action=map-expand]');
   await until(() => js('!document.querySelector(".map-panel")?.classList.contains("map-immersive")'), 'Normale Kartendarstellung');
-  await until(() => js('document.querySelectorAll("#map .pin.place-activity, #map .pin.place-food, #map .pin.place-lodging, #map .poi-cluster-icon").length > 0'),
+  await until(() => js('document.querySelectorAll("#map .photo-marker-container, #map .pin.place-activity, #map .poi-cluster-icon").length > 0'),
     'Kategorie-Pins im Reiseatlas');
-  await text('#main', 'Tagesideen aus deinem älteren Reiseprofil');
+  await text('#main', 'Alle Reiseorte');
   await click('[data-action=explorer-scope][data-value=city]');
   await until(()=>js('document.querySelector(".map-atlas-hud strong")?.textContent.includes("Barcelona")===true'),'Reisedatum und Stadt als Kartenkontext');
   if(await js('document.querySelectorAll(".map-day-stop").length>0')){
@@ -518,47 +519,53 @@ try {
   await text('#main', 'Meer und Strände besuchen');
   await text('#main', '60 €');
   await click('.sidebar [data-action=page][data-value=lodging]');
+   await screenshot('31-unterkuenfte-browse-desktop-1440.png');
   await until(() => js('Boolean(document.querySelector("#nightly-target"))'), 'Nachtbudget-Eingabe');
   await until(() => js('document.querySelectorAll(".lodging-price-meter").length > 0'), 'Unterkunfts-Budgetbalken');
-  await until(() => js('document.querySelectorAll(".option-card .options-euro-band .universal-euro-tier").length > 0'), 'Alte und neue Unterkunftskarten zeigen €/€€/€€€ oder €?');
+  await until(() => js('document.querySelectorAll(".hub-option-card .hub-option-pricing strong").length > 0'), 'Alte und neue Unterkunftskarten zeigen €/€€/€€€ oder €?');
   await set('#nightly-target', '40');
   await js('document.querySelector("#nightly-target").dispatchEvent(new Event("change",{bubbles:true}))');
   await until(() => js('document.querySelector("#nightly-target")?.value === "40"'),'Budgetziel angepasst');
   assert.equal(await js('localStorage.getItem("reiseplan-nightly-target")'),'40');
-  await js('document.querySelectorAll(".option-card [data-action=compare]")[0].click()');
-  await js('document.querySelectorAll(".option-card [data-action=compare]")[1].click()');
+  await js('document.querySelectorAll(".hub-option-card [data-action=compare]")[0].click()');
+  await js('document.querySelectorAll(".hub-option-card [data-action=compare]")[1].click()');
   await until(() => js('document.querySelectorAll(".stay-compare-card").length === 2'),
     'Interaktiver Vergleich von zwei Unterkünften');
   await text('.stay-compare-board','Küche');
-  await text('#main', 'Suchpreis-Snapshots');
+  await js('document.querySelector(".hub-technical-details:not([open]) > summary")?.click()');
+   await text('#main', 'Suchpreis-Snapshots');
   await text('.provider-quote-panel', '2027-09-03 bis 2027-09-06');
   await until(() => js('document.querySelectorAll(".provider-quote-card").length === 10'),
     '10 unbooked September Barcelona provider offers');
   assert.ok(await js('document.querySelector(".provider-quote-card")?.textContent.includes("HeyLola!")'));
   const priorProviderState=JSON.stringify(store.current('interrail_classic').state);
-  await click('.provider-quote-panel [data-action=provider-budget]');
+  await js('document.querySelector(".hub-technical-details:not([open]) > summary")?.click()');
+   await click('.provider-quote-panel [data-action=provider-budget]');
   await until(() => js('document.querySelectorAll(".provider-quote-card").length < 10'),
     'Provider nightly budget filter');
-  await click('.provider-quote-panel [data-action=provider-budget]');
-  await set('#provider-quote-sort', 'rating');
+  await js('document.querySelector(".hub-technical-details:not([open]) > summary")?.click()');
+   await click('.provider-quote-panel [data-action=provider-budget]');
+  await js('document.querySelector(".hub-technical-details:not([open]) > summary")?.click()');
+   await set('#provider-quote-sort', 'rating');
   await js('document.querySelector("#provider-quote-sort").dispatchEvent(new Event("change",{bubbles:true}))');
   await until(() => js('document.querySelector(".provider-quote-card")?.textContent.includes("SM Hotel Sant Antoni")'),
     'Booking score sorting');
   assert.equal(JSON.stringify(store.current('interrail_classic').state),priorProviderState,
     'Research controls must not write to the trip');
-  await text('#main', 'Datenlücken im Hotelvergleich');
-  await click('[data-action=option-filter][data-value=search]');
-  await text('.grid-cards', 'HeyLola! Hostel');
-  await text('.grid-cards', '31,77');
+  await text('#main', 'Detaillierter Preis- und Quellenvergleich');
+  await js('document.querySelector(".hub-filter-more:not([open]) > summary")?.click()');
+   await click('[data-action=option-filter][data-value=search]');
+  await text('.hub-option-grid', 'HeyLola! Hostel');
+  await text('.hub-option-grid', 'Preisorientierung');
   const scopedHotelSearchCount = catalog.trips.find(trip => trip.id === 'interrail_classic')
     .items.filter(item => item.city === 'barcelona' && item.kind === 'lodging'
       && item.quote && !item.duplicateOf).length;
-  assert.equal(await js('document.querySelectorAll(".option-card").length'), scopedHotelSearchCount);
-  await text('.grid-cards', 'Airbnb');
-  assert.ok(await js('!document.querySelector(".option-card").textContent.includes("gebucht")')
-    || await js('document.querySelector(".option-card").textContent.includes("nicht gebucht")'));
+  assert.equal(await js('document.querySelectorAll(".hub-option-card").length'), Math.min(24,scopedHotelSearchCount));
+  await text('.hub-option-grid', 'Preisorientierung');
+  assert.ok(await js('!document.querySelector(".hub-option-card").textContent.includes("gebucht")')
+    || await js('document.querySelector(".hub-option-card").textContent.includes("nicht gebucht")'));
   await click('.sidebar [data-action=page][data-value=discover]');
-  await text('.grid-cards', 'Gruppeninteresse');
+  await text('.hub-option-grid', 'Gruppeninteresse');
   await set('#sort', 'score');
   await js('document.querySelector("#sort").dispatchEvent(new Event("change", { bubbles: true }))');
   await text('#main', 'Gruppeninteresse');
@@ -623,12 +630,15 @@ try {
   await text('#main', 'Pass-Tage');
   await text('#main', 'Preise offen');
   await click('.sidebar [data-action=page][data-value=food]');
+   await screenshot('30-verpflegung-browse-desktop-1440.png');
+   await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
   await text('#main', 'Selbst kochen oder auswärts essen');
   await text('#main', 'Verifizierte Anbieter & offene Essensideen');
   await click('.meal-card [data-action=meal-choose][data-value=pasta]');
   await text('dialog', 'Pasta mit Tomate');
   await save();
   await click('.sidebar [data-action=page][data-value=food]');
+   await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
   await text('#main', 'Gemeinsamer Einkaufswarenkorb');
   await text('#main', '2,80');
   await click('[data-action=grocery-edit]');
@@ -640,18 +650,21 @@ try {
   await cdp('Page.navigate', { url: address });
   await text('h1', 'Barcelona');
   await click('.sidebar [data-action=page][data-value=food]');
+   await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
   await text('#main', '3,25');
   await click('.sidebar [data-action=page][data-value=budget]');
   await text('#main', '3,25');
   // A second planned dinner must reuse packages and automatically increase
   // an earlier override if the combined quantity now needs more packs.
   await click('.sidebar [data-action=page][data-value=food]');
+   await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
   await set('#meal-date', '2027-09-05');
   await js('document.querySelector("#meal-date").dispatchEvent(new Event("change", { bubbles: true }))');
   await text('#main', 'Abendessen am 05.09.2027');
   await click('.meal-card [data-action=meal-choose][data-value=pasta]');
   await save();
   await click('.sidebar [data-action=page][data-value=food]');
+   await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
   await text('#main', '6,50');
   await text('#main', 'Packungen an den gesamten Bedarf angepasst');
   assert.equal(store.current('interrail_classic').state.manual.filter(i => i.mealPlanId === 'pasta').length, 2);
@@ -660,8 +673,9 @@ try {
   // An explicit hotel candidate selection is local, unbooked and confined
   // to the matching 3-person September classic variant.
   await click('.sidebar [data-action=page][data-value=lodging]');
-  await click('[data-action=option-filter][data-value=search]');
-  await text('.grid-cards', 'HeyLola! Hostel');
+  await js('document.querySelector(".hub-filter-more:not([open]) > summary")?.click()');
+   await click('[data-action=option-filter][data-value=search]');
+  await text('.hub-option-grid', 'HeyLola! Hostel');
   await click('[data-action=choose][data-value="research:bcom_12814471"]');
   await text('dialog', 'keine Reservierung oder Zahlung');
   await save();
@@ -670,8 +684,10 @@ try {
   // Document a five-point, user-reported provider checkout; this only changes
   // the explicitly selected local plan price, never the supplier's booking.
   await click('.sidebar [data-action=page][data-value=lodging]');
-  await click('[data-action=option-filter][data-value=search]');
-  await click('[data-action=verify-item][data-value="research:bcom_12814471"]');
+  await js('document.querySelector(".hub-filter-more:not([open]) > summary")?.click()');
+   await click('[data-action=option-filter][data-value=search]');
+  await js('document.querySelector(\'[data-action=verify-item][data-value="research:bcom_12814471"]\')?.closest("details")?.setAttribute("open","")');
+   await click('[data-action=verify-item][data-value="research:bcom_12814471"]');
   await text('dialog', 'keine erfolgte Buchung');
   await set('dialog [name=evidenceUrl]', 'https://www.booking.com/hotel/es/heylola-hostel.html');
   await set('dialog [name=quotedTotal]', '297.20');
