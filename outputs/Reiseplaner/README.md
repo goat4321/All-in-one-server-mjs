@@ -1,3 +1,14 @@
+## Phase 35 – Reiseorte, Unterkünfte und Verpflegung unabhängig vom einzelnen Reisetag
+
+**Karte:** Über den neuen sichtbaren Schalter **Mein Tag / Stadt entdecken / Alle Reiseorte** werden entweder tatsächliche Tagesideen, sämtliche vorhandenen Stadtorte oder das komplette Reiseprofil angezeigt. Im Stadt- und Reise-Modus führt eine übersichtliche Kategorieliste direkt zu **Unterkünften, Restaurants/Cafés, Supermärkten, Aktivitäten und Verkehr**. Die Karte darf das gewählte Tagesdatum nicht mehr als Filtervoraussetzung benutzen.
+
+**Unterkünfte, Entdecken und Verpflegung:** Einheitliches Fotokarten-Design mit Reisekopf, **Stadt / alle Reiseorte**, Stadtwechsel und Suche. Kosten bleiben ausdrücklich historische/ungeprüfte Referenzen. Große Schaltflächen zeigen **Karte, Details, Vergleichen und Auswahl**; die langen Prüfnotizen, Provider-Snapshots, Gruppenvotings und Preisrecherchen liegen in aufklappbaren Bereichen und bleiben funktional.
+
+**Verpflegung:** Eigenständige Ansichten für **Restaurants & Cafés**, **Supermärkte** und **Selbst kochen**. Nutzer können bestehende Orte unabhängig vom Tag durchsehen oder bei Supermärkten die belegte, begrenzte OpenStreetMap/Overpass-Abfrage auf der Karte öffnen. Tagesmenüs und Einkaufswarenkorb bleiben weiterhin vorhanden.
+
+**Stand:** Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, Pull Request #5; kein Merge/Deployment. [Vollständiges Änderungsprotokoll](PHASE_35_GENERAL_DISCOVERY_FOOD_LODGING.md). Neue Desktop-Browser-Screenshots sind vorbereitet, aber noch nicht bestätigt, da die GitHub-Actions-Runner bislang vor dem ersten Testschritt ausfallen.
+
+---
 ## Kartenansicht V34: sanfte Vektorkarte, Foto-Bubbles und Supermärkte
 
 Die Reiseansicht verwendet keine klassische OpenStreetMap-Standardkachel mehr: Sofort wird die helle CARTO-Rasterkarte angezeigt; bei erreichbarem MapLibre/OpenFreeMap-Vektorstil wechselt sie auf den pastellfarbenen Vektormodus. Der Ursprung der freien Kartendaten ist weiterhin OSM. Marker wechseln von Punkten/Clustern (Fernansicht) über Kategorien zu runden, bebilderten Ortsmarkern (Nahansicht). Dichte Bereiche begrenzen Fotoüberlagerungen.
