@@ -1004,6 +1004,36 @@ async function action(name, value = '') {
       const photos={...ctx.state.placePhotos};delete photos[item.id];
       await save({...ctx.state,placePhotos:photos},'Ortsfoto aus Reisevariante entfernt');break;
     }
+    case 'inspector-tab': {
+      const tabId=String(value);
+      const tabs=[...document.querySelectorAll('#dialog .inspector-tab')];
+      if(!tabs.some(tab=>tab.dataset.value===tabId))break;
+      for(const tab of tabs){
+        const active=tab.dataset.value===tabId;
+        tab.setAttribute('aria-selected',String(active));
+        tab.tabIndex=active?0:-1;
+        const panel=document.getElementById('inspector-panel-'+tab.dataset.value);
+        if(panel)panel.hidden=!active;
+      }
+      document.querySelector('#dialog .dialog-body')?.scrollTo({top:0,behavior:'instant'});
+      break;
+    }
+    case 'inspector-neighbor': {
+      const target=ctx.all.find(x=>x.id===value)
+        ?? ctx.explorer?.placed.find(x=>x.id===value)
+        ?? ctx.explorer?.unlocated.find(x=>x.id===value);
+      if(target)itemDetails(ctx,target);
+      break;
+    }
+    case 'inspector-map': {
+      if(!item)break;
+      closeDialog();
+      view.page='map';view.mapScope='city';view.city=item.city;
+      view.total=false;view.mapGroup='all';view.mapSearch='';
+      view.mapSavedOnly=false;view.mapNearPointId=null;view.selected=item.id;
+      render({focusMap:Boolean(item.point)});
+      break;
+    }
     case 'details': if (item) itemDetails(ctx, item); break;
     case 'verify-item': if (item && ['lodging', 'transport'].includes(item.kind)) verificationForm(ctx, item, save); break;
     case 'rail-reminder': {
@@ -1242,6 +1272,18 @@ app.addEventListener('error',event=>{
   }
 },true);
 app.addEventListener('keydown',event=>{
+  const tab=event.target.closest?.('#dialog .inspector-tab');
+  if(tab&&['ArrowRight','ArrowLeft','Home','End'].includes(event.key)){
+    event.preventDefault();
+    const list=[...document.querySelectorAll('#dialog .inspector-tab')];
+    const index=list.indexOf(tab);
+    const next=event.key==='Home'?0:event.key==='End'?list.length-1:
+      (index+(event.key==='ArrowRight'?1:-1)+list.length)%list.length;
+    if(list[next]){
+      void action('inspector-tab',list[next].dataset.value).then(()=>list[next].focus());
+    }
+    return;
+  }
   if(event.target.id==='map-search'&&event.key==='Enter'){
     event.preventDefault();
     void action('explorer-search').catch(error=>say(error.message));
