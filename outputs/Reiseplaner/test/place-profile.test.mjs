@@ -60,7 +60,7 @@ test('Place photos require a credited explicit source and never appear for unkno
 });
 
 test('Curated Commons images match only their named landmarks, not hotels or Airbnbs',()=>{
- assert.equal(curatedPhotoCount,21);
+ assert.equal(curatedPhotoCount,25);
  const cases=[
   {name:'Sagrada Família',city:'barcelona'},
   {name:'Park Güell · Monumentalzone',city:'barcelona'},
