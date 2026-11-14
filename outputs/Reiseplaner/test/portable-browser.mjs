@@ -224,12 +224,14 @@ try {
     await click('.reference-discovery-save');
     assert.notEqual(await js('document.querySelector(".reference-discovery-save").getAttribute("aria-pressed")'),
       before,'The photo bookmark button must change actual saved state');
+    await js('document.querySelector(".reference-discovery-card")?.scrollIntoView({block:"center",behavior:"instant"})');
     await screenshot('21-licensed-photo-bookmark-1440.png');
     assert.equal(await js('document.querySelector(".reference-discovery-save").dataset.value'),
       itemId,'The same sourced photo remains in the gallery after saving');
     await click('.reference-discovery-save');
     assert.equal(await js('document.querySelector(".reference-discovery-save").getAttribute("aria-pressed")'),
       before,'A second bookmark click restores the original saved state');
+    await js('document.querySelector(".map-explorer-split")?.scrollIntoView({block:"start",behavior:"instant"})');
   }
   await js('document.querySelector(".map-design-details:not([open]) > summary")?.click()');
   await click('[data-action=map-motion][data-value=off]');
