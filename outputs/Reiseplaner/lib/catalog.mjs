@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises';
+import {loadDayPlansV32} from './day-plans-v32.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsLocationStatus } from '../public/google-maps.mjs';
 import { localParts, minor, utcFromLocal } from '../public/model.mjs';
 import { italyLodgings, italyPlaces, italySources, italyStations } from './italy.mjs';
@@ -915,6 +916,7 @@ export async function loadCatalog() {
       entries:rows,
     };
   });
+  const dayPlansV32=await loadDayPlansV32(output,transport);
   return { trips: output, cities, fares: fareMap, mealPlans,
     research: {
       version: research.import_rules.version,
@@ -922,6 +924,7 @@ export async function loadCatalog() {
       researchV20,
       researchV22,
        fieldNotesV28,
+      dayPlansV32,
       providerSearchV13,providerLocationsV13,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
