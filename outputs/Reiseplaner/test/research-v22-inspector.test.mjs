@@ -63,6 +63,8 @@ test('Every trip entry has an accessible full inspector with independent evidenc
      assert.match(html,/Auf Karte zeigen/);
      assert.match(html,/Quellen/);
      assert.match(html,/Kosten/);
+     assert.match(html,/Was bedeutet €/);
+     assert.match(html,/Wie belastbar ist ein Quellenbeleg/);
      assert.doesNotMatch(html,/onclick=|javascript:/i);
      assert.doesNotMatch(html,/>undefined</);
    }
@@ -81,6 +83,8 @@ test('The inspector shows official specific claims with source and separates str
  assert.match(html,/Nur Luftlinie/);
  assert.ok(entryCompleteness(x,ctx).hasStory);
  assert.match(placeProfileHtml(x,ctx),/Quellen und Aktualität/);
+ const seenGuide=catalog.trips.flatMap(t=>t.items).find(x=>x.id==='survey-v19:act-045'&&x.guideV22);
+ assert.match(seenGuide.guideV22.practical,/separate Wegvariante/);
  const neighbors=inspectorNearby(ctx,x);
  assert.ok(neighbors.every(a=>a.km<=5&&a.km>=0&&a.item.city===x.city));
  assert.ok(neighbors.every((a,i)=>i===0||neighbors[i-1].km<=a.km));
