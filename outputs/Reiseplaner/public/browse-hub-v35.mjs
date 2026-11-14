@@ -67,7 +67,7 @@ export function browseToolbar(ctx,{kind='discover',total=0,filtered=0}={}){
    +'<label class="hub-city-selector">Ort wechseln <select id="browse-city" aria-label="Stadt auswählen">'
    +cities.map(id=>'<option value="'+esc(id)+'"'+(ctx.city===id?' selected':'')+'>'
     +esc(ctx.cities?.[id]?.name??id)+'</option>').join('')+'</select></label></div>'
-   +'<form id="browse-search-form" class="hub-search-form" role="search" onsubmit="return false">'
+   +'<form id="browse-search-form" class="hub-search-form" role="search">'
    +'<label for="browse-search">'+icon('search')+'<span class="sr-only">Angebote durchsuchen</span></label>'
    +'<input id="browse-search" type="search" maxlength="100" value="'+esc(ctx.browseSearch??'')
    +'" placeholder="'+esc(kind==='lodging'?'Hotel, Hostel, Küche, Lage …':kind==='food'

@@ -36,7 +36,7 @@ const view = {
   mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
-  browseScope:'city',browseSearch:'',browseFoodType:'all',
+  browseScope:'city',browseSearch:'',browseFoodType:'all',browseLimit:24,
   dayPlanOpen:false,
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
@@ -199,7 +199,7 @@ function paintMap(fit = false) {
       :context.selected, timetablePreview: context.timetablePreview,
     explorer: context.explorer, dayRoute: context.dayRoute,
     dayPreview:context.page==='map'&&view.mapSimple
-      &&context.explorer?.scope==='city'&&!context.day.some(x=>x.kind==='activity')
+      &&context.explorer?.scope==='day'&&!context.day.some(x=>x.kind==='activity')
       &&context.dayPlan?.slots.length
       ?{slots:context.dayPlan.slots,sourceItems:context.all}:null,
     profileCtx: {people:context.people,cities:context.cities,state:context.state} });
@@ -715,22 +715,44 @@ async function action(name, value = '') {
     case 'page': changePage(value); break;
     case 'browse-scope':
       if(!['city','trip'].includes(value))break;
-      view.browseScope=value;view.optionFilter='all';view.compareIds.clear();
+      view.browseScope=value;view.browseLimit=24;view.optionFilter='all';view.compareIds.clear();
       render({fetchRoutes:false});break;
     case 'browse-search-apply':
       view.browseSearch=app.querySelector('#browse-search')?.value?.trim().slice(0,100)??'';
-      render({fetchRoutes:false});break;
+      view.browseLimit=24;render({fetchRoutes:false});break;
     case 'browse-search-reset':
-      view.browseSearch='';render({fetchRoutes:false});break;
+      view.browseSearch='';view.browseLimit=24;render({fetchRoutes:false});break;
     case 'browse-food-type':
       if(!['all','restaurants','markets','cook'].includes(value))break;
-      view.browseFoodType=value;render({fetchRoutes:false});break;
+      view.browseFoodType=value;view.browseLimit=24;render({fetchRoutes:false});break;
+    case 'browse-more':
+      view.browseLimit=Math.min(2000,view.browseLimit+24);render({fetchRoutes:false});break;
     case 'browse-map': {
       const kind=value==='lodging'?'lodging':value==='food'?'food':'activity';
       view.page='map';view.mapScope=view.browseScope==='trip'?'trip':'city';
       view.total=view.mapScope==='trip';view.mapGroup=kind;view.mapSearch='';
       view.selected=null;view.mapViewportOnly=false;view.mapViewportBounds=null;
       view.mapSavedOnly=false;render({fetchRoutes:false});break;
+    }
+    case 'browse-supermarkets': {
+      view.page='map';view.total=false;view.mapScope='city';view.mapGroup='shop';
+      view.mapSearch='';view.mapMarketsShown=true;view.mapMarketsError=null;
+      view.mapViewportOnly=false;view.mapViewportBounds=null;view.selected=null;
+      render({fetchRoutes:false});
+      if(!supermarketByCity.has(ctx.city)){
+        view.mapMarketsLoading=true;render({restoreView:true,fetchRoutes:false});
+        try{
+          const data=await loadCityMarkets(ctx.city);
+          say(data.count+' kartierte Supermärkte für '+ctx.cities[ctx.city].name);
+        }catch(error){
+          view.mapMarketsError=error.message;
+          say('Supermarktsuche: '+error.message);
+        }finally{
+          view.mapMarketsLoading=false;
+          render({restoreView:true,fetchRoutes:false});
+        }
+      }
+      break;
     }
     case 'browse-map-item':
       if(!item||!item.point){say('Für diesen Eintrag ist kein genauer Kartenpunkt hinterlegt.');break;}
@@ -1393,7 +1415,7 @@ async function action(name, value = '') {
     case 'compare-clear': view.compareIds.clear(); render({ restoreView: true }); break;
     case 'votes-expand': view.showAllVotes=!view.showAllVotes; render({ restoreView: true }); break;
     case 'provider-budget': view.providerOnlyBudget=!view.providerOnlyBudget; render({ restoreView: true }); break;
-    case 'option-filter': view.optionFilter = value; render({ restoreView: true }); break;
+    case 'option-filter': view.optionFilter = value; view.browseLimit=24;render({ restoreView: true }); break;
     case 'optimize': optimize(); break;
     case 'reorder': await reorder(...JSON.parse(value)); closeDialog(); break;
     case 'expense': expenseForm(ctx, ctx.state.expenses.find(e => e.id === value), save); break;
@@ -1558,7 +1580,7 @@ app.addEventListener('input',event=>{
 });
 app.addEventListener('change', event => {
   if(event.target.id==='browse-city'&&context?.trip?.route.includes(event.target.value)){
-    view.browseScope='city';view.optionFilter='all';showCity(event.target.value);return;
+    view.browseScope='city';view.browseLimit=24;view.optionFilter='all';showCity(event.target.value);return;
   }
   if(['coverage-filter-query','coverage-filter-kind','coverage-filter-gap',
     'coverage-filter-city'].includes(event.target.id)){
@@ -1594,6 +1616,11 @@ app.addEventListener('change', event => {
   if (event.target.id === 'meal-date' && context.dates.includes(event.target.value)) showCity(context.city, event.target.value);
 });
 app.addEventListener('submit', async event => {
+  if(event.target.id==='browse-search-form'){
+    event.preventDefault();
+    void action('browse-search-apply').catch(error=>say(error.message));
+    return;
+  }
   if (event.target.id !== 'import-form') return;
   event.preventDefault();
   const file = new FormData(event.target).get('file');
