@@ -106,8 +106,8 @@ function content(ctx, city) {
   switch (ctx.page) {
     case 'overview': return overview(ctx);
     case 'map': return mapImageIntro(ctx)
-      + explorerDayStrip(ctx)
       + '<div class="map-explorer-split reference-map-workspace" aria-label="Tagesroute, Karte und passende Orte">'
+      + '<div class="reference-stage-days">'+explorerDayStrip(ctx)+'</div>'
       + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Tagesroute, Suche, Filter und Ortsliste">'
       + mapDayAgenda(ctx) + explorerToolbar(ctx) + explorerList(ctx) + '</div></div>'
       + mapPhotoDiscovery(ctx) + dayRouteView(ctx);
