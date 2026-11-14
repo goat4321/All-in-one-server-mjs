@@ -1,5 +1,6 @@
 import { btn, esc, icon, status, dateText } from './ui.mjs';
 import { money } from './model.mjs';
+import { planCostSignal } from './visual-experience.mjs';
 
 const snapshot = ctx => ctx.catalog.research?.surveyFirstV19;
 const current = ctx => snapshot(ctx)?.variants?.[ctx.trip.id];
@@ -40,10 +41,11 @@ export function surveyV19DayPanel(ctx) {
         const item=activities[i];
         const timing=label(plan.time_windows[i] ?? 'flexible');
         if(!item)return '<span class="survey-v19-missing">'+esc(id)+' · nicht eindeutig importiert</span>';
+        const signal=planCostSignal(item,ctx.people.length);
         return '<div class="survey-v19-option"><span class="survey-v19-index">'+(i+1)+'</span>'
           +'<div><strong>'+esc(item.name)+'</strong><small>'+esc(timing)
-          +' · '+(item.price?.cents==null?'Preis offen':item.price.cents===0?'Öffentlich kostenlos (Grundnutzung)':
-          money(item.price.cents,item.price.currency)+' pro Person · Referenz')+'</small></div>'
+          +' · <span class="universal-euro-tier" title="'+esc(signal.note)+'">'+esc(signal.tier)+'</span>'
+          +' · '+esc(signal.amount)+'</small></div>'
           + (ctx.activeSet.has(item.id) ? status('Im Plan','green') : btn('choose','Einplanen','plus',item.id,'subtle'))
           +'</div>';
       }).join('')+'</div><p class="muted">Zeiten, Öffnung und Wege sind vor der Übernahme zu prüfen. Keine Änderung am Tripsy-Original.</p></article>';
@@ -55,13 +57,13 @@ export function surveyV19RailPanel(ctx) {
   const data=current(ctx);
   if(!data)return '';
   const rows=data.transport.map(leg=>{
-    const reservation=leg.reservation_price_minor==null?'Reservierung offen':
+    const reservation=leg.reservation_price_minor==null?'€? · Reservierung offen':
       money(leg.reservation_price_minor,leg.reservation_currency??'EUR')+' p. P. · Tarifreferenz';
     return '<tr><td>'+esc(safeDate(leg.planned_departure_date_local))+'</td>'
       +'<td><strong>'+esc(place(ctx,leg.from_destination_id))+' → '+esc(place(ctx,leg.to_destination_id))
       +'</strong><small>'+esc(leg.route_via_notes??'')+'</small></td>'
       +'<td>'+esc(leg.mode==='rail'?'Bahn':'Transfer')+'</td>'
-      +'<td>'+esc(reservation)+'</td>'
+      +'<td><strong>€? · Fahrtpreis offen</strong><small>'+esc(reservation)+'</small></td>'
       +'<td>'+status('Nicht buchbare Planung','warn')+'</td></tr>';
   }).join('');
   const fares=snapshot(ctx).fares.filter(row=>['pass','reservation'].includes(row.category));
@@ -85,7 +87,7 @@ export function surveyV19FoodPanel(ctx) {
     place(ctx,ctx.city)+' · '+ideas.length+' Vorschläge ohne fingierte Restaurants oder Kosten',
     '<div class="survey-v19-grid">'+ideas.map(x=>'<article><span class="survey-v19-kicker">'
       +esc(label(x.kind))+'</span><p>'+esc(x.idea)+'</p>'
-      +'<small>'+ (x.price_minor===null?'Preis ungeklärt':
+      +'<small><span class="universal-euro-tier">'+(x.price_minor===0?'0 €':'€?')+'</span> · '+ (x.price_minor===null?'Preis ungeklärt':
       money(x.price_minor,x.currency??'EUR')+' nur für öffentliche Grundnutzung')
       +(x.requires_specific_business_research?' · konkreten Anbieter recherchieren':'')
       +'</small></article>').join('')+'</div><p class="muted">Die Vorschläge sind nicht automatisch Teil des Tagesplans.</p>');
