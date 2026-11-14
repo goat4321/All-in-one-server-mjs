@@ -45,7 +45,7 @@ export function commonsResults(data){
       ||!isHttps(licenseUrl)||!(source.startsWith('https://commons.wikimedia.org/wiki/File:')
         ||source.startsWith('https://commons.wikimedia.org/wiki/Image:'))
       ||m.Restrictions?.value?.trim())continue;
-    const credit=artist+' · '+license;
+    const credit=artist+' · '+license+' · CSS-Bildausschnitt';
     if(credit.length>180||seen.has(source))continue;
     seen.add(source);
     rows.push({
