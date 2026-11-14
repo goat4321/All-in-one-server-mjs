@@ -20,7 +20,7 @@ test('Zoom progressively reveals point, category and licensed photo',()=>{
 test('Photo bubbles escape hostile text and never fabricate ratings',()=>{
  const safe=bubbleMarkup({id:'<x>',name:'<img src=x onerror=alert(1)>',
   category:'shop',photoUrl:'javascript:alert(1)',tier:'photo'});
- assert.doesNotMatch(safe,/onerror=|src="javascript:/i);
+ assert.doesNotMatch(safe,/<img[^>]*onerror=|src="javascript:/i);
  assert.match(safe,/&lt;img/);
  assert.doesNotMatch(safe,/★ [0-9]/);
  assert.match(safe,/Supermarkt/);
