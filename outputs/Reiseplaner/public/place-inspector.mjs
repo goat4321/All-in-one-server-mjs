@@ -26,8 +26,10 @@ export function inspectorNearby(ctx,item,max=5){
 }
 function officialGuide(guide){
  if(!guide)return '<p class="muted">Noch kein gesondert recherchiertes offizielles Betreiberprofil für diesen Eintrag.</p>';
- return '<div class="inspector-operator-guide"><span class="inspector-eyebrow">Offiziell nachrecherchiert · '
-   +esc(guide.reviewedOn)+'</span><h4>'+esc(guide.title)+'</h4>'
+ const isConcept=/example_operator|optional|inspiration|alternative_city|transfer_reference/i.test(guide.validity);
+ return '<div class="inspector-operator-guide"><span class="inspector-eyebrow">'
+   +(isConcept?'Offizielle Kontextquelle · Anbieter/Route noch nicht gewählt':'Offiziell nachrecherchiert')
+   +' · '+esc(guide.reviewedOn)+'</span><h4>'+esc(guide.title)+'</h4>'
    +'<p>'+esc(guide.summary)+'</p><ul>'+guide.highlights.map(x=>'<li>'+esc(x)+'</li>').join('')
    +'</ul><div class="inspector-practical"><strong>Für eure Planung</strong><p>'
    +esc(guide.practical)+'</p></div>'
