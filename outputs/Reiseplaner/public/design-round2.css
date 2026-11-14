@@ -1104,3 +1104,20 @@ dialog:has(.inspector-comparison) .dialog-body{padding:16px 22px 22px}
 }
 :root[data-motion=off] .reference-agenda-suggestion{
  transition:none!important}
+
+
+/* Screenshot QA: Leaflet's spanning grid item must not donate its full
+   min-content height to the day-strip row, leaving the explorer list below
+   the entire map. Explicit desktop row budget keeps both aligned. */
+@media(min-width:1180px){
+ .map-explorer-split.reference-map-workspace{
+  grid-template-rows:180px minmax(0,1fr);
+  align-items:start}
+ .reference-map-workspace>.reference-stage-days{
+  grid-column:1;grid-row:1;min-height:180px;overflow:visible}
+ .reference-map-workspace>.explorer-right{
+  grid-column:1;grid-row:2;align-self:start;min-width:0;
+  max-height:min(67dvh,700px)}
+ .reference-map-workspace>.map-panel{
+  grid-column:2;grid-row:1 / span 2;align-self:start}
+}
