@@ -1,3 +1,5 @@
+**Wichtige Präzisierung der Original-Umfrage:** Genau **56 der 57** recherchierten Aktivitätsideen gehören mindestens einer vorhandenen Reisevariante an. `act-056` „Altstadt Montpellier“ hat ursprünglich `trip_applicability: []` und ist deshalb ein **ausschließlich archivierter Alternativstopp**. Dieser bleibt auf **Daten & Fristen** mit offizieller Quelle auffindbar, wird aber nicht stillschweigend einer Route oder Buchung hinzugefügt. Die Catalog-/Guide-Validierung prüft diese Trennung anhand der V19-Ursprungsdaten.
+
 ## 14.11.2026 – Phase 24: 57/57 Quellen-Guides zu V19-Aktivitäten, 37 freie Bildregeln, filterbare Qualitätsliste
 
 Der Reiseplaner verfügt jetzt für **alle 57 V19-Aktivitätsideen** über einen individuell zugeordneten Recherchetext mit konkretem offiziellen Tourismus- oder Betreiberlink, Hinweisen und Einschränkungen (vorher: 37). Einige sind explizit **Konzept- / Beispielbetriebsreferenzen**, *kein* nachgewiesener spezifischer 2027-Aufenthalt, Clubabend, Kurs oder gebuchter Platz. Die übrigen 828 variantebezogenen Katalogeinträge sind nicht dadurch insgesamt vollständig belegt.
