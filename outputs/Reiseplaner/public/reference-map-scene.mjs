@@ -197,11 +197,18 @@ export function mapPhotoDiscovery(ctx){
     const located=Array.isArray(item.point)&&item.point.length===2
       &&item.point.every(Number.isFinite);
     const planned=(ctx.day??[]).some(entry=>entry.id===item.id);
+    const saved=ctx.explorer.saved?.has(item.id)??false;
     return '<article class="reference-discovery-card">'
       +'<div class="reference-discovery-image"><img loading="lazy" decoding="async"'
       +' referrerpolicy="no-referrer" src="'+esc(photo.url)+'" alt="'
       +esc('Foto von '+item.name)+'"'
-      +' title="'+esc(photo.credit)+'"></div>'
+      +' title="'+esc(photo.credit)+'">'
+      +'<button type="button" class="reference-discovery-save"'
+      +' data-action="explorer-save" data-value="'+esc(item.id)+'"'
+      +' aria-pressed="'+saved+'" aria-label="'+esc(item.name)
+      +(saved?' aus Merkliste entfernen':' für diese Reise merken')+'"'
+      +' title="'+esc(saved?'Aus Merkliste entfernen':'Zur Merkliste hinzufügen')+'">'
+      +icon('bookmark')+'</button></div>'
       +'<div class="reference-discovery-body"><div class="reference-discovery-title">'
       +'<strong>'+esc(item.name)+'</strong><span class="reference-discovery-euro" title="'
       +esc(signal.note)+'">'+esc(signal.tier)+'</span></div>'
