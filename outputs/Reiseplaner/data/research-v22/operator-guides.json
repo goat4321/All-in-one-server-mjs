@@ -2,7 +2,7 @@
   "reviewedOn": "2026-11-14",
   "schema": "operator_guides_v22",
   "note": "Operator/tourism facts; do not treat 2026 tariff or descriptive info as 2027 availability",
-  "total": 21,
+  "total": 30,
   "entries": [
     {
       "id": "act-003",
@@ -381,6 +381,176 @@
       "sourceUrl": "https://www.appenzell.ch/de/alpstein/wandern/wandervorschlaege.html?cHash=622caf9161dfeec220ced130a23e232b&tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Btour%5D=39",
       "validity": "tourism_descriptive_reference",
       "reviewedOn": "2026-11-14",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-002",
+      "city": "paris",
+      "title": "Seineufer – Quai de Montebello als konkreter Teilabschnitt",
+      "summary": "Der Quai de Montebello verläuft am linken Seineufer zwischen Petit Pont und Pont de l’Archevêché und bietet einen direkten Blick auf den Chorbereich von Notre-Dame. Die touristische Quelle beschreibt diesen Abschnitt ausdrücklich; sie verifiziert nicht die komplette geplante Route bis zum Louvre.",
+      "highlights": [
+        "Quai de Montebello befindet sich im 5. Arrondissement",
+        "Pont au Double ist Fußgängern und Radfahrern vorbehalten",
+        "Blick auf Notre-Dame und Übergang zur Île de la Cité"
+      ],
+      "practical": "Der Quai ist nur ein beispielhafter Abschnitt einer längeren Seine-Spaziergangsidee. Gehstrecke und Brücken bis Louvre erst bei genauer Wegplanung berechnen.",
+      "sourceUrl": "https://parisjetaime.com/transport/quai-de-montebello-p1987",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-004",
+      "city": "paris",
+      "title": "Canal Saint-Martin – Spaziergang und Picknick",
+      "summary": "Das Pariser Fremdenverkehrsamt hat am 1. Oktober 2026 einen Spaziergang ab der Métrostation Jacques Bonsergent entlang Rue de Lancry und Quai de Valmy bis zum Parc de la Villette beschrieben. Der öffentliche Kanalufer-Spaziergang ist nicht mit der separat angebotenen kostenpflichtigen Bootsfahrt zu verwechseln.",
+      "highlights": [
+        "Startempfehlung Jacques Bonsergent und Rue de Lancry",
+        "Quai de Valmy und Schleuse Récollets als interessante Abschnitte",
+        "Square Villemin mit Wiesen, Spielplätzen und Picknickmöglichkeiten",
+        "Kanal insgesamt 4,5 km lang, davon circa 2 km unterirdisch"
+      ],
+      "practical": "Die in der Quelle genannten beaufsichtigten Schwimmfenster betreffen das Jahr 2026 und sind kein erlaubtes Canal-Schwimmen im September 2027. Picknick/Spaziergang erfordern kein Canauxrama-Bootsticket.",
+      "sourceUrl": "https://parisjetaime.com/ger/artikel/paris-ist-kosmopolitisch-a920",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-007",
+      "city": "paris",
+      "title": "Quartier Latin – studentisches Viertel und Streetfood",
+      "summary": "Paris je t’aime beschreibt einen historischen Spaziergang von Fontaine Saint-Michel über Boulevard Saint-Michel und die Sorbonne bis zur Umgebung von Panthéon und Institut du monde arabe. Das Quartier Latin ist ein offenes Stadtviertel mit Cafés, Restaurants, Buchhandlungen und Universitätsgebäuden.",
+      "highlights": [
+        "Quartier Latin links der Seine im 5. Arrondissement",
+        "Fontaine Saint-Michel als klarer Einstiegspunkt",
+        "Rue Saint-André des Arts und Rue de la Huchette mit Gastronomie",
+        "Sorbonne und römische Überreste in der näheren Umgebung"
+      ],
+      "practical": "Der Viertelspaziergang selbst ist ohne Ticket möglich. Preise und Öffnungszeiten der ausgesuchten Essensbetriebe sowie Öffnungszeiten der einzelnen Museen sind keine Eigenschaft des ganzen Viertels.",
+      "sourceUrl": "https://parisjetaime.com/ger/artikel/zeitloses-paris%20-a897",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-025",
+      "city": "nice",
+      "title": "Vieux-Nice – Cours-Saleya-Markt am Vormittag",
+      "summary": "Die offizielle Tourismusorganisation nennt den Obst-, Gemüse- und Fischmarkt am Cours Saleya von Dienstag bis Sonntag mit einem veröffentlichten 2026er Zeitfenster von 06:00 bis 13:30 Uhr. Montags wird stattdessen ein regelmäßig veranstalteter Antiquitätenmarkt beschrieben.",
+      "highlights": [
+        "2026: Lebensmittelmarkt Dienstag bis Sonntag 06:00–13:30 Uhr",
+        "Markt im Cours Saleya, 06300 Nice, Zugang kostenfrei",
+        "Montags Antiquitätenmarkt als anderes Angebot",
+        "Marktverkaufspreise hängen vom jeweiligen Händler ab"
+      ],
+      "practical": "Ein Rundgang nach 14 Uhr ist weiterhin als Altstadtspaziergang möglich, aber nicht als sicher geöffneter Wochenmarkt. 2027er Marktzeiten, einzelne Händler und eventuelle Sondertage erneut prüfen.",
+      "sourceUrl": "https://www.explorenicecotedazur.com/evenement/marche-aux-fruits-legumes-et-maree-du-cours-saleya/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-030",
+      "city": "genoa",
+      "title": "Boccadasse – historischer Küstenort",
+      "summary": "VisitGenoa beschreibt Boccadasse als kleines ehemaliges Fischerdorf mit bunten Fassaden, Booten, Felsabschnitten und einem Kieselstrand am Ende des Corso Italia. Die öffentliche Promenade und die benachbarten Gastronomiebetriebe werden getrennt betrachtet.",
+      "highlights": [
+        "Über die Corso-Italia-Promenade erreichbar",
+        "Kleiner, kieseliger Strand im historischen Dorf",
+        "Küstenlage und Aussicht am Capo Santa Chiara",
+        "Einzelne Restaurants und Badeeinrichtungen können eigene Preise haben"
+      ],
+      "practical": "Keine Gewähr für freie Bade-/Liegeflächen, ruhige See oder bestimmte Restaurantpreise. Der Strand ist klein und der Besuch zur Hauptzeit oft stärker frequentiert.",
+      "sourceUrl": "https://www.visitgenoa.it/de/node/29573",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-031",
+      "city": "genoa",
+      "title": "Corso Italia – Meerespromenade und Laufstrecke",
+      "summary": "Die offizielle Tourismusorganisation beschreibt Corso Italia als weitläufige Promenade im Küstenviertel Albaro, die nach Boccadasse führt. Sie wird ausdrücklich auch zum Joggen und Inlineskaten genutzt; entlang des Wegs liegen gastronomische Angebote und Strandbäder.",
+      "highlights": [
+        "Läufer- und Spazierroute an der Küste Genuas",
+        "Verbindung in Richtung Boccadasse",
+        "Unterwegs Bars, Restaurants und private Strandbäder",
+        "Geeignete Kulisse für lockeren Sport bei gutem Wetter"
+      ],
+      "practical": "Die Angabe „2,5 km“ im ursprünglichen Ideen-Titel ist noch kein amtlich bestätigter Abschnitt: Länge hängt von konkreten Start- und Endpunkten ab. Strandbad- und Gastronomiekosten separat behandeln.",
+      "sourceUrl": "https://www.visitgenoa.it/de/node/25415",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-035",
+      "city": "genoa",
+      "title": "Genuas Altstadt – Gassen und Focaccia",
+      "summary": "VisitGenoa führt mehrere historische Stadtspaziergänge durch die Caruggi-Gassen, die Palazzi dei Rolli und zur Kathedrale San Lorenzo. Typische Focaccia ist ein gastronomischer Bestandteil des Besuchs, aber kein im Spaziergang enthaltener Komplettpreis.",
+      "highlights": [
+        "Palazzi dei Rolli als UNESCO-Welterbe im historischen Zentrum",
+        "Caruggi-Gassen und kleine Piazzette",
+        "Möglicher Weg zur Kathedrale San Lorenzo und zum Porto Antico",
+        "Bäckereien bieten Focaccia vor Ort zum individuellen Verkauf"
+      ],
+      "practical": "Einzelführungen oder Palast-Innenbesuche können Eintritt kosten. Für Focaccia keine pauschalen Menü-Endpreise behaupten; konkrete Bäckerei und aktuelle Preisliste auswählen.",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/21427",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-036",
+      "city": "genoa",
+      "title": "Nervi-Küste – Lauf- und Spazierweg am Meer",
+      "summary": "Die offizielle Tourismusinformation beschreibt die Küstenpromenade Passeggiata Anita Garibaldi bei Nervi ausdrücklich als besonders aussichtsreich, etwa zwei Kilometer lang und mit Blick auf Felsen und Meer. Das Gelände eignet sich zum Spazieren, bei passender Eignung auch zum Laufen.",
+      "highlights": [
+        "Anita-Garibaldi-Promenade circa 2 km entlang der Steilküste",
+        "Felsige Küstenlage mit blauem Meer und mediterraner Vegetation",
+        "Ausgangspunkt und Rückweg nach exakter ÖPNV-Anreise wählen"
+      ],
+      "practical": "Die zwei Kilometer beschreiben die Promenade, nicht die gesamte Anreise oder alle als „Nervi-Küste“ bezeichneten Wege. Meerzugänge und Badebedingungen sind separat zu beurteilen.",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/1811",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-052",
+      "city": "grindelwald",
+      "title": "First Flyer – Geschwindigkeit und Zugangsvoraussetzungen",
+      "summary": "Der Betreiber beschreibt den First Flyer als 800 Meter lange Seilrutsche von First nach Schreckfeld mit bis zu 84 km/h und einem Höhenabstand von stellenweise ungefähr 50 Metern über den Alpweiden. Das Mindest-/Höchstgewicht liegt bei 35–125 Kilogramm.",
+      "highlights": [
+        "800 m Stahlseil First–Schreckfeld",
+        "Bis zu vier Teilnehmer zeitgleich",
+        "Zulässiges Körpergewicht 35–125 kg",
+        "Betreiberreferenz aktuell CHF 35 Erwachsene und CHF 26 für Kinder 6–15",
+        "Erlebnisdauer circa zehn Minuten laut Betreiber"
+      ],
+      "practical": "Kein festes Zeitfenster bei Andrang; Betreiber rät zur frühen Nutzung bis Mittag. Wetterbedingte Sperren möglich. First-Flyer-Ticket und First-Gondeltransport sind getrennte Leistungen, keine 2027er Buchungsbestätigung.",
+      "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwaldfirst/first-flieger/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
       "price2027Confirmed": false,
       "bookingConfirmed": false,
       "photoRightsProvided": false
