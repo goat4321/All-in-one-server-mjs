@@ -61,7 +61,7 @@ export function entryCompleteness(item,ctx={}){
   if(!railTimetable)gaps.push({key:'timetable',label:'Reale datierte Zugverbindung nicht belegt',
     next:'Nach Verkaufsstart Zugnummer, Lokalzeiten, reservierbare Plätze und Passinhabertarif beim Betreiber prüfen.'});
   return {id:item.id,name:item.name,city:item.city,kind,hasPhoto,photoCount:photos.length+Number(Boolean(curated)),
-    hasSource,hasStory,hasPrice,hasPoint,sourcePoint,publishedHours,
+    hasSource,hasStory,hasPrice,hasPoint,sourcePoint,publishedHours,hasGuide:!!item.guideV22,
     hotelDetails,railTimetable,gaps,complete:gaps.length===0,priceMarker:price.tier};
 }
 export function entryCompletenessReport(items,ctx={}){
