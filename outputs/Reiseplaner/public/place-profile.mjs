@@ -4,6 +4,7 @@ import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, go
 import { esc, sourceList, urlLink } from './ui.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { planCostSignal } from './visual-experience.mjs';
+import { entryCompleteness } from './entry-completeness.mjs';
 import { icon } from './ui.mjs';
 
 // Consistent, source-aware place facts. Missing information stays explicitly
@@ -184,6 +185,7 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
   const p=placeProfileModel(item,ctx);
   if(!p)return '';
   const visible=compact?p.facts.slice(0,5):p.facts;
+  const coverage=compact?null:entryCompleteness(item,ctx);
   return '<section class="place-profile'+(compact?' compact':'')+'" aria-label="Objektdetails: '+esc(p.name)+'">'
     + placeImageHtml(item,ctx,{small:compact})
     + (compact?'':placeGalleryHtml(item,ctx))
@@ -191,6 +193,14 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
     + '</span><h3>'+esc(p.name)+'</h3><p>'+esc(p.description)+'</p></div></div>'
     + '<dl class="place-profile-facts">'+visible.map(([label,value])=>'<div><dt>'
       +esc(label)+'</dt><dd>'+esc(value)+'</dd></div>').join('')+'</dl>'
+    + (compact?'':'<details class="place-profile-coverage"><summary>Was fehlt noch? · '
+      +(coverage.gaps.length?coverage.gaps.length+' offene Prüfpunkte':'Keine weiteren Lücken nach Datenprüfung')
+      +'</summary><div class="place-profile-gaplist">'
+      +(coverage.gaps.length?coverage.gaps.map(g=>'<div><strong>'+esc(g.label)
+        +'</strong><small>'+esc(g.next)+'</small></div>').join('')
+        :'<p class="muted">Die hinterlegten Felder haben formale Angaben; '
+        +'Tagesaktualität, Bildrechte und Buchungsbestätigung sind dadurch nicht automatisch bewiesen.</p>')
+      +'</div></details>')
     + (compact?'':'<details class="place-profile-more" open><summary>Zusätzliche Rechercheangaben ('+p.details.length+')</summary>'
       + (p.details.length?'<ul>'+p.details.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>'
         :'<p>Weitere Angaben nicht belegt.</p>')+'</details>')
