@@ -28,6 +28,7 @@ const view = {
   filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
   optionFilter: 'all', sort: 'source', compareIds: new Set(), inspectorCompareIds: [],
   mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
+  mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
@@ -684,6 +685,19 @@ async function action(name, value = '') {
       showCity(value === 'all' ? ctx.cityForDay(ctx.date) : value, ctx.date, value === 'all'); break;
     case 'mobile': view.mobile = value; render(); break;
     case 'show-route': view.total = true; changePage('map'); break;
+    case 'map-simple-toggle':
+      view.mapSimple=!view.mapSimple;
+      localStorage.setItem('reiseplan-map-simple',view.mapSimple?'on':'off');
+      render({restoreView:true,fetchRoutes:false});
+      break;
+    case 'simple-find':
+      view.mapScope='city';view.total=false;view.mapSavedOnly=false;
+      view.mapViewportOnly=false;view.mapViewportBounds=null;
+      view.mapGroup='all';view.mapListLimit=60;
+      render({restoreView:true,fetchRoutes:false});
+      app.querySelector('#map-search')?.scrollIntoView({block:'center',behavior:'instant'});
+      app.querySelector('#map-search')?.focus({preventScroll:true});
+      break;
     case 'map-mode':
       if(!['day','city','total'].includes(value))break;
       view.mapScope=value==='total'?'trip':value;

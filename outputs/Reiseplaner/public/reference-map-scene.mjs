@@ -139,7 +139,22 @@ export function mapImageIntro(ctx){
    +'<p>'+esc(from)+' – '+esc(to)+' · '+(ctx.people?.length??0)+' Reisende'
    +' · Recherche und Entwurf, nicht gebucht</p></div>'
    +'<div class="reference-map-intro-actions">'
-   +btn('page','Reise bearbeiten','edit','plan')+'</div></header>';
+   +(ctx.mapSimple
+     ?'<nav class="simple-main-actions" aria-label="Die drei wichtigsten Reiseaktionen">'
+       +'<button type="button" class="simple-main-button" data-action="simple-find">'
+       +icon('search')+'<span>Orte finden</span></button>'
+       +'<button type="button" class="simple-main-button" data-action="map-mode" data-value="day"'
+       +' aria-pressed="'+(ctx.explorer?.scope==='day')+'">'
+       +icon('calendar')+'<span>Mein Tag</span></button>'
+       +'<button type="button" class="simple-main-button" data-action="map-mode" data-value="total"'
+       +' aria-pressed="'+(ctx.explorer?.scope==='trip')+'">'
+       +icon('map')+'<span>Route zeigen</span></button>'
+       +'</nav>'
+      :btn('page','Reise bearbeiten','edit','plan'))
+   +'<button type="button" class="simple-mode-switch" data-action="map-simple-toggle"'
+   +' aria-pressed="'+Boolean(ctx.mapSimple)+'">'
+   +esc(ctx.mapSimple?'Alle Funktionen':'Einfacher Modus')+'</button>'
+   +'</div></header>';
 }
 
 export function mapFloatingControls(ctx){

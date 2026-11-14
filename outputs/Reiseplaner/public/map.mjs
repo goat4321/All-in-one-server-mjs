@@ -85,8 +85,13 @@ export class TripMap {
     if (total) {
       const ordered = trip.route.filter(id => cities[id]?.point);
       const coords = ordered.map(id => cities[id].point);
-      L.polyline(coords, { color: '#71598c', weight: 4, opacity: .9, dashArray: '7 8' }).addTo(this.features)
-        .bindTooltip(labelNode('Reihenfolge der Originalroute · schematischer Verlauf'));
+      L.polyline(coords, { color: '#71598c', weight: 4, opacity: .9, dashArray: '7 8',
+        className:'trip-schematic-route' }).addTo(this.features)
+        .bindTooltip(labelNode('Reihenfolge der Reiseorte · nur schematische Luftlinien, keine Bahngleise'));
+      if (!quietMotion() && coords.length>1) L.polyline(coords,{
+        color:'#e9c56e',weight:3,opacity:.98,dashArray:'2 21',
+        interactive:false,className:'trip-schematic-flow',
+      }).addTo(this.features);
       ordered.forEach((id, i) => {
         area.push(cities[id].point);
         if (ordered.indexOf(id) === i) this.marker(cities[id].point, id, cities[id].name, i + 1, 'train', () => this.handlers.visitCity(id));

@@ -140,6 +140,15 @@ try {
   // search, real routing attempt and explicitly adding a restaurant to a day.
   await click('.sidebar [data-action=page][data-value=map]');
   await text('h1', 'Interrail Test 2');
+  // Default onboarding is intentionally calmer than the advanced tool view.
+  assert.ok(await js('document.querySelector(".simple-map-mode")!==null'),
+    'Map starts in easy mode for a new visitor');
+  assert.equal(await js('document.querySelectorAll(".simple-main-actions button").length'),3,
+    'Exactly three large default actions are visible');
+  await screenshot('23-einfacher-reiseplaner-1280.png');
+  await click('[data-action=map-simple-toggle]');
+  assert.ok(await js('document.querySelector(".simple-map-mode")===null'),
+    'Full map controls can be restored immediately');
   // The three reference-style map modes must change the actual explorer
   // dataset, not only the visual heading or the "total" overlay.
   const allMapCount=await js('document.querySelectorAll(".explorer-place").length');

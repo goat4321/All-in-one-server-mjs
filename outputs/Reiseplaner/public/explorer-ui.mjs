@@ -88,6 +88,7 @@ export function explorerToolbar(ctx) {
 export function explorerList(ctx) {
   const ex = ctx.explorer;
   if (!ex) return '';
+  const simple=ctx.mapSimple===true;
   const items=ex.viewportOnly&&ex.viewportBounds
     ?ex.placed.filter(item=>mapPointInBounds(item.point,ex.viewportBounds))
     :[...ex.placed,...ex.unlocated];
@@ -106,10 +107,16 @@ export function explorerList(ctx) {
         + btn('explorer-end', 'Als Ziel', 'arrow', item.id) : '';
     // A compact row exposes two frequent actions; all research and route
     // controls remain one deliberate disclosure away, not silently removed.
-    const primary=btn('explorer-save',bookmarked?'Merken entfernen':'Merken',
-      bookmarked?'check':'bookmark',item.id)
-      +(located?btn('explorer-focus','Auf Karte','map',item.id)
-        :btn('details','Details','folder',item.id));
+    const primary=simple
+      ?(canPlan?btn('choose','Zum Tag hinzufügen','plus',item.id,'primary'):'')
+        +btn('explorer-save',bookmarked?'Gemerkt':'Merken',
+          bookmarked?'check':'bookmark',item.id)
+        +(located?btn('explorer-focus','Karte','map',item.id)
+          :btn('details','Details','folder',item.id))
+      :btn('explorer-save',bookmarked?'Merken entfernen':'Merken',
+        bookmarked?'check':'bookmark',item.id)
+        +(located?btn('explorer-focus','Auf Karte','map',item.id)
+          :btn('details','Details','folder',item.id));
     const secondary=(located?btn('explorer-nearby','Im Umkreis','target',item.id):'')
       +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
       +(urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),'Google Maps · ÖPNV-Anreise')||'')
@@ -117,7 +124,7 @@ export function explorerList(ctx) {
       +(!located&&item.address&&!item.booked?btn('geocode-lookup','Kartenstandort prüfen','pin',item.id):'')
       +actions
       +(canPlan&&located?btn('day-route-add','Zur Mehrstopp-Route','plus',item.id):'')
-      +(canPlan?btn('choose','Zum Tagesplan hinzufügen','plus',item.id,'subtle')
+      +(!simple&&canPlan?btn('choose','Zum Tagesplan hinzufügen','plus',item.id,'subtle')
         :active&&item.kind==='activity'?btn('edit','Im Plan bearbeiten','edit',item.id):'')
       +(['activity','lodging'].includes(item.kind)
         ?btn('vote-open','Gruppenstimme abgeben','people',item.id):'');

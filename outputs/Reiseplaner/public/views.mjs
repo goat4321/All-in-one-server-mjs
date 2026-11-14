@@ -83,7 +83,7 @@ export function renderShell(ctx) {
       return '<button type="button" data-action="page" data-value="'+id
         +'" aria-current="'+(page===id?'page':'false')+'">'+icon(tab[2])+'<span>'+esc(tab[1])+'</span></button>';
     }).join('')+'</nav>';
-  return `<div class="shell ${page==='map'?'reference-travel-shell':''}"><aside class="sidebar ${menu ? 'open' : ''}" aria-label="Reisenavigation">
+  return `<div class="shell ${page==='map'?'reference-travel-shell'+(ctx.mapSimple?' simple-map-mode':''):''}"><aside class="sidebar ${menu ? 'open' : ''}" aria-label="Reisenavigation">
     <div class="brand"><span class="brandmark">${icon('train')}</span> Reiseplaner</div>
     <div class="sidebar-inner">
       <div class="side-label">Reisevariante</div>
