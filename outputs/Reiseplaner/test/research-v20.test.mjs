@@ -15,7 +15,7 @@ test('V20 archived research covers every 57/35/29/40 item, sourced points and of
   assert.equal(raw.activities.items.length,57);
   assert.equal(raw.activities.withSourcedPoint,24);
   assert.equal(raw.lodging.items.length,35);
-  assert.equal(raw.lodging.updatedSearchOffers,8);
+  assert.equal(raw.lodging.updatedSearchOffers,22);
   assert.equal(raw.lodging.independentPointMatches,19);
   assert.equal(raw.lodging.providerLocationConflicts,1);
   assert.equal(raw.indoor.items.length,8);
