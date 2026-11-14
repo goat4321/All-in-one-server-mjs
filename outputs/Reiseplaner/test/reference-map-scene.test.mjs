@@ -34,6 +34,12 @@ test('All trip variants render city-labeled hero, map floating scope controls an
    assert.match(nav,/data-action="explorer-saved-only"/);
    assert.match(photo,/MIT QUELLENFOTOS/);
    assert.match(photo,/Bildquelle|Fehlende Fotos prüfen/);
+   const emptyDay=mapDayAgenda(ctx);
+   if(ctx.all.some(x=>x.city===ctx.city&&x.guideV22?.sourceUrl&&x.kind==='activity')){
+     assert.match(emptyDay,/Aus deiner Ortsrecherche/);
+     assert.match(emptyDay,/nicht in den Tagesplan aufgenommen/);
+     assert.match(emptyDay,/data-action="details"/);
+   }
    assert.doesNotMatch(intro+nav+photo,/on(?:click|load|error|change)\s*=/i);
    assert.doesNotMatch(intro+nav+photo,/Echtzeitbewertung|direkt buchbar/i);
  }
