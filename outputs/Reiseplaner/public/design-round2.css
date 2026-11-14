@@ -1222,3 +1222,24 @@ dialog:has(.inspector-comparison) .dialog-body{padding:16px 22px 22px}
 }
 :root[data-motion=off] .reference-discovery-save{transition:none!important}
 :root[data-motion=off] .reference-discovery-save:hover{transform:none!important}
+
+
+/* Phase 27C: real itinerary warnings, compact enough for the photo/day/map
+   composition; never conflate a model conflict with a confirmed train delay. */
+.reference-agenda-warnings{margin:10px 0 9px;padding:10px 11px;
+ background:color-mix(in srgb,#f2c46a 14%,var(--paper));
+ border:1px solid color-mix(in srgb,#d4a353 46%,var(--atlas-line));
+ border-radius:10px;display:grid;gap:5px}
+.reference-agenda-warning-head{display:flex;align-items:center;
+ gap:6px;flex-wrap:wrap;color:#80551f}
+.reference-agenda-warning-head>.ui-icon{height:16px;width:16px;
+ flex:0 0 16px;color:#ab751e}
+.reference-agenda-warning-head strong{font-size:.75rem;font-weight:800}
+.reference-agenda-warning-head>.button{margin-left:auto;min-height:27px;
+ background:transparent;border:1px solid #c7a4775e;border-radius:7px;
+ padding:4px 7px;color:inherit;font-size:.65rem}
+.reference-agenda-warnings p{font-size:.71rem;line-height:1.45;
+ margin:0;color:var(--text)}
+.reference-agenda-warnings>small{font-size:.65rem;color:var(--muted);
+ line-height:1.43}
+.reference-agenda-warnings>small:last-child{font-size:.6rem}
