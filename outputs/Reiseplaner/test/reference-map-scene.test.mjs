@@ -25,7 +25,8 @@ test('All trip variants render city-labeled hero, map floating scope controls an
    const ctx=context(trip);
    const intro=mapImageIntro(ctx),nav=mapFloatingControls(ctx),
      photo=mapPhotoDiscovery(ctx);
-   assert.match(intro,/Karten-Explorer/);
+   assert.match(intro,new RegExp(ctx.variant.state.title));
+   assert.match(intro,/DEINE REISE/);
    assert.match(intro,new RegExp(ctx.trip.from));
    assert.match(intro,/Reisende/);
    assert.match(nav,/aria-pressed="true"/);
