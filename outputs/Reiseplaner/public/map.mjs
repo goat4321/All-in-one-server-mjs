@@ -312,6 +312,7 @@ export class TripMap {
     if (!this.poiItems?.length) return;
     const zoom=this.map.getZoom(),clustered=zoom<=12;
     let photoBubbleCount=0;
+    const shownPhotoCells=new Set();
     const buckets=new Map();
     for(const item of this.poiItems){
       const p=item.point,xy=this.map.project(p,zoom);
@@ -347,8 +348,10 @@ export class TripMap {
         const id=item.explorerId??item.id;
         const category=item.explorerCategory??explorerCategory(item);
         const photo=curatedPlacePhoto(item);
-        const tier=markerTier(zoom,Boolean(photo),photoBubbleCount);
-        if(tier==='photo')photoBubbleCount++;
+        const pixel=this.map.project(item.point,zoom);
+        const photoCell=Math.floor(pixel.x/145)+':'+Math.floor(pixel.y/150);
+        const tier=markerTier(zoom,Boolean(photo)&&!shownPhotoCells.has(photoCell),photoBubbleCount);
+        if(tier==='photo'){photoBubbleCount++;shownPhotoCells.add(photoCell)}
         const content=bubbleMarkup({
           id,name:item.name,category,photoUrl:tier==='photo'?photo?.url:null,
           rating:item.rating??item.providerRating??null,

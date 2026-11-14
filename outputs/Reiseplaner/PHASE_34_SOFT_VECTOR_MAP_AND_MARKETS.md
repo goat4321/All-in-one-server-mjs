@@ -32,3 +32,5 @@ Eine vollständige neue Browseraufnahme nach Phase 34 liegt bislang nicht vor. G
 ## Betroffene Dateien
 
 public/map.mjs, public/map-photo-v34.css, public/vector-basemap.mjs, public/photo-map-model.mjs, public/index.html, public/views.mjs, public/app.mjs, public/explorer-ui.mjs, lib/supermarket-source.mjs, server.mjs, package.json, test/map-photo-v34.test.mjs.
+
+**Letzte UI-Korrektur:** Bei Zoom über 14,2 werden Bildmarker in 145×150-Projektionspixel-Zellen entzerrt. Pro Zelle erscheint höchstens eine Foto-Bubble; weitere verifizierte Orte bleiben als Kategorienmarker anklickbar. Dadurch überlagern sich nahe Ortsbilder seltener. Ein Rating von 0 wird nicht als echte Bewertung angezeigt.

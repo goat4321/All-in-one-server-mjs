@@ -1,3 +1,13 @@
+## Kartenansicht V34: sanfte Vektorkarte, Foto-Bubbles und Supermärkte
+
+Die Reiseansicht verwendet keine klassische OpenStreetMap-Standardkachel mehr: Sofort wird die helle CARTO-Rasterkarte angezeigt; bei erreichbarem MapLibre/OpenFreeMap-Vektorstil wechselt sie auf den pastellfarbenen Vektormodus. Der Ursprung der freien Kartendaten ist weiterhin OSM. Marker wechseln von Punkten/Clustern (Fernansicht) über Kategorien zu runden, bebilderten Ortsmarkern (Nahansicht). Dichte Bereiche begrenzen Fotoüberlagerungen.
+
+Über **Supermärkte anzeigen** werden auf Wunsch bis zu 160 öffentlich kartierte Geschäfte im 6,5-km-Radius der jeweiligen Reisestadt nachgeladen und 24 Stunden zwischengespeichert. Genauigkeit, Öffnungszeiten und Betrieb sind nicht verifiziert. **Alle Kartenpunkte** zeigt die vorhandenen belegten POI-Koordinaten der aktuellen Reise.
+
+[Technische Dokumentation, Datenquellen und Einschränkungen](PHASE_34_SOFT_VECTOR_MAP_AND_MARKETS.md)
+
+---
+
 ## Designvergleich V33
 
 Die Reisekarten-Oberfläche wurde erneut anhand der tatsächlich geöffneten Barcelona- und InterrailPlan-Referenzbilder überarbeitet: rechter Karten-/Fotobereich, linker chronologischer Tagesablauf, nur eine Desktop-Suche, nummerierte Tagesvorschläge auf tatsächlich belegten Kartenpositionen, mobile/stufenweise Anzeige. Die 46 V32-Tagesentwürfe sind jetzt auch in der Kartenansicht sofort sichtbar, ohne sie ungefragt zu speichern.

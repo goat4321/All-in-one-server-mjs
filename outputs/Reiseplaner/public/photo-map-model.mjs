@@ -19,7 +19,7 @@ export function bubbleMarkup({id,name,category='activity',photoUrl=null,
   rating=null,saved=false,tier='category'}={}){
  const cat=Object.hasOwn(labels,category)?category:'activity';
  const cleanName=escape(name||'Unbenannter Ort');
- const star=typeof rating==='number'&&rating>=0&&rating<=5
+ const star=typeof rating==='number'&&rating>0&&rating<=5
   ?'<span class="bubble-rated" aria-label="Bewertung '+rating.toFixed(1)+'">'
      +'★ '+rating.toFixed(1).replace('.',',')+'</span>':'';
  const badge='<span class="bubble-category-badge">'
