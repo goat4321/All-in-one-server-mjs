@@ -62,7 +62,8 @@ export function mapPointInBounds(point,bounds) {
 }
 
 export function explorerData(items, trip, { city = null, group = 'all', search = '',
-  nearbyPoint = null, radiusKm = 3, savedOnly = false, savedIds = new Set() } = {}) {
+  nearbyPoint = null, radiusKm = 3, savedOnly = false, savedIds = new Set(),
+  dayItemIds = null } = {}) {
   const validCities = new Set(trip.route);
   const norm = text => String(text ?? '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('de');
   const needle = norm(search).trim().slice(0, 100);
@@ -81,6 +82,10 @@ export function explorerData(items, trip, { city = null, group = 'all', search =
   for (const item of entries) {
     if (!validCities.has(item.city) || item.duplicateOf || item.removed) continue;
     if (!['activity', 'transport', 'lodging'].includes(item.kind)) continue;
+    // The "Mein Tag" scope is only the planned calendar-day entries, not
+    // every optional point in the same city. Synthetic arrival points inherit
+    // their original parent ID and are never promoted to separate bookings.
+    if (dayItemIds && !dayItemIds.has(item.explorerParent??item.id)) continue;
     if (city && item.city !== city) continue;
     if (savedOnly && !savedIds.has(item.id)) continue;
     if (validPoint(nearbyPoint) && (!validPoint(item.point)
