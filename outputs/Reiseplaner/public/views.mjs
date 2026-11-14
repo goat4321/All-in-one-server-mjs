@@ -495,6 +495,7 @@ function options(ctx, lodging) {
         ['evening', 'Abend'], ['food', 'Verpflegung']])];
   const cards = list.map(item => {
     const active = activeSet.has(item.id);
+    const priceSignal=planCostSignal(item,people.length);
     const highlighted = compareIds.has(item.id);
     const meal = ctx.catalog.mealPlans?.[city]?.find(plan => plan.venue === item.id);
     const verification = lodging ? reviewProgress('lodging', state.verifications?.[item.id], people.length) : null;
@@ -520,6 +521,7 @@ function options(ctx, lodging) {
       <div class="card-top"><span class="category-icon">${icon(categoryIcon(item))}</span><div class="chips">
       ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.quote ? status(item.quote.sampleAvailability === false ? 'Kein Suchpreis / nicht verfügbar' : 'Suchpreis · nicht gebucht', 'warn') : ''}${verification ? status('Eigene Prüfung ' + verification.count + '/' + verification.total, verification.complete ? 'green' : 'warn') : ''}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
       <h3>${esc(item.name)}</h3>
+      <div class="options-euro-band" title="${esc(priceSignal.note)}"><span class="universal-euro-tier">${esc(priceSignal.tier)}</span><span>${esc(priceSignal.amount)}</span><small>${esc(priceSignal.basis==='person_night'?'Je Person/Nacht · Referenz':priceSignal.basis==='published_menu_example'?'Menü-Beispiel':'Preisorientierung, kein 2027-Endpreis')}</small></div>
       <div class="chips">${(lodging ? [item.kitchen || 'Küche offen'] : item.tags?.slice(0, 3) ?? []).map(t => status(t)).join('')}</div>
       ${item.provider === 'Airbnb' ? '<p class="muted">Airbnb-Wunschliste · '
         + (item.ratingDisplayed != null ? 'Bewertung ' + esc(String(item.ratingDisplayed).replace('.', ',')) + '/5 · ' : 'Noch keine Bewertung · ')
