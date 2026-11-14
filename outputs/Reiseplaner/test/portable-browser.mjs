@@ -555,6 +555,18 @@ try {
     'Mobile POI preview is in document flow below map; never under the dock');
   await js('document.querySelector(".map-selection-preview").scrollIntoView({block:"center"})');
   await screenshot('06-atlas-smartphone-auswahl-390.png');
+  await click('.map-selected-place [data-action=details]');
+  await until(()=>js('document.querySelector("dialog")?.open===true'),
+    'Mobile destination inspector opened');
+  await until(()=>js('document.querySelectorAll("dialog .inspector-tab").length===5'),
+    'Five inspector tabs on mobile');
+  assert.ok(await js('(() => {const dialog=document.querySelector("dialog"), r=dialog?.getBoundingClientRect();'
+    +'return r&&r.left>=0&&r.right<=innerWidth+2})()'), 'Inspector fits 390px mobile viewport');
+  await screenshot('13-place-inspector-mobile-390.png');
+  await click('dialog [data-action=inspector-tab][data-value=nearby]');
+  assert.equal(await js('document.querySelector("#inspector-panel-nearby").hidden'),false,
+    'Mobile nearby tab switches without rerender');
+  await click('dialog [data-action=close]');
   await cdp('Emulation.setDeviceMetricsOverride',{width:820,height:1180,deviceScaleFactor:1,mobile:false});
   await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===1'),
     'Tablet uses readable stacked atlas layout');
