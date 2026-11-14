@@ -801,11 +801,11 @@ export async function loadCatalog() {
       }} : {}),
       ...(additionalSources.length ? {source:[...new Set([...(item.source??[]),...additionalSources])]} : {}),
       locationReferenceV07: {
-        precision: knownExact ? (item.geoEvidence?.isCentroid ? 'sourced_area_center' : 'sourced_point') : 'city_only_not_a_pin',
+        precision: knownExact ? (item.surveyV19?.locationPrecision === 'booking_provider_property_coordinate' ? 'provider_reported_unverified' : item.geoEvidence?.isCentroid ? 'sourced_area_center' : 'sourced_point') : 'city_only_not_a_pin',
         exactKnown: knownExact,
         city: item.city,
         ...(knownExact ? {} : {orientationCityPoint: cities[item.city]?.point ?? null}),
-        notice: knownExact ? (item.geoEvidence?.note ?? 'Referenzpunkt aus ursprünglicher Quelle')
+        notice: knownExact ? (item.surveyV19?.locationPrecision === 'booking_provider_property_coordinate' ? 'Nur vom Anbieter gemeldete Position; Eingang und genaue Adresse nicht unabhängig belegt.' : item.geoEvidence?.note ?? 'Referenzpunkt aus ursprünglicher Quelle')
           : 'Nur Stadtorientierung. Keine genaue Eigenschaftsadresse oder bestätigter Kartenmarker.',
       },
     };
@@ -872,7 +872,7 @@ export async function loadCatalog() {
       const publisherRefs=sourceRefs.filter(ref=>
         research.sources.some(s=>s.id===ref) || sources.some(s=>s.id===ref)
         || ref.startsWith('operator-v07-') || ref.startsWith('official-v03:')
-        || ref.startsWith('food-v03-') || ref.startsWith('wishlist-v04:')
+        || ref.startsWith('food-v03-') || ref.startsWith('survey-v19:') || ref.startsWith('wishlist-v04:')
         || ref.startsWith('address-v09:') || ref.startsWith('food-v08-menu:'));
       return {
         id:item.id,city:item.city,name:item.name,category:categoryOf(item),
