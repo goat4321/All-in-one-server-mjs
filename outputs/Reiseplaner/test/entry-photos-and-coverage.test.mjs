@@ -53,6 +53,7 @@ test('Every trip record is audited, provenance gaps never fabricated away',async
       people:Array.from({length:trip.travellers},()=>({})),state:initialState(trip),
       all:trip.items};
     const data=entryCompletenessReport(trip.items,ctx);
+    console.info('ENTRY_COVERAGE_V21 '+JSON.stringify({trip:trip.id,...data.counters,gaps:data.missingByType}));
     assert.equal(data.counters.total,new Set(trip.items.map(x=>x.id)).size);
     assert.equal(data.entries.length,data.counters.total);
     assert.equal(data.counters.withPhoto>=0,true);
