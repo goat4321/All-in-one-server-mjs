@@ -785,7 +785,7 @@ export async function loadCatalog() {
   const researchV20Archive = await loadResearchV20(surveyFirstV19Archive.activities.items,cities);
   const researchV20 = applyResearchV20(output,cities,researchV20Archive);
   const researchV22Archive = await loadResearchV22();
-  const researchV22 = applyResearchV22(output,researchV22Archive);
+  const researchV22 = applyResearchV22(output,researchV22Archive,surveyFirstV19Archive.activities.items);
   const mappedFareRowsV07 = Object.fromEntries(destinations.map(city => [
     city.id, operatorFares.filter(ref => ref.city === city.id),
   ]));
