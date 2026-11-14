@@ -34,7 +34,7 @@ function officialGuide(guide){
    +urlLink(guide.sourceUrl,'Originalangaben überprüfen')
    +'<small class="inspector-disclaimer">Belegter Quellenstand ist keine Buchungs- oder Preisgarantie für September 2027.</small></div>';
 }
-export function placeInspectorHtml(ctx,item){
+export function placeInspectorHtml(ctx,item,compareIds=[]){
  const p=placeProfileModel(item,ctx);
  if(!p)return '';
  const quality=entryCompleteness(item,ctx),guide=item.guideV22;
@@ -113,6 +113,10 @@ export function placeInspectorHtml(ctx,item){
    +'<span>'+quality.gaps.length+' offene Punkte</span></div>'
    +'<div class="inspector-header-actions">'
    +btn('inspector-map','Auf Karte zeigen','pin',item.id)
+   +(['activity','lodging','transport'].includes(item.kind)
+     ?btn('inspector-compare-add',compareIds.includes(item.id)?'Aus Vergleich nehmen':'Zum Vergleich',
+       compareIds.includes(item.id)?'check':'plus',item.id):'')
+   +(compareIds.length>=2?btn('inspector-compare-view','Vergleich ('+compareIds.length+')','list',item.id):'')
    +btn('commons-photo-search','Foto suchen','compass',item.id)
    +'</div></div></div>'+tabBar+'<div class="inspector-panels">'+content+'</div>'
    +'<div class="inspector-footer"><div><small>'+esc(city)+'</small>'
