@@ -176,21 +176,34 @@ function paintMap(fit = false) {
   if (!currentMap) return;
   currentMap.paint({ trip: context.trip, city: context.city, cities: context.cities, entries: context.day, stops: context.stops,
     dayTravel: context.dayTravel, routes: context.routes, options: context.options, total: context.total,
-    filters: context.filters, focused: context.selected, timetablePreview: context.timetablePreview,
+    filters: context.filters, focused: context.page==='map'
+      ?(context.day.find(i=>i.entryKey===context.selected)?.id??context.selected)
+      :context.selected, timetablePreview: context.timetablePreview,
     explorer: context.explorer, dayRoute: context.dayRoute,
     profileCtx: {people:context.people,cities:context.cities,state:context.state} });
   if (fit) currentMap.fit();
 }
 
 function selectPoint(id, focusMap = true) {
-  view.selected = id;
+  // Explorer markers are keyed by source item ID, but the day itinerary uses
+  // an entryKey (sometimes distinct, e.g. transport arrival/departure).
+  // Select its rich day entry while focusing the actual mapped source marker.
+  const planned=context?.day?.find(item=>item.entryKey===id||item.id===id);
+  const selectedKey=planned?.entryKey??id;
+  const mapKey=planned?.id??id;
+  view.selected = selectedKey;
   context = buildContext();
   const container = document.querySelector('#detail-container');
   if (container) container.innerHTML = mapDetail(context);
   const mapPreview=app.querySelector('#map-selection-preview');
   if(mapPreview)mapPreview.innerHTML=mapSelectionPreview(context);
   app.querySelectorAll('.explorer-place').forEach(card=>{
-    card.dataset.selected=String(card.dataset.placeId===id);
+    card.dataset.selected=String(card.dataset.placeId===mapKey);
+  });
+  app.querySelectorAll('.reference-agenda-select').forEach(button=>{
+    const pressed=button.dataset.value===selectedKey;
+    button.setAttribute('aria-pressed',String(pressed));
+    button.closest('.reference-agenda-item')?.classList.toggle('is-active',pressed);
   });
   // Marker selection brings its existing list item into view on desktop,
   // but must not jump the whole page away from the map on a phone.
@@ -199,15 +212,15 @@ function selectPoint(id, focusMap = true) {
     card?.scrollIntoView({block:'nearest',behavior:'smooth'});
   }
   app.querySelectorAll('.map-day-stop').forEach(button=>{
-    button.setAttribute('aria-pressed',String(button.dataset.value===id));
+    button.setAttribute('aria-pressed',String(button.dataset.value===selectedKey));
   });
   app.querySelectorAll('.event-content').forEach(button => {
-    const pressed = button.dataset.value === id;
+    const pressed = button.dataset.value === selectedKey;
     button.setAttribute('aria-pressed', pressed);
     button.closest('.event-card').classList.toggle('selected', pressed);
   });
   paintMap();
-  if (focusMap) currentMap?.focus(id);
+  if (focusMap) currentMap?.focus(context.page==='map'?mapKey:selectedKey);
   if (focusMap && matchMedia('(max-width:910px)').matches && context.mobile === 'plan') {
     const item = context.detail;
     if (item?.point) {
@@ -680,6 +693,7 @@ async function action(name, value = '') {
       // bounding box or "only saved" filter from a different map scope.
       view.mapViewportOnly=false;view.mapViewportBounds=null;
       view.mapSavedOnly=false;view.mapNearPointId=null;
+      view.selected=null;
       render({fetchRoutes:false});
       break;
     case 'explorer-scope':
@@ -688,6 +702,7 @@ async function action(name, value = '') {
       view.total=value==='trip';
       view.mapListLimit=60;view.mapViewportOnly=false;
       view.mapViewportBounds=null;view.mapNearPointId=null;
+      view.selected=null;
       render({fetchRoutes:false}); break;
     case 'explorer-references':
       view.mapShowCityReferences = !view.mapShowCityReferences;
