@@ -277,6 +277,9 @@ try {
     'Explorer agenda and search directly follow day carousel, not below full map height');
   assert.ok(await js('Boolean(document.querySelector(".reference-agenda-suggestions,.reference-agenda-item"))'),
     'Plan column is informative even if no stops were booked');
+  assert.ok(await js('(() => {const box=document.querySelector(".reference-map-workspace");const gallery=box?.querySelector(":scope > .reference-discovery");const map=box?.querySelector(":scope > .map-panel");if(!gallery||!map)return false;const m=map.getBoundingClientRect(),g=gallery.getBoundingClientRect();return innerWidth<1180||g.top>=m.bottom-15&&g.left>=m.left-5;})()'),
+     'Barcelona reference: photo carousel sits directly below the right-hand map, not as a full-width block');
+  await screenshot('28-reference-embedded-photo-timeline-1440.png');
   await screenshot('18-reference-day-map-desktop-1440.png');
   if(await js('Boolean(document.querySelector(".reference-discovery-save"))')){
     const before=await js('document.querySelector(".reference-discovery-save").getAttribute("aria-pressed")');

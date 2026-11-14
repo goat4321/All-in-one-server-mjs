@@ -3,6 +3,7 @@ import {conflicts} from './model.mjs';
 import {placeProfileModel,placeThumbnailHtml} from './place-profile.mjs';
 import {planCostSignal,dayPeriod} from './visual-experience.mjs';
 import {curatedPlacePhoto} from './curated-place-photos.mjs';
+import {dayPlanCandidates} from './day-plans-logic.mjs';
 
 // Visual architecture adapts the supplied travel references: a readable
 // itinerary alongside the map, images only with documented reuse rights,
@@ -70,7 +71,43 @@ export function mapDayAgenda(ctx){
       +'<span class="reference-agenda-index" aria-hidden="true">'+(i+1)+'</span>'
       +button+'</li>';
   }).join('');
-  const examples=day.length?[]:(ctx.all??[])
+  const draftSlots=day.some(item=>item.kind==='activity')?[]
+    :((ctx.dayPlan?.date===ctx.date)?ctx.dayPlan.slots:[]);
+  const draftCandidates=dayPlanCandidates(ctx);
+  const itemIndex=new Map((ctx.all??[]).map(item=>[item.id,item]));
+  const timeGroup={morning:['Morgen','sun'],noon:['Mittag','food'],
+    afternoon:['Nachmittag','compass'],evening:['Abend','moon']};
+  let lastPreviewPeriod=null;
+  const previewHtml=draftSlots.length
+   ?'<div class="reference-agenda-preview" aria-label="Unverbindlicher Tagesentwurf">'
+      +'<div class="reference-agenda-preview-head"><strong>Tagesideen für '+esc(city)+'</strong>'
+      +'<small>Vorschau · keine Buchungen oder festen Uhrzeiten</small></div>'
+      +'<ol class="reference-agenda-preview-list">'
+      +draftSlots.map((slot,i)=>{
+       const item=itemIndex.get(slot.id);
+       const [heading,sign]=timeGroup[slot.period]??['Flexibel','clock'];
+       const marker=slot.period!==lastPreviewPeriod
+         ?'<li class="reference-agenda-period reference-period-'+esc(slot.period)+'">'
+          +icon(sign)+'<strong>'+esc(heading)+'</strong></li>':'';
+       lastPreviewPeriod=slot.period;
+       const planned=Boolean(ctx.activeSet?.has(slot.id));
+       return marker+'<li class="reference-agenda-preview-item">'
+        +'<span class="reference-preview-dot">'+(i+1)+'</span>'
+        +'<span class="reference-preview-photo">'
+        +(item?placeThumbnailHtml(item,ctx):icon('pin'))+'</span>'
+        +'<span class="reference-preview-copy"><strong>'+esc(slot.name)
+        +'</strong><small>'+slot.minutes+' Min. geplant'
+        +(slot.optional?' · Alternative':' · frei einteilbar')+'</small></span>'
+        +'<span class="reference-preview-actions">'
+        +(planned?'<span class="reference-preview-done">'+icon('check')+'</span>'
+        :btn('day-plan-add',slot.optional?'Optional hinzufügen':'Zum Tag','plus',slot.id,'subtle'))
+        +'</span></li>';
+       }).join('')+'</ol>'
+       +'<div class="reference-preview-footer">'
+       +(draftCandidates.length?btn('day-plan-adopt',draftCandidates.length+' Ideen übernehmen','plus','','primary'):'')
+       +'<small>Startzeiten und Wege werden nicht erfunden.</small></div></div>'
+    :'';
+  const examples=day.length||draftSlots.length?[]:(ctx.all??[])
     .filter(item=>item.city===ctx.city&&item.kind==='activity'
       &&!item.removed&&!item.duplicateOf&&!ctx.activeSet?.has(item.id)
       &&item.guideV22?.sourceUrl)
@@ -95,10 +132,11 @@ export function mapDayAgenda(ctx){
   return '<section class="reference-agenda" aria-label="Tagesablauf neben der Karte">'
     +'<div class="reference-agenda-head"><div><small>DEIN PLANTAG</small>'
     +'<h2>'+esc(city)+' · '+esc(shortDay(ctx.date))+'</h2>'
-    +'<p>'+day.length+' '+(day.length===1?'Stopp':'Stopps')+' · '+planned
-    +' mit Uhrzeit · '+flexible+' flexibel</p></div>'
+    +'<p>'+(day.length?day.length+' '+(day.length===1?'Stopp':'Stopps')+' · '+planned
+    +' mit Uhrzeit · '+flexible+' flexibel'
+    :(ctx.dayPlan?.slots.length??0)+' Tagesideen verfügbar · noch nicht eingeplant')+'</p></div>'
     +dayNavigation+btn('page','Vollständiger Tagesplan','arrow','plan')+'</div>'
-    +'<ol class="reference-agenda-list">'+(groups||'<li class="reference-agenda-empty">'
+    +'<ol class="reference-agenda-list">'+(groups||(draftSlots.length?'':'<li class="reference-agenda-empty">')
       +'Für diesen Tag sind noch keine Stopps ausgewählt.'
       +(ctx.explorer.scope==='day'
         ?' Die Tageskarte zeigt deshalb keine noch nicht eingeplanten Orte.'
@@ -109,6 +147,7 @@ export function mapDayAgenda(ctx){
         :'')+'</li>')
     +'</ol>'
     +warningPanel
+    +previewHtml
     +examplesHtml
     +(day.length>8?'<p class="reference-agenda-extra">+'+(day.length-8)
       +' weitere Stopps im vollständigen Tagesplan</p>':'')

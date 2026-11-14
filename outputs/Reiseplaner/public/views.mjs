@@ -129,8 +129,8 @@ function content(ctx, city) {
       + '<div class="map-explorer-split reference-map-workspace" aria-label="Tagesroute, Karte und passende Orte">'
       + '<div class="reference-stage-days">'+explorerDayStrip(ctx)+'</div>'
       + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Tagesroute, Suche, Filter und Ortsliste">'
-      + mapDayAgenda(ctx) + dayPlanPanel(ctx,{compact:true}) + fieldNoteStrip(ctx) + explorerToolbar(ctx) + explorerList(ctx) + '</div></div>'
-      + mapPhotoDiscovery(ctx) + dayRouteView(ctx);
+      + mapDayAgenda(ctx) + dayPlanPanel(ctx,{compact:true}) + fieldNoteStrip(ctx) + explorerToolbar(ctx) + explorerList(ctx) + '</div>'
+      + mapPhotoDiscovery(ctx) + '</div>' + dayRouteView(ctx);
     case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
@@ -296,8 +296,8 @@ function mapPanel(ctx, full = false) {
       +(ctx.day.length>9?'<small>+'+(ctx.day.length-9)+' weitere Einträge im Tagesplan</small>':'')+'</nav>'
     :'';
   return `<section class="panel map-panel ${full ? 'map-full' : ''} ${ctx.mapExpanded ? 'map-immersive' : ''}" aria-label="Interaktive Karte">
-    <div class="panel-head"><div><h2>${ctx.total ? 'Gesamtroute' : 'Karte'}</h2>
-    <p>${ctx.total ? 'Originale Reihenfolge · Trassen schematisch' : esc(ctx.wholeDay ? 'Alle Tagesorte' : ctx.cities[ctx.city].name) + ' · ' + esc(shortDay(ctx.date))}</p></div>
+    <div class="panel-head"><div><h2>${ctx.total ? 'Gesamtroute' : 'Tag ' + (ctx.dates.indexOf(ctx.date)+1) + ' · ' + esc(ctx.cities[ctx.city].name)}</h2>
+    <p>${ctx.total ? 'Originale Reihenfolge · Verbindungen schematisch' : (ctx.day.length ? ctx.day.length + ' eingeplante Stopps' : (ctx.dayPlan?.slots.length??0) + ' Tagesideen') + ' · ' + esc(shortDay(ctx.date)) + ' · noch keine geprüfte Wegezeit'}</p></div>
     <div class="inline">${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div></div>
     <div class="map-tools" aria-label="Kartenebenen">
       ${chip('map-mode', 'Tag', !ctx.total, 'day')}${chip('map-mode', 'Gesamt', ctx.total, 'total')}

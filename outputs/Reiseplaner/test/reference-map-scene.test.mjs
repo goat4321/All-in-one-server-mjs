@@ -182,3 +182,21 @@ test('Real plan warnings are surfaced inline, escaped, and never treated as conf
  assert.doesNotMatch(html,/<script>/);
  assert.match(html,/&lt;script&gt;/);
 });
+
+test('The 2027 suggested day appears as a visual period timeline without false booking claims',()=>{
+ const trip=catalog.trips.find(t=>t.id==='interrail_classic');
+ const ctx=context(trip);
+ ctx.city='barcelona';ctx.date='2027-09-04';
+ ctx.dayPlan=trip.dayPlansV32.find(x=>x.date===ctx.date);
+ ctx.activeSet=new Set();
+ const html=mapDayAgenda(ctx);
+ assert.match(html,/reference-agenda-preview-list/);
+ assert.match(html,/Morgen/);
+ assert.match(html,/Nachmittag/);
+ assert.match(html,/Abend/);
+ assert.match(html,/data-action="day-plan-add"/);
+ assert.match(html,/data-action="day-plan-adopt"/);
+ assert.doesNotMatch(html,/automatisch gebucht|jetzt geöffnet/i);
+ const blank=mapDayAgenda({...ctx,dayPlan:null});
+ assert.doesNotMatch(blank,/reference-agenda-preview-list/);
+});
