@@ -20,11 +20,11 @@ import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn
 import { transitFares, transitNetworks } from './transit.mjs';
 import { railSalesStatus, reviewProgress } from './verification.mjs';
 import { official2027Notices } from './official-rules-2027.mjs';
-import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
+import { EXPLORER_GROUPS, explorerDetail, explorerCategory } from './map-explorer.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
-  mapBrowsePanel,foodTypeTabs,foodBrowseCards} from './browse-hub-v35.mjs';
+  mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview} from './day-plans-ui.mjs';
 import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
 import { dayPeriod,planCostSignal } from './visual-experience.mjs';
@@ -516,9 +516,10 @@ function overview(ctx) {
 
 function options(ctx, lodging) {
   const { all, city, cities, people, optionFilter, sort, state, compareIds, activeSet } = ctx;
-  const predicate = item => item.city === city && item.kind === (lodging ? 'lodging' : 'activity') && !item.duplicateOf;
-  const found = all.filter(predicate);
-  const list = found.filter(item => optionMatchesFilter(item,optionFilter,ctx,lodging));
+  const found=browseItems(all,{...ctx,browseSearch:''},
+    {kind:lodging?'lodging':'activity'});
+  const list=found.filter(item=>browseMatch(item,ctx.browseSearch,cities)
+    &&optionMatchesFilter(item,optionFilter,ctx,lodging));
   if (sort === 'price') list.sort((a, b) => (groupPrice(a.price, people.length) ?? Infinity) - (groupPrice(b.price, people.length) ?? Infinity));
   if (sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'de'));
   if (sort === 'score' && !lodging) list.sort((a, b) =>
@@ -556,84 +557,73 @@ function options(ctx, lodging) {
       : [['free','0-€-Preisreferenz'],['water','Wasser & Strand erwähnt'],
         ['swimming','Schwimmen erwähnt'],['consensus','Gruppenfavoriten ≥4'],
         ['evening', 'Abend'], ['food', 'Verpflegung']])];
-  const cards = list.map(item => {
-    const active = activeSet.has(item.id);
-    const priceSignal=planCostSignal(item,people.length);
-    const highlighted = compareIds.has(item.id);
-    const meal = ctx.catalog.mealPlans?.[city]?.find(plan => plan.venue === item.id);
-    const verification = lodging ? reviewProgress('lodging', state.verifications?.[item.id], people.length) : null;
-    const stayStats = lodging ? assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]) : null;
-    const rank = !lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3 ? item.preference : null;
-    const prefs = lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3
-      ? ctx.catalog.research?.groupPreferences?.nightly_accommodation_targets_eur_per_person : null;
-    const personNight = item.quote?.nights > 0 && item.price?.cents != null
-      ? item.price.cents / (people.length * item.quote.nights) : null;
-    const targetLine = prefs && personNight != null
-      ? '<small>Pro Person/Nacht etwa ' + esc(money(Math.round(personNight))) + ' · individuelle Zielwerte (flexibel): '
-        + Object.entries(prefs).map(([alias, info]) => {
-          const delta = Math.round(personNight - info.target * 100);
-          return esc(alias) + ': ' + (delta <= 0 ? 'unter Ziel ' : 'über Ziel ')
-            + esc(money(Math.abs(delta)));
-        }).join(' · ') + '</small>' : '';
-    const rankLine = rank
-      ? '<p class="muted">Gruppeninteresse ' + esc(String(rank.score)) + '/100 · Heuristik · '
-        + Object.entries(rank.individual ?? {}).map(([alias, score]) => esc(alias + ': ' + score + '/5')).join(' · ')
-        + (rank.disagreement ? ' · unterschiedliche Interessen' : '') + '</p>' : '';
-    return `<article class="panel option-card">
-      ${placeImageHtml(item,ctx,{small:true})}
-      <div class="card-top"><span class="category-icon">${icon(categoryIcon(item))}</span><div class="chips">
-      ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.quote ? status(item.quote.sampleAvailability === false ? 'Kein Suchpreis / nicht verfügbar' : 'Suchpreis · nicht gebucht', 'warn') : ''}${verification ? status('Eigene Prüfung ' + verification.count + '/' + verification.total, verification.complete ? 'green' : 'warn') : ''}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
-      <h3>${esc(item.name)}</h3>
-      <div class="options-euro-band" title="${esc(priceSignal.note)}"><span class="universal-euro-tier">${esc(priceSignal.tier)}</span><span>${esc(priceSignal.amount)}</span><small>${esc(priceSignal.basis==='person_night'?'Je Person/Nacht · Referenz':priceSignal.basis==='published_menu_example'?'Menü-Beispiel':'Preisorientierung, kein 2027-Endpreis')}</small></div>
-      <div class="chips">${(lodging ? [item.kitchen || 'Küche offen'] : item.tags?.slice(0, 3) ?? []).map(t => status(t)).join('')}</div>
-      ${item.provider === 'Airbnb' ? '<p class="muted">Airbnb-Wunschliste · '
-        + (item.ratingDisplayed != null ? 'Bewertung ' + esc(String(item.ratingDisplayed).replace('.', ',')) + '/5 · ' : 'Noch keine Bewertung · ')
-        + (item.bedsDisplayed != null ? esc(item.bedsDisplayed) + ' Betten angezeigt' : 'Betten offen')
-        + ' · Für drei Personen nicht verbindlich bestätigt</p>' : ''}
-      ${rankLine}<p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
-      ${placeQuickFacts(item,ctx)}
-      ${lodging ? lodgingPriceMeter(item,people.length,ctx.nightlyTargetEuro) : ''}
-      ${voteSnippet(item,ctx)}
-      ${stayStats ? '<p class="muted"><strong>Vergleich:</strong> ' + (stayStats.personNightEuroCents == null ? 'Preis pro Person/Nacht offen' : money(stayStats.personNightEuroCents) + ' pro Person/Nacht') + ' · ' + (stayStats.stationWalkMinutes==null?'Bahnhof-Weg offen':stayStats.stationWalkMinutes + ' Min. tatsächlicher Fußweg') + ' · ' + stayStats.risk.length + ' offene Prüfpunkte. Gehzeit und Geldbetrag nicht miteinander verrechnet.</p>' : ''}
-      ${item.quote?.sampleTotalCents != null ? '<p class="muted"><strong>Airbnb-Preisreferenz:</strong> '
-        + esc(money(item.quote.sampleTotalCents)) + ' für ' + esc(item.quote.sampleAdults ?? 'unbekannt')
-        + ' Gäste im damaligen Suchzeitraum' + (item.quote.sampleFrom && item.quote.sampleTo
-          ? ' (' + esc(dateLabel(item.quote.sampleFrom, item.quote.sampleTo)) + ')' : ' (genaues Suchdatum offen)')
-        + '. Kein verbindlicher Endpreis für den Reiseplan; nicht in das Budget eingerechnet.</p>' : ''}
-      ${item.quote ? '<p class="muted">Suchstand ' + esc(item.quote.observedOn) + ' · Zimmer/Betten, Steuern, Stornierung und Checkout offen. '
-        + esc(item.quote.location ?? '') + '</p>' : ''}${targetLine}
-      <div class="option-facts"><small>${esc(lodging ? (item.stayFrom && item.stayTo ? dateLabel(item.stayFrom, item.stayTo) : 'Aufenthaltsdaten offen') : item.duration ? item.duration + ' Min.' : 'Dauer offen')}
-      ${lodging && ctx.hotelWalks[item.id]?.minutes ? esc(' · ' + (item.localStation?.name ?? 'Bahnhof') + ' · ' + ctx.hotelWalks[item.id].minutes + ' Min. zu Fuß') : ''}</small>
-      <div class="price-line"><span><strong>${esc(cost(item, people.length))}</strong><br><small>${esc(unit(item, people.length))}</small></span>
-      <small>${esc(item.price?.label ?? 'Preis noch offen')}</small></div></div>
-      <div class="row-actions">${btn(active ? 'edit' : meal ? 'meal-choose' : 'choose', active ? 'Bearbeiten' : lodging ? 'Auswahl prüfen' : 'Einplanen',
-        active ? 'edit' : 'plus', !active && meal ? meal.id : item.id, 'subtle')}
-      ${iconBtn('favorite', state.favorites.includes(item.id) ? 'Aus Merkliste entfernen' : 'Merken', state.favorites.includes(item.id) ? 'check' : 'bookmark', item.id)}
-      ${chip('compare', 'Vergleichen', highlighted, item.id, 'compare')}
-      ${urlLink(googleMapsSearchUrl(item,cities),googleMapsSearchLabel(item))}
-      ${urlLink(googleMapsDirectionsUrl(null,item,cities,'transit'),'ÖPNV in Google Maps')}
-      ${iconBtn('details', 'Details: ' + item.name, 'folder', item.id)}${lodging ? btn('verify-item', 'Anbieter prüfen', 'check', item.id) : ''}${item.point ? iconBtn('option-map', 'Auf Karte: ' + item.name, 'pin', item.id) : ''}</div>
-    </article>`;
+  const cards=list.slice(0,ctx.browseLimit??24).map(item=>{
+    const active=activeSet.has(item.id);
+    const highlighted=compareIds.has(item.id);
+    const meal=ctx.catalog.mealPlans?.[item.city]?.find(plan=>plan.venue===item.id);
+    const verification=lodging
+      ?reviewProgress('lodging',state.verifications?.[item.id],people.length):null;
+    const stayStats=lodging?assessStay(item,people,ctx.hotelWalks[item.id],
+      state.verifications?.[item.id]):null;
+    return browseOptionCard(item,ctx,{lodging,active,highlighted,meal,
+      verification,stayStats});
   }).join('');
-  return heading(lodging ? 'Unterkünfte' : 'Entdecken', cities[city].name + (lodging && stay ? ' · ' + dateLabel(stay.from, stay.to) : ' · ' + found.length + ' Einträge'),
-    btn('page', 'Zum Tagesplan', 'calendar', 'plan'))
-    + '<div class="filterbar">' + filters.map(([id, label]) => chip('option-filter', label, optionFilter === id, id)).join('')
-    + (lodging ? '<label class="nightly-budget-control">Ziel pro Person/Nacht <input id="nightly-target" type="number" min="5" max="1000" step="1" value="'+esc(ctx.nightlyTargetEuro)+'" aria-label="Individuelles Nachtbudget in Euro"> €</label>' : '')
-    + '<label>Sortieren <select id="sort"><option value="source">Quelle</option><option value="price"' + (sort === 'price' ? ' selected' : '') + '>Preis</option><option value="name"' + (sort === 'name' ? ' selected' : '') + '>Name</option>'
-    + (lodging ? '<option value="total"' + (sort === 'total'?' selected':'') + '>EUR-Gruppensumme</option><option value="person-night"' + (sort === 'person-night'?' selected':'') + '>EUR p. P./Nacht</option><option value="station"' + (sort === 'station'?' selected':'') + '>Bahnhof-Fußweg</option><option value="documentation"' + (sort === 'documentation'?' selected':'') + '>Datenvollständigkeit</option>' : '')
-    + (lodging ? '' : '<option value="score"' + (sort === 'score' ? ' selected' : '') + '>Gruppeninteresse</option>') + '</select></label></div>'
-    + '<p class="option-result-summary" aria-live="polite"><strong>'+list.length+' von '+found.length
-      +' Optionen</strong> · '+esc(smartFilterHelp[optionFilter]
-        ??'Die Filter zeigen nur die vorhandenen Einträge für diesen Reiseort.')+'</p>'
-    + (lodging ? '<p class="muted">Preis-Einordnung nur gegenüber deinem frei wählbaren Nachtbudget – keine städtischen Durchschnittspreise. Airbnb-Suchwerte können beim Vergleich erscheinen, werden aber niemals als gebuchte Reisekosten behandelt.</p>' : '')
-    + (lodging ? alert('Angebote sind lediglich datierte Suchpreis-Snapshots. Zimmer, Steuern und Endpreis müssen für dieselbe Belegung im Checkout bestätigt werden; es gibt keine automatische Reservierung.') : '')
-    + (lodging ? '<section class="section panel panel-pad"><h2>Datenlücken im Hotelvergleich</h2><div class="chips">'
-      + comparisonGaps.map(([label,count]) => status(label+': '+count,'warn')).join('')
-      + '</div><p class="muted">Niedrige Kosten oder gute Lage ersetzen keinen nachgewiesenen Checkout. Fußweg, Bettaufteilung, Küche, Gebühr und Storno werden getrennt bewertet.</p></section>' : '')
-    + (lodging ? providerQuotePanel(ctx) : '')
-    + (lodging && compared.length ? stayComparisonBoard(compared,ctx) : '')
-    + (compared.length ? '<section class="section"><h2>Direkter Vergleich</h2>' + table(['Option', 'Für die Gruppe', 'Pro Person', lodging ? 'Küche' : 'Dauer', lodging ? 'Zimmer' : 'Erlebnis', 'Anbindung', lodging ? 'Storno' : 'Einlass', ...(lodging ? ['EUR je Person/Nacht','Offene Nachweise'] : [])], compareRows) + '</section>' : '')
-    + (cards ? '<div class="grid-cards">' + cards + '</div>' : empty('Keine Optionen in dieser Ansicht', 'Wechsle den Filter, wähle einen anderen Ort oder importiere deine Recherche.'));
+  const cardLabel=lodging?'Unterkünfte':'Reiseideen';
+  const quick=filters.slice(0,3).map(([id,label])=>
+    chip('option-filter',label,optionFilter===id,id)).join('');
+  const advanced=filters.slice(3).map(([id,label])=>
+    chip('option-filter',label,optionFilter===id,id)).join('');
+  return browseHero(ctx,lodging?'lodging':'discover',list.length)
+    +browseToolbar(ctx,{kind:lodging?'lodging':'discover',total:found.length,
+       filtered:list.length})
+    +'<div class="hub-result-settings"><div class="hub-quick-filters">'+quick
+    +'<details class="hub-filter-more"><summary>'+icon('layers')
+      +' Weitere Filter</summary><div>'+advanced+'</div></details></div>'
+    +'<div class="hub-sort-controls">'
+    +(lodging?'<label>Nachtbudget <input id="nightly-target" type="number"'
+      +' min="5" max="1000" value="'+esc(ctx.nightlyTargetEuro)
+      +'" aria-label="Budget pro Person und Nacht in Euro"> €</label>':'')
+    +'<label>Sortieren <select id="sort">'
+    +[['source','Quelle'],['price','Preis'],['name','Name'],
+      ...(lodging?[['total','Gruppensumme'],['person-night','Pro Person/Nacht'],
+         ['station','Bahnhof-Fußweg'],['documentation','Datenvollständigkeit']]
+        :[['score','Gruppeninteresse']])]
+      .map(([id,label])=>'<option value="'+id+'"'
+       +(sort===id?' selected':'')+'>'+label+'</option>').join('')
+    +'</select></label></div></div>'
+    +'<p class="hub-results-title"><strong>'+list.length+' '+cardLabel+'</strong>'
+    +'<span>'+esc(ctx.browseScope==='trip'?'In allen Reiseorten':cities[city].name)
+    +' · '+esc(smartFilterHelp[optionFilter]??'Einträge aus deiner Recherche')
+    +'</span></p>'
+    +(compared.length?'<section class="hub-compare-summary">'
+      +'<h2>'+compared.length+' Optionen im Vergleich</h2>'
+      +btn('compare-clear','Auswahl leeren','close')
+      +(lodging?stayComparisonBoard(compared,ctx):'')
+      +'</section>':'')
+    +(cards?'<div class="hub-option-grid">'+cards+'</div>'
+      :empty('Keine passenden Optionen',
+        'Versuche eine andere Stadt, entferne Suchbegriffe oder setze Filter zurück.'))
+    +(list.length>(ctx.browseLimit??24)
+      ?'<div class="hub-more-button">'
+        +btn('browse-more','Weitere '+Math.min(24,list.length-(ctx.browseLimit??24))
+          +' Optionen anzeigen','plus','','primary')+'</div>':'')
+    +'<details class="hub-technical-details"><summary>'+icon('chevron')
+     +'<span><strong>Detaillierter Preis- und Quellenvergleich</strong>'
+     +'<small>Prüfpunkte, Suchwerte, Gruppenvergleich und Originaldaten</small></span></summary>'
+    +(lodging
+      ?'<p class="hub-technical-warning">Alle Unterkunftsangebote sind historische Such- oder Planwerte.'
+       +' Keines ist automatisch für 2027 gebucht oder als Endpreis bestätigt.</p>'
+       +'<div class="hub-risk-chips">'
+       +comparisonGaps.map(([label,count])=>status(label+': '+count,'warn')).join('')
+       +'</div>'+providerQuotePanel(ctx)
+      :'')
+    +(compared.length
+      ?'<section><h2>Tabellarischer Direktvergleich</h2>'
+       +table(['Option','Gruppe','Pro Person',lodging?'Küche':'Dauer',
+         lodging?'Zimmer':'Erlebnis','Anbindung',lodging?'Storno':'Einlass',
+         ...(lodging?['EUR p. P./Nacht','Offene Nachweise']:[])],compareRows)
+       +'</section>':'')
+    +'</details>';
 }
 
 function food(ctx) {
@@ -735,7 +725,39 @@ function food(ctx) {
       +'Die Menüpreise werden nicht automatisch in das Gruppenbudget übernommen.</p>'
       +table(['Lokal','Konkrete Preisbeispiele','Art / Gültigkeit','Quelle','Anreise'],menuRows)
       +'</section>' : '';
-  return heading('Verpflegung', ctx.cities[city].name + ' · ' + count + ' Reisende', planDate)
+  const candidates=browseItems(ctx.all,ctx,{kind:'activity'}).filter(item=>{
+    const group=explorerCategory(item);
+    return group==='food'||group==='shop'||Boolean(item.requiresKitchen);
+  });
+  const selectedType=ctx.browseFoodType??'all';
+  const available={
+    all:candidates.length,
+    restaurants:candidates.filter(item=>explorerCategory(item)==='food').length,
+    markets:candidates.filter(item=>explorerCategory(item)==='shop').length,
+    cook:candidates.filter(item=>item.requiresKitchen).length,
+  };
+  const shown=candidates.filter(item=>selectedType==='all'
+    ||selectedType==='restaurants'&&explorerCategory(item)==='food'
+    ||selectedType==='markets'&&explorerCategory(item)==='shop'
+    ||selectedType==='cook'&&item.requiresKitchen);
+  const allFood=browseItems(ctx.all,{...ctx,browseSearch:''},{kind:'activity'})
+    .filter(item=>['food','shop'].includes(explorerCategory(item))
+      ||Boolean(item.requiresKitchen));
+  const visualBrowse=browseHero(ctx,'food',shown.length)
+    +browseToolbar(ctx,{kind:'food',total:allFood.length,filtered:shown.length})
+    +foodTypeTabs(ctx,available)
+    +(selectedType==='markets'?'<p class="hub-market-note">'
+       +'Noch mehr Lebensmittelgeschäfte? '
+       +btn('browse-supermarkets','Supermärkte auf Karte suchen','map','','primary')
+       +'<small>Nachladbare offene Geodaten, keine vollständige Stadtinventur.</small></p>':'')
+    +foodBrowseCards(ctx,shown.slice(0,ctx.browseLimit??24))
+    +(shown.length>(ctx.browseLimit??24)
+       ?'<div class="hub-more-button">'
+         +btn('browse-more','Weitere Restaurants & Geschäfte','plus','','primary')+'</div>':'');
+  return visualBrowse + '<details class="hub-food-planning"><summary>'
+    +icon('calendar')+' Tagesmenüs, Einkaufswarenkorb & detaillierte Preisrecherche'
+    +icon('chevron')+'</summary><div class="hub-food-planning-content">'
+    +heading('Mahlzeiten am Reisetag',ctx.cities[city].name+' · '+count+' Reisende',planDate)
     + menuSection
     + '<section class="section panel panel-pad"><h2>Abendessen am ' + dateText(date) + '</h2><p>'
     + (planned.length ? planned.map(i => {
@@ -755,7 +777,7 @@ function food(ctx) {
       + table(['Unterkunft', 'Küche', 'Aufenthalt', 'Mit Kochen', 'Mit Restaurant innen'], scenarios) + '</section>' : '')
     + '<section class="section"><h2>Einkauf und Restaurants</h2>'
     + (places.length ? table(['Ort', 'Adresse', 'Anbindung', ''], places) : empty('Verpflegungsorte offen', 'Vorhandene Vorschläge lassen sich unter Entdecken oder Daten & Fristen ergänzen.'))
-    + '</section>';
+    + '</section></div></details>';
 }
 
 function rail(ctx) {
