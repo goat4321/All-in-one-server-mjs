@@ -5,6 +5,7 @@ import {dayPlanDraftEdits} from './day-plans-logic.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
 import { renderShell, mapDetail, mapSelectionPreview } from './views.mjs';
 import { TripMap } from './map.mjs';
+import {explorerCategory} from './map-explorer.mjs';
 import { transitFares } from './transit.mjs';
 import { railSalesStatus } from './verification.mjs';
 import { explorerData, explorerRouteInput, validPoint, mapPointInBounds } from './map-explorer.mjs';
@@ -35,6 +36,7 @@ const view = {
   mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
+  browseScope:'city',browseSearch:'',browseFoodType:'all',
   dayPlanOpen:false,
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
@@ -711,6 +713,32 @@ async function action(name, value = '') {
     case 'guide-close': closeGuide(); break;
     case 'guide-finish': closeGuide(true); say('Einführung abgeschlossen. Du kannst sie oben jederzeit erneut starten.'); break;
     case 'page': changePage(value); break;
+    case 'browse-scope':
+      if(!['city','trip'].includes(value))break;
+      view.browseScope=value;view.optionFilter='all';view.compareIds.clear();
+      render({fetchRoutes:false});break;
+    case 'browse-search-apply':
+      view.browseSearch=app.querySelector('#browse-search')?.value?.trim().slice(0,100)??'';
+      render({fetchRoutes:false});break;
+    case 'browse-search-reset':
+      view.browseSearch='';render({fetchRoutes:false});break;
+    case 'browse-food-type':
+      if(!['all','restaurants','markets','cook'].includes(value))break;
+      view.browseFoodType=value;render({fetchRoutes:false});break;
+    case 'browse-map': {
+      const kind=value==='lodging'?'lodging':value==='food'?'food':'activity';
+      view.page='map';view.mapScope=view.browseScope==='trip'?'trip':'city';
+      view.total=view.mapScope==='trip';view.mapGroup=kind;view.mapSearch='';
+      view.selected=null;view.mapViewportOnly=false;view.mapViewportBounds=null;
+      view.mapSavedOnly=false;render({fetchRoutes:false});break;
+    }
+    case 'browse-map-item':
+      if(!item||!item.point){say('Für diesen Eintrag ist kein genauer Kartenpunkt hinterlegt.');break;}
+      view.page='map';view.city=item.city;view.mapScope='city';view.total=false;
+      view.mapGroup=explorerCategory(item);view.mapSearch='';
+      view.mapViewportOnly=false;view.mapViewportBounds=null;
+      view.mapSavedOnly=false;view.selected=item.id;
+      render({focusMap:true,fetchRoutes:false});break;
     case 'menu': view.menu = !view.menu; render({ restoreView: true }); break;
     case 'theme':
       view.theme = view.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('reiseplan-theme', view.theme); render({ restoreView: true }); break;
@@ -1508,6 +1536,9 @@ document.addEventListener('keydown',event=>{
     }
     return;
   }
+  if(event.target.id==='browse-search'&&event.key==='Enter'){
+    event.preventDefault();void action('browse-search-apply');return;
+  }
   if(event.target.id==='reference-top-search'&&event.key==='Enter'){
     event.preventDefault();
     view.mapSearch=event.target.value.trim().slice(0,100);
@@ -1526,6 +1557,9 @@ app.addEventListener('input',event=>{
   }
 });
 app.addEventListener('change', event => {
+  if(event.target.id==='browse-city'&&context?.trip?.route.includes(event.target.value)){
+    view.browseScope='city';view.optionFilter='all';showCity(event.target.value);return;
+  }
   if(['coverage-filter-query','coverage-filter-kind','coverage-filter-gap',
     'coverage-filter-city'].includes(event.target.id)){
     applyCoverageFilters(app.querySelector('.entry-coverage'));

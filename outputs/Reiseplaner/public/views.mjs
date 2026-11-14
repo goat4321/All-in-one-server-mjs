@@ -23,6 +23,8 @@ import { official2027Notices } from './official-rules-2027.mjs';
 import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
+import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
+  mapBrowsePanel,foodTypeTabs,foodBrowseCards} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview} from './day-plans-ui.mjs';
 import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
 import { dayPeriod,planCostSignal } from './visual-experience.mjs';
@@ -126,10 +128,14 @@ function content(ctx, city) {
   switch (ctx.page) {
     case 'overview': return overview(ctx);
     case 'map': return mapImageIntro(ctx)
-      + '<div class="map-explorer-split reference-map-workspace" aria-label="Tagesroute, Karte und passende Orte">'
-      + '<div class="reference-stage-days">'+explorerDayStrip(ctx)+'</div>'
-      + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Tagesroute, Suche, Filter und Ortsliste">'
-      + mapDayAgenda(ctx) + dayPlanPanel(ctx,{compact:true}) + fieldNoteStrip(ctx) + explorerToolbar(ctx) + explorerList(ctx) + '</div>'
+      + '<div class="map-explorer-split reference-map-workspace" aria-label="Orte, Karte und Reiseplanung">'
+      + '<div class="reference-stage-days">'+mapBrowseModes(ctx)
+      +(ctx.explorer?.scope==='day'?explorerDayStrip(ctx):'')+'</div>'
+      + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Kategorien, Orte und Tagesplanung">'
+      +(ctx.explorer?.scope==='day'
+        ?mapDayAgenda(ctx)+dayPlanPanel(ctx,{compact:true})+fieldNoteStrip(ctx)
+        :mapBrowsePanel(ctx))
+      + explorerToolbar(ctx) + explorerList(ctx) + '</div>'
       + mapPhotoDiscovery(ctx) + '</div>' + dayRouteView(ctx);
     case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
     case 'lodging': return options(ctx, true);
@@ -296,8 +302,13 @@ function mapPanel(ctx, full = false) {
       +(ctx.day.length>9?'<small>+'+(ctx.day.length-9)+' weitere Einträge im Tagesplan</small>':'')+'</nav>'
     :'';
   return `<section class="panel map-panel ${full ? 'map-full' : ''} ${ctx.mapExpanded ? 'map-immersive' : ''}" aria-label="Interaktive Karte">
-    <div class="panel-head"><div><h2>${ctx.total ? 'Gesamtroute' : 'Tag ' + (ctx.dates.indexOf(ctx.date)+1) + ' · ' + esc(ctx.cities[ctx.city].name)}</h2>
-    <p>${ctx.total ? 'Originale Reihenfolge · Verbindungen schematisch' : (ctx.day.length ? ctx.day.length + ' eingeplante Stopps' : (ctx.dayPlan?.slots.length??0) + ' Tagesideen') + ' · ' + esc(shortDay(ctx.date)) + ' · noch keine geprüfte Wegezeit'}</p></div>
+    <div class="panel-head"><div><h2>${ctx.total?'Gesamte Reiseroute':ctx.explorer?.scope==='day'
+      ?'Tag '+(ctx.dates.indexOf(ctx.date)+1)+' · '+esc(ctx.cities[ctx.city].name)
+      :esc(ctx.cities[ctx.city].name)+' entdecken'}</h2>
+    <p>${ctx.total?'Reiseorte und vorhandene Kartenpunkte · schematische Bahnverbindungen'
+      :ctx.explorer?.scope==='day'
+        ?(ctx.day.length?ctx.day.length+' geplante Stopps':(ctx.dayPlan?.slots.length??0)+' Tagesideen')+' · '+esc(shortDay(ctx.date))
+        :ctx.explorer?.placed.length+' Kartenpunkte · '+ctx.explorer?.unlocated.length+' Ortsangaben ohne Pin'}</p></div>
     <div class="inline">${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div></div>
     <div class="map-tools" aria-label="Kartenebenen">
       ${chip('map-mode', 'Tag', !ctx.total, 'day')}${chip('map-mode', 'Gesamt', ctx.total, 'total')}
