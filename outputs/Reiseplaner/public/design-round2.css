@@ -455,3 +455,61 @@ dialog:has(.inspector-shell) .dialog-foot{border-top:1px solid var(--atlas-line)
  .explorer-place,.sidebar .nav-btn{transition:none}
  .explorer-place:hover,.sidebar .nav-btn:hover{transform:none}
 }
+
+
+/* V23: genuinely useful side-by-side comparator with source-aware, honest
+   tradeoffs. Never calculate "best" from incomplete data or false prices. */
+dialog:has(.inspector-comparison){width:min(1040px,calc(100vw - 30px));max-height:calc(100dvh - 28px);
+  border-radius:20px;overflow:auto}
+dialog:has(.inspector-comparison) .dialog-head{position:sticky;top:0;z-index:4;
+  background:var(--paper);border-bottom:1px solid var(--atlas-line)}
+dialog:has(.inspector-comparison) .dialog-body{padding:16px 22px 22px}
+.inspector-comparison{min-width:0}
+.inspector-comparison-heading{margin:0 0 16px}
+.inspector-comparison-heading h3{font-size:clamp(1.25rem,2.7vw,1.75rem);
+  letter-spacing:-.045em;margin:4px 0 8px;line-height:1.2}
+.inspector-comparison-heading p{font-size:.82rem;color:var(--muted);
+  line-height:1.55;max-width:72ch}
+.inspector-comparison-scroll{width:100%;overflow-x:auto;overscroll-behavior-x:contain;
+  border:1px solid var(--atlas-line);border-radius:14px;scrollbar-width:thin}
+.inspector-comparison-table{border-collapse:separate;border-spacing:0;
+  min-width:650px;width:100%;table-layout:fixed;background:var(--paper)}
+.inspector-comparison-table th{width:135px;min-width:135px;text-align:left;
+  color:var(--muted);font-size:.73rem;font-weight:680;line-height:1.42;
+  vertical-align:top;position:sticky;left:0;background:var(--paper);z-index:1;
+  border-right:1px solid var(--atlas-line);box-shadow:3px 0 9px #102b2008}
+.inspector-comparison-table td{width:29%;font-size:.76rem;vertical-align:top;
+  overflow-wrap:anywhere;line-height:1.53}
+.inspector-comparison-table th,.inspector-comparison-table td{
+  padding:13px 12px;border-bottom:1px solid var(--atlas-line)}
+.inspector-comparison-table tr:last-child>*{border-bottom:0}
+.inspector-comparison-table tr:nth-child(2n):not(.comparison-image-row){background:var(--atlas-soft)}
+.inspector-comparison-table tr:nth-child(2n):not(.comparison-image-row) th{background:var(--atlas-soft)}
+.inspector-comparison-table td small{display:block;font-size:.7rem;line-height:1.48;
+  color:var(--muted);margin-top:4px}
+.inspector-comparison-table td strong{font-weight:680}
+.inspector-comparison-table .place-thumbnail{width:120px;height:83px;max-width:100%;
+  border-radius:9px;overflow:hidden;display:inline-flex}
+.comparison-image-row>*{padding-top:16px}
+.comparison-title-row td{padding-top:6px}
+.comparison-name>strong{display:block;font-size:.87rem;letter-spacing:-.018em;line-height:1.33}
+.comparison-title-row td>.button{font-size:.69rem;min-height:29px;padding:5px 8px;
+  margin:7px 5px 0 0}
+.comparison-cost{font-size:1.13rem!important;color:var(--green)}
+.comparison-description{margin:0;font-size:.73rem;line-height:1.56}
+.comparison-tips p{padding-left:8px;border-left:2px solid var(--atlas-line);
+  margin:5px 0 8px;font-size:.73rem;line-height:1.45}
+.inspector-comparison-footer{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:9px;
+  border-top:1px solid var(--atlas-line);margin-top:13px;padding-top:12px}
+.inspector-comparison-empty{padding:20px 4px}
+.inspector-comparison-empty h3{font-size:1.06rem}
+.inspector-comparison-empty p{color:var(--muted);font-size:.83rem}
+@media(max-width:650px){
+ dialog:has(.inspector-comparison){width:calc(100vw - 10px);max-height:calc(100dvh - 10px)}
+ dialog:has(.inspector-comparison) .dialog-head{padding:11px 14px}
+ dialog:has(.inspector-comparison) .dialog-body{padding:12px 9px}
+ .inspector-comparison-table{min-width:630px}
+ .inspector-comparison-table th{width:116px;min-width:116px}
+ .inspector-comparison-table th,.inspector-comparison-table td{padding:10px 9px}
+ .inspector-comparison-scroll{scroll-snap-type:x proximity}
+}
