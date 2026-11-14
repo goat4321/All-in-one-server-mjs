@@ -523,8 +523,14 @@ try {
   await text('#main', 'Meer und Strände besuchen');
   await text('#main', '60 €');
   await click('.sidebar [data-action=page][data-value=lodging]');
-   await screenshot('31-unterkuenfte-browse-desktop-1440.png');
+  await screenshot('31-unterkuenfte-browse-desktop-1440.png');
   await until(() => js('Boolean(document.querySelector("#nightly-target"))'), 'Nachtbudget-Eingabe');
+  // The search updates on typing (debounced), without another search click.
+  await js('(() => { const x=document.querySelector("#browse-search");x.value="HeyLola";x.dispatchEvent(new Event("input",{bubbles:true})); })()');
+  await until(() => js('(() => {const cards=[...document.querySelectorAll(".hub-option-card")];return cards.length>0&&cards.every(x=>x.textContent.includes("HeyLola"))})()'),
+    'Live-Suche nach HeyLola filtert die Unterkunftskarten ohne Formular-Submit');
+  await click('[data-action=browse-search-reset]');
+  await until(() => js('document.querySelector("#browse-search")?.value===""'),'Suche wieder zurückgesetzt');
   await until(() => js('document.querySelectorAll(".lodging-price-meter").length > 0'), 'Unterkunfts-Budgetbalken');
   await until(() => js('document.querySelectorAll(".hub-option-card .hub-option-pricing strong").length > 0'), 'Alte und neue Unterkunftskarten zeigen €/€€/€€€ oder €?');
   await set('#nightly-target', '40');
@@ -634,8 +640,17 @@ try {
   await text('#main', 'Pass-Tage');
   await text('#main', 'Preise offen');
   await click('.sidebar [data-action=page][data-value=food]');
-   await screenshot('30-verpflegung-browse-desktop-1440.png');
-   await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
+  await screenshot('30-verpflegung-browse-desktop-1440.png');
+  assert.ok(await js('document.querySelector(".hub-food-tabs [data-action=browse-food-saved]")!==null'),
+    'Die Verpflegungsmerkliste ist ohne Tagesplan erreichbar');
+  await click('[data-action=browse-food-type][data-value=markets]');
+  await until(()=>js('Boolean(document.querySelector(".hub-market-access"))'),
+    'Verpflegung bietet eine gekennzeichnete Supermarkt-Geodatenquelle');
+  assert.ok(await js('Boolean(document.querySelector(".hub-market-access [data-action=browse-market-load],.hub-market-access [data-action=browse-supermarkets]"))'),
+    'Supermarktdaten werden nur auf Nutzeraktion geladen');
+  await screenshot('32-verpflegung-supermarkt-ui-1440.png');
+  await click('[data-action=browse-food-type][data-value=all]');
+  await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
   await text('#main', 'Selbst kochen oder auswärts essen');
   await text('#main', 'Verifizierte Anbieter & offene Essensideen');
   await click('.meal-card [data-action=meal-choose][data-value=pasta]');
