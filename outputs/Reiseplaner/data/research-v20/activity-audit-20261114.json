@@ -5,7 +5,7 @@
   "sourceAtlas": "Previous project OSM/Photon evidence plus publicly inspected operator/tourism sites",
   "count": 57,
   "withSourcedPoint": 24,
-  "withSpecificPublicEvidence": 13,
+  "withSpecificPublicEvidence": 16,
   "items": [
     {
       "id": "act-001",
@@ -448,12 +448,20 @@
       "city": "nice",
       "name": "Èze – Dorf und Aussicht als Halbtag",
       "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://www.explorenicecotedazur.com/culture/parc-de-la-colline-du-chateau/",
+      "sourceUrl": "https://jardinexotique-eze.fr/en/informations/",
       "specificFactVerified": false,
       "point": null,
       "pointPrecision": "unverified_or_not_single_location",
       "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
-      "researchStatus": "general_portal_or_concept_only"
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Èze-Dorfspaziergang ohne eigenen Eintritt; der Jardin Exotique ist eine getrennte optionale Sehenswürdigkeit. Laut offiziellem Garten: im September täglich 09:00–19:30, regulärer Erwachseneneintritt 10 €, Studierende mit Nachweis 6 €; Tarif gilt als Stand 2026, nicht garantiert für 2027.",
+      "detailUrl": "https://jardinexotique-eze.fr/en/informations/",
+      "priceReference": {
+        "amountCents": 1000,
+        "currency": "EUR",
+        "kind": "optional_independent_garden_ticket_current_rate_2026_not_in_plan",
+        "sourceUrl": "https://jardinexotique-eze.fr/en/informations/"
+      }
     },
     {
       "id": "act-028",
@@ -631,24 +639,28 @@
       "city": "venice",
       "name": "Lido di Venezia – Strandpause",
       "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
+      "sourceUrl": "https://actv.avmspa.it/en/content/venice-urban-services",
       "specificFactVerified": false,
       "point": null,
       "pointPrecision": "unverified_or_not_single_location",
       "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
-      "researchStatus": "general_portal_or_concept_only"
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Lido von Venedig: Strandnutzung ist teilweise öffentlich, Anfahrt in der Regel per ACTV. Rolling-Venice-Paket (6–29 Jahre) 33 € für 72 h mit Karte + Jugend-ÖPNV; nur bei tatsächlicher Nutzung separat zählen, einzelne Lido-Strandangebote kosten ggf. extra.",
+      "detailUrl": "https://actv.avmspa.it/en/content/venice-urban-services"
     },
     {
       "id": "act-041",
       "city": "venice",
       "name": "Murano/Burano – Inselrunde",
       "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
+      "sourceUrl": "https://actv.avmspa.it/en/content/venice-urban-services",
       "specificFactVerified": false,
       "point": null,
       "pointPrecision": "unverified_or_not_single_location",
       "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
-      "researchStatus": "general_portal_or_concept_only"
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Murano/Burano: Inseln sind keine pauschal kostenpflichtige Sehenswürdigkeit; ACTV-Vaporetto nach Fahrplan separat erforderlich. Für 6–29-Jährige ist eine Kombination Rolling Venice Karte 6 € + 72h ACTV 27 € (33 € gesamt, Stand 2026) offiziell dokumentiert. Nicht doppelt als Freizeit- und Transportkosten addieren.",
+      "detailUrl": "https://actv.avmspa.it/en/content/venice-urban-services"
     },
     {
       "id": "act-042",
@@ -771,13 +783,14 @@
       "geoSourceUrl": "https://www.openstreetmap.org/way/510863442",
       "geoNote": "First Cliff Walk Weg-/Plattformzentrum; Einlass und Bergbahn prüfen.",
       "researchStatus": "specific_public_evidence_checked",
-      "condition": "Firstbahn-Ticket ab CHF 38 laut Betreiberseite; Preisumfang/Zeitpunkt und 2027er Rückfahrt unklar. First Cliff Walk nicht mit Gesamtfahrt verwechseln.",
+      "condition": "Betreiber Jungfrau.ch beschreibt First auf 2166 m mit First Cliff Walk; die aktuell dynamisch dargestellten Firstbahntickets werden in der englischen Ansicht ab CHF 38, in der deutschsprachigen ab CHF 36 gezeigt. Kein exakter September-2027-Pass-/Rückfahrtpreis daraus ableitbar; konkrete Fahrt und Wetter prüfen.",
       "priceReference": {
         "amountCents": 3800,
         "currency": "CHF",
         "kind": "provider_from_price_only_not_trip_total",
         "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/"
-      }
+      },
+      "detailUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/"
     },
     {
       "id": "act-050",
