@@ -42,7 +42,7 @@ export function hudSnapshot(ctx){
   const area=hudEvidence(cityRows,ctx.state,ctx.catalog?.sources);
   const visible=ctx.explorer?hudEvidence(
     [...(ctx.explorer.placed??[]),...(ctx.explorer.unlocated??[])],ctx.state,ctx.catalog?.sources):area;
-  return {dayIndex,days,scheduled,flexible,dayCount:day.length,
+  return {dayIndex:dateIndex,days,scheduled,flexible,dayCount:day.length,
     percent:days?Math.round((dateIndex+1)/days*100):0,
     cityName:ctx.cities?.[ctx.city]?.name??ctx.city??'Reise',
     area,visible,
