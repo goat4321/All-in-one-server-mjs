@@ -142,6 +142,8 @@ export function foodBrowseCards(ctx,items){
       &&item.point.every(Number.isFinite);
   const tags=(item.tags??[]).slice(0,2);
   const options=!item.readOnlyExternal&&item.kind==='activity';
+  const active=ctx.activeSet?.has(item.id)??false;
+  const meal=ctx.catalog?.mealPlans?.[item.city]?.find(plan=>plan.venue===item.id);
   const saved=ctx.browseSavedIds?.has(item.id)??(ctx.state?.favorites?.includes(item.id)??false);
   const external=Boolean(item.readOnlyExternal);
   return '<article class="hub-food-card" data-kind="'+esc(group)+'">'
@@ -162,7 +164,9 @@ export function foodBrowseCards(ctx,items){
     +'<div class="hub-food-card-actions">'
     +btn('details','Details & Quellen','folder',item.id)
     +(hasMap?btn('browse-map-item','Auf Karte','pin',item.id):'')
-    +(options?btn('choose','Einplanen','plus',item.id,'primary'):'')
+    +(options?btn(active?'edit':meal?'meal-choose':'choose',
+      active?'Im Plan bearbeiten':'Einplanen',active?'edit':'plus',
+      meal&&!active?meal.id:item.id,'primary'):'')
     +btn('browse-save',saved?'Gemerkt':'Merken',saved?'check':'bookmark',item.id)
     +(external?urlLink(item.sourceUrl,'Kartendatenquelle'):'')
     +'</div></div></article>';

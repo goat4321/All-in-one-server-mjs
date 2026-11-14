@@ -853,7 +853,10 @@ async function action(name, value = '') {
     case 'browse-map-item':
       if(!item||!item.point){say('Für diesen Eintrag ist kein genauer Kartenpunkt hinterlegt.');break;}
       if(document.querySelector('#dialog')?.open)closeDialog();
-      view.page='map';view.city=item.city;view.mapScope='city';view.total=false;
+      view.page='map';view.city=item.city;
+      view.date=ctx.dates.find(date=>ctx.cityForDay(date)===item.city)
+        ??ctx.trip.stayByCity?.[item.city]?.from??ctx.date;
+      view.wholeDay=false;view.mapScope='city';view.total=false;
       view.mapGroup=explorerCategory(item);view.mapSearch='';
       if(item.readOnlyExternal)view.mapMarketsShown=true;
       view.mapViewportOnly=false;view.mapViewportBounds=null;
