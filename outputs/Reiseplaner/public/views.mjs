@@ -97,7 +97,14 @@ export function renderShell(ctx) {
         + '" aria-current="' + (city === id) + '"><span class="dot"></span>' + esc(cities[id]?.name ?? id) + '</button>').join('')}</nav>
       </details>
     </div>
-    <div class="sidebar-bottom">${icon('lock')} <span>Privat auf diesem Gerät</span></div>
+    <div class="sidebar-bottom">${icon('lock')} <span>Privat auf diesem Gerät</span>
+      <button type="button" class="motion-preference-button" data-action="map-motion"
+        data-value="${ctx.mapMotion==='off'?'on':'off'}"
+        aria-pressed="${ctx.mapMotion!=='off'}"
+        aria-label="${ctx.mapMotion==='off'?'Animationen aktivieren':'Animationen deaktivieren'}">
+        ${icon('spark')} ${ctx.mapMotion==='off'?'Animationen einschalten':'Animationen ausschalten'}
+      </button>
+    </div>
   </aside><div class="main-column"><header class="topbar ${page==='map'?'reference-topbar':''}">
     ${referenceNav}
     <div class="crumb"><span class="mobile-menu">${iconBtn('menu', 'Navigation öffnen', 'menu')}</span><strong>${esc(currentTitle)}</strong>${icon('chevron')}<span>${esc(tabTitle)}</span></div>

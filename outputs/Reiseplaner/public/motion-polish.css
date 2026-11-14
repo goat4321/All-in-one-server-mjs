@@ -81,7 +81,7 @@
 }
 /* Scroll/scene reveal: content always remains visible without JS. */
 #app .motion-revealed{
-  animation:ux-reveal 370ms var(--motion-spring) both;
+  animation:ux-reveal 370ms var(--motion-spring) backwards;
   animation-delay:var(--motion-delay,0ms)
 }
 #app .timeline-event .event-card.motion-revealed,
@@ -419,4 +419,27 @@ dialog img.motion-photo-loaded{
   transform:rotate(-8deg) scale(1.11)
  }
  .reference-map-floating button:hover .ui-icon{transform:scale(1.09)}
+}
+
+/* Motion preference is available in the existing navigation drawer. */
+.sidebar-bottom{flex-wrap:wrap}
+.sidebar-bottom>.motion-preference-button{
+ display:flex;align-items:center;justify-content:center;gap:8px;
+ width:100%;min-height:42px;margin-top:7px;border:1px solid var(--line);
+ border-radius:11px;background:var(--light);color:var(--text);
+ font-family:inherit;font-weight:710;font-size:.76rem;cursor:pointer;
+ transition:background-color .2s ease,border-color .2s ease,transform .16s ease
+}
+.sidebar-bottom>.motion-preference-button:hover{
+ background:var(--accent);border-color:var(--green)
+}
+.sidebar-bottom>.motion-preference-button:active{transform:scale(.97)}
+.sidebar-bottom>.motion-preference-button .ui-icon{
+ width:16px;height:16px;color:var(--green)
+}
+.sidebar-bottom>.motion-preference-button[aria-pressed=false]{
+ color:var(--muted);background:var(--paper)
+}
+.sidebar-bottom>.motion-preference-button:focus-visible{
+ outline:3px solid var(--green);outline-offset:2px
 }

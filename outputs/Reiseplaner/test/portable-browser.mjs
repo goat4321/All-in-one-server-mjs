@@ -107,6 +107,14 @@ try {
     'Explicit off preference prevents additional ripple animations');
   await js('document.documentElement.dataset.motion="auto"');
   await screenshot('25-einfacher-startbildschirm-1280.png');
+  assert.equal(await js('document.querySelector(".motion-preference-button")?.getAttribute("aria-pressed")'),"true",
+    'Global animation control is accessible from the existing sidebar');
+  await click('.motion-preference-button');
+  assert.equal(await js('document.documentElement.dataset.motion'),"off",
+    'Motion preference can be disabled globally');
+  await click('.motion-preference-button');
+  assert.equal(await js('document.documentElement.dataset.motion'),"auto",
+    'Motion preference can be enabled again');
   await click('.overview-quick-card[data-value=plan]');
   await text('h1', 'Barcelona');
   // The tour navigates read-only and is dismissible by Escape.
