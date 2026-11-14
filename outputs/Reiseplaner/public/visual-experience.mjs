@@ -3,7 +3,7 @@ import {lodgingPriceInsight} from './price-insights.mjs';
 
 // A flexible/missing time remains unknown; no invented itinerary time.
 export function dayPeriod(time) {
-  const match=/^([01]\\d|2[0-3]):[0-5]\\d$/.exec(String(time??''));
+  const match=/^([01]\d|2[0-3]):[0-5]\d$/.exec(String(time??''));
   if(!match)return null;
   const hour=Number(match[1]);
   if(hour<5)return {key:'night',title:'Nacht',icon:'moon'};
