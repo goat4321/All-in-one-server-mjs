@@ -141,7 +141,12 @@ function content(ctx, city) {
     case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
-    case 'food': return food(ctx) + surveyV19FoodPanel(ctx) + v20FoodResearch(ctx);
+    case 'food': return food(ctx)
+      +'<details class="hub-technical-details hub-food-research"><summary>'
+      +icon('chevron')+'<span><strong>Weitere Recherche & Quellen</strong>'
+      +'<small>Umfrageauswertung, Betreiberinformationen und Preisbeispiele</small>'
+      +'</span></summary><div class="hub-research-body">'
+      +surveyV19FoodPanel(ctx)+v20FoodResearch(ctx)+'</div></details>';
     case 'budget': return budget(ctx) + surveyV19BudgetPanel(ctx);
     case 'group': return group(ctx);
     case 'data': return data(ctx) + entryCoveragePanel(ctx) + surveyV19DataPanel(ctx) + v20DataLedger(ctx);

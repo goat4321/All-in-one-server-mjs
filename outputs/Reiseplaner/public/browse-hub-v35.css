@@ -350,3 +350,10 @@
  .mobile-dock button{font-size:.64rem!important;gap:3px!important;padding:6px 2px!important}
  .mobile-dock button .ui-icon{width:18px;height:18px}
 }
+
+.hub-food-research .hub-research-body{padding:4px 17px 19px;
+ display:grid;gap:14px}
+.hub-food-research .hub-research-body>.section{margin-top:0}
+@media(max-width:650px){
+ .hub-food-research .hub-research-body{padding:3px 10px 13px}
+}

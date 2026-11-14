@@ -244,8 +244,8 @@ try {
   await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===2'),
     'Desktop atlas has a real two-column split');
-  assert.ok(await js('(() => { const e=document.querySelector("#reference-top-search")?.getBoundingClientRect(),b=document.querySelector(".reference-global-search")?.getBoundingClientRect(); return e&&b&&b.left>=e.right-2&&Math.abs(e.top-b.top)<9; })()'),
-    'Suchfeld und Suchknopf stehen auf Desktop in derselben Zeile');
+  assert.ok(await js('(() => { const e=document.querySelector("#reference-top-search")?.getBoundingClientRect(),b=document.querySelector(".reference-global-search")?.getBoundingClientRect(); return e&&b&&e.width>120&&e.left>=b.left-1&&e.right<=b.right+1&&Math.abs(e.top-b.top)<12; })()'),
+    'Desktop-Suche steht sichtbar im Kopfbereich, ohne doppelte Suchleiste');
   assert.equal(await js('getComputedStyle(document.querySelector(".explorer-categories")).flexWrap'),'nowrap',
     'Ortskategorien sind eine scrollbare Zeile statt mehrerer Kachelreihen');
   await until(()=>js('document.querySelector("#map").getBoundingClientRect().top < window.innerHeight*.62'),
@@ -255,6 +255,8 @@ try {
   assert.ok(await js('(() => { const shell=document.querySelector(".reference-travel-shell"),aside=document.querySelector(".reference-travel-shell>.sidebar"),m=document.querySelector(".reference-map-workspace>.map-panel"),l=document.querySelector(".reference-map-workspace>.explorer-right");if(!shell||!aside||!m||!l)return false;const mr=m.getBoundingClientRect(),lr=l.getBoundingClientRect();return getComputedStyle(aside).display==="none"&&mr.width>lr.width*2&&mr.top<210&&mr.left>lr.left; })()'),
    'Travel reference: full-width map, no permanent sidebar, map aligned within first 210px');
   await click('.reference-map-floating [data-action=map-mode][data-value=city]');
+  assert.ok(await js('document.querySelector(".map-scope-modes [data-value=city]")?.getAttribute("aria-pressed")==="true"'),
+    'City mode highlights the independent city discovery option');
   await screenshot('22-reference-city-map-1440.png');
    await screenshot('29-freie-stadtkarte-desktop-1440.png');
   assert.ok(await js('(() => { const root=document.querySelector(".reference-map-workspace"),map=root?.querySelector("#map"),head=root?.querySelector(".map-panel>.panel-head"),alert=root?.querySelector(".reference-map-schedule-notice"); if(!map||!head||!alert)return false; const m=map.getBoundingClientRect(),h=head.getBoundingClientRect(); return h.top>=m.top-3&&h.top<m.top+45&&alert.querySelector("summary")?.textContent.includes("2027"); })()'),
@@ -262,6 +264,8 @@ try {
   assert.ok(await js('(() => {const c=document.querySelector(".reference-discovery");return c&&c.getBoundingClientRect().top<810;})()'),
     'Photo-led discovery belongs in the opening desktop screen, not below a large data panel');
   await click('.reference-map-floating [data-action=map-mode][data-value=total]');
+  assert.ok(await js('document.querySelector(".map-scope-modes [data-value=trip]")?.getAttribute("aria-pressed")==="true"'),
+    'Whole trip mode is separate from the current day');
   assert.ok(await js('document.querySelector(".trip-schematic-flow")!==null'),
     'Route animation is present only as a schematically labeled line when motion is enabled');
   assert.ok(await js('(() => { const m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect(),a=document.querySelector(".reference-map-workspace>.explorer-right")?.getBoundingClientRect();return m&&a&&m.left>a.left&&m.width>a.width*1.12; })()'),
@@ -271,7 +275,7 @@ try {
   assert.ok(await js('Boolean(document.querySelector(".reference-map-floating [data-action=map-mode]"))'),
     'Floating map route/day controls are real click actions');
   assert.ok(await js('Boolean(document.querySelector(".map-browse-panel"))'),
-    'Synchronized timeline is present next to the map');
+    'City browse categories are present beside the map, independently of the day');
   assert.ok(await js('Boolean(document.querySelector(".reference-discovery-card,.reference-discovery-empty"))'),
     'Only proven licensed pictures enter the discovery strip');
   assert.ok(await js('(() => {const d=document.querySelector(".reference-stage-days")?.getBoundingClientRect(),m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect();return d&&m&&d.right<=m.left+2&&Math.abs(d.top-m.top)<10})()'),
@@ -279,7 +283,7 @@ try {
   assert.ok(await js('(() => {const d=document.querySelector(".reference-stage-days")?.getBoundingClientRect(),l=document.querySelector(".reference-map-workspace>.explorer-right")?.getBoundingClientRect(),m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect();return d&&l&&m&&l.top>=d.bottom-15&&l.top<d.bottom+25&&l.top<m.bottom-130})()'),
     'Explorer agenda and search directly follow day carousel, not below full map height');
   assert.ok(await js('document.querySelectorAll(".map-browse-category").length===5'),
-    'Plan column is informative even if no stops were booked');
+    'Browse panel exposes five categories even without a daily plan');
   assert.ok(await js('(() => {const box=document.querySelector(".reference-map-workspace");const gallery=box?.querySelector(":scope > .reference-discovery");const map=box?.querySelector(":scope > .map-panel");if(!gallery||!map)return false;const m=map.getBoundingClientRect(),g=gallery.getBoundingClientRect();return innerWidth<1180||g.top>=m.bottom-15&&g.left>=m.left-5;})()'),
      'Barcelona reference: photo carousel sits directly below the right-hand map, not as a full-width block');
   await screenshot('28-reference-embedded-photo-timeline-1440.png');
