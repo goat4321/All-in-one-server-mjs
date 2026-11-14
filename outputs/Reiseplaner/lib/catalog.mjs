@@ -7,6 +7,7 @@ import { barcelonaFoodPlaces, mealPlans, mealSources } from './barcelona-meals.m
 import { seedSnapshot } from './seed-fallback.mjs';
 import { loadResearchV02, scopedQuote, quoteCandidate } from './research-v02.mjs';
 import { loadSurveyFirstV19, applySurveyFirstV19 } from './research-v19.mjs';
+import { loadResearchV20, applyResearchV20 } from './research-v20.mjs';
 
 const file = name => readFile(new URL('../data/' + name + '.json', import.meta.url), 'utf8')
   .then(content => JSON.parse(content.replace(/^\uFEFF/, '')));
@@ -780,6 +781,8 @@ export async function loadCatalog() {
   // Import candidates after legacy location evidence, before per-entry coverage audits.
   // Never alter original Tripsy items or commit anything into active trip state.
   const surveyFirstV19 = applySurveyFirstV19(output, cities, surveyFirstV19Archive);
+  const researchV20Archive = await loadResearchV20(surveyFirstV19Archive.activities.items,cities);
+  const researchV20 = applyResearchV20(output,cities,researchV20Archive);
   const mappedFareRowsV07 = Object.fromEntries(destinations.map(city => [
     city.id, operatorFares.filter(ref => ref.city === city.id),
   ]));
@@ -872,7 +875,7 @@ export async function loadCatalog() {
       const publisherRefs=sourceRefs.filter(ref=>
         research.sources.some(s=>s.id===ref) || sources.some(s=>s.id===ref)
         || ref.startsWith('operator-v07-') || ref.startsWith('official-v03:')
-        || ref.startsWith('food-v03-') || ref.startsWith('survey-v19:') || ref.startsWith('wishlist-v04:')
+        || ref.startsWith('food-v03-') || ref.startsWith('survey-v19:') || ref.startsWith('survey-v20:') || ref.startsWith('wishlist-v04:')
         || ref.startsWith('address-v09:') || ref.startsWith('food-v08-menu:'));
       return {
         id:item.id,city:item.city,name:item.name,category:categoryOf(item),
@@ -910,6 +913,7 @@ export async function loadCatalog() {
     research: {
       version: research.import_rules.version,
       surveyFirstV19,
+      researchV20,
       providerSearchV13,providerLocationsV13,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
@@ -974,7 +978,7 @@ export async function loadCatalog() {
         issues: research.data_quality.length,
       },
     },
-    sources: Object.fromEntries([...sources, ...research.sources, ...surveyFirstV19.sources,
+    sources: Object.fromEntries([...sources, ...research.sources, ...surveyFirstV19.sources, ...researchV20.sources,
       ...operatorFares.map(ref => ({ id:'operator-v07-fare:'+ref.id,
         publisher:'Offizieller Nahverkehr · '+ref.city+' · '+ref.name,
         url:ref.sourceUrl, accessed_on:operatorV07.observedOn,
