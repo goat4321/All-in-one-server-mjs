@@ -104,8 +104,10 @@ export function planCostSignal(item,count) {
       +'Keine CHF-zu-EUR-Umrechnung, daher €?.');
   }
   if(ref?.amountCents!=null&&ref.currency==='EUR'){
-    return unknown('Grundtarif '+money(ref.amountCents,'EUR')+' · Endpreis offen',
-      'Nur allgemeiner veröffentlichter Grundtarif, keine 2027er Gesamtsumme. '
+    const optional=String(ref.kind??'').startsWith('optional_');
+    return unknown((optional?'Optionaler Zusatz: ':'Grundtarif ')+money(ref.amountCents,'EUR')+' · Endpreis offen',
+      (optional?'Nur separates fakultatives Eintrittsticket, nicht Kosten der gesamten Aktivität. '
+        :'Nur allgemeiner veröffentlichter Grundtarif, keine 2027er Gesamtsumme. ')
       +(item.researchV20?.condition??'Personenabhängige Zuschläge und Berechtigung prüfen.'));
   }
   if(price?.cents!=null && price.currency!=='EUR'){
