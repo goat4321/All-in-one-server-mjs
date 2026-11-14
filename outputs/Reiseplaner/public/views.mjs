@@ -757,7 +757,7 @@ function food(ctx) {
         +icon('clock')+' Datenquelle wird abgefragt …</button>'
         :market.cityLoaded
           ?btn('browse-supermarkets','Auf der Karte zeigen','map','','subtle')
-          :btn('browse-market-load','Supermärkte laden','plus','','primary'))
+          :btn('browse-market-load','Supermärkte in '+(ctx.cities[city]?.name??city)+' laden','plus','','primary'))
       +'</section>':'';
   const visualBrowse=browseHero(ctx,'food',shown.length)
     +browseToolbar(ctx,{kind:'food',total,filtered:shown.length})

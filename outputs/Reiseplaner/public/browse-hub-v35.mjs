@@ -54,7 +54,7 @@ export function browseHero(ctx,kind,count){
    +'<span>'+icon('calendar')+' '+esc(ctx.trip?.from?.slice(0,7)??'2027')+'</span>'
    +'</div></div>'
    +'<div class="hub-hero-actions">'+btn('browse-map',kind==='lodging'?'Unterkünfte auf Karte':
-     kind==='food'?'Essen auf Karte':'Karte öffnen','map',kind,'primary')
+     kind==='food'?'Restaurants auf Karte':'Karte öffnen','map',kind,'primary')
    +btn('page','Tagesplan','calendar','plan')+'</div>'+source+'</header>';
 }
 export function browseToolbar(ctx,{kind='discover',total=0,filtered=0}={}){
