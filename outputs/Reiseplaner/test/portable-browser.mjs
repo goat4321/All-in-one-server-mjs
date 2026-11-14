@@ -146,6 +146,7 @@ try {
   await click('.reference-map-floating [data-action=map-mode][data-value=day]');
   assert.equal(await js('document.querySelector(".reference-map-floating [data-value=day]").getAttribute("aria-pressed")'),"true");
   await text('.explorer-day-scope-info','Nur die bereits für diesen Tag geplanten Stopps');
+  await screenshot('20-planned-day-only-map-1280.png');
   const dayMapTotal=await js('Number((document.querySelector(".explorer-list")?.textContent??"").match(/(\\d+) passende Einträge/)?.[1]??0)');
   const actualDayVisible=await js('document.querySelectorAll(".explorer-place").length');
   assert.ok(actualDayVisible<=allMapCount,
@@ -223,6 +224,7 @@ try {
     await click('.reference-discovery-save');
     assert.notEqual(await js('document.querySelector(".reference-discovery-save").getAttribute("aria-pressed")'),
       before,'The photo bookmark button must change actual saved state');
+    await screenshot('21-licensed-photo-bookmark-1440.png');
     assert.equal(await js('document.querySelector(".reference-discovery-save").dataset.value'),
       itemId,'The same sourced photo remains in the gallery after saving');
     await click('.reference-discovery-save');
