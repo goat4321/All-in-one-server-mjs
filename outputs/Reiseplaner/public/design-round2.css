@@ -1189,3 +1189,36 @@ dialog:has(.inspector-comparison) .dialog-body{padding:16px 22px 22px}
 }
 :root[data-motion=off] .reference-day-steps>button{
  transition:none!important}
+
+
+/* Phase 27B — subtle chronological markers and interactive favorites,
+   following the supplied day-map and photo-card reference designs. */
+.reference-agenda-item.reference-morning>.reference-agenda-index{
+  border-color:#f4c75f}
+.reference-agenda-item.reference-lunch>.reference-agenda-index{
+  border-color:#e9a17a}
+.reference-agenda-item.reference-afternoon>.reference-agenda-index{
+  border-color:#8ab9a4}
+.reference-agenda-item.reference-evening>.reference-agenda-index,
+.reference-agenda-item.reference-night>.reference-agenda-index{
+  border-color:#9998d2}
+.reference-agenda-item.is-active>.reference-agenda-index{
+  border-color:var(--green);background:var(--green);color:#fff}
+.reference-discovery-image{position:relative}
+.reference-discovery-image>.reference-discovery-save{
+ position:absolute;right:9px;top:9px;display:flex;align-items:center;
+ justify-content:center;width:36px;height:36px;
+ padding:0;border:1px solid #fff9;border-radius:50%;background:#fffffff2;
+ color:#25483b;box-shadow:0 2px 12px #0002;cursor:pointer;
+ transition:background-color .15s ease,color .15s ease,transform .15s ease}
+.reference-discovery-save>.ui-icon{height:17px;width:17px}
+.reference-discovery-save:hover{transform:translateY(-1px);background:#fff}
+.reference-discovery-save[aria-pressed=true]{color:#fff;background:var(--green);
+ border-color:var(--green)}
+.reference-discovery-save:focus-visible{outline:3px solid #edbb55;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){
+ .reference-discovery-save{transition:none!important}
+ .reference-discovery-save:hover{transform:none!important}
+}
+:root[data-motion=off] .reference-discovery-save{transition:none!important}
+:root[data-motion=off] .reference-discovery-save:hover{transform:none!important}
