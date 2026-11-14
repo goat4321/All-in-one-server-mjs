@@ -1,0 +1,81 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {loadCatalog} from '../lib/catalog.mjs';
+import {initialState} from '../lib/store.mjs';
+import {dateRange} from '../public/model.mjs';
+import {mapDayAgenda,mapImageIntro,mapFloatingControls,mapPhotoDiscovery}
+  from '../public/reference-map-scene.mjs';
+
+const catalog=await loadCatalog();
+const context=trip=>{
+ const city=trip.route.find(c=>c!=='munich')??trip.route[0];
+ const active=trip.items.filter(x=>!x.removed&&!x.duplicateOf);
+ const placed=active.filter(x=>Array.isArray(x.point)&&x.point.every(Number.isFinite));
+ return {
+   trip,catalog,cities:catalog.cities,city,date:trip.from,
+   people:Array.from({length:trip.travellers},()=>({})),
+   state:initialState(trip),variant:{id:'test-'+trip.id,state:{title:trip.title}},
+   dates:dateRange(trip.from,trip.to),day:[],
+   total:true,selected:null,all:trip.items,
+   explorer:{placed,unlocated:active.filter(x=>!placed.includes(x)),savedOnly:false}
+ };
+};
+test('All trip variants render city-labeled hero, map floating scope controls and authentic images',()=>{
+ for(const trip of catalog.trips){
+   const ctx=context(trip);
+   const intro=mapImageIntro(ctx),nav=mapFloatingControls(ctx),
+     photo=mapPhotoDiscovery(ctx);
+   assert.match(intro,/Karten-Explorer/);
+   assert.match(intro,new RegExp(ctx.trip.from));
+   assert.match(intro,/Reisende/);
+   assert.match(nav,/aria-pressed="true"/);
+   assert.match(nav,/data-action="map-mode" data-value="day"/);
+   assert.match(nav,/data-action="map-mode" data-value="total"/);
+   assert.match(nav,/data-action="explorer-saved-only"/);
+   assert.match(photo,/MIT QUELLENFOTOS/);
+   assert.match(photo,/Bildquelle|Fehlende Fotos prüfen/);
+   assert.doesNotMatch(intro+nav+photo,/on(?:click|load|error|change)\s*=/i);
+   assert.doesNotMatch(intro+nav+photo,/Echtzeitbewertung|direkt buchbar/i);
+ }
+});
+test('Timeline shows exact plan times and source-backed price tiers; no fake schedule',()=>{
+ const trip=catalog.trips[0],ctx=context(trip);
+ const first=trip.items.find(x=>x.kind==='activity');
+ const second=trip.items.find(x=>x.kind==='activity'&&x.id!==first.id);
+ ctx.total=false;
+ ctx.day=[{...first,entryKey:'plan-1',time:'09:40'},
+          {...second,entryKey:'plan-2',time:'Flexibel'},
+          {...first,id:'plan-3',entryKey:'plan-3',time:undefined,
+            name:'Später offen'}];
+ const html=mapDayAgenda(ctx);
+ assert.match(html,/DEIN PLANTAG/);
+ assert.match(html,/09:40/);
+ assert.match(html,/2 flexibel/);
+ assert.match(html,/aria-pressed="false"/);
+ assert.match(html,/data-action="select" data-value="plan-1"/);
+ assert.match(html,/data-action="select" data-value="plan-2"/);
+ assert.match(html,/Tagesplan/);
+ assert.match(html,/Planzeiten sind keine geprüften Öffnungszeiten/);
+ assert.equal((html.match(/class="reference-agenda-item/g)||[]).length,3);
+ assert.doesNotMatch(html,/26:00/);
+});
+test('Timeline caps preview at eight events, keeps all route data untouched',()=>{
+ const ctx=context(catalog.trips[0]),original=catalog.trips[0].items.length;
+ ctx.day=Array.from({length:11},(_,i)=>({id:'plan:'+i,entryKey:'plan:'+i,
+   name:'Stopp '+i,kind:'activity',city:ctx.city,point:null,time:null}));
+ const html=mapDayAgenda(ctx);
+ assert.equal((html.match(/class="reference-agenda-item/g)||[]).length,8);
+ assert.match(html,/\+3 weitere Stopps/);
+ assert.equal(catalog.trips[0].items.length,original);
+});
+test('No photo is invented when city and catalog lack licensed media',()=>{
+ const ctx=context(catalog.trips[0]);
+ ctx.city='an_unlisted_city';
+ ctx.explorer={placed:[{id:'test',name:'Kein Quellenbild',city:'an_unlisted_city',
+   kind:'activity',point:[1,1],price:null}],unlocated:[],savedOnly:false};
+ const intro=mapImageIntro(ctx),photo=mapPhotoDiscovery(ctx);
+ assert.match(intro,/no-photo/);
+ assert.doesNotMatch(intro,/reference-intro-photo/);
+ assert.match(photo,/noch keine zugeordneten Quellenfotos/);
+ assert.match(photo,/data-action="hud-audit" data-value="photo"/);
+});
