@@ -21,7 +21,8 @@ export function optionMatchesFilter(item,key,ctx,lodging){
   const size=ctx.people?.length??0;
   const known=groupPrice(item.price,size);
   if(key==='all')return true;
-  if(key==='saved')return (ctx.state?.favorites??[]).includes(item.id);
+  if(key==='saved')return ctx.browseSavedIds?.has(item.id)
+    ??(ctx.state?.favorites??[]).includes(item.id);
   if(key==='known')return known!=null;
   if(key==='kitchen')return lodging && kitchenAccess(item)!=='unknown';
   if(key==='search')return lodging && Boolean(item.quote);

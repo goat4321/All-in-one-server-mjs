@@ -16,7 +16,7 @@ export function foodDirectory(ctx,loadedMarkets=[]){
   }
   const candidates=[...dedup.values()];
   const key=ctx.browseFoodType??'all';
-  const favorites=new Set(ctx.state?.favorites??[]);
+  const favorites=ctx.browseSavedIds??new Set(ctx.state?.favorites??[]);
   const categoryMatches=item=>key==='all'
     ||key==='restaurants'&&explorerCategory(item)==='food'
     ||key==='markets'&&explorerCategory(item)==='shop'

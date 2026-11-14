@@ -142,7 +142,7 @@ export function foodBrowseCards(ctx,items){
       &&item.point.every(Number.isFinite);
   const tags=(item.tags??[]).slice(0,2);
   const options=!item.readOnlyExternal&&item.kind==='activity';
-  const saved=ctx.state?.favorites?.includes(item.id)??false;
+  const saved=ctx.browseSavedIds?.has(item.id)??(ctx.state?.favorites?.includes(item.id)??false);
   const external=Boolean(item.readOnlyExternal);
   return '<article class="hub-food-card" data-kind="'+esc(group)+'">'
     +placeImageHtml(item,ctx,{small:true})
@@ -163,7 +163,7 @@ export function foodBrowseCards(ctx,items){
     +btn('details','Details & Quellen','folder',item.id)
     +(hasMap?btn('browse-map-item','Auf Karte','pin',item.id):'')
     +(options?btn('choose','Einplanen','plus',item.id,'primary'):'')
-    +(!external?btn('favorite',saved?'Gemerkt':'Merken',saved?'check':'bookmark',item.id):'')
+    +btn('browse-save',saved?'Gemerkt':'Merken',saved?'check':'bookmark',item.id)
     +(external?urlLink(item.sourceUrl,'Kartendatenquelle'):'')
     +'</div></div></article>';
  }).join('');
@@ -186,7 +186,7 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
  const city=ctx.cities?.[item.city]?.name??item.city;
  const point=Array.isArray(item.point)&&item.point.length===2
    &&item.point.every(Number.isFinite);
- const favorite=ctx.state?.favorites?.includes(item.id)??false;
+ const favorite=ctx.browseSavedIds?.has(item.id)??(ctx.state?.favorites?.includes(item.id)??false);
  const status=active?'Im Reiseplan':item.booked?'Bereits gebucht':'Unverbindliche Option';
  const amenity=lodging
   ?[item.room||null,item.kitchen||'Küche nicht geprüft',
@@ -227,7 +227,7 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    +btn('details','Details','folder',item.id)
    +'</div>'
    +'<div class="hub-option-secondary-actions">'
-   +btn('favorite',favorite?'Gemerkt':'Merken',favorite?'check':'bookmark',item.id)
+   +btn('browse-save',favorite?'Gemerkt':'Merken',favorite?'check':'bookmark',item.id)
    +btn('compare',highlighted?'Vergleich aktiv':'Vergleichen','compare',item.id)
    +'</div>'
    +'<details class="hub-option-evidence"><summary>'
