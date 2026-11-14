@@ -92,3 +92,11 @@ test('Compact proposal cards start collapsed and expand when state requests it',
  const expanded=dayPlanPanel({...ctx,day:[],dayPlanOpen:true},{compact:true});
  assert.match(expanded,/class="day-plan-panel day-plan-compact" open/);
 });
+
+test('Map draft uses existing sourced photo or icon placeholder only',()=>{
+ const trip=trips.find(t=>t.id==='interrail_classic'),ctx=sample(trip,'2027-09-04');
+ const markup=dayPlanPanel({...ctx,day:[]},{compact:true});
+ assert.equal((markup.match(/class="day-plan-photo"/g)||[]).length,ctx.dayPlan.slots.length);
+ assert.match(markup,/place-thumbnail/);
+ assert.doesNotMatch(markup,/javascript:|onerror=/i);
+});

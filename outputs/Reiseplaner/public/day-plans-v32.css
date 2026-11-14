@@ -138,3 +138,24 @@
 .day-plan-compact>summary:hover{background:var(--atlas-soft,var(--light))}
 .day-plan-compact>summary:focus-visible{
  outline:3px solid var(--green);outline-offset:-3px}
+
+/* Data-bound image-or-icon thumbnails, never guessed commercial photography. */
+.day-plan-stop{grid-template-columns:31px 47px minmax(0,1fr) auto}
+.day-plan-photo{display:block;width:47px;height:47px;border-radius:12px;overflow:hidden;
+ background:var(--atlas-soft,var(--light));flex-shrink:0}
+.day-plan-photo>.place-thumbnail{width:47px!important;height:47px!important;
+ border-radius:12px!important;display:grid;place-items:center}
+.day-plan-photo img{height:100%;width:100%;object-fit:cover;
+ transition:transform .32s cubic-bezier(.2,.8,.2,1)}
+.day-plan-photo .place-thumbnail-fallback{display:grid;place-items:center}
+.day-plan-photo .place-thumbnail-fallback>.ui-icon{width:20px;height:20px}
+.day-plan-stop:hover .day-plan-photo img{transform:scale(1.075)}
+.day-plan-compact .day-plan-stop{grid-template-columns:25px 39px minmax(0,1fr)}
+.day-plan-compact .day-plan-photo,.day-plan-compact .day-plan-photo>.place-thumbnail{
+ width:39px!important;height:39px!important}
+.day-plan-compact .day-plan-item-actions{grid-column:3}
+@media(max-width:790px){
+ .day-plan-stop{grid-template-columns:30px 45px minmax(0,1fr)}
+ .day-plan-photo,.day-plan-photo>.place-thumbnail{width:45px!important;height:45px!important}
+ .day-plan-item-actions{grid-column:3}
+}

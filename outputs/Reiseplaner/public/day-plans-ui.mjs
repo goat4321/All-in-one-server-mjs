@@ -1,5 +1,6 @@
 import {esc,icon,btn,shortDay,urlLink} from './ui.mjs';
 import {dayPlanCandidates} from './day-plans-logic.mjs';
+import {placeThumbnailHtml} from './place-profile.mjs';
 
 const periods={morning:'Vormittag',noon:'Mittag',afternoon:'Nachmittag',evening:'Abend'};
 const styles={reise:'Reisetag',rueckreise:'Rückreise',stadt:'Stadt entdecken',
@@ -19,8 +20,11 @@ export function dayPlanPanel(ctx,{compact=false}={}){
     +' · 2027 nicht bestätigt</small></span></li>').join('');
  const slots=day.slots.map((slot,index)=>{
   const already=added.has(slot.id),elsewhere=ctx.activeSet?.has(slot.id)&&!already;
+  const item=(ctx.all??[]).find(x=>x.id===slot.id);
+  const photo=item?placeThumbnailHtml(item,ctx):'';
   return '<li class="day-plan-stop">'
     +'<span class="day-plan-index">'+(index+1)+'</span>'
+    +'<span class="day-plan-photo">'+photo+'</span>'
     +'<span class="day-plan-stop-copy"><small>'+esc(periods[slot.period]??'Flexibel')
     +(slot.optional?' · Alternative':'')+'</small>'
     +'<strong>'+esc(slot.name)+'</strong>'
