@@ -948,7 +948,7 @@ async function action(name, value = '') {
       if(photos.length>=5){say('Maximal fünf Fotos je Ort.');break;}
       if(photos.some(x=>x.sourceUrl===p.sourceUrl)){say('Dieses Foto ist bereits gespeichert.');break;}
       await save({...ctx.state,placePhotos:{...ctx.state.placePhotos,
-        [selected.id]:[...photos,{url:p.url,sourceUrl:p.sourceUrl,credit:p.credit}]}},
+        [selected.id]:[...photos,{url:p.url,sourceUrl:p.sourceUrl,credit:p.credit,licenseUrl:p.licenseUrl}]}},
         'Ausgewähltes Commons-Foto mit Lizenzquelle in dieser Reisevariante gespeichert');
       commonsPhotoPick=null;
       closeDialog();
