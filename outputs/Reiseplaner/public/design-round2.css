@@ -692,3 +692,306 @@ dialog:has(.inspector-comparison) .dialog-body{padding:16px 22px 22px}
 :root[data-motion=off] .map-day-stop-index,
 :root[data-motion=off] .timeline-event .event-card{
   transition:none!important}
+
+
+/* Phase 26: reference-matched travel composition.
+   Inspired by supplied Barcelona map/day, Interrail timeline/map and airy
+   travel dashboards: story first, fewer boxes, map large, photos with rights. */
+.reference-map-intro{position:relative;display:flex;justify-content:space-between;
+ gap:16px;align-items:center;min-height:104px;padding:16px 22px;margin:0 0 10px;
+ border:1px solid var(--atlas-line);border-radius:19px;overflow:hidden;
+ background:linear-gradient(115deg,var(--paper),var(--atlas-soft));
+ isolation:isolate}
+.reference-map-intro-copy{position:relative;z-index:2;display:grid;gap:4px;min-width:0}
+.reference-map-eyebrow{display:inline-flex;align-items:center;gap:7px;
+ font-size:.64rem;font-weight:780;letter-spacing:.095em;color:var(--green)}
+.reference-map-eyebrow .ui-icon{width:14px;height:14px}
+.reference-map-intro h1{font-size:clamp(1.65rem,2.4vw,2.25rem);
+ letter-spacing:-.054em;line-height:1.05;font-weight:800}
+.reference-map-intro p{color:var(--muted);font-size:.78rem;line-height:1.45;
+ max-width:55ch;overflow:hidden;text-overflow:ellipsis}
+.reference-map-intro-actions{position:relative;z-index:2;flex-shrink:0}
+.reference-map-intro-actions .button{min-height:34px;border-radius:10px;
+ background:var(--paper);border-color:var(--atlas-line);font-size:.75rem}
+.reference-intro-photo{position:absolute;z-index:1;inset:0 0 0 auto;
+ width:48%;overflow:hidden;pointer-events:none;opacity:.77}
+.reference-intro-photo:before{content:"";position:absolute;inset:0;z-index:1;
+ background:linear-gradient(90deg,var(--paper) 0%,transparent 74%)}
+.reference-intro-photo img{width:100%;height:100%;object-fit:cover;
+ filter:saturate(.9);transition:transform .7s ease}
+.reference-map-intro:hover .reference-intro-photo img{transform:scale(1.035)}
+.reference-intro-photo>span{display:block;position:absolute;right:10px;bottom:7px;
+ z-index:2;font-size:.58rem;color:#fff;padding:3px 7px;border-radius:5px;
+ background:#163b3188;text-shadow:0 1px 3px #000a}
+.reference-map-intro.has-photo .reference-map-intro-copy{max-width:69%}
+
+/* Shorter top-of-map date selector: visible itinerary without pushing the
+   actual map out of the first viewport. */
+.reference-map-intro+.explorer-day{margin:5px 0 11px;padding:0}
+.reference-map-intro+.explorer-day .atlas-day-context{min-height:0;padding:3px 2px 6px;
+ margin:0;border:0;background:transparent}
+.reference-map-intro+.explorer-day .atlas-day-context strong{font-size:.79rem}
+.reference-map-intro+.explorer-day .atlas-day-context small{font-size:.7rem}
+.reference-map-intro+.explorer-day .days{padding:1px 0 5px;gap:6px;
+ scroll-snap-type:x proximity}
+.reference-map-intro+.explorer-day .day{min-width:78px;min-height:47px;
+ padding:6px 10px;border-radius:11px;background:var(--paper);
+ border:1px solid var(--atlas-line)}
+.reference-map-intro+.explorer-day .day[aria-pressed=true]{color:var(--green);
+ background:var(--accent);border-color:color-mix(in srgb,var(--green) 42%,transparent);
+ box-shadow:inset 0 -2px var(--green)}
+.reference-map-intro+.explorer-day .day strong{font-size:.82rem}
+.reference-map-intro+.explorer-day .day small{font-size:.64rem}
+.reference-map-intro+.explorer-day .explorer-day-notes>summary{
+ font-size:.67rem;min-height:28px}
+
+/* Reorder by CSS only: keep DOM reading order, map event handlers, Leaflet
+   instance identity and all existing activity/booking routes unchanged. */
+@media(min-width:1180px){
+ .map-explorer-split.reference-map-workspace{
+   grid-template-columns:minmax(325px,.76fr) minmax(0,1.42fr);
+   gap:13px;align-items:start}
+ .reference-map-workspace>.explorer-right{order:1;max-height:min(85dvh,875px);
+   overflow-y:auto;overflow-x:hidden;border-radius:17px;
+   background:var(--paper);border-color:var(--atlas-line);box-shadow:none}
+ .reference-map-workspace>.map-panel{order:2;position:sticky;top:10px;
+   border-radius:17px;min-width:0;box-shadow:none;overflow:hidden}
+ .reference-map-workspace #map{height:clamp(480px,66dvh,740px)}
+ .reference-map-workspace .map-panel .panel-head{padding:12px 14px 8px}
+ .reference-map-workspace .map-panel .map-tools{padding:5px 11px 8px}
+ .reference-map-workspace .explorer-right>.explorer-toolbar{position:static;
+   border:0;border-top:1px solid var(--atlas-line);border-bottom:1px solid var(--atlas-line);
+   border-radius:0;padding:10px 12px;margin:0}
+ .reference-map-workspace .explorer-right>.explorer-list{padding:8px 12px;
+   margin:0;border:0;border-radius:0;background:var(--paper)}
+}
+/* The small floating map navigation replaces the redundant mode toggles
+   in the old tool row. Advanced map layers still remain directly accessible. */
+.reference-map-workspace .map-panel .map-tools [data-action=map-mode]{display:none}
+.reference-map-workspace .map-day-rail{display:none}
+.reference-map-floating{position:absolute;top:12px;left:12px;z-index:460;
+ display:inline-flex;gap:3px;max-width:calc(100% - 250px);
+ padding:4px;border:1px solid #e0eae4d9;border-radius:99px;
+ background:color-mix(in srgb,var(--paper) 95%,transparent);
+ box-shadow:0 5px 21px #1531251b;backdrop-filter:blur(14px)}
+.reference-map-floating>button{display:flex;align-items:center;gap:5px;
+ flex:0 0 auto;border:0;border-radius:99px;background:transparent;
+ color:var(--muted);font-size:.71rem;font-weight:670;min-height:33px;
+ padding:5px 10px;white-space:nowrap;transition:background-color .15s,color .15s}
+.reference-map-floating>button[aria-pressed=true]{background:var(--green);color:#fff}
+.reference-map-floating>button:hover:not([aria-pressed=true]){background:var(--atlas-soft);color:var(--text)}
+.reference-map-floating .ui-icon{width:15px;height:15px}
+/* The source HUD is a compact white map label, visually tied to the source
+   rather than a black gaming overlay. */
+.reference-map-workspace .travel-map-hud.map-atlas-hud{
+ background:color-mix(in srgb,var(--paper) 96%,transparent);
+ border:1px solid color-mix(in srgb,var(--line) 85%,transparent);
+ box-shadow:0 6px 22px #1c3c2b1b;max-width:min(215px,calc(100% - 15px));
+ padding:10px 12px;backdrop-filter:blur(14px);color:var(--text);
+ z-index:451}
+.reference-map-workspace .travel-map-hud strong,
+.reference-map-workspace .travel-map-hud .travel-map-hud-line,
+.reference-map-workspace .travel-map-hud .travel-map-evidence>summary,
+.reference-map-workspace .travel-map-hud .travel-map-evidence>div{
+ color:var(--text)}
+.reference-map-workspace .travel-map-hud .travel-map-hud-top small,
+.reference-map-workspace .travel-map-hud .travel-map-evidence>small{color:var(--muted)}
+.reference-map-workspace .travel-map-hud .travel-map-evidence{border-top-color:var(--atlas-line)}
+.reference-map-workspace .travel-map-hud .travel-hud-action{
+ background:var(--atlas-soft);border:1px solid var(--atlas-line);
+ color:var(--green);border-radius:7px;font-size:.65rem;min-height:28px}
+.reference-map-workspace .travel-map-hud .travel-hud-action:hover{
+ background:var(--accent)}
+.reference-map-workspace .travel-map-hud .travel-map-hud-track{
+ background:color-mix(in srgb,var(--green) 14%,transparent)}
+.reference-map-workspace .travel-map-hud .travel-map-hud-track>span{
+ background:var(--green)}
+.reference-map-workspace .travel-map-hud .travel-map-hud-separator{
+ color:var(--muted)}
+.reference-map-workspace .travel-map-hud .travel-hud-spark{
+ width:7px;height:7px;flex-basis:7px;background:var(--green);
+ box-shadow:0 0 0 3px var(--accent)}
+.reference-map-workspace .map-selected-place{
+ border-radius:13px;box-shadow:0 12px 36px #153b3126}
+.reference-map-workspace .map-wrap{
+ background:var(--paper);border-top-color:var(--atlas-line);
+ border-bottom-color:var(--atlas-line)}
+
+/* Timeline as the primary left-hand page region. Chronology is visual,
+   while every selection still uses the existing source entryKey. */
+.reference-agenda{padding:15px 14px 10px;background:var(--paper)}
+.reference-agenda-head{display:flex;align-items:start;justify-content:space-between;
+ gap:6px 10px;margin:0 0 12px}
+.reference-agenda-head>div{display:grid;gap:4px;min-width:0}
+.reference-agenda-head>div>small{font-size:.62rem;letter-spacing:.1em;
+ color:var(--green);font-weight:790}
+.reference-agenda-head h2{font-size:1.06rem;line-height:1.22;
+ letter-spacing:-.035em;overflow-wrap:anywhere}
+.reference-agenda-head p{font-size:.71rem;color:var(--muted)}
+.reference-agenda-head .button{font-size:.67rem;min-height:28px;
+ white-space:nowrap;padding:5px 8px;border-color:var(--atlas-line);
+ background:var(--atlas-soft)}
+.reference-agenda-list{list-style:none;margin:0;padding:0 0 0 13px;
+ border-left:2px solid var(--atlas-line)}
+.reference-agenda-item{position:relative;list-style:none;margin:0;
+ padding:0 0 3px 13px}
+.reference-agenda-index{position:absolute;left:-23px;top:15px;z-index:2;
+ width:21px;height:21px;display:grid;place-items:center;
+ border-radius:50%;background:var(--paper);border:2px solid #aec7b9;
+ color:var(--green);font-size:.64rem;font-weight:780}
+.reference-agenda-select{width:100%;display:grid;align-items:center;
+ grid-template-columns:42px 42px minmax(0,1fr) auto 10px;gap:7px;
+ min-height:61px;text-align:left;border:1px solid transparent;
+ border-radius:10px;padding:7px 7px;background:transparent;
+ transition:background-color .16s,border-color .16s,transform .16s}
+.reference-agenda-select:hover{background:var(--atlas-soft)}
+.reference-agenda-select[aria-pressed=true]{
+ background:var(--accent);border-color:color-mix(in srgb,var(--green) 25%,transparent)}
+.reference-agenda-time{color:var(--muted);font-size:.68rem;
+ font-variant-numeric:tabular-nums}
+.reference-agenda-thumb>.place-thumbnail{width:41px;height:41px;
+ border-radius:8px;display:inline-flex;overflow:hidden}
+.reference-agenda-thumb>.place-thumbnail img{object-fit:cover;width:100%;height:100%}
+.reference-agenda-text{min-width:0;display:grid;gap:2px}
+.reference-agenda-text>strong{font-size:.75rem;font-weight:715;
+ line-height:1.3;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;
+ -webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2}
+.reference-agenda-text>small{font-size:.65rem;line-height:1.34;
+ overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reference-agenda-price{font-size:.75rem;font-weight:790;color:var(--green);
+ white-space:nowrap}
+.reference-agenda-chevron .ui-icon{width:12px;height:12px;color:var(--muted)}
+.reference-agenda-extra{font-size:.69rem;color:var(--muted);padding:7px 0 3px 23px}
+.reference-agenda-empty{font-size:.76rem;line-height:1.5;
+ padding:14px;color:var(--muted)}
+.reference-agenda-foot{border-top:1px solid var(--atlas-line);margin-top:9px;
+ padding-top:10px;display:flex;align-items:center;justify-content:space-between;
+ flex-wrap:wrap;gap:7px}
+.reference-agenda-foot small{font-size:.65rem;color:var(--muted);
+ line-height:1.4;display:flex;align-items:center;gap:5px;max-width:250px}
+.reference-agenda-foot .ui-icon{width:13px;height:13px}
+.reference-agenda-foot .button{font-size:.7rem;min-height:29px;padding:5px 9px}
+@media(min-width:1180px){
+ .reference-map-workspace>.explorer-right>.reference-agenda{
+   position:relative;z-index:1}
+}
+.reference-map-workspace .explorer-list.is-compact .explorer-place{
+ border-bottom-color:var(--atlas-line)}
+.reference-map-workspace .explorer-place-title h3{line-height:1.31}
+.reference-map-workspace .explorer-search input{border-radius:10px}
+.reference-map-workspace .explorer-toolbar{background:var(--paper)}
+.reference-map-workspace .explorer-scope{gap:6px}
+
+/* Photo-led discovery below the primary scene, not extra metric tiles. */
+.reference-discovery{margin:20px 0 24px;display:grid;gap:12px}
+.reference-discovery-head{display:flex;align-items:end;
+ justify-content:space-between;gap:12px}
+.reference-discovery-head>div{display:grid;gap:3px}
+.reference-discovery-head small{font-size:.64rem;letter-spacing:.105em;
+ color:var(--green);font-weight:790}
+.reference-discovery-head h2{font-size:1.34rem;letter-spacing:-.04em}
+.reference-discovery-head p{font-size:.75rem;color:var(--muted)}
+.reference-discovery-head .button{border:0;background:transparent;
+ font-size:.75rem;white-space:nowrap}
+.reference-discovery-filmstrip{display:flex;gap:11px;padding:1px 1px 13px;
+ overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+ scrollbar-width:thin}
+.reference-discovery-card{flex:0 0 clamp(208px,21vw,259px);min-width:0;
+ background:var(--paper);border:1px solid var(--atlas-line);
+ border-radius:16px;overflow:hidden;scroll-snap-align:start;
+ transition:transform .17s ease,border-color .17s ease}
+.reference-discovery-card:hover{transform:translateY(-2px);
+ border-color:color-mix(in srgb,var(--green) 32%,var(--atlas-line))}
+.reference-discovery-image{height:142px;background:var(--atlas-soft);overflow:hidden}
+.reference-discovery-image>img{width:100%;height:100%;object-fit:cover;
+ display:block;transition:transform .3s ease}
+.reference-discovery-card:hover .reference-discovery-image>img{
+ transform:scale(1.025)}
+.reference-discovery-body{padding:10px 12px 12px;display:grid;gap:5px}
+.reference-discovery-title{display:flex;justify-content:space-between;
+ align-items:start;gap:7px}
+.reference-discovery-title strong{font-size:.83rem;line-height:1.34;
+ display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+ line-clamp:2;overflow:hidden}
+.reference-discovery-euro{color:var(--green);background:var(--accent);
+ border-radius:7px;padding:2px 6px;font-weight:770;font-size:.7rem;
+ white-space:nowrap}
+.reference-discovery-body p{font-size:.7rem;color:var(--muted)}
+.reference-discovery-actions{display:flex;align-items:center;justify-content:space-between;
+ gap:10px;margin-top:3px}
+.reference-discovery-actions .button{font-size:.72rem;min-height:31px;
+ padding:5px 10px}
+.reference-discovery-actions a{font-size:.68rem;color:var(--muted)}
+.reference-discovery-empty{padding:15px 18px;border:1px dashed var(--atlas-line);
+ border-radius:12px;color:var(--muted);display:flex;flex-wrap:wrap;
+ justify-content:space-between;align-items:center;gap:8px;font-size:.77rem}
+/* Tablet and phone: map remains first in visual and DOM order; the day agenda
+   becomes a natural section below it, with large accessible touch targets. */
+@media(max-width:1179px){
+ .reference-map-workspace>.map-panel{order:0}
+ .reference-map-workspace>.explorer-right{order:1}
+ .reference-map-workspace>.explorer-right>.reference-agenda{
+   border:1px solid var(--atlas-line);border-radius:15px;margin:10px 0 0}
+}
+@media(max-width:850px){
+ .reference-map-intro{min-height:96px;padding:14px 16px}
+ .reference-map-intro h1{font-size:1.7rem}
+ .reference-map-workspace .reference-map-floating{max-width:calc(100% - 230px)}
+}
+@media(max-width:650px){
+ .reference-map-intro{min-height:88px;padding:12px 13px;
+   margin-bottom:8px;border-radius:14px}
+ .reference-map-intro-copy{gap:3px;max-width:100%!important}
+ .reference-map-intro h1{font-size:1.48rem}
+ .reference-map-intro p{font-size:.7rem}
+ .reference-map-intro-actions{display:none}
+ .reference-map-eyebrow{font-size:.59rem}
+ .reference-intro-photo{width:53%;opacity:.4}
+ .reference-intro-photo>span{display:none}
+ .reference-map-intro+.explorer-day .atlas-day-context{padding:3px 0}
+ .reference-map-intro+.explorer-day .atlas-day-context .button{display:none}
+ .reference-map-intro+.explorer-day .day{min-width:78px;min-height:47px}
+ .reference-map-workspace .reference-map-floating{position:relative;
+   top:auto;left:auto;max-width:calc(100% - 16px);margin:8px 8px 0;
+   width:calc(100% - 16px);display:flex;justify-content:space-between;
+   padding:4px;border-radius:10px;box-shadow:none;
+   border:1px solid var(--atlas-line)}
+ .reference-map-floating>button{flex:1 1 auto;justify-content:center;
+   font-size:.66rem;padding:5px 6px;min-height:37px;border-radius:8px}
+ .reference-map-floating .ui-icon{width:14px;height:14px}
+ .reference-map-workspace .travel-map-hud.map-atlas-hud{
+   max-width:min(208px,calc(100% - 35px));top:8px;right:8px}
+ .reference-map-workspace>.explorer-right>.reference-agenda{padding:12px 10px}
+ .reference-agenda-head{flex-wrap:wrap}
+ .reference-agenda-select{min-height:65px;grid-template-columns:41px 42px
+   minmax(0,1fr) auto 10px;gap:6px}
+ .reference-discovery{margin-top:17px;gap:10px}
+ .reference-discovery-head{align-items:start}
+ .reference-discovery-head h2{font-size:1.15rem}
+ .reference-discovery-head p{font-size:.68rem;max-width:42ch}
+ .reference-discovery-head .button{font-size:.68rem}
+ .reference-discovery-card{flex-basis:205px}
+ .reference-discovery-image{height:127px}
+}
+/* On screens where the map controls would overlap the white data HUD,
+   keep the source panel anchored right and move controls to a separate row. */
+@media(min-width:651px) and (max-width:1050px){
+ .reference-map-workspace .reference-map-floating{position:relative;
+   left:auto;top:auto;margin:7px 10px 0;max-width:calc(100% - 20px);
+   box-shadow:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-map-intro img,.reference-discovery-card,
+ .reference-discovery-image img,.reference-agenda-select,
+ .reference-map-floating>button{transition:none!important}
+ .reference-map-intro:hover img,.reference-discovery-card:hover img{
+   transform:none!important}
+}
+:root[data-motion=off] .reference-map-intro img,
+:root[data-motion=off] .reference-discovery-card,
+:root[data-motion=off] .reference-discovery-image img,
+:root[data-motion=off] .reference-agenda-select,
+:root[data-motion=off] .reference-map-floating>button{
+ transition:none!important;animation:none!important}
+:root[data-motion=off] .reference-map-intro:hover img,
+:root[data-motion=off] .reference-discovery-card:hover img{transform:none!important}
