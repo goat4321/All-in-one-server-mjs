@@ -103,6 +103,11 @@ export function planCostSignal(item,count) {
       'Schweizer Tarif/ab-Preis; Ticketumfang und 2027er Endbetrag offen. '
       +'Keine CHF-zu-EUR-Umrechnung, daher €?.');
   }
+  if(ref?.amountCents!=null&&ref.currency==='EUR'){
+    return unknown('Grundtarif '+money(ref.amountCents,'EUR')+' · Endpreis offen',
+      'Nur allgemeiner veröffentlichter Grundtarif, keine 2027er Gesamtsumme. '
+      +(item.researchV20?.condition??'Personenabhängige Zuschläge und Berechtigung prüfen.'));
+  }
   if(price?.cents!=null && price.currency!=='EUR'){
     const currency=price.currency??'fremder Währung';
     return unknown(money(price.cents,currency)+' Referenz',
