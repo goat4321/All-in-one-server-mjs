@@ -875,7 +875,7 @@ export async function loadCatalog() {
       const publisherRefs=sourceRefs.filter(ref=>
         research.sources.some(s=>s.id===ref) || sources.some(s=>s.id===ref)
         || ref.startsWith('operator-v07-') || ref.startsWith('official-v03:')
-        || ref.startsWith('food-v03-') || ref.startsWith('survey-v19:') || ref.startsWith('survey-v20:') || ref.startsWith('wishlist-v04:')
+        || ref.startsWith('food-v03-') || ref.startsWith('survey-v19:') || ref.startsWith('survey-v20:') || ref.startsWith('survey-v20-indoor:') || ref.startsWith('wishlist-v04:')
         || ref.startsWith('address-v09:') || ref.startsWith('food-v08-menu:'));
       return {
         id:item.id,city:item.city,name:item.name,category:categoryOf(item),
