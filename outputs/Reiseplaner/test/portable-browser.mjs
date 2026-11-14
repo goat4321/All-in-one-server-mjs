@@ -433,6 +433,22 @@ try {
   await text('#main', 'Welche Einträge haben noch fehlende Angaben oder Bilder?');
   await until(()=>js('document.querySelectorAll(".coverage-city").length>0'),
     'Einzelne Ortsgruppen für fehlende Quellen und Bilder');
+  await js('(() => { const el=document.querySelector("#coverage-filter-gap");'
+    +'el.value="photo";el.dispatchEvent(new Event("change",{bubbles:true}));})()');
+  assert.equal(await js('Array.from(document.querySelectorAll(".coverage-row:not([hidden])")).every'
+    +'(x=>x.dataset.coverageGaps.split(" ").includes("photo"))'),true,
+    'Photo filter contains only entries without individual image');
+  await js('(() => {const el=document.querySelector("#coverage-filter-query");'
+    +'el.value="SÈTE";el.dispatchEvent(new Event("input",{bubbles:true}));})()');
+  assert.equal(await js('Array.from(document.querySelectorAll(".coverage-row:not([hidden])")).every'
+    +'(x=>x.dataset.coverageCity==="sete"||x.dataset.coverageName.toLowerCase().includes("sète"))'),true,
+    'Accent-insensitive keyword filter is applied to visible evidence queue');
+  await screenshot('15-data-gaps-filtered.png');
+  await click('[data-action=coverage-filter-clear]');
+  assert.equal(await js('document.querySelector("#coverage-filter-query").value'),"",
+    'Filter reset restores complete evidence ledger');
+  assert.equal(await js('document.querySelectorAll(".coverage-row[hidden]").length'),0,
+    'All incomplete entries are visible again after reset');
   await js('document.querySelector(".coverage-city summary").click()');
   await until(()=>js('document.querySelector(".coverage-city[open] .coverage-row [data-action=details]")!==null'),
     'Einzeln aufrufbare Datenlücken');
