@@ -79,7 +79,8 @@
       "address": "2 Rue Jean Allègre, 06000 Nice, France",
       "locationNote": "Städtische veröffentlichte Adresse, keine unabhängig geprüfte Gebäudekoordinate.",
       "durationMinutes": 90,
-      "details": "50-m-Schwimmbecken, zusätzlich 15-m-Becken; kurze Schwimmshorts/Bermudas laut Hausregeln verboten, Vorhängeschloss mitbringen. 2027 Öffnungszeiten/Non-Resident-Tarif prüfen."
+      "details": "50-m-Schwimmbecken, zusätzlich 15-m-Becken; kurze Schwimmshorts/Bermudas laut Hausregeln verboten, Vorhängeschloss mitbringen. 2027 Öffnungszeiten/Non-Resident-Tarif prüfen.",
+      "referencePriceCents": 440
     },
     {
       "id": "indoor-fpx-genoa",
@@ -137,7 +138,8 @@
       "sourceUrl": "https://www.sportzentrum-grindelwald.ch/preise/",
       "locationNote": "Sportzentrum Grindelwald; exakte Gebäudekoordinate hier nicht unabhängig recherchiert.",
       "durationMinutes": 90,
-      "details": "17-m-Schwimmerbecken, zusätzliche Familienbecken und Sauna als separates Ticket. Gästekarte muss durch konkrete Unterkunft nachgewiesen werden."
+      "details": "17-m-Schwimmerbecken, zusätzliche Familienbecken und Sauna als separates Ticket. Gästekarte muss durch konkrete Unterkunft nachgewiesen werden.",
+      "referencePriceCents": 1000
     },
     {
       "id": "indoor-sportzentrum-grindelwald-boulder",
@@ -156,7 +158,8 @@
       "sourceUrl": "https://www.sportzentrum-grindelwald.ch/preise/",
       "locationNote": "Sportzentrum Grindelwald; exakte Gebäudekoordinate hier nicht unabhängig recherchiert.",
       "durationMinutes": 100,
-      "details": "Boulderraum für Regentag; keine Gewähr für Schul-/Sommeröffnungen 2027, Materialaufpreis beachten."
+      "details": "Boulderraum für Regentag; keine Gewähr für Schul-/Sommeröffnungen 2027, Materialaufpreis beachten.",
+      "referencePriceCents": 2000
     }
   ]
 }
