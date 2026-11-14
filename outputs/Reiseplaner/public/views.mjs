@@ -132,7 +132,7 @@ function plan(ctx, name) {
     <h1>${esc(name)}</h1><div class="hero-meta"><span>${icon('calendar')} ${esc(longDay(date))}</span>
     <span>${icon('people')} ${people.length} Reisende</span><span>${icon('train')} ${esc(ctx.variant.state.title ?? trip.title)}</span></div></div>
     ${btn('show-route', 'Gesamtroute', 'map')}</section>
-    <div class="subheading"><div><h2>Reiseplan</h2><p>${dateLabel(trip.from, trip.to)} · ${dates.length} Reisetage im Kalender</p></div>
+    <div class="atlas-day-glance" role="status" aria-label="Tagesüberblick"><strong>${esc(name)} · ${esc(shortDay(date))}</strong><span>${icon('pin')} ${day.length} ${day.length === 1 ? 'Stopp' : 'Stopps'}</span><span>${icon('clock')} ${day.filter(item => item.time).length} mit Planzeit · ${day.filter(item => !item.time).length} flexibel</span><span>${icon('wallet')} ${dayTotal > 0 ? money(dayTotal) + ' bisher erfasst' : 'Kosten offen bzw. kostenlos'}</span></div>\n    <div class="subheading"><div><h2>Reiseplan</h2><p>${dateLabel(trip.from, trip.to)} · ${dates.length} Reisetage im Kalender</p></div>
     <div class="mobile-switch" aria-label="Ansicht">${chip('mobile', 'Liste', mobile === 'plan', 'plan', 'list')}${chip('mobile', 'Karte', mobile === 'map', 'map', 'map')}</div></div>
     <div class="days" aria-label="Reisetage">${dates.map(d => '<button type="button" class="day" data-action="day" data-value="' + d + '" aria-pressed="' + (d === date) + '"><strong>' + esc(shortDay(d)) + '</strong><small>' + esc(ctx.cities[ctx.cityForDay(d)]?.name ?? 'Reise') + '</small></button>').join('')}</div>
     ${dayPlaces(ctx)}
