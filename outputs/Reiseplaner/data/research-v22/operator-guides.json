@@ -1,0 +1,333 @@
+{
+  "reviewedOn": "2026-11-14",
+  "schema": "operator_guides_v22",
+  "note": "Operator/tourism facts; do not treat 2026 tariff or descriptive info as 2027 availability",
+  "total": 18,
+  "entries": [
+    {
+      "id": "act-003",
+      "city": "paris",
+      "title": "Sacré-Cœur und Montmartre",
+      "summary": "Die Basilika Sacré-Cœur ist täglich für Besucher geöffnet und der Innenraum ohne Eintritt zugänglich. Der Kuppelaufstieg ist ein separates, kostenpflichtiges Angebot.",
+      "highlights": [
+        "Basilika 06:30–22:30 Uhr laut Betreiber",
+        "Kirchenraum kostenlos",
+        "Denkmal und Montmartre-Aussichtsbereich getrennt betrachten"
+      ],
+      "practical": "Die Basilika ist eine aktive Kirche: während Gottesdiensten Ruhe und fotografische Beschränkungen beachten. Kuppelpreise separat vor Ort prüfen.",
+      "sourceUrl": "https://www.sacre-coeur-montmartre.com/en/info-and-visits/practical-information/hours-and-directions/",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_info",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-005",
+      "city": "paris",
+      "title": "Louvre – Museumsbesuch",
+      "summary": "Das Louvre-Museum ist dienstags geschlossen. Mittwoch und Freitag ist nach veröffentlichtem Regelplan bis 21 Uhr geöffnet, an den anderen regulären Tagen bis 18 Uhr.",
+      "highlights": [
+        "Einlass auch bei kostenfreiem Eintritt am besten mit Zeitfenster",
+        "Unter 26 mit EWR-Staatsangehörigkeit oder nachgewiesenem qualifizierten Wohnsitz kostenlos",
+        "Regulärer EWR-Tarif 22 €, außerhalb EWR 32 € ab Januar 2026"
+      ],
+      "practical": "Fotoausweis bzw. Aufenthaltstitel mitnehmen. Die Ermäßigung gilt nicht allein aufgrund eines beliebigen Wohnsitzhinweises oder ohne entsprechende Berechtigung.",
+      "sourceUrl": "https://www.louvre.fr/en/visit/tickets-and-prices",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-006",
+      "city": "paris",
+      "title": "Eiffelturm – Treppen bis zweite Etage",
+      "summary": "Für Besuche ab dem 11. Januar 2027 hat die Eiffelturm-Verwaltung eine neue Preisliste angekündigt. Der Jugendpreis für den Treppenaufstieg bis zur zweiten Etage liegt bei 7,60 € (12–24 Jahre).",
+      "highlights": [
+        "Treppenticket bis Etage 2 statt Aufzug",
+        "12–24 Jahre 7,60 € und Erwachsene 15,20 € ab 11.01.2027",
+        "Treppen-Eintrittskarten werden seit 29.09.2026 mit Vorabreservierung verkauft"
+      ],
+      "practical": "Reservierung, wetterbedingte Einschränkungen, Sicherheitskontrolle und eventuelle Änderungen am Besuchstag separat prüfen.",
+      "sourceUrl": "https://www.toureiffel.paris/en/rates-opening-times",
+      "reviewedOn": "2026-11-14",
+      "validity": "published_2027_tariff",
+      "price2027Confirmed": true,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-011",
+      "city": "barcelona",
+      "title": "Turó de la Rovira – Bunkers del Carmel",
+      "summary": "Der historische Aussichtspunkt bewahrt Reste einer Flugabwehrbatterie aus dem spanischen Bürgerkrieg. Die Stadt Barcelona veröffentlicht die Öffnung des archäologischen Außenbereichs im Sommer vom 1. Mai bis 30. September täglich 09:00–19:30 Uhr bei freiem Eintritt.",
+      "highlights": [
+        "Außenanlage 01.05.–30.09. täglich 09:00–19:30 Uhr",
+        "Eintritt zur Außenanlage kostenlos",
+        "Ausstellungs-/Museumsbereich hat einen eigenen eingeschränkten Plan"
+      ],
+      "practical": "Nach 19:30 Uhr ist das archäologische Gelände geschlossen – kein allgemein frei zugänglicher Sunset-Spot bis spät nachts. Bei Abendplanung unbedingt das Zeitfenster berücksichtigen.",
+      "sourceUrl": "https://guia.barcelona.cat/en/detall/museu-d-historia-de-barcelona-turo-de-la-rovira_99400267435.html",
+      "reviewedOn": "2026-11-14",
+      "validity": "published_seasonal_hours_not_2027_booking",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-012",
+      "city": "barcelona",
+      "title": "Sagrada Família – Basilika",
+      "summary": "Das normale Basisticket umfasst Basilika, Museum und Audioguide-App; die Türme sind nicht enthalten. Laut aktuell veröffentlichtem Betreibertarif kostet es regulär 26 € und für unter 30-Jährige 24 €.",
+      "highlights": [
+        "Unter 30: 24 € mit Nachweis (Tarifstand 2026)",
+        "Regulär 26 € (Tarifstand 2026)",
+        "Audioguide-App und eigene Kopfhörer mitbringen",
+        "Standard-Audioguide etwa 45 Minuten"
+      ],
+      "practical": "Zeitgebundenen Einlass buchen, App vorab installieren; Tickets für die Türme wären ein anderes Produkt. Die 2026er Preise sind keine Garantie für September 2027.",
+      "sourceUrl": "https://sagradafamilia.org/en/sagrada-familia-ticket",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-013",
+      "city": "barcelona",
+      "title": "Park Güell – Monumentalbereich",
+      "summary": "Der offizielle Basiseintritt zum Park Güell kostet laut aktuellem Angebot 18 €. Das Ticket umfasst die Parkanlage mit monumentalen und grünen Bereichen und wird mit Zeitfenster online verkauft.",
+      "highlights": [
+        "18 € regulärer Eintritt nach veröffentlichtem 2026er Tarif",
+        "Eintritt nur zum gebuchten Zeitfenster",
+        "Nach der angegebenen Uhrzeit maximal 30 Minuten zur Zutrittskontrolle",
+        "Nach Verlassen des Parks ist Wiedereintritt nicht vorgesehen"
+      ],
+      "practical": "Touristen-Zeitfenster unterscheiden sich von Zeiten für Anwohner. Ticketkategorie und September-2027-Tarif beim tatsächlichen Kauf prüfen.",
+      "sourceUrl": "https://parkguell.barcelona/en/buy-tickets",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-024",
+      "city": "nice",
+      "title": "Colline du Château – Schlossbergpark",
+      "summary": "Der städtische Park über der Altstadt bietet Aussichtspunkte auf die Bucht von Nizza und den Hafen. Die Stadt gibt für die Sommersaison vom 1. April bis 31. Oktober täglich 08:30–20:00 Uhr an.",
+      "highlights": [
+        "Saisonale Parkzeit 01.04.–31.10. täglich 08:30–20:00 Uhr",
+        "Aussichts- und Fußwege im Park",
+        "Lage oberhalb von Altstadt und Hafen"
+      ],
+      "practical": "Der Park schließt im Sommer um 20 Uhr; nicht als jederzeit geöffnete Nachtplattform planen. Etwaige saisonale Abweichungen kurz vor der Reise kontrollieren.",
+      "sourceUrl": "https://www.nice.fr/lieux/parc-de-la-colline-du-chateau/",
+      "reviewedOn": "2026-11-14",
+      "validity": "published_seasonal_hours_not_2027_booking",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-027",
+      "city": "nice",
+      "title": "Èze – Aussicht und optionale Gartenanlage",
+      "summary": "Der Spaziergang durch Èze-Village ist unabhängig vom optionalen Eintritt zum Jardin Exotique. Für den Garten nennt die Betreiberseite im September regulär 09:00–19:30 Uhr.",
+      "highlights": [
+        "Dorf und Aussicht getrennt vom Garten-Ticket",
+        "Jardin Exotique: veröffentlichter Referenzpreis 10 €",
+        "Studierende: 6 € mit Nachweis als veröffentlichte Ermäßigung"
+      ],
+      "practical": "Die Gartenpreise gelten als Referenz, nicht als verbindlicher Reisetarif 2027. Nur bei tatsächlicher Entscheidung für den Garten extra ins Budget aufnehmen.",
+      "sourceUrl": "https://jardinexotique-eze.fr/en/informations/",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-032",
+      "city": "genoa",
+      "title": "Parchi di Nervi und Passeggiata Anita Garibaldi",
+      "summary": "Die historische Parklandschaft von Nervi liegt an der östlichen Küste von Genua. Die etwa zwei Kilometer lange Anita-Garibaldi-Promenade führt unmittelbar an der felsigen Küste entlang.",
+      "highlights": [
+        "Küstenpromenade etwa 2 km",
+        "Parks mit alten Villen und botanischen Bereichen",
+        "Zum Spazierengehen oder lockeren Joggen geeignet"
+      ],
+      "practical": "Die promenade führt über ein längeres Gebiet; eine einzelne Koordinate steht nicht für Anfang, Ende oder jeden möglichen Abstieg zum Wasser.",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/1951",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-033",
+      "city": "genoa",
+      "title": "Spianata Castelletto – Aussicht über Genua",
+      "summary": "Die Aussichtsterrasse liegt hoch über Genuas historischem Zentrum und bietet einen Überblick über den Alten Hafen. Vom Piazza Portello erreicht man sie mit einem historischen Jugendstil-Aufzug.",
+      "highlights": [
+        "Panorama auf Altstadt, Hafen und Dächer",
+        "Historischer Aufzug ab Piazza Portello",
+        "Terrasse statt kostenpflichtiger Aussichtsplattform"
+      ],
+      "practical": "Aufzugbetrieb und konkreten Nahverkehrstarif getrennt prüfen; die Betreiberbeschreibung belegt keinen gültigen 2027er Fahrpreis.",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/21752",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-034",
+      "city": "genoa",
+      "title": "Porto Antico – Alter Hafen",
+      "summary": "Der Alte Hafen von Genua wurde 1992 nach Entwürfen von Renzo Piano umgestaltet und ist heute ein öffentliches Freizeit- und Ausgehviertel mit Gastronomie, Meerblick und verschiedenen Attraktionen.",
+      "highlights": [
+        "Magazzini del Cotone und Hafenpromenade",
+        "Im Gebiet liegen Aquarium, Biosfera und Bigo",
+        "Eintritt zu separaten Attraktionen nicht durch einen allgemeinen Hafenspaziergang enthalten"
+      ],
+      "practical": "Hafenspaziergang und kostenpflichtige Einrichtungen getrennt kalkulieren. Veranstaltungen und Angebote hängen vom konkreten Reisetag ab.",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/21381",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-037",
+      "city": "venice",
+      "title": "Rialtobrücke und Canal Grande",
+      "summary": "Die zwischen 1588 und 1592 nach einem Entwurf von Antonio da Ponte errichtete Rialtobrücke spannt sich über den Canal Grande. Sie verbindet die Einkaufsstraßen in Richtung Markusplatz mit der Umgebung des Rialtomarktes.",
+      "highlights": [
+        "48 m lange Steinbrücke laut Venezia Unica",
+        "Historische Verbindung über den Canal Grande",
+        "Fußspaziergang ohne eigene Eintrittsreservierung für die Brücke"
+      ],
+      "practical": "An Hauptbesuchszeiten kann es voll sein. Ein Canal-Grande-Bootsticket ist nicht automatisch im kostenlosen Brückenspaziergang enthalten.",
+      "sourceUrl": "https://www.veneziaunica.it/en/things-to-do-in-venice/monuments-and-theatres/rialto-bridge",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-040",
+      "city": "venice",
+      "title": "Lido di Venezia – Strand",
+      "summary": "Für eine Lido-Fahrt kommt je nach gewählter Route ein ACTV-Vaporetto in Frage. Das offizielle Jugendpaket Rolling Venice mit 72-Stunden-ÖPNV kostet als veröffentlichte Referenz 33 € für 6–29-Jährige.",
+      "highlights": [
+        "ACTV-ÖPNV-Paket 72 Stunden mit Rolling Venice: 33 € (Tarifreferenz)",
+        "Strandabschnitte mit eigenen Leistungen können separat kosten"
+      ],
+      "practical": "ACTV-Preis ist ein Verkehrspass und kein separater Strandpreis. Bereits im Transitbudget gezählte Pässe nicht nochmals pro Aktivität ansetzen.",
+      "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-041",
+      "city": "venice",
+      "title": "Murano und Burano – Inselbesuch",
+      "summary": "Für die Inselrunde sind Fähr-/Vaporetto-Verbindungen relevant. Der offizielle Anbieter nennt 9,50 € für eine einzelne 75-Minuten-ACTV-Fahrt und 33 € für das Rolling-Venice-Jugendpaket samt 72-Stunden-ÖPNV.",
+      "highlights": [
+        "ACTV-Einzelticket 75 Minuten: veröffentlichte Referenz 9,50 €",
+        "Rolling Venice inkl. 72 Stunden: 33 € für 6–29 Jahre",
+        "Dauer und mögliche Umstiege für die Inseln separat planen"
+      ],
+      "practical": "Ticketgültigkeit der tatsächlich gewünschten Inselverbindungen vor Kauf prüfen; derselbe Pass nicht mehrfach im Budget erfassen. Keine 2027-Fahrzeit daraus ableiten.",
+      "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-042",
+      "city": "venice",
+      "title": "Rolling Venice – Jugendticket",
+      "summary": "Das 72-Stunden-ÖPNV-Kombipaket mit Rolling-Venice-Rabattkarte richtet sich laut offizieller Auskunft an Reisende zwischen 6 und 29 Jahren. Genannter Paketpreis: 33 €.",
+      "highlights": [
+        "Rolling Venice Card und 72-Stunden-ACTV-Ticket gemeinsam im Paket",
+        "Zielgruppe 6–29 Jahre",
+        "Paketpreis Referenz 33 €"
+      ],
+      "practical": "Der Preis gehört in die Verkehrsplanung. Vor Ort oder beim Onlinekauf aktuelle Gültigkeit, Zonen und exakte Reisedaten prüfen; kein automatisch gekauftes Ticket.",
+      "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-049",
+      "city": "grindelwald",
+      "title": "First – Cliff Walk",
+      "summary": "Grindelwald-First liegt auf rund 2.166 Metern. Laut Bahnbetreiber führt der First Cliff Walk über eine 45 Meter lange Brückenkonstruktion mit Panoramablick und benötigt ungefähr 20 Minuten.",
+      "highlights": [
+        "First Cliff Walk: circa 20 Minuten",
+        "45 m Fußgängerbrücke am Cliff Walk",
+        "Bergstation First ungefähr 2166 m über Meer"
+      ],
+      "practical": "Die veröffentlichte Attraktionsbeschreibung ist kein Ticket; Gondel, Sicherheitsbedingungen und wetterbedingte Sperrungen am Reisetag prüfen.",
+      "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-050",
+      "city": "grindelwald",
+      "title": "Bachalpsee – Wanderung ab First",
+      "summary": "Von der Bergstation First zum Bachalpsee führt ein markierter Bergweg. Der Betreiber nennt ungefähr eine Stunde für den Hinweg und zwei Stunden insgesamt für Hin- und Rückweg.",
+      "highlights": [
+        "Bachalpsee-Höhe etwa 2265 m laut Betreiber",
+        "Gehzeit von First etwa 1 Stunde je Richtung",
+        "2 Stunden Gesamtwanderzeit als Betreiber-Orientierung"
+      ],
+      "practical": "Rutschige oder geschlossene Wege sowie Schnee- und Wetterbedingungen vor Ort prüfen. Gondelkosten sind separat und dürfen nicht doppelt erfasst werden.",
+      "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/lake-bachalpsee/",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-053",
+      "city": "kandersteg",
+      "title": "Oeschinensee – Gondel und See",
+      "summary": "Die Oeschinensee-Gondelbahn steigt von Kandersteg rund 480 Höhenmeter zur Bergstation auf. Der Betreiber veröffentlicht bereits für 2027 einen Sommerbetrieb vom 24. April bis 19. September täglich 08:30–18:00 Uhr und danach ab 20. September Herbstzeiten bis 17 Uhr.",
+      "highlights": [
+        "24.04.–19.09.2027 Gondel täglich 08:30–18:00 Uhr",
+        "Ab 20.09.2027 bis 07.11. täglich 08:30–17:00 Uhr",
+        "Anreise ab Kandersteg, am See sind Wege je nach Saisonlage unterschiedlich nutzbar"
+      ],
+      "practical": "Die vorab veröffentlichten Betriebszeiten können durch Wetter oder Wartung abweichen. Der Preis für die Gondel am konkreten Reisetag ist damit nicht bestätigt.",
+      "sourceUrl": "https://www.oeschinensee.ch/tarife-fahrplan/",
+      "reviewedOn": "2026-11-14",
+      "validity": "published_2027_season",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    }
+  ]
+}
