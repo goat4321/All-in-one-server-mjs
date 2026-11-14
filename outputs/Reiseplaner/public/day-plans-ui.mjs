@@ -30,7 +30,7 @@ export function dayPlanPanel(ctx,{compact=false}={}){
     +'<span class="day-plan-rail-icon">'+icon(t.mode==='train'?'train':'car')+'</span>'
     +'<span><strong>'+esc(t.from)+' → '+esc(t.to)+'</strong>'
     +'<small>Plan '+esc(t.departure??'Zeit offen')+' – '+esc(t.arrival??'Zeit offen')
-    +(t.planMinutes?' · '+Math.round(t.planMinutes/60*10)/10+' h Fahrplanreferenz':'')
+    +(t.planMinutes?' · '+(Math.round(t.planMinutes/60*10)/10).toLocaleString('de-DE')+' Std. Fahrplanreferenz':'')
     +' · 2027 nicht bestätigt</small></span></li>').join('');
  const slots=day.slots.map((slot,index)=>{
   const already=added.has(slot.id),elsewhere=ctx.activeSet?.has(slot.id)&&!already;
@@ -62,7 +62,7 @@ export function dayPlanPanel(ctx,{compact=false}={}){
        +'<small>'+esc(day.reference.note)+'</small></p>':'')
     +'<div class="day-plan-foot"><span>'+icon('clock')+' '
       +(day.estimatedActivityMinutes?day.estimatedActivityMinutes+' Min. Aktivitätsideen':'Bewusster Reise-/Puffertag')
-      +(day.estimatedTravelMinutes?' · '+Math.round(day.estimatedTravelMinutes/60*10)/10+' h Fahrzeit nach Referenz':'')
+      +(day.estimatedTravelMinutes?' · '+(Math.round(day.estimatedTravelMinutes/60*10)/10).toLocaleString('de-DE')+' Std. Fahrt nach Referenz':'')
       +' · keine bestätigten 2027-Uhrzeiten</span>'
     +(pending.length?btn('day-plan-adopt',pending.length+' Ideen zum Tag hinzufügen','check','','primary'):'')
     +'</div></div>';

@@ -1,3 +1,18 @@
+## V32 – 46 fertige Tagesvorschläge für alle vier Reisen (14.11.2026)
+
+Die Startseite enthält den aufklappbaren Einstieg **Alle Tagespläne ansehen**. Die vier bestehenden Reisevarianten besitzen jetzt jeweils für **jeden einzelnen Reisetag** einen Tagesentwurf: Classic (14 Tage), Interrail mit Schweiz (14), August-Interrail (11), Schweizer Seen (7). Insgesamt: **46 Tage, 97 Aktivitätszuordnungen und 35 Fahrten aus den Original-Planungsdaten**.
+
+Im **Tagesplan** erscheinen Reiseetappen, Aktivitätsideen nach Tagesabschnitt, quellenbelegte Ortsbilder und geschätzte Planungsdauern. Über **Zum Tag** oder **Ideen zum Tag hinzufügen** kannst du sie als zeitlich flexible, unverbindliche Einträge in deiner aktuellen Reisevariante speichern. Originaldaten und bisherige Einträge werden nicht automatisch überschrieben; teure oder unsichere Alternativen bleiben zunächst optional. Die Kartenansicht zeigt einen aufklappbaren Kurzüberblick. Bereits übernommene Vorschläge werden durch eine echte Fortschrittsanzeige markiert.
+
+**Wichtig:** Die Zug-, Auto- und Unterkunftseinträge stammen aus einem unbestätigten Reiseentwurf. Die 2027er Fahrten, Sitzplätze, Tickets, Eintrittszeiten und Kosten sind keinesfalls automatisch bestätigt. Genaue Gehzeiten oder Routen werden nur mit vorhandenen, tatsächlich belegten Geometrien angegeben.
+
+- [Alle 46 Tagespläne als vollständige Tabelle](DAY_PLANS_2027_FULL_LIST.md)
+- [Technische Details zu Phase 32](PHASE_32_ALL_DAYS_AND_UI.md)
+
+Die neue UI befindet sich weiterhin auf dem Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, nicht in `main`. Wer den Stand auf Windows ansehen will, muss diesen Branch entpacken und im Ordner `outputs/Reiseplaner` die `Start.cmd` starten. Fehlende private `tripsy-*.json` werden im Entwicklungsbranch durch gekennzeichnete Recherchedaten ersetzt, nicht durch behauptete Originaltermine.
+
+---
+
 ## v1.8 – Visuelle Referenzabgleiche / Map-first Layout (14.11.2026)
 
 Die aktuelle UI-Runde überarbeitet das v1.7-Design gezielt anhand der vom Nutzer übermittelten Wanderlog-, Designyow-/Trip-Plan- und Navica-Screenshots. **Kein UI-Klon und keine nacherfundenen Live-Daten.**
