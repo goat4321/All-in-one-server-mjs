@@ -1,3 +1,21 @@
+## 14.11.2026 – Phase 27: Drei echte Kartenansichten, synchronisierter Tagesplan, Fotofavoriten und Planungswarnungen
+
+Auf Basis der zuletzt überprüften Barcelona-/Interrail-/Wanderlog-Referenzen wurden Layout und Interaktionen nochmals direkt im bestehenden Entwicklungsbranch überarbeitet.
+
+**Funktional korrigiert:** `Mein Tag` zeigte bisher in der Karten-Ortsliste mitunter weiterhin unplanmäßige Vorschläge aus der bisherigen Städte-/Reisesuche. Der neue `dayItemIds`-Filter verwendet ausdrücklich die **wirklichen geplanten Einträge des ausgewählten Datums**. `Stadt` zeigt dagegen recherchierte zusätzliche Orte der aktuellen Stadt und `Gesamtroute` den gesamten geplanten geografischen Verlauf. Bei leeren Tagen wird keine gefälschte Station markiert, sondern die Route bietet ausdrücklich „Stadtorte entdecken“. Sowohl das schwebende Kartenmenü als auch die Ortsfilter steuern denselben echten Datenmodus.
+
+**Interaktive Tagesführung:** Die Prev-/Next-Kalendertagspfeile besitzen reale Datumsgrenzen. Die Tagesliste und vorhandene Leaflet-Marker sind nun auch bei unterschiedlichen `entryKey`-/`id`-Werten korrekt synchronisiert. Die Auswahl setzt die tatsächliche `aria-pressed`-Markierung; die Karte fokussiert ihren Quellmarker statt eine falsche neue Position zu erstellen.
+
+**Bebilderte Orte:** Die Fotoauswahl priorisiert die aktuelle Stadt und verteilt lizenzierte Medien über die echte Reisefolge. Wiederholte Commons-Dateiseiten erscheinen in derselben Galerie nicht mehrfach; alle Bilder behalten Quellen- und Urheberhinweis. Jedes Foto besitzt jetzt **wirklich funktionierende Merken-, Details- und (falls verortet) Kartenaktionen**. Favoriten werden nur für die aktuelle Variante in der bestehenden lokalen Merkliste gespeichert.
+
+**Planwarnungen im Mini-HUD:** Dieselbe `conflicts()`-Engine wie im Tagesplan gibt erkannte Zeit-, Weg-, Ankunfts-, Öffnungs- oder Küchenwarnungen direkt in der Mini-Chronologie aus; mit Verweis in den vollen Tagesplan und Hinweis, dass 2027-Daten nicht bestätigt sind. Zusätzliche dezente Zeitfarben und responsive Kartenschalter verfeinern die Referenzoptik. Alle Warntexte sind HTML-escaped.
+
+**Qualität:** **138/138 Node-Tests plus realer Chrome Desktop-/Mobile-Browsertest erfolgreich**, GitHub Actions **43609056473**. Neue Screenshots: `20-planned-day-only-map-1280.png` und `21-licensed-photo-bookmark-1440.png`. Technische Umsetzung und Testansätze: `PHASE_27_DAY_CITY_TRIP_SYNC_AND_PHOTOS.md`.
+
+**Keine Änderungen** an gebuchten Unterkünften, historischen Planpreisen, realen Tickets, gespeicherten Tagesplänen oder den vier Original-Reisevarianten. Es fehlt weiterhin für Teile der 828 variantebezogenen Einträge ein individuell verifiziertes Bild, exakter Standort, bestätigter Zimmercheckout oder reservierbarer Bahntermin. Entwicklungsbranch und Draft-PR #5 bleiben vom produktiven Hauptbranch getrennt.
+
+---
+
 ## 14.11.2026 – Phase 26: Designbild-Abgleich tatsächlich durchgeführt und korrigierte Desktop-/Smartphone-Komposition
 
 **Originale Referenzen wieder geöffnet:** die früheren Dateien `Barcelona-Reise im grünen Reiseplaner.png`, `image-gen-1(4).png` (InterrailPlan), Designyow- und Navica-Screenshots sowie der frühere `reiseplaner_v18_designvergleich(1).png`. Aus den Screenshots wurde die konkrete Hierarchie **Tag-/Aktivitätsliste links, große Karte rechts, Bildvorschläge darunter** abgeleitet, statt nur Farben und Rundungen anzupassen.
