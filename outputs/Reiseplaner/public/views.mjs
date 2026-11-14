@@ -1,4 +1,5 @@
 import { railReviewTimeline } from './rail-review-timeline.mjs';
+import { surveyV19DayPanel, surveyV19RailPanel, surveyV19FoodPanel, surveyV19BudgetPanel, surveyV19DataPanel } from './survey-v19-ui.mjs';
 import { routeSketch } from './route-mini-map.mjs';
 import { destinationIllustration } from './destination-illustration.mjs';
 import { providerQuotePanel } from './provider-quotes-v13.mjs';
@@ -104,13 +105,13 @@ function content(ctx, city) {
       + '<div class="map-explorer-split" aria-label="Karte und passende Ortsliste">'
       + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Suche, Filter und Ortsliste">'
       + explorerToolbar(ctx) + explorerList(ctx) + '</div></div>' + dayRouteView(ctx);
-    case 'rail': return rail(ctx);
+    case 'rail': return rail(ctx) + surveyV19RailPanel(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
-    case 'food': return food(ctx);
-    case 'budget': return budget(ctx);
+    case 'food': return food(ctx) + surveyV19FoodPanel(ctx);
+    case 'budget': return budget(ctx) + surveyV19BudgetPanel(ctx);
     case 'group': return group(ctx);
-    case 'data': return data(ctx);
+    case 'data': return data(ctx) + surveyV19DataPanel(ctx);
     default: return plan(ctx, city);
   }
 }
@@ -169,7 +170,7 @@ function plan(ctx, name) {
       ${ctx.wholeDay ? '' : '<div class="insight">' + icon('spark') + '<div><strong>' + (anchor ? 'Unterkunft als Tagesanker' : 'Unterkunft vergleichen') + '</strong><div>'
         + (anchor ? esc(anchor.name) + ' fließt in verfügbare Hin- und Rückwege ein.' : 'Standorte und Gruppenpreise für diesen Aufenthalt ansehen.') + '</div></div></div>'}
       <div class="panel-pad inline">${btn('page', 'Unterkünfte', 'bed', 'lodging')}${btn('page', 'Aktivitäten', 'compass', 'discover')}${btn('page', 'Verpflegung', 'food', 'food')}${day.length > 1 ? btn('optimize', 'Tag prüfen', 'spark') : ''}</div>
-    </section>${mapPanel(ctx)}</div>`;
+    </section>${mapPanel(ctx)}</div>${surveyV19DayPanel(ctx)}`;
 }
 
 function dayPlaces(ctx) {
