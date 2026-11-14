@@ -9,6 +9,7 @@ import { explorerData, explorerRouteInput, validPoint, mapPointInBounds } from '
 import { explorerList } from './explorer-ui.mjs';
 import { readMapBookmarks, toggleMapBookmark } from './map-shortlist.mjs';
 import { inspectorComparisonHtml } from './inspector-comparison.mjs';
+import { applyCoverageFilters,resetCoverageFilters } from './coverage-filter.mjs';
 import {commonsDefaultQuery,commonsSearchUrl,commonsWebSearchUrl,commonsResults} from './commons-photo-search.mjs';
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
@@ -1005,6 +1006,10 @@ async function action(name, value = '') {
       const photos={...ctx.state.placePhotos};delete photos[item.id];
       await save({...ctx.state,placePhotos:photos},'Ortsfoto aus Reisevariante entfernt');break;
     }
+    case 'coverage-filter-clear': {
+      resetCoverageFilters(app.querySelector('.entry-coverage'));
+      break;
+    }
     case 'inspector-tab': {
       const tabId=String(value);
       const tabs=[...document.querySelectorAll('#dialog .inspector-tab')];
@@ -1336,7 +1341,16 @@ document.addEventListener('keydown',event=>{
     void action('explorer-search').catch(error=>say(error.message));
   }
 });
+app.addEventListener('input',event=>{
+  if(event.target.id==='coverage-filter-query'){
+    applyCoverageFilters(app.querySelector('.entry-coverage'));
+  }
+});
 app.addEventListener('change', event => {
+  if(['coverage-filter-query','coverage-filter-kind','coverage-filter-gap',
+    'coverage-filter-city'].includes(event.target.id)){
+    applyCoverageFilters(app.querySelector('.entry-coverage'));
+  }
   if (event.target.id === 'variant') void switchVariant(event.target.value).catch(error => say(error.message));
   if (event.target.id === 'sort') { view.sort = event.target.value; render({ restoreView: true }); }
   if (event.target.id==='provider-quote-sort' && ['price','rating','name'].includes(event.target.value)) {
