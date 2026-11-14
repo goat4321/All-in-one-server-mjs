@@ -1,3 +1,15 @@
+## 14.11.2026 – Phase 25: Interaktiver Quellen-HUD, optimierte Mikroanimationen, echte Datenintegration
+
+Im vorhandenen Entwicklungsbranch wurden die Tag-/Kartenoberflächen mit einem neuen, datengestützten **Reise-HUD** erweitert. Die Desktop-Kopfzeile und die bisherige Tagesübersicht zeigen die Position des **ausgewählten zukünftigen Plankalendertags**, echte Tagesstopps und dokumentierte Uhrzeiten, bisher erfasste EUR-Planwerte und den stadtbezogenen Weblink-Abdeckungsstand. Eine Datumsanzeige ist kein Echtzeitfortschritt. Die interaktive Karten-Einblendung zählt Kartenpunkte ohne falsche Eingangsgenauigkeit, unplatzierte Einträge, Quellenfotos, HTTPS-Webbelege und individuelle Ortsguides – inklusive eines nativen aufklappbaren Quellenbereichs.
+
+**Aktionen mit echten Effekten:** „Fotos prüfen“ und „Punkte prüfen“ öffnen direkt `Daten & Fristen` mit passendem Foto-/Positionsfilter und aktueller Stadt bzw. Gesamtscope. Diese Aktionen verändern keine Buchungen, Preise oder Routen. Orts-Popups erhalten zusätzliche Bild-/Quellenindikatoren. Nach dem Zurücksetzen von Datenfiltern werden automatisch aufgeklappte Städtegruppen wieder geschlossen.
+
+**Motion & UI:** einmalige sanfte HUD-/Popup-/Marker-Einblendungen, etwas flüssigere Kartenfokussierung nur nach Benutzerklick (ca. 240 ms), adaptive Desktop-/Mobilgestaltung, kein kontinuierliches JavaScript-Animationstracking. In `Karte → Darstellung & Kartengröße` gibt es `Sanfte Animationen` / `Animationen aus` als lokal gespeicherte Einstellung. Das Systemmerkmal `prefers-reduced-motion` wird ebenfalls beachtet, und automatische Karteneinpassung bleibt ohne Animation.
+
+Detaillierte Daten-/Architekturgrenzen, Bedienung und Screenshot-Liste: `PHASE_25_HUD_ANIMATIONS_DATA_INTEGRATION.md`. **128/128 Node-Tests + Chrome-Browsertest erfolgreich** (GitHub Actions [43594606947](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/43594606947)); der anschließende Dokumentations-Commit wird gesondert geprüft. Weiterhin kein Merge oder Deployment; unverifizierte 2027-Endpreise, Zugfahrpläne und Standort-/Fotoabdeckung bleiben offen.
+
+---
+
 **Wichtige Präzisierung der Original-Umfrage:** Genau **56 der 57** recherchierten Aktivitätsideen gehören mindestens einer vorhandenen Reisevariante an. `act-056` „Altstadt Montpellier“ hat ursprünglich `trip_applicability: []` und ist deshalb ein **ausschließlich archivierter Alternativstopp**. Dieser bleibt auf **Daten & Fristen** mit offizieller Quelle auffindbar, wird aber nicht stillschweigend einer Route oder Buchung hinzugefügt. Die Catalog-/Guide-Validierung prüft diese Trennung anhand der V19-Ursprungsdaten.
 
 ## 14.11.2026 – Phase 24: 57/57 Quellen-Guides zu V19-Aktivitäten, 37 freie Bildregeln, filterbare Qualitätsliste
