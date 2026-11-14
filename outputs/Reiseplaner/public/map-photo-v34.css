@@ -58,3 +58,34 @@
  .map-photo-bubble,.map-category-bubble,.map-mini-dot{animation:none!important}}
 :root[data-motion=off] .map-photo-bubble,:root[data-motion=off] .map-category-bubble,
 :root[data-motion=off] .map-mini-dot{animation:none!important}
+
+/* Source-marked supermarket overlay. All shops are explicitly unverified. */
+.reference-travel-shell .map-place-switches{
+ position:absolute;z-index:830;top:11px;left:12px;
+ max-width:min(325px,calc(100% - 24px));
+ display:flex;flex-direction:column;gap:5px;pointer-events:none
+}
+.reference-travel-shell .map-place-switches>*{pointer-events:auto}
+.reference-travel-shell .market-toggle{
+ display:inline-flex;align-items:center;gap:7px;justify-content:center;
+ border:1px solid #fff;border-radius:999px;min-height:42px;
+ background:#fffef5ed;color:#256843;font-size:.75rem;font-weight:780;
+ padding:9px 14px;cursor:pointer;box-shadow:0 4px 16px #184c3631;
+ backdrop-filter:blur(12px);transition:transform .18s ease,background .18s ease
+}
+.reference-travel-shell .market-toggle .ui-icon{width:16px;height:16px}
+.reference-travel-shell .market-toggle:hover{transform:translateY(-2px)}
+.reference-travel-shell .market-toggle[aria-pressed=true]{background:#26794b;color:white}
+.reference-travel-shell .market-status{
+ max-width:100%;background:#fffef6e9;padding:5px 9px;border-radius:10px;
+ color:#4e6854;font-size:.65rem;box-shadow:0 3px 12px #123a2c22;
+ line-height:1.45
+}
+.map-mini-dot.group-shop{background:#cda336}
+@media(min-width:1180px){
+ .reference-travel-shell .map-place-switches{top:auto;bottom:43px;left:12px}
+}
+@media(max-width:650px){
+ .reference-travel-shell .map-place-switches{top:auto;left:8px;bottom:50px;max-width:calc(100% - 16px)}
+ .reference-travel-shell .market-toggle{font-size:.72rem;padding:8px 10px;min-height:43px}
+}

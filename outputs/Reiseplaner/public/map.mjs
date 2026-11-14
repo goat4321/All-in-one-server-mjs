@@ -56,7 +56,7 @@ export class TripMap {
     // A neutral, pastel CARTO raster is available immediately. A keyless
     // MapLibre Positron vector layer replaces it when WebGL/style loads.
     // Never request the public tile.openstreetmap.org raster service.
-    const raster=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+    const raster=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{
       subdomains:'abcd',maxZoom:19,maxNativeZoom:19,keepBuffer:2,
       attribution:'© <a href="https://www.openstreetmap.org/copyright" rel="noopener" target="_blank">OSM contributors</a> · <a href="https://carto.com/attributions" rel="noopener" target="_blank">CARTO</a>'
     });
@@ -311,6 +311,7 @@ export class TripMap {
     this.poiKeys = new Set();
     if (!this.poiItems?.length) return;
     const zoom=this.map.getZoom(),clustered=zoom<=12;
+    let photoBubbleCount=0;
     const buckets=new Map();
     for(const item of this.poiItems){
       const p=item.point,xy=this.map.project(p,zoom);
@@ -346,7 +347,8 @@ export class TripMap {
         const id=item.explorerId??item.id;
         const category=item.explorerCategory??explorerCategory(item);
         const photo=curatedPlacePhoto(item);
-        const tier=markerTier(zoom,Boolean(photo),this.poiKeys.size);
+        const tier=markerTier(zoom,Boolean(photo),photoBubbleCount);
+        if(tier==='photo')photoBubbleCount++;
         const content=bubbleMarkup({
           id,name:item.name,category,photoUrl:tier==='photo'?photo?.url:null,
           rating:item.rating??item.providerRating??null,

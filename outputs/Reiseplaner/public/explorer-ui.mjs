@@ -99,7 +99,7 @@ export function explorerList(ctx) {
     const active = ctx.activeSet.has(item.id);
     const bookmarked=ex.saved?.has(item.id)??false;
     const signal=planCostSignal(item,ctx.people.length);
-    const canPlan = !active && item.kind !== 'transport';
+    const canPlan = !active && item.kind !== 'transport' && !item.readOnlyExternal;
     // A and B can be researched in Google Maps even before an exact POI pin is confirmed.
     // Internal OSRM/GTFS routing still requires exact coordinates.
     const actions = googleMapsPlaceQuery(item,ctx.cities)
@@ -126,7 +126,7 @@ export function explorerList(ctx) {
       +(canPlan&&located?btn('day-route-add','Zur Mehrstopp-Route','plus',item.id):'')
       +(!simple&&canPlan?btn('choose','Zum Tagesplan hinzufügen','plus',item.id,'subtle')
         :active&&item.kind==='activity'?btn('edit','Im Plan bearbeiten','edit',item.id):'')
-      +(['activity','lodging'].includes(item.kind)
+      +(!item.readOnlyExternal&&['activity','lodging'].includes(item.kind)
         ?btn('vote-open','Gruppenstimme abgeben','people',item.id):'');
     return '<article class="explorer-place panel" data-place-id="' + esc(item.id)
       + '" data-selected="' + (ctx.selected===item.id) + '" data-bookmarked="'+bookmarked+'">'

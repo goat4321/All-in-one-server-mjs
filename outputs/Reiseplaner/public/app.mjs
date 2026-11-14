@@ -24,6 +24,7 @@ const motion = createMotionController(document);
 let catalog, variant, currentMap, context, toastTimer, undo, revisionToken = 0, dragged, timetableSearch;
 let saving = false, loading = false;
 let commonsPhotoPick = null;
+const supermarketByCity=new Map();
 const query = new URLSearchParams(location.search);
 const view = {
   page: 'overview', date: null, city: null, wholeDay: null, total: false, selected: null, mobile: 'plan', menu: false, timetablePreview: null,
@@ -32,6 +33,7 @@ const view = {
   optionFilter: 'all', sort: 'source', compareIds: new Set(), inspectorCompareIds: [],
   mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
+  mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
   dayPlanOpen:false,
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
@@ -136,8 +138,9 @@ function buildContext() {
   let detail = day.find(i => i.entryKey === view.selected) ?? all.find(i => i.id === view.selected);
   const nearbyAnchor = all.find(i=>i.id===view.mapNearPointId&&validPoint(i.point)) ?? null;
   const savedIds = readMapBookmarks(localStorage,variant.id);
+  const marketData=view.mapMarketsShown?(supermarketByCity.get(city)?.items??[]):[];
   const explorer = view.page === 'map' ? {
-    ...explorerData(all, trip, {
+    ...explorerData([...all,...marketData], trip, {
       city: view.mapScope === 'city' ? city : null,
       dayItemIds: view.mapScope === 'day' ? new Set(day.map(item=>item.id)) : null,
       group: view.mapGroup, search: view.mapSearch,
@@ -145,6 +148,9 @@ function buildContext() {
       savedOnly:view.mapSavedOnly,savedIds,
     }),
     scope: view.mapScope, group: view.mapGroup, search: view.mapSearch,
+    marketCount:marketData.length,marketsLoading:view.mapMarketsLoading,
+    marketsError:view.mapMarketsError,marketsShown:view.mapMarketsShown,
+    marketsNote:supermarketByCity.get(city)?.note??null,
     viewportOnly:view.mapViewportOnly,viewportBounds:view.mapViewportBounds,compact:view.mapCompact,
     saved:savedIds,savedOnly:view.mapSavedOnly,
     nearby:nearbyAnchor?{id:nearbyAnchor.id,name:nearbyAnchor.name,
@@ -761,6 +767,29 @@ async function action(name, value = '') {
       view.mapViewportOnly=false;view.mapViewportBounds=null;view.mapNearPointId=null;view.mapSavedOnly=false;
       view.mapListLimit=60;
       render({fetchRoutes:false});break;
+    case 'map-supermarkets': {
+      view.mapMarketsShown=!view.mapMarketsShown;
+      view.mapMarketsError=null;
+      if(!view.mapMarketsShown){render({restoreView:true,fetchRoutes:false});break;}
+      const cityId=ctx.city;
+      if(supermarketByCity.has(cityId)){
+        render({restoreView:true,fetchRoutes:false});break;
+      }
+      view.mapMarketsLoading=true;
+      render({restoreView:true,fetchRoutes:false});
+      try{
+        const response=await api('/api/supermarkets?city='+encodeURIComponent(cityId));
+        supermarketByCity.set(cityId,response);
+        say(response.count+' Supermärkte im begrenzten Stadtumkreis gefunden.');
+      }catch(error){
+        view.mapMarketsError=error.message;
+        say('Supermärkte: '+error.message);
+      }finally{
+        view.mapMarketsLoading=false;
+        render({restoreView:true,fetchRoutes:false});
+      }
+      break;
+    }
     case 'explorer-group':
       if (!['all', 'lodging', 'food', 'shop', 'activity', 'transport'].includes(value)) break;
       view.mapGroup = value; view.mapListLimit = 60; render({ restoreView: true }); break;
