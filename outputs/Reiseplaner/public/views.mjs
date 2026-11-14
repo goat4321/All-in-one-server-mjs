@@ -1,6 +1,7 @@
 import { railReviewTimeline } from './rail-review-timeline.mjs';
 import { surveyV19DayPanel, surveyV19RailPanel, surveyV19FoodPanel, surveyV19BudgetPanel, surveyV19DataPanel } from './survey-v19-ui.mjs';
 import {v20RailStatus,v20FoodResearch,v20DataLedger} from './research-v20-ui.mjs';
+import {entryCoveragePanel} from './entry-coverage-ui.mjs';
 import { routeSketch } from './route-mini-map.mjs';
 import { destinationIllustration } from './destination-illustration.mjs';
 import { providerQuotePanel } from './provider-quotes-v13.mjs';
@@ -112,7 +113,7 @@ function content(ctx, city) {
     case 'food': return food(ctx) + surveyV19FoodPanel(ctx) + v20FoodResearch(ctx);
     case 'budget': return budget(ctx) + surveyV19BudgetPanel(ctx);
     case 'group': return group(ctx);
-    case 'data': return data(ctx) + surveyV19DataPanel(ctx) + v20DataLedger(ctx);
+    case 'data': return data(ctx) + entryCoveragePanel(ctx) + surveyV19DataPanel(ctx) + v20DataLedger(ctx);
     default: return plan(ctx, city);
   }
 }
