@@ -100,9 +100,10 @@ function content(ctx, city) {
   switch (ctx.page) {
     case 'overview': return overview(ctx);
     case 'map': return heading('Karten-Explorer', 'Alle Orte, Unterkünfte, Restaurants und Aktivitäten der Reise auf einer Karte')
-      + explorerDayStrip(ctx) + explorerToolbar(ctx)
+      + explorerDayStrip(ctx)
       + '<div class="map-explorer-split" aria-label="Karte und passende Ortsliste">'
-      + mapPanel(ctx, true) + explorerList(ctx) + '</div>' + dayRouteView(ctx);
+      + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Suche, Filter und Ortsliste">'
+      + explorerToolbar(ctx) + explorerList(ctx) + '</div></div>' + dayRouteView(ctx);
     case 'rail': return rail(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
@@ -275,15 +276,6 @@ function mapPanel(ctx, full = false) {
         + (quickLayer ? chip('transit', network.groups[quickLayer].title, t.transit[quickLayer], quickLayer, 'train') : '')
         + (ctx.cities[ctx.city].country === 'CH' ? chip('filter', 'Wanderwege', t.hiking, 'hiking', 'walk') : '') : ''}
     </div>
-    <details class="map-design-details" ${ctx.mapDesignOpen?'open':''}><summary>Darstellung & Kartengröße</summary>
-    <div class="map-design-controls" role="group" aria-label="Design und Größe der Karte">
-      <span class="map-design-caption">Kartenlook</span>
-      ${chip('map-tone','Klassisch',ctx.mapTone==='standard','standard','map')}
-      ${chip('map-tone','Midnight',ctx.mapTone==='midnight','midnight','moon')}
-      ${chip('map-tone','Sand',ctx.mapTone==='sand','sand','sun')}
-      ${chip('map-expand',ctx.mapExpanded?'Normalgröße':'Großansicht',ctx.mapExpanded,'toggle','target')}
-    </div></details>
-    ${tripJourney}
     ${!ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
     ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
@@ -300,6 +292,15 @@ function mapPanel(ctx, full = false) {
           +(ctx.dayRoute.routes.filter(r=>r?.walkOnly).length)+' Fußwege berechnet</span></div>' : ''}
       <div class="map-hint" id="map-hint" hidden></div>
     </div>
+    <details class="map-design-details" ${ctx.mapDesignOpen?'open':''}><summary>Darstellung & Kartengröße</summary>
+    <div class="map-design-controls" role="group" aria-label="Design und Größe der Karte">
+      <span class="map-design-caption">Kartenlook</span>
+      ${chip('map-tone','Klassisch',ctx.mapTone==='standard','standard','map')}
+      ${chip('map-tone','Midnight',ctx.mapTone==='midnight','midnight','moon')}
+      ${chip('map-tone','Sand',ctx.mapTone==='sand','sand','sun')}
+      ${chip('map-expand',ctx.mapExpanded?'Normalgröße':'Großansicht',ctx.mapExpanded,'toggle','target')}
+    </div></details>
+    ${tripJourney}
     <div class="map-legend"><span><i class="legend-line ${ctx.total ? 'dashed' : ''}"></i> ${ctx.total ? 'Städtefolge · Schema' : 'Berechneter Fußweg'}</span>
     ${ctx.explorer ? Object.entries(EXPLORER_GROUPS).map(([id, group]) =>
       '<button type="button" class="map-legend-control" data-action="explorer-group" data-value="'+esc(id)

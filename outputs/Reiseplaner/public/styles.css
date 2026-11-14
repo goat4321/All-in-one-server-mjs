@@ -1420,3 +1420,48 @@ h2{font-size:1.37rem}
  .explorer-toolbar .explorer-categories .explorer-chip{min-height:34px}
  .map-explorer-split #map{height:57dvh;min-height:350px}
 }
+
+
+/* v1.8 visual comparison round 5: Wanderlog-like immediate map + adjacent search. */
+.map-explorer-split{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(320px,.85fr);
+ gap:12px;align-items:start;margin-top:6px}
+.map-explorer-split>.map-panel{position:sticky;top:12px;min-width:0}
+.map-explorer-split>.explorer-right{min-width:0;max-height:min(88dvh,950px);
+ overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;
+ background:var(--paper);border:1px solid var(--line);border-radius:16px}
+.map-explorer-split>.explorer-right .explorer-toolbar{display:grid;grid-template-columns:minmax(0,1fr);
+ gap:8px;padding:13px 12px 10px;border:0;border-bottom:1px solid var(--line);
+ box-shadow:none;border-radius:0;margin:0;background:var(--paper);
+ position:sticky;top:0;z-index:3}
+.map-explorer-split>.explorer-right .explorer-toolbar .explorer-scope,
+.map-explorer-split>.explorer-right .explorer-toolbar .explorer-search{grid-column:1}
+.map-explorer-split>.explorer-right .explorer-toolbar .explorer-scope{gap:4px}
+.map-explorer-split>.explorer-right .explorer-toolbar .explorer-scope>strong{display:none}
+.map-explorer-split>.explorer-right .explorer-toolbar .explorer-categories{grid-column:1;
+ display:flex;flex-wrap:wrap;gap:4px}
+.map-explorer-split>.explorer-right .explorer-toolbar .explorer-categories .explorer-chip,
+.map-explorer-split>.explorer-right .explorer-toolbar .explorer-categories .chip-button{font-size:.65rem;min-height:29px;padding:5px 7px}
+.map-explorer-split>.explorer-right .explorer-toolbar .explorer-categories .button{font-size:.66rem;min-height:29px;padding:5px 7px}
+.map-explorer-split>.explorer-right .explorer-toolbar .explorer-view-advanced,
+.map-explorer-split>.explorer-right .explorer-toolbar .explorer-route-settings{grid-column:1}
+.map-explorer-split>.explorer-right>.explorer-list{max-height:none;overflow:visible;
+ border:0;border-radius:0;margin:0;padding:12px 13px;background:var(--paper)}
+.map-explorer-split>.explorer-right .explorer-list .subheading{margin:0 0 6px}
+.map-explorer-split>.map-panel .map-tools{gap:5px}
+.map-explorer-split>.map-panel .map-design-details{order:3}
+.map-explorer-split>.map-panel .route-city-showcase{padding:9px 12px}
+.map-explorer-split #map{height:clamp(440px,65dvh,760px)}
+@media(max-width:1300px){
+ .map-explorer-split{grid-template-columns:minmax(0,1fr)}
+ .map-explorer-split>.map-panel{position:static}
+ .map-explorer-split>.explorer-right{max-height:none;overflow:visible;border:0;background:transparent}
+ .map-explorer-split>.explorer-right .explorer-toolbar{position:static;border:1px solid var(--line);
+  border-radius:14px;margin:10px 0}
+ .map-explorer-split>.explorer-right>.explorer-list{border:1px solid var(--line);
+ border-radius:14px;padding:12px;max-height:none}
+}
+@media(max-width:650px){
+ .map-explorer-split{gap:10px}
+ .map-explorer-split #map{height:57dvh;min-height:350px}
+ .map-explorer-split>.explorer-right .explorer-toolbar{margin:0 0 9px;padding:10px}
+}

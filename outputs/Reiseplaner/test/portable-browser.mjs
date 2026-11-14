@@ -156,8 +156,8 @@ try {
   await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await until(()=>js('getComputedStyle(document.querySelector(".map-explorer-split")).gridTemplateColumns.split(" ").length===2'),
     'Desktop atlas has a real two-column split');
-  await until(()=>js('document.querySelector(".map-explorer-split").getBoundingClientRect().top < window.innerHeight*.76'),
-    'Karte muss im ersten Bildschirm beginnen, ohne die Zusatzfilter aufklappen zu müssen');
+  await until(()=>js('document.querySelector("#map").getBoundingClientRect().top < window.innerHeight*.62'),
+    'Die sichtbare Kartenfläche muss im ersten Desktop-Screen beginnen, nicht nur das Panel');
   await js('window.scrollTo({top:0,behavior:"instant"})');
   await screenshot('08-atlas-oben-desktop.png');
   await js('document.querySelector(".map-explorer-split").scrollIntoView({block:"start"})');
@@ -167,6 +167,8 @@ try {
   assert.equal(await js('document.querySelector(".explorer-route-settings")?.open'),false,
     'Erweiterter Routenplaner ist anfangs zugeklappt');
   await until(() => js('Boolean(document.querySelector(".explorer-list.is-compact"))'), 'Kompakte Ortsliste');
+  assert.equal(await js('document.querySelector(".map-explorer-split > .explorer-right .explorer-toolbar")!==null'),true,
+    'Suche und Filter stehen im rechten Atlasbereich statt über der Karte');
   await js('document.querySelector(".explorer-place")?.dispatchEvent(new PointerEvent("pointerover",{bubbles:true}))');
   assert.equal(await js('document.querySelector(".explorer-place")?.classList.contains("atlas-hover")'),true,
     'Hover hebt denselben Listenort ohne Karten-Rendering hervor');
@@ -175,7 +177,7 @@ try {
     'Kompaktliste ohne wiederholte Gruppenabstimmungs-Kästen');
   assert.ok(await js('document.querySelector(".explorer-more-actions [data-action=vote-open]")!==null'),
     'Gruppenabstimmung bleibt über weitere Aktionen erreichbar');
-  await until(() => js('Boolean(document.querySelector(".map-explorer-split > .map-panel")) && Boolean(document.querySelector(".map-explorer-split > .explorer-list"))'), 'Karte und Liste nebeneinander');
+  await until(() => js('Boolean(document.querySelector(".map-explorer-split > .map-panel")) && Boolean(document.querySelector(".map-explorer-split > .explorer-right .explorer-list"))'), 'Karte und Liste nebeneinander');
   await click('[data-action=explorer-focus][data-value="local:bormuth"]');
   await until(() => js('Boolean(document.querySelector(".map-selected-place"))'),'Auswahlvorschau direkt auf der Karte');
   await until(() => js('document.querySelector(".explorer-place[data-place-id=\\\"local:bormuth\\\"]")?.dataset.selected==="true"'),'Ortsliste hebt gewählten Marker hervor');
