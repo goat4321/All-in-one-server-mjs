@@ -344,3 +344,9 @@
 }
 :root[data-motion=off] .hub-option-card,
 :root[data-motion=off] .hub-food-card{animation:none!important;transition:none!important}
+
+@media(max-width:650px){
+ .mobile-dock{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+ .mobile-dock button{font-size:.64rem!important;gap:3px!important;padding:6px 2px!important}
+ .mobile-dock button .ui-icon{width:18px;height:18px}
+}

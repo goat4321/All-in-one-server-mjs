@@ -40,7 +40,7 @@ const navSections=[
   {title:'Reise organisieren', ids:['discover','lodging','rail','food']},
   {title:'Verwalten', ids:['budget','group','data']}
 ];
-const mobileTabs=['overview','plan','map','lodging'];
+const mobileTabs=['overview','plan','map','lodging','food'];
 const tabs = [
   ['overview', 'Übersicht', 'compass'], ['plan', 'Tagesplan', 'calendar'], ['map', 'Karte', 'map'],
   ['rail', 'Bahn & Interrail', 'train'], ['lodging', 'Unterkünfte', 'bed'], ['discover', 'Entdecken', 'pin'],
@@ -116,6 +116,7 @@ export function renderShell(ctx) {
       <button type="button" data-action="page" data-value="plan" aria-current="${page==='plan'?'page':'false'}">${icon('calendar')} Tag</button>
       <button type="button" data-action="page" data-value="map" aria-current="${page==='map'?'page':'false'}">${icon('map')} Karte</button>
       <button type="button" data-action="page" data-value="lodging" aria-current="${page==='lodging'?'page':'false'}">${icon('bed')} Unterkünfte</button>
+      <button type="button" data-action="page" data-value="food" aria-current="${page==='food'?'page':'false'}">${icon('food')} Verpflegung</button>
     </nav><span class="status-icon">${saving ? 'Speichert …' : 'Lokal gespeichert'}</span>
     <button type="button" class="guide-launch" data-action="guide-start" aria-label="Interaktive Tour starten" title="Interaktive Tour starten">${icon('spark')}<span>Tour</span></button>
     ${iconBtn('theme', theme === 'dark' ? 'Helles Design' : 'Dunkles Design', theme === 'dark' ? 'sun' : 'moon')}

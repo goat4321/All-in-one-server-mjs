@@ -3,7 +3,9 @@ import {curatedPlacePhoto} from './curated-place-photos.mjs';
 import {destinationIllustration} from './destination-illustration.mjs';
 import {placeImageHtml,placeProfileModel} from './place-profile.mjs';
 import {planCostSignal} from './visual-experience.mjs';
-import {explorerCategory,EXPLORER_GROUPS} from './map-explorer.mjs';
+import {explorerCategory,explorerData,EXPLORER_GROUPS} from './map-explorer.mjs';
+import {voteSnippet} from './group-vote.mjs';
+import {lodgingPriceMeter} from './price-insights.mjs';
 import {googleMapsSearchUrl,googleMapsSearchLabel} from './google-maps.mjs';
 
 const kindTitle={lodging:'Unterkünfte entdecken',food:'Essen & Einkaufen',discover:'Orte & Aktivitäten'};
@@ -92,10 +94,14 @@ export function mapBrowseModes(ctx){
 }
 export function mapBrowsePanel(ctx){
  const ex=ctx.explorer;if(!ex)return '';
- const rows=[...(ex.placed??[]),...(ex.unlocated??[])];
+ const unfiltered=explorerData(ctx.all??[],ctx.trip,{
+   city:ex.scope==='trip'?null:ctx.city,group:'all',search:''
+ });
+ const rows=[...unfiltered.placed,...unfiltered.unlocated];
  const groups=Object.entries(EXPLORER_GROUPS);
  const counts=Object.fromEntries(groups.map(([id])=>[id,rows.filter(item=>
-  (item.explorerCategory??explorerCategory(item))===id).length]));
+  (item.explorerCategory??explorerCategory(item))===id).length
+  +(id==='shop'&&ex.marketsShown?ex.marketCount??0:0)]));
  const actions=groups.map(([id,g])=>
   '<button type="button" data-action="explorer-group" data-value="'+id+'"'
   +' aria-pressed="'+(ex.group===id)+'" class="map-browse-category">'
@@ -224,6 +230,8 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
       +' · Offene Prüfungen: '+stayStats.risk.length+'</p>':'')
    +(item.quote?.observedOn?'<p>Suchstand: '+esc(item.quote.observedOn)
       +' · keine bestätigte Buchung.</p>':'')
+   +(lodging?lodgingPriceMeter(item,people,ctx.nightlyTargetEuro):'')
+   +voteSnippet(item,ctx)
    +'<div class="hub-option-external">'
    +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
    +(profile.providerUrl?urlLink(profile.providerUrl,'Anbieter ansehen'):'')
