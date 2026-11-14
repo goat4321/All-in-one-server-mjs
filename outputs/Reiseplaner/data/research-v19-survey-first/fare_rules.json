@@ -1,0 +1,242 @@
+{
+  "version": "2026-11-13-survey-first-v1",
+  "fares": [
+    {
+      "id": "pass-youth-7-1month",
+      "category": "pass",
+      "title": "Interrail Global Pass Jugend, 7 in 1 Monat, 2. Klasse",
+      "amount_minor": 28600,
+      "currency": "EUR",
+      "per": "person",
+      "as_of": "2026-11-13",
+      "sources": [
+        "interrail_pass"
+      ],
+      "status": "listed_current_not_future_guaranteed",
+      "note": "Pass may be provided via DiscoverEU; do not auto-charge in that scenario. Optional pass cost only."
+    },
+    {
+      "id": "res-munich-paris",
+      "category": "reservation",
+      "title": "München–Paris DB/SNCF 2.Kl Passholder",
+      "amount_minor": 1900,
+      "currency": "EUR",
+      "per": "person per eligible train",
+      "as_of": "2026-11-13",
+      "sources": [
+        "interrail_res"
+      ],
+      "status": "reference_not_date_specific",
+      "note": "Mandatory passholder reservation if this service is chosen"
+    },
+    {
+      "id": "res-paris-barcelona",
+      "category": "reservation",
+      "title": "Paris–Barcelona TGV 2.Kl Passholder",
+      "amount_minor": 3500,
+      "currency": "EUR",
+      "per": "person per eligible train",
+      "as_of": "2026-11-13",
+      "sources": [
+        "interrail_res"
+      ],
+      "status": "reference_not_date_specific",
+      "note": "Limited passholder seats; ask operator at sale opening"
+    },
+    {
+      "id": "ticket-sagrada-youth",
+      "category": "activity",
+      "title": "Sagrada Família, under 30 entry",
+      "amount_minor": 2400,
+      "currency": "EUR",
+      "per": "person",
+      "as_of": "2026-11-13",
+      "sources": [
+        "sagrada"
+      ],
+      "status": "operator_current_rate",
+      "note": "2027 visit date availability unconfirmed"
+    },
+    {
+      "id": "ticket-parkguell-adult",
+      "category": "activity",
+      "title": "Park Güell general ticket",
+      "amount_minor": 1800,
+      "currency": "EUR",
+      "per": "person",
+      "as_of": "2026-11-13",
+      "sources": [
+        "parkguell"
+      ],
+      "status": "operator_current_rate",
+      "note": "Timed ticket; 2027 rate unconfirmed"
+    },
+    {
+      "id": "eiffel-youth-stairs",
+      "category": "activity",
+      "title": "Eiffel Tower stairs to 2nd floor, youth 12–24",
+      "amount_minor": 740,
+      "currency": "EUR",
+      "per": "person",
+      "as_of": "2026-11-13",
+      "sources": [
+        "eiffel"
+      ],
+      "status": "operator_current_rate_2027_must_verify",
+      "note": "Official page also lists new 2027 rates; check correct date/ticket, advance reservation"
+    },
+    {
+      "id": "rolling-venice-72-youth",
+      "category": "local_transport",
+      "title": "Rolling Venice + ACTV 72h (ages 6–29)",
+      "amount_minor": 3300,
+      "currency": "EUR",
+      "per": "person for 72h",
+      "as_of": "2026-11-13",
+      "sources": [
+        "venice_rolling"
+      ],
+      "status": "operator_current_rate",
+      "note": "Bundled €6 card + €27 transport; no double count with activities"
+    },
+    {
+      "id": "actv-single",
+      "category": "local_transport",
+      "title": "ACTV 75-minute ticket",
+      "amount_minor": 950,
+      "currency": "EUR",
+      "per": "person single",
+      "as_of": "2026-11-13",
+      "sources": [
+        "venice_actv"
+      ],
+      "status": "operator_current_rate",
+      "note": "Assess 72h youth pass vs single tickets and walking"
+    },
+    {
+      "id": "actv-24h",
+      "category": "local_transport",
+      "title": "ACTV 24h",
+      "amount_minor": 2500,
+      "currency": "EUR",
+      "per": "person day",
+      "as_of": "2026-11-13",
+      "sources": [
+        "venice_actv"
+      ],
+      "status": "operator_current_rate",
+      "note": "Do not add if a 72h pass already covers travel"
+    },
+    {
+      "id": "actv-48h",
+      "category": "local_transport",
+      "title": "ACTV 48h",
+      "amount_minor": 3500,
+      "currency": "EUR",
+      "per": "person for 48h",
+      "as_of": "2026-11-13",
+      "sources": [
+        "venice_actv"
+      ],
+      "status": "operator_current_rate",
+      "note": "Potential savings over 72h based on usage"
+    },
+    {
+      "id": "first-gondola-from",
+      "category": "cable_car",
+      "title": "Grindelwald–First Gondola starting price",
+      "amount_minor": 3800,
+      "currency": "CHF",
+      "per": "person starting at",
+      "as_of": "2026-11-13",
+      "sources": [
+        "first"
+      ],
+      "status": "from_price_NOT_roundtrip_quote",
+      "note": "Not a confirmed roundtrip fare. No automatic budget total until ticket scope known."
+    },
+    {
+      "id": "first-adventure-from",
+      "category": "activity",
+      "title": "Grindelwald First adventure package starting price",
+      "amount_minor": 6000,
+      "currency": "CHF",
+      "per": "person starting at",
+      "as_of": "2026-11-13",
+      "sources": [
+        "first"
+      ],
+      "status": "from_price_NOT_selected",
+      "note": "Site lists availability 12.04–24.10.2027; selected service/terms recheck"
+    },
+    {
+      "id": "first-flyer",
+      "category": "activity",
+      "title": "Grindelwald First Flyer operator reference",
+      "amount_minor": 3500,
+      "currency": "CHF",
+      "per": "person reference",
+      "as_of": "2026-11-13",
+      "sources": [
+        "first_flyer"
+      ],
+      "status": "price_scope_verify",
+      "note": "Operator says weight 35–125 kg and restrictions; price may be winter-specific"
+    },
+    {
+      "id": "oeschi-gondola",
+      "category": "cable_car",
+      "title": "Oeschinensee Gondola 2027-09",
+      "amount_minor": null,
+      "currency": "CHF",
+      "per": "person unknown",
+      "as_of": "2026-11-13",
+      "sources": [
+        "oeschi"
+      ],
+      "status": "opening_times_published_price_unknown",
+      "note": "Summer operation 2027-04-24 to 2027-09-19 08:30–18:00"
+    }
+  ],
+  "policy_rules": [
+    {
+      "id": "interrail_night",
+      "source_ids": [
+        "interrail_day"
+      ],
+      "rule": "Direct night train departing before midnight and arriving after: typically departure travel day only; boarding another train after midnight requires a new travel day. Pass must remain valid. Never use old 19:00 rule."
+    },
+    {
+      "id": "interrail_home",
+      "source_ids": [
+        "interrail_home"
+      ],
+      "rule": "In country of residence, only one outbound and one inbound journey day per Global Pass is allowed, irrespective of overall travel days."
+    },
+    {
+      "id": "future_train_sales",
+      "source_ids": [
+        "sncf_sales"
+      ],
+      "rule": "On 2026-11-13 SNCF offers many services only until 2027-07-02; never fabricate September-2027 train times, fares, bookings."
+    },
+    {
+      "id": "venice_2027_access",
+      "source_ids": [
+        "venice_access"
+      ],
+      "rule": "2027 access fee being introduced with specific dates/exemptions; verify September applicability and overnight-stay exemptions against updated official FAQ, no assumed charge."
+    },
+    {
+      "id": "price_axes",
+      "source_ids": [
+        "booking"
+      ],
+      "rule": "Provider quote != final checkout != paid. Store status, dates, party size, unit, currency, inclusion of fees."
+    }
+  ],
+  "fx": {
+    "CHF_EUR": null,
+    "reason": "Exchange rate not live-verified; preserve CHF until dated rate supplied."
+  }
+}
