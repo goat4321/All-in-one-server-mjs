@@ -8,13 +8,13 @@ import {entryCompleteness} from '../public/entry-completeness.mjs';
 import {placeProfileHtml} from '../public/place-profile.mjs';
 
 const catalog=await loadCatalog();
-test('21 independently sourced official guides preserve IDs, dates and non-booking status',async()=>{
+test('30 independently sourced official guides preserve IDs, dates and non-booking status',async()=>{
  const archive=await loadResearchV22();
- assert.equal(archive.entries.length,21);
- assert.equal(archive.total,21);
- assert.equal(catalog.research.researchV22.entries.length,21);
- assert.ok(catalog.research.researchV22.assignments>=21);
- assert.equal(new Set(archive.entries.map(x=>x.id)).size,21);
+ assert.equal(archive.entries.length,30);
+ assert.equal(archive.total,30);
+ assert.equal(catalog.research.researchV22.entries.length,30);
+ assert.ok(catalog.research.researchV22.assignments>=30);
+ assert.equal(new Set(archive.entries.map(x=>x.id)).size,30);
  for(const row of archive.entries){
    assert.match(row.sourceUrl,/^https:\/\//);
    assert.ok(row.highlights.length>=2);
