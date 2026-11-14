@@ -14,13 +14,28 @@ const distanceKm=(p,q)=>{const r=Math.PI/180,a=(p[0]-q[0])*r,b=(p[1]-q[1])*r;
  return 6371*2*Math.asin(Math.sqrt(Math.sin(a/2)**2
    +Math.cos(p[0]*r)*Math.cos(q[0]*r)*Math.sin(b/2)**2));};
 export async function loadResearchV20(baseItems,cities){
- const [activities,lodging]=await Promise.all([
+ const [activities,lodging,indoor,railFood]=await Promise.all([
    read('activity-audit-20261114.json'),read('lodging-audit-20261114.json'),
+   read('verified-indoor-alternatives.json'),read('rail-food-audit-20261114.json'),
  ]);
  if(activities.schema!=='individual_activity_recheck_v20'
    ||lodging.schema!=='lodging_reference_recheck_v20')fail('schemas missing');
  unique(activities.items,57,'activities');
  unique(lodging.items,35,'lodging');
+ if(indoor.schema!=='operator_indoor_alternatives_v20'
+   ||railFood.schema!=='rail_and_food_individual_review_v20')fail('additional archive schema');
+ unique(indoor.items,8,'indoor');
+ unique(railFood.transport,29,'transport');
+ unique(railFood.food,40,'food');
+ if(indoor.items.some(x=>!cities[x.city]||!https(x.sourceUrl)
+   ||x.priceKind.includes('2027_confirmed')
+   ||x.basePriceCents!==null&&(!Number.isSafeInteger(x.basePriceCents)||x.basePriceCents<0)))
+   fail('invalid indoor source/tariff');
+ if(railFood.transport.some(x=>x.timetableVerified2027!==false
+   ||x.departure!==null||x.arrival!==null||x.ticketPriceCents!==null||x.bookableConfirmed!==false))
+   fail('Unpublished 2027 rail times must stay unknown');
+ if(railFood.food.some(x=>x.noAutomaticReplacement!==true||x.noBooking!==true))
+   fail('general food concepts must never become bookings');
  const originals=new Map(baseItems.map(x=>[x.id,x]));
  for(const row of activities.items){
    const source=originals.get(row.id);
@@ -52,10 +67,13 @@ export async function loadResearchV20(baseItems,cities){
        ||p.distanceProviderVsSourceMetres>250)fail('hotel point '+a.id);
    }
  }
- return {activities,lodging,byActivity:new Map(activities.items.map(x=>[x.id,x])),byLodging:hotels};
+ return {activities,lodging,indoor,railFood,byActivity:new Map(activities.items.map(x=>[x.id,x])),byLodging:hotels};
 }
 export function applyResearchV20(trips,cities,archive){
  const sources=[
+   ...archive.indoor.items.map(x=>({id:'survey-v20-indoor:'+x.id,publisher:'Betreiber-Regenalternative · '+x.name,
+      url:x.sourceUrl,accessed_on:archive.indoor.reviewedOn,
+      validity:x.priceKind+' · lokale Bedingungen und September 2027 offen'})),
    ...archive.activities.items.map(x=>({id:'survey-v20:'+x.id,
      publisher:'Öffentliche Quellenprüfung · '+x.name,
      url:x.sourceUrl??null,accessed_on:archive.activities.observedOn,
@@ -65,7 +83,7 @@ export function applyResearchV20(trips,cities,archive){
      url:x.newSearch?.url??x.providerUrl,accessed_on:archive.lodging.observedOn,
      validity:x.recheckStatus+' · Checkout, Einzelbetten und Steuern nicht bestätigt'})),
  ];
- let activityPlaces=0,hotelsIndependent=0,activityUpdated=0;
+ let activityPlaces=0,hotelsIndependent=0,activityUpdated=0,indoorAcrossVariants=0;
  for(const trip of trips){
    trip.items=trip.items.map(item=>{
      if(!item.id.startsWith('survey-v19:'))return item;
@@ -145,8 +163,42 @@ export function applyResearchV20(trips,cities,archive){
        mapLocationQuality:googleMapsLocationStatus(extra),
      };
    });
+   // Real, public and source-linked indoor options. Opt-in and never a booking.
+   const known=new Set(trip.items.map(x=>x.id));
+   for(const row of archive.indoor.items){
+     if(!trip.route.includes(row.city) && !trip.items.some(x=>x.city===row.city))continue;
+     const id='survey-v20-indoor:'+row.id;
+     if(known.has(id))fail('indoor duplicate '+id);
+     const item={
+       id,trip:trip.id,city:row.city,name:row.name,kind:'activity',
+       category:'activity',tags:row.tags,selected:false,booked:false,booking:'ungebucht',
+       zone:cities[row.city].timezone,start:null,end:null,point:null,
+       address:row.address??null,positionIssue:row.locationNote,
+       source:['survey-v20-indoor:'+row.id],website:row.sourceUrl,
+       price:row.currency==='EUR' && row.basePriceCents!=null
+         ?{cents:row.basePriceCents,currency:'EUR',scope:'person',
+           label:row.priceKind+' · historischer Betriebertarif, 2027 nicht bestätigt'}:null,
+       duration:row.durationMinutes,openingHoursNote:'Öffnungszeiten für September 2027 gesondert überprüfen',
+       origin:'Einzeln geprüfte Betreiber-Regenalternative vom '+archive.indoor.reviewedOn,
+       verification:'Betreiber-Suchpreisreferenz, 2027 offen · nicht gebucht',
+       detail:row.details+' '+row.priceNote,
+       researchV20:{type:'activity',reviewStatus:'operator_venue_found_2027_unverified',
+         condition:row.priceNote,geoNote:row.locationNote,reviewedOn:archive.indoor.reviewedOn,
+         priceKind:row.priceKind,
+         priceReference:row.currency!=='EUR' && row.basePriceCents!=null
+           ?{amountCents:row.basePriceCents,currency:row.currency,kind:row.priceKind,
+             sourceUrl:row.sourceUrl}:null,
+         sourceUrl:row.sourceUrl},
+     };
+     trip.items.push({...item,googleMapsUrl:googleMapsSearchUrl(item,cities),
+       googleTransitUrl:googleMapsDirectionsUrl(null,item,cities,'transit'),
+       mapLocationQuality:googleMapsLocationStatus(item)});
+     known.add(id);
+     indoorAcrossVariants++;
+   }
  }
  return {version:'2026-11-14',activities:archive.activities.items,lodging:archive.lodging.items,
+   indoor:archive.indoor.items,railFood:archive.railFood,
    stats:{reviewedActivities:archive.activities.items.length,
      activitySourcePoints:archive.activities.withSourcedPoint,
      variantActivityPointAssignments:activityPlaces,
@@ -155,6 +207,8 @@ export function applyResearchV20(trips,cities,archive){
      independentLodgingPoints:archive.lodging.independentPointMatches,
      variantIndependentLodgingPoints:hotelsIndependent,
      providerPositionConflicts:archive.lodging.providerLocationConflicts,
-     activityPriceUpdates:activityUpdated},
+     activityPriceUpdates:activityUpdated,indoorUnique:archive.indoor.items.length,
+     indoorAcrossVariants,reviewedRailLegs:archive.railFood.transport.length,
+     reviewedFoodAndEveningIdeas:archive.railFood.food.length},
    sources};
 }
