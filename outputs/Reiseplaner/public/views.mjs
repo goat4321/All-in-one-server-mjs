@@ -1,5 +1,6 @@
 import { railReviewTimeline } from './rail-review-timeline.mjs';
 import { surveyV19DayPanel, surveyV19RailPanel, surveyV19FoodPanel, surveyV19BudgetPanel, surveyV19DataPanel } from './survey-v19-ui.mjs';
+import {v20RailStatus,v20FoodResearch,v20DataLedger} from './research-v20-ui.mjs';
 import { routeSketch } from './route-mini-map.mjs';
 import { destinationIllustration } from './destination-illustration.mjs';
 import { providerQuotePanel } from './provider-quotes-v13.mjs';
@@ -105,13 +106,13 @@ function content(ctx, city) {
       + '<div class="map-explorer-split" aria-label="Karte und passende Ortsliste">'
       + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Suche, Filter und Ortsliste">'
       + explorerToolbar(ctx) + explorerList(ctx) + '</div></div>' + dayRouteView(ctx);
-    case 'rail': return rail(ctx) + surveyV19RailPanel(ctx);
+    case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
-    case 'food': return food(ctx) + surveyV19FoodPanel(ctx);
+    case 'food': return food(ctx) + surveyV19FoodPanel(ctx) + v20FoodResearch(ctx);
     case 'budget': return budget(ctx) + surveyV19BudgetPanel(ctx);
     case 'group': return group(ctx);
-    case 'data': return data(ctx) + surveyV19DataPanel(ctx);
+    case 'data': return data(ctx) + surveyV19DataPanel(ctx) + v20DataLedger(ctx);
     default: return plan(ctx, city);
   }
 }
