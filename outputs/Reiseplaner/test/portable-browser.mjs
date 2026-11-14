@@ -185,6 +185,8 @@ try {
     'Only proven licensed pictures enter the discovery strip');
   assert.ok(await js('(() => {const d=document.querySelector(".reference-stage-days")?.getBoundingClientRect(),m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect();return d&&m&&d.right<=m.left+2&&Math.abs(d.top-m.top)<10})()'),
     'Photo references: day date tabs and Leaflet map begin on the same row');
+  assert.ok(await js('(() => {const d=document.querySelector(".reference-stage-days")?.getBoundingClientRect(),l=document.querySelector(".reference-map-workspace>.explorer-right")?.getBoundingClientRect(),m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect();return d&&l&&m&&l.top>=d.bottom-15&&l.top<d.bottom+25&&l.top<m.bottom-130})()'),
+    'Explorer agenda and search directly follow day carousel, not below full map height');
   assert.ok(await js('Boolean(document.querySelector(".reference-agenda-suggestions,.reference-agenda-item"))'),
     'Plan column is informative even if no stops were booked');
   await screenshot('18-reference-day-map-desktop-1440.png');
