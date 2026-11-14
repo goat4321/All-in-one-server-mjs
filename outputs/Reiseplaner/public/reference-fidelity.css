@@ -82,7 +82,7 @@
   max-height:440px;min-height:240px;border-radius:0 0 19px 19px!important;
   border-top:0;scrollbar-width:thin}
  .reference-travel-shell .reference-map-workspace>.map-panel{grid-column:2;grid-row:1 / span 2;
-  position:relative;align-self:start}
+  position:relative;top:0!important;align-self:start}
  .reference-travel-shell .reference-map-workspace>.explorer-right>.reference-agenda{padding:12px 15px 10px}
 }
 .reference-travel-shell .reference-stage-days .explorer-day .days{display:flex;align-items:center;gap:7px;
