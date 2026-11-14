@@ -2,6 +2,7 @@ import {esc,btn,urlLink,sourceList} from './ui.mjs';
 import {placeProfileModel,placeProfileHtml,placeImageHtml,placeGalleryHtml,placeThumbnailHtml} from './place-profile.mjs';
 import {entryCompleteness} from './entry-completeness.mjs';
 import {inspectorTerm} from './inspector-glossary.mjs';
+import {fieldNoteHtml} from './field-notes-ui.mjs';
 const labels={activity:'Aktivität',lodging:'Unterkunft',transport:'Verbindung',food:'Essen',shop:'Einkaufen'};
 const valid=p=>Array.isArray(p)&&p.length===2&&p.every(Number.isFinite)&&Math.abs(p[0])<=90&&Math.abs(p[1])<=180;
 const distance=(a,b)=>{const r=Math.PI/180,p=a[0]*r,q=b[0]*r,lat=(b[0]-a[0])*r,lon=(b[1]-a[1])*r;
@@ -54,6 +55,7 @@ export function placeInspectorHtml(ctx,item,compareIds=[]){
  const panels={
    overview:'<div class="inspector-reading"><p class="inspector-lead">'+esc(p.description)+'</p>'
      +officialGuide(guide)
+     +fieldNoteHtml(item.fieldNoteV28)
      +'<details class="inspector-all-fields"><summary>Alle vorhandenen Einzelangaben anzeigen</summary>'
      +placeProfileHtml(item,ctx)+'</details></div>',
    gallery:'<div class="inspector-gallery">'+inspectorTerm('image')

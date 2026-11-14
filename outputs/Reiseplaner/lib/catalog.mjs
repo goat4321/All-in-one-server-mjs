@@ -9,6 +9,7 @@ import { loadResearchV02, scopedQuote, quoteCandidate } from './research-v02.mjs
 import { loadSurveyFirstV19, applySurveyFirstV19 } from './research-v19.mjs';
 import { loadResearchV20, applyResearchV20 } from './research-v20.mjs';
 import { loadResearchV22, applyResearchV22 } from './research-v22.mjs';
+import {loadFieldNotesV28,applyFieldNotesV28} from './research-v28.mjs';
 
 const file = name => readFile(new URL('../data/' + name + '.json', import.meta.url), 'utf8')
   .then(content => JSON.parse(content.replace(/^\uFEFF/, '')));
@@ -786,6 +787,8 @@ export async function loadCatalog() {
   const researchV20 = applyResearchV20(output,cities,researchV20Archive);
   const researchV22Archive = await loadResearchV22();
   const researchV22 = applyResearchV22(output,researchV22Archive,surveyFirstV19Archive.activities.items);
+  const fieldNotesV28Archive=await loadFieldNotesV28();
+  const fieldNotesV28=applyFieldNotesV28(output,fieldNotesV28Archive,surveyFirstV19Archive.activities.items);
   const mappedFareRowsV07 = Object.fromEntries(destinations.map(city => [
     city.id, operatorFares.filter(ref => ref.city === city.id),
   ]));
@@ -918,6 +921,7 @@ export async function loadCatalog() {
       surveyFirstV19,
       researchV20,
       researchV22,
+       fieldNotesV28,
       providerSearchV13,providerLocationsV13,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
@@ -982,7 +986,7 @@ export async function loadCatalog() {
         issues: research.data_quality.length,
       },
     },
-    sources: Object.fromEntries([...sources, ...research.sources, ...surveyFirstV19.sources, ...researchV20.sources, ...researchV22.sources,
+    sources: Object.fromEntries([...sources, ...research.sources, ...surveyFirstV19.sources, ...researchV20.sources, ...researchV22.sources, ...fieldNotesV28.sources,
       ...operatorFares.map(ref => ({ id:'operator-v07-fare:'+ref.id,
         publisher:'Offizieller Nahverkehr · '+ref.city+' · '+ref.name,
         url:ref.sourceUrl, accessed_on:operatorV07.observedOn,

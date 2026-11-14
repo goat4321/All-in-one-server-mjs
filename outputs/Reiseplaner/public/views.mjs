@@ -4,6 +4,7 @@ import {v20RailStatus,v20FoodResearch,v20DataLedger} from './research-v20-ui.mjs
 import {entryCoveragePanel} from './entry-coverage-ui.mjs';
 import {renderHeaderHud,renderDayHud,renderMapHud,mapSelectionEvidence} from './travel-hud.mjs';
 import {mapDayAgenda,mapImageIntro,mapFloatingControls,mapPhotoDiscovery} from './reference-map-scene.mjs';
+import {fieldNoteStrip} from './field-notes-ui.mjs';
 import { routeSketch } from './route-mini-map.mjs';
 import { destinationIllustration } from './destination-illustration.mjs';
 import { providerQuotePanel } from './provider-quotes-v13.mjs';
@@ -109,7 +110,7 @@ function content(ctx, city) {
       + '<div class="map-explorer-split reference-map-workspace" aria-label="Tagesroute, Karte und passende Orte">'
       + '<div class="reference-stage-days">'+explorerDayStrip(ctx)+'</div>'
       + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Tagesroute, Suche, Filter und Ortsliste">'
-      + mapDayAgenda(ctx) + explorerToolbar(ctx) + explorerList(ctx) + '</div></div>'
+      + mapDayAgenda(ctx) + fieldNoteStrip(ctx) + explorerToolbar(ctx) + explorerList(ctx) + '</div></div>'
       + mapPhotoDiscovery(ctx) + dayRouteView(ctx);
     case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
     case 'lodging': return options(ctx, true);
