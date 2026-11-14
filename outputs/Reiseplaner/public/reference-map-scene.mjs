@@ -45,6 +45,28 @@ export function mapDayAgenda(ctx){
       +'<span class="reference-agenda-index" aria-hidden="true">'+(i+1)+'</span>'
       +button+'</li>';
   }).join('');
+  const examples=day.length?[]:(ctx.all??[])
+    .filter(item=>item.city===ctx.city&&item.kind==='activity'
+      &&!item.removed&&!item.duplicateOf&&!ctx.activeSet?.has(item.id)
+      &&item.guideV22?.sourceUrl)
+    .sort((a,b)=>Number(Boolean(curatedPlacePhoto(b)))
+      -Number(Boolean(curatedPlacePhoto(a))))
+    .slice(0,4);
+  const examplesHtml=examples.length?'<div class="reference-agenda-suggestions">'
+    +'<h3>Aus deiner Ortsrecherche</h3>'
+    +'<p>Unverbindliche Ideen · nicht in den Tagesplan aufgenommen</p>'
+    +examples.map(item=>{
+      const tier=planCostSignal(item,people);
+      return '<button type="button" class="reference-agenda-suggestion"'
+        +' data-action="details" data-value="'+esc(item.id)+'"'
+        +' aria-label="'+esc(item.name)+' als unverbindliche Option öffnen">'
+        +'<span class="reference-agenda-thumb">'+placeThumbnailHtml(item,ctx)+'</span>'
+        +'<span class="reference-agenda-text"><strong>'+esc(item.name)
+        +'</strong><small>Quelleninfos und Details ansehen</small></span>'
+        +'<span class="reference-agenda-price" title="'+esc(tier.note)+'">'
+        +esc(tier.tier)+'</span><span aria-hidden="true">'+icon('chevron')+'</span>'
+        +'</button>';
+    }).join('')+'</div>':'';
   return '<section class="reference-agenda" aria-label="Tagesablauf neben der Karte">'
     +'<div class="reference-agenda-head"><div><small>DEIN PLANTAG</small>'
     +'<h2>'+esc(city)+' · '+esc(shortDay(ctx.date))+'</h2>'
@@ -54,6 +76,7 @@ export function mapDayAgenda(ctx){
     +'<ol class="reference-agenda-list">'+(groups||'<li class="reference-agenda-empty">'
       +'Für diesen Tag sind noch keine Stopps ausgewählt. Die Karte zeigt recherchierte Optionen.</li>')
     +'</ol>'
+    +examplesHtml
     +(day.length>8?'<p class="reference-agenda-extra">+'+(day.length-8)
       +' weitere Stopps im vollständigen Tagesplan</p>':'')
     +'<div class="reference-agenda-foot"><small>'+icon('pin')
