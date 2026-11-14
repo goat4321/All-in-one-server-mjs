@@ -49,3 +49,7 @@ Prüfung der tatsächlichen Implementierung in `public/app.mjs`, `public/views.m
 
 **Abnahmestatus:** Funktionsänderungen umgesetzt, Teil-/Parserprüfungen bestanden; vollständige Browser- und Screenshotprüfung noch offen. Keine pixelgenaue Designübereinstimmung behaupten.
 
+
+## Abschließende Korrektur der Kartenfilter
+
+Beim Wechsel zwischen **Mein Tag**, **Stadt entdecken** und **Alle Reiseorte** wurde bisher der versteckte Zustand „Nur gemerkte Orte“ weiter angewendet. Das konnte die neue Ansicht leer wirken lassen, obwohl Kartenpunkte vorhanden waren. Der Scope-Handler setzt `mapSavedOnly` jetzt zurück und lässt nur ausdrücklich erkennbare Kategorie-/Suchfilter bestehen. Eine passende Browser-Regression wurde zu `test/portable-browser.mjs` hinzugefügt. Vollständiger Chromelauf bleibt bis zur Verfügbarkeit eines Runners offen.
