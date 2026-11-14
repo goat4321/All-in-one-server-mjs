@@ -183,6 +183,10 @@ try {
     'Synchronized timeline is present next to the map');
   assert.ok(await js('Boolean(document.querySelector(".reference-discovery-card,.reference-discovery-empty"))'),
     'Only proven licensed pictures enter the discovery strip');
+  assert.ok(await js('(() => {const d=document.querySelector(".reference-stage-days")?.getBoundingClientRect(),m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect();return d&&m&&d.right<=m.left+2&&Math.abs(d.top-m.top)<10})()'),
+    'Photo references: day date tabs and Leaflet map begin on the same row');
+  assert.ok(await js('Boolean(document.querySelector(".reference-agenda-suggestions,.reference-agenda-item"))'),
+    'Plan column is informative even if no stops were booked');
   await screenshot('18-reference-day-map-desktop-1440.png');
   await js('document.querySelector(".map-design-details:not([open]) > summary")?.click()');
   await click('[data-action=map-motion][data-value=off]');
@@ -628,6 +632,8 @@ try {
     'Mobile reference layout stacks map above day timeline without horizontal overflow');
   assert.ok(await js('Boolean(document.querySelector(".reference-map-floating"))'),
     'Floating map controls become mobile-accessible below map viewport');
+  assert.ok(await js('(() => {const d=document.querySelector(".reference-stage-days")?.getBoundingClientRect(),m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect();return d&&m&&d.top<m.top&&d.right<=innerWidth+3})()'),
+    'On mobile the date carousel stays above the map and remains within the viewport');
   await screenshot('19-reference-day-map-mobile-390.png');
   await click('.map-selected-place [data-action=details]');
   await until(()=>js('document.querySelector("dialog")?.open===true'),
