@@ -89,6 +89,13 @@ try {
   await cdp('Runtime.enable');
   await cdp('Page.enable');
   await cdp('Page.navigate', { url: address });
+  await text('h1', 'Reiseübersicht');
+  assert.ok(await js('(() => {const quick=document.querySelector(".overview-start")?.getBoundingClientRect(),other=document.querySelector(".cockpit-layout")?.getBoundingClientRect();return quick&&other&&quick.top<other.top&&quick.height>=70})()'),
+    'The home screen shows the large quick-start actions before technical dashboards');
+  assert.equal(await js('document.querySelectorAll(".overview-quick-card").length'),4,
+    'Four clearly named home choices are present');
+  await screenshot('25-einfacher-startbildschirm-1280.png');
+  await click('.overview-quick-card[data-value=plan]');
   await text('h1', 'Barcelona');
   // The tour navigates read-only and is dismissible by Escape.
   await click('[data-action=guide-start]');

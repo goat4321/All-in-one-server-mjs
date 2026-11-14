@@ -30,3 +30,6 @@ Die vier bereits vorhandenen großen Schnellzugriffe waren **unter** dem Reise-C
 
 ## Iteration 5 – Ortsentscheidung statt Kartentechnik
 Ein Ort mit belegtem Kartenpunkt zeigte bisher **Auf Karte** unmittelbar, während **Details** in „Weitere Aktionen“ versteckt waren. In der einfachen Ansicht sind jetzt `Details`, `Merken` und `Zum Tag hinzufügen` die drei direkten Aktionen, die letzte als grüne primäre Schaltfläche. Das Öffnen der Kartenposition und Spezialfunktionen (Umkreis, Routen-A/B, Standortprüfung und Gruppenabstimmung) sind unter „Weitere Aktionen“. Eine auf zwei Zeilen begrenzte Ortsbeschreibung ist wieder sichtbar; die langen Quellen-/Kosten-/Koordinatenlisten bleiben in der ausführlichen Ortsansicht.
+
+## Iteration 6 – sinnvoller Startbildschirm als Standard
+Der Startzustand `view.page` war weiterhin `plan`: Die Anwendung öffnete dadurch sofort einen komplexen Tagesplan und nicht die neue einfache Navigation. Geändert auf `overview`, wo die vier großen Schnellzugriffe inzwischen **oberhalb** der Datenübersichten stehen. Die Browser-Regression überprüft die sofort sichtbaren vier Schaltflächen und klickt anschließend bewusst auf Tagesplan, damit der restliche bisherige Prüfablauf unverändert durchlaufen kann. Kein Tagesinhalt, keine Reisevariante und keine Buchung wurde verändert.
