@@ -28,6 +28,7 @@ const view = {
   filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
   optionFilter: 'all', sort: 'source', compareIds: new Set(), inspectorCompareIds: [],
   mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
+  mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
   mapViewportOnly:false,mapViewportBounds:null,mapCompact:true,mapSavedOnly:false,
@@ -248,6 +249,7 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   currentMap = null;
   context = buildContext();
   document.documentElement.dataset.theme = view.theme;
+  document.documentElement.dataset.motion = view.mapMotion;
   app.innerHTML = renderShell(context);
   if (guideStep(view.guideIndex)) {
     app.querySelector(guideStep(view.guideIndex).focus)?.classList.add('guide-spotlight');
@@ -1006,8 +1008,31 @@ async function action(name, value = '') {
       const photos={...ctx.state.placePhotos};delete photos[item.id];
       await save({...ctx.state,placePhotos:photos},'Ortsfoto aus Reisevariante entfernt');break;
     }
+    case 'hud-audit': {
+      if(!['photo','location','price','source','hours'].includes(value))break;
+      const city=ctx.page==='map'&&ctx.total?'all':ctx.city;
+      changePage('data');
+      const panel=app.querySelector('.entry-coverage');
+      if(panel){
+        const gap=panel.querySelector('#coverage-filter-gap');
+        const citySelect=panel.querySelector('#coverage-filter-city');
+        if(gap)gap.value=value;
+        if(citySelect)citySelect.value=[...citySelect.options].some(x=>x.value===city)?city:'all';
+        applyCoverageFilters(panel);
+        panel.scrollIntoView({block:'start',behavior:'auto'});
+        panel.querySelector('#coverage-filter-query')?.focus({preventScroll:true});
+      }
+      break;
+    }
     case 'coverage-filter-clear': {
       resetCoverageFilters(app.querySelector('.entry-coverage'));
+      break;
+    }
+    case 'map-motion': {
+      if(!['off','on'].includes(value))break;
+      view.mapMotion=value==='off'?'off':'auto';
+      localStorage.setItem('reiseplan-map-motion',view.mapMotion);
+      render({restoreView:true});
       break;
     }
     case 'inspector-tab': {
