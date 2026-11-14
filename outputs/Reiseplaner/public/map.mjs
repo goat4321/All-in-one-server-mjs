@@ -5,7 +5,8 @@ import { routeStudioModel } from './route-studio.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
-const quietMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const quietMotion = () => document.documentElement.dataset.motion==='off'
+  || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const labelNode = label => {
   const el = document.createElement('span');
   el.textContent = label;
@@ -422,7 +423,9 @@ export class TripMap {
       }
     }
     if(!marker)return;
-    this.map.panTo(marker.getLatLng(),{animate:false});
+    // Only user-initiated selection receives a short camera easing. Initial
+    // fit, itinerary rerender and automatic map-size changes remain instant.
+    this.map.panTo(marker.getLatLng(),{animate:!quietMotion(),duration:.24,easeLinearity:.4});
     marker.openTooltip();
   }
 
