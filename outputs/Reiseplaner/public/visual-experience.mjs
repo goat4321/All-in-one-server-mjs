@@ -91,11 +91,11 @@ export function planCostSignal(item,count) {
       ?'Offiziell publizierter 2027-Tarif, Berechtigung/Zeitslot prüfen'
       :fact?.priceKind==='current_tariff_not_2027_guaranteed'
         ?'2026er veröffentlichter Tarif, 2027 erneut prüfen'
-        :price.label??'Historischer Plan-/Suchwert, nicht bestätigt';
+        :price.label??'Historischer Planwert oder Suchwert, nicht bestätigt';
     return {tier,amount:money(total,'EUR')+' Gruppe',known:true,
       basis:'group_reference',currency:'EUR',
       note:validFrom+' · '+each.toLocaleString('de-DE',{maximumFractionDigits:2})
-      +' € je Person, relative Stufe; keine bestätigte Zahlung.'};
+      +' € je Person, relative Stufe; keine bestätigte Ausgabe oder Zahlung.'};
   }
   const ref=item?.researchV20?.priceReference;
   if(ref?.amountCents!=null&&ref.currency==='CHF'){
