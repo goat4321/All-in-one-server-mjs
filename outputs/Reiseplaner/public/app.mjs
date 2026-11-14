@@ -1336,11 +1336,17 @@ app.addEventListener('toggle',event=>{
 app.addEventListener('error',event=>{
   const image=event.target;
   if(!(image instanceof HTMLImageElement))return;
-  const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo');
+  const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo,.reference-intro-photo,.reference-discovery-image');
   if(!frame||image.dataset.fallbackApplied)return;
   image.dataset.fallbackApplied='true';
   image.style.display='none';
   frame.dataset.imageUnavailable='true';
+  if(frame.matches('.reference-intro-photo,.reference-discovery-image')){
+    const label=document.createElement('span');
+    label.className='reference-photo-fallback';
+    label.textContent='Bild gerade nicht verfügbar';
+    frame.append(label);
+  }
   if(frame.classList.contains('place-photo')&&!frame.querySelector('.place-photo-unavailable')){
     const label=document.createElement('span');
     label.className='place-photo-unavailable';
