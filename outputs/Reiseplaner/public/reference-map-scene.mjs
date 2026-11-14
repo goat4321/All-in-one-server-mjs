@@ -25,13 +25,13 @@ export function mapDayAgenda(ctx){
   const currentIndex=days.indexOf(ctx.date);
   const prevDay=currentIndex>0?days[currentIndex-1]:null;
   const nextDay=currentIndex>=0&&currentIndex<days.length-1?days[currentIndex+1]:null;
-  const dayNavigation='<div class="reference-day-steps" role="group" aria-label="Zwischen Reisetagen wechseln">'
+  const dayNavigation=days.length?'<div class="reference-day-steps" role="group" aria-label="Zwischen Reisetagen wechseln">'
     +'<button type="button" data-action="day" '+(prevDay?'data-value="'+esc(prevDay)+'"':'disabled')
-    +' aria-label="Vorheriger Reisetag" title="Vorheriger Reisetag">'+icon('left')+'</button>'
+    +' aria-label="Vorheriger Reisetag" title="Vorheriger Reisetag">'+icon('arrow-left')+'</button>'
     +'<span>Tag '+(currentIndex+1)+' / '+days.length+'</span>'
     +'<button type="button" data-action="day" '+(nextDay?'data-value="'+esc(nextDay)+'"':'disabled')
-    +' aria-label="Nächster Reisetag" title="Nächster Reisetag">'+icon('right')+'</button>'
-    +'</div>';
+    +' aria-label="Nächster Reisetag" title="Nächster Reisetag">'+icon('arrow-right')+'</button>'
+    +'</div>':'';
   const groups=day.slice(0,8).map((item,i)=>{
     const price=planCostSignal(item,people);
     const time=isValidTime(item.time)?item.time:'Flexibel';
