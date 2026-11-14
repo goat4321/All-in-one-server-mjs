@@ -3,6 +3,7 @@ import { explorerCategory, explorerDetail } from './map-explorer.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, googleMapsLocationStatus } from './google-maps.mjs';
 import { esc, sourceList, urlLink } from './ui.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
+import { planCostSignal } from './visual-experience.mjs';
 import { icon } from './ui.mjs';
 
 // Consistent, source-aware place facts. Missing information stays explicitly
@@ -16,6 +17,7 @@ export function placeProfileModel(item, ctx = {}) {
   if (!item || !item.id) return null;
   const people = Math.max(1, Number.isInteger(ctx.people?.length) ? ctx.people.length : 3);
   const detail = explorerDetail(item,people);
+  const priceTier=planCostSignal(item,people);
   const category = explorerCategory(item);
   const saved=ctx.state?.placePhotos?.[item.id] ?? null;
   const ownPhotos=(Array.isArray(saved)?saved:saved?[saved]:[]).filter(p=>
@@ -38,6 +40,7 @@ export function placeProfileModel(item, ctx = {}) {
     : 'Keine belegte Bewertung';
   const facts = [
     ['Kategorie',labelByCategory[category]??'Ort'],
+    ['Preisstufe · relative Orientierung',priceTier.tier+' · '+priceTier.amount],
     ['Preis für die Gruppe',priceLabel],
     ['Bewertung',rating],
     ['Standort',googleMapsLocationStatus(item)],
@@ -59,11 +62,39 @@ export function placeProfileModel(item, ctx = {}) {
   );
   else if(item.kind==='transport')facts.push(
     ['Betreiber',item.operator||'Nicht bestätigt'],['Fahrplan 2027',item.verification||'Nicht bestätigt']);
+  if(item.researchV20?.type==='activity'){
+    const review=item.researchV20;
+    facts.push(['Aktualisierte Quellenprüfung',review.reviewedOn
+      +' · '+review.reviewStatus.replaceAll('_',' ')]);
+    if(review.condition)facts.push(['Zugang / Bedingungen',review.condition]);
+    if(review.geoNote)facts.push(['Standortreferenz',review.geoNote]);
+    if(review.priceReference?.amountCents!=null)
+      facts.push(['Externer Tarif (nicht automatisch im Budget)',
+        money(review.priceReference.amountCents,review.priceReference.currency)
+        +' · '+review.priceReference.kind.replaceAll('_',' ')]);
+    if(item.routeResearchV20)facts.push(['Veröffentlichter Wanderweg',
+      item.routeResearchV20.distanceKm+' km · '+item.routeResearchV20.ascentM
+      +' Höhenmeter · '+item.routeResearchV20.durationMinutes+' Min. · '
+      +item.routeResearchV20.difficulty]);
+  }
+  if(item.researchV20?.type==='lodging'){
+    const review=item.researchV20,latest=review.lastSearch;
+    facts.push(['Erneute Unterkunftsprüfung',review.reviewedOn
+      +' · '+review.reviewStatus.replaceAll('_',' ')]);
+    if(latest)facts.push(['Neue Booking-Suchanzeige',
+      money(latest.totalCents,latest.currency)+' für '+latest.guests
+      +' Personen · '+latest.observedOn+' · keine Checkoutbestätigung']);
+    if(latest && item.price?.cents!=null && latest.totalCents!==item.price.cents)
+      facts.push(['Vorherige Suchanzeige',money(item.price.cents,item.price.currency)+' · historisch']);
+    if(review.pointConflict)facts.push(['Standortkonflikt',
+      review.pointConflict.distanceMetres+' m zwischen zwei Quellen · vor Routenberechnung prüfen']);
+    facts.push(['Noch zu verifizieren',review.pending.join('; ')]);
+  }
   if(isAirbnb)facts.push(['Airbnb-Hausadresse','Privat – exakter Standort nicht veröffentlicht']);
   if(observed)facts.push(['Preis- / Quellenstand',observed+' · Änderungen bis 2027 möglich']);
   return {
     id:item.id,name:item.name,category,isAirbnb,description:detail.description,
-    priceLabel,priceKnown:total!=null,sampleLabel,rating,observed,
+    priceLabel,priceTier,priceKnown:total!=null,sampleLabel,rating,observed,
     facts,details:detail.extra,sourceStatus:detail.sourceStatus,
     maps:googleMapsSearchUrl(item,ctx.cities),route:googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),
     providerUrl:item.website??null,photo:photos[0]??null,photos,ownPhotoCount:ownPhotos.length,
@@ -108,6 +139,7 @@ export function placePopupHtml(item,ctx={}) {
     +placeImageHtml(item,ctx,{small:true})
     +'<div class="place-map-popup-body"><span class="place-profile-eyebrow">'+esc(p.facts[0][1])+'</span>'
     +'<strong>'+esc(p.name)+'</strong>'
+    +'<p><b>Preisstufe:</b> '+esc(p.priceTier.tier)+' · '+esc(p.priceTier.amount)+'</p>'
     +'<p><b>Preis:</b> '+esc(p.priceLabel)+'</p>'
     +'<p><b>Bewertung:</b> '+esc(p.rating)+'</p>'
     +'<p class="muted">'+esc(p.isAirbnb?'Nur Umgebung bekannt':p.facts.find(x=>x[0]==='Standort')?.[1]??'')+'</p>'
@@ -121,6 +153,7 @@ export function placeQuickFacts(item,ctx={}) {
   const p=placeProfileModel(item,ctx);
   if(!p)return '';
   return '<div class="place-quick-facts" aria-label="Wichtige Ortsdaten">'
+    + '<span><strong>Preisstufe</strong><span class="universal-euro-tier" title="'+esc(p.priceTier.note)+'">'+esc(p.priceTier.tier)+'</span> · '+esc(p.priceTier.amount)+'</span>'
     + '<span><strong>Preis</strong>'+esc(p.priceLabel)+'</span>'
     + '<span><strong>Bewertung</strong>'+esc(p.rating)+'</span>'
     + '<span><strong>Position</strong>'+esc(p.isAirbnb?'Nur ungefähr bekannt':p.facts.find(x=>x[0]==='Standort')?.[1]??'Offen')+'</span>'
