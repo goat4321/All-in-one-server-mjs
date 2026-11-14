@@ -129,6 +129,9 @@ export function foodTypeTabs(ctx,counts={}){
  +foodTypes.map(([id,label,ico])=>'<button type="button" data-action="browse-food-type"'
    +' data-value="'+id+'" aria-pressed="'+((ctx.browseFoodType??'all')===id)+'">'
    +icon(ico)+'<span>'+esc(label)+'</span><small>'+(counts[id]??0)+'</small></button>').join('')
+ +'<button type="button" class="hub-food-favorites" data-action="browse-food-saved"'
+ +' aria-pressed="'+Boolean(ctx.browseFoodSavedOnly)+'">'
+ +icon('bookmark')+'<span>Gemerkte Orte</span><small>'+(counts.saved??0)+'</small></button>'
  +'</nav>';
 }
 export function foodBrowseCards(ctx,items){
@@ -138,7 +141,9 @@ export function foodBrowseCards(ctx,items){
   const hasMap=Array.isArray(item.point)&&item.point.length===2
       &&item.point.every(Number.isFinite);
   const tags=(item.tags??[]).slice(0,2);
-  const options=item.readOnlyExternal?null:item.kind==='activity';
+  const options=!item.readOnlyExternal&&item.kind==='activity';
+  const saved=ctx.state?.favorites?.includes(item.id)??false;
+  const external=Boolean(item.readOnlyExternal);
   return '<article class="hub-food-card" data-kind="'+esc(group)+'">'
     +placeImageHtml(item,ctx,{small:true})
     +'<div class="hub-food-card-body">'
@@ -147,12 +152,19 @@ export function foodBrowseCards(ctx,items){
     +'<h3>'+esc(item.name)+'</h3><p>'+esc(ctx.cities[item.city]?.name??item.city)
       +(item.address?' · '+esc(item.address):' · Adresse nicht geprüft')+'</p>'
     +'<div class="hub-food-card-tags">'
-    +'<span title="'+esc(signal.note)+'">'+esc(signal.tier)+' · '+esc(signal.amount)+'</span>'
+    +(external?'<span>OSM-Geodaten · Betrieb ungeprüft</span>'
+      :'<span title="'+esc(signal.note)+'">'+esc(signal.tier)+' · '+esc(signal.amount)+'</span>')
     +tags.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>'
+    +(external?'<p class="hub-market-precision">'+icon('pin')+' '
+      +esc(item.geoEvidence?.isCentroid
+        ?'Flächenmittelpunkt · kein bestätigter Eingang'
+        :'Kartierter Ladenstandort · Eingang ungeprüft')+'</p>':'')
     +'<div class="hub-food-card-actions">'
     +btn('details','Details & Quellen','folder',item.id)
     +(hasMap?btn('browse-map-item','Auf Karte','pin',item.id):'')
     +(options?btn('choose','Einplanen','plus',item.id,'primary'):'')
+    +(!external?btn('favorite',saved?'Gemerkt':'Merken',saved?'check':'bookmark',item.id):'')
+    +(external?urlLink(item.sourceUrl,'Kartendatenquelle'):'')
     +'</div></div></article>';
  }).join('');
  return cards?'<div class="hub-food-grid">'+cards+'</div>':
