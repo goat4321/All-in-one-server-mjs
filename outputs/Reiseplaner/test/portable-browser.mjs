@@ -181,6 +181,11 @@ try {
   await click('[data-action=map-motion][data-value=on]');
   assert.equal(await js('document.documentElement.dataset.motion'),'auto');
   await screenshot('16-hud-motion-controls-desktop.png');
+  // Do not leave the map design section open: the original later test
+  // explicitly opens it to check style switching and saved preferences.
+  await js('document.querySelector(".map-design-details[open] > summary")?.click()');
+  await until(()=>js('document.querySelector(".map-design-details")?.open===false'),
+    'Map design details restored to initial closed state');
   await js('document.querySelector(".map-explorer-split").scrollIntoView({block:"start"})');
   await screenshot('02-atlas-desktop-map-list.png');
   assert.ok(await js('document.querySelector("#map").compareDocumentPosition(document.querySelector(".day-route-builder")) & 4'),
