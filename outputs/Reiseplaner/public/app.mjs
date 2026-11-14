@@ -134,6 +134,7 @@ function buildContext() {
   const explorer = view.page === 'map' ? {
     ...explorerData(all, trip, {
       city: view.mapScope === 'city' ? city : null,
+      dayItemIds: view.mapScope === 'day' ? new Set(day.map(item=>item.id)) : null,
       group: view.mapGroup, search: view.mapSearch,
       nearbyPoint: nearbyAnchor?.point??null, radiusKm:view.mapNearRadiusKm,
       savedOnly:view.mapSavedOnly,savedIds,
@@ -670,11 +671,24 @@ async function action(name, value = '') {
       showCity(value === 'all' ? ctx.cityForDay(ctx.date) : value, ctx.date, value === 'all'); break;
     case 'mobile': view.mobile = value; render(); break;
     case 'show-route': view.total = true; changePage('map'); break;
-    case 'map-mode': view.total = value === 'total'; render(); break;
+    case 'map-mode':
+      if(!['day','city','total'].includes(value))break;
+      view.mapScope=value==='total'?'trip':value;
+      view.total=value==='total';
+      view.mapListLimit=60;
+      // A route/day switch must show the requested POIs, not retain a
+      // bounding box or "only saved" filter from a different map scope.
+      view.mapViewportOnly=false;view.mapViewportBounds=null;
+      view.mapSavedOnly=false;view.mapNearPointId=null;
+      render({fetchRoutes:false});
+      break;
     case 'explorer-scope':
-      view.mapScope = value === 'city' ? 'city' : 'trip';
-      view.total = view.mapScope === 'trip';
-      view.mapListLimit = 60; render(); break;
+      if(!['day','city','trip'].includes(value))break;
+      view.mapScope=value;
+      view.total=value==='trip';
+      view.mapListLimit=60;view.mapViewportOnly=false;
+      view.mapViewportBounds=null;view.mapNearPointId=null;
+      render({fetchRoutes:false}); break;
     case 'explorer-references':
       view.mapShowCityReferences = !view.mapShowCityReferences;
       render({ restoreView: true }); break;
