@@ -186,6 +186,10 @@ function paintMap(fit = false) {
       ?(context.day.find(i=>i.entryKey===context.selected)?.id??context.selected)
       :context.selected, timetablePreview: context.timetablePreview,
     explorer: context.explorer, dayRoute: context.dayRoute,
+    dayPreview:context.page==='map'&&view.mapSimple
+      &&context.explorer?.scope==='city'&&!context.day.some(x=>x.kind==='activity')
+      &&context.dayPlan?.slots.length
+      ?{slots:context.dayPlan.slots,sourceItems:context.all}:null,
     profileCtx: {people:context.people,cities:context.cities,state:context.state} });
   if (fit) currentMap.fit();
 }

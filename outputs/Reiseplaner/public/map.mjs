@@ -13,6 +13,20 @@ const labelNode = label => {
   return el;
 };
 
+/** A draft route may only reference a sourced POI, not city-wide fallbacks. */
+export function sourceBackedDayPreview(slots=[],all=[]){
+  const sources=new Map((all??[]).map(item=>[item.id,item]));
+  return (slots??[]).filter(slot=>!slot.optional).flatMap((slot,index)=>{
+    const item=sources.get(slot.id);
+    if(!item||item.kind!=='activity'||item.removed||item.duplicateOf)return [];
+    const p=item.point;
+    if(item.locationReferenceV07?.exactKnown!==true||item.geoEvidence?.isCentroid===true
+      ||!Array.isArray(p)||p.length!==2||!p.every(Number.isFinite)
+      ||Math.abs(p[0])>90||Math.abs(p[1])>180)return [];
+    return [{id:item.id,name:item.name,point:p,city:item.city,ordinal:index+1}];
+  });
+}
+
 function dataFile(file) {
   if (!layersCache.has(file)) layersCache.set(file, fetch('/transit/' + file + '.geojson').then(response => {
     if (!response.ok) throw new Error('Kartenebene fehlt.');
@@ -61,7 +75,7 @@ export class TripMap {
     const icon = L.divIcon({ className: '', html: '<span class="pin ' + style + '"><span>' + number + '</span></span>',
       iconSize: [30, 30], iconAnchor: [14 - offset, 29] });
     const marker = L.marker(point, { icon, title: text, alt: text, keyboard: true,
-      zIndexOffset: style.includes('focused') ? 1000 : 0 }).addTo(group);
+      zIndexOffset: style.includes('draft') ? 1800 : style.includes('focused') ? 1000 : 0 }).addTo(group);
     marker.bindTooltip(labelNode(text), { direction: 'top', offset: [offset, -22] });
     marker.on('click', click);
     marker.on('mouseover',()=>this.handlers.hover?.(id,true));
@@ -71,7 +85,7 @@ export class TripMap {
     return marker;
   }
 
-  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null, profileCtx = null }) {
+  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null, profileCtx = null, dayPreview = null }) {
     this.city = city;
     this.features.clearLayers();
     this.poiLayer.clearLayers();
@@ -128,6 +142,28 @@ export class TripMap {
           color, () => this.handlers.select(key), offset);
         if (!alt) area.push(item.point);
       }
+    }
+    // Numbered source-backed draft markers. The dotted segments are straight
+    // geographic connectors, explicitly NOT routed walking times or tracks.
+    const previewPoints=!total&&explorer&&dayPreview?.slots?.length
+      ?sourceBackedDayPreview(dayPreview.slots,dayPreview.sourceItems):[];
+    if(previewPoints.length){
+      const coords=previewPoints.map(point=>point.point);
+      if(coords.length>1){
+        L.polyline(coords,{color:'#fff',weight:9,opacity:.85,
+          dashArray:'5 10',interactive:false,className:'day-schematic-halo'})
+          .addTo(this.features);
+        L.polyline(coords,{color:'#268b58',weight:5,opacity:.96,
+          dashArray:'7 11',className:'day-schematic-route'})
+          .addTo(this.features)
+          .bindTooltip(labelNode('Tagesideen · schematische Luftlinie, keine berechnete Fußroute'));
+        if(!quietMotion())L.polyline(coords,{color:'#edffd0',weight:3,
+          opacity:.96,dashArray:'2 20',interactive:false,
+          className:'day-schematic-flow'}).addTo(this.features);
+      }
+      for(const point of previewPoints)this.marker(point.point,point.id,
+        point.ordinal+'. Tagesidee: '+point.name+' · nicht gebucht',point.ordinal,
+        'draft',()=>this.handlers.select(point.id));
     }
     if (explorer?.placed?.length) {
       this.poiItems = explorer.placed.filter(item => Array.isArray(item.point)
@@ -252,6 +288,8 @@ export class TripMap {
     if (!total && cities[city]?.country === 'CH' && filters.hiking) this.hiking.addTo(this.map);
     else this.hiking.remove();
     this.paintTransit(city, total ? {} : filters.transit);
+    if(previewPoints.length>=2&&!explorer?.nearby)
+      area.splice(0,area.length,...previewPoints.map(point=>point.point));
     if (!area.length && cities[city]?.point) area.push(cities[city].point);
     this.bounds = area;
   }

@@ -319,6 +319,11 @@ function mapPanel(ctx, full = false) {
           +ctx.dayRoute.items.length+' Stopps · '
           +(ctx.dayRoute.routes.filter(r=>r?.walkOnly).length)+' Fußwege berechnet</span></div>' : ''}
       <div class="map-hint" id="map-hint" hidden></div>
+      ${ctx.page==='map'&&ctx.mapSimple&&!ctx.total&&ctx.dayPlan?.slots.length
+       &&!ctx.day.some(item=>item.kind==='activity')
+        ?'<div class="reference-preview-map-note">'+icon('pin')
+          +' Tagesideen · nur belegte Pins, Wege noch nicht berechnet</div>'
+        :''}
     </div>
     ${full && !ctx.total && outside ? '<details class="reference-map-schedule-notice"><summary>'+icon('alert')+'<span>Fahrplan 2027 offen</span></summary>'
       +'<div>Die lokale Referenz deckt nur '+esc(dateText(timetable.from))+' bis '+esc(dateText(timetable.to))

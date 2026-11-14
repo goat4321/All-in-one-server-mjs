@@ -214,3 +214,23 @@ test('Preview suppresses the old empty-state placeholder and gives current city 
  const gallery=mapPhotoDiscovery(ctx);
  assert.ok((gallery.match(/class="reference-discovery-card"/g)||[]).length<=4);
 });
+
+test('Only independently sourced daily places receive numbered route-preview pins',async()=>{
+ const {sourceBackedDayPreview}=await import('../public/map.mjs');
+ const slots=[{id:'a',optional:false},{id:'b',optional:false},
+  {id:'c',optional:true},{id:'d',optional:false}];
+ const items=[
+  {id:'a',kind:'activity',name:'Real',point:[41.4036,2.1744],
+   locationReferenceV07:{exactKnown:true},geoEvidence:{isCentroid:false}},
+  {id:'b',kind:'activity',name:'Unknown',point:[41.4,2.2],
+   locationReferenceV07:{exactKnown:false}},
+  {id:'c',kind:'activity',name:'Alternative',point:[41.4,2.3],
+   locationReferenceV07:{exactKnown:true}},
+  {id:'d',kind:'activity',name:'Centroid',point:[41.4,2.4],
+   locationReferenceV07:{exactKnown:true},geoEvidence:{isCentroid:true}}
+ ];
+ const pins=sourceBackedDayPreview(slots,items);
+ assert.deepEqual(pins.map(x=>x.id),['a']);
+ assert.deepEqual(pins[0].point,[41.4036,2.1744]);
+ assert.equal(pins[0].ordinal,1);
+});

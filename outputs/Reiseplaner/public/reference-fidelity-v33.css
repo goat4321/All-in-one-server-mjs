@@ -410,3 +410,57 @@
  .simple-map-mode .reference-map-workspace>.explorer-right
    .explorer-categories{padding:3px 1px}
 }
+
+/* Iteration 2: real numbered POIs are highlighted; unverified addresses and
+   city-centre estimates remain excluded. Duration is NEVER inferred from a line. */
+@media(min-width:1180px){
+ .reference-travel-shell .reference-map-workspace{
+  grid-template-rows:101px minmax(0,354px) auto!important
+ }
+ .simple-map-mode .reference-map-workspace #map{
+  height:455px!important;min-height:455px!important;max-height:455px!important
+ }
+ .reference-travel-shell:not(.simple-map-mode) .reference-map-workspace #map{
+  height:422px!important;min-height:422px!important;max-height:422px!important
+ }
+}
+.reference-travel-shell .day-schematic-halo,
+.reference-travel-shell .day-schematic-route{
+ stroke-linecap:round;stroke-linejoin:round
+}
+.reference-travel-shell .day-schematic-route{
+ filter:drop-shadow(0 2px 4px #26754566)
+}
+.reference-travel-shell .day-schematic-flow{
+ stroke-linecap:round;pointer-events:none;
+ animation:simpleRouteTravel 2.8s linear infinite
+}
+.reference-travel-shell .pin.draft{
+ color:#fff;background:#22854d;border:3px solid #fff;
+ box-shadow:0 0 0 4px #2ea76249,0 5px 16px #145e3f55;
+ font-weight:850;transform-origin:center bottom
+}
+.reference-travel-shell .pin.draft:hover{
+ box-shadow:0 0 0 7px #2ea76243,0 8px 19px #145e3f66
+}
+.reference-travel-shell .reference-preview-map-note{
+ position:absolute;z-index:680;left:12px;bottom:13px;
+ display:inline-flex;align-items:center;gap:6px;
+ max-width:min(355px,calc(100% - 30px));padding:7px 10px;
+ border-radius:999px;color:#285e42;font-size:.66rem;font-weight:730;
+ background:#fffef9ed;border:1px solid #ffffffcf;
+ box-shadow:0 3px 13px #1640261b;backdrop-filter:blur(12px);
+ pointer-events:none
+}
+.reference-travel-shell .reference-preview-map-note>.ui-icon{height:14px;width:14px}
+@media(max-width:650px){
+ .reference-travel-shell .reference-preview-map-note{
+  left:8px;bottom:11px;max-width:calc(100% - 20px);font-size:.61rem
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .day-schematic-flow{animation:none!important}
+}
+:root[data-motion=off] .reference-travel-shell .day-schematic-flow{
+ animation:none!important
+}
