@@ -1,10 +1,10 @@
-# Phase 23 – Weitere offizielle Ortsrecherche, echte Vergleichsfunktion und kuratierte Bilder
+# Phase 23 – 16 neue offizielle Ortsrecherchen, echter Ortsvergleich und kuratierte Bilder
 
 **Entwicklungszweig:** `feature/v7-data-day-accommodation-rail` · 14.11.2026 · PR #5 bleibt ein Draft, ohne Merge, Buchung oder Produktionsdeployment.
 
-## 1. Neun zusätzliche individuell belegte Ortsprofile
+## 1. Sechzehn zusätzliche individuell belegte Ortsprofile
 
-Der bereits implementierte `research-v22`-Atlas wird von **21 auf 30** eingehend recherchierte und per ID zugeordnete Ortsguides ausgebaut. Jede Ergänzung erhält weiterhin Titel, verständliche Faktenbeschreibung, konkrete Hinweise, Einschränkungen, offiziellen Betreiber-/Tourismuslink und expliziten Zeit-/Buchungsvorbehalt. Die ursprünglichen Preise, Wahlen, Standortzuordnungen, Buchungsdaten und Ausgaben werden dabei **nicht** geändert.
+Der bereits implementierte `research-v22`-Atlas wird von **21 auf 37** eingehend recherchierte und per ID zugeordnete Ortsguides ausgebaut. Jede Ergänzung erhält weiterhin Titel, verständliche Faktenbeschreibung, konkrete Hinweise, Einschränkungen, offiziellen Betreiber-/Tourismuslink und expliziten Zeit-/Buchungsvorbehalt. Die ursprünglichen Preise, Wahlen, Standortzuordnungen, Buchungsdaten und Ausgaben werden dabei **nicht** geändert.
 
 | ID | Ort | Belastbare zusätzliche Aussage | Quelle |
 | --- | --- | --- | --- |
@@ -17,6 +17,20 @@ Der bereits implementierte `research-v22`-Atlas wird von **21 auf 30** eingehend
 | act-035 | Genua, Altstadt | Caruggi, UNESCO-Palazzi dei Rolli, Kathedrale San Lorenzo, Focaccia als separat zu bezahlende Bäckereiwaren | https://www.visitgenoa.it/en/node/21427 |
 | act-036 | Genua, Nervi-Küste | Anita-Garibaldi-Promenade rund 2 km, Spazier-/Sportkulisse über felsiger Küste, nicht mit der gesamten Anfahrt gleichsetzen | https://www.visitgenoa.it/en/node/1811 |
 | act-052 | Grindelwald First Flyer | 800 m Seilrutsche, bis 84 km/h, vier Personen parallel, **35–125 kg** Betriebsvoraussetzung, CHF 35/CHF 26 als gegenwärtige Referenz; keine garantierten 2027 Slots | https://www.jungfrau.ch/de-ch/grindelwaldfirst/first-flieger/ |
+
+### Ergänzende sieben offizielle Guides
+
+| ID | Ort | Präzise Aussage und notwendige Abgrenzung | Quelle |
+| --- | --- | --- | --- |
+| act-008 | Bogatell Beach, Barcelona | Städtisches Strandprofil mit konkreter Adresse und Rauchverbot; veröffentlichte Zeiten der **assistierten Badeleistung sind keine Strandöffnungszeiten** | https://guia.barcelona.cat/en/detall/bogatell-beach_92168143754.html |
+| act-019 | Sète, Canal Royal | Stadtkanal und Hafenpromenade; die touristische 45-Minuten-Bootstour wäre ein separat zu bezahlendes Erlebnis | https://www.archipel-thau.com/de/ein-archipel-aus-gemeinden/sete/die-highlights-von-sete/ |
+| act-020 | Sète, Pointe Courte | Historisches Fischerviertel, niedrige Häuser, Film von Agnès Varda; Teilgebiet statt einzelner Gebäudeeingang | https://www.archipel-thau.com/de/ein-archipel-aus-gemeinden/sete/die-highlights-von-sete/ |
+| act-026 | Villefranche-sur-Mer, Marinières | Öffentlich zugänglicher Strand ohne Eintritt laut Tourismusbüro, Badeaufsicht nur in der jeweiligen Saison; TER-Anreise ohne angenommenen 2027-Fahrplan | https://www.explorenicecotedazur.com/structure/plage-des-marinieres/ |
+| act-028 | Nice, Port Lympia | Optionaler Küstenweg bis Villefranche ungefähr **6 km / 2h30 einfach** – ausdrücklich **nicht** mit kurzem Hafen-Abendspaziergang identisch | https://www.explorenicecotedazur.com/sortir/randonnees/sentiers-du-littoral/ |
+| act-047 | Klöntalersee, Uferweg | Komplette Seeumrundung laut Schweiz Tourismus ungefähr **4 h**, aber ursprünglich geplante kurze Seeufertour ist nicht dasselbe | https://www.myswitzerland.com/de-de/reiseziele/kloentalersee/ |
+| act-048 | Rhodannenberg, Picknick | Ein offiziell dokumentierter Trailrun ab Rhodannenberg ist **21 km / 1142 Höhenmeter** – getrennt von einer ungezwungenen Rast am See | https://www.myswitzerland.com/de-at/erlebnisse/route/trail-run-kloentalersee/ |
+
+**Hinweis zum Stand:** Die Quellen belegen einzelne Hinweise auf städtischer oder touristischer Betreiberseite. Für 2027 gibt es noch keine allgemein bestätigten Eintrittskarten, Öffnungszeiten des einzelnen Strandservices oder verifizierten Bahnverbindungen.
 
 **Keine bewusste Preisüberschreibung.** Ein Eintritt beim Anbieter und ein öffentlicher Weg sind eigenständige Leistungsarten. 2026-Veröffentlichungen belegen nicht automatisch die gleiche Bedingung im September 2027.
 
