@@ -95,13 +95,13 @@ try {
   await text('.guide-panel', 'Tagesplan verstehen');
   assert.equal(await js('document.querySelector(".guide-panel")?.getAttribute("aria-modal")'),'true');
   await click('.guide-panel [data-action=guide-next]');
-  await text('h1','Karten-Explorer');
+  await text('h1','Interrail Test 2');
   await text('.guide-panel', 'Orte und Routen entdecken');
   await click('.guide-panel [data-action=guide-next]');
   await text('h1','Unterkünfte');
   await text('.guide-panel', 'Unterkünfte vergleichen');
   await click('.guide-panel [data-action=guide-prev]');
-  await text('h1','Karten-Explorer');
+  await text('h1','Interrail Test 2');
   await js('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
   await until(() => js('document.querySelector(".guide-panel") === null'), 'Tour per Escape geschlossen');
   await click('[data-action=guide-start]');
@@ -139,7 +139,7 @@ try {
   // Global trip explorer: all source-backed categories, geographic scope,
   // search, real routing attempt and explicitly adding a restaurant to a day.
   await click('.sidebar [data-action=page][data-value=map]');
-  await text('h1', 'Karten-Explorer');
+  await text('h1', 'Interrail Test 2');
   // The three reference-style map modes must change the actual explorer
   // dataset, not only the visual heading or the "total" overlay.
   const allMapCount=await js('document.querySelectorAll(".explorer-place").length');
@@ -446,7 +446,7 @@ try {
   assert.equal(store.current('interrail_classic').state.votes['local:nardi'].p1,5);
   assert.equal(store.current('interrail_classic').state.votes['local:nardi'].p2,3);
   assert.equal(store.current('interrail_swiss').state.votes?.['local:nardi'],undefined);
-  await text('h1', 'Karten-Explorer');
+  await text('h1', 'Interrail Test 2');
   // All archived research areas are exposed in the actual UI, read-only by default.
   await click('.sidebar [data-action=page][data-value=group]');
   await text('#main', 'Umfrage · drei Personen');
@@ -660,7 +660,7 @@ try {
   await click('[data-action=mobile][data-value=map]');
   await until(() => js('Boolean(document.querySelector("#map .leaflet-pane"))'), 'mobile Karte');
   await click('.mobile-dock [data-action=page][data-value=map]');
-  await text('h1','Karten-Explorer');
+  await text('h1','Interrail Test 2');
   await until(() => js('Boolean(document.querySelector("#map .leaflet-pane"))'),'Karte auch über mobile Dock erreichbar');
   assert.ok(await js('document.documentElement.scrollWidth <= window.innerWidth + 5'), 'Mobiles Layout hat horizontalen Überlauf.');
   await js('document.querySelector(".map-explorer-split").scrollIntoView({block:"start"})');
