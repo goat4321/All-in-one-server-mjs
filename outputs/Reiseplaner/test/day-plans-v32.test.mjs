@@ -100,3 +100,17 @@ test('Map draft uses existing sourced photo or icon placeholder only',()=>{
  assert.match(markup,/place-thumbnail/);
  assert.doesNotMatch(markup,/javascript:|onerror=/i);
 });
+
+test('Overnight train arrival is shown on the following day and transfer durations are only provisional',()=>{
+ const august=trips.find(t=>t.id==='interrail_august');
+ const departure=august.dayPlansV32.find(d=>d.date==='2027-08-17');
+ const arrival=august.dayPlansV32.find(d=>d.date==='2027-08-18');
+ assert.equal(departure.rides.length,2);
+ assert.ok(departure.estimatedTravelMinutes>500);
+ assert.equal(arrival.overnightArrivals.length,1);
+ assert.match(arrival.overnightArrivals[0].to,/Toulouse/);
+ assert.equal(arrival.overnightArrivals[0].confirmed2027,false);
+ const html=dayPlanPanel(sample(august,'2027-08-18'));
+ assert.match(html,/Nachtzug: Ankunft/);
+ assert.match(html,/2027 nicht bestätigt/);
+});

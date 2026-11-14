@@ -13,10 +13,16 @@ export function dayPlanPanel(ctx,{compact=false}={}){
  const day=ctx.dayPlan;
  if(!day)return '';
  const added=activeIds(ctx),pending=dayPlanCandidates(ctx);
+ const arrivals=(day.overnightArrivals??[]).map(t=>
+    '<li class="day-plan-transport day-plan-night-arrival">'
+    +'<span class="day-plan-rail-icon">'+icon('moon')+'</span>'
+    +'<span><strong>Nachtzug: Ankunft '+esc(t.to)+'</strong>'
+    +'<small>Plan '+esc(t.arrival)+' · 2027 nicht bestätigt</small></span></li>').join('');
  const rides=day.rides.map(t=>'<li class="day-plan-transport">'
     +'<span class="day-plan-rail-icon">'+icon(t.mode==='train'?'train':'car')+'</span>'
     +'<span><strong>'+esc(t.from)+' → '+esc(t.to)+'</strong>'
     +'<small>Plan '+esc(t.departure??'Zeit offen')+' – '+esc(t.arrival??'Zeit offen')
+    +(t.planMinutes?' · '+Math.round(t.planMinutes/60*10)/10+' h Fahrplanreferenz':'')
     +' · 2027 nicht bestätigt</small></span></li>').join('');
  const slots=day.slots.map((slot,index)=>{
   const already=added.has(slot.id),elsewhere=ctx.activeSet?.has(slot.id)&&!already;
@@ -37,8 +43,8 @@ export function dayPlanPanel(ctx,{compact=false}={}){
     +btn('details','Details','folder',slot.id)+'</div></li>';
  }).join('');
  const body='<div class="day-plan-inner">'
-    +(rides?'<div class="day-plan-block"><h4>'+icon('train')+' Anreise / Transfers (vorläufig)</h4>'
-    +'<ul class="day-plan-ride-list">'+rides+'</ul></div>':'')
+    +(rides||arrivals?'<div class="day-plan-block"><h4>'+icon('train')+' Anreise / Transfers (vorläufig)</h4>'
+    +'<ul class="day-plan-ride-list">'+arrivals+rides+'</ul></div>':'')
     +(slots?'<div class="day-plan-block"><h4>'+icon('calendar')+' Ideen nach Tagesabschnitt</h4>'
     +'<ol class="day-plan-stop-list">'+slots+'</ol></div>'
     :'<p class="day-plan-no-stops">Für diesen Reisetag sind bewusst keine zusätzlichen Aktivitäten fest vorgesehen.</p>')
@@ -46,8 +52,9 @@ export function dayPlanPanel(ctx,{compact=false}={}){
     +(day.reference?.url?'<p class="day-plan-official">'+urlLink(day.reference.url,'Betriebszeit offiziell prüfen')
        +'<small>'+esc(day.reference.note)+'</small></p>':'')
     +'<div class="day-plan-foot"><span>'+icon('clock')+' '
-      +(day.estimatedActivityMinutes?day.estimatedActivityMinutes+' Min. Aktivitätsideen zzgl. Wege/Transfers':'Bewusster Reise-/Puffertag')
-      +' · noch keine fixen Uhrzeiten</span>'
+      +(day.estimatedActivityMinutes?day.estimatedActivityMinutes+' Min. Aktivitätsideen':'Bewusster Reise-/Puffertag')
+      +(day.estimatedTravelMinutes?' · '+Math.round(day.estimatedTravelMinutes/60*10)/10+' h Fahrzeit nach Referenz':'')
+      +' · keine bestätigten 2027-Uhrzeiten</span>'
     +(pending.length?btn('day-plan-adopt',pending.length+' Ideen zum Tag hinzufügen','check','','primary'):'')
     +'</div></div>';
  const heading='<span class="day-plan-eyebrow">'+icon(types[day.pace]??'calendar')

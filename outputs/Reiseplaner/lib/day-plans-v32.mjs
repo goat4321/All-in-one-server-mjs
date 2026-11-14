@@ -2,6 +2,19 @@ import {readFile} from 'node:fs/promises';
 
 const isDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(value);
 const check=(ok,note)=>{if(!ok)throw Error('Tagespläne V32: '+note)};
+const clockMinutes=value=>{
+ const match=/^([01]\d|2[0-3]):([0-5]\d)/.exec(String(value??''));
+ return match?Number(match[1])*60+Number(match[2]):null;
+};
+export const provisionalLegMinutes=(departure,arrival)=>{
+ const from=clockMinutes(departure),to=clockMinutes(arrival);
+ if(from===null||to===null)return null;
+ const overnight=/\(\+1\)/.test(String(arrival));
+ const diff=to+(overnight||to<from?1440:0)-from;
+ return diff>0&&diff<=1440?diff:null;
+};
+const nextDay=value=>new Date(Date.parse(value+'T12:00:00Z')+86400000).toISOString().slice(0,10);
+
 const dayRange=(first,last)=>{
  check(isDate(first)&&isDate(last),'ungültige Kalendergrenzen');
  let days=[];
@@ -52,10 +65,18 @@ export function attachDayPlansV32(trips,transport,archive){
       departure:t.departure_local,arrival:t.arrival_local,
       confirmed2027:Boolean(t.scheduled_2027_confirmed),
       status:t.timetable_status??'provisional',
+      planMinutes:provisionalLegMinutes(t.departure_local,t.arrival_local),
      }));
+   const overnightArrivals=transport.filter(t=>t.trip_id===trip.id
+     &&nextDay(t.date_local)===plan.date&&/\(\+1\)/.test(String(t.arrival_local)))
+     .map(t=>({id:t.id,to:t.to,arrival:t.arrival_local.replace(/\s*\(\+1\)/,''),
+       confirmed2027:false}));
+
    check(rides.every(t=>!t.confirmed2027),'Fahrplanstatus muss separat geprüft werden');
    stats.plannedTransfers+=rides.length;stats.unconfirmedTransfers+=rides.length;stats.days++;
-   return {...plan,slots,rides,
+   return {...plan,slots,rides,overnightArrivals,
+      estimatedTravelMinutes:rides.every(x=>x.planMinutes!==null)
+        ?rides.reduce((total,x)=>total+x.planMinutes,0):null,
       estimatedActivityMinutes:slots.filter(x=>!x.optional).reduce((a,x)=>a+x.minutes,0)};
   });
   stats.trips++;
