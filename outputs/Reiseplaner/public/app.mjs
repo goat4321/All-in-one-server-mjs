@@ -142,7 +142,12 @@ function buildContext() {
   const foodWalks = Object.fromEntries(foodPlaces.map(item => [item.id, walks.get(walkKey(mealHotel?.point, item.point))]));
   let detail = day.find(i => i.entryKey === view.selected) ?? all.find(i => i.id === view.selected);
   const nearbyAnchor = all.find(i=>i.id===view.mapNearPointId&&validPoint(i.point)) ?? null;
-  const savedIds = readMapBookmarks(localStorage,variant.id);
+  // The map shortlist and itinerary favorites are two historical stores.
+  // Read them as one selection, while leaving their original persistence intact.
+  const savedIds = new Set([
+    ...readMapBookmarks(localStorage,variant.id),
+    ...(state.favorites??[]),
+  ]);
   const marketData=view.mapMarketsShown
     ?(view.mapScope==='trip'
       ?[...supermarketByCity.values()].flatMap(data=>data.items??[])
@@ -192,6 +197,7 @@ function buildContext() {
     budget: calculateBudget(active, state), day, fullDay, dates, date, city, cityForDay, dayCities, wholeDay, dayTravel, detail, hotelWalks, station,
     dayPlan:trip.dayPlansV32?.find(row=>row.date===date)??null,
     mealHotel, foodPlaces, foodWalks, explorer, marketItems,foodMarketCoverage,
+    browseSavedIds:savedIds,
     dayRoute: { items: view.dayQueueIds.map(id => all.find(x => x.id === id)).filter(Boolean),
       routes: view.dayQueueRoutes, time: view.dayQueueTime, status: view.dayQueueStatus,
       focusIndex: view.dayQueueFocus, displayMode: view.dayQueueDisplay },
@@ -717,6 +723,41 @@ async function discoverCommonsPhotos(ctx,item){
   }
 }
 
+/** One bookmark interaction for old plan favorites and the map shortlist.
+ * Existing Map bookmarks stay browser-local; editable catalog entries are
+ * saved to the variant's favorites. External POIs never enter variant state.
+ */
+async function toggleSavedEntry(ctx,item,{preferLocal=false}={}){
+  if(!item?.id)return;
+  const mapSaved=readMapBookmarks(localStorage,variant.id).has(item.id);
+  const favorite=ctx.state.favorites?.includes(item.id)??false;
+  const already=mapSaved||favorite;
+  const localFirst=preferLocal||item.readOnlyExternal;
+  if(!already){
+    if(localFirst){
+      toggleMapBookmark(localStorage,variant.id,item.id);
+      say('Für diese Reisevariante gemerkt.');
+      render({restoreView:true,fetchRoutes:false});
+    }else{
+      await save({...ctx.state,favorites:[...ctx.state.favorites,item.id]},
+        'Ort zur Merkliste hinzugefügt');
+    }
+  }else{
+    if(favorite){
+      await save({...ctx.state,favorites:ctx.state.favorites.filter(id=>id!==item.id)},
+        'Ort aus der Merkliste entfernt');
+    }
+    if(mapSaved){
+      toggleMapBookmark(localStorage,variant.id,item.id);
+      if(!favorite){
+        say('Ort aus der Merkliste entfernt.');
+      }
+      render({restoreView:true,fetchRoutes:false});
+    }
+  }
+  if(!already)motion.animateSaved(app,item.id);
+}
+
 async function action(name, value = '') {
   if (!context) return;
   const ctx = context;
@@ -744,6 +785,9 @@ async function action(name, value = '') {
     case 'browse-food-type':
       if(!['all','restaurants','markets','cook'].includes(value))break;
       view.browseFoodType=value;view.browseLimit=24;render({fetchRoutes:false});break;
+    case 'browse-save':
+      if(item)await toggleSavedEntry(ctx,item);
+      break;
     case 'browse-food-saved':
       view.browseFoodSavedOnly=!view.browseFoodSavedOnly;
       view.browseLimit=24;render({fetchRoutes:false});break;
@@ -959,16 +1003,12 @@ async function action(name, value = '') {
     case 'explorer-near-clear':
       view.mapNearPointId=null;view.mapListLimit=60;
       render({restoreView:true,fetchRoutes:false});break;
-    case 'explorer-save': {
+    case 'explorer-save':
       if(!item||!item.id||!['activity','lodging','transport'].includes(item.kind)){
-        say('Dieser Eintrag kann nicht auf die Karten-Merkliste gesetzt werden.');break;
+        say('Dieser Eintrag kann nicht zur Merkliste hinzugefügt werden.');break;
       }
-      const result=toggleMapBookmark(localStorage,variant.id,item.id);
-      say(result.saved?'Ort für diese Reisevariante gemerkt.':'Ort aus der Merkliste entfernt.');
-      render({restoreView:true,fetchRoutes:false});
-      if(result.saved)motion.animateSaved(app,item.id);
+      await toggleSavedEntry(ctx,item,{preferLocal:true});
       break;
-    }
     case 'explorer-saved-only':
       view.mapSavedOnly=!view.mapSavedOnly;view.mapListLimit=60;
       render({restoreView:true,fetchRoutes:false});break;
