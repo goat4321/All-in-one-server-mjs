@@ -25,6 +25,7 @@ const motion = createMotionController(document);
 let catalog, variant, currentMap, context, toastTimer, undo, revisionToken = 0, dragged, timetableSearch;
 let saving = false, loading = false;
 let commonsPhotoPick = null;
+let browseSearchTimer=null;
 const supermarketByCity=new Map();
 const marketRequests=new Map();
 const query = new URLSearchParams(location.search);
@@ -778,9 +779,12 @@ async function action(name, value = '') {
       view.browseScope=value;view.browseLimit=24;view.optionFilter='all';view.compareIds.clear();
       render({fetchRoutes:false});break;
     case 'browse-search-apply':
+      clearTimeout(browseSearchTimer);
+      browseSearchTimer=null;
       view.browseSearch=app.querySelector('#browse-search')?.value?.trim().slice(0,100)??'';
       view.browseLimit=24;render({fetchRoutes:false});break;
     case 'browse-search-reset':
+      clearTimeout(browseSearchTimer);browseSearchTimer=null;
       view.browseSearch='';view.browseLimit=24;render({fetchRoutes:false});break;
     case 'browse-food-type':
       if(!['all','restaurants','markets','cook'].includes(value))break;
@@ -792,6 +796,7 @@ async function action(name, value = '') {
       view.browseFoodSavedOnly=!view.browseFoodSavedOnly;
       view.browseLimit=24;render({fetchRoutes:false});break;
     case 'browse-reset':
+      clearTimeout(browseSearchTimer);browseSearchTimer=null;
       view.browseSearch='';view.browseFoodType='all';
       view.browseFoodSavedOnly=false;view.optionFilter='all';
       view.browseLimit=24;render({fetchRoutes:false});break;
@@ -1713,6 +1718,32 @@ document.addEventListener('keydown',event=>{
   }
 });
 app.addEventListener('input',event=>{
+  // Search the already-loaded catalog without another explicit submit.
+  // A short debounce avoids rebuilding every card after each keystroke;
+  // preserve the input focus and caret after rendering.
+  if(event.target.id==='browse-search'&&!event.isComposing){
+    clearTimeout(browseSearchTimer);
+    const previous=event.target;
+    browseSearchTimer=setTimeout(()=>{
+      browseSearchTimer=null;
+      if(!app.contains(previous)||!['food','lodging','discover'].includes(view.page))return;
+      const raw=previous.value.slice(0,100);
+      if(raw===view.browseSearch)return;
+      const focused=document.activeElement===previous;
+      const caret=focused?previous.selectionStart:null;
+      view.browseSearch=raw;view.browseLimit=24;
+      render({restoreView:true,fetchRoutes:false});
+      if(focused){
+        const input=app.querySelector('#browse-search');
+        input?.focus({preventScroll:true});
+        if(input&&Number.isInteger(caret)&&input.type==='search'){
+          const end=Math.min(caret,input.value.length);
+          input.setSelectionRange(end,end);
+        }
+      }
+    },320);
+    return;
+  }
   if(event.target.id==='coverage-filter-query'){
     applyCoverageFilters(app.querySelector('.entry-coverage'));
   }
