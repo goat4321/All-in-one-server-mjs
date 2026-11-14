@@ -8,6 +8,7 @@ import { railSalesStatus } from './verification.mjs';
 import { explorerData, explorerRouteInput, validPoint, mapPointInBounds } from './map-explorer.mjs';
 import { explorerList } from './explorer-ui.mjs';
 import { readMapBookmarks, toggleMapBookmark } from './map-shortlist.mjs';
+import { inspectorComparisonHtml } from './inspector-comparison.mjs';
 import {commonsDefaultQuery,commonsSearchUrl,commonsWebSearchUrl,commonsResults} from './commons-photo-search.mjs';
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
@@ -24,7 +25,7 @@ const view = {
   page: 'plan', date: null, city: null, wholeDay: null, total: false, selected: null, mobile: 'plan', menu: false, timetablePreview: null,
   theme: localStorage.getItem('reiseplan-theme') ?? 'light',
   filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
-  optionFilter: 'all', sort: 'source', compareIds: new Set(),
+  optionFilter: 'all', sort: 'source', compareIds: new Set(), inspectorCompareIds: [],
   mapScope: 'trip', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
   cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
@@ -209,7 +210,7 @@ function selectPoint(id, focusMap = true) {
     if (item?.point) {
       view.mobile = 'map';
       render({ focusMap: true });
-    } else if (item) itemDetails(context, item);
+    } else if (item) itemDetails(context, item, view.inspectorCompareIds);
   }
 }
 
@@ -351,7 +352,7 @@ async function switchVariant(id) {
     view.mapNearPointId=null;view.mapViewportOnly=false;view.mapViewportBounds=null;view.mapSavedOnly=false;
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0; view.geocodeReview=null;
     view.total = view.menu = false;
-    view.compareIds.clear();
+    view.compareIds.clear();view.inspectorCompareIds=[];
     view.dailyBudgetDate=null; view.showAllVotes=false;
     render();
   } finally { loading = false; }
@@ -1018,11 +1019,57 @@ async function action(name, value = '') {
       document.querySelector('#dialog .dialog-body')?.scrollTo({top:0,behavior:'auto'});
       break;
     }
+    case 'inspector-compare-add': {
+      if(!item||!['activity','lodging','transport'].includes(item.kind))break;
+      const current=view.inspectorCompareIds;
+      const first=ctx.all.find(x=>x.id===current[0]);
+      if(current.includes(item.id)){
+        view.inspectorCompareIds=current.filter(id=>id!==item.id);
+      }else if(first&&(first.city!==item.city||first.kind!==item.kind)){
+        view.inspectorCompareIds=[item.id];
+        say('Neuer Vergleich: Stadt oder Kategorie gewechselt. Die vorherige Auswahl wurde zurückgesetzt.');
+      }else if(current.length>=3){
+        say('Vergleiche höchstens drei Optionen derselben Stadt und Kategorie.');break;
+      }else{
+        view.inspectorCompareIds=[...current,item.id];
+      }
+      itemDetails(ctx,item,view.inspectorCompareIds);
+      break;
+    }
+    case 'inspector-compare-view': {
+      if(view.inspectorCompareIds.length<2){
+        say('Wähle zunächst zwei oder drei vergleichbare Einträge.');break;
+      }
+      openDialog('Reiseoptionen vergleichen',inspectorComparisonHtml(ctx,view.inspectorCompareIds));
+      break;
+    }
+    case 'inspector-compare-detail': {
+      const selected=ctx.all.find(x=>x.id===value);
+      if(selected)itemDetails(ctx,selected,view.inspectorCompareIds);
+      break;
+    }
+    case 'inspector-compare-remove': {
+      view.inspectorCompareIds=view.inspectorCompareIds.filter(id=>id!==value);
+      if(view.inspectorCompareIds.length>=2){
+        openDialog('Reiseoptionen vergleichen',inspectorComparisonHtml(ctx,view.inspectorCompareIds));
+      }else{
+        const last=ctx.all.find(x=>x.id===view.inspectorCompareIds[0]);
+        if(last)itemDetails(ctx,last,view.inspectorCompareIds);
+        else closeDialog();
+      }
+      break;
+    }
+    case 'inspector-compare-clear': {
+      view.inspectorCompareIds=[];
+      closeDialog();
+      say('Unverbindlichen Ortsvergleich zurückgesetzt.');
+      break;
+    }
     case 'inspector-neighbor': {
       const target=ctx.all.find(x=>x.id===value)
         ?? ctx.explorer?.placed.find(x=>x.id===value)
         ?? ctx.explorer?.unlocated.find(x=>x.id===value);
-      if(target)itemDetails(ctx,target);
+      if(target)itemDetails(ctx,target,view.inspectorCompareIds);
       break;
     }
     case 'inspector-map': {
@@ -1034,7 +1081,7 @@ async function action(name, value = '') {
       render({focusMap:Boolean(item.point)});
       break;
     }
-    case 'details': if (item) itemDetails(ctx, item); break;
+    case 'details': if (item) itemDetails(ctx, item, view.inspectorCompareIds); break;
     case 'verify-item': if (item && ['lodging', 'transport'].includes(item.kind)) verificationForm(ctx, item, save); break;
     case 'rail-reminder': {
       const task = catalog.research?.transportQueue?.find(row => row.id === value && row.trip_id === ctx.trip.id);
