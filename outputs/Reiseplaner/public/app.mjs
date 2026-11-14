@@ -1365,7 +1365,7 @@ app.addEventListener('toggle',event=>{
 app.addEventListener('error',event=>{
   const image=event.target;
   if(!(image instanceof HTMLImageElement))return;
-  const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo,.reference-intro-photo,.reference-discovery-image');
+  const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo,.reference-intro-photo,.reference-discovery-image,.reference-hero-thumb');
   if(!frame||image.dataset.fallbackApplied)return;
   image.dataset.fallbackApplied='true';
   image.style.display='none';

@@ -201,6 +201,11 @@ try {
     'Die sichtbare Kartenfläche muss im ersten Desktop-Screen beginnen, nicht nur das Panel');
   await js('window.scrollTo({top:0,behavior:"instant"})');
   await screenshot('08-atlas-oben-desktop.png');
+  assert.ok(await js('(() => { const shell=document.querySelector(".reference-travel-shell"),aside=document.querySelector(".reference-travel-shell>.sidebar"),m=document.querySelector(".reference-map-workspace>.map-panel"),l=document.querySelector(".reference-map-workspace>.explorer-right");if(!shell||!aside||!m||!l)return false;const mr=m.getBoundingClientRect(),lr=l.getBoundingClientRect();return getComputedStyle(aside).display==="none"&&mr.width>lr.width*2&&mr.top<210&&mr.left>lr.left; })()'),
+   'Travel reference: full-width map, no permanent sidebar, map aligned within first 210px');
+  await click('.reference-map-floating [data-action=map-mode][data-value=city]');
+  await screenshot('22-reference-city-map-1440.png');
+  await click('.reference-map-floating [data-action=map-mode][data-value=total]');
   assert.ok(await js('(() => { const m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect(),a=document.querySelector(".reference-map-workspace>.explorer-right")?.getBoundingClientRect();return m&&a&&m.left>a.left&&m.width>a.width*1.12; })()'),
     'Reference layout uses compact agenda on left and wider interactive map on right');
   assert.ok(await js('Boolean(document.querySelector(".reference-map-intro h1"))'),

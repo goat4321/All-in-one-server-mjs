@@ -256,9 +256,9 @@ export function mapSelectionPreview(ctx) {
 function mapPanel(ctx, full = false) {
   const tourCities=[...new Set(ctx.trip.route)].filter(id=>ctx.cities[id]?.point);
   const tripJourney=ctx.total&&ctx.page==='map'
-    ? '<div class="route-city-showcase" role="group" aria-label="Städte der Reiseroute">'
-      + '<div class="route-city-showcase-head"><strong>Reiseroute entdecken</strong>'
-      + '<span>Reihenfolge aus deiner Planung · Verbindungen schematisch</span></div>'
+    ? '<details class="route-city-showcase" aria-label="Städte der Reiseroute">'
+      + '<summary class="route-city-showcase-head"><strong>Reiseroute entdecken</strong>'
+      + '<span>Reihenfolge aus deiner Planung · Verbindungen schematisch</span></summary>'
       + '<div class="route-city-steps">'+tourCities.map((id,i)=>
         '<button type="button" class="route-city-step" data-action="city" data-value="'+esc(id)
         +'" aria-label="Reiseort '+(i+1)+': '+esc(ctx.cities[id].name)+' öffnen">'
@@ -268,7 +268,7 @@ function mapPanel(ctx, full = false) {
           ?shortDay(ctx.trip.stayByCity[id].from)
             +(ctx.trip.stayByCity[id].to?' – '+shortDay(ctx.trip.stayByCity[id].to):'')
           :'Reiseort')
-        +'</small></button>').join('')+'</div></div>'
+        +'</small></button>').join('')+'</div></details>'
     : '';
   const t = ctx.filters;
   const network = transitNetworks[ctx.city];
