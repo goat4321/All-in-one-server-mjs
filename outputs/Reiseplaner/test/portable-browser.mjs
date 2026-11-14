@@ -194,8 +194,8 @@ try {
   // The three reference-style map modes must change the actual explorer
   // dataset, not only the visual heading or the "total" overlay.
   const allMapCount=await js('document.querySelectorAll(".explorer-place").length');
-  await click('.reference-map-floating [data-action=map-mode][data-value=day]');
-  assert.equal(await js('document.querySelector(".reference-map-floating [data-value=day]").getAttribute("aria-pressed")'),"true");
+  await click('.map-scope-modes [data-action=explorer-scope][data-value=day]');
+  assert.equal(await js('document.querySelector(".map-scope-modes [data-value=day]").getAttribute("aria-pressed")'),"true");
   await text('.explorer-day-scope-info','Nur die bereits für diesen Tag geplanten Stopps');
   await screenshot('20-planned-day-only-map-1280.png');
   const dayMapTotal=await js('Number((document.querySelector(".explorer-list")?.textContent??"").match(/(\\d+) passende Einträge/)?.[1]??0)');
@@ -212,13 +212,13 @@ try {
     assert.ok(await js('Boolean(document.querySelector(".map-selected-place"))'),
       'Selecting a planned entry reveals its actual map inspector');
   }
-  await click('.reference-map-floating [data-action=map-mode][data-value=city]');
-  assert.equal(await js('document.querySelector(".reference-map-floating [data-value=city]").getAttribute("aria-pressed")'),"true");
+  await click('.map-scope-modes [data-action=explorer-scope][data-value=city]');
+  assert.equal(await js('document.querySelector(".map-scope-modes [data-value=city]").getAttribute("aria-pressed")'),"true");
   const cityMapCount=await js('document.querySelectorAll(".explorer-place").length');
   assert.ok(cityMapCount>=actualDayVisible,
     'City mode includes the current city research in addition to any planned day');
-  await click('.reference-map-floating [data-action=map-mode][data-value=total]');
-  assert.equal(await js('document.querySelector(".reference-map-floating [data-value=total]").getAttribute("aria-pressed")'),"true");
+  await click('.map-scope-modes [data-action=explorer-scope][data-value=trip]');
+  assert.equal(await js('document.querySelector(".map-scope-modes [data-value=trip]").getAttribute("aria-pressed")'),"true");
   await text('.travel-map-hud','Kartenpunkte');
   await text('.travel-map-hud','ohne Pin');
   assert.equal(await js('document.querySelector(".travel-map-hud-track")?.getAttribute("role")'),"meter");
@@ -254,7 +254,7 @@ try {
   await screenshot('08-atlas-oben-desktop.png');
   assert.ok(await js('(() => { const shell=document.querySelector(".reference-travel-shell"),aside=document.querySelector(".reference-travel-shell>.sidebar"),m=document.querySelector(".reference-map-workspace>.map-panel"),l=document.querySelector(".reference-map-workspace>.explorer-right");if(!shell||!aside||!m||!l)return false;const mr=m.getBoundingClientRect(),lr=l.getBoundingClientRect();return getComputedStyle(aside).display==="none"&&mr.width>lr.width*2&&mr.top<210&&mr.left>lr.left; })()'),
    'Travel reference: full-width map, no permanent sidebar, map aligned within first 210px');
-  await click('.reference-map-floating [data-action=map-mode][data-value=city]');
+  await click('.map-scope-modes [data-action=explorer-scope][data-value=city]');
   assert.ok(await js('document.querySelector(".map-scope-modes [data-value=city]")?.getAttribute("aria-pressed")==="true"'),
     'City mode highlights the independent city discovery option');
   await screenshot('22-reference-city-map-1440.png');
@@ -263,7 +263,7 @@ try {
     'City view: map starts directly under hero, calendar caveat stays available in a compact disclosure');
   assert.ok(await js('(() => {const c=document.querySelector(".reference-discovery");return c&&c.getBoundingClientRect().top<810;})()'),
     'Photo-led discovery belongs in the opening desktop screen, not below a large data panel');
-  await click('.reference-map-floating [data-action=map-mode][data-value=total]');
+  await click('.map-scope-modes [data-action=explorer-scope][data-value=trip]');
   assert.ok(await js('document.querySelector(".map-scope-modes [data-value=trip]")?.getAttribute("aria-pressed")==="true"'),
     'Whole trip mode is separate from the current day');
   assert.ok(await js('document.querySelector(".trip-schematic-flow")!==null'),
@@ -272,7 +272,7 @@ try {
     'Reference layout uses compact agenda on left and wider interactive map on right');
   assert.ok(await js('Boolean(document.querySelector(".reference-map-intro h1"))'),
     'Source photo / airy city header appears before the map');
-  assert.ok(await js('Boolean(document.querySelector(".reference-map-floating [data-action=map-mode]"))'),
+  assert.ok(await js('Boolean(document.querySelector(".map-scope-modes [data-action=explorer-scope]"))'),
     'Floating map route/day controls are real click actions');
   assert.ok(await js('Boolean(document.querySelector(".map-browse-panel"))'),
     'City browse categories are present beside the map, independently of the day');

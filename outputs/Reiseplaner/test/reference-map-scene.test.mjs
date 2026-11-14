@@ -240,5 +240,10 @@ test('Reference hero shows readable German date while exposing unchanged source 
  const html=mapImageIntro(context(trip));
  assert.match(html,/01\.09\.\s*–?\s*14\.09\./);
  assert.match(html,/title="2027-09-01 – 2027-09-14"/);
- assert.match(html,/noch nichts gebucht/);
+ assert.match(html,/keine Buchungen bestätigt/);
+ const booked=mapImageIntro({...context(trip),active:[{
+   id:'record',kind:'lodging',booked:true,removed:false,
+ }]});
+ assert.match(booked,/1 als gebucht markiert/);
+ assert.doesNotMatch(booked,/noch nichts gebucht/);
 });
