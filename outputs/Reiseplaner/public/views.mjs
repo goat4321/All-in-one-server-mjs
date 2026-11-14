@@ -3,6 +3,7 @@ import { surveyV19DayPanel, surveyV19RailPanel, surveyV19FoodPanel, surveyV19Bud
 import {v20RailStatus,v20FoodResearch,v20DataLedger} from './research-v20-ui.mjs';
 import {entryCoveragePanel} from './entry-coverage-ui.mjs';
 import {renderHeaderHud,renderDayHud,renderMapHud,mapSelectionEvidence} from './travel-hud.mjs';
+import {mapDayAgenda,mapImageIntro,mapFloatingControls,mapPhotoDiscovery} from './reference-map-scene.mjs';
 import { routeSketch } from './route-mini-map.mjs';
 import { destinationIllustration } from './destination-illustration.mjs';
 import { providerQuotePanel } from './provider-quotes-v13.mjs';
@@ -104,11 +105,12 @@ export function renderShell(ctx) {
 function content(ctx, city) {
   switch (ctx.page) {
     case 'overview': return overview(ctx);
-    case 'map': return heading('Karten-Explorer', 'Alle Orte, Unterkünfte, Restaurants und Aktivitäten der Reise auf einer Karte')
+    case 'map': return mapImageIntro(ctx)
       + explorerDayStrip(ctx)
-      + '<div class="map-explorer-split" aria-label="Karte und passende Ortsliste">'
-      + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Suche, Filter und Ortsliste">'
-      + explorerToolbar(ctx) + explorerList(ctx) + '</div></div>' + dayRouteView(ctx);
+      + '<div class="map-explorer-split reference-map-workspace" aria-label="Tagesroute, Karte und passende Orte">'
+      + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Tagesroute, Suche, Filter und Ortsliste">'
+      + mapDayAgenda(ctx) + explorerToolbar(ctx) + explorerList(ctx) + '</div></div>'
+      + mapPhotoDiscovery(ctx) + dayRouteView(ctx);
     case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
@@ -288,6 +290,7 @@ function mapPanel(ctx, full = false) {
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
     <div class="map-wrap" data-map-tone="${esc(ctx.mapTone)}"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div>
+      ${mapFloatingControls(ctx)}
       <div id="map-selection-preview" class="map-selection-preview" aria-live="polite">${mapSelectionPreview(ctx)}</div>
       ${renderMapHud(ctx)}
       ${ctx.explorer && ctx.dayRoute.items.length>1 && !ctx.total
