@@ -995,3 +995,19 @@ dialog:has(.inspector-comparison) .dialog-body{padding:16px 22px 22px}
  transition:none!important;animation:none!important}
 :root[data-motion=off] .reference-map-intro:hover img,
 :root[data-motion=off] .reference-discovery-card:hover img{transform:none!important}
+
+
+/* Keep photo-first design honest and graceful if Commons is offline. */
+.reference-intro-photo[data-image-unavailable=true],
+.reference-discovery-image[data-image-unavailable=true]{
+ background:linear-gradient(125deg,
+ color-mix(in srgb,var(--green) 12%,var(--paper)),
+ color-mix(in srgb,var(--paper) 80%,var(--bg)))}
+.reference-intro-photo[data-image-unavailable=true]>span:not(.reference-photo-fallback){
+ display:none}
+.reference-photo-fallback{display:grid;place-items:center;padding:15px;
+ text-align:center;height:100%;width:100%;
+ color:var(--muted);font-size:.69rem;line-height:1.5;z-index:2}
+.reference-intro-photo>.reference-photo-fallback{position:absolute;
+ right:0;top:0;color:var(--muted);background:transparent}
+.reference-discovery-image>.reference-photo-fallback{height:100%}
