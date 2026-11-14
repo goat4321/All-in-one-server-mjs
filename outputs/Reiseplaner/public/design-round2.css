@@ -420,3 +420,38 @@ dialog:has(.inspector-shell) .dialog-foot{border-top:1px solid var(--atlas-line)
 }
 @media(prefers-reduced-motion:reduce){.inspector-panel{animation:none}
  .inspector-cover-photo img{transition:none}.inspector-cover-photo:hover img{transform:none}}
+
+
+/* V22 contextual terms: keyboard-accessible source and data definitions. */
+.inspector-term{max-width:77ch;border-bottom:1px dashed var(--atlas-line);margin:4px 0;
+  position:relative}
+.inspector-term>summary{display:flex;align-items:center;justify-content:space-between;
+  gap:10px;list-style:none;cursor:pointer;font-size:.76rem;font-weight:640;
+  min-height:32px;padding:6px 1px;color:var(--green);transition:color .15s}
+.inspector-term>summary::-webkit-details-marker{display:none}
+.inspector-term>summary>span{border:1px solid var(--atlas-line);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;font-size:.73rem;
+  line-height:1;background:var(--atlas-soft);color:var(--muted);flex:none}
+.inspector-term>summary:hover{color:var(--text)}
+.inspector-term[open]>summary>span{background:var(--accent);color:var(--green)}
+.inspector-term>p{font-size:.74rem;line-height:1.65;color:var(--muted);
+  margin:4px 0 11px;padding-left:10px;border-left:2px solid var(--green)}
+
+/* Third reference-led global refinement: clearer typography and hierarchy,
+   fewer visible dividers, strong light surfaces, no fabricated imagery. */
+.sidebar-section .side-label{font-weight:780;letter-spacing:.08em}
+.sidebar .nav-btn{transition:background-color .15s ease,transform .15s ease}
+.sidebar .nav-btn:not([aria-current=page]):hover{transform:translateX(2px)}
+.page-head h1{font-weight:790;letter-spacing:-.052em}
+.page-head>div>p{max-width:72ch;color:var(--muted)}
+.explorer-place{transition:background-color .17s ease,border-color .17s ease,transform .17s ease}
+.explorer-place:hover{transform:translateY(-1px)}
+.explorer-place.atlas-hover{box-shadow:inset 3px 0 var(--green)}
+.timeline-event .event-card:hover{background:var(--atlas-soft)}
+.map-selected-place,.map-atlas-hud{box-shadow:0 7px 28px #142d211b}
+.place-profile-links{gap:9px}
+.place-profile-sources summary,.place-profile-more summary{font-weight:670}
+@media(prefers-reduced-motion:reduce){
+ .explorer-place,.sidebar .nav-btn{transition:none}
+ .explorer-place:hover,.sidebar .nav-btn:hover{transform:none}
+}
