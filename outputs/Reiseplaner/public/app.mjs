@@ -747,6 +747,10 @@ async function action(name, value = '') {
     case 'browse-food-saved':
       view.browseFoodSavedOnly=!view.browseFoodSavedOnly;
       view.browseLimit=24;render({fetchRoutes:false});break;
+    case 'browse-reset':
+      view.browseSearch='';view.browseFoodType='all';
+      view.browseFoodSavedOnly=false;view.optionFilter='all';
+      view.browseLimit=24;render({fetchRoutes:false});break;
     case 'browse-market-load':{
       if(ctx.page!=='food')break;
       const cityId=ctx.city;
@@ -757,17 +761,17 @@ async function action(name, value = '') {
       render({fetchRoutes:false});
       try{
         const data=await loadCityMarkets(cityId);
-        if(ctx.variant.id===variant.id){
+        if(ctx.variant.id===variant.id && context?.city===cityId){
           view.browseFoodType='markets';view.browseFoodSavedOnly=false;
           say(data.count+' kartierte Supermärkte für '+ctx.cities[cityId].name+' geladen.');
         }
       }catch(error){
-        if(ctx.variant.id===variant.id){
+        if(ctx.variant.id===variant.id && context?.city===cityId){
           view.browseMarketError=String(error.message??error);
           say('Supermarkt-Datenquelle: '+view.browseMarketError);
         }
       }finally{
-        view.browseMarketLoadingCity=null;
+        if(view.browseMarketLoadingCity===cityId)view.browseMarketLoadingCity=null;
         if(view.page==='food'&&ctx.variant.id===variant.id)
           render({fetchRoutes:false});
       }
@@ -804,6 +808,7 @@ async function action(name, value = '') {
     }
     case 'browse-map-item':
       if(!item||!item.point){say('Für diesen Eintrag ist kein genauer Kartenpunkt hinterlegt.');break;}
+      if(document.querySelector('#dialog')?.open)closeDialog();
       view.page='map';view.city=item.city;view.mapScope='city';view.total=false;
       view.mapGroup=explorerCategory(item);view.mapSearch='';
       if(item.readOnlyExternal)view.mapMarketsShown=true;

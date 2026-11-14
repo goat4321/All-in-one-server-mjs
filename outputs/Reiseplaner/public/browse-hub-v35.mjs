@@ -168,7 +168,10 @@ export function foodBrowseCards(ctx,items){
     +'</div></div></article>';
  }).join('');
  return cards?'<div class="hub-food-grid">'+cards+'</div>':
-  '<p class="hub-empty">Keine passenden Verpflegungsorte. Prüfe andere Kategorien, die Suche oder die übrigen Reiseorte.</p>';
+  '<div class="hub-empty"><strong>Keine passenden Verpflegungsorte</strong>'
+  +'<p>Versuche eine andere Kategorie oder einen anderen Suchbegriff.</p>'
+  +btn('browse-reset','Suche und Filter zurücksetzen','reset','','primary')
+  +'</div>';
 }
 
 /** Progressive disclosure: visible option essentials, verifiable details below.

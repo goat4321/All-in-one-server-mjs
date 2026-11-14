@@ -610,8 +610,10 @@ function options(ctx, lodging) {
       +(lodging?stayComparisonBoard(compared,ctx):'')
       +'</section>':'')
     +(cards?'<div class="hub-option-grid">'+cards+'</div>'
-      :empty('Keine passenden Optionen',
-        'Versuche eine andere Stadt, entferne Suchbegriffe oder setze Filter zurück.'))
+      :'<div class="hub-empty"><strong>Keine passenden Optionen</strong>'
+       +'<p>Versuche eine andere Stadt oder entferne die aktuellen Suchfilter.</p>'
+       +btn('browse-reset','Suche und Filter zurücksetzen','reset','','primary')
+       +'</div>')
     +(list.length>(ctx.browseLimit??24)
       ?'<div class="hub-more-button">'
         +btn('browse-more','Weitere '+Math.min(24,list.length-(ctx.browseLimit??24))
