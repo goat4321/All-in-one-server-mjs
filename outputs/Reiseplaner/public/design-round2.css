@@ -1121,3 +1121,71 @@ dialog:has(.inspector-comparison) .dialog-body{padding:16px 22px 22px}
  .reference-map-workspace>.map-panel{
   grid-column:2;grid-row:1 / span 2;align-self:start}
 }
+
+
+/* Phase 27 — three honest geographic scopes and clearer date / active stop
+   navigation. Controls stay functional in narrow overlays and reduced motion. */
+.reference-day-steps{display:inline-flex;align-items:center;gap:4px;
+  padding:2px 3px;border:1px solid var(--atlas-line);background:var(--paper);
+  border-radius:9px;flex:0 0 auto}
+.reference-day-steps>button{border:0;background:transparent;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--green);min-height:29px;min-width:30px;padding:4px;
+  border-radius:7px;cursor:pointer;transition:background-color .15s ease}
+.reference-day-steps>button:hover:not(:disabled){background:var(--atlas-soft)}
+.reference-day-steps>button:disabled{opacity:.28;cursor:default}
+.reference-day-steps>button>.ui-icon{height:14px;width:14px}
+.reference-day-steps>span{color:var(--muted);font-weight:710;
+ font-size:.66rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.reference-agenda-head{align-items:center;flex-wrap:wrap}
+.reference-agenda-head .reference-day-steps{margin-left:auto}
+.reference-agenda-head>.button{font-size:.65rem}
+.reference-agenda-item.is-active>.reference-agenda-index{background:var(--green);
+ color:#fff;border-color:var(--green);box-shadow:0 0 0 3px var(--accent)}
+.reference-agenda-item.is-active .reference-agenda-time{color:var(--green);
+ font-weight:760}
+.reference-agenda-select:focus-visible,.reference-map-floating button:focus-visible,
+.reference-day-steps>button:focus-visible,.reference-empty-discover:focus-visible{
+ outline:2px solid var(--green);outline-offset:2px}
+.reference-empty-discover{display:block;max-width:100%;margin-top:8px;
+ border:1px solid var(--atlas-line);border-radius:8px;
+ background:var(--accent);color:var(--green);
+ min-height:34px;padding:7px 9px;text-align:left;
+ font-size:.71rem;font-weight:720;cursor:pointer}
+.reference-empty-discover:hover{background:color-mix(in srgb,var(--green) 16%,var(--paper))}
+.explorer-scope>.explorer-day-scope-info{width:100%;flex:1 0 100%;
+ color:var(--muted);font-size:.68rem;line-height:1.44;padding:2px 0}
+.reference-discovery-actions{gap:6px}
+.reference-discovery-actions>.button{display:inline-flex;align-items:center;
+ gap:2px;font-size:.68rem;min-height:30px;padding:5px 6px}
+.reference-discovery-actions .ui-icon{width:12px;height:12px}
+.reference-discovery-actions>a{margin-left:auto;white-space:nowrap}
+.reference-map-floating>button:focus-visible{outline-offset:-1px}
+@media(max-width:950px){
+  .reference-day-steps>button{min-height:34px;min-width:36px}
+  .reference-agenda-head>.button{margin-left:0}
+}
+@media(max-width:430px){
+  .reference-map-floating>button{min-width:0;flex:1 1 25%;gap:3px;
+    padding:5px 3px;font-size:.61rem}
+  .reference-map-floating>button .ui-icon{height:15px;width:15px;
+    flex:0 0 15px}
+  .reference-map-floating>button span{min-width:0}
+  .reference-map-floating>button:nth-child(3) span{
+    font-size:0;line-height:0}
+  .reference-map-floating>button:nth-child(3) span:before{
+    content:"Route";font-size:.62rem;line-height:1.3}
+  .reference-agenda-head{gap:7px}
+  .reference-day-steps{order:2;margin-left:0!important}
+  .reference-agenda-head>.button{order:3;margin-left:auto}
+  .reference-discovery-actions>.button{padding:5px 6px}
+}
+@media(max-width:350px){
+  .reference-map-floating>button span{display:none}
+  .reference-map-floating>button{justify-content:center;min-height:40px}
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-day-steps>button{transition:none!important}
+}
+:root[data-motion=off] .reference-day-steps>button{
+ transition:none!important}
