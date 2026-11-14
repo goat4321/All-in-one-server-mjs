@@ -1,4 +1,4 @@
-import {esc,icon,btn,shortDay} from './ui.mjs';
+import {esc,icon,btn,shortDay,dateLabel} from './ui.mjs';
 import {conflicts} from './model.mjs';
 import {placeProfileModel,placeThumbnailHtml} from './place-profile.mjs';
 import {planCostSignal,dayPeriod} from './visual-experience.mjs';
@@ -175,8 +175,9 @@ export function mapImageIntro(ctx){
    +'<div class="reference-map-intro-copy"><small class="reference-map-eyebrow">'
    +esc(city)+' · DEINE REISE</small>'
    +'<h1>'+esc(title)+'</h1>'
-   +'<p>'+esc(from)+' – '+esc(to)+' · '+(ctx.people?.length??0)+' Reisende'
-   +' · Recherche und Entwurf, nicht gebucht</p>'
+   +'<p><span title="'+esc(from)+' – '+esc(to)+'">'+esc(dateLabel(from,to))
+   +'</span> · '+(ctx.people?.length??0)+' Reisende'
+   +' · noch nichts gebucht</p>'
    +(ctx.mapSimple?'<small class="simple-hero-hint">1. Ort finden · 2. Merken oder zum Tag hinzufügen · 3. Route ansehen</small>':'')
    +'</div>'
    +'<div class="reference-map-intro-actions">'

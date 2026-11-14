@@ -234,3 +234,11 @@ test('Only independently sourced daily places receive numbered route-preview pin
  assert.deepEqual(pins[0].point,[41.4036,2.1744]);
  assert.equal(pins[0].ordinal,1);
 });
+
+test('Reference hero shows readable German date while exposing unchanged source dates',()=>{
+ const trip=catalog.trips.find(t=>t.id==='interrail_classic');
+ const html=mapImageIntro(context(trip));
+ assert.match(html,/01\.09\.\s*–?\s*14\.09\./);
+ assert.match(html,/title="2027-09-01 – 2027-09-14"/);
+ assert.match(html,/noch nichts gebucht/);
+});

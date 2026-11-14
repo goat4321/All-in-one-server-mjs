@@ -1,3 +1,13 @@
+## Designvergleich V33
+
+Die Reisekarten-Oberfläche wurde erneut anhand der tatsächlich geöffneten Barcelona- und InterrailPlan-Referenzbilder überarbeitet: rechter Karten-/Fotobereich, linker chronologischer Tagesablauf, nur eine Desktop-Suche, nummerierte Tagesvorschläge auf tatsächlich belegten Kartenpositionen, mobile/stufenweise Anzeige. Die 46 V32-Tagesentwürfe sind jetzt auch in der Kartenansicht sofort sichtbar, ohne sie ungefragt zu speichern.
+
+- [Detailprotokoll des tatsächlichen Referenzvergleichs](PHASE_33_REFERENCE_COMPARISON.md)
+
+Die letzte Chrome-Screenshotabnahme von Phase 33 ist weiterhin offen, weil die GitHub-Actions-Runner bisher keine Schritte ausführen. Dies ist eine implementierte Codeänderung, keine bestätigte pixelgenaue Abnahme.
+
+---
+
 ## V32 – 46 fertige Tagesvorschläge für alle vier Reisen (14.11.2026)
 
 Die Startseite enthält den aufklappbaren Einstieg **Alle Tagespläne ansehen**. Die vier bestehenden Reisevarianten besitzen jetzt jeweils für **jeden einzelnen Reisetag** einen Tagesentwurf: Classic (14 Tage), Interrail mit Schweiz (14), August-Interrail (11), Schweizer Seen (7). Insgesamt: **46 Tage, 97 Aktivitätszuordnungen und 35 Fahrten aus den Original-Planungsdaten**.

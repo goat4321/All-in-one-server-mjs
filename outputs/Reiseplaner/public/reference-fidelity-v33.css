@@ -464,3 +464,36 @@
 :root[data-motion=off] .reference-travel-shell .day-schematic-flow{
  animation:none!important
 }
+
+/* Iteration 3: full controls keep their footer inside the map row; easy mode
+   uses a single uninterrupted map canvas exactly above photo cards. */
+@media(min-width:1180px){
+ .reference-travel-shell:not(.simple-map-mode) .reference-map-workspace{
+  grid-template-rows:101px minmax(0,391px) auto!important
+ }
+ .reference-travel-shell:not(.simple-map-mode) .reference-map-workspace>.explorer-right{
+  max-height:735px!important
+ }
+}
+@keyframes referenceDayPick{
+ 0%{transform:translateY(3px) scale(.965)}
+ 60%{transform:translateY(-2px) scale(1.025)}
+ 100%{transform:translateY(0) scale(1)}
+}
+.reference-travel-shell .reference-stage-days .day[aria-pressed=true]{
+ animation:referenceDayPick .35s cubic-bezier(.18,.8,.27,1) both
+}
+.reference-travel-shell .reference-map-intro-copy p{
+ font-size:.76rem;line-height:1.4
+}
+.reference-travel-shell .reference-map-intro-copy p>span{
+ font-weight:690;color:var(--text)
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .reference-stage-days .day[aria-pressed=true]{
+  animation:none!important
+ }
+}
+:root[data-motion=off] .reference-travel-shell .reference-stage-days .day[aria-pressed=true]{
+ animation:none!important
+}
