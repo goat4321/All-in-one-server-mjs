@@ -140,6 +140,15 @@ test('Sourced photo discovery favors current city and diversifies route, no repe
    for(const x of selected){
      assert.ok(gallery.includes('data-value="'+x.item.id+'"'));
    }
+   if(selected.length){
+     assert.equal((gallery.match(/data-action="explorer-save"/g)||[]).length,
+       selected.length,'Every sourced card offers an actual saved-place action');
+     ctx.explorer.saved=new Set([selected[0].item.id]);
+     const bookmarked=mapPhotoDiscovery(ctx);
+     assert.ok(bookmarked.includes('data-action="explorer-save" data-value="'
+       +selected[0].item.id+'" aria-pressed="true"'),
+       'The saved state comes from actual variant bookmarks, not a fake heart icon');
+   }
  }
 });
 test('Day mode gives an actionable city discovery path if the selected day is empty',()=>{
