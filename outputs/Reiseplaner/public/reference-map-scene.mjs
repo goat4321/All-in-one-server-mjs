@@ -162,6 +162,10 @@ export function mapImageIntro(ctx){
  const photo=imageCandidate?curatedPlacePhoto(imageCandidate):null;
  const title=ctx.variant?.state?.title??ctx.trip?.title??'Deine Reise';
  const from=ctx.trip?.from??'',to=ctx.trip?.to??'';
+ const bookedCount=(ctx.active??[]).filter(item=>item.booked&&!item.removed).length;
+ const bookingLabel=bookedCount
+   ?bookedCount+' als gebucht markiert · Anbieterbestätigung separat prüfen'
+   :'keine Buchungen bestätigt';
  const media=photo?
    '<a class="reference-hero-thumb" href="'+esc(photo.sourceUrl)
    +'" target="_blank" rel="noopener noreferrer" title="Lizenziertes Ortsmotiv – Bildquelle öffnen">'
@@ -177,8 +181,8 @@ export function mapImageIntro(ctx){
    +'<h1>'+esc(title)+'</h1>'
    +'<p><span title="'+esc(from)+' – '+esc(to)+'">'+esc(dateLabel(from,to))
    +'</span> · '+(ctx.people?.length??0)+' Reisende'
-   +' · noch nichts gebucht</p>'
-   +(ctx.mapSimple?'<small class="simple-hero-hint">1. Ort finden · 2. Merken oder zum Tag hinzufügen · 3. Route ansehen</small>':'')
+   +' · '+esc(bookingLabel)+'</p>'
+   +(ctx.mapSimple?'<small class="simple-hero-hint">Orte entdecken, merken und bei Bedarf zum Tagesplan hinzufügen.</small>':'')
    +'</div>'
    +'<div class="reference-map-intro-actions">'
    +(ctx.mapSimple
@@ -270,13 +274,16 @@ export function mapPhotoDiscovery(ctx){
   if(!ctx?.explorer)return '';
   const people=ctx.people?.length??1;
   const withPhoto=selectDiscoveryPhotos(ctx,ctx.mapSimple?4:8);
-  const title=withPhoto.length&&withPhoto.every(x=>x.item.city===ctx.city)
-    ?'Heute entdecken':'Orte entlang deiner Route';
+  const title=ctx.explorer.scope==='day'
+    ?'Ideen für diesen Reisetag'
+    :ctx.explorer.scope==='city'
+      ?(ctx.cities?.[ctx.city]?.name??ctx.city)+' entdecken'
+      :'Orte entlang deiner Route';
   const cards=withPhoto.map(({item,photo})=>{
     const signal=planCostSignal(item,people);
     const located=Array.isArray(item.point)&&item.point.length===2
       &&item.point.every(Number.isFinite);
-    const planned=(ctx.day??[]).some(entry=>entry.id===item.id);
+    const planned=ctx.activeSet?.has(item.id)??false;
     const saved=ctx.explorer.saved?.has(item.id)??false;
     return '<article class="reference-discovery-card">'
       +'<div class="reference-discovery-image"><img loading="lazy" decoding="async"'
@@ -295,7 +302,7 @@ export function mapPhotoDiscovery(ctx){
       +'<p>'+esc(ctx.cities?.[item.city]?.name??item.city)+' · '
       +esc(item.kind==='lodging'?'Unterkunft':
         item.kind==='transport'?'Verbindung':'Ort & Aktivität')
-      +(planned?' · Im heutigen Plan':'')+'</p>'
+      +(planned?' · Im Reiseplan':'')+'</p>'
       +'<div class="reference-discovery-actions">'
       +btn('details','Details','arrow',item.id,'subtle')
       +(located?btn('explorer-focus','Auf Karte','pin',item.id,'subtle'):'')

@@ -409,3 +409,16 @@
 }
 :root[data-motion=off] .hub-market-access,.hub-food-favorites,
 :root[data-motion=off] .hub-food-card-actions>a{transition:none!important}
+
+/* One clear scope selector; remove the three redundant day/city/route buttons
+   from the map overlay. The top map-scope-modes controls remain fully usable. */
+.reference-travel-shell .reference-map-workspace .reference-map-floating
+ [data-action="map-mode"]{display:none!important}
+.reference-travel-shell .reference-map-workspace .reference-map-floating{
+ padding:5px;border-radius:16px;gap:0}
+.reference-travel-shell .reference-map-workspace .reference-map-floating
+ [data-action="explorer-saved-only"]{min-height:41px}
+@media(max-width:650px){
+ .reference-travel-shell .reference-map-workspace .reference-map-floating{
+  padding:4px}
+}
