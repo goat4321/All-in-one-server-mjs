@@ -1,9 +1,10 @@
 import {esc,icon,btn,urlLink} from './ui.mjs';
 import {curatedPlacePhoto} from './curated-place-photos.mjs';
 import {destinationIllustration} from './destination-illustration.mjs';
-import {placeImageHtml} from './place-profile.mjs';
+import {placeImageHtml,placeProfileModel} from './place-profile.mjs';
 import {planCostSignal} from './visual-experience.mjs';
 import {explorerCategory,EXPLORER_GROUPS} from './map-explorer.mjs';
+import {googleMapsSearchUrl,googleMapsSearchLabel} from './google-maps.mjs';
 
 const kindTitle={lodging:'Unterkünfte entdecken',food:'Essen & Einkaufen',discover:'Orte & Aktivitäten'};
 const kindSub={lodging:'Aufenthalte vergleichen – erst prüfen, dann auswählen',
@@ -150,4 +151,83 @@ export function foodBrowseCards(ctx,items){
  }).join('');
  return cards?'<div class="hub-food-grid">'+cards+'</div>':
   '<p class="hub-empty">Keine passenden Verpflegungsorte. Prüfe andere Kategorien, die Suche oder die übrigen Reiseorte.</p>';
+}
+
+/** Progressive disclosure: visible option essentials, verifiable details below.
+ * No unlicensed hotel photos and no invented live 2027 checkout prices.
+ */
+export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighted=false,
+  verification=null,stayStats=null,meal=null}={}){
+ const profile=placeProfileModel(item,ctx);
+ if(!profile)return '';
+ const people=ctx.people?.length??1;
+ const signal=planCostSignal(item,people);
+ const city=ctx.cities?.[item.city]?.name??item.city;
+ const point=Array.isArray(item.point)&&item.point.length===2
+   &&item.point.every(Number.isFinite);
+ const favorite=ctx.state?.favorites?.includes(item.id)??false;
+ const status=active?'Im Reiseplan':item.booked?'Bereits gebucht':'Unverbindliche Option';
+ const amenity=lodging
+  ?[item.room||null,item.kitchen||'Küche nicht geprüft',
+     item.bedsDisplayed!=null?String(item.bedsDisplayed)+' Betten angezeigt':null]
+  :[item.duration?item.duration+' Min. geplant':null,
+     ...(item.tags??[]).slice(0,2)];
+ const rating=(Number.isFinite(item.ratingDisplayed)&&item.ratingDisplayed>0
+  &&item.ratingDisplayed<=5)
+    ?'<span class="hub-real-rating" title="Historische Angabe, nicht live">★ '
+       +esc(Number(item.ratingDisplayed).toFixed(1).replace('.',','))+'</span>':'';
+ const provenance=lodging?(item.quote?'Früherer Suchpreis · Checkout 2027 offen'
+   :'Preis, Verfügbarkeit und Zimmer prüfen')
+   :'Preis- und Öffnungsreferenzen, kein aktuelles Angebot';
+ return '<article class="hub-option-card" data-kind="'+(lodging?'lodging':'activity')
+   +'" data-city="'+esc(item.city)+'">'
+   +'<div class="hub-option-media">'+placeImageHtml(item,ctx,{small:true})
+   +'<span class="hub-option-status">'+icon(active?'check':lodging?'bed':'compass')
+   +' '+esc(status)+'</span></div>'
+   +'<div class="hub-option-content">'
+   +'<div class="hub-option-eyebrow"><span>'+icon(lodging?'bed':'compass')+' '
+   +esc(lodging?'Unterkunft':'Aktivität')+'</span><span>'+esc(city)+'</span></div>'
+   +'<h3>'+esc(item.name)+'</h3>'
+   +'<p class="hub-option-summary">'+esc(item.detail||item.note||
+       (lodging?'Unterkunft mit noch offenen Angaben':'Reiseidee aus der Recherche'))+'</p>'
+   +'<div class="hub-option-amenities">'
+   +amenity.filter(Boolean).slice(0,3).map(a=>'<span>'+esc(a)+'</span>').join('')
+   +'</div>'
+   +'<div class="hub-option-pricing"><div><small>Preisorientierung</small>'
+   +'<strong>'+esc(signal.tier)+' · '+esc(signal.amount)+'</strong>'
+   +'<span>'+esc(provenance)+'</span></div>'+rating+'</div>'
+   +'<div class="hub-option-primary-actions">'
+   +btn(active?'edit':meal?'meal-choose':'choose',
+     active?'Im Plan bearbeiten':lodging?'Unterkunft prüfen':'Zum Tag hinzufügen',
+     active?'edit':'plus',!active&&meal?meal.id:item.id,'primary')
+   +(point?btn('browse-map-item','Karte','pin',item.id):'')
+   +btn('details','Details','folder',item.id)
+   +'</div>'
+   +'<div class="hub-option-secondary-actions">'
+   +btn('favorite',favorite?'Gemerkt':'Merken',favorite?'check':'bookmark',item.id)
+   +btn('compare',highlighted?'Vergleich aktiv':'Vergleichen','compare',item.id)
+   +'</div>'
+   +'<details class="hub-option-evidence"><summary>'
+   +icon('chevron')+' Alle Angaben, Prüfpunkte & Quellen anzeigen</summary>'
+   +'<div class="hub-option-evidence-body">'
+   +'<p>'+esc(profile.description)+'</p>'
+   +'<div class="hub-fact-grid">'
+   +profile.facts.map(([key,value])=>
+    '<span><small>'+esc(key)+'</small><strong>'+esc(value)+'</strong></span>').join('')
+   +'</div>'
+   +(verification?'<p>Eigene Unterkunftsprüfung: '
+      +verification.count+'/'+verification.total+' · '
+      +(verification.complete?'dokumentiert':'noch unvollständig')+'</p>':'')
+   +(stayStats?'<p>Bahnhof-Fußweg: '
+      +(stayStats.stationWalkMinutes==null?'nicht belegt':
+        stayStats.stationWalkMinutes+' Min. berechnet')
+      +' · Offene Prüfungen: '+stayStats.risk.length+'</p>':'')
+   +(item.quote?.observedOn?'<p>Suchstand: '+esc(item.quote.observedOn)
+      +' · keine bestätigte Buchung.</p>':'')
+   +'<div class="hub-option-external">'
+   +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
+   +(profile.providerUrl?urlLink(profile.providerUrl,'Anbieter ansehen'):'')
+   +(lodging?btn('verify-item','Eigenprüfung','check',item.id):'')
+   +'</div></div></details>'
+   +'</div></article>';
 }
