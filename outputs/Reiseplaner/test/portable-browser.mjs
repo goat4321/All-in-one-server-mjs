@@ -350,7 +350,9 @@ try {
   assert.ok(await js('JSON.parse(localStorage.getItem("reiseplan-map-shortlist:interrail_classic")).includes("local:bormuth")'));
   await click('[data-action=explorer-saved-only]');
   await until(() => js('document.querySelectorAll(".explorer-place").length===1'),'Nur gemerkte Orte');
-  await click('[data-action=explorer-saved-only]');
+  await click('.map-scope-modes [data-action=explorer-scope][data-value=city]');
+  assert.equal(await js('document.querySelector(".reference-map-floating [data-action=explorer-saved-only]")?.getAttribute("aria-pressed")'),"false",
+    'Beim Scope-Wechsel darf ein unsichtbarer gespeicherte-Orte-Filter nicht aktiv bleiben');
   await text('#main', 'Reiseroute entdecken');
   await until(() => js('document.querySelectorAll(".route-city-step").length >= 4'), 'Interaktive Stadtetappen');
   await until(() => js('document.querySelectorAll(".map-legend-control").length===5'),'Fünf anklickbare Kartenkategorien');
