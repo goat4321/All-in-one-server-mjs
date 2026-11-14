@@ -1,0 +1,60 @@
+/* New gentle, photo-first map appearance inspired by supplied mobile ref. */
+.reference-travel-shell #map,.reference-travel-shell .map-wrap{
+ background:#e9f4e7!important;
+}
+.reference-travel-shell #map .leaflet-tile-pane{
+ filter:saturate(.75) sepia(.055);
+}
+.reference-travel-shell #map .leaflet-control-zoom{
+ border:0;box-shadow:0 4px 18px #1c4f3630;border-radius:17px;overflow:hidden}
+.reference-travel-shell #map .leaflet-control-zoom a{
+ width:42px;height:42px;line-height:40px;
+ color:#345b46;background:#fffcf4;font-weight:700}
+.photo-marker-container{border:0!important;background:transparent!important;overflow:visible!important}
+.map-mini-dot{
+ display:block;width:15px;height:15px;border:3px solid white;
+ border-radius:50%;background:#2a8b5c;
+ box-shadow:0 2px 11px #1c543c55;animation:mapBubblePop .27s cubic-bezier(.2,.8,.2,1) both}
+.map-category-bubble{
+ width:35px;height:35px;border:3px solid white;
+ border-radius:50%;display:grid;place-items:center;
+ background:#fffdf5;color:#2e7553;font-size:1.05rem;font-weight:750;
+ box-shadow:0 4px 15px #184e3255;animation:mapBubblePop .33s cubic-bezier(.16,1,.3,1) both;
+ transition:transform .2s ease,box-shadow .2s ease}
+.map-category-bubble.group-food{color:#c77734}
+.map-category-bubble.group-shop{color:#ba8b1c}
+.map-category-bubble.group-lodging{color:#4777b7}
+.map-category-bubble.group-transport{color:#7656a7}
+.map-category-bubble:hover,.photo-marker-container:hover .map-category-bubble{
+ transform:scale(1.13);box-shadow:0 7px 19px #15462e77}
+.map-photo-bubble{width:128px;display:flex;align-items:center;flex-direction:column;gap:2px;
+ animation:mapBubblePop .43s cubic-bezier(.18,.85,.2,1.15) both;
+ transform-origin:50% 80%;text-align:center;pointer-events:auto;
+ filter:drop-shadow(0 3px 6px #2f634530)}
+.map-photo-disc{width:75px;height:75px;border:3px solid white;overflow:hidden;
+ border-radius:50%;background:#daeee1;
+ box-shadow:0 4px 13px #184a2e66;
+ display:grid;place-items:center;transition:transform .22s ease}
+.map-photo-disc>img{width:100%;height:100%;object-fit:cover}
+.map-photo-disc>span{font-size:1.65rem;color:#42785a}
+.map-photo-bubble:hover .map-photo-disc{transform:scale(1.09)}
+.map-photo-meta{display:flex;align-items:center;justify-content:center;gap:3px;
+ margin-top:-9px;z-index:2;max-width:120px}
+.bubble-rated,.bubble-category-badge{padding:3px 7px;min-height:19px;
+ border-radius:999px;background:#fffdf5;white-space:nowrap;
+ font-size:.66rem;font-weight:800;box-shadow:0 3px 9px #1b462c32;color:#547259}
+.bubble-rated{color:#c67a1e}
+.map-photo-name{display:-webkit-box;-webkit-box-orient:vertical;
+ -webkit-line-clamp:2;overflow:hidden;max-width:127px;
+ color:#243b29;font-size:.78rem;font-weight:800;line-height:1.18;
+ text-shadow:0 1px 1px white,1px 0 2px white,-1px 0 2px white;
+ text-align:center;margin-top:4px}
+@keyframes mapBubblePop{0%{opacity:0;transform:translateY(11px) scale(.76)}
+ 70%{opacity:1;transform:translateY(-2px) scale(1.04)}
+ 100%{opacity:1;transform:translateY(0) scale(1)}}
+.reference-travel-shell #map .leaflet-control-attribution{
+ font-size:.6rem;background:#ffffffe3;padding:2px 6px;border-radius:7px}
+@media(prefers-reduced-motion:reduce){
+ .map-photo-bubble,.map-category-bubble,.map-mini-dot{animation:none!important}}
+:root[data-motion=off] .map-photo-bubble,:root[data-motion=off] .map-category-bubble,
+:root[data-motion=off] .map-mini-dot{animation:none!important}

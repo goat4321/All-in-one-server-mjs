@@ -2,6 +2,9 @@ import { transitNetworks } from './transit.mjs';
 import { localParts } from './model.mjs';
 import { explorerCategory, explorerUnlocatedCityClusters } from './map-explorer.mjs';
 import { routeStudioModel } from './route-studio.mjs';
+import { curatedPlacePhoto } from './curated-place-photos.mjs';
+import { installSoftVectorBasemap } from './vector-basemap.mjs';
+import { markerTier, validMapCoordinate, bubbleMarkup } from './photo-map-model.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
@@ -38,9 +41,10 @@ function dataFile(file) {
 export class TripMap {
   constructor(element, { focus, select, leg, visitCity, report, routeStop, hover }) {
     this.handlers = { focus, select, leg, visitCity, report, routeStop, hover };
-    this.map = L.map(element, { zoomControl: true, scrollWheelZoom: false,
-      preferCanvas: false, fadeAnimation: false, zoomAnimation: false,
-      markerZoomAnimation: false, minZoom: 3, maxZoom: 19 });
+    this.map = L.map(element, {zoomControl:true,scrollWheelZoom:true,
+      preferCanvas:false,fadeAnimation:true,zoomAnimation:true,
+      markerZoomAnimation:true,minZoom:3,maxZoom:19,zoomSnap:.5,
+      maxBounds:[[-85,-180],[85,180]],maxBoundsViscosity:.85});
     this.map.zoomControl.setPosition('bottomright');
     this.map.attributionControl.setPrefix(false);
     this.features = L.layerGroup().addTo(this.map);
@@ -49,17 +53,21 @@ export class TripMap {
     this.map.on('zoomend', () => this.paintExplorerPins());
     this.transit = L.layerGroup().addTo(this.map);
     this.markers = new Map();
-    const grid = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a>',
-      maxZoom: 19, keepBuffer: 1, updateWhenIdle: true,
+    // A neutral, pastel CARTO raster is available immediately. A keyless
+    // MapLibre Positron vector layer replaces it when WebGL/style loads.
+    // Never request the public tile.openstreetmap.org raster service.
+    const raster=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+      subdomains:'abcd',maxZoom:19,maxNativeZoom:19,keepBuffer:2,
+      attribution:'© <a href="https://www.openstreetmap.org/copyright" rel="noopener" target="_blank">OSM contributors</a> · <a href="https://carto.com/attributions" rel="noopener" target="_blank">CARTO</a>'
     });
-    let failures = 0;
-    grid.on('tileload', () => { failures = 0; report(''); });
-    grid.on('tileerror', () => {
-      if (++failures > 2) report('Straßenkacheln derzeit nicht erreichbar · Orte und gespeicherte Wege bleiben sichtbar');
-    });
-    if (!new URLSearchParams(location.search).has('offlineMap')) grid.addTo(this.map);
-    else this.map.attributionControl.addAttribution(grid.options.attribution);
+    this.basemap=raster;
+    if(!new URLSearchParams(location.search).has('offlineMap')){
+      raster.addTo(this.map);
+      void installSoftVectorBasemap(this.map,raster,{
+        report:message=>this.handlers.report?.(message),
+        alive:()=>element.isConnected
+      }).then(layer=>{if(layer)this.basemap=layer;});
+    }else this.map.attributionControl.addAttribution(raster.options.attribution);
     this.hiking = L.tileLayer.wms('https://wms.geo.admin.ch/', {
       layers: 'ch.swisstopo.swisstlm3d-wanderwege', format: 'image/png', transparent: true,
       minZoom: 10, maxNativeZoom: 18, maxZoom: 19, className: 'hiking-reference', opacity: .82,
@@ -335,14 +343,29 @@ export class TripMap {
         continue;
       }
       items.forEach((item,i)=>{
-        const id=item.explorerId??item.id,category=item.explorerCategory??'activity';
-        const offset=(i-(items.length-1)/2)*24;
-        this.marker(item.point,id,item.name,
-          {lodging:'H',food:'R',shop:'S',activity:'A',transport:'B'}[category],
-          'place-'+category+' explorer-pin'+(this.poiFocused===id?' focused':'')
-            +(this.poiSaved?.has(item.id)?' bookmarked':''),
-          ()=>this.handlers.select(id),offset,
-          null,this.poiLayer);
+        const id=item.explorerId??item.id;
+        const category=item.explorerCategory??explorerCategory(item);
+        const photo=curatedPlacePhoto(item);
+        const tier=markerTier(zoom,Boolean(photo),this.poiKeys.size);
+        const content=bubbleMarkup({
+          id,name:item.name,category,photoUrl:tier==='photo'?photo?.url:null,
+          rating:item.rating??item.providerRating??null,
+          saved:this.poiSaved?.has(item.id),tier,
+        });
+        const width=tier==='photo'?132:tier==='dot'?19:40;
+        const height=tier==='photo'?132:tier==='dot'?19:40;
+        const offset=(i-(items.length-1)/2)*Math.min(width,22);
+        const icon=L.divIcon({className:'photo-marker-container tier-'+tier,
+          html:content,iconSize:[width,height],
+          iconAnchor:[width/2-offset,tier==='photo'?112:height/2]});
+        const marker=L.marker(item.point,{icon,keyboard:true,
+          title:item.name,alt:item.name,zIndexOffset:this.poiFocused===id?2300:950})
+          .addTo(this.poiLayer);
+        marker.bindTooltip(labelNode(item.name),{direction:'top'});
+        marker.on('click',()=>this.handlers.select(id));
+        marker.on('mouseover',()=>this.handlers.hover?.(id,true));
+        marker.on('mouseout',()=>this.handlers.hover?.(id,false));
+        this.markers.set(id,marker);
         this.poiKeys.add(id);
       });
     }
