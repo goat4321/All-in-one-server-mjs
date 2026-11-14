@@ -935,6 +935,9 @@ async function action(name, value = '') {
       if(!['day','city','trip'].includes(value))break;
       view.mapScope=value;
       view.total=value==='trip';
+      // Scope changes should not silently retain the prior "only saved" mask.
+      // Keep explicit category/search filters, which the user can still see.
+      view.mapSavedOnly=false;
       view.mapListLimit=60;view.mapViewportOnly=false;
       view.mapViewportBounds=null;view.mapNearPointId=null;
       view.selected=null;
