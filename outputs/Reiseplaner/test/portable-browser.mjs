@@ -402,6 +402,16 @@ try {
   await text('#main', 'Forschungsarchiv');
   await text('#main', 'Offene Datenqualitätsbefunde');
   await text('#main', 'Einzelprüfung aller alten und neuen Datensätze');
+  await text('#main', 'Welche Einträge haben noch fehlende Angaben oder Bilder?');
+  await until(()=>js('document.querySelectorAll(".coverage-city").length>0'),
+    'Einzelne Ortsgruppen für fehlende Quellen und Bilder');
+  await js('document.querySelector(".coverage-city summary").click()');
+  await until(()=>js('document.querySelector(".coverage-city[open] .coverage-row [data-action=details]")!==null'),
+    'Einzeln aufrufbare Datenlücken');
+  await click('.coverage-city[open] .coverage-row [data-action=details]');
+  await text('dialog','Lizenzfotos suchen');
+  await text('dialog','Was fehlt noch?');
+  await click('dialog [data-action=close]');
   await text('#main', 'Standortprüfung · öffentliche Adressen');
   await text('#main', 'Bildabdeckung & offene Quellenfotos');
   assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("Adress-/Identitätskonflikte")'));
