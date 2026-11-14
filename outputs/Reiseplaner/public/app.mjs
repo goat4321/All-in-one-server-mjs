@@ -16,7 +16,7 @@ import { applyCoverageFilters,resetCoverageFilters } from './coverage-filter.mjs
 import {commonsDefaultQuery,commonsSearchUrl,commonsWebSearchUrl,commonsResults} from './commons-photo-search.mjs';
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
-import { btn, empty, esc, icon } from './ui.mjs';
+import { btn, empty, esc, icon, urlLink } from './ui.mjs';
 import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
 const app = document.querySelector('#app');
@@ -1350,7 +1350,24 @@ async function action(name, value = '') {
       render({focusMap:Boolean(item.point)});
       break;
     }
-    case 'details': if (item) itemDetails(ctx, item, view.inspectorCompareIds); break;
+    case 'details':
+      if(!item)break;
+      if(item.readOnlyExternal){
+        const precision=item.geoEvidence?.isCentroid
+          ?'Mittelpunkt einer kartierten Supermarktfläche – kein nachgewiesener Eingang.'
+          :'Als Punkt kartierter Supermarkt – genauer Eingang ungeprüft.';
+        openDialog('Supermarkt · offene Kartendaten',
+          '<div class="hub-market-dialog"><h3>'+esc(item.name)+'</h3>'
+          +'<p>'+esc(item.address??'Öffentliche Hausadresse nicht verfügbar')+'</p>'
+          +'<p>'+esc(precision)+'</p>'
+          +'<p>Quelle: OpenStreetMap / Overpass. Ob das Geschäft aktuell geöffnet'
+          +' oder überhaupt noch in Betrieb ist, wurde nicht unabhängig überprüft.</p>'
+          +urlLink(item.sourceUrl,'Original-Datensatz in OpenStreetMap')
+          +'<div class="dialog-foot">'+btn('browse-map-item','Auf Karte','pin',item.id)
+          +btn('close','Schließen')+'</div></div>');
+        break;
+      }
+      itemDetails(ctx,item,view.inspectorCompareIds);break;
     case 'verify-item': if (item && ['lodging', 'transport'].includes(item.kind)) verificationForm(ctx, item, save); break;
     case 'rail-reminder': {
       const task = catalog.research?.transportQueue?.find(row => row.id === value && row.trip_id === ctx.trip.id);
@@ -1435,8 +1452,8 @@ async function action(name, value = '') {
     }
     case 'add': editItem(ctx, null, 'activity', save); break;
     case 'add-rail': editItem(ctx, null, 'transport', save); break;
-    case 'edit': if (item) editItem(ctx, item, item.kind, save); break;
-    case 'choose': if(item){
+    case 'edit': if(item&&!item.readOnlyExternal)editItem(ctx,item,item.kind,save);break;
+    case 'choose': if(item&&!item.readOnlyExternal){
       // Browsing the whole trip must open the correct city's booking/plan form,
       // not silently assign a Nice/Paris option to Barcelona's current day.
       if(item.city!==ctx.city&&ctx.browseScope==='trip'
@@ -1454,7 +1471,7 @@ async function action(name, value = '') {
       if (item && !item.locked && !item.booked) { await withEdit(item, { removed: true, selected: false }, 'Aus dem Plan entfernt'); closeDialog(); }
       break;
     case 'clone-item':
-      if (item) {
+      if(item&&!item.readOnlyExternal){
         const { id, externalId, originalName, ...source } = item;
         const clone = { ...source, id: 'manual:' + crypto.randomUUID(), name: source.name + ' (Kopie)', locked: false, booked: false,
           removed: false, selected: false, origin: 'manuell' };
