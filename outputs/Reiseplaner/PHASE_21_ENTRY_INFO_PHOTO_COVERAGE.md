@@ -10,6 +10,22 @@ Die vorhandenen manuell zugeordneten Wikimedia-Commons-Fotoregeln sind von **21 
 
 Vorheriges V20-Forschungsarchiv bleibt unberührt: 57 einzeln geprüfte Zusatzaktivitäten (24 zuordenbare Quellenpositionen), 35 Anbieter-Unterkünfte (22 erneut gefunden), 29 date-only-Verbindungen, 40 Essens-/Abendideen, 8 separat verlinkte Indoor-Sportangebote. Neu in diesem Durchgang sind das Datenlücken-UI, drei neue individuell geprüfte Commons-Fotos, die quellenkonforme Wiederverwendung eines älteren Klöntalersee-Fotos in der Region Glarus und einige Anbieter-Detailnachträge. **Keine** Zahl darf als „alle Bilder geladen“, „alle Anbieter bestätigt“ oder „alle Einträge erledigt“ ausgelegt werden.
 
+## Genaue Bestandsaufnahme aus dem erfolgreichen CI-Lauf
+
+Die Prüfungen mit reinem Seed-/Originalkatalog (ohne später von Benutzern individuell hinzugefügte Bilder) ergeben:
+
+| Reisevariante | Katalogeinträge | Bilder zugeordnet | Beschreibung vorhanden | EUR-Vergleichspreis | Webquellen | Kartenkoordinate |
+|---|---:|---:|---:|---:|---:|---:|
+| Interrail Classic | 307 | **42** | 276 | 140 | 278 | 191 |
+| Interrail Swiss | 207 | **31** | 182 | 93 | 195 | 122 |
+| Interrail August | 204 | **32** | 174 | 53 | 187 | 108 |
+| Schweiz-Seen | 110 | **21** | 103 | 56 | 90 | 82 |
+| **Summe der Varianten** | **828** | **126** | **735** | **342** | **750** | **503** |
+
+**15,2 % der variantebezogenen Einträge besitzen im Seed-Bestand ein vordefiniertes Foto.** In jeder Variante fehlen weiterhin Eintragsbilder: 265 / 176 / 172 / 89. Ein Ortsfoto kann in mehreren Routenvarianten korrekt wiederholt werden; diese Zahlen stehen nicht für unterschiedliche Bilddateien oder 126 verschiedene Objekte. Die Webquelle ist als Link vorhanden, ohne zu beweisen, dass sämtliche Details oder 2027er Tarife aktuell sind. Der Bildzähler berücksichtigt Bilder nur als hinterlegte Quelle, nicht als Live-HTTP-Erreichbarkeitsgarantie.
+
+Der Kartenbericht enthält 829 kartensichtbezogene Einträge, weil die Kartenprojektion zusätzlich ggf. virtuelle Ankunftsmarker aus vorhandenen Transportdaten erzeugt; der einzelne echte Eintragskatalog enthält hier 828 variantenspezifische IDs. Die 510 Kartenpunkte aus dem Kartenbericht sind daher **nicht** dasselbe Messfeld wie 503 vorhandene Original-Eintragspunkte in der Qualitätszählung.
+
 ## Datenabdeckungsseite
 
 In **Daten & Fristen** wird der Bericht aus dem aktuellen Katalog und dem für diese Reisevariante gespeicherten Zustand **dynamisch neu erstellt**. Zählt alle Einträge der Reisevariante (Duplikat-IDs nur einmal) und berichtet:
