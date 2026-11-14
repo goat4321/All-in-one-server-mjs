@@ -8,6 +8,7 @@ import { railSalesStatus } from './verification.mjs';
 import { explorerData, explorerRouteInput, validPoint, mapPointInBounds } from './map-explorer.mjs';
 import { explorerList } from './explorer-ui.mjs';
 import { readMapBookmarks, toggleMapBookmark } from './map-shortlist.mjs';
+import {commonsDefaultQuery,commonsSearchUrl,commonsWebSearchUrl,commonsResults} from './commons-photo-search.mjs';
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
 import { btn, empty, esc, icon } from './ui.mjs';
@@ -17,6 +18,7 @@ const app = document.querySelector('#app');
 const toast = document.querySelector('#toast');
 let catalog, variant, currentMap, context, toastTimer, undo, revisionToken = 0, dragged, timetableSearch;
 let saving = false, loading = false;
+let commonsPhotoPick = null;
 const query = new URLSearchParams(location.search);
 const view = {
   page: 'plan', date: null, city: null, wholeDay: null, total: false, selected: null, mobile: 'plan', menu: false, timetablePreview: null,
@@ -582,6 +584,58 @@ function exportCalendar() {
   download('reiseplan.ics', lines.join('\r\n') + '\r\n', 'text/calendar;charset=utf-8');
 }
 
+async function discoverCommonsPhotos(ctx,item){
+  const previous=document.querySelector('#commons-photo-query');
+  const query=(previous?.value?.trim() || commonsDefaultQuery(item,ctx.cities)).slice(0,110);
+  const rid=Symbol('commonsPhotoSearch');
+  commonsPhotoPick={request:rid,variantId:ctx.trip.id,itemId:item.id,results:[]};
+  const sourceLink=commonsWebSearchUrl(query);
+  const shell=(body)=>'<p class="muted">Die Ergebnisse sind nur Bildvorschläge. '
+    +'Bitte prüfen, ob das Bild tatsächlich diesen Ort zeigt. Für Unterkünfte insbesondere: '
+    +'keine Zimmer- oder Objektbilder anderer Anbieter übernehmen. Nur zulässige CC-/Public-Domain-Lizenzen '
+    +'mit Urheber und Lizenzquelle werden zur Übernahme angeboten.</p>'
+    +'<div class="commons-photo-searchbar"><label class="field"><span>Ort / Suchbegriff</span>'
+    +'<input type="search" id="commons-photo-query" maxlength="110" value="'+esc(query)+'"></label>'
+    +btn('commons-photo-search','Erneut suchen','compass',item.id)
+    +'</div><p class="muted">'+
+    '<a href="'+esc(sourceLink)+'" target="_blank" rel="noopener noreferrer">Suche direkt auf Wikimedia Commons öffnen</a>'
+    +' · Externe Bilder werden erst nach deiner Bestätigung gespeichert.</p>'+body
+    +'<div class="dialog-foot">'+btn('photo-edit','Bildlink manuell ergänzen','pin',item.id)
+    +btn('close','Schließen')+'</div>';
+  openDialog('Lizenzbilder finden · '+item.name,shell('<p role="status">Lizenzdaten und Vorschaubilder werden geladen …</p>'));
+  try{
+    const response=await fetch(commonsSearchUrl(query),{headers:{Accept:'application/json'},
+      signal:AbortSignal.timeout(13000)});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const data=await response.json();
+    if(!commonsPhotoPick||commonsPhotoPick.request!==rid||variant.id!==ctx.trip.id
+      ||!document.querySelector('#dialog')?.open)return;
+    const results=commonsResults(data).slice(0,12);
+    commonsPhotoPick.results=results;
+    if(!results.length){
+      openDialog('Lizenzbilder finden · '+item.name,shell(
+        '<p role="status">Keine ausreichend lizenzierten Bilder gefunden. '
+        +'Versuche einen anderen Ortsnamen oder nutze die Commons-Seite und den manuellen Bildlink.</p>'));
+      return;
+    }
+    const cards='<div class="commons-photo-results">'+results.map((p,index)=>
+      '<article><img loading="lazy" src="'+esc(p.url)+'" alt="Vorschau: '
+      +esc(p.name)+'"><strong>'+esc(p.name)+'</strong><small>'+esc(p.credit)
+      +'</small><div class="row-actions">'+btn('commons-photo-choose','Dieses Motiv übernehmen','check',String(index),'subtle')
+      +'<a href="'+esc(p.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bild und Lizenz prüfen</a></div></article>'
+    ).join('')+'</div>';
+    openDialog('Lizenzbilder finden · '+item.name,shell(cards));
+  }catch(err){
+    if(!commonsPhotoPick||commonsPhotoPick.request!==rid
+      ||!document.querySelector('#dialog')?.open)return;
+    commonsPhotoPick.results=[];
+    openDialog('Lizenzbilder finden · '+item.name,shell(
+      '<p role="status">Wikimedia Commons ist derzeit nicht erreichbar ('
+      +esc(String(err?.message??'Netzwerkfehler'))+'). '
+      +'Du kannst die Suche extern öffnen und das Bild danach mit URL, Urheber und Lizenz manuell ergänzen.</p>'));
+  }
+}
+
 async function action(name, value = '') {
   if (!context) return;
   const ctx = context;
@@ -871,6 +925,33 @@ async function action(name, value = '') {
           if(Object.keys(ballot).length)votes[item.id]=ballot;else delete votes[item.id];
           await save({...ctx.state,votes},'Gruppenstimmen für diese Reisevariante aktualisiert');
         });
+      break;
+    }
+    case 'commons-photo-search': {
+      if(!item)break;
+      const prev=ctx.state.placePhotos?.[item.id];
+      const count=Array.isArray(prev)?prev.length:prev?1:0;
+      if(count>=5){say('Fünf manuelle Galerieplätze sind bereits belegt.');break;}
+      await discoverCommonsPhotos(ctx,item);
+      break;
+    }
+    case 'commons-photo-choose': {
+      const picked=commonsPhotoPick,position=Number(value);
+      if(!picked||picked.variantId!==ctx.trip.id||!Number.isInteger(position)
+        ||position<0||position>=picked.results.length)break;
+      const selected=ctx.all.find(x=>x.id===picked.itemId);
+      if(!selected)break;
+      const p=picked.results[position];
+      if(p.identityVerified!==false)break;
+      const old=ctx.state.placePhotos?.[selected.id]??null;
+      const photos=Array.isArray(old)?old:old?[old]:[];
+      if(photos.length>=5){say('Maximal fünf Fotos je Ort.');break;}
+      if(photos.some(x=>x.sourceUrl===p.sourceUrl)){say('Dieses Foto ist bereits gespeichert.');break;}
+      await save({...ctx.state,placePhotos:{...ctx.state.placePhotos,
+        [selected.id]:[...photos,{url:p.url,sourceUrl:p.sourceUrl,credit:p.credit}]}},
+        'Ausgewähltes Commons-Foto mit Lizenzquelle in dieser Reisevariante gespeichert');
+      commonsPhotoPick=null;
+      closeDialog();
       break;
     }
     case 'photo-edit': {
