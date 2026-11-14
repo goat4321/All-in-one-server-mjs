@@ -37,6 +37,7 @@ const view = {
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
   browseScope:'city',browseSearch:'',browseFoodType:'all',browseLimit:24,
+  browseFoodSavedOnly:false,browseMarketLoadingCity:null,browseMarketError:null,
   browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
   dayPlanOpen:false,
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
@@ -146,6 +147,18 @@ function buildContext() {
     ?(view.mapScope==='trip'
       ?[...supermarketByCity.values()].flatMap(data=>data.items??[])
       :supermarketByCity.get(city)?.items??[]):[];
+  const loadedMarketCities=[...new Set(trip.route)].filter(id=>supermarketByCity.has(id));
+  const marketItems=loadedMarketCities.filter(id=>view.browseScope==='trip'||id===city)
+    .flatMap(id=>supermarketByCity.get(id)?.items??[]);
+  const foodMarketCoverage={
+    cityLoaded:supermarketByCity.has(city),
+    loadedCities:loadedMarketCities.length,
+    totalCities:new Set(trip.route).size,
+    count:supermarketByCity.get(city)?.count??0,
+    checkedOn:supermarketByCity.get(city)?.checkedOn??null,
+    loading:view.browseMarketLoadingCity===city,
+    error:view.browseMarketError,
+  };
   const explorer = view.page === 'map' ? {
     ...explorerData([...all,...marketData], trip, {
       city: view.mapScope === 'city' ? city : null,
@@ -178,7 +191,7 @@ function buildContext() {
     ...view, catalog, variant, variants: catalog.variants, trip, cities: catalog.cities, state, people, all, active, activeSet,
     budget: calculateBudget(active, state), day, fullDay, dates, date, city, cityForDay, dayCities, wholeDay, dayTravel, detail, hotelWalks, station,
     dayPlan:trip.dayPlansV32?.find(row=>row.date===date)??null,
-    mealHotel, foodPlaces, foodWalks, explorer,
+    mealHotel, foodPlaces, foodWalks, explorer, marketItems,foodMarketCoverage,
     dayRoute: { items: view.dayQueueIds.map(id => all.find(x => x.id === id)).filter(Boolean),
       routes: view.dayQueueRoutes, time: view.dayQueueTime, status: view.dayQueueStatus,
       focusIndex: view.dayQueueFocus, displayMode: view.dayQueueDisplay },
@@ -709,7 +722,8 @@ async function action(name, value = '') {
   const ctx = context;
   const item = ctx.all.find(i => i.id === value)
     ?? ctx.explorer?.placed.find(i => i.id === value)
-    ?? ctx.explorer?.unlocated.find(i => i.id === value);
+    ?? ctx.explorer?.unlocated.find(i => i.id === value)
+    ?? ctx.marketItems?.find(i=>i.id===value);
   switch (name) {
     case 'guide-start': guideNavigate(0); break;
     case 'guide-next': guideNavigate(Math.min(GUIDE_STEPS.length-1,view.guideIndex+1)); break;
@@ -730,6 +744,35 @@ async function action(name, value = '') {
     case 'browse-food-type':
       if(!['all','restaurants','markets','cook'].includes(value))break;
       view.browseFoodType=value;view.browseLimit=24;render({fetchRoutes:false});break;
+    case 'browse-food-saved':
+      view.browseFoodSavedOnly=!view.browseFoodSavedOnly;
+      view.browseLimit=24;render({fetchRoutes:false});break;
+    case 'browse-market-load':{
+      if(ctx.page!=='food')break;
+      const cityId=ctx.city;
+      if(supermarketByCity.has(cityId)){
+        view.browseFoodType='markets';render({fetchRoutes:false});break;
+      }
+      view.browseMarketError=null;view.browseMarketLoadingCity=cityId;
+      render({fetchRoutes:false});
+      try{
+        const data=await loadCityMarkets(cityId);
+        if(ctx.variant.id===variant.id){
+          view.browseFoodType='markets';view.browseFoodSavedOnly=false;
+          say(data.count+' kartierte Supermärkte für '+ctx.cities[cityId].name+' geladen.');
+        }
+      }catch(error){
+        if(ctx.variant.id===variant.id){
+          view.browseMarketError=String(error.message??error);
+          say('Supermarkt-Datenquelle: '+view.browseMarketError);
+        }
+      }finally{
+        view.browseMarketLoadingCity=null;
+        if(view.page==='food'&&ctx.variant.id===variant.id)
+          render({fetchRoutes:false});
+      }
+      break;
+    }
     case 'browse-more':
       view.browseLimit=Math.min(2000,view.browseLimit+24);render({fetchRoutes:false});break;
     case 'browse-map': {
@@ -763,6 +806,7 @@ async function action(name, value = '') {
       if(!item||!item.point){say('Für diesen Eintrag ist kein genauer Kartenpunkt hinterlegt.');break;}
       view.page='map';view.city=item.city;view.mapScope='city';view.total=false;
       view.mapGroup=explorerCategory(item);view.mapSearch='';
+      if(item.readOnlyExternal)view.mapMarketsShown=true;
       view.mapViewportOnly=false;view.mapViewportBounds=null;
       view.mapSavedOnly=false;view.selected=item.id;
       render({focusMap:true,fetchRoutes:false});break;
@@ -1610,7 +1654,8 @@ app.addEventListener('input',event=>{
 });
 app.addEventListener('change', event => {
   if(event.target.id==='browse-city'&&context?.trip?.route.includes(event.target.value)){
-    view.browseScope='city';view.browseLimit=24;view.optionFilter='all';showCity(event.target.value);return;
+    view.browseScope='city';view.browseLimit=24;view.optionFilter='all';
+    view.browseMarketError=null;showCity(event.target.value);return;
   }
   if(['coverage-filter-query','coverage-filter-kind','coverage-filter-gap',
     'coverage-filter-city'].includes(event.target.id)){
