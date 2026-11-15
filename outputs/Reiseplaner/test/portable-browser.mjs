@@ -842,6 +842,12 @@ try {
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
   await until(() => js('Boolean(document.querySelector(".mobile-switch"))'), 'mobiler Schalter');
   await until(() => js('getComputedStyle(document.querySelector(".mobile-dock")).display==="grid"'), 'Fixe mobile Schnellnavigation');
+  assert.equal(await js('(()=>{const buttons=[...document.querySelectorAll(".mobile-dock button")];'
+    +'return buttons.length===6&&buttons.every(b=>'
+    +'Math.abs(b.getBoundingClientRect().top-buttons[0].getBoundingClientRect().top)<3);})()'),
+    true,'Alle sechs mobilen Reiter müssen in EINER Zeile bleiben');
+  assert.ok(await js('document.querySelector(".mobile-dock").getBoundingClientRect().height<100'),
+    'Mobilnavigation belegt nicht unnötig zwei Bildschirmreihen');
   await click('[data-action=mobile][data-value=map]');
   await until(() => js('Boolean(document.querySelector("#map .leaflet-pane"))'), 'mobile Karte');
   await click('.mobile-dock [data-action=page][data-value=map]');

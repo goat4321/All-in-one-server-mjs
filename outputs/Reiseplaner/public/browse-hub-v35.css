@@ -346,8 +346,10 @@
 :root[data-motion=off] .hub-food-card{animation:none!important;transition:none!important}
 
 @media(max-width:650px){
- .mobile-dock{grid-template-columns:repeat(5,minmax(0,1fr))!important}
- .mobile-dock button{font-size:.64rem!important;gap:3px!important;padding:6px 2px!important}
+ /* Six real destinations fit in a single row; the former five-column
+    !important rule pushed Verpflegung onto an unusable second row. */
+ .mobile-dock{grid-template-columns:repeat(6,minmax(0,1fr))}
+ .mobile-dock button{font-size:.61rem;min-width:0;gap:3px;padding:5px 1px}
  .mobile-dock button .ui-icon{width:18px;height:18px}
 }
 
