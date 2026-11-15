@@ -162,3 +162,15 @@ export function curatedPlacePhoto(item) {
   }:null;
 }
 export const curatedPhotoCount=images.length;
+
+// Context-only city imagery for entries lacking their own licensed photo.
+// Never treat a different landmark as proof of the venue or lodging.
+export function curatedCityBackdrop(item){
+ const options=images.filter(x=>x.city===item?.city);
+ if(!options.length)return null;
+ let hash=0;
+ for(const c of String(item.id??item.name??''))hash=(Math.imul(hash,31)+c.codePointAt(0))>>>0;
+ const x=options[hash%options.length];
+ return {url:'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(x.file)+'?width=960',
+  sourceUrl:x.sourceUrl,credit:x.credit,contextualOnly:true};
+}

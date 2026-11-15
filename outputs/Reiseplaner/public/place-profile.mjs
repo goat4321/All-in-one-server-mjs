@@ -2,7 +2,7 @@ import { groupPrice, money } from './model.mjs';
 import { explorerCategory, explorerDetail } from './map-explorer.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, googleMapsLocationStatus } from './google-maps.mjs';
 import { esc, sourceList, urlLink } from './ui.mjs';
-import { curatedPlacePhoto } from './curated-place-photos.mjs';
+import { curatedPlacePhoto,curatedCityBackdrop } from './curated-place-photos.mjs';
 import { planCostSignal } from './visual-experience.mjs';
 import { entryCompleteness } from './entry-completeness.mjs';
 import { icon } from './ui.mjs';
@@ -117,9 +117,12 @@ export function placeThumbnailHtml(item,ctx={}) {
   const model=placeProfileModel(item,ctx);
   if(!model)return '';
   const symbol={lodging:'bed',food:'food',shop:'wallet',activity:'compass',transport:'train'}[model.category]??'pin';
+  const background=model.photo?null:curatedCityBackdrop(item);
+  const shown=model.photo??background;
   return '<span class="place-thumbnail" data-licensed="'+Boolean(model.photo)+'">'
     +'<span class="place-thumbnail-fallback" aria-hidden="true">'+icon(symbol)+'</span>'
-    +(model.photo?'<img src="'+esc(model.photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="" title="'+esc(model.photo.credit)+'">':'')
+    +(shown?'<img src="'+esc(shown.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt=""'
+      +' title="'+esc(background?'Stadtmotiv (kein Objektfoto) · '+shown.credit:shown.credit)+'">':'')
     +'</span>';
 }
 
@@ -130,6 +133,7 @@ export function placeImageHtml(item,ctx={}, {small=false}={}) {
   if(!p)return '';
   const type=p.facts[0][1];
   const label=esc(p.name);
+  const background=p.photo?null:curatedCityBackdrop(item);
   return '<div class="place-photo'+(small?' small':'')+'" data-photo-category="'+esc(p.category)+'">'
     + (p.photo
       ? '<img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(p.photo.url)
@@ -138,9 +142,16 @@ export function placeImageHtml(item,ctx={}, {small=false}={}) {
         +'<a href="'+esc(p.photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a>'
         +(ccLicenseUrl(p.photo)?' · <a href="'+esc(ccLicenseUrl(p.photo))
           +'" target="_blank" rel="noopener noreferrer">Lizenz</a>':'')+'</small>'
-      : '<div class="place-photo-placeholder" aria-label="Noch kein quellenbelegtes Foto hinterlegt">'
-        + '<span aria-hidden="true">'+({lodging:'⌂',food:'✦',shop:'◇',activity:'⌖',transport:'⇄'}[p.category]??'⌖')+'</span>'
-        +'<strong>'+label+'</strong><small>'+esc(type)+' · Bildquelle offen</small></div>')
+      : '<div class="place-photo-placeholder'+(background?' photo-context':'')+'"'
+        +' aria-label="'+(background?'Stadtmotiv, kein Objektfoto':'Kein quellenbelegtes Foto')+'">'
+        +(background?'<img class="place-context-image" src="'+esc(background.url)+'" loading="lazy"'
+          +' decoding="async" referrerpolicy="no-referrer" alt="">':'')
+        +'<span aria-hidden="true">'+({lodging:'⌂',food:'✦',shop:'◇',activity:'⌖',transport:'⇄'}[p.category]??'⌖')+'</span>'
+        +'<strong>'+label+'</strong><small>'+esc(background
+           ?'Stadtmotiv · kein Foto dieses Eintrags':type+' · Bildquelle offen')+'</small></div>'
+        +(background?'<small class="place-photo-credit">Stadtmotiv · <a href="'
+          +esc(background.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a> · '
+          +esc(background.credit)+'</small>':'') )
     +'</div>';
 }
 
