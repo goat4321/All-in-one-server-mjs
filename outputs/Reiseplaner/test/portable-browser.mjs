@@ -780,9 +780,9 @@ try {
   await text('#main', 'Bildabdeckung & offene Quellenfotos');
   assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("Adress-/Identitätskonflikte")'));
   assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("Via Giuseppe Ratti")'));
-  assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("15 von 17 offen")'),
+  assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("14 von 17 offen")'),
     'Historic provider records are reconciled with two later independently sourced references');
-  assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("2 unabhängig belegte Referenzpunkte")'),
+  assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("3 unabhängig belegte Referenzpunkte")'),
     'Newly confirmed points are not trapped under the historical 17-unverified headline');
   await js('document.querySelector(".provider-location-panel details").open=true');
   await until(()=>js('Boolean(document.querySelector(".provider-location-item.has-independent-point .provider-location-difference"))'),
