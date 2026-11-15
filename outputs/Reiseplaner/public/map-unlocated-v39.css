@@ -298,3 +298,19 @@
  .workspace>.map-evidence-review .map-unlocated-grid{grid-template-columns:1fr}
  .map-evidence-review .map-evidence-record{padding:11px 12px}
 }
+
+
+/* Phase 48: compact source link in the selected map place preview. */
+.map-selected-location-source{
+ display:block;line-height:1.35;font-size:.67rem;color:var(--muted,#617567);
+}
+.map-selected-location-source a{
+ color:var(--link,#167557);font-weight:720;text-underline-offset:2px;
+}
+.map-selected-location-source a:focus-visible{
+ outline:2px solid #66a989;outline-offset:3px;border-radius:3px;
+}
+:root[data-theme=dark] .map-selected-location-source a{color:#a4e6c6}
+@media(max-width:650px){
+ .map-selected-location-source{font-size:.65rem;line-height:1.4}
+}
