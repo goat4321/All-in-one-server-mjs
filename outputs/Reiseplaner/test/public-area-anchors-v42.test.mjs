@@ -9,13 +9,12 @@ const anchors=[
  ['act-027','nice',[43.730885,7.3570576],'pdn-patrimonia.unicaen.fr/iejp/',false],
  ['act-039','venice',[45.43023,12.32323],'openstreetmap.org/way/342616318',true],
  ['act-040','venice',[45.41425372193,12.377187380404],'atlantearchitetturacontemporanea.cultura.gov.it/en/stabilimento-blue-moon/',false],
- ['act-056','montpellier',[43.6087,3.88006],'mapcarta.com/W80524864',true],
  ['act-057','toulouse',[43.60446,1.44344],'mapcarta.com/24949508',true],
 ];
-test('Six named public anchors have coordinates and are not claimed as entire routes',async()=>{
+test('Five named public anchors have coordinates and are not claimed as entire routes',async()=>{
  const catalog=await loadCatalog(),v19=await loadSurveyFirstV19();
  const a=await loadResearchV20(v19.activities.items,catalog.cities);
- assert.equal(a.activities.withSourcedPoint,36);
+ assert.equal(a.activities.withSourcedPoint,35);
  assert.equal(a.activities.withSpecificPublicEvidence,24);
  for(const [id,city,point,source,isCentroid] of anchors){
   const x=a.byActivity.get(id);
@@ -27,6 +26,17 @@ test('Six named public anchors have coordinates and are not claimed as entire ro
   assert.equal(x.researchStatus,'specific_public_evidence_checked',id);
   assert.ok(x.reviewedOn);
  }
+});
+test('Montpellier alternate square is preserved as a pending lead, not pinned in the active catalog',async()=>{
+ const cities=(await loadCatalog()).cities;
+ assert.equal(cities.montpellier,undefined);
+ const base=await loadSurveyFirstV19();
+ const archive=await loadResearchV20(base.activities.items,cities);
+ const x=archive.byActivity.get('act-056');
+ assert.equal(x.point,null);
+ assert.deepEqual(x.candidatePoint,[43.6087,3.88006]);
+ assert.match(x.candidateGeoSourceUrl,/mapcarta\.com\/W80524864/);
+ assert.equal(x.candidateStatus,'public_named_square_pending_optional_city_catalog');
 });
 test('Archive points populate only exact selected public activity identities',async()=>{
  const catalog=await loadCatalog();

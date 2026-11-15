@@ -4,7 +4,7 @@
   "status": "Individual source audit; only sourced POI points promoted; visit exact time and 2027 bookings not inferred",
   "sourceAtlas": "Previous project OSM/Photon evidence plus publicly inspected operator/tourism sites",
   "count": 57,
-  "withSourcedPoint": 36,
+  "withSourcedPoint": 35,
   "withSpecificPublicEvidence": 24,
   "items": [
     {
@@ -944,15 +944,20 @@
       "reviewedOn": "2026-11-15",
       "sourceUrl": "https://www.montpellier-tourisme.fr/pratique/contact-et-horaires/",
       "specificFactVerified": true,
-      "point": [
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Öffentlich dokumentierter Flächenpunkt Place de la Comédie als zukünftiger Montpellier-Referenzanker. NICHT in aktive Reisekarten übernehmen: Montpellier fehlt bislang im Stadt-/Reiseroutenkatalog. Beim Hinzufügen des Alternativstopps separat freigeben.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": null,
+      "isCentroid": null,
+      "candidatePoint": [
         43.6087,
         3.88006
       ],
-      "pointPrecision": "sourced_area_center",
-      "geoNote": "Mittelpunkt der OSM-Fußgängerfläche Place de la Comédie als Orientierung für den optionalen Montpellier-Altstadtstopp. NICHT eine geprüfte vollständige Altstadtroute, Parkeingang oder gebuchte Stadtführung.",
-      "researchStatus": "specific_public_evidence_checked",
-      "geoSourceUrl": "https://mapcarta.com/W80524864",
-      "isCentroid": true
+      "candidateGeoSourceUrl": "https://mapcarta.com/W80524864",
+      "candidatePrecision": "sourced_area_center",
+      "candidateIsCentroid": true,
+      "candidateStatus": "public_named_square_pending_optional_city_catalog"
     },
     {
       "id": "act-057",

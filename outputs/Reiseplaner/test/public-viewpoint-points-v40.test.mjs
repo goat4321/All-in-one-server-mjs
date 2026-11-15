@@ -12,7 +12,7 @@ const references=[
 test('Three concrete public viewpoints are source backed and keep route uncertainty',async()=>{
  const catalog=await loadCatalog(),v19=await loadSurveyFirstV19();
  const archive=await loadResearchV20(v19.activities.items,catalog.cities);
- assert.equal(archive.activities.withSourcedPoint,36);
+ assert.equal(archive.activities.withSourcedPoint,35);
  assert.equal(archive.activities.withSpecificPublicEvidence,24);
  for(const [id,city,point,osm] of references){
   const row=archive.byActivity.get(id);
