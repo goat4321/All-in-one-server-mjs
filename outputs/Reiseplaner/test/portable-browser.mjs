@@ -189,6 +189,12 @@ try {
     +'.filter(el=>el.querySelector(".place-specific-photo"))'
     +'.every(el=>el.querySelector(".place-photo-unavailable-source")?.href.includes("commons.wikimedia.org"))'),
     'If licensed venue photography is offline, the actual Commons file stays openable from the card');
+  assert.ok(await js('Array.from(document.querySelectorAll(".hub-option-card .place-photo[data-image-unavailable=true]"))'
+    +'.filter(el=>el.querySelector(".place-specific-photo"))'
+    +'.every(el=>{const hint=el.querySelector(".place-photo-unavailable");'
+    +'const credit=el.querySelector(".place-specific-credit");'
+    +'return hint&&credit&&hint.getBoundingClientRect().bottom+2<=credit.getBoundingClientRect().top})'),
+    'Offline photo links never overlap the photographer and license line');
   await screenshot('52-clubs-mit-echten-lizenzierten-fassadenfotos-desktop.png');
   await screenshot('50-clubs-tagwahl-und-schnellplan-desktop.png');
   await click('.activity-category-chip[data-value=bars]');
