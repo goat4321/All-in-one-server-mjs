@@ -10,6 +10,37 @@ const types={reise:'train',rueckreise:'train',stadt:'compass',wasser:'beach',ber
 const activeIds=(ctx,date=ctx.date)=>new Set((ctx.active??[]).filter(item=>item.kind==='activity'
   &&(localParts(item.start,item.zone).date??item.date)===date).map(item=>item.id));
 
+/** Compact actions before the timeline; 46 researched day drafts stay intact. */
+export function dayPlanQuickBar(ctx){
+ const day=ctx.dayPlan;
+ if(!day)return '';
+ const active=new Set((ctx.active??[]).filter(x=>x.kind==='activity'&&
+   (localParts(x.start,x.zone).date??x.date)===ctx.date).map(x=>x.id));
+ const allowed=new Set(dayPlanCandidates(ctx,{includeOptional:true}).map(x=>x.id));
+ const upcoming=day.slots.filter(x=>allowed.has(x.id)).slice(0,3);
+ const removable=(ctx.active??[]).filter(x=>x.kind==='activity'&&!x.booked&&!x.locked
+   &&(localParts(x.start,x.zone).date??x.date)===ctx.date);
+ return '<section class="day-plan-quick-bar" aria-label="Tagesplan schnell ändern">'
+   +'<div class="day-plan-quick-heading"><div><small>DEIN TAG · SCHNELL BEARBEITEN</small>'
+   +'<strong>'+esc(day.title)+'</strong></div>'
+   +'<span>'+active.size+' Aktivitäten geplant</span></div>'
+   +'<div class="day-plan-quick-chips">'
+   +removable.slice(0,4).map(item=>'<button type="button" class="day-plan-quick-chip is-added"'
+     +' data-action="day-quick-remove" data-value="'+esc(item.id)+'"'
+     +' aria-label="'+esc(item.name)+' aus diesem Tag entfernen"'
+     +' title="Direkt aus dem Tag entfernen">'
+     +icon('check')+'<span>'+esc(item.name)+'</span>'+icon('close')+'</button>').join('')
+   +upcoming.map(slot=>'<button type="button" class="day-plan-quick-chip"'
+     +' data-action="day-plan-add" data-value="'+esc(slot.id)+'"'
+     +' aria-label="'+esc(slot.name)+' zum heutigen Tag hinzufügen"'
+     +' title="Unverbindlich zum Tag hinzufügen">'
+     +icon('plus')+'<span>'+esc(slot.name)+'</span></button>').join('')
+   +(!upcoming.length&&!removable.length?'<span class="day-plan-quick-empty">'
+     +'Noch keine Aktivität übernommen – Vorschläge weiter unten öffnen.</span>':'')
+   +'</div><div class="day-plan-quick-bottom">'
+   +'<a href="#day-plan-draft-detail">Alle '+day.slots.length+' Tagesideen & Transfers ansehen</a>'
+   +'</div></section>';
+}
 export function dayPlanPanel(ctx,{compact=false}={}){
  const day=ctx.dayPlan;
  if(!day)return '';
@@ -94,7 +125,7 @@ export function dayPlanPanel(ctx,{compact=false}={}){
     +' aria-label="Tagesideen für '+esc(ctx.date)+'">'
     +'<summary>'+heading+icon('chevron')+'</summary>'+body+'</details>';
  }
- return '<section class="day-plan-panel" aria-label="Tagesvorschlag">'
+ return '<section id="day-plan-draft-detail" class="day-plan-panel" aria-label="Tagesvorschlag">'
   +'<header class="day-plan-heading">'+heading+'</header>'+body+'</section>';
 }
 
