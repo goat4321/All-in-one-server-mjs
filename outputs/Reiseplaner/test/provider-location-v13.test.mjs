@@ -33,10 +33,10 @@ test('Genoa conflicting property identity and public address are not hidden',()=
  assert.equal(mestre.verifiedReference,false);
  const bac=m.rows.find(r=>r.id==='local:food-v03-019');
  assert.match(bac.qualificationHint,/anderen Lokal/);
- assert.equal(m.independentlyVerified,2);
- assert.equal(m.unlocated,15);
+ assert.equal(m.independentlyVerified,3);
+ assert.equal(m.unlocated,14);
  assert.equal(m.providerLeads,13);
- assert.equal(m.unmatchedProviderPoints,12);
+ assert.equal(m.unmatchedProviderPoints,11);
  const lePouffre=m.rows.find(r=>r.id==='research:bcom_4032998');
  const cavour=m.rows.find(r=>r.id==='local:food-v03-015');
  assert.equal(lePouffre.verifiedReference,true);
@@ -50,9 +50,9 @@ test('Genoa conflicting property identity and public address are not hidden',()=
  assert.match(html,/Via Giuseppe Ratti/);
  assert.match(html,/Via Venezia/);
  assert.match(html,/noch nicht unabhängig verortet/);
- assert.match(html,/15 von 17 offen/);
+ assert.match(html,/14 von 17 offen/);
  assert.match(html,/ca. 3 m/);
- assert.match(html,/2 unabhängig belegte Referenzpunkte/);
+ assert.match(html,/3 unabhängig belegte Referenzpunkte/);
  assert.match(html,/Unabhängige Kartenreferenz/);
  assert.match(html,/Aktuell belegte Anschrift/);
  assert.match(html,/Alte Adressfassung zeigen/);
