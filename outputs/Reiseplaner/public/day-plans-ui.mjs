@@ -18,6 +18,7 @@ export function dayPlanQuickBar(ctx){
    (localParts(x.start,x.zone).date??x.date)===ctx.date).map(x=>x.id));
  const allowed=new Set(dayPlanCandidates(ctx,{includeOptional:true}).map(x=>x.id));
  const upcoming=day.slots.filter(x=>allowed.has(x.id)).slice(0,3);
+ const batchCandidates=dayPlanCandidates(ctx);
  const removable=(ctx.active??[]).filter(x=>x.kind==='activity'&&!x.booked&&!x.locked
    &&(localParts(x.start,x.zone).date??x.date)===ctx.date);
  return '<section class="day-plan-quick-bar" aria-label="Tagesplan schnell ändern">'
@@ -38,6 +39,11 @@ export function dayPlanQuickBar(ctx){
    +(!upcoming.length&&!removable.length?'<span class="day-plan-quick-empty">'
      +'Noch keine Aktivität übernommen – Vorschläge weiter unten öffnen.</span>':'')
    +'</div><div class="day-plan-quick-bottom">'
+   +(batchCandidates.length
+      ?'<div class="day-plan-batch-cta">'
+        +btn('day-plan-adopt',batchCandidates.length+' Tagesideen übernehmen','plus','','primary')
+        +'<small>Ohne feste Uhrzeiten, unverbindlich</small></div>'
+      :'')
    +'<a href="#day-plan-draft-detail">Alle '+day.slots.length+' Tagesideen & Transfers ansehen</a>'
    +'</div></section>';
 }
