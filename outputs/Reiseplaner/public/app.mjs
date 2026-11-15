@@ -806,7 +806,7 @@ async function action(name, value = '') {
       break;
     }
     case 'activity-category':
-      if(!['all','culture','nature','water','view','sport','night','other'].includes(value))break;
+      if(!['all','culture','nature','water','view','sport','night','clubs','bars','other'].includes(value))break;
       view.activityCategory=value;view.browseLimit=24;render({fetchRoutes:false});break;
     case 'activity-evidence':
       if(!['all','photo','missingPhoto','point','sourcedPoint','unverifiedPoint','missingPoint','price','missingPrice'].includes(value))break;
