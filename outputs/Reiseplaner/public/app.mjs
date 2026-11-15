@@ -13,7 +13,7 @@ import { explorerList } from './explorer-ui.mjs';
 import { readMapBookmarks, toggleMapBookmark } from './map-shortlist.mjs';
 import { inspectorComparisonHtml } from './inspector-comparison.mjs';
 import { applyCoverageFilters,resetCoverageFilters } from './coverage-filter.mjs';
-import { entryCompletenessReport } from './entry-completeness.mjs';
+import {buildFieldAudit,fieldAuditAsCsv} from './field-audit-export-v39.mjs';
 import {commonsDefaultQuery,commonsSearchUrl,commonsWebSearchUrl,commonsResults} from './commons-photo-search.mjs';
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
@@ -780,20 +780,18 @@ async function action(name, value = '') {
     case 'guide-close': closeGuide(); break;
     case 'guide-finish': closeGuide(true); say('Einführung abgeschlossen. Du kannst sie oben jederzeit erneut starten.'); break;
     case 'page': changePage(value); break;
-    case 'coverage-export': {
+    case 'coverage-export':
+    case 'coverage-export-csv': {
       if(ctx.page!=='data')break;
-      const result=entryCompletenessReport(ctx.all,ctx);
-      const payload={schema:'reiseplaner-field-audit-v1',generatedAt:new Date().toISOString(),
-        variantId:ctx.trip.id,summary:result.counters,missingByType:result.missingByType,
-        entries:result.incomplete.map(x=>({id:x.id,name:x.name,city:x.city,kind:x.kind,
-         gaps:x.gaps.map(g=>({field:g.key,label:g.label,reason:g.reason,
-          next:g.next,manualContribution:g.manual,priority:g.priority,category:g.category}))}))};
-      const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+      const payload=buildFieldAudit(ctx);
+      const csv=name==='coverage-export-csv';
+      const text=csv?fieldAuditAsCsv(payload,ctx.cities):JSON.stringify(payload,null,2);
+      const blob=new Blob([text],{type:csv?'text/csv;charset=utf-8':'application/json'});
       const url=URL.createObjectURL(blob),link=document.createElement('a');
-      link.href=url;link.download='reiseplaner-offene-daten-'+ctx.trip.id+'.json';
+      link.href=url;link.download='reiseplaner-offene-daten-'+ctx.trip.id+(csv?'.csv':'.json');
       document.body.append(link);link.click();link.remove();
       setTimeout(()=>URL.revokeObjectURL(url),1000);
-      say(payload.entries.length+' offene Einträge lokal exportiert.');
+      say(payload.entries.length+' offene Einträge als '+(csv?'CSV':'JSON')+' lokal exportiert.');
       break;
     }
     case 'activity-category':

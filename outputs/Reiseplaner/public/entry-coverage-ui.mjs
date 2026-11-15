@@ -94,8 +94,10 @@ export function entryCoveragePanel(ctx){
     +'Auch ein hinterlegtes Foto kann offline sein oder erneut zu prüfen sein.</p></header>'
     +'<div class="coverage-counts">'+countersHtml+'</div>'
     +'<div class="coverage-gap-summary">'+gapSummary+'</div>'
-    +'<div class="coverage-export-controls">'+btn('coverage-export','Alle offenen Punkte als JSON speichern','folder')
-    +'<span>Lokale Datei mit Gründen und konkreten Prüffragen, ohne Übertragung an externe Dienste.</span></div>'
+    +'<div class="coverage-export-controls">'+btn('coverage-export','JSON-Bericht speichern','folder')
+    +btn('coverage-export-csv','CSV / Excel-Tabelle speichern','download')
+    +'<span>Beide Dateien enthalten alle ungeklärten Einträge dieser Variante mit konkreten Prüfgründen. '
+    +'CSV: eine Tabellenzeile pro fehlender Angabe, auch ohne Excel-Konto.</span></div>'
     +'<p class="muted">Alle '+counters.total+' unterschiedlichen Einträge dieser Variante wurden einzeln ausgewertet. '
     +data.incomplete.length+' benötigen mindestens eine Ergänzung. '
     +'Die ungeklärten Felder stehen in den jeweiligen Details zusammen mit den nächsten Prüfschritten. '
