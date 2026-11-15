@@ -43,7 +43,8 @@ export function placeInspectorHtml(ctx,item,compareIds=[]){
  const quality=entryCompleteness(item,ctx),guide=item.guideV22;
  const city=ctx.cities?.[item.city]?.name??item.city;
  const {prev,next}=sameCity(ctx,item);
- const srcCount=(item.source??[]).filter(id=>ctx.catalog?.sources?.[id]?.url).length;
+ const srcCount=(item.source??[]).filter(id=>ctx.catalog?.sources?.[id]?.url).length
+   +Number(Boolean(item.nightlifeOfficialV51?.sourceUrl));
  const cover=p.photo?'<a href="'+esc(p.photo.url)
    +'" class="inspector-cover-photo" target="_blank" rel="noopener noreferrer">'
    +'<img src="'+esc(p.photo.url)+'" alt="'+esc(item.name)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">'
@@ -54,6 +55,14 @@ export function placeInspectorHtml(ctx,item,compareIds=[]){
  const price=p.priceTier;
  const panels={
    overview:'<div class="inspector-reading"><p class="inspector-lead">'+esc(p.description)+'</p>'
+     +(item.nightlifeOfficialV51?'<section class="inspector-operator-guide">'
+       +'<strong>Offizielle Einlassbedingungen · Stand November 2026</strong>'
+       +'<p>'+esc(item.nightlifeOfficialV51.ageScope)+'</p>'
+       +'<p>'+esc(item.nightlifeOfficialV51.programmeReference||'')+'</p>'
+       +(item.nightlifeOfficialV51.addressCaution?'<p>'+esc(item.nightlifeOfficialV51.addressCaution)+'</p>':'')
+       +'<p>Für September 2027 sind Programm, Ticketpreis und Eintritt nicht bestätigt.</p>'
+       +urlLink(item.nightlifeOfficialV51.sourceUrl,'Betreiberangaben prüfen')
+       +'</section>':'')
      +officialGuide(guide)
      +fieldNoteHtml(item.fieldNoteV28)
      +'<details class="inspector-all-fields"><summary>Alle vorhandenen Einzelangaben anzeigen</summary>'
@@ -82,6 +91,17 @@ export function placeInspectorHtml(ctx,item,compareIds=[]){
      +'<p><strong>'+srcCount
      +' verknüpfte Webbelege</strong> · Quellenangaben sind nicht automatisch live.</p>'
      +sourceList(item,ctx.catalog?.sources??{})
+     +(item.nightlifeOfficialV51?'<section class="inspector-operator-guide">'
+       +'<strong>Originalquellen: Club / Pub · geprüft am 15.11.2026</strong>'
+       +'<p>'+esc(item.nightlifeOfficialV51.ageScope)+'</p>'
+       +(item.nightlifeOfficialV51.publishedIdRequired?'<p>Ausweis: '
+         +esc(item.nightlifeOfficialV51.publishedIdRequired)+'</p>':'')
+       +(item.nightlifeOfficialV51.addressCaution?'<p>Adresskonflikt: '
+         +esc(item.nightlifeOfficialV51.addressCaution)+'</p>':'')
+       +urlLink(item.nightlifeOfficialV51.sourceUrl,'Offizielle Betreiberseite')
+       +(item.nightlifeOfficialV51.secondaryUrl
+         ?urlLink(item.nightlifeOfficialV51.secondaryUrl,'Weitere Betreiberquelle'):'')
+       +'<small>Kein bestätigter 2027-Termin und kein garantierter 2027-Preis.</small></section>':'')
      +(guide?'<div class="inspector-operator-guide"><strong>Neue Betreiberrecherche</strong>'
        +'<p>'+esc(guide.summary)+'</p>'+urlLink(guide.sourceUrl,'Originallink aufrufen')
        +'<small>Stand '+esc(guide.reviewedOn)+' · '+esc(guide.validity.replaceAll('_',' '))+'</small></div>':'')
