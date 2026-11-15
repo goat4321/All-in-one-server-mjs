@@ -418,7 +418,7 @@ try {
   await click('.map-unlocated-review > summary');
   await until(()=>js('document.querySelector(".map-unlocated-review")?.open===true'),
     'Prüfliste für Orte ohne genaue Position aufklappbar');
-  await text('.map-unlocated-review','Alle fehlenden Kartenpunkte prüfen');
+  await text('.map-unlocated-review','Alle fehlenden Kartenpunkte im Daten-Audit prüfen');
   await until(()=>js('Boolean(document.querySelector(".map-unlocated-facets [data-value=all]"))'),
     'Filter für ungeklärte Koordinaten bereit');
   await click('.map-unlocated-facets [data-action=map-unlocated-filter][data-value=concept]');
