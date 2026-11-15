@@ -1,4 +1,5 @@
 import { dailyBudgetDefaults } from './daily-budget.mjs';
+import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './public-geocode-eligibility.mjs';
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
 import {dayPlanDraftEdits} from './day-plans-logic.mjs';
@@ -1139,8 +1140,8 @@ async function action(name, value = '') {
       await calculateExplorerRoute(); break;
 
     case 'geocode-lookup': {
-      if(item?.addressEvidenceV09?.addressQualification==='listing_floor_or_number_ambiguity'){
-        say('Die Hausnummer ist nicht eindeutig: Die Anbieterangabe kann das Stockwerk meinen. Zuerst die genaue Anschrift bestätigen.');
+      if(!publicGeocodeLookupAllowed(item)){
+        say(publicGeocodeLookupBlockedReason(item));
         break;
       }
       if(!item?.address || item.booked){ say('Für diese Option ist keine offene Rechercheadresse vorhanden.');break; }
