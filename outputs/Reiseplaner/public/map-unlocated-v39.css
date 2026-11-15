@@ -185,3 +185,13 @@
  .map-unlocated-record>.map-unlocated-public-address{padding:7px 9px}
  .map-unlocated-actions{gap:6px}
 }
+
+
+.map-unlocated-record>.map-unlocated-address-warning{
+ margin:0;padding:6px 9px;border-left:3px solid #be8a46;
+ background:#fff3dc;border-radius:0 8px 8px 0;
+ color:#795621;font-size:.69rem;line-height:1.45;
+}
+:root[data-theme=dark] .map-unlocated-record>.map-unlocated-address-warning{
+ background:#493927;color:#f2daa7;border-color:#d4aa68;
+}
