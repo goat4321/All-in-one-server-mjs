@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { routeStudioModel, routeStudioSummary, footpathMatchesStops, MAP_TONES } from '../public/route-studio.mjs';
+import { routeStudioModel, routeStudioSummary, footpathMatchesStops, pointAlongRoute, MAP_TONES } from '../public/route-studio.mjs';
 import { dayRouteView } from '../public/day-route-ui.mjs';
 
 const barcelona=[
@@ -143,4 +143,14 @@ test('Near-road snapping is allowed but reverse or distant route endpoints are r
  assert.equal(footpathMatchesStops(stops[0],stops[1],route),true);
  assert.equal(footpathMatchesStops(stops[0],stops[1],{...route,points:[...route.points].reverse()}),false);
  assert.equal(footpathMatchesStops(stops[0],stops[1],{...route,points:[[41.4,2.20],...route.points]}),false);
+});
+
+test('Map time chip follows the real walking path by distance, not air-line centre',()=>{
+  const points=[[48.86,2.29],[48.86,2.30],[48.87,2.30]];
+  const half=pointAlongRoute(points,.5);
+  assert.ok(half[1]>2.299&&half[1]<=2.30,'distance-weighted point stays on routed legs');
+  assert.deepEqual(pointAlongRoute(points,0),points[0]);
+  assert.deepEqual(pointAlongRoute(points,1),points.at(-1));
+  assert.equal(pointAlongRoute([[48.86,2.29]],.5),null);
+  assert.equal(pointAlongRoute([[99,2.29],[48.86,2.3]],.5),null);
 });
