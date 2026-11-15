@@ -54,7 +54,7 @@ export function providerLocationPanel(ctx){
    +'<strong>'+m.unlocated+' von '+m.rows.length+' offen</strong></div>'
    +'<div class="provider-location-stats"><span>'+m.providerLeads+' historische Anbieterpunkte</span>'
    +'<span>'+m.unmatchedProviderPoints+' Anbieterpunkte ohne Quellenabgleich</span>'
-   +'<span>'+m.conflicts+' Identitäts-/Adresskonflikte</span>'
+   +'<span>'+m.conflicts+' Adress-/Identitätskonflikte</span>'
    +'<span>'+m.independentlyVerified+' unabhängig belegte Referenzpunkte</span></div>'
    +(m.rows.length?'<details><summary>Einzelprüfung und Quellen öffnen ('+m.rows.length+')</summary>'
      +'<div class="provider-location-list">'+m.rows.map(r=>
