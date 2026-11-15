@@ -1,5 +1,29 @@
 import {esc,urlLink} from './ui.mjs';
 import {hasIndependentPointEvidence,markerProvenance} from './poi-location-provenance.mjs';
+import {existingPinReviewUrl,publicPlaceReviewSearchUrl} from './map-location-review.mjs';
+
+// Diagnostic only: two close map coordinates do not prove identity or a door.
+// Thresholds distinguish probable mismatches for HUMAN verification.
+export function providerReferenceDistanceState(distance){
+ if(distance===null||!Number.isFinite(distance)||distance<0)
+   return {kind:'uncompared',label:'Kein unabhängiger GPS-Vergleich möglich'};
+ if(distance<=25)return {kind:'near',label:'Koordinaten nahe beieinander · kein nachgewiesener Eingang'};
+ if(distance<=150)return {kind:'review',label:'Lageabweichung · getrennt prüfen'};
+ return {kind:'conflict',label:'Großer Lageunterschied · Objektidentität prüfen'};
+}
+export function providerReviewMapLinks(row,cityLabel=''){
+ if(!row||String(row.id??'').startsWith('wishlist:airbnb:')
+   ||String(row.provider??'').toLowerCase()==='airbnb')return [];
+ const currentAddress=row.currentPublishedAddress??row.publishedAddress;
+ const publicItem={id:row.id,city:row.city,name:row.name,address:currentAddress};
+ const lookup=publicPlaceReviewSearchUrl(publicItem,cityLabel);
+ const hint=existingPinReviewUrl({...publicItem,point:row.providerPoint});
+ return [
+  ...(lookup?[{kind:'address-search',label:'Öffentliche Adresse in OSM suchen',url:lookup}]:[]),
+  ...(hint?[{kind:'provider-hint',label:'Historischen Anbieterpin in OSM vergleichen',url:hint}]:[])
+ ];
+}
+
 
 // The historical V13 provider leads are immutable observations. Reconcile
 // them with later independent references rather than displaying 17 stale
@@ -94,12 +118,18 @@ export function providerLocationPanel(ctx){
             :'Keine unabhängige genaue GPS-Referenz vorhanden.')
        +'</p>'
        +(r.providerDifferenceMetres!=null
-         ?'<p class="provider-location-difference">Abstand zwischen Anbieterpin und '
-           +'öffentlicher Quellenposition: ca. '+r.providerDifferenceMetres
-           +' m · Koordinatenvergleich, keine Eingangszertifizierung.</p>':'')
+         ?'<p class="provider-location-difference" data-distance-state="'
+           +esc(providerReferenceDistanceState(r.providerDifferenceMetres).kind)+'">'
+           +'Abstand zwischen Anbieterpin und öffentlicher Quellenposition: ca. '
+           +r.providerDifferenceMetres+' m · '
+           +esc(providerReferenceDistanceState(r.providerDifferenceMetres).label)
+           +' · keine Eingangszertifizierung.</p>':'')
        +'<div class="row-actions">'+urlLink(r.currentAddressSource,'Adressquelle')
        +urlLink(r.providerUrl,'Historische Anbieteransicht')
-       +urlLink(r.referenceUrl,'Unabhängige Kartenreferenz')+'</div></article>'
+       +urlLink(r.referenceUrl,'Unabhängige Kartenreferenz')
+       +providerReviewMapLinks(r,ctx.cities?.[r.city]?.name??r.city)
+         .map(link=>urlLink(link.url,link.label)).join('')
+       +'</div></article>'
       ).join('')+'</div></details>':'')
    +'<p class="muted">Diese Prüfung ändert keine Positionsdaten automatisch. '
    +'Privatadressen aus Airbnb-Wunschlisten werden nicht ermittelt. '
