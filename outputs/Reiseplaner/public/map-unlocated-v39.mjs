@@ -36,7 +36,11 @@ export function unlocatedOverview(ctx){
  return {total:rows.length,cities,kinds,
    preview:[...cities.entries()]
     .sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0],'de'))
-    .flatMap(([city,items])=>items.slice(0,3).map(item=>({city,item,reason:unlocatedKind(item)})))
+    .flatMap(([city,items])=>{
+      const priority={address:0,unverified:1,concept:2,private:3};
+      return [...items].sort((a,b)=>priority[unlocatedKind(a).key]-priority[unlocatedKind(b).key])
+        .slice(0,3).map(item=>({city,item,reason:unlocatedKind(item)}));
+    })
     .slice(0,12)};
 }
 export function mapUnlocatedReview(ctx){
@@ -55,6 +59,7 @@ export function mapUnlocatedReview(ctx){
    +icon(explorerCategory(item)==='lodging'?'bed':'pin')+' '+esc(reason.label)+'</span>'
    +'<small>'+cityName+'</small></div>'
    +'<strong>'+name+'</strong><p>'+esc(reason.reason)+'</p>'
+   +'<p class="map-unlocated-next"><strong>Dein nächster Schritt:</strong> '+esc(reason.action)+'</p>'
    +'<div class="map-unlocated-actions">'
    +btn('details','Details & Quellen','folder',item.id,'subtle')
    +(canLookup?btn('geocode-lookup','Adresse prüfen','pin',item.id,'subtle'):'')

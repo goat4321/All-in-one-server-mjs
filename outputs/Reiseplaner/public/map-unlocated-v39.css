@@ -51,3 +51,6 @@
  .map-unlocated-body{padding:0 12px 13px}}
 @media(prefers-reduced-motion:reduce){.map-unlocated-chevron{transition:none}}
 :root[data-motion=off] .map-unlocated-chevron{transition:none}
+
+.map-unlocated-record>.map-unlocated-next{color:#365f49;font-size:.69rem;line-height:1.45}
+:root[data-theme=dark] .map-unlocated-record>.map-unlocated-next{color:#add6bb}

@@ -19,6 +19,9 @@ test('Missing coordinate review explicitly distinguishes private, area, address 
    ['private','concept','address','unverified']);
  assert.equal(unlocatedOverview(ctx).total,4);
  assert.equal(unlocatedOverview(ctx).cities.size,2);
+ assert.ok(unlocatedOverview(ctx).preview.find(x=>x.city==='nice'&&x.reason.key!=='private'),
+  'Actionable public evidence is listed before inherently private house positions');
+
 });
 test('No city marker is rendered without an explicit opt-in',()=>{
  assert.deepEqual(explorerUnlocatedCityClusters(ctx.explorer,ctx.cities),[]);
