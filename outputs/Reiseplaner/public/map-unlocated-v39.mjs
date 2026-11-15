@@ -5,10 +5,17 @@ import {hasIndependentPointEvidence,markerProvenance} from './poi-location-prove
 // Missing coordinates are not a place category or a map position. A city
 // orientation marker never becomes an item.point or is routed as a stop.
 export const UNLOCATED_TYPES=Object.freeze([
- ['all','Alle offenen Positionen'],['address','Öffentliche Adressen'],
+ ['all','Alle offenen Positionen'],['sourced-address','Hausadresse mit Quelle'],
+ ['address','Weitere Adressen'],
  ['unverified','Ohne Standortbeleg'],['concept','Gebiete und Ideen'],
  ['private','Private Unterkünfte']
 ]);
+export function isSourcedPublicAddress(item){
+ return !item?.point && item?.provider!=='Airbnb'
+   && !String(item?.id??'').startsWith('wishlist:airbnb:')
+   && typeof item?.addressEvidenceV09?.publishedAddress==='string'
+   && /^https:\/\//.test(item?.addressEvidenceV09?.sourceUrl??'');
+}
 export function unlocatedKind(item){
  if(item?.provider==='Airbnb'||String(item?.id??'').startsWith('wishlist:airbnb:'))
    return {key:'private',label:'Private Unterkunft',
@@ -49,12 +56,16 @@ export function unlocatedOverview(ctx){
   cities.get(city).push(item);
   const kind=unlocatedKind(item).key;
   kinds.set(kind,(kinds.get(kind)??0)+1);
+  if(kind==='address'&&isSourcedPublicAddress(item))
+    kinds.set('sourced-address',(kinds.get('sourced-address')??0)+1);
  }
  const type=UNLOCATED_TYPES.some(([key])=>key===ctx.mapUnlocatedFilter)
    ?ctx.mapUnlocatedFilter:'all';
  const query=norm(ctx.mapUnlocatedSearch).trim().slice(0,100);
  const filtered=all.filter(item=>{
-  if(type!=='all'&&unlocatedKind(item).key!==type)return false;
+  if(type==='sourced-address'){
+    if(!isSourcedPublicAddress(item))return false;
+  }else if(type!=='all'&&unlocatedKind(item).key!==type)return false;
   const label=[item.name,item.city,ctx.cities?.[item.city]?.name,
    item.address,item.detail,item.note].join(' ');
   return !query||norm(label).includes(query);
@@ -71,7 +82,8 @@ export function unlocatedOverview(ctx){
  const groups=[...filteredCities.entries()]
   .sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0],'de'))
   .map(([city,items])=>({city,items:[...items].sort((a,b)=>
-    priority[unlocatedKind(a).key]-priority[unlocatedKind(b).key]
+    Number(!isSourcedPublicAddress(a))-Number(!isSourcedPublicAddress(b))
+    ||priority[unlocatedKind(a).key]-priority[unlocatedKind(b).key]
     ||String(a.name).localeCompare(String(b.name),'de'))}));
  const limit=Math.min(120,Math.max(12,Number(ctx.mapUnlocatedLimit)||12));
  const preview=[];
@@ -97,6 +109,8 @@ export function mapUnlocatedReview(ctx){
    +independentlySourced+' mit Quellenbeleg · '+state.total+' ohne Einzelpunkt';
  const list=state.preview.map(({city,item,reason})=>{
   const cityName=esc(ctx.cities?.[city]?.name??city);
+  const published=isSourcedPublicAddress(item);
+  const publicAddress=item.addressEvidenceV09?.publishedAddress??'';
   const canLookup=reason.key==='address'&&!item.booked&&item.provider!=='Airbnb';
   const osmLink=openStreetMapReviewUrl(item,ctx.cities?.[city]?.name??city);
   const publicAddressSource=reason.key==='address'
@@ -107,11 +121,20 @@ export function mapUnlocatedReview(ctx){
    +'<div class="map-unlocated-record-head"><span class="map-unlocated-kind">'
    +icon(explorerCategory(item)==='lodging'?'bed':'pin')+' '+esc(reason.label)+'</span>'
    +'<small>'+cityName+'</small></div>'
-   +'<strong>'+esc(item.name??'Unbenannter Ort')+'</strong><p>'+esc(reason.reason)+'</p>'
+   +'<strong>'+esc(item.name??'Unbenannter Ort')+'</strong>'
+   +(published?'<p class="map-unlocated-public-address"><strong>Veröffentlichte Hausadresse:</strong> '
+     +esc(publicAddress)+'</p>':'')
+   +'<p>'+esc(reason.reason)+'</p>'
+   +(published&&item.addressEvidenceV09?.remark
+      ?'<details class="map-unlocated-source-note"><summary>Genauigkeit und Prüfstand</summary><p>'
+        +esc(item.addressEvidenceV09.remark)+'</p></details>':'')
    +'<p class="map-unlocated-next"><strong>Dein nächster Schritt:</strong> '+esc(reason.action)+'</p>'
    +'<div class="map-unlocated-actions">'
    +btn('details','Details & Quellen','folder',item.id,'subtle')
    +(canLookup?btn('geocode-lookup','Adresse prüfen','pin',item.id,'subtle'):'')
+   +(published?'<a class="button subtle" href="https://www.google.com/maps/search/?api=1&amp;query='
+     +encodeURIComponent(publicAddress)+'" target="_blank" rel="noopener noreferrer">'
+     +icon('external')+' Hausadresse in Google Maps suchen</a>':'')
    +(osmLink?'<a class="button subtle" href="'+esc(osmLink)+'" target="_blank"'
      +' rel="noopener noreferrer">'+icon('external')+' In OpenStreetMap suchen</a>':'')
    +(evidenceLink?'<a class="button subtle" href="'+esc(evidenceLink)+'" target="_blank"'
@@ -131,7 +154,8 @@ export function mapUnlocatedReview(ctx){
   +'<span class="map-unlocated-chevron">'+icon('chevron')+'</span></summary>'
   +'<div class="map-unlocated-body">'
   +'<p>Die Kartenpunkte und ihre Nachweislage werden getrennt bewertet. '
-  +'Private Hausadressen bleiben privat. Hier kannst du alle offenen '
+  +'Private Hausadressen bleiben privat. '+(state.kinds.get('sourced-address')??0)
+  +' Einträge haben eine belegte öffentliche Hausanschrift, aber keinen bestätigten Einzelpunkt. Hier kannst du alle offenen '
   +'Einträge schrittweise prüfen, ohne sie als fiktive Stadtpunkte einzuzeichnen.</p>'
   +filters
   +'<div class="map-unlocated-search"><input type="search" id="map-unlocated-search" '
