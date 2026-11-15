@@ -986,7 +986,7 @@ async function action(name, value = '') {
       view.selected=null;
       render({fetchRoutes:false}); break;
     case 'map-unlocated-filter':
-      if(!['all','address','unverified','concept','private'].includes(value))break;
+      if(!['all','sourced-address','address','unverified','concept','private'].includes(value))break;
       view.mapUnlocatedFilter=value;view.mapUnlocatedLimit=12;view.mapUnlocatedOpen=true;
       render({restoreView:true,fetchRoutes:false});break;
     case 'map-unlocated-search':
