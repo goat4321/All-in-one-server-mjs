@@ -2,6 +2,18 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 52: actual nightclub exterior photographs with independently checked
+ // Commons file descriptions & reuse licenses; do NOT confuse with tickets or
+ // the club's 2027 event photos. Show source & CC cropping credit on cards.
+ {city:'barcelona',name:/^sala apolo$/i,
+  file:'083 Sala Apolo, c. Nou de la Rambla 113 (Barcelona).jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:083_Sala_Apolo,_c._Nou_de_la_Rambla_113_(Barcelona).jpg',
+  credit:'Enric · CC BY-SA 4.0 · Foto der Sala-Apolo-Fassade (2025) · CSS-Bildausschnitt'},
+ {city:'barcelona',name:/^razzmatazz$/i,
+  file:'0 - Sala Razzmatazz - facade.JPG',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:0_-_Sala_Razzmatazz_-_facade.JPG',
+  credit:'Jordiferrer · CC BY-SA 3.0 · Fassade Sala Razzmatazz (2013) · CSS-Bildausschnitt'},
+
   // Three public scenes matched to individual route concepts on 2026-11-15.
   // Named viewpoint/river segment/harbour view, not hotels or guest rooms.
   {city:'barcelona',name:/^montju[iï]c\b/i,
