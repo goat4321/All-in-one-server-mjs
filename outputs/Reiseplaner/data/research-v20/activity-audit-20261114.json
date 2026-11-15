@@ -4,7 +4,7 @@
   "status": "Individual source audit; only sourced POI points promoted; visit exact time and 2027 bookings not inferred",
   "sourceAtlas": "Previous project OSM/Photon evidence plus publicly inspected operator/tourism sites",
   "count": 57,
-  "withSourcedPoint": 35,
+  "withSourcedPoint": 40,
   "withSpecificPublicEvidence": 24,
   "items": [
     {
@@ -777,25 +777,35 @@
       "id": "act-046",
       "city": "appenzell",
       "name": "Seealpsee – Picknick am Wasser",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://www.appenzell.ch/",
       "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
-      "researchStatus": "general_portal_or_concept_only"
+      "point": [
+        47.269558,
+        9.401261
+      ],
+      "pointPrecision": "sourced_public_building_reference",
+      "geoNote": "Quellenbelegtes Berggasthaus Seealpsee am See als nachvollziehbarer Picknick-Orientierungspunkt. NICHT die ganze Uferstrecke oder der individuelle Picknickplatz; Zugang und Wege separat prüfen.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.deine-berge.de/POI/Hotel-Pension/Schweiz/Appenzeller-Alpen/Hoehe-1150m/3959/Berggasthaus-Seealpsee.html"
     },
     {
       "id": "act-047",
       "city": "glarus",
       "name": "Klöntalersee – Uferroute",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://schweizmobil.ch/",
       "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
-      "researchStatus": "general_portal_or_concept_only"
+      "point": [
+        47.03079,
+        9.0039
+      ],
+      "pointPrecision": "sourced_trail_start_reference",
+      "geoNote": "Publizierter Parkplatz-/Uferwegeinstieg Güntlenau am östlichen Klöntalersee. NICHT der Verlauf der Uferwanderung, kein routbarer vollständiger Wanderweg.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://parkandhike.ch/parkplatz/kloental/"
     },
     {
       "id": "act-048",
@@ -861,32 +871,42 @@
       "id": "act-051",
       "city": "grindelwald",
       "name": "Grindelwald Dorf – Eigerblick und Snack",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/",
       "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
-      "researchStatus": "general_portal_or_concept_only"
+      "point": [
+        46.624375,
+        8.033506
+      ],
+      "pointPrecision": "sourced_orientation_point",
+      "geoNote": "Bahnhof Grindelwald als belegter Start- und Ankunftspunkt für einen frei wählbaren Dorfrundgang. NICHT der genaue Snackstand, ein Aussichtspunkt oder die gesamte Dorfroute.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.outdooractive.com/de/poi/jungfrau-region/bahnhof-grindelwald/1283975/"
     },
     {
       "id": "act-052",
       "city": "grindelwald",
       "name": "First Flyer – optional und nur bei Wunsch",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/first-flyer/",
       "specificFactVerified": true,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
-      "researchStatus": "specific_public_evidence_checked",
+      "point": [
+        46.65988,
+        8.05382
+      ],
+      "pointPrecision": "sourced_cableway_station_reference",
+      "geoNote": "Nachgewiesene Bergstation Grindel-First als Referenz für First Flyer (Betreiber bestätigt Fahrt First nach Schreckfeld: https://www.jungfrau.ch/en-gb/grindelwaldfirst/first-flyer/). NICHT der separat geprüfte konkrete Flyer-Einstieg oder der Verlauf des Stahlseils.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
       "condition": "Betreiber: First Flyer 35 CHF Erwachsener als Referenz, 35–125 kg Körpergewicht, wetterbedingte Schließung möglich, keine garantierten Zeitfenster. Gondelanreise zusätzlich.",
       "priceReference": {
         "amountCents": 3500,
         "currency": "CHF",
         "kind": "current_winter_or_season_unspecified_not_2027_total",
         "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/first-flyer/"
-      }
+      },
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.bergbahnen.org/de/datenbank/seilbahn/581/"
     },
     {
       "id": "act-053",
@@ -917,13 +937,18 @@
       "id": "act-054",
       "city": "kandersteg",
       "name": "Oeschinensee – Pause am See",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://www.oeschinensee.ch/en/tarife-fahrplan/",
       "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
-      "researchStatus": "general_portal_or_concept_only"
+      "point": [
+        46.497737,
+        7.714634
+      ],
+      "pointPrecision": "sourced_public_building_reference",
+      "geoNote": "Veröffentlichte Koordinate Berghaus am Oeschinensee als Orientierung für die See-Pause. NICHT der gesamte See, das Ufer, die Seilbahnstation oder ein garantierter Seezugang.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.outdooractive.com/r/43484396"
     },
     {
       "id": "act-055",
