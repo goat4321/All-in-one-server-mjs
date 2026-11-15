@@ -13,7 +13,7 @@ if not defined NODE_MAJOR goto :node_missing
 if %NODE_MAJOR% LSS 24 goto :node_old
 echo.
 echo === REISEPLANER ===
-echo Ordner: %CD%
+echo Ordner: "%CD%"
 echo Node: 
 node --version
 echo Start: http://127.0.0.1:4173

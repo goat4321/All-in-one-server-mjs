@@ -5,7 +5,7 @@ echo.
 echo === REISEPLANER - LOKALE PRUEFUNG ===
 where node.exe >nul 2>&1
 if errorlevel 1 (
-  echo [FEHLER] Node.js 24 ist nicht installiert.
+  echo [FEHLER] Node.js 24 oder neuer ist nicht installiert.
   goto :failed
 )
 where npm.cmd >nul 2>&1
@@ -13,9 +13,14 @@ if errorlevel 1 (
   echo [FEHLER] npm wurde nicht gefunden.
   goto :failed
 )
-for /f %%V in ('node -p "process.versions.node.split('.') [0]"') do set "NODE_MAJOR=%%V"
-if not "%NODE_MAJOR%"=="24" (
-  echo [FEHLER] Node.js 24 erforderlich. Installiert: 
+set "NODE_MAJOR="
+for /f %%V in ('node -p "Number(process.versions.node.split('.')[0])" 2^>nul') do set "NODE_MAJOR=%%V"
+if not defined NODE_MAJOR (
+  echo [FEHLER] Node-Version konnte nicht ermittelt werden.
+  goto :failed
+)
+if %NODE_MAJOR% LSS 24 (
+  echo [FEHLER] Node.js 24 oder neuer erforderlich. Installiert:
   node --version
   goto :failed
 )

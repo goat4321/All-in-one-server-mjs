@@ -241,7 +241,9 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
       const match = pathname.match(/^\/api\/variant\/([\w:%-]+)(?:\/(import|copy))?$/);
       if (match) {
         const [, encoded, action] = match;
-        const id = decodeURIComponent(encoded);
+        let id;
+        try { id = decodeURIComponent(encoded); }
+        catch { throw new InputError('Ungültige Varianten-ID.'); }
         if (!action && req.method === 'GET') {
           const { trip, ...value } = store.current(id);
           return json(res, { ...value, logs: store.logs(id) });

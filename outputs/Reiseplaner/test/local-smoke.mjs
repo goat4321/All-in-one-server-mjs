@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { createApp } from '../server.mjs';
 
-// Verwendet nur den quelloffenen Seed, keine privaten Tripsy-Dateien,
-// Netzwerk-Provider, Browser oder dauerhafte SQLite-Datei.
+// Braucht keine privaten Tripsy-Dateien, keine externen Netzwerk-Provider,
+// keinen Browser und keine dauerhafte SQLite-Datei.
 const {server}=await createApp({database:':memory:',upstream:false});
 await new Promise((resolve,reject)=>{
   server.once('error',reject);
@@ -22,9 +22,13 @@ try{
   assert.equal(css.status,200,'Stylesheet erreichbar');
   const module=await fetch(base+'/app.mjs');
   assert.equal(module.status,200,'App-Modul erreichbar');
+  const malformed=await fetch(base+'/api/variant/%ZZ');
+  assert.equal(malformed.status,400,'Ungültige URL-Kodierung wird als Eingabefehler gemeldet');
+  const foreign=await fetch(base+'/api/bootstrap',{headers:{Origin:'https://example.com'}});
+  assert.equal(foreign.status,403,'Fremde Browser-Origin wird abgewiesen');
   const invalid=await fetch(base+'/api/nicht-vorhanden');
   assert.equal(invalid.status,404,'Unbekannte API-Pfade sind gesperrt');
-  console.log('PASS: 4 Reisen, API, HTML, CSS, JS und 404 lokal erreichbar');
+  console.log('PASS: 4 Reisen, API, HTML, CSS, JS und Schutzregeln lokal erreichbar');
 } finally {
   await new Promise((resolve,reject)=>server.close(error=>error?reject(error):resolve()));
 }
