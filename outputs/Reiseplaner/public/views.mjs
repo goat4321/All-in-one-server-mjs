@@ -21,6 +21,7 @@ import { transitFares, transitNetworks } from './transit.mjs';
 import { railSalesStatus, reviewProgress } from './verification.mjs';
 import { official2027Notices } from './official-rules-2027.mjs';
 import { EXPLORER_GROUPS, explorerDetail, explorerCategory } from './map-explorer.mjs';
+import {markerProvenance} from './poi-location-provenance.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import {foodDirectory,marketCoverage} from './food-discovery-v36.mjs';
@@ -265,14 +266,21 @@ export function mapSelectionPreview(ctx) {
   const item=ctx.detail,id=item.explorerId??item.id;
   const category=EXPLORER_GROUPS[item.explorerCategory]?.label??'Reiseort';
   const signal=planCostSignal(item,ctx.people.length);
+  const provenance=markerProvenance(item);
+  const locationLabel={
+    sourced:'Quellenpunkt',area:'Gebäude-/Gebietsreferenz',
+    provider:'Anbieterposition prüfen',unverified:'Position prüfen',
+    none:'Standort offen',
+  }[provenance.kind]??'Standort prüfen';
+  const selectedPrice=signal.tier==='€?'?signal.amount:signal.tier+' · '+signal.amount;
   const bookmarked=ctx.explorer.saved?.has(item.id)??false;
   return '<div class="map-selected-place" role="group" aria-label="Ausgewählter Reiseort">'
     +placeThumbnailHtml(item,ctx)
     +'<div class="map-selected-copy"><strong>'+esc(item.name)+'</strong><small>'
     +esc(ctx.cities[item.city]?.name??item.city)+' · '+esc(category)
-    +(item.point?' · Kartenpunkt vorhanden':' · Standort offen')
+    +' · '+esc(locationLabel)
     +'</small><small class="map-selected-cost" title="'+esc(signal.note)+'">'
-    +esc(signal.tier)+' · '+esc(signal.amount)
+    +esc(selectedPrice)
     +(item.time?' · '+esc(item.time):'')+'</small>'
     +mapSelectionEvidence(item,ctx)+'</div><div class="map-selected-actions">'
     +btn('explorer-save',bookmarked?'Merken entfernen':'Merken',bookmarked?'check':'bookmark',id)
