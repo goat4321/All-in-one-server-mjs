@@ -18,10 +18,27 @@ export const basemapLabels=Object.freeze({
  error:'Kartenhintergrund nicht erreichbar · Orte und Routen bleiben nutzbar',
  offline:'Offline-Testmodus · Kartenhintergrund ausgeschaltet'
 });
+// Two pinned, well-known public module CDNs improve the chance of keeping
+// the much calmer OpenFreeMap vector map instead of falling back to raster
+// tiles with dense/rotated road labels. Neither uses an API key.
+const adapterSources=Object.freeze([
+ 'https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.mjs',
+ 'https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.mjs'
+]);
+export const vectorAdapterSources=adapterSources;
 let importer=null;
-const loadAdapter=()=>importer??=import(
- 'https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.mjs'
-).then(mod=>mod.maplibreGL).catch(error=>{importer=null;throw error});
+const loadAdapter=()=>importer??=(async()=>{
+ let lastError;
+ for(const url of adapterSources){
+  try{
+   const mod=await import(/* @vite-ignore */url);
+   if(typeof mod.maplibreGL==='function')return mod.maplibreGL;
+   lastError=new Error('Map adapter export missing');
+  }catch(error){lastError=error}
+ }
+ importer=null;
+ throw lastError??new Error('No MapLibre adapter CDN available');
+})();
 
 export function mapPalettePatch(gl){
  const layers=gl?.getStyle?.()?.layers??[];
