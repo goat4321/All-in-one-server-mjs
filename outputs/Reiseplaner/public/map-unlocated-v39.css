@@ -161,3 +161,27 @@
  overflow-wrap:anywhere;line-height:1.35;text-align:center;
  font-size:.73rem;padding:6px 9px;border-radius:9px
 }
+
+
+/* V46: documentary address evidence is useful even when no exact pin exists.
+   The work queue stays a compact list, not an overlay on the mobile map. */
+.map-unlocated-record>.map-unlocated-public-address{
+ background:var(--light,#f3f7f0);border:1px solid var(--line,#dbe6dc);
+ border-radius:9px;padding:8px 10px;color:var(--text,#284536);
+ overflow-wrap:anywhere;font-size:.7rem;line-height:1.45;
+}
+.map-unlocated-public-address strong{font-weight:740}
+.map-unlocated-record>.map-unlocated-source-note{
+ font-size:.7rem;color:var(--muted,#526c5c);min-width:0;
+}
+.map-unlocated-source-note>summary{
+ cursor:pointer;padding:5px 0;font-size:.7rem;font-weight:700;
+ color:inherit;outline-offset:2px;
+}
+.map-unlocated-source-note>p{margin:3px 0 5px;line-height:1.52;overflow-wrap:anywhere}
+.map-unlocated-source-note[open]{border-top:1px solid var(--line,#dce5df)}
+.map-unlocated-actions a[href*="google.com/maps/search"]{white-space:normal}
+@media(max-width:650px){
+ .map-unlocated-record>.map-unlocated-public-address{padding:7px 9px}
+ .map-unlocated-actions{gap:6px}
+}
