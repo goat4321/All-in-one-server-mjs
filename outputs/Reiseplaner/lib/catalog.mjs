@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import {loadDayPlansV32} from './day-plans-v32.mjs';
 import {applyUploadedPlacesV50} from './uploaded-places-v50.mjs';
+import {attachNightlifeReferencesV51} from './nightlife-official-v51.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsLocationStatus } from '../public/google-maps.mjs';
 import { localParts, minor, utcFromLocal } from '../public/model.mjs';
 import { italyLodgings, italyPlaces, italySources, italyStations } from './italy.mjs';
@@ -1007,6 +1008,7 @@ export async function loadCatalog() {
   const uploadedResearchV50=JSON.parse(await readFile(
     new URL('../data/research-v50/uploaded-interrail-2027-candidates.json',import.meta.url),'utf8'));
   const uploadedStatsV50=applyUploadedPlacesV50(output,cities,uploadedResearchV50);
+  const nightlifeOfficialStatsV51=attachNightlifeReferencesV51(output);
   for(const trip of output)trip.items=trip.items.map(item=>
     !item.researchV50?item:{
       ...item,
@@ -1073,6 +1075,7 @@ export async function loadCatalog() {
        fieldNotesV28,
       dayPlansV32,
       uploadedResearchV50:{meta:uploadedResearchV50.meta,stats:uploadedStatsV50},
+      nightlifeOfficialV51:nightlifeOfficialStatsV51,
       providerSearchV13,providerLocationsV13,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
