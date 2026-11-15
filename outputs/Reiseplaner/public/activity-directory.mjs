@@ -4,6 +4,7 @@ import {placeProfileModel} from './place-profile.mjs';
 import {hasIndependentPointEvidence} from './poi-location-provenance.mjs';
 import {groupPrice} from './model.mjs';
 import {esc,icon} from './ui.mjs';
+import {nightlifeType} from './nightlife-v50.mjs';
 
 // Every activity remains part of its existing trip variant. Categories are
 // browsing heuristics based on names and tags, not verified provider facts.
@@ -15,6 +16,8 @@ export const ACTIVITY_GROUPS=Object.freeze([
  ['view','Aussicht & Stadt'],
  ['sport','Sport & Erlebnisse'],
  ['night','Abend & Nightlife'],
+ ['clubs','Clubs & Partys'],
+ ['bars','Bars & Pubs'],
  ['other','Weitere Ideen']
 ]);
 export const ACTIVITY_EVIDENCE_FILTERS=Object.freeze([
@@ -52,7 +55,8 @@ export function activityFacetMatch(item,ctx,facet='all'){
 const normalize=value=>String(value??'').normalize('NFD')
  .replace(/[\u0300-\u036f]/g,'').toLowerCase();
 export function activityGroup(item){
- const subject=normalize([item?.name,...(item?.tags??[])].join(' '));
+ const subject=normalize([item?.name,item?.researchV50?.category,...(item?.tags??[])].join(' '));
+ if(nightlifeType(item)!=='none')return 'night';
  if(/\b(museum|musee|museo|galerie|theater|ausstellung|kathedrale|basilika|kirche|palast|schloss|denkmal)\b/.test(subject))return 'culture';
  if(/\b(strand|plage|beach|baden|schwimmen|schwimmbad|badesee|wasserfall|lagune|seealpsee|oeschinensee|klontalersee|meer)\b/.test(subject))return 'water';
  if(/\b(wandern|wanderung|hike|hiking|berg|alpen|alps|natur|wald|park|parc|nationalpark|gletscher|seilbahn)\b/.test(subject))return 'nature';
@@ -61,15 +65,22 @@ export function activityGroup(item){
  if(/\b(club|nightlife|nachtleben|barhop|abendprogramm|party|diskothek|disco)\b/.test(subject))return 'night';
  return 'other';
 }
+export function activityGroupMatches(item,key='all'){
+ if(key==='all')return true;
+ if(key==='clubs')return nightlifeType(item)==='club';
+ if(key==='bars')return nightlifeType(item)==='bar';
+ if(key==='night')return nightlifeType(item)!=='none';
+ return activityGroup(item)===key;
+}
 export function activityRows(ctx){
  const all=browseItems(ctx.all??[],{...ctx,browseSearch:''},{kind:'activity'})
-   .filter(item=>explorerCategory(item)==='activity');
+   .filter(item=>explorerCategory(item)==='activity'||nightlifeType(item)!=='none');
  const query=normalize(ctx.browseSearch).trim();
  const searched=all.filter(item=>!query||normalize([item.name,item.city,item.detail,item.note,
    ctx.cities?.[item.city]?.name,...(item.tags??[])].join(' ')).includes(query));
  const saved=ctx.browseSavedIds??new Set(ctx.state?.favorites??[]);
  const filtered=searched.filter(item=>
-  ((ctx.activityCategory??'all')==='all'||activityGroup(item)===ctx.activityCategory)
+  activityGroupMatches(item,ctx.activityCategory??'all')
   &&(!ctx.activitySavedOnly||saved.has(item.id))
   &&activityFacetMatch(item,ctx,ctx.activityEvidenceFilter??'all'));
  const sort=ctx.activityOrder??'source';
@@ -80,7 +91,7 @@ export function activityRows(ctx){
    -(groupPrice(b.price,ctx.people?.length??3)??Infinity)
    ||a.name.localeCompare(b.name,'de'));
  return {all,searched,filtered,counts:Object.fromEntries(ACTIVITY_GROUPS.map(([key])=>[
-  key,key==='all'?searched.length:searched.filter(item=>activityGroup(item)===key).length
+  key,key==='all'?searched.length:searched.filter(item=>activityGroupMatches(item,key)).length
  ])),savedCount:searched.filter(item=>saved.has(item.id)).length,
   evidenceCounts:Object.fromEntries(ACTIVITY_EVIDENCE_FILTERS.map(([key])=>[
     key,key==='all'?searched.length:searched.filter(item=>activityFacetMatch(item,ctx,key)).length
@@ -105,7 +116,9 @@ export function activityDirectory(ctx){
   +'<section class="activity-filter-panel" aria-label="Aktivitäten nach Interesse filtern">'
   +'<div class="activity-filter-header"><div><small>DEINE ERLEBNISSE</small><h2>Aktivitäten auswählen</h2>'
   +'<p>Alle vorhandenen Aktivitätsideen der aktuellen Reisevariante, unabhängig vom Tagesplan. '
-  +'Kategorien sind automatisch zugeordnet und können ungenau sein.</p></div>'+sort+'</div>'
+  +'Kategorien sind automatisch zugeordnet und können ungenau sein.</p>'
+  +'<p class="activity-nightlife-guidance">Clubs und Bars: Einlass ab 18, Ausweis, '
+  +'Programm, Eintritt und sichere Rückfahrt für 2027 separat prüfen.</p></div>'+sort+'</div>'
   +'<div class="activity-filter-chips">'+groups
   +'<button type="button" class="activity-category-chip activity-bookmark-chip"'
   +' data-action="activity-saved" aria-pressed="'+Boolean(ctx.activitySavedOnly)+'">'
