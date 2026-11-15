@@ -2,6 +2,21 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+  // Three public scenes matched to individual route concepts on 2026-11-15.
+  // Named viewpoint/river segment/harbour view, not hotels or guest rooms.
+  {city:'barcelona',name:/^montju[iï]c\b/i,
+   file:"Mirador de l'Alcalde Parc de Montjuïc.JPG",
+   sourceUrl:"https://commons.wikimedia.org/wiki/File:Mirador_de_l%27Alcalde_Parc_de_Montju%C3%AFc.JPG",
+   credit:"Invivi · CC BY-SA 3.0 · Mirador de l'Alcalde, gewählter Aussichtsanker im Montjuïc · CSS-Bildausschnitt"},
+  {city:'paris',name:/^seineufer zwischen/i,
+   file:"Île de la Cité and the Seine.jpg",
+   sourceUrl:"https://commons.wikimedia.org/wiki/File:%C3%8Ele_de_la_Cit%C3%A9_and_the_Seine.jpg",
+   credit:"APK · CC BY-SA 4.0 · Seine und Île de la Cité vom Pont Neuf · CSS-Bildausschnitt"},
+  {city:'nice',name:/port lympia/i,
+   file:"Port Lympia 01.jpg",
+   sourceUrl:"https://commons.wikimedia.org/wiki/File:Port_Lympia_01.jpg",
+   credit:"Miniwark · CC BY-SA 3.0 · Hafenansicht Port Lympia · CSS-Bildausschnitt"},
+
  // Verified individual Commons file-description pages on 2026-11-15.
  // These are public street/place views, not photos of private businesses.
  {city:'paris',name:/quartier latin|quartier[- ]?latin/i,
