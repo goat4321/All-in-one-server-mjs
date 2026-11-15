@@ -37,6 +37,8 @@
 - `test/public-location-evidence-v47.test.mjs`: Adressdatenkonsistenz, historische Unsicherheitsreferenz und 2027-Vorbehalt.
 - Erweiterte `test/google-maps.test.mjs` zur Quellenstatus-Verwechslung.
 - Erweiterte `test/portable-browser.mjs`: tatsächlich gerenderter Source-Vergleich, externe OSM-Links, eigenes Screenshot-Artefakt `47-ungepruefte-pins-quellenvergleich-desktop.png`.
+- Die erste V47-Chrome-Aufnahme zeigte noch `€?`-Badges auf den bebilderten Karten-Karussellkarten. Diese erscheinen jetzt neutral als **„Offen“**. Das ist eine rein visuelle Beschriftung; interne Preis-/Währungsannahmen bleiben unverändert. Der Browser prüft, dass kein `€?`-Preisbadge übrig bleibt.
+- Die Screenshotaufnahme für V47 scrollt vor dem Bild explizit zu den **tatsächlichen Koordinaten-Prüfkarten**, damit Desktop-Ergonomie und Kontrast nicht anhand der darüberliegenden Reisekarte beurteilt werden.
 - Keine privaten Tripsy-Quelldateien überschrieben, keine falschen GPS-Pins oder Preise erstellt.
 
 **Offen:** 273 variantenspezifische Einträge ohne Punkt, weitere individuelle Adress-/Hausnummernnachweise, manuelle Quellennachweise für viele der 556 gespeicherten Positionen, Online-Abnahme von echten Kartenkacheln und September-2027-Tarife.
