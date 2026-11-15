@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { routeStudioModel, routeStudioSummary, footpathMatchesStops, pointAlongRoute, MAP_TONES } from '../public/route-studio.mjs';
+import { routeStudioModel, routeStudioSummary, footpathMatchesStops, pointAlongRoute, routeDirectionAt, MAP_TONES } from '../public/route-studio.mjs';
 import { dayRouteView } from '../public/day-route-ui.mjs';
 
 const barcelona=[
@@ -171,4 +171,26 @@ test('Excessive routing snap is rejected even when geometry otherwise looks vali
  assert.equal(m.legs[0].minutes,null);
  const almost={...route,points:[[41.3883,2.1863],[41.390,2.184],[41.391,2.181]]};
  assert.equal(footpathMatchesStops(stops[0],stops[1],almost),true);
+});
+
+test('A directional arrow follows the real walked path and correct geographic bearing',()=>{
+ const east=routeDirectionAt([[48.1,11.5],[48.1,11.51]],.73);
+ assert.ok(east);
+ assert.ok(east.bearing>89&&east.bearing<91);
+ assert.ok(east.point[1]>11.507&&east.point[1]<11.508);
+ const north=routeDirectionAt([[48.1,11.5],[48.11,11.5]],.73);
+ assert.ok(north.bearing<1||north.bearing>359);
+ const west=routeDirectionAt([[48.1,11.51],[48.1,11.5]],.5);
+ assert.ok(west.bearing>269&&west.bearing<271);
+ const south=routeDirectionAt([[48.11,11.5],[48.1,11.5]],.5);
+ assert.ok(south.bearing>179&&south.bearing<181);
+ const dogleg=routeDirectionAt([[48.1,11.5],[48.1,11.51],[48.105,11.51]],.9);
+ assert.ok(dogleg.bearing<2||dogleg.bearing>358,
+   'arrow follows the final routed section, not a straight chord to the destination');
+});
+test('No direction glyph is placed on short, degenerate or unsourced geometry',()=>{
+ assert.equal(routeDirectionAt([]),null);
+ assert.equal(routeDirectionAt([[48.1,11.5],[48.1,11.5001]]),null);
+ assert.equal(routeDirectionAt([[48.1,11.5],[48.1,11.5]]),null);
+ assert.equal(routeDirectionAt([[48.1,11.5],[999,11.51]]),null);
 });
