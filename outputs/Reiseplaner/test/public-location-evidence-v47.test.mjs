@@ -47,7 +47,7 @@ test('Cavour operator hints are source-qualified, accessible and never 2027 book
  assert.equal(item.geoEvidence.isCentroid,true);
  assert.equal(item.addressEvidenceV09.operatorArrivalV47.notConfirmedFor2027,true);
  assert.match(item.addressEvidenceV09.operatorArrivalV47.transitReference,/San Giorgio/);
- assert.match(item.geoEvidence.note,/kein separat geprüfter Eingang/);
+ assert.match(item.geoEvidence.note,/kein separat geprüfter Wohnungs- oder Kundeneingang/);
 });
 
 test('Bacarino mismatched house numbering is not promoted as exact entrance',()=>{
