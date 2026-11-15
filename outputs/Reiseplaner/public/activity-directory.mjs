@@ -10,14 +10,14 @@ import {nightlifeType} from './nightlife-v50.mjs';
 // browsing heuristics based on names and tags, not verified provider facts.
 export const ACTIVITY_GROUPS=Object.freeze([
  ['all','Alle Aktivitäten'],
- ['culture','Kultur & Museen'],
- ['nature','Natur & Wandern'],
- ['water','Strand & Baden'],
- ['view','Aussicht & Stadt'],
- ['sport','Sport & Erlebnisse'],
- ['night','Abend & Nightlife'],
  ['clubs','Clubs & Partys'],
  ['bars','Bars & Pubs'],
+ ['night','Alle Abendideen'],
+ ['sport','Sport & Erlebnisse'],
+ ['water','Strand & Baden'],
+ ['nature','Natur & Wandern'],
+ ['view','Aussicht & Stadt'],
+ ['culture','Kultur & Museen'],
  ['other','Weitere Ideen']
 ]);
 export const ACTIVITY_EVIDENCE_FILTERS=Object.freeze([
