@@ -2,6 +2,29 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Verified individual Commons file-description pages on 2026-11-15.
+ // These are public street/place views, not photos of private businesses.
+ {city:'paris',name:/quartier latin|quartier[- ]?latin/i,
+  file:'Rue de ecole Polytechnique Quartier Latin Paris.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Rue_de_ecole_Polytechnique_Quartier_Latin_Paris.jpg',
+  credit:'Jordgubbe · CC BY-SA 3.0 · Straßenszene Quartier Latin · CSS-Bildausschnitt'},
+ {city:'barcelona',name:/poblenou/i,
+  file:'Rambla del Poblenou.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Rambla_del_Poblenou.jpg',
+  credit:'Victoriano Javier Tornel García · CC BY-SA 2.0 · Rambla del Poblenou · CSS-Bildausschnitt'},
+ {city:'nice',name:/port lympia/i,
+  file:'Port Lympia Nice.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Port_Lympia_Nice.jpg',
+  credit:'Pierrette13 · CC0 1.0 · Hafenansicht im Winter 2025 · CSS-Bildausschnitt'},
+ {city:'venice',name:/murano[\/ -]+burano|inselrunde.*murano/i,
+  file:'Murano Venice.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Murano_Venice.jpg',
+  credit:'Vivupadi · CC BY-SA 4.0 · Murano (Teilausschnitt der Inselrunde, nicht Burano) · CSS-Bildausschnitt'},
+ {city:'grindelwald',name:/grindelwald dorf|dorf.*eigerblick/i,
+  file:'Grindelwald village seen from train in Grindelwald 2022-10-02 02.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Grindelwald_village_seen_from_train_in_Grindelwald_2022-10-02_02.jpg',
+  credit:'Leonhard Lenz · CC0 1.0 · Dorfansicht vom Zug 2022 · CSS-Bildausschnitt'},
+
   // Individually matched source pages and licenses checked on 2026-11-15.
   // A contextual city backdrop does not qualify as a specific-venue photo.
   {city:'barcelona',name:/\bbogatell\b/i,
