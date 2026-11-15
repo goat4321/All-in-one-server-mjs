@@ -20,3 +20,25 @@ test('Counts do not confuse independently sourced positions with safe entrances'
  assert.equal(x.reviewCount,3);assert.equal(x.areaCount,1);
  assert.equal(x.independentCount,2);assert.equal(x.missingCount,1);
 });
+
+test('Simple A-to-B planner states endpoint provenance without claiming an entrance',async()=>{
+ const {explorerToolbar}=await import('../public/explorer-ui.mjs');
+ const from={id:'hotel',name:'Testhotel',city:'barcelona',
+   point:[41.388,2.186],locationReferenceV07:{precision:'provider_reported_unverified'}};
+ const to={id:'museum',name:'Museum',city:'barcelona',point:[41.391,2.181],
+   geoEvidence:{url:'https://www.openstreetmap.org/node/100'}};
+ const route={walkOnly:true,mode:'Fußweg',minutes:9,metres:650,
+   points:[from.point,to.point]};
+ const ex={connection:{from,to,route},saved:new Set(),placed:[],unlocated:[],
+   scope:'city',group:'all',routeMode:'walk',routeTime:'10:00',search:''};
+ const html=explorerToolbar({explorer:ex,city:'barcelona',cities:{barcelona:{name:'Barcelona'}}});
+ assert.match(html,/1 von 2 Zielpunkten/);
+ assert.match(html,/nicht den Gebäudezugang/);
+ assert.match(html,/Berechnete Fußweg-Geometrie geladen/);
+ const safe=explorerToolbar({explorer:{...ex,connection:{
+   ...ex.connection,from:{...from,locationReferenceV07:null,
+    geoEvidence:{url:'https://www.openstreetmap.org/node/20'}}}},
+   city:'barcelona',cities:{barcelona:{name:'Barcelona'}}});
+ assert.doesNotMatch(safe,/1 von 2 Zielpunkten/);
+ assert.match(safe,/tatsächliche Eingang/);
+});
