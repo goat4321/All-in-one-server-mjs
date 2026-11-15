@@ -1,3 +1,4 @@
+import {hasIndependentPointEvidence} from './poi-location-provenance.mjs';
 import {explainMissingField} from './entry-gap-reasons.mjs';
 import {curatedPlacePhoto} from './curated-place-photos.mjs';
 import {planCostSignal} from './visual-experience.mjs';
@@ -28,8 +29,11 @@ export function entryCompleteness(item,ctx={}){
   if(/^https:\/\//.test(item.researchV20?.sourceUrl??''))urls.push(item.researchV20.sourceUrl);
   const hasSource=urls.length>0;
   const hasPoint=usablePoint(item.point);
-  const sourcePoint=hasPoint&&Boolean(item.geoEvidence?.url||item.addressEvidenceV09?.sourceUrl
-    ||item.locationReferenceV07?.exactKnown||item.coordinatePrecision==='verified_exact');
+  // A recorded coordinate (or merely a sourced street address) does not
+  // establish an INDEPENDENT object-specific POI source. In particular, the
+  // old exactKnown flag is computed from any non-null point, including
+  // unverified provider locations, and must not satisfy this audit.
+  const sourcePoint=hasPoint&&hasIndependentPointEvidence(item);
   const publishedHours=Boolean((Array.isArray(item.hours)&&item.hours.length>0)
     ||item.weekly?.hours||item.openingHoursNote||item.checkInTime);
   const price=planCostSignal(item,ctx.people?.length??ctx.trip?.travellers??3);
