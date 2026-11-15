@@ -832,6 +832,31 @@ export async function loadCatalog() {
       ||x.coordinate!==null||x.coordinateStatus!=='not_verifiably_exact'
       ||x.privateAirbnbProperty!==x.id.startsWith('wishlist:airbnb:')))
     throw new Error('Einzelbegründungen für offene Kartenobjekte v0.9 unvollständig.');
+  const publicAddressCheckV49=JSON.parse(await readFile(
+    new URL('../data/research-v49/public-address-checklist.json',import.meta.url),'utf8'));
+  const publicAddressPendingV49=publicAddressesV09.entries.filter(row=>!row.point);
+  const publicAddressByKeyV49=new Map(publicAddressPendingV49
+    .map(row=>[row.id+'|'+row.city,row]));
+  if(publicAddressCheckV49.schema!=='reiseplaner_public_address_verification_queue_v49'
+    ||publicAddressCheckV49.counts?.total!==14
+    ||!Array.isArray(publicAddressCheckV49.entries)
+    ||publicAddressCheckV49.entries.length!==publicAddressPendingV49.length
+    ||publicAddressCheckV49.entries.filter(row=>row.historicalProviderPoint).length!==11
+    ||new Set(publicAddressCheckV49.entries.map(row=>row.id+'|'+row.city)).size!==14
+    ||publicAddressCheckV49.entries.some(row=>{
+      const original=publicAddressByKeyV49.get(row.id+'|'+row.city);
+      return !original||row.publishedAddress!==original.address
+        ||row.addressSource!==original.sourceUrl
+        ||row.entranceVerified!==false||row.booked2027!==false
+        ||row.automaticallyGeocoded!==false
+        ||row.id.startsWith('wishlist:airbnb:')
+        ||!['critical','high','medium','low'].includes(row.reviewPriority)
+        ||!row.nextManualCheck||!row.blocker;
+    })){
+    throw new Error('Quellenprioritäten V49 sind nicht mit den offenen öffentlichen Adressen synchron.');
+  }
+  const publicAddressCheckByKeyV49=new Map(publicAddressCheckV49.entries
+    .map(row=>[row.id+'|'+row.city,row]));
   const reasonsV09ByKey=new Map(unresolvedReasonsV09.items.map(x=>[x.id+'|'+x.city,x]));
   // New independent address/POI sources are reconciled with the old audit
   // without altering its original 146 research records or the V06 cohort.
@@ -871,6 +896,22 @@ export async function loadCatalog() {
       knownPublicAddress:unresolved.knownPublicAddress,
       exactPointKnown:false,
       lastReviewedOn:unresolved.lastReviewedOn,
+    }};
+  });
+  // A concise public-only review priority is attached to missing locations.
+  // Historical provider coordinates remain research hints, NEVER active pins.
+  for(const trip of output)trip.items=trip.items.map(item=>{
+    if(item.point||item.provider==='Airbnb'||String(item.id).startsWith('wishlist:airbnb:'))
+      return item;
+    const review=publicAddressCheckByKeyV49.get(item.id+'|'+item.city);
+    if(!review)return item;
+    return {...item,addressCheckV49:{
+      priority:review.reviewPriority,identityConflict:review.identityConflict,
+      addressQualification:review.addressQualification,
+      nextManualCheck:review.nextManualCheck,
+      blocker:review.blocker,
+      hasHistoricalProviderHint:Boolean(review.historicalProviderPoint),
+      reviewedOn:publicAddressCheckV49.reviewDate,
     }};
   });
   // Import candidates after legacy location evidence, before per-entry coverage audits.
@@ -1056,6 +1097,7 @@ export async function loadCatalog() {
         actuallyUnresolvedUnique:activeUnresolvedV09.length,
         appliedAcrossVariants:openReasonReferencesV09,
       },
+      publicAddressCheckV49,
       foodMenuV08,
       geoUnresolvedV08,
       operatorV07,
