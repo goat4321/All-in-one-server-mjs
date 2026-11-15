@@ -195,3 +195,67 @@
 :root[data-theme=dark] .map-unlocated-record>.map-unlocated-address-warning{
  background:#493927;color:#f2daa7;border-color:#d4aa68;
 }
+
+
+/* V46.2: published-address research is a streamlined evidence ledger,
+ * not a masonry grid of repetitive cards. All sources remain available. */
+.workspace>.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-grid{
+ display:grid;grid-template-columns:1fr;gap:0;
+ border-top:1px solid var(--line,#d8e4db);
+}
+.workspace>.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record{
+ display:grid;grid-template-columns:minmax(190px,.8fr) minmax(270px,1.6fr);
+ align-items:start;column-gap:22px;row-gap:5px;
+ padding:13px 7px;background:transparent;box-shadow:none;
+ border:0;border-bottom:1px solid var(--line,#d8e4db);
+ border-radius:0;min-height:0;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record-head{
+ grid-column:1;grid-row:1;justify-content:flex-start;gap:7px 12px;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record>strong{
+ grid-column:1;grid-row:2;font-size:.84rem;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-public-address{
+ grid-column:2;grid-row:1 / span 2;align-self:center;
+ margin:0;border-color:var(--line,#dce5df);background:var(--paper,#fff);
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-address-warning{
+ grid-column:2;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-source-note,
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-actions{
+ grid-column:1 / -1;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-source-note>summary{
+ font-size:.67rem;padding:3px 0;opacity:.85;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-actions{
+ margin-top:0;align-items:center;gap:7px;
+}
+.map-unlocated-extra-actions{min-width:0}
+.map-unlocated-extra-actions>summary{
+ cursor:pointer;list-style:none;display:inline-flex;align-items:center;
+ border:1px solid var(--line,#d3e3d7);border-radius:8px;
+ padding:8px 10px;background:var(--light,#eef5ee);
+ font-size:.69rem;font-weight:700;color:var(--muted,#456850);
+}
+.map-unlocated-extra-actions>summary::-webkit-details-marker{display:none}
+.map-unlocated-extra-actions>summary::after{content:" ▾";padding-left:5px}
+.map-unlocated-extra-actions[open]{flex-basis:100%}
+.map-unlocated-extra-actions[open]>summary::after{content:" ▴"}
+.map-unlocated-extra-links{display:flex;flex-wrap:wrap;gap:7px;padding:9px 0 4px}
+.map-unlocated-extra-actions>summary:focus-visible{outline:3px solid #77b499;outline-offset:2px}
+@media(max-width:760px){
+ .workspace>.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record{
+  grid-template-columns:minmax(0,1fr);gap:7px;padding:12px 2px;
+ }
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record-head,
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record>strong,
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-public-address,
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-address-warning,
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-source-note,
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-actions{
+   grid-column:1;grid-row:auto;
+ }
+}
