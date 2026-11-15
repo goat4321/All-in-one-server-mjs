@@ -48,11 +48,17 @@ test('Le Pouffre BAN house number is separately sourced, never inserted into old
  assert.ok(c.trips.every(t=>t.items.filter(x=>x.provider==='Airbnb')
    .every(x=>x.point===null)));
 });
-test('All six failed official house-number lookups stay unlocated and routeless',async()=>{
+test('Failed official BAN lookups remain failed even if later independent sources locate a building',async()=>{
  const c=await loadCatalog();
  for(const x of official.items.filter(x=>x.point===null)){
   const occurrences=c.trips.flatMap(t=>t.items.filter(item=>item.id===x.id));
   assert.ok(occurrences.length>0,x.id);
-  for(const row of occurrences)assert.equal(row.point,null,x.id);
+  for(const row of occurrences){
+   if(x.id==='research:bcom_4231096'){
+    assert.deepEqual(row.point,[43.396048,3.695277]);
+    assert.equal(row.geoEvidence.confidence,'independent_third_party_house_number_not_lodging_entrance');
+    assert.equal(row.geoEvidence.isCentroid,true);
+   }else assert.equal(row.point,null,x.id);
+  }
  }
 });
