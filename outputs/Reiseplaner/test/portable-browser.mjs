@@ -150,7 +150,18 @@ try {
     'Activity quick-add immediately turns into a one-click remove control');
   assert.equal(store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.selected,true,
     'Quick add persists the chosen day in existing editable state');
-  await click('[data-action=day-quick-remove][data-value="uploaded:v50:new_036"]');
+  const dayChosen=store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.date;
+  assert.match(dayChosen,/^2027-09-\\d{2}$/);
+  await click('.sidebar [data-action=page][data-value=plan]');
+  await click('.days [data-action=day][data-value="'+dayChosen+'"]');
+  await text('.timeline','Sala Apolo');
+  assert.ok(await js('Array.from(document.querySelectorAll(".timeline-quick-remove")).some(b=>b.dataset.value==="uploaded:v50:new_036")'),
+    'The newly selected club appears on its date and offers immediate removal within the day timeline');
+  await screenshot('50-tagesplan-direkt-hinzufuegen-und-loeschen-1280.png');
+  await click('.timeline-quick-remove[data-value="uploaded:v50:new_036"]');
+  await until(()=>Promise.resolve(store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.selected===false),
+    'Removing the club from the actual timeline immediately updates saved trip state');
+  await click('.sidebar [data-action=page][data-value=activities]');
   await until(()=>js('Array.from(document.querySelectorAll("[data-action=day-quick-add]")).some(el=>el.dataset.value==="uploaded:v50:new_036")'),
     'An activity can be removed with one click and then re-added');
   assert.equal(store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.selected,false,
