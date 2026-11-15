@@ -281,6 +281,9 @@ export function mapPhotoDiscovery(ctx){
       :'Orte entlang deiner Route';
   const cards=withPhoto.map(({item,photo})=>{
     const signal=planCostSignal(item,people);
+    // The discovery photo strip is primarily visual, not an audit ledger:
+    // show an honest quiet price label instead of visually prominent "€?".
+    const tier=signal.known&&signal.tier!=='€?'?signal.tier:'Offen';
     const located=Array.isArray(item.point)&&item.point.length===2
       &&item.point.every(Number.isFinite);
     const planned=ctx.activeSet?.has(item.id)??false;
@@ -298,7 +301,7 @@ export function mapPhotoDiscovery(ctx){
       +icon('bookmark')+'</button></div>'
       +'<div class="reference-discovery-body"><div class="reference-discovery-title">'
       +'<strong>'+esc(item.name)+'</strong><span class="reference-discovery-euro" title="'
-      +esc(signal.note)+'">'+esc(signal.tier)+'</span></div>'
+      +esc(signal.note)+'">'+esc(tier)+'</span></div>'
       +'<p>'+esc(ctx.cities?.[item.city]?.name??item.city)+' · '
       +esc(item.kind==='lodging'?'Unterkunft':
         item.kind==='transport'?'Verbindung':'Ort & Aktivität')
