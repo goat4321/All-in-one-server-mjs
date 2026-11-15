@@ -84,9 +84,9 @@ export function routeStudioSummary(model) {
   const geometry=model.complete
     ? 'Alle ' + count + ' Fußetappen anhand echter Weggeometrie berechnet.'
     : model.verifiedCount + ' von ' + count + ' Fußetappen berechnet. '
-      + model.unknownCount + ' Verbindungen zeigen höchstens eine gestrichelte Luftlinie ohne Gehzeit.';
+      + model.unknownCount + ' Verbindung(en) als gestrichelte Luftlinie ohne Gehzeit.';
   return geometry+(model.positionQuality?.reviewCount
     ? ' Achtung: '+model.positionQuality.reviewCount+' von '+model.stops.length
-      +' Stopp-Koordinaten bedürfen einer Prüfung; berechneter Weg bedeutet keinen bestätigten Eingang.'
-    : ' Quellenbelegte Kartenpunkte vorhanden; Eingänge separat prüfen.');
+      +' Stopp-Positionen prüfen.'
+    : ' Quellenpunkte vorhanden; Zugänge separat prüfen.');
 }
