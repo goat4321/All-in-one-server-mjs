@@ -54,3 +54,24 @@
 
 .map-unlocated-record>.map-unlocated-next{color:#365f49;font-size:.69rem;line-height:1.45}
 :root[data-theme=dark] .map-unlocated-record>.map-unlocated-next{color:#add6bb}
+
+/* Phase 41: progressive geolocation review. A real table, not fake map pins. */
+.map-unlocated-facets{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;
+ padding:3px 0 10px;margin-bottom:8px}
+.map-unlocated-facets>.chip-button{flex-shrink:0;font-size:.69rem;min-height:32px;white-space:nowrap}
+.map-unlocated-search{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:4px 0 8px}
+.map-unlocated-search>input{flex:1 1 190px;min-width:0;min-height:37px;
+ border:1px solid #b9d2c4;border-radius:10px;padding:9px 12px;
+ background:var(--surface,#fff);color:inherit;font:inherit;font-size:.77rem}
+.map-unlocated-search>input:focus-visible{outline:3px solid #82bb9e;outline-offset:1px}
+.map-unlocated-count{color:#526e5f;font-size:.72rem;margin:0 0 12px}
+.map-unlocated-pagination{display:flex;justify-content:center;margin:13px 0}
+.map-unlocated-empty{padding:10px 12px;background:#ffffff85;border-radius:9px}
+.map-unlocated-grid{margin-bottom:13px}
+@media(max-width:620px){
+ .map-unlocated-search>input{flex-basis:100%}
+ .map-unlocated-facets>.chip-button{font-size:.66rem}
+}
+:root[data-theme=dark] .map-unlocated-count{color:#a8cbb7}
+:root[data-theme=dark] .map-unlocated-search>input{background:#1d3028;border-color:#40634e}
+:root[data-theme=dark] .map-unlocated-empty{background:#263d32}

@@ -1,9 +1,14 @@
-import {esc,btn,icon} from './ui.mjs';
+import {esc,btn,chip,icon} from './ui.mjs';
 import {explorerCategory} from './map-explorer.mjs';
+import {hasIndependentPointEvidence} from './poi-location-provenance.mjs';
 
-// All records stay in the unlocated list, regardless of whether the user
-// deliberately hides the approximate city-summary glyphs from the basemap.
-// The reasons are conservative and do NOT represent a successful geocoding.
+// Missing coordinates are not a place category or a map position. A city
+// orientation marker never becomes an item.point or is routed as a stop.
+export const UNLOCATED_TYPES=Object.freeze([
+ ['all','Alle offenen Positionen'],['address','Öffentliche Adressen'],
+ ['unverified','Ohne Standortbeleg'],['concept','Gebiete und Ideen'],
+ ['private','Private Unterkünfte']
+]);
 export function unlocatedKind(item){
  if(item?.provider==='Airbnb'||String(item?.id??'').startsWith('wishlist:airbnb:'))
    return {key:'private',label:'Private Unterkunft',
@@ -23,74 +28,111 @@ export function unlocatedKind(item){
    reason:'Kein belegter Einzelpunkt hinterlegt; ein Stadtzentrum wäre irreführend.',
    action:'Exakten öffentlichen Objektlink oder OSM-POI nachreichen.'};
 }
+const norm=value=>String(value??'').normalize('NFD')
+  .replace(/[\u0300-\u036f]/g,'').toLowerCase();
 export function unlocatedOverview(ctx){
- const rows=Array.isArray(ctx?.explorer?.unlocated)?ctx.explorer.unlocated:[];
+ const all=Array.isArray(ctx?.explorer?.unlocated)?ctx.explorer.unlocated:[];
  const cities=new Map(),kinds=new Map();
- for(const item of rows){
+ for(const item of all){
   const city=item.city??'unknown';
   if(!cities.has(city))cities.set(city,[]);
   cities.get(city).push(item);
   const kind=unlocatedKind(item).key;
   kinds.set(kind,(kinds.get(kind)??0)+1);
  }
- return {total:rows.length,cities,kinds,
-   preview:[...cities.entries()]
-    .sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0],'de'))
-    .flatMap(([city,items])=>{
-      const priority={address:0,unverified:1,concept:2,private:3};
-      return [...items].sort((a,b)=>priority[unlocatedKind(a).key]-priority[unlocatedKind(b).key])
-        .slice(0,3).map(item=>({city,item,reason:unlocatedKind(item)}));
-    })
-    .slice(0,12)};
+ const type=UNLOCATED_TYPES.some(([key])=>key===ctx.mapUnlocatedFilter)
+   ?ctx.mapUnlocatedFilter:'all';
+ const query=norm(ctx.mapUnlocatedSearch).trim().slice(0,100);
+ const filtered=all.filter(item=>{
+  if(type!=='all'&&unlocatedKind(item).key!==type)return false;
+  const label=[item.name,item.city,ctx.cities?.[item.city]?.name,
+   item.address,item.detail,item.note].join(' ');
+  return !query||norm(label).includes(query);
+ });
+ const filteredCities=new Map();
+ for(const item of filtered){
+  const city=item.city??'unknown';
+  if(!filteredCities.has(city))filteredCities.set(city,[]);
+  filteredCities.get(city).push(item);
+ }
+ // A round-robin preview prevents a single high-volume city from hiding all
+ // other cities. Within each city, prioritize verifiable public addresses.
+ const priority={address:0,unverified:1,concept:2,private:3};
+ const groups=[...filteredCities.entries()]
+  .sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0],'de'))
+  .map(([city,items])=>({city,items:[...items].sort((a,b)=>
+    priority[unlocatedKind(a).key]-priority[unlocatedKind(b).key]
+    ||String(a.name).localeCompare(String(b.name),'de'))}));
+ const limit=Math.min(120,Math.max(12,Number(ctx.mapUnlocatedLimit)||12));
+ const preview=[];
+ for(let offset=0;preview.length<limit;offset++){
+  let found=false;
+  for(const g of groups){
+   if(offset>=g.items.length)continue;
+   preview.push({city:g.city,item:g.items[offset],reason:unlocatedKind(g.items[offset])});
+   found=true;
+   if(preview.length===limit)break;
+  }
+  if(!found)break;
+ }
+ return {total:all.length,cities,kinds,type,query,filteredTotal:filtered.length,
+   preview,hasMore:filtered.length>preview.length};
 }
 export function mapUnlocatedReview(ctx){
  const state=unlocatedOverview(ctx);
  if(!state.total)return '';
- const human=state.total===1?'Ort':'Orte';
- const summary=(ctx.explorer?.placed?.length??0)+' mit belegtem Kartenpunkt · '
-  +state.total+' ohne individuellen Pin';
+ const placed=ctx.explorer?.placed??[];
+ const independentlySourced=placed.filter(hasIndependentPointEvidence).length;
+ const summary=placed.length+' mit Kartenposition · davon '
+   +independentlySourced+' mit Quellenbeleg · '+state.total+' ohne Einzelpunkt';
  const list=state.preview.map(({city,item,reason})=>{
-  const name=esc(item.name??'Unbenannter Ort');
   const cityName=esc(ctx.cities?.[city]?.name??city);
-  const canLookup=reason.key==='address'&&!item.booked
-    &&item.provider!=='Airbnb';
+  const canLookup=reason.key==='address'&&!item.booked&&item.provider!=='Airbnb';
   return '<article class="map-unlocated-record" data-unlocated-type="'+reason.key+'">'
    +'<div class="map-unlocated-record-head"><span class="map-unlocated-kind">'
    +icon(explorerCategory(item)==='lodging'?'bed':'pin')+' '+esc(reason.label)+'</span>'
    +'<small>'+cityName+'</small></div>'
-   +'<strong>'+name+'</strong><p>'+esc(reason.reason)+'</p>'
+   +'<strong>'+esc(item.name??'Unbenannter Ort')+'</strong><p>'+esc(reason.reason)+'</p>'
    +'<p class="map-unlocated-next"><strong>Dein nächster Schritt:</strong> '+esc(reason.action)+'</p>'
    +'<div class="map-unlocated-actions">'
    +btn('details','Details & Quellen','folder',item.id,'subtle')
    +(canLookup?btn('geocode-lookup','Adresse prüfen','pin',item.id,'subtle'):'')
    +'</div></article>';
  }).join('');
- const badges=[
-  ['private','Private Unterkünfte'],['concept','Gebiete / Ideen'],
-  ['address','Adresse ohne Punkt'],['unverified','Ohne Standortbeleg']
- ].filter(([key])=>state.kinds.has(key))
- .map(([key,label])=>'<span class="map-unlocated-breakdown" data-kind="'+key+'">'
-  +'<strong>'+state.kinds.get(key)+'</strong> '+esc(label)+'</span>').join('');
+ const filters='<div class="map-unlocated-facets" role="group" aria-label="Offene Orte filtern">'
+  +UNLOCATED_TYPES.map(([key,label])=>chip('map-unlocated-filter',label+' · '
+    +(key==='all'?state.total:state.kinds.get(key)??0),state.type===key,key))
+    .join('')+'</div>';
  const mapMarkers=Boolean(ctx.explorer?.showCityReferences);
  return '<details class="map-unlocated-review"'+(ctx.mapUnlocatedOpen?' open':'')+'>'
   +'<summary><span class="map-unlocated-summary-icon">'+icon('pin')+'</span>'
-  +'<span><strong>'+state.total+' '+human+' ohne genaue Position</strong>'
-  +'<small>'+esc(summary)+' · Prüfliste statt Fragezeichen auf der Karte</small></span>'
+  +'<span><strong>'+state.total+(state.total===1?' Ort':' Orte')
+  +' ohne genaue Position</strong><small>'+esc(summary)
+  +' · Keine geschätzten Einzelpins</small></span>'
   +'<span class="map-unlocated-chevron">'+icon('chevron')+'</span></summary>'
   +'<div class="map-unlocated-body">'
-  +'<p>Diese Orte werden <strong>nicht an geschätzten Positionen</strong> eingezeichnet.'
-  +' Die Liste enthält Beispiele aus den aktuellen Kartenfiltern. Alle offenen'
-  +' Angaben sind im Daten-Audit vollständig einzeln aufgelistet.</p>'
-  +'<div class="map-unlocated-breakdowns">'+badges+'</div>'
-  +'<div class="map-unlocated-switch">'+btn('explorer-references',
-    mapMarkers?'Ungefähre Stadtmarker ausblenden':'Stadt-Sammelmarker anzeigen',
-    'layers','','subtle')
-  +'<small>Stadt-Sammelmarker sind keine Gebäude-Pins und werden nur auf Wunsch angezeigt.</small></div>'
+  +'<p>Die Kartenpunkte und ihre Nachweislage werden getrennt bewertet. '
+  +'Private Hausadressen bleiben privat. Hier kannst du alle offenen '
+  +'Einträge schrittweise prüfen, ohne sie als fiktive Stadtpunkte einzuzeichnen.</p>'
+  +filters
+  +'<div class="map-unlocated-search"><input type="search" id="map-unlocated-search" '
+  +'maxlength="100" value="'+esc(ctx.mapUnlocatedSearch??'')+'"'
+  +' placeholder="Ort, Stadt oder Stichwort" aria-label="Offene Orte suchen">'
+  +btn('map-unlocated-search','Suchen','search','','subtle')
+  +(state.query?btn('map-unlocated-clear','Zurücksetzen','reset','','subtle'):'')
+  +'</div>'
+  +'<p class="map-unlocated-count" role="status">'+state.preview.length+' von '
+  +state.filteredTotal+' passenden Orten angezeigt · '+state.total+' insgesamt offen</p>'
   +'<div class="map-unlocated-grid">'+list+'</div>'
-  +(state.total>state.preview.length
-    ?'<p class="map-unlocated-more">Hier '+state.preview.length+' Beispiele · weitere '
-     +(state.total-state.preview.length)+' Einträge im vollständigen Daten-Audit.</p>':'')
-  +'<div class="map-unlocated-footer">'+btn('hud-audit','Alle fehlenden Kartenpunkte prüfen',
+  +(!state.preview.length
+    ?'<p class="map-unlocated-empty">Keine passenden Orte. Wähle einen anderen Filter oder setze die Suche zurück.</p>':'')
+  +(state.hasMore?'<div class="map-unlocated-pagination">'
+    +btn('map-unlocated-more','Weitere Orte anzeigen','plus','','subtle')+'</div>':'')
+  +'<div class="map-unlocated-switch">'+btn('explorer-references',
+    mapMarkers?'Stadt-Sammelmarker ausblenden':'Ungefähre Stadtmarker anzeigen',
+    'layers','','subtle')
+  +'<small>Stadtmarker sind nur Orientierung, keine nachgewiesenen Gebäude-Pins.</small></div>'
+  +'<div class="map-unlocated-footer">'+btn('hud-audit','Alle fehlenden Kartenpunkte im Daten-Audit prüfen',
     'arrow','location','primary')+'</div>'
   +'</div></details>';
 }

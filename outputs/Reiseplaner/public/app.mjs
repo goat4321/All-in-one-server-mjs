@@ -37,7 +37,7 @@ const view = {
   optionFilter: 'all', sort: 'source', compareIds: new Set(), inspectorCompareIds: [],
   mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60,
   mapShowCityReferences: localStorage.getItem('reiseplan-map-city-references')==='on',
-  mapUnlocatedOpen:false,
+  mapUnlocatedOpen:false,mapUnlocatedFilter:'all',mapUnlocatedSearch:'',mapUnlocatedLimit:12,
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
   mapDensity:localStorage.getItem('reiseplan-map-density')==='detail'?'detail':'calm',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
@@ -976,6 +976,20 @@ async function action(name, value = '') {
       view.mapViewportBounds=null;view.mapNearPointId=null;
       view.selected=null;
       render({fetchRoutes:false}); break;
+    case 'map-unlocated-filter':
+      if(!['all','address','unverified','concept','private'].includes(value))break;
+      view.mapUnlocatedFilter=value;view.mapUnlocatedLimit=12;view.mapUnlocatedOpen=true;
+      render({restoreView:true,fetchRoutes:false});break;
+    case 'map-unlocated-search':
+      view.mapUnlocatedSearch=app.querySelector('#map-unlocated-search')?.value?.trim().slice(0,100)??'';
+      view.mapUnlocatedLimit=12;view.mapUnlocatedOpen=true;
+      render({restoreView:true,fetchRoutes:false});break;
+    case 'map-unlocated-clear':
+      view.mapUnlocatedSearch='';view.mapUnlocatedLimit=12;view.mapUnlocatedOpen=true;
+      render({restoreView:true,fetchRoutes:false});break;
+    case 'map-unlocated-more':
+      view.mapUnlocatedLimit=Math.min(120,view.mapUnlocatedLimit+12);view.mapUnlocatedOpen=true;
+      render({restoreView:true,fetchRoutes:false});break;
     case 'explorer-references':
       view.mapShowCityReferences = !view.mapShowCityReferences;
       localStorage.setItem('reiseplan-map-city-references',
