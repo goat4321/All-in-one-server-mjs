@@ -567,7 +567,9 @@ try {
     'Interaktiver Vergleich von zwei Unterkünften');
   await text('.stay-compare-board','Küche');
   await js('document.querySelector(".hub-technical-details:not([open]) > summary")?.click()');
-   await text('#main', 'Suchpreis-Snapshots');
+   // The compact lodging page now labels the exact same source-bound historical
+  // snapshots as "Neue Unterkunfts-Suchwerte", not the removed heading.
+  await text('.provider-quote-panel', 'Neue Unterkunfts-Suchwerte');
   await text('.provider-quote-panel', '2027-09-03 bis 2027-09-06');
   await until(() => js('document.querySelectorAll(".provider-quote-card").length === 10'),
     '10 unbooked September Barcelona provider offers');
