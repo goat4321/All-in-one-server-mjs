@@ -10,10 +10,10 @@ const addr=JSON.parse(await readFile(new URL('../data/research-v09/verified-publ
 const catalog=await loadCatalog();
 const sources=addr.entries.filter(x=>!x.point);
 
-test('16 public source addresses are distinct from exact building GPS and private properties',()=>{
- assert.equal(sources.length,16);
+test('15 public source addresses are distinct from exact building GPS and private properties',()=>{
+ assert.equal(sources.length,15);
  assert.equal(sources.filter(x=>x.city==='sete').length,6);
- assert.equal(sources.filter(x=>x.city==='genoa').length,4);
+ assert.equal(sources.filter(x=>x.city==='genoa').length,3);
  assert.equal(sources.filter(x=>x.city==='venice').length,6);
  assert.ok(sources.every(x=>x.airbnb===false&&x.sourceUrl.startsWith('https://')));
  assert.ok(sources.every(x=>catalog.trips.some(t=>t.items.some(i=>
@@ -53,9 +53,9 @@ test('A source-backed address-only filter works independently of the existing br
 test('Six Sète queries stay unresolved while Italian business address discrepancies remain explicit',()=>{
  const byId=new Map(addr.entries.map(x=>[x.id,x]));
  const restaurant=byId.get('local:food-v03-015');
- assert.equal(restaurant.point,null);
+ assert.deepEqual(restaurant.point,[44.406616,8.927979]);
  assert.match(restaurant.secondaryAddressSourceUrl,/italia\.it/);
- assert.match(restaurant.remark,/21r/);
+ assert.match(restaurant.remark,/21 rosso/);
  const hotel=byId.get('research:bcom_17205591');
  assert.equal(hotel.point,null);
  assert.match(hotel.remark,/30173/);
