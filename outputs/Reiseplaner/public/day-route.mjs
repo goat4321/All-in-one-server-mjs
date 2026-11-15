@@ -2,6 +2,7 @@
 // successful route calls. Straight-line distances ONLY suggest an ordering,
 // never a travel-time estimate or a fabricated street route.
 import { explorerRouteInput, validPoint } from './map-explorer.mjs';
+import {footpathMatchesStops} from './route-studio.mjs';
 
 const toMinutes = time => {
   if (!/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(time ?? '')) return null;
@@ -40,10 +41,16 @@ export function buildMultiStopDay(items, routes, startTime = '09:00', defaultDur
     if (!Number.isInteger(duration) || duration < 1 || duration > 2880)
       throw new Error('Besuchsdauer der Aktivität ist ungültig.');
     const incoming = i === 0 ? null : routes?.[i - 1];
+    if(i>0&&incoming?.walkOnly&&!footpathMatchesStops(items[i-1],item,incoming)){
+      return {complete:false,rows,unknownConnection:[items[i-1].id,item.id],
+        staleRoute:true,status:'Eine gespeicherte Fußroute passt nicht mehr zu den gewählten Stopps. '
+          +'Berechne die aktuelle Route erneut, bevor du Zeiten in den Tagesplan übernimmst.'};
+    }
     if (i > 0 && (!incoming?.walkOnly || !Number.isFinite(incoming.minutes)
-      || incoming.minutes < 1 || !Array.isArray(incoming.points) || incoming.points.length < 2)) {
+      || incoming.minutes < 1 || !Number.isFinite(incoming.metres)||incoming.metres<0
+      || !Array.isArray(incoming.points) || incoming.points.length < 2)) {
       return { complete: false, rows, unknownConnection: [items[i-1].id, item.id],
-        status: 'Mindestens ein Fußweg ist nicht berechnet. Keine automatische Zeitübernahme.' };
+        status: 'Mindestens ein Fußweg ist nicht vollständig berechnet. Keine automatische Zeitübernahme.' };
     }
     if (incoming) elapsed += Math.ceil(incoming.minutes);
     if (elapsed + duration > 24*60) return { complete:false,rows, status:'Der Tagesplan überschreitet Mitternacht.' };

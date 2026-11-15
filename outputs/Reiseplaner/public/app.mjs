@@ -17,6 +17,7 @@ import {buildFieldAudit,fieldAuditAsCsv} from './field-audit-export-v39.mjs';
 import {commonsDefaultQuery,commonsSearchUrl,commonsWebSearchUrl,commonsResults} from './commons-photo-search.mjs';
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
+import {footpathMatchesStops} from './route-studio.mjs';
 import { btn, empty, esc, icon, urlLink } from './ui.mjs';
 import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
@@ -549,7 +550,10 @@ async function fetchDayQueueRoutes() {
     }
     try {
       const route = walks.get(walkKey(from.point,to.point)) ?? await api('/api/walk','POST',{points:[from.point,to.point]});
-      if (!route?.walkOnly || !route?.points?.length || !Number.isFinite(route.minutes)) throw new Error('Unvollständige Fußwegantwort.');
+      if(!route?.walkOnly||!footpathMatchesStops(from,to,route)
+        ||!Number.isFinite(route.minutes)||route.minutes<0
+        ||!Number.isFinite(route.metres)||route.metres<0)
+        throw new Error('Fußwegantwort nicht zu den aktuellen Stopps passend. Bitte erneut berechnen.');
       walks.set(walkKey(from.point,to.point), route);
       view.dayQueueRoutes.push(route);
     } catch (e) {
