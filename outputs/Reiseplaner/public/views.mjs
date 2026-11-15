@@ -24,6 +24,7 @@ import { EXPLORER_GROUPS, explorerDetail, explorerCategory } from './map-explore
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import {foodDirectory,marketCoverage} from './food-discovery-v36.mjs';
+import {activityDirectory} from './activity-directory.mjs';
 import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
   mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview} from './day-plans-ui.mjs';
@@ -38,13 +39,13 @@ import { auditInterrailRoute, railAlternativeStatus } from './rail-analysis.mjs'
 
 const navSections=[
   {title:'Planung', ids:['overview','plan','map']},
-  {title:'Reise organisieren', ids:['discover','lodging','rail','food']},
+  {title:'Reise organisieren', ids:['activities','discover','lodging','rail','food']},
   {title:'Verwalten', ids:['budget','group','data']}
 ];
-const mobileTabs=['overview','plan','map','lodging','food'];
+const mobileTabs=['overview','plan','map','activities','lodging','food'];
 const tabs = [
   ['overview', 'Übersicht', 'compass'], ['plan', 'Tagesplan', 'calendar'], ['map', 'Karte', 'map'],
-  ['rail', 'Bahn & Interrail', 'train'], ['lodging', 'Unterkünfte', 'bed'], ['discover', 'Entdecken', 'pin'],
+  ['rail', 'Bahn & Interrail', 'train'], ['lodging', 'Unterkünfte', 'bed'], ['activities', 'Aktivitäten', 'compass'], ['discover', 'Entdecken', 'pin'],
   ['food', 'Verpflegung', 'food'],
   ['budget', 'Budget', 'wallet'], ['group', 'Reisegruppe', 'people'], ['data', 'Daten & Fristen', 'folder'],
 ];
@@ -142,6 +143,7 @@ function content(ctx, city) {
     case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
+    case 'activities': return activityDirectory(ctx);
     case 'food': return food(ctx)
       +'<details class="hub-technical-details hub-food-research"'
       +(ctx.browseFoodResearchOpen?' open':'')+'><summary>'

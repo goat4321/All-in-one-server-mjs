@@ -38,6 +38,7 @@ const view = {
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
   browseScope:'city',browseSearch:'',browseFoodType:'all',browseLimit:24,
+  activityCategory:'all',activitySavedOnly:false,activityOrder:'source',
   browseFoodSavedOnly:false,browseMarketLoadingCity:null,browseMarketError:null,
   browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
   dayPlanOpen:false,
@@ -65,7 +66,7 @@ const view = {
 };
 const walks = new Map();
 const pendingWalks = new Map();
-const optionPages = ['lodging', 'discover'];
+const optionPages = ['lodging', 'discover', 'activities'];
 
 async function api(url, method = 'GET', data) {
   const response = await fetch(url, { method, ...(data === undefined ? {} : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }) });
@@ -598,7 +599,7 @@ function closeGuide(completed = false) {
   render({ restoreView: true });
 }
 function changePage(page) {
-  if (!['overview', 'plan', 'map', 'rail', 'lodging', 'discover', 'food', 'budget', 'group', 'data'].includes(page)) return;
+  if (!['overview', 'plan', 'map', 'rail', 'lodging', 'discover', 'activities', 'food', 'budget', 'group', 'data'].includes(page)) return;
   if(view.page!==page){
     view.browseFilterOpen=false;view.browseResearchOpen=false;
     view.browseMealsOpen=false;view.browseFoodResearchOpen=false;
@@ -774,6 +775,16 @@ async function action(name, value = '') {
     case 'guide-close': closeGuide(); break;
     case 'guide-finish': closeGuide(true); say('Einführung abgeschlossen. Du kannst sie oben jederzeit erneut starten.'); break;
     case 'page': changePage(value); break;
+    case 'activity-category':
+      if(!['all','culture','nature','water','view','sport','night','other'].includes(value))break;
+      view.activityCategory=value;view.browseLimit=24;render({fetchRoutes:false});break;
+    case 'activity-saved':
+      view.activitySavedOnly=!view.activitySavedOnly;view.browseLimit=24;
+      render({fetchRoutes:false});break;
+    case 'activity-reset':
+      view.activityCategory='all';view.activitySavedOnly=false;
+      view.browseSearch='';view.browseLimit=24;view.browseScope='trip';
+      render({fetchRoutes:false});break;
     case 'browse-scope':
       if(!['city','trip'].includes(value))break;
       view.browseScope=value;view.browseLimit=24;view.optionFilter='all';view.compareIds.clear();
@@ -1732,7 +1743,7 @@ app.addEventListener('input',event=>{
     const previous=event.target;
     browseSearchTimer=setTimeout(()=>{
       browseSearchTimer=null;
-      if(!app.contains(previous)||!['food','lodging','discover'].includes(view.page))return;
+      if(!app.contains(previous)||!['food','lodging','discover','activities'].includes(view.page))return;
       const raw=previous.value.slice(0,100);
       if(raw===view.browseSearch)return;
       const focused=document.activeElement===previous;
@@ -1765,6 +1776,9 @@ app.addEventListener('change', event => {
   }
   if (event.target.id === 'variant') void switchVariant(event.target.value).catch(error => say(error.message));
   if (event.target.id === 'sort') { view.sort = event.target.value; render({ restoreView: true }); }
+  if (event.target.id === 'activity-order' && ['source','score','name','price'].includes(event.target.value)) {
+    view.activityOrder=event.target.value; render({restoreView:true,fetchRoutes:false});
+  }
   if (event.target.id==='provider-quote-sort' && ['price','rating','name'].includes(event.target.value)) {
     view.providerSort=event.target.value; render({ restoreView:true });
   }

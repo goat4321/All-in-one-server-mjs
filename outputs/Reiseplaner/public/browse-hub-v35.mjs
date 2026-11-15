@@ -8,10 +8,11 @@ import {voteSnippet} from './group-vote.mjs';
 import {lodgingPriceMeter} from './price-insights.mjs';
 import {googleMapsSearchUrl,googleMapsSearchLabel} from './google-maps.mjs';
 
-const kindTitle={lodging:'Unterkünfte entdecken',food:'Essen & Einkaufen',discover:'Orte & Aktivitäten'};
+const kindTitle={lodging:'Unterkünfte entdecken',food:'Essen & Einkaufen',discover:'Orte & Aktivitäten',activities:'Alle Aktivitäten'};
 const kindSub={lodging:'Aufenthalte vergleichen – erst prüfen, dann auswählen',
  food:'Restaurants, Cafés, Supermärkte und Selbstversorgung',
- discover:'Sehenswürdigkeiten, Strand, Wanderungen und neue Ideen'};
+ discover:'Sehenswürdigkeiten, Strand, Wanderungen und neue Ideen',
+ activities:'Sehenswürdigkeiten, Natur, Sport und besondere Erlebnisse an deinen Reisezielen'};
 const normalize=value=>String(value??'').normalize('NFD')
  .replace(/\p{Diacritic}/gu,'').toLocaleLowerCase('de');
 export const browseMatch=(item,query,cities={})=>{
