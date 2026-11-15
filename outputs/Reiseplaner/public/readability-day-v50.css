@@ -227,3 +227,15 @@
  .day-plan-quick-chip{max-width:100%;flex:1 1 180px}
  .day-plan-quick-heading strong{font-size:.85rem}
 }
+
+
+/* Phase 52: batch adoption remains optional and never implies booked events. */
+.day-plan-quick-bottom{align-items:center;flex-wrap:wrap;gap:8px 14px}
+.day-plan-batch-cta{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-right:auto}
+.day-plan-batch-cta .button{min-height:36px;font-size:.72rem;white-space:normal}
+.day-plan-batch-cta small{font-size:.68rem;color:#526d5d}
+@media(max-width:650px){
+ .day-plan-batch-cta{width:100%}
+ .day-plan-batch-cta .button{flex:1 1 170px}
+ .day-plan-quick-bottom>a{margin-left:auto}
+}
