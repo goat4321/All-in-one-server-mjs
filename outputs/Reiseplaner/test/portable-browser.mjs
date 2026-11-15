@@ -138,6 +138,29 @@ try {
   await screenshot('42-aktivitaeten-einzelnachweise-desktop.png');
   await screenshot('39-aktivitaeten-qualitaetsfilter-desktop.png');
   await screenshot('37-aktivitaeten-kategorien-desktop.png');
+  assert.ok(await js('Boolean(document.querySelector(".activity-category-chip[data-value=clubs]"))'),
+    'Separate Clubs & Partys filter is visible to all travellers');
+  await click('.activity-category-chip[data-value=clubs]');
+  await until(()=>js('document.querySelector(".activity-category-chip[data-value=clubs]")?.getAttribute("aria-pressed")==="true"'),
+    'Clubs filter switches independently from bars and other evening plans');
+  assert.ok(await js('Boolean(document.querySelector(".hub-quick-day[data-quick-day-id=\\\"uploaded:v50:new_036\\\"]"))'),
+    'Imported Barcelona nightclub Sala Apolo can be assigned to a compatible travel day');
+  await click('[data-action=day-quick-add][data-value="uploaded:v50:new_036"]');
+  await until(()=>js('Boolean(document.querySelector("[data-action=day-quick-remove][data-value=\\\"uploaded:v50:new_036\\\"]"))'),
+    'Activity quick-add immediately turns into a one-click remove control');
+  assert.equal(store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.selected,true,
+    'Quick add persists the chosen day in existing editable state');
+  await click('[data-action=day-quick-remove][data-value="uploaded:v50:new_036"]');
+  await until(()=>js('Boolean(document.querySelector("[data-action=day-quick-add][data-value=\\\"uploaded:v50:new_036\\\"]"))'),
+    'An activity can be removed with one click and then re-added');
+  assert.equal(store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.selected,false,
+    'Day removal persists without deleting the researched source record');
+  await js('document.querySelector(".activity-filter-panel").scrollIntoView({block:"start",behavior:"instant"})');
+  await screenshot('50-clubs-tagwahl-und-schnellplan-desktop.png');
+  await click('.activity-category-chip[data-value=bars]');
+  await until(()=>js('document.querySelector(".activity-category-chip[data-value=bars]")?.getAttribute("aria-pressed")==="true"'),
+    'Bars & Pubs can be browsed separately from clubs');
+  await click('.activity-category-chip[data-value=all]');
   await click('.sidebar [data-action=page][data-value=data]');
   await until(()=>js('Boolean(document.querySelector(".coverage-export-controls [data-action=coverage-export]"))'),
     'Missing data audit offers local JSON export');
