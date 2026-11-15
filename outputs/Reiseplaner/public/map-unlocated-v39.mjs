@@ -126,6 +126,17 @@ export function mapUnlocatedReview(ctx){
     ?(item.addressEvidenceV09?.sourceUrl??item.geoReviewV09?.sourceUrl??null):null;
   const evidenceLink=typeof publicAddressSource==='string'&&/^https:\/\//.test(publicAddressSource)
     ?publicAddressSource:null;
+  const googleSearch=published
+    ?'<a class="button subtle" href="https://www.google.com/maps/search/?api=1&amp;query='
+      +encodeURIComponent(publicAddress)+'" target="_blank" rel="noopener noreferrer">'
+      +icon('external')+' Adresse in Google Maps suchen</a>':'';
+  const extraActions=btn('details','Details & Quellen','folder',item.id,'subtle')
+    +(osmLink?'<a class="button subtle" href="'+esc(osmLink)+'" target="_blank"'
+      +' rel="noopener noreferrer">'+icon('external')+' In OpenStreetMap suchen</a>':'')
+    +(secondLink?'<a class="button subtle" href="'+esc(secondLink)+'" target="_blank"'
+      +' rel="noopener noreferrer">'+icon('external')+' Unabhängige Adressquelle</a>':'')
+    +(evidenceLink?'<a class="button subtle" href="'+esc(evidenceLink)+'" target="_blank"'
+      +' rel="noopener noreferrer">'+icon('external')+' Hinterlegte Adressquelle</a>':'');
   return '<article class="map-unlocated-record" data-unlocated-type="'+reason.key+'">'
    +'<div class="map-unlocated-record-head"><span class="map-unlocated-kind">'
    +icon(explorerCategory(item)==='lodging'?'bed':'pin')+' '+esc(reason.label)+'</span>'
@@ -134,23 +145,18 @@ export function mapUnlocatedReview(ctx){
    +(published?'<p class="map-unlocated-public-address"><strong>Veröffentlichte Anschrift:</strong> '
      +esc(publicAddress)+'</p>':'')
    +(qualityFlag?'<p class="map-unlocated-address-warning">'+esc(qualityFlag)+'</p>':'')
-   +'<p>'+esc(reason.reason)+'</p>'
+   +(published?'':'<p>'+esc(reason.reason)+'</p>')
    +(published&&item.addressEvidenceV09?.remark
       ?'<details class="map-unlocated-source-note"><summary>Genauigkeit und Prüfstand</summary><p>'
         +esc(item.addressEvidenceV09.remark)+'</p></details>':'')
-   +'<p class="map-unlocated-next"><strong>Dein nächster Schritt:</strong> '+esc(reason.action)+'</p>'
+   +(published?'':'<p class="map-unlocated-next"><strong>Dein nächster Schritt:</strong> '+esc(reason.action)+'</p>')
    +'<div class="map-unlocated-actions">'
-   +btn('details','Details & Quellen','folder',item.id,'subtle')
-   +(canLookup?btn('geocode-lookup','Adresse prüfen','pin',item.id,'subtle'):'')
-   +(published?'<a class="button subtle" href="https://www.google.com/maps/search/?api=1&amp;query='
-     +encodeURIComponent(publicAddress)+'" target="_blank" rel="noopener noreferrer">'
-     +icon('external')+' Adresse in Google Maps suchen</a>':'')
-   +(osmLink?'<a class="button subtle" href="'+esc(osmLink)+'" target="_blank"'
-     +' rel="noopener noreferrer">'+icon('external')+' In OpenStreetMap suchen</a>':'')
-   +(secondLink?'<a class="button subtle" href="'+esc(secondLink)+'" target="_blank"'
-     +' rel="noopener noreferrer">'+icon('external')+' Unabhängige Adressquelle</a>':'')
-   +(evidenceLink?'<a class="button subtle" href="'+esc(evidenceLink)+'" target="_blank"'
-     +' rel="noopener noreferrer">'+icon('external')+' Hinterlegte Adressquelle</a>':'')
+   +(published
+      ?(canLookup?btn('geocode-lookup','Standort prüfen','pin',item.id,'subtle'):'')
+        +googleSearch
+        +'<details class="map-unlocated-extra-actions"><summary>Quellen & weitere Aktionen</summary>'
+        +'<div class="map-unlocated-extra-links">'+extraActions+'</div></details>'
+      :extraActions+(canLookup?btn('geocode-lookup','Adresse prüfen','pin',item.id,'subtle'):'')) 
    +'</div></article>';
  }).join('');
  const filters='<div class="map-unlocated-facets" role="group" aria-label="Offene Orte filtern">'
@@ -158,7 +164,8 @@ export function mapUnlocatedReview(ctx){
     +(key==='all'?state.total:state.kinds.get(key)??0),state.type===key,key))
     .join('')+'</div>';
  const mapMarkers=Boolean(ctx.explorer?.showCityReferences);
- return '<details class="map-unlocated-review"'+(ctx.mapUnlocatedOpen?' open':'')+'>'
+ return '<details class="map-unlocated-review" data-filter="'+esc(state.type)+'"'
+  +(ctx.mapUnlocatedOpen?' open':'')+'>'
   +'<summary><span class="map-unlocated-summary-icon">'+icon('pin')+'</span>'
   +'<span><strong>'+state.total+(state.total===1?' Ort':' Orte')
   +' ohne genaue Position</strong><small>'+esc(summary)
