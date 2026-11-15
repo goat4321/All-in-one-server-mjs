@@ -4,8 +4,8 @@
   "status": "Individual source audit; only sourced POI points promoted; visit exact time and 2027 bookings not inferred",
   "sourceAtlas": "Previous project OSM/Photon evidence plus publicly inspected operator/tourism sites",
   "count": 57,
-  "withSourcedPoint": 27,
-  "withSpecificPublicEvidence": 18,
+  "withSourcedPoint": 30,
+  "withSpecificPublicEvidence": 20,
   "items": [
     {
       "id": "act-001",
@@ -571,13 +571,18 @@
       "id": "act-034",
       "city": "genoa",
       "name": "Porto Antico – Wasserkante und Abend",
-      "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://www.visitgenoa.it/en/node/21689",
-      "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
-      "researchStatus": "general_portal_or_concept_only"
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://portoantico.it/en/general-information/location-and-directions/",
+      "specificFactVerified": true,
+      "point": [
+        44.4083531,
+        8.924189
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "geoNote": "Öffentlich gelisteter Koordinaten-Referenzpunkt des Porto-Antico-Areals. NICHT jeder Kai, Eingang oder die genaue Spazierroute; der Punkt kann bei der Betreiberadresse liegen.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://www.opentourism.it/lang/IT/catalogo/dettaglio_catalogo/porto_antico_di_genova%2C1736.html",
+      "isCentroid": true
     },
     {
       "id": "act-035",
@@ -774,13 +779,18 @@
       "id": "act-048",
       "city": "glarus",
       "name": "Rhodannenberg – Picknick",
-      "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://schweizmobil.ch/",
-      "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
-      "researchStatus": "general_portal_or_concept_only"
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://glarus.swiss/glarus/kloental/gaestelenkung.html",
+      "specificFactVerified": true,
+      "point": [
+        47.03587,
+        9.00518
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Benannter öffentlicher OSM-/Mapcarta-Punkt Rhodannenberg am Klöntalersee. Picknick-Orientierung, NICHT der genaue Uferzugang oder eine bestätigte freie Grillstelle.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://mapcarta.com/N421910429",
+      "isCentroid": false
     },
     {
       "id": "act-049",
@@ -860,12 +870,15 @@
       "id": "act-053",
       "city": "kandersteg",
       "name": "Oeschinensee – Gondel und leichte Seeuferroute",
-      "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://www.oeschinensee.ch/tarife-fahrplan/",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.oeschinen.ch/anreise/",
       "specificFactVerified": true,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "point": [
+        46.501983,
+        7.696813
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Belegter Standort der Gondel-Talstation Kandersteg–Oeschinensee als Startpunkt. NICHT die Oeschinensee-Uferposition, Bergstation oder eine vollständige Wanderroute.",
       "researchStatus": "specific_public_evidence_checked",
       "condition": "Betreiber 2027 Gondel Sommerbetrieb 24.04.–19.09. täglich 08:30–18:00; Preistabelle 2026 40 CHF reguläre Berg- und Talfahrt während Hochsaison 15.06.–21.09., NICHT garantierter 2027-Tarif. Reservierungspflicht der Bergfahrt 2026 beachten, 2027 Regel prüfen.",
       "priceReference": {
@@ -874,7 +887,9 @@
         "kind": "2026_high_season_return_not_2027",
         "sourceUrl": "https://www.oeschinensee.ch/tarife-fahrplan/"
       },
-      "publishedHours2027": "2027-04-24/2027-09-19 · täglich 08:30–18:00"
+      "publishedHours2027": "2027-04-24/2027-09-19 · täglich 08:30–18:00",
+      "geoSourceUrl": "https://www.outdooractive.com/de/poi/kandersteg/gondelbahn-kandersteg-oeschinensee/43483658/",
+      "isCentroid": false
     },
     {
       "id": "act-054",
