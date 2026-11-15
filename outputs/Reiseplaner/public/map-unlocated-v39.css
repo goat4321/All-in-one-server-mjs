@@ -390,3 +390,22 @@
 .map-unlocated-next-check>p{padding:4px 0 6px;margin:0;max-width:75ch}
 .map-unlocated-next-check>small{font-size:.65rem;color:var(--muted,#6b7b72)}
 .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-next-check{grid-column:1/-1}
+
+/* Phase 49: only unresolved identity/ZIP/POI conflicts get a priority line. */
+.map-unlocated-review-urgency{
+ border-left:3px solid #b6753d;padding:5px 9px;margin:1px 0 4px;
+ background:var(--warm,#fff3e4);color:#7b4b27;
+ border-radius:0 7px 7px 0;font-size:.7rem;line-height:1.45;
+}
+.map-unlocated-record[data-review-priority="critical"] .map-unlocated-review-urgency{
+ border-left-color:#aa5144;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-review-urgency{
+ grid-column:1/-1;grid-row:auto;
+}
+:root[data-theme=dark] .map-unlocated-review-urgency{
+ background:#453226;color:#f6d9b6;
+}
+:root[data-theme=dark] .map-unlocated-record[data-review-priority="critical"] .map-unlocated-review-urgency{
+ border-left-color:#ee987f;
+}
