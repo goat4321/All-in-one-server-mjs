@@ -94,15 +94,26 @@ export function unlocatedOverview(ctx){
     ||String(a.name).localeCompare(String(b.name),'de'))}));
  const limit=Math.min(120,Math.max(12,Number(ctx.mapUnlocatedLimit)||12));
  const preview=[];
- for(let offset=0;preview.length<limit;offset++){
-  let found=false;
-  for(const g of groups){
-   if(offset>=g.items.length)continue;
-   preview.push({city:g.city,item:g.items[offset],reason:unlocatedKind(g.items[offset])});
-   found=true;
-   if(preview.length===limit)break;
-  }
-  if(!found)break;
+ if(type==='sourced-address'){
+   // An identity mismatch must be reviewed before an ordinary address
+   // geocoding gap, regardless of the city's group size.
+   const ranked=[...filtered].sort((a,b)=>severity(a)-severity(b)
+     ||String(a.city).localeCompare(String(b.city),'de')
+     ||String(a.name).localeCompare(String(b.name),'de'));
+   for(const item of ranked.slice(0,limit))
+     preview.push({city:item.city,item,reason:unlocatedKind(item)});
+ }else{
+   // Other filters keep the round-robin city variety established in V41.
+   for(let offset=0;preview.length<limit;offset++){
+    let found=false;
+    for(const g of groups){
+     if(offset>=g.items.length)continue;
+     preview.push({city:g.city,item:g.items[offset],reason:unlocatedKind(g.items[offset])});
+     found=true;
+     if(preview.length===limit)break;
+    }
+    if(!found)break;
+   }
  }
  return {total:all.length,cities,kinds,type,query,filteredTotal:filtered.length,
    preview,hasMore:filtered.length>preview.length};
