@@ -2,6 +2,7 @@ import {esc,btn,chip,icon} from './ui.mjs';
 import {explorerCategory} from './map-explorer.mjs';
 import {hasIndependentPointEvidence,markerProvenance} from './poi-location-provenance.mjs';
 import {publicPinReviewLinks,publicPinReviewSummary} from './map-location-review.mjs';
+import {publicGeocodeLookupAllowed} from './public-geocode-eligibility.mjs';
 
 // Missing coordinates are not a place category or a map position. A city
 // orientation marker never becomes an item.point or is routed as a stop.
@@ -128,8 +129,7 @@ export function mapUnlocatedReview(ctx){
   }[quality]??null;
   const secondary=item.addressEvidenceV09?.secondarySourceUrl;
   const secondLink=typeof secondary==='string'&&/^https:\/\//.test(secondary)?secondary:null;
-  const canLookup=reason.key==='address'&&!item.booked&&item.provider!=='Airbnb'
-    &&quality!=='listing_floor_or_number_ambiguity';
+  const canLookup=reason.key==='address'&&publicGeocodeLookupAllowed(item);
   const osmLink=openStreetMapReviewUrl(item,ctx.cities?.[city]?.name??city);
   const publicAddressSource=reason.key==='address'
     ?(item.addressEvidenceV09?.sourceUrl??item.geoReviewV09?.sourceUrl??null):null;
@@ -157,7 +157,7 @@ export function mapUnlocatedReview(ctx){
      ' · '+esc(urgentReason)+'</p>':'')
    +(published?'<p class="map-unlocated-public-address"><strong>Veröffentlichte Anschrift:</strong> '
      +esc(publicAddress)+'</p>':'')
-   +(qualityFlag?'<p class="map-unlocated-address-warning">'+esc(qualityFlag)+'</p>':'')
+   +(qualityFlag&&!urgent?'<p class="map-unlocated-address-warning">'+esc(qualityFlag)+'</p>':'')
    +(published?'':'<p>'+esc(reason.reason)+'</p>')
    +(published&&item.addressEvidenceV09?.remark
       ?'<details class="map-unlocated-source-note"><summary>Genauigkeit und Prüfstand</summary><p>'
