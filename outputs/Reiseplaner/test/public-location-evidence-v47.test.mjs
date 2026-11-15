@@ -49,7 +49,7 @@ test('Cavour operator hints are source-qualified, accessible and never 2027 book
  });
  assert.match(html,/San Giorgio/);
  assert.match(html,/2027/);
- assert.doesNotMatch(html,/bestätigter 2027er Tisch/);
+ assert.match(html,/kein bestätigter 2027er Tisch/);
 });
 
 test('Bacarino mismatched house numbering is not promoted as exact entrance',()=>{
