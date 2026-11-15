@@ -25,6 +25,21 @@ export function quickDayEdit(ctx,id,date,mode='add'){
    start:null,end:null,order,duration:item.duration??null
   }},item,date};
  }
+ if(mode==='move'){
+  if(!ctx.activeSet?.has(id))
+    return {ok:false,reason:'Die Aktivität muss zuerst im Reiseplan stehen.'};
+  if(!dateValid(ctx,date)||!quickDayTargetDates(ctx,item).includes(date))
+    return {ok:false,reason:'Dieser Ort lässt sich nur auf einen passenden Reisetag verschieben.'};
+  const currentDate=String(item.start??'').slice(0,10)||item.date;
+  if(currentDate===date)
+    return {ok:false,reason:'Die Aktivität liegt bereits an diesem Reisetag.'};
+  const nextOrder=Math.max(100,...(ctx.active??[])
+    .filter(x=>x.id!==id&&activeToday(x,date)).map(x=>Number(x.order)||100))+1;
+  return {ok:true,edits:{...ctx.state.edits,[id]:{
+    ...ctx.state.edits?.[id],selected:true,removed:false,date,
+    start:null,end:null,order:nextOrder,duration:item.duration??null
+  }},item,date};
+ }
  if(mode==='remove'){
   if(!ctx.activeSet?.has(id))
    return {ok:false,reason:'Die Aktivität ist derzeit nicht eingeplant.'};
