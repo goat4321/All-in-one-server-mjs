@@ -759,18 +759,36 @@ export async function loadCatalog() {
       &&review.coordinatePublication===record.coordinateMapLink
       &&/^https:\/\/modo21\.it\//.test(review.primaryOperatorAddressSource??'')
       &&/^https:\/\/www\.ge\.camcom\.gov\.it\//.test(review.independentIndustryRegisterSource??''));
-    const verifiedPoint=officialBan||reviewedPoi;
+    // A third-party company GPS coordinate at the SAME public civic is an
+    // address/building reference only. It is NOT proof of a rental unit or door.
+    const publicAddressReference=(!item.point
+      &&record.id==='research:bcom_4231096'
+      &&record.city==='sete'
+      &&record.precision==='independent_third_party_house_number_reference'
+      &&Array.isArray(record.point)&&record.point.length===2
+      &&record.point.every(Number.isFinite)
+      &&/^https:\/\/immobilier\.annuairefrancais\.fr\/sete\//.test(record.coordinateSourceUrl??'')
+      &&review?.status==='third_party_address_reference_not_rental_property_poi'
+      &&review.postalMatch===true&&review.cityMatch===true
+      &&review.houseNumberMatch===true
+      &&review.coordinateAtDifferentBusiness===true
+      &&review.stayIdentityConfirmed===false&&review.entranceConfirmed===false
+      &&review.coordinateSourceUrl===record.coordinateSourceUrl
+      &&/^https:\/\/www\.pappers\.fr\/entreprise\/central-bar-902013895/.test(review.secondaryStreetNumberSourceUrl??''));
+    const verifiedPoint=officialBan||reviewedPoi||publicAddressReference;
     const addressPoint=verifiedPoint?{
       point:record.point,positionIssue:null,
       geoEvidence:{
         source:officialBan?'IGN Géoplateforme / amtliche Base Adresse Nationale'
+          :publicAddressReference?'Öffentliches Hausnummern-GPS aus unabhängigem Gewerbeverzeichnis (anderes Unternehmen)'
           :'OSM-abgeleiteter, unabhängig mit Hausnummer und Telefonnummer abgeglichener Restaurant-POI',
         url:record.coordinateSourceUrl,
         confidence:officialBan?'official_ban_house_number'
+          :publicAddressReference?'independent_third_party_house_number_not_lodging_entrance'
           :'crosschecked_public_poi_reference_not_entrance',
         observedOn:record.coordinateReviewedOn??record.observedOn,
         isCentroid:true,
-        note:record.remark+' Öffentlicher POI-Referenzpunkt, kein separat geprüfter Eingang.'
+        note:record.remark+' Öffentlicher Referenzpunkt, kein separat geprüfter Wohnungs- oder Kundeneingang.'
       },
     }:{};
     const known=Boolean(item.point||verifiedPoint);
@@ -789,7 +807,7 @@ export async function loadCatalog() {
         coordinateSourceUrl:verifiedPoint?record.coordinateSourceUrl:null,
         coordinateMapLink:verifiedPoint?record.coordinateMapLink??null:null,
         coordinateReferenceId:verifiedPoint?record.coordinateReferenceId??null:null,
-        coordinateVerification:reviewedPoi?review:null,
+        coordinateVerification:(reviewedPoi||publicAddressReference)?review:null,
         remark:record.remark,
         notABooking:Boolean(!record.confirmedFor2027Checkout),
       },
@@ -826,7 +844,16 @@ export async function loadCatalog() {
         &&x.coordinateVerification.sameCivicConfirmed===true
         &&x.coordinateVerification.samePhoneConfirmed===true
         &&x.coordinateVerification.entranceConfirmed===false
-        &&/^https:\/\/genova-notizie\.it\/luoghi\//.test(x.coordinateSourceUrl??'')))
+        &&/^https:\/\/genova-notizie\.it\/luoghi\//.test(x.coordinateSourceUrl??'')
+       ||x.id==='research:bcom_4231096'
+        &&x.precision==='independent_third_party_house_number_reference'
+        &&x.coordinateVerification?.status==='third_party_address_reference_not_rental_property_poi'
+        &&x.coordinateVerification?.postalMatch===true
+        &&x.coordinateVerification?.houseNumberMatch===true
+        &&x.coordinateVerification?.coordinateAtDifferentBusiness===true
+        &&x.coordinateVerification?.stayIdentityConfirmed===false
+        &&x.coordinateVerification?.entranceConfirmed===false
+        &&/^https:\/\/immobilier\.annuairefrancais\.fr\/sete\//.test(x.coordinateSourceUrl??'')))
     .map(x=>x.id+'|'+x.city));
   const activeUnresolvedV09=unresolvedReasonsV09.items.filter(x=>
     !geoByKey.has(x.id+'|'+x.city)
