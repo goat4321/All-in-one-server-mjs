@@ -7,6 +7,7 @@ import { installSoftVectorBasemap, fallbackRasterUrl, fallbackRasterOptions,
   vectorAttribution, basemapLabels } from './vector-basemap.mjs';
 import { markerTier, validMapCoordinate, bubbleMarkup } from './photo-map-model.mjs';
 import { groupPoiForDisplay, poiDensityPolicy } from './poi-density.mjs';
+import {markerProvenance} from './poi-location-provenance.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
@@ -421,6 +422,7 @@ export class TripMap {
       items.forEach((item,i)=>{
         const id=item.explorerId??item.id;
         const category=item.explorerCategory??explorerCategory(item);
+        const provenance=markerProvenance(item);
         const photo=curatedPlacePhoto(item);
         const pixel=this.map.project(item.point,zoom);
         const photoCell=Math.floor(pixel.x/policy.photoCellPixels)
@@ -437,13 +439,14 @@ export class TripMap {
         const width=tier==='photo'?132:tier==='dot'?19:40;
         const height=tier==='photo'?132:tier==='dot'?19:40;
         const offset=(i-(items.length-1)/2)*Math.min(width,22);
-        const icon=L.divIcon({className:'photo-marker-container tier-'+tier,
+        const icon=L.divIcon({className:'photo-marker-container tier-'+tier+' provenance-'+provenance.kind,
           html:content,iconSize:[width,height],
           iconAnchor:[width/2-offset,tier==='photo'?112:height/2]});
         const marker=L.marker(item.point,{icon,keyboard:true,
-          title:item.name,alt:item.name,zIndexOffset:this.poiFocused===id?2300:950})
+          title:item.name+' · '+provenance.label,
+          alt:item.name+' · '+provenance.label,zIndexOffset:this.poiFocused===id?2300:950})
           .addTo(this.poiLayer);
-        marker.bindTooltip(labelNode(item.name),{direction:'top'});
+        marker.bindTooltip(labelNode(item.name+' · '+provenance.label),{direction:'top'});
         marker.on('click',()=>this.handlers.select(id));
         marker.on('mouseover',()=>this.handlers.hover?.(id,true));
         marker.on('mouseout',()=>this.handlers.hover?.(id,false));

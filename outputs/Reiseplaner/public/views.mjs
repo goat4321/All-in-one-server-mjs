@@ -386,6 +386,7 @@ function mapPanel(ctx, full = false) {
       '<button type="button" class="map-legend-control" data-action="explorer-group" data-value="'+esc(id)
       +'" aria-pressed="'+(ctx.explorer.group===id)+'" title="Nur diese Kategorie auf der Karte anzeigen">'
       +'<i class="category-swatch '+esc(id)+'"></i>'+esc(group.label)+'</button>').join('') : ''}
+    ${ctx.explorer ? '<span>Gestrichelter Markerrand = Flächen-/Anbieterreferenz, kein bestätigter Eingang</span>' : ''}
     ${ctx.explorer?.showCityReferences && ctx.explorer.unlocated.length ? '<span>Grau gestrichelt ? = Stadt-Sammelmarker, keine nachgewiesene Objektposition</span>' : ''}
     ${!ctx.total && t.stations && ctx.dayTravel.length ? '<span><i class="legend-line dashed"></i> Tagesfahrt · Schema</span>' : ''}
     ${!ctx.total && (ctx.timetablePreview || ctx.routes.some(route => route?.legs?.length)) ? '<span>ÖPNV · gespeicherter / referenzierter Fahrplan, Reisedatum prüfen</span>' : ''}

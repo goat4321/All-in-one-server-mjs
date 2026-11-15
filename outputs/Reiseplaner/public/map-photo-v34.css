@@ -157,3 +157,17 @@
 .poi-cluster-icon:focus-visible{outline:3px solid #fbd36d;outline-offset:3px;border-radius:50%}
 @media(prefers-reduced-motion:reduce){.poi-cluster-icon .poi-cluster-count{transition:none!important}}
 :root[data-motion=off] .poi-cluster-icon .poi-cluster-count{transition:none!important}
+
+/* Provenance is visible, but not confused with the category/price palette. */
+.photo-marker-container.provenance-area .map-mini-dot,
+.photo-marker-container.provenance-area .map-category-bubble,
+.photo-marker-container.provenance-area .map-photo-disc{
+ border-style:dashed;border-color:#cc8742!important}
+.photo-marker-container.provenance-provider .map-mini-dot,
+.photo-marker-container.provenance-provider .map-category-bubble,
+.photo-marker-container.provenance-provider .map-photo-disc{
+ border-style:dotted;border-color:#8f7f98!important}
+.photo-marker-container.provenance-unverified .map-mini-dot,
+.photo-marker-container.provenance-unverified .map-category-bubble,
+.photo-marker-container.provenance-unverified .map-photo-disc{
+ border-color:#9aa69e!important}
