@@ -133,7 +133,9 @@ export function explorerList(ctx) {
       +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
       +(urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),'Google Maps · ÖPNV-Anreise')||'')
       +(located&&!simple?btn('details','Alle Details & Quellen','folder',item.id):'')
-      +(!located&&item.address&&!item.booked?btn('geocode-lookup','Kartenstandort prüfen','pin',item.id):'')
+      +(!located&&item.address&&!item.booked
+        &&item.addressEvidenceV09?.addressQualification!=='listing_floor_or_number_ambiguity'
+        ?btn('geocode-lookup','Kartenstandort prüfen','pin',item.id):'')
       +actions
       +(canPlan&&located?btn('day-route-add','Zur Mehrstopp-Route','plus',item.id):'')
       +(!simple&&canPlan?btn('choose','Zum Tagesplan hinzufügen','plus',item.id,'subtle')
