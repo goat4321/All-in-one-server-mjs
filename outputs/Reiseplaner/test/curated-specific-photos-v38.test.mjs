@@ -17,7 +17,7 @@ test('New Commons photos bind to seven exact named landmarks, not city-only cont
   const photo=curatedPlacePhoto(item);
   assert.ok(photo?.curated, name);
   assert.match(photo.url,/^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\//);
-  assert.ok(photo.url.includes(path),name);
+  assert.ok(photo.sourceUrl.includes(path),name);
   assert.ok(photo.credit.includes('CC '),name);
   assert.ok(photo.sourceUrl.startsWith('https://commons.wikimedia.org/wiki/File:'));
  }
