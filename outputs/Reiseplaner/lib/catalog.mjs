@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import {loadDayPlansV32} from './day-plans-v32.mjs';
+import {applyUploadedPlacesV50} from './uploaded-places-v50.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsLocationStatus } from '../public/google-maps.mjs';
 import { localParts, minor, utcFromLocal } from '../public/model.mjs';
 import { italyLodgings, italyPlaces, italySources, italyStations } from './italy.mjs';
@@ -1000,6 +1001,19 @@ export async function loadCatalog() {
       };
     }));
   const geoUnresolvedById=new Map(geoUnresolvedV08.map(x=>[x.id+'|'+x.city,x]));
+  // Public user-supplied research: import as OPTIONAL candidates only.
+  // All 105 raw rows remain archived and their GPS/price claims unverified;
+  // exact city+name matches are linked as duplicates, never overwriting data.
+  const uploadedResearchV50=JSON.parse(await readFile(
+    new URL('../data/research-v50/uploaded-interrail-2027-candidates.json',import.meta.url),'utf8'));
+  const uploadedStatsV50=applyUploadedPlacesV50(output,cities,uploadedResearchV50);
+  for(const trip of output)trip.items=trip.items.map(item=>
+    !item.researchV50?item:{
+      ...item,
+      googleMapsUrl:googleMapsSearchUrl(item,cities),
+      googleTransitUrl:googleMapsDirectionsUrl(null,item,cities,'transit'),
+      mapLocationQuality:googleMapsLocationStatus(item),
+    });
   const coverageV07 = output.map(trip => {
     const entries=trip.items.filter(item => !item.duplicateOf && !item.removed);
     const categoryOf=item => item.kind==='transport'?'transport'
@@ -1058,6 +1072,7 @@ export async function loadCatalog() {
       researchV22,
        fieldNotesV28,
       dayPlansV32,
+      uploadedResearchV50:{meta:uploadedResearchV50.meta,stats:uploadedStatsV50},
       providerSearchV13,providerLocationsV13,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
