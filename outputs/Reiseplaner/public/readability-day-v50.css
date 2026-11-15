@@ -261,3 +261,17 @@
 }
 .place-photo-unavailable-source:hover,
 .place-photo-unavailable-source:focus-visible{color:#b6f5d3}
+
+/* Phase 52 final screenshot correction: separate image-loading help from
+   photographer/license credit, which otherwise overlapped in card footers. */
+.hub-option-card .place-photo[data-image-unavailable=true]>.place-photo-unavailable{
+ inset:50px 10px auto 10px!important;
+ max-width:calc(100% - 20px)!important;
+ width:auto;border-radius:9px;
+ line-height:1.45;padding:7px 9px;font-size:.68rem;
+}
+.hub-option-card .place-photo[data-image-unavailable=true]>.place-specific-credit{
+ max-width:calc(100% - 18px)!important;
+ bottom:7px!important;right:9px!important;
+ left:auto!important;line-height:1.2!important;
+}
