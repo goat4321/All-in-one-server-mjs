@@ -110,6 +110,7 @@ export function explorerList(ctx) {
     const active = ctx.activeSet.has(item.id);
     const bookmarked=ex.saved?.has(item.id)??false;
     const signal=planCostSignal(item,ctx.people.length);
+    const visiblePriceTier=signal.tier==='€?'?'Offen':signal.tier;
     const canPlan = !active && item.kind !== 'transport' && !item.readOnlyExternal;
     // A and B can be researched in Google Maps even before an exact POI pin is confirmed.
     // Internal OSRM/GTFS routing still requires exact coordinates.
@@ -148,7 +149,7 @@ export function explorerList(ctx) {
       + esc(details.group.label) + '</small></div>' + (active ? status('Im Plan', 'green') : '') + '</div>'
       + '<p class="explorer-description">' + esc(details.description) + '</p>'
       + '<div class="place-price-signal" title="'+esc(signal.note)+'">'
-      +'<span>'+esc(signal.tier)+'</span><small>'+esc(signal.amount)
+      +'<span>'+esc(visiblePriceTier)+'</span><small>'+esc(signal.amount)
       +(ex.compact?'':' · Plan-/Suchwert, kein bestätigter Endpreis')+'</small></div>'
       + placeQuickFacts(item,ctx)
       + (!ex.compact&&['activity','lodging'].includes(item.kind)?voteSnippet(item,ctx):'')
