@@ -12,10 +12,10 @@ const images=[
    file:"Île de la Cité and the Seine.jpg",
    sourceUrl:"https://commons.wikimedia.org/wiki/File:%C3%8Ele_de_la_Cit%C3%A9_and_the_Seine.jpg",
    credit:"APK · CC BY-SA 4.0 · Seine und Île de la Cité vom Pont Neuf · CSS-Bildausschnitt"},
-  {city:'nice',name:/port lympia/i,
-   file:"Port Lympia 01.jpg",
-   sourceUrl:"https://commons.wikimedia.org/wiki/File:Port_Lympia_01.jpg",
-   credit:"Miniwark · CC BY-SA 3.0 · Hafenansicht Port Lympia · CSS-Bildausschnitt"},
+  {city:'genoa',name:/^altstadt und focaccia/i,
+   file:"Via Garibaldi Genova.JPG",
+   sourceUrl:"https://commons.wikimedia.org/wiki/File:Via_Garibaldi_Genova.JPG",
+   credit:"Superchilum · CC BY-SA 4.0 · Via Garibaldi, historisches Genua; zeigt keine Focaccia-Verkostung · CSS-Bildausschnitt"},
 
  // Verified individual Commons file-description pages on 2026-11-15.
  // These are public street/place views, not photos of private businesses.

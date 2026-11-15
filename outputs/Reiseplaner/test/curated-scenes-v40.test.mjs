@@ -4,7 +4,7 @@ import {curatedPlacePhoto,curatedPhotoCount} from '../public/curated-place-photo
 const expected=[
  ['barcelona','Montjuïc – Aussicht und Grünanlagen','Mirador_de_l%27Alcalde','Invivi'],
  ['paris','Seineufer zwischen Île de la Cité und Louvre','%C3%8Ele_de_la_Cit%C3%A9','APK'],
- ['nice','Port Lympia – Abendrunde','Port_Lympia_01','Miniwark']
+ ['genoa','Altstadt und Focaccia-Verkostung','Via_Garibaldi_Genova','Superchilum']
 ];
 test('Three new public scene photos match named concepts with traceable Commons credits',()=>{
  assert.ok(curatedPhotoCount>=52);
