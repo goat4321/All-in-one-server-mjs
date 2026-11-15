@@ -147,3 +147,83 @@
  .day-plan-current-row .button{margin-left:auto}
  .hub-quick-day>.button{flex:1 1 130px}
 }
+
+/* Phase 51: actual itinerary first, research detail below the fold. */
+.day-plan-quick-bar{
+ display:grid;gap:9px;margin:12px 0 15px;padding:12px 15px;
+ border:1px solid #c9ddcf;border-radius:17px;
+ background:linear-gradient(105deg,#f6fbf6,#fdfefb);
+ box-shadow:0 3px 12px #184b2e0c;
+ color:#203f2c;
+}
+.day-plan-quick-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.day-plan-quick-heading>div{display:grid;gap:2px;min-width:0}
+.day-plan-quick-heading small{font-size:.62rem;letter-spacing:.065em;font-weight:840;color:#377151}
+.day-plan-quick-heading strong{font-size:.93rem;line-height:1.25}
+.day-plan-quick-heading>span{font-size:.73rem;color:#4a6b58}
+.day-plan-quick-chips{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+.day-plan-quick-chip{
+ display:inline-flex;align-items:center;gap:6px;max-width:min(300px,100%);
+ border:1px solid #cfe2d2;border-radius:999px;background:#fffefa;
+ min-height:36px;padding:7px 11px;color:#1b6141;
+ font-size:.74rem;font-weight:750;text-align:left;
+ transition:background-color .14s,border-color .14s;
+}
+.day-plan-quick-chip:hover,.day-plan-quick-chip:focus-visible{
+ background:#e9f6ed;border-color:#7eb998;
+}
+.day-plan-quick-chip .ui-icon{flex:0 0 14px;width:14px;height:14px}
+.day-plan-quick-chip span{
+ min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.day-plan-quick-chip.is-added{
+ background:#e3f4e7;color:#215a3e;border-color:#a6d0b1;
+}
+.day-plan-quick-chip.is-added .ui-icon:last-child{color:#a84139}
+.day-plan-quick-empty{color:#52685a;font-size:.74rem}
+.day-plan-quick-bottom{display:flex;justify-content:flex-end}
+.day-plan-quick-bottom a{color:#1f6447;font-size:.71rem;font-weight:760;text-underline-offset:3px}
+#day-plan-draft-detail{scroll-margin-top:20px}
+
+/* Nightlife cards: do not show a generic city photograph as a picture of
+ * the club. Abstract placeholders and clear image provenance are preferable. */
+.hub-option-media .place-photo-placeholder>strong,
+.hub-option-media .place-photo-placeholder>small{
+ color:#fff!important;
+ text-shadow:0 2px 8px #0a3029a8;
+}
+.hub-option-media .place-photo-placeholder.photo-context .place-context-image{
+ filter:saturate(.7) brightness(.72);
+}
+.hub-option-media .place-photo-credit{
+ font-size:.6rem!important;line-height:1.3!important;max-width:80%;
+ background:#fffefaf5!important;color:#315843!important;
+ opacity:1!important;padding:4px 7px!important;
+}
+.hub-option-media .place-photo-credit a{color:#235c40!important}
+.hub-option-media .place-photo-placeholder:not(.photo-context){
+ background:radial-gradient(circle at 12% 82%,#accbb4 0,transparent 42%),
+ linear-gradient(125deg,#1e4f40,#447963 58%,#a4bb93);
+}
+.hub-option-media .place-photo-placeholder:not(.photo-context)>span{
+ font-size:2.4rem!important;color:#e2ffe9!important;
+}
+.hub-option-media .place-photo-placeholder:not(.photo-context)>strong{
+ font-size:.9rem!important;max-width:90%;text-align:center
+}
+.hub-official-nightlife{
+ border:1px solid #d6e5da;border-radius:12px;
+ padding:8px 10px;background:#f8fcf8;
+ color:#294737;font-size:.72rem;
+}
+.hub-official-nightlife summary{
+ cursor:pointer;font-weight:770;color:#266747;
+}
+.hub-official-nightlife>div{display:grid;gap:5px;padding-top:7px}
+.hub-official-nightlife p{margin:0;line-height:1.45}
+.hub-official-nightlife a{font-size:.72rem;color:#236746}
+@media(max-width:650px){
+ .day-plan-quick-bar{margin:10px 0;padding:10px 12px}
+ .day-plan-quick-chip{max-width:100%;flex:1 1 180px}
+ .day-plan-quick-heading strong{font-size:.85rem}
+}
