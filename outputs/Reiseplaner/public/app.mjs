@@ -37,6 +37,7 @@ const view = {
   optionFilter: 'all', sort: 'source', compareIds: new Set(), inspectorCompareIds: [],
   mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
+  mapDensity:localStorage.getItem('reiseplan-map-density')==='detail'?'detail':'calm',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
   browseScope:'city',browseSearch:'',browseFoodType:'all',browseLimit:24,
   activityCategory:'all',activitySavedOnly:false,activityOrder:'source',
@@ -184,6 +185,7 @@ function buildContext() {
     nearby:nearbyAnchor?{id:nearbyAnchor.id,name:nearbyAnchor.name,
       point:nearbyAnchor.point,radiusKm:view.mapNearRadiusKm}:null,
     showCityReferences: view.mapShowCityReferences,
+    density:view.mapDensity,
     limit: view.mapListLimit, routeMode: view.mapRouteMode, routeTime: view.mapRouteTime,
     connection: {
       from: all.find(i => i.id === view.mapFrom) ?? null,
@@ -1211,6 +1213,11 @@ async function action(name, value = '') {
     case 'map-basemap-retry':
       currentMap?.retryBasemap();
       break;
+    case 'map-density':
+      if(!['calm','detail'].includes(value))break;
+      view.mapDensity=value;
+      localStorage.setItem('reiseplan-map-density',value);
+      render({restoreView:true,fetchRoutes:false});break;
     case 'map-tone':
       if(!['standard','midnight','sand'].includes(value))break;
       view.mapTone=value;localStorage.setItem('reiseplan-map-tone',value);

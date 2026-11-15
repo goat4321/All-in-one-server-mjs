@@ -32,7 +32,8 @@ export function bubbleMarkup({id,name,category='activity',photoUrl=null,
    +'" aria-hidden="true">'+escape(glyphs[cat])+(saved?'●':'')+'</span>';
  return '<div class="map-photo-bubble group-'+cat+'" data-poi="'+escape(id)+'">'
   +'<div class="map-photo-disc">'
-  +(safePhoto?'<img src="'+safePhoto+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">':'<span>'+escape(glyphs[cat])+'</span>')
+  +'<span aria-hidden="true">'+escape(glyphs[cat])+'</span>'
+  +(safePhoto?'<img src="'+safePhoto+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">':'')
   +'</div><div class="map-photo-meta">'+(star||badge)+'</div>'
   +'<span class="map-photo-name" title="'+cleanName+'">'+cleanName+'</span>'
   +'</div>';

@@ -6,6 +6,7 @@ import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { installSoftVectorBasemap, fallbackRasterUrl, fallbackRasterOptions,
   vectorAttribution, basemapLabels } from './vector-basemap.mjs';
 import { markerTier, validMapCoordinate, bubbleMarkup } from './photo-map-model.mjs';
+import { groupPoiForDisplay, poiDensityPolicy } from './poi-density.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
@@ -173,6 +174,7 @@ export class TripMap {
     this.poiLayer.clearLayers();
     this.markers.clear(); this.poiKeys.clear(); this.poiItems = [];
     this.poiProfileCtx = profileCtx; this.poiFocused = focused; this.nearbyCircle = null;
+    this.poiDensity=explorer?.density==='detail'?'detail':'calm';
     this.poiSaved=explorer?.saved??new Set();
     this.storyStops = [];
     this.storySegments = [];
@@ -384,20 +386,18 @@ export class TripMap {
     for (const id of this.poiKeys ?? []) this.markers.delete(id);
     this.poiKeys = new Set();
     if (!this.poiItems?.length) return;
-    const zoom=this.map.getZoom(),clustered=zoom<=12;
+    const zoom=this.map.getZoom();
+    const policy=poiDensityPolicy(zoom,this.poiDensity);
     let photoBubbleCount=0;
     const shownPhotoCells=new Set();
-    const buckets=new Map();
-    for(const item of this.poiItems){
-      const p=item.point,xy=this.map.project(p,zoom);
-      const key=clustered
-        ? item.city+':'+Math.floor(xy.x/70)+':'+Math.floor(xy.y/70)
-        :p.map(n=>n.toFixed(5)).join(',');
-      if(!buckets.has(key))buckets.set(key,[]);
-      buckets.get(key).push(item);
-    }
+    // Group only existing source-record points by screen-space density.
+    // The focused POI stays selectable; no cluster is written to trip data.
+    const buckets=groupPoiForDisplay(this.poiItems,zoom,
+      point=>this.map.project(point,zoom),{
+        mode:this.poiDensity,focusedId:this.poiFocused
+      });
     for(const items of buckets.values()){
-      if(clustered&&items.length>1){
+      if(policy.clusterPixels>0&&items.length>1){
         const center=[items.reduce((s,x)=>s+x.point[0],0)/items.length,
           items.reduce((s,x)=>s+x.point[1],0)/items.length];
         const count=items.length;
@@ -407,7 +407,7 @@ export class TripMap {
         bubble.textContent=String(count)+(savedCount?' ★':'');
         const icon=L.divIcon({className:'poi-cluster-icon',html:bubble.outerHTML,
           iconSize:[46,46],iconAnchor:[23,23]});
-        const label=count+' eingetragene Kartenpunkte (Sammelansicht, keine genaue Einzelposition)'
+        const label=count+' eingetragene Orte · nur Bildschirm-Sammelmarker, kein eigener Ort'
           +(savedCount?' · '+savedCount+' gemerkt':'');
         const marker=L.marker(center,{icon,title:label,alt:label,keyboard:true})
           .addTo(this.poiLayer).bindTooltip(labelNode(label+' · Zum Aufteilen anklicken'));
@@ -423,8 +423,11 @@ export class TripMap {
         const category=item.explorerCategory??explorerCategory(item);
         const photo=curatedPlacePhoto(item);
         const pixel=this.map.project(item.point,zoom);
-        const photoCell=Math.floor(pixel.x/145)+':'+Math.floor(pixel.y/150);
-        const tier=markerTier(zoom,Boolean(photo)&&!shownPhotoCells.has(photoCell),photoBubbleCount);
+        const photoCell=Math.floor(pixel.x/policy.photoCellPixels)
+          +':'+Math.floor(pixel.y/policy.photoCellPixels);
+        const allowedPhoto=Boolean(photo)&&!shownPhotoCells.has(photoCell)
+          &&photoBubbleCount<policy.photoLimit;
+        const tier=markerTier(zoom,allowedPhoto,photoBubbleCount);
         if(tier==='photo'){photoBubbleCount++;shownPhotoCells.add(photoCell)}
         const content=bubbleMarkup({
           id,name:item.name,category,photoUrl:tier==='photo'?photo?.url:null,

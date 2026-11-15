@@ -145,3 +145,15 @@
  }
  .reference-travel-shell .map-source-retry{padding:3px 7px}
 }
+
+/* V38: lower-density map with explicit user control, no false geocoding. */
+.map-photo-disc{position:relative;isolation:isolate}
+.map-photo-disc>span{position:relative;z-index:0}
+.map-photo-disc>img{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.map-photo-disc.photo-load-failed>img{display:none!important}
+.poi-cluster-icon{background:transparent;border:0}
+.poi-cluster-icon .poi-cluster-count{border:3px solid white;box-shadow:0 6px 18px #10452e55;
+ transition:transform .18s ease,background .18s ease}
+.poi-cluster-icon:focus-visible{outline:3px solid #fbd36d;outline-offset:3px;border-radius:50%}
+@media(prefers-reduced-motion:reduce){.poi-cluster-icon .poi-cluster-count{transition:none!important}}
+:root[data-motion=off] .poi-cluster-icon .poi-cluster-count{transition:none!important}

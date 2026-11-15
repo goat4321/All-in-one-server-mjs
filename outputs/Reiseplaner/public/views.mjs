@@ -374,6 +374,9 @@ function mapPanel(ctx, full = false) {
       ${chip('map-tone','Midnight',ctx.mapTone==='midnight','midnight','moon')}
       ${chip('map-tone','Sand',ctx.mapTone==='sand','sand','sun')}
       ${chip('map-expand',ctx.mapExpanded?'Normalgröße':'Großansicht',ctx.mapExpanded,'toggle','target')}
+      <span class="map-design-caption">Marker-Dichte</span>
+      ${chip('map-density','Ruhige Karte',ctx.mapDensity!=='detail','calm','layers')}
+      ${chip('map-density','Alle Einzelmarker',ctx.mapDensity==='detail','detail','pin')}
       ${chip('map-motion',ctx.mapMotion==='off'?'Animationen aus':'Sanfte Animationen',ctx.mapMotion!=='off',ctx.mapMotion==='off'?'on':'off','spark')}
     </div></details>
     ${tripJourney}
