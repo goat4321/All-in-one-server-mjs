@@ -537,6 +537,10 @@ try {
   await text('.route-studio', '0 von 1 Fußetappen berechnet');
   assert.equal(await js('document.querySelectorAll("#map .route-studio-time-pill").length'),0,
     'Schematic connectors must never carry measured walking duration labels');
+  assert.equal(await js('document.querySelectorAll("#map .route-studio-direction-icon").length'),0,
+    'Schematic route must not pretend to have a calculated walking direction');
+  assert.equal(await js('document.querySelectorAll("#map .route-studio-hit-target.leaflet-interactive").length'),1,
+    'Schematic map path stays selectable through a generous invisible hit target');
   assert.equal(await js('document.querySelectorAll("#map .route-studio-map-flow").length'),0,
     'Unrouted straight lines must remain still even if route animations are enabled');
   await js('document.querySelector(".day-route-builder").scrollIntoView({block:"center"})');
