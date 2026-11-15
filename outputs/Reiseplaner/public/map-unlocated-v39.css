@@ -357,3 +357,20 @@
 :root[data-theme=dark] .provider-location-address-warning{
  background:#483823;color:#f0c886;border-color:#d7a55b;
 }
+
+/* Phase 49: distance is a cross-check, not an entrance or property certification. */
+.provider-location-difference[data-distance-state="conflict"]{
+ background:var(--warm,#fff2e0);border-left-color:#bb6a40;color:#7c4023;
+}
+.provider-location-difference[data-distance-state="review"]{
+ background:var(--warm,#fff5df);border-left-color:#c19a51;color:#755b29;
+}
+.provider-location-item .row-actions a{
+ max-width:100%;overflow-wrap:anywhere;
+}
+:root[data-theme=dark] .provider-location-difference[data-distance-state="conflict"]{
+ background:#482f29;color:#f4b79a;
+}
+:root[data-theme=dark] .provider-location-difference[data-distance-state="review"]{
+ background:#433b28;color:#f1d4a2;
+}
