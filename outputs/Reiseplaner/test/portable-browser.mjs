@@ -535,6 +535,12 @@ try {
   await until(() => js('document.querySelectorAll("#map .route-studio-map-line.schematic").length === 1'),
     'Nicht berechnete Luftlinie als ausdrücklich gestrichelter Weg');
   await text('.route-studio', '0 von 1 Fußetappen berechnet');
+  assert.equal(await js('document.querySelectorAll("#map .route-studio-time-pill").length'),0,
+    'Schematic connectors must never carry measured walking duration labels');
+  assert.equal(await js('document.querySelectorAll("#map .route-studio-map-flow").length'),0,
+    'Unrouted straight lines must remain still even if route animations are enabled');
+  await js('document.querySelector(".day-route-builder").scrollIntoView({block:"center"})');
+  await screenshot('44-route-studio-schematic-desktop.png');
   await click('[data-action=day-route-focus][data-value="0"]');
   await until(() => js('document.querySelector(".route-studio-stop[aria-pressed=true]")?.dataset.value === "0"'),
     'Fokus auf erstem Tagesstopp');
