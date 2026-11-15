@@ -1799,9 +1799,18 @@ app.addEventListener('error',event=>{
     frame.append(label);
   }
   if(frame.classList.contains('place-photo')&&!frame.querySelector('.place-photo-unavailable')){
+    const source=frame.querySelector('.place-specific-credit a[href^="https://commons.wikimedia.org/"]');
     const label=document.createElement('span');
     label.className='place-photo-unavailable';
-    label.textContent='Bild gerade nicht verfügbar · Bildquelle in den Details';
+    label.textContent='Foto gerade nicht geladen';
+    if(source){
+      const link=document.createElement('a');
+      link.className='place-photo-unavailable-source';
+      link.href=source.href;
+      link.target='_blank';link.rel='noopener noreferrer';
+      link.textContent='Originalfoto auf Wikimedia öffnen';
+      label.append(document.createTextNode(' · '),link);
+    }else label.append(' · Bildquelle in den Details');
     frame.append(label);
   }
 },true);
