@@ -443,3 +443,35 @@ dialog img.motion-photo-loaded{
 .sidebar-bottom>.motion-preference-button:focus-visible{
  outline:3px solid var(--green);outline-offset:2px
 }
+
+
+/* Phase 44 – Real walking legs flow in the geometry's actual point order.
+ * Unlocated city chips and schematic lines remain motionless. */
+@keyframes ux-route-direction-flow{
+  to{stroke-dashoffset:-38}
+}
+.route-studio-map-flow{
+  stroke-linecap:round;
+  pointer-events:none;
+  animation:ux-route-direction-flow 2.6s linear infinite;
+}
+.route-studio-time-icon{background:transparent;border:0;pointer-events:none!important}
+.route-studio-time-pill{
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  min-height:30px;box-sizing:border-box;padding:5px 10px;
+  border-radius:999px;border:1px solid #b6e6d5;background:#f8fffc;
+  color:#105c48;white-space:nowrap;font-size:.69rem;font-weight:800;
+  box-shadow:0 3px 13px #0d463337,0 1px 0 #ffffff inset;
+  font-variant-numeric:tabular-nums;pointer-events:none
+}
+.route-studio-time-walk{font-size:.84rem;line-height:1}
+:root[data-theme=dark] .route-studio-time-pill{
+  border-color:#5c937a;background:#19362b;color:#ddf7e9;
+}
+@media(max-width:650px){
+  .route-studio-time-pill{font-size:.65rem;min-height:28px;padding:4px 8px}
+}
+@media(prefers-reduced-motion:reduce){
+ .route-studio-map-flow{animation:none!important}
+}
+:root[data-motion=off] .route-studio-map-flow{animation:none!important}
