@@ -149,7 +149,19 @@ export function mapUnlocatedReview(ctx){
    +(published?'':'<p>'+esc(reason.reason)+'</p>')
    +(published&&item.addressEvidenceV09?.remark
       ?'<details class="map-unlocated-source-note"><summary>Genauigkeit und Prüfstand</summary><p>'
-        +esc(item.addressEvidenceV09.remark)+'</p></details>':'')
+        +esc(item.addressEvidenceV09.remark)+'</p>'
+        +(item.addressEvidenceV09?.operatorArrivalV47
+          ?'<p class="map-unlocated-operator-tip">'
+             +[item.addressEvidenceV09.operatorArrivalV47.transitReference,
+                item.addressEvidenceV09.operatorArrivalV47.historicalHours,
+                item.addressEvidenceV09.operatorArrivalV47.reservationReference,
+                item.addressEvidenceV09.operatorArrivalV47.publicContactPhone
+                 ?'Veröffentlichter Kontakt: '+item.addressEvidenceV09.operatorArrivalV47.publicContactPhone
+                 :null,
+                'Hinweise sind keine verbindliche Bestätigung für September 2027.']
+               .filter(Boolean).map(line=>esc(line)).join(' · ')
+            +'</p>':'')
+        +'</details>':'')
    +(published?'':'<p class="map-unlocated-next"><strong>Dein nächster Schritt:</strong> '+esc(reason.action)+'</p>')
    +'<div class="map-unlocated-actions">'
    +(published
