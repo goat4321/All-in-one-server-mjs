@@ -48,3 +48,23 @@ test('Quick removal only deselects an unbooked activity and keeps catalogue unch
   assert.equal(quickDayEdit({...ctx,all:[x]},'a',ctx.date,'remove').ok,false);
  }
 });
+
+test('Direct move changes only a valid activity day, clears old times and preserves other edits',()=>{
+ const selected={...paris,selected:true,date:'2027-09-01',
+   start:'2027-09-01T09:00:00',end:'2027-09-01T10:00:00'};
+ const ctx={...base,all:[selected],active:[selected],activeSet:new Set(['a']),
+  state:{edits:{a:{selected:true,date:'2027-09-01',start:selected.start,
+    end:selected.end,order:111},other:{selected:true,date:'2027-09-01'}}}};
+ const moved=quickDayEdit(ctx,'a','2027-09-02','move');
+ assert.equal(moved.ok,true);
+ assert.equal(moved.edits.a.selected,true);
+ assert.equal(moved.edits.a.date,'2027-09-02');
+ assert.equal(moved.edits.a.start,null);
+ assert.equal(moved.edits.a.end,null);
+ assert.deepEqual(moved.edits.other,ctx.state.edits.other);
+ assert.equal(ctx.state.edits.a.date,'2027-09-01');
+ assert.equal(quickDayEdit(ctx,'a','2027-09-03','move').ok,false);
+ assert.equal(quickDayEdit(ctx,'a','2027-09-01','move').ok,false);
+ assert.equal(quickDayEdit({...ctx,activeSet:new Set()},'a','2027-09-02','move').ok,false);
+ assert.equal(quickDayEdit({...ctx,all:[{...selected,booked:true}]},'a','2027-09-02','move').ok,false);
+});
