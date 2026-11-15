@@ -162,6 +162,11 @@ export function mapUnlocatedReview(ctx){
                .filter(Boolean).map(line=>esc(line)).join(' · ')
             +'</p>':'')
         +'</details>':'')
+   +(published&&item.geoReviewV09?.nextStep
+      ?'<details class="map-unlocated-next-check"><summary>Nächsten Quellencheck anzeigen</summary>'
+       +'<p>'+esc(item.geoReviewV09.nextStep)+'</p>'
+       +'<small>Nur Recherchehinweis – ändert den gespeicherten Kartenpunkt nicht.</small>'
+       +'</details>':'')
    +(published?'':'<p class="map-unlocated-next"><strong>Dein nächster Schritt:</strong> '+esc(reason.action)+'</p>')
    +'<div class="map-unlocated-actions">'
    +(published
