@@ -6,9 +6,15 @@ const canModify=item=>item?.kind==='activity'&&!item.booked&&!item.locked
   &&!item.duplicateOf&&!item.readOnlyExternal;
 export function quickDayTargetDates(ctx,item){
  if(!item||!ctx.trip?.route?.includes(item.city))return [];
- return (ctx.dates??[]).filter(date=>dateValid(ctx,date)
-  &&(ctx.cityForDay(date)===item.city
-    ||ctx.trip?.id==='swiss_lakes'&&ctx.trip?.route?.includes(item.city)));
+ return (ctx.dates??[]).filter(date=>{
+  if(!dateValid(ctx,date))return false;
+  if(ctx.cityForDay(date)===item.city)return true;
+  // An explicitly researched day trip may be listed under a different
+  // overnight base. Do not permit every Swiss place on every Swiss day.
+  return (ctx.trip.dayPlansV32??[]).some(day=>
+    day.tripId===ctx.trip.id&&day.date===date
+      &&day.slots?.some(slot=>slot.id===item.id));
+ });
 }
 export function quickDayEdit(ctx,id,date,mode='add'){
  const item=(ctx.all??[]).find(x=>x.id===id);
