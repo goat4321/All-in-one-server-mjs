@@ -8,7 +8,7 @@ test('Single explicit known-address lookup is rate-limited, cacheable, and never
     requests++;
     assert.match(String(url),/^https:\/\/nominatim\.openstreetmap\.org\/search\?/);
     return {ok:true,json:async()=>[{
-      lat:'41.3817',lon:'2.1763',display_name:'La Plata, Carrer de la Mercè 28, Barcelona',
+      lat:'41.4073',lon:'2.1733',display_name:'Sagradas Tapas, Avinguda de Gaudí 48, Barcelona',
       osm_type:'node',osm_id:'987654321'
     },{lat:'48.0',lon:'2.0',display_name:'Wrong city'}]};
   };
@@ -21,12 +21,12 @@ test('Single explicit known-address lookup is rate-limited, cacheable, and never
     return {status:response.status,data:await response.json()};
   };
   try{
-    const input={variantId:'interrail_classic',itemId:'local:food-v03-005'};
+    const input={variantId:'interrail_classic',itemId:'local:food-v03-006'};
     const before=store.current('interrail_classic').state;
     const a=await request(input);
     assert.equal(a.status,200);
     assert.equal(a.data.candidates.length,1);
-    assert.deepEqual(a.data.candidates[0].point,[41.3817,2.1763]);
+    assert.deepEqual(a.data.candidates[0].point,[41.4073,2.1733]);
     assert.equal(requests,1);
     const b=await request(input);
     assert.equal(b.status,200);
@@ -49,9 +49,9 @@ test('Offline mode blocks new network lookups and does not silently pin city cen
   try{
     const response=await fetch('http://127.0.0.1:'+server.address().port+'/api/geocode',{
       method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-        variantId:'interrail_classic',itemId:'local:food-v03-005'})});
+        variantId:'interrail_classic',itemId:'local:food-v03-006'})});
     assert.equal(response.status,503);
-    assert.equal(store.current('interrail_classic').state.edits['local:food-v03-005'],undefined);
+    assert.equal(store.current('interrail_classic').state.edits['local:food-v03-006'],undefined);
   }finally{
     await new Promise(resolve=>server.close(resolve));
   }
