@@ -429,11 +429,13 @@
       "sourceUrl": "https://modo21.it/ristorazione/come-prenotare-da-cavour-modo21/",
       "point": null,
       "precision": "building_or_address",
-      "remark": "Offizieller Betreiber bestätigt Restaurantname, Adresse, Mittag-/Abendzeiten und Kontakt.",
-      "observedOn": "2026-11-13",
+      "remark": "Betreiber bestätigt Piazza Cavour 21r, 16128 Genova; Italia.it bestätigt unabhängig die gleiche Restaurantanschrift als Piazza Cavour 21 Rosso. Es fehlt weiterhin ein separat belegter POI- bzw. Hausnummern-GPS-Punkt; insbesondere ist 21r in Genua nicht mit 21 (Wohnungsnummer) gleichzusetzen.",
+      "observedOn": "2026-11-15",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "secondaryAddressSourceUrl": "https://www.italia.it/it/liguria/genova/dove-mangiare/cavour-modo21",
+      "addressQualification": "operator_and_national_tourism_office_agree_on_21_rosso"
     },
     {
       "id": "local:food-v03-019",
@@ -443,11 +445,13 @@
       "sourceUrl": "https://www.tripadvisor.it/Restaurant_Review-g187870-d33473744-Reviews-Bacarino_Venezia-Venice_Veneto.html",
       "point": null,
       "precision": "building_or_address",
-      "remark": "Nur präzise Hausadresse belegt; das Straßenmittelpunkt-GPS ist nicht der Eingang.",
-      "observedOn": "2026-11-13",
+      "remark": "Tripadvisor nennt Bacarino, Salizada San Giovanni Grisostomo 5755. Der online kartierte 'Bacarandino'-POI gehört zu einem anders benannten Restaurant und darf trotz ähnlichen Namens nicht als GPS-Quelle übernommen werden. Straßenmitte genügt nicht als Eingang.",
+      "observedOn": "2026-11-15",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "addressQualification": "published_restaurant_address_distinct_from_similar_named_poi",
+      "rejectedSimilarNameUrl": "https://mapcarta.com/N3240766156"
     },
     {
       "id": "research:bcom_4482736",
@@ -531,11 +535,13 @@
       "sourceUrl": "https://www.booking.com/hotel/it/cittadella-3.html",
       "point": null,
       "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
-      "observedOn": "2026-11-13",
+      "remark": "ACHTUNG: Booking listet 'Scalinata della Cittadella 2 piano', wobei '2 piano' eine Geschossangabe bedeuten kann. Der bisherige normalisierte Wert 'Hausnummer 2' ist daher NICHT sicher bestätigt. Das amtliche Civis-Verzeichnis kennt Gebäude im Bereich, erlaubt aber ohne weitere Objektdaten keine eindeutige Zuordnung dieser Ferienwohnung. Keine exakte Gebäudekoordinate übernehmen.",
+      "observedOn": "2026-11-15",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "secondaryAddressSourceUrl": "https://civis.comune.genova.it/civisdb/scheda-1762003.html",
+      "addressQualification": "listing_floor_or_number_ambiguity"
     },
     {
       "id": "research:bcom_16062567",
@@ -801,11 +807,13 @@
       "sourceUrl": "https://www.booking.com/hotel/it/4-venice-rooms-piazza-ferretto-m9-museum-duomo-teatro-toniolo-airport-wi-fi-cent.de.html",
       "point": null,
       "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
-      "observedOn": "2026-11-13",
+      "remark": "Booking nennt Corte Marin Sanudo 15 mit 30174; das externe Gebäudeverzeichnis 2GIS führt Corte Sanudo Marin 15 als Wohngebäude mit PLZ 30173. Die Hausnummer ist plausibel, aber die PLZ-Zuordnung weicht ab und ein unabhängig zugeordnetes Koordinatenobjekt ist nicht gesichert. Für 2027 weder exakten Eingang noch Belegung behaupten.",
+      "observedOn": "2026-11-15",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "secondaryAddressSourceUrl": "https://2gis.it/padova/geo/9289309886861882",
+      "addressQualification": "published_number_conflicting_postcode"
     },
     {
       "id": "research:bcom_12284646",
