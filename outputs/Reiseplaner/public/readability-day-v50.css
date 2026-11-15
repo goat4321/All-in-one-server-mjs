@@ -275,3 +275,10 @@
  bottom:7px!important;right:9px!important;
  left:auto!important;line-height:1.2!important;
 }
+
+/* A source-link fallback already names the real venue; don't draw another
+   ghosted "Stadtmotiv / place name" behind the overlay. */
+.hub-option-card .place-photo[data-image-unavailable=true]
+ .place-photo-placeholder>strong,
+.hub-option-card .place-photo[data-image-unavailable=true]
+ .place-photo-placeholder>small{display:none!important}
