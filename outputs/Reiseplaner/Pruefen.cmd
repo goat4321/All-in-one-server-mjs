@@ -19,8 +19,8 @@ if not "%NODE_MAJOR%"=="24" (
   node --version
   goto :failed
 )
-echo [1/4] Neue Modell- und Datenpruefungen...
-call npm run test:portable
+echo [1/4] Portable Tests, Kartenbericht und lokaler HTTP-Startcheck...
+call npm run check:portable
 if errorlevel 1 goto :failed
 echo [2/4] Pruefe die 4 privaten Tripsy-Rohkopien im Verzeichnis data...
 set "MISSING=0"
@@ -44,7 +44,7 @@ pause
 exit /b 0
 :missing
 echo.
-echo [TEILPRUEFUNG] Portable Tests bestanden, aber private Rohkopien fehlen.
+echo [TEILPRUEFUNG] Portable Tests, Kartenbericht und HTTP-Startcheck bestanden; private Rohkopien fehlen.
 echo Vollstaendige Original-Tests wurden bewusst NICHT ausgefuehrt.
 echo Kopiere sie NUR lokal aus deinem bisherigen Projekt nach data\.
 echo NICHT nach GitHub pushen. Mehr unter TEST_LOCAL.md.
