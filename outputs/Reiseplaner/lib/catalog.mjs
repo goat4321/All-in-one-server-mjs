@@ -730,9 +730,26 @@ export async function loadCatalog() {
     if(!record||item.provider==='Airbnb'||String(item.id).startsWith('wishlist:airbnb:'))return item;
     addressAppliedV09++;
     const addr=item.address??record.address;
-    const known=Array.isArray(item.point)&&item.point.length===2;
+    // The official French BAN phase-45 evidence is an independent address
+    // number match. Keep it separate from the historical V06 OSM cohort.
+    // It does not prove the holiday apartment entrance or any reservation.
+    const officialBan=(!item.point
+      &&record.precision==='official_ban_house_number_reference'
+      &&Array.isArray(record.point)&&record.point.length===2
+      &&record.point.every(Number.isFinite)
+      &&/^https:\/\/data\.geopf\.fr\/geocodage\/search\?/.test(record.coordinateSourceUrl??''));
+    const addressPoint=officialBan?{
+      point:record.point,positionIssue:null,
+      geoEvidence:{
+        source:'IGN Géoplateforme / amtliche Base Adresse Nationale',
+        url:record.coordinateSourceUrl,confidence:'official_ban_house_number',
+        observedOn:record.observedOn,isCentroid:true,
+        note:record.remark+' Ein Adresspunkt ist kein separat geprüfter Eingang.'
+      },
+    }:{};
+    const known=Boolean(item.point||officialBan);
     const aligned={
-      ...item,address:addr,
+      ...item,...addressPoint,address:addr,
       addressEvidenceV09:{
         status:known?'sourced_coordinate_and_published_address':'official_address_without_verified_coordinates',
         sourceUrl:record.sourceUrl,
@@ -764,8 +781,12 @@ export async function loadCatalog() {
       ||x.privateAirbnbProperty!==x.id.startsWith('wishlist:airbnb:')))
     throw new Error('Einzelbegründungen für offene Kartenobjekte v0.9 unvollständig.');
   const reasonsV09ByKey=new Map(unresolvedReasonsV09.items.map(x=>[x.id+'|'+x.city,x]));
+  const officialBanKeys=new Set(publicAddressesV09.entries
+    .filter(x=>x.precision==='official_ban_house_number_reference'
+      &&Array.isArray(x.point)&&/^https:\/\/data\.geopf\.fr\//.test(x.coordinateSourceUrl??''))
+    .map(x=>x.id+'|'+x.city));
   const activeUnresolvedV09=unresolvedReasonsV09.items.filter(x=>
-    !geoByKey.has(x.id+'|'+x.city));
+    !geoByKey.has(x.id+'|'+x.city) && !officialBanKeys.has(x.id+'|'+x.city));
   let openReasonReferencesV09=0;
   for(const trip of output)trip.items=trip.items.map(item=>{
     if(item.point)return item;
