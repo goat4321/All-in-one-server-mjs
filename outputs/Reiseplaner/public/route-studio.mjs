@@ -40,6 +40,32 @@ export function pointAlongRoute(points=[],fraction=.5){
   return [...points.at(-1)];
 }
 
+/** Geographic forward bearing (clockwise from north), attached to a
+ * measured route section. Draw only on actual long-enough footpaths. */
+export function routeDirectionAt(points=[],fraction=.73,minMetres=150){
+ if(!Array.isArray(points)||points.length<2||!points.every(validPoint))return null;
+ const lengths=points.slice(1).map((p,i)=>metresBetween(points[i],p));
+ const total=lengths.reduce((sum,n)=>sum+n,0);
+ if(!Number.isFinite(total)||total<minMetres)return null;
+ let left=total*Math.min(1,Math.max(0,Number.isFinite(fraction)?fraction:.73));
+ for(let i=0;i<lengths.length;i++){
+  const len=lengths[i];
+  if(len<=0)continue;
+  if(left>len&&i<lengths.length-1){left-=len;continue;}
+  const a=points[i],b=points[i+1],t=Math.min(1,Math.max(0,left/len));
+  const rad=Math.PI/180;
+  const dLon=(b[1]-a[1])*rad,lat1=a[0]*rad,lat2=b[0]*rad;
+  const y=Math.sin(dLon)*Math.cos(lat2);
+  const x=Math.cos(lat1)*Math.sin(lat2)-
+    Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+  const bearing=(Math.atan2(y,x)*180/Math.PI+360)%360;
+  if(!Number.isFinite(bearing))return null;
+  return {point:[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t],
+    bearing,metres:total};
+ }
+ return null;
+}
+
 export function routeStudioModel(items = [], routes = [], current = 0) {
   const stops = Array.isArray(items) ? items : [];
   const checkedRoutes = Array.isArray(routes) ? routes : [];
