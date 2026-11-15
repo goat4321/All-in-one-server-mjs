@@ -742,16 +742,38 @@ export async function loadCatalog() {
       &&Array.isArray(record.point)&&record.point.length===2
       &&record.point.every(Number.isFinite)
       &&/^https:\/\/data\.geopf\.fr\/geocodage\/search\?/.test(record.coordinateSourceUrl??''));
-    const addressPoint=officialBan?{
+    // A reviewed independent public restaurant POI must match the published
+    // commercial civic number AND a separate telephone identity check.
+    // This is a public object reference, never a proven customer entrance.
+    const review=record.coordinateVerification;
+    const reviewedPoi=(!item.point
+      &&record.precision==='reviewed_public_poi_position'
+      &&Array.isArray(record.point)&&record.point.length===2
+      &&record.point.every(Number.isFinite)
+      &&/^https:\/\/genova-notizie\.it\/luoghi\//.test(record.coordinateSourceUrl??'')
+      &&review?.status==='accepted_public_poi_reference_not_verified_entrance'
+      &&review.sameCivicConfirmed===true&&review.samePhoneConfirmed===true
+      &&review.entranceConfirmed===false
+      &&review.namedObjectReference===record.coordinateSourceUrl
+      &&/^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/.test(record.coordinateMapLink??'')
+      &&review.coordinatePublication===record.coordinateMapLink
+      &&/^https:\/\/modo21\.it\//.test(review.primaryOperatorAddressSource??'')
+      &&/^https:\/\/www\.ge\.camcom\.gov\.it\//.test(review.independentIndustryRegisterSource??''));
+    const verifiedPoint=officialBan||reviewedPoi;
+    const addressPoint=verifiedPoint?{
       point:record.point,positionIssue:null,
       geoEvidence:{
-        source:'IGN Géoplateforme / amtliche Base Adresse Nationale',
-        url:record.coordinateSourceUrl,confidence:'official_ban_house_number',
-        observedOn:record.observedOn,isCentroid:true,
-        note:record.remark+' Ein Adresspunkt ist kein separat geprüfter Eingang.'
+        source:officialBan?'IGN Géoplateforme / amtliche Base Adresse Nationale'
+          :'OSM-abgeleiteter, unabhängig mit Hausnummer und Telefonnummer abgeglichener Restaurant-POI',
+        url:record.coordinateSourceUrl,
+        confidence:officialBan?'official_ban_house_number'
+          :'crosschecked_public_poi_reference_not_entrance',
+        observedOn:record.coordinateReviewedOn??record.observedOn,
+        isCentroid:true,
+        note:record.remark+' Öffentlicher POI-Referenzpunkt, kein separat geprüfter Eingang.'
       },
     }:{};
-    const known=Boolean(item.point||officialBan);
+    const known=Boolean(item.point||verifiedPoint);
     const aligned={
       ...item,...addressPoint,address:addr,
       addressEvidenceV09:{
@@ -764,6 +786,10 @@ export async function loadCatalog() {
         secondarySourceUrl:record.secondaryAddressSourceUrl??null,
         rejectedSimilarNameUrl:record.rejectedSimilarNameUrl??null,
         operatorArrivalV47:record.operatorArrivalV47??null,
+        coordinateSourceUrl:verifiedPoint?record.coordinateSourceUrl:null,
+        coordinateMapLink:verifiedPoint?record.coordinateMapLink??null:null,
+        coordinateReferenceId:verifiedPoint?record.coordinateReferenceId??null:null,
+        coordinateVerification:reviewedPoi?review:null,
         remark:record.remark,
         notABooking:Boolean(!record.confirmedFor2027Checkout),
       },
@@ -789,12 +815,22 @@ export async function loadCatalog() {
       ||x.privateAirbnbProperty!==x.id.startsWith('wishlist:airbnb:')))
     throw new Error('Einzelbegründungen für offene Kartenobjekte v0.9 unvollständig.');
   const reasonsV09ByKey=new Map(unresolvedReasonsV09.items.map(x=>[x.id+'|'+x.city,x]));
-  const officialBanKeys=new Set(publicAddressesV09.entries
-    .filter(x=>x.precision==='official_ban_house_number_reference'
-      &&Array.isArray(x.point)&&/^https:\/\/data\.geopf\.fr\//.test(x.coordinateSourceUrl??''))
+  // New independent address/POI sources are reconciled with the old audit
+  // without altering its original 146 research records or the V06 cohort.
+  const independentlyLocatedAddressKeys=new Set(publicAddressesV09.entries
+    .filter(x=>Array.isArray(x.point)&&
+      (x.precision==='official_ban_house_number_reference'
+        &&/^https:\/\/data\.geopf\.fr\//.test(x.coordinateSourceUrl??'')
+       ||x.precision==='reviewed_public_poi_position'
+        &&x.coordinateVerification?.status==='accepted_public_poi_reference_not_verified_entrance'
+        &&x.coordinateVerification.sameCivicConfirmed===true
+        &&x.coordinateVerification.samePhoneConfirmed===true
+        &&x.coordinateVerification.entranceConfirmed===false
+        &&/^https:\/\/genova-notizie\.it\/luoghi\//.test(x.coordinateSourceUrl??'')))
     .map(x=>x.id+'|'+x.city));
   const activeUnresolvedV09=unresolvedReasonsV09.items.filter(x=>
-    !geoByKey.has(x.id+'|'+x.city) && !officialBanKeys.has(x.id+'|'+x.city));
+    !geoByKey.has(x.id+'|'+x.city)
+    &&!independentlyLocatedAddressKeys.has(x.id+'|'+x.city));
   let openReasonReferencesV09=0;
   for(const trip of output)trip.items=trip.items.map(item=>{
     if(item.point)return item;
