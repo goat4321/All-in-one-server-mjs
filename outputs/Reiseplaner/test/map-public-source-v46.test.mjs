@@ -71,7 +71,7 @@ test('Six Sète queries stay unresolved while Italian business address discrepan
  const selected={explorer:{placed:[],unlocated:[matches[0]],showCityReferences:false},
   cities:{genoa:{name:'Genua'}},mapUnlocatedFilter:'sourced-address',mapUnlocatedOpen:true};
  const html=mapUnlocatedReview(selected);
- assert.match(html,/Hausnummer unklar/);
+ assert.match(html,/Wohnungsstockwerk und Hausnummer/);
  assert.doesNotMatch(html,/data-action="geocode-lookup"/);
  assert.match(html,/Unabhängige Adressquelle/);
  const bacarino=byId.get('local:food-v03-019');
