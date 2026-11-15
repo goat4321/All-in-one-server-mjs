@@ -22,6 +22,7 @@ Diese vier Hinweise sind als **Recherchequalifizierungen** in `data/research-v09
 - Neuer Filter **„Veröffentlichte Anschriften“** in der eigenständigen Karten-Prüfliste, zusätzlich zu den bisherigen Filtern. Er unterscheidet bereits publizierte Haus-/Objektanschriften von nur groben Ortsideen und privaten Airbnb-Einträgen.
 - Die öffentlich nachweisbare Anschrift wird ohne erfundene Hausnummer in der Ortskarte angezeigt; die rechtlichen und geografischen Einschränkungen stehen hinter dem aufklappbaren Punkt **„Genauigkeit und Prüfstand“**. Direkte Adresssuche in Google Maps plus OSM-Suche sowie Original- und zusätzliche Gegenprüfquellen sind verfügbar. Externe Suchen werden *nicht* als unabhängige Verifizierung behandelt.
 - Nachgewiesene Adressen werden in der bereits vorhandenen fairen Städte-Round-Robin-Vorschau priorisiert, ohne andere Städte zu verdrängen. Private Airbnb-Adressen werden nie aus zufälligen Suchtreffern ergänzt.
+- Nach der visuellen Chrome-Screenshotkontrolle ist die Ansicht der 16 veröffentlichten Adressen von einer dreispaltigen Kachelfläche auf eine **kompakte, einspaltige Quellen-Prüfliste mit zwei primären Aktionen** umgestellt. Die weiteren Anbieter-/OSM-Quellen sind hinter **„Quellen & weitere Aktionen“** weiterhin direkt erreichbar. Smartphone-Layout bleibt eine Spalte mit normaler Dokumentstruktur, ohne Kartenoverlay.
 
 ## 3. Routeninteraktion und Bewegung
 
