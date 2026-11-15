@@ -12,8 +12,8 @@ const candidates=[
 test('Three public locations use individually sourced coordinates and disclose their scope',async()=>{
  const c=await loadCatalog(),v19=await loadSurveyFirstV19();
  const archive=await loadResearchV20(v19.activities.items,c.cities);
- assert.equal(archive.activities.withSourcedPoint,30);
- assert.equal(archive.activities.withSpecificPublicEvidence,20);
+ assert.equal(archive.activities.withSourcedPoint,36);
+ assert.equal(archive.activities.withSpecificPublicEvidence,24);
  for(const [id,city,point,urlPart,centroid] of candidates){
   const x=archive.byActivity.get(id);
   assert.deepEqual(x.point,point);

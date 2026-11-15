@@ -4,8 +4,8 @@
   "status": "Individual source audit; only sourced POI points promoted; visit exact time and 2027 bookings not inferred",
   "sourceAtlas": "Previous project OSM/Photon evidence plus publicly inspected operator/tourism sites",
   "count": 57,
-  "withSourcedPoint": 30,
-  "withSpecificPublicEvidence": 20,
+  "withSourcedPoint": 36,
+  "withSpecificPublicEvidence": 24,
   "items": [
     {
       "id": "act-001",
@@ -433,13 +433,20 @@
       "id": "act-025",
       "city": "nice",
       "name": "Vieux-Nice – Markt und kleine Gassen",
-      "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://www.explorenicecotedazur.com/culture/parc-de-la-colline-du-chateau/",
-      "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
-      "researchStatus": "general_portal_or_concept_only"
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.explorenicecotedazur.com/evenement/marche-aux-fruits-legumes-et-maree-du-cours-saleya/",
+      "specificFactVerified": true,
+      "point": [
+        43.69568,
+        7.27494
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Benannter OSM-Marktpunkt Marché du Cours Saleya als öffentlicher Startanker für Vieux-Nice. NICHT die Route durch alle Altstadtgassen oder ein individueller Laden. Der touristische Marktplan nennt Di–So 06:00–13:30 für 2026; Öffnung 2027 gesondert prüfen.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://www.openstreetmap.org/node/13160620542",
+      "isCentroid": false,
+      "detailUrl": "https://www.explorenicecotedazur.com/evenement/marche-aux-fruits-legumes-et-maree-du-cours-saleya/",
+      "condition": "Cours-Saleya-Markt laut Tourismusamt für 2026 Di–So 06:00–13:30, freier Marktzugang; Montags Antiquitätenmarkt. Märkte/Öffnungszeiten und Marktstände für September 2027 erneut prüfen. Altstadtspaziergang ist nicht automatisch eine geführte Aktivität."
     },
     {
       "id": "act-026",
@@ -462,12 +469,15 @@
       "id": "act-027",
       "city": "nice",
       "name": "Èze – Dorf und Aussicht als Halbtag",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://jardinexotique-eze.fr/en/informations/",
-      "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "specificFactVerified": true,
+      "point": [
+        43.730885,
+        7.3570576
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Amtlich inventarisierte Ortslage des Jardin Exotique d’Èze als OPTIONALE Sehenswürdigkeit (GPS im Gartenregister). NICHT der exakte Kassen-/Garteneingang, kein Ortszentrum für den ganzen Èze-Dorfspaziergang; Garten kostet ggf. separat.",
       "researchStatus": "specific_public_evidence_checked",
       "condition": "Èze-Dorfspaziergang ohne eigenen Eintritt; der Jardin Exotique ist eine getrennte optionale Sehenswürdigkeit. Laut offiziellem Garten: im September täglich 09:00–19:30, regulärer Erwachseneneintritt 10 €, Studierende mit Nachweis 6 €; Tarif gilt als Stand 2026, nicht garantiert für 2027.",
       "detailUrl": "https://jardinexotique-eze.fr/en/informations/",
@@ -476,7 +486,9 @@
         "currency": "EUR",
         "kind": "optional_independent_garden_ticket_current_rate_2026_not_in_plan",
         "sourceUrl": "https://jardinexotique-eze.fr/en/informations/"
-      }
+      },
+      "geoSourceUrl": "https://pdn-patrimonia.unicaen.fr/iejp/france/inventaires/Provence-Alpes-Cote-dAzur/Alpes-Maritimes/2FRIEJP_INVAlpes-Maritimes.xml/FRIEJP_INVAlpes-Maritimes_J78.html",
+      "isCentroid": false
     },
     {
       "id": "act-028",
@@ -646,27 +658,37 @@
       "id": "act-039",
       "city": "venice",
       "name": "Fondamenta delle Zattere – Wasserblick",
-      "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
-      "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
-      "researchStatus": "general_portal_or_concept_only"
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://mapcarta.com/W342616318",
+      "specificFactVerified": true,
+      "point": [
+        45.43023,
+        12.32323
+      ],
+      "pointPrecision": "sourced_area_center",
+      "geoNote": "OSM-Geometrie Fondamenta Zattere al Ponte Longo, ihr Kartenrepräsentationspunkt. NICHT die gesamte Promenade, ihre Gehroute oder die exakte Position eines Anlegers.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://www.openstreetmap.org/way/342616318",
+      "isCentroid": true
     },
     {
       "id": "act-040",
       "city": "venice",
       "name": "Lido di Venezia – Strandpause",
-      "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://actv.avmspa.it/en/content/venice-urban-services",
-      "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.visitlido.it/en/beaches/blue-moon-beach/",
+      "specificFactVerified": true,
+      "point": [
+        45.41425372193,
+        12.377187380404
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "GPS des öffentlich dokumentierten Strandbereichs Blue Moon am Lido als mögliche Strandpause. NICHT Lage des gesamten Lido-Strandes und keine Aussage, dass Beachclub-/Liegeangebote kostenlos oder 2027 buchbar wären.",
       "researchStatus": "specific_public_evidence_checked",
       "condition": "Lido von Venedig: Strandnutzung ist teilweise öffentlich, Anfahrt in der Regel per ACTV. Rolling-Venice-Paket (6–29 Jahre) 33 € für 72 h mit Karte + Jugend-ÖPNV; nur bei tatsächlicher Nutzung separat zählen, einzelne Lido-Strandangebote kosten ggf. extra.",
-      "detailUrl": "https://actv.avmspa.it/en/content/venice-urban-services"
+      "detailUrl": "https://actv.avmspa.it/en/content/venice-urban-services",
+      "geoSourceUrl": "https://atlantearchitetturacontemporanea.cultura.gov.it/en/stabilimento-blue-moon/",
+      "isCentroid": false
     },
     {
       "id": "act-041",
@@ -919,25 +941,35 @@
       "id": "act-056",
       "city": "montpellier",
       "name": "Altstadt Montpellier – nur falls Alternativstopp gewählt",
-      "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://www.tourisme-sete.com/",
-      "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
-      "researchStatus": "general_portal_or_concept_only"
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.montpellier-tourisme.fr/pratique/contact-et-horaires/",
+      "specificFactVerified": true,
+      "point": [
+        43.6087,
+        3.88006
+      ],
+      "pointPrecision": "sourced_area_center",
+      "geoNote": "Mittelpunkt der OSM-Fußgängerfläche Place de la Comédie als Orientierung für den optionalen Montpellier-Altstadtstopp. NICHT eine geprüfte vollständige Altstadtroute, Parkeingang oder gebuchte Stadtführung.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://mapcarta.com/W80524864",
+      "isCentroid": true
     },
     {
       "id": "act-057",
       "city": "toulouse",
       "name": "Toulouse – kurze Innenstadt bei Nachtzug-Anschluss",
-      "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
-      "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
-      "researchStatus": "general_portal_or_concept_only"
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.toulouse-tourisme.com/nos-incontournables/le-capitole/",
+      "specificFactVerified": true,
+      "point": [
+        43.60446,
+        1.44344
+      ],
+      "pointPrecision": "sourced_area_center",
+      "geoNote": "Referenzpunkt der Place du Capitole für einen möglichen kurzen Toulouse-Stadtbesuch. NICHT die Lage des Nachtzug-Gleises, ein Bahnhof oder der garantierte Weg zum Anschluss. Reale Umstiegszeit und 2027-Fahrplan fehlen.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://mapcarta.com/24949508",
+      "isCentroid": true
     }
   ]
 }
