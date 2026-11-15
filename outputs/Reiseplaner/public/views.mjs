@@ -274,6 +274,11 @@ export function mapSelectionPreview(ctx) {
   }[provenance.kind]??'Standort prüfen';
   const selectedPrice=signal.tier==='€?'?signal.amount:signal.tier+' · '+signal.amount;
   const bookmarked=ctx.explorer.saved?.has(item.id)??false;
+  const evidenceUrl=String(item.geoEvidence?.url??'');
+  const publicPointLink=(provenance.kind==='area'||provenance.kind==='sourced')
+    &&/^https:\/\/[^\s]+$/.test(evidenceUrl)
+    &&String(item.provider??'').toLowerCase()!=='airbnb'
+    &&!String(item.id??'').startsWith('wishlist:airbnb:');
   return '<div class="map-selected-place" role="group" aria-label="Ausgewählter Reiseort">'
     +placeThumbnailHtml(item,ctx)
     +'<div class="map-selected-copy"><strong>'+esc(item.name)+'</strong><small>'
@@ -282,7 +287,11 @@ export function mapSelectionPreview(ctx) {
     +'</small><small class="map-selected-cost" title="'+esc(signal.note)+'">'
     +esc(selectedPrice)
     +(item.time?' · '+esc(item.time):'')+'</small>'
-    +mapSelectionEvidence(item,ctx)+'</div><div class="map-selected-actions">'
+    +mapSelectionEvidence(item,ctx)
+    +(publicPointLink?'<small class="map-selected-location-source"><a href="'
+      +esc(evidenceUrl)+'" target="_blank" rel="noopener noreferrer">'
+      +'Koordinatenquelle prüfen</a> · Eingang gesondert prüfen</small>':'')
+    +'</div><div class="map-selected-actions">'
     +btn('explorer-save',bookmarked?'Merken entfernen':'Merken',bookmarked?'check':'bookmark',id)
     +btn('explorer-list-focus','In Liste','list',id)
     +btn('details','Details','folder',id)+'</div></div>';
