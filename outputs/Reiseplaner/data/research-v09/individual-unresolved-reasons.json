@@ -236,13 +236,13 @@
       "name": "Cittadella 3",
       "sourceStage": "review",
       "reasonCode": "PUBLISHED_POSTAL_ADDRESS_NEEDS_INDEPENDENT_GPS",
-      "reason": "Für „Cittadella 3“ ist eine konkrete öffentliche Anschrift (Scalinata della Cittadella 2, 16126 Genova, Italy) mit Anbieter-/Unterkunftsquelle hinterlegt. Ein eigenständig belegter, zu diesem Gebäude gehöriger Punkt fehlt noch; OSM-Namensähnlichkeiten oder benachbarte Häuser reichen nicht als Beweis.",
-      "nextStep": "Geokodierung anhand vollständiger Hausnummer gegen die Veröffentlichungsquelle und Gebäudegeometrie abgleichen; ggf. Eingang separat prüfen.",
+      "reason": "Booking nennt für Cittadella 3 'Scalinata della Cittadella 2 piano'. '2 piano' kann eine Geschossangabe sein. Die Hausnummer ist daher NICHT gesichert; das amtliche Stadtarchiv listet verschiedene civici in der Scalinata, ohne die Ferienwohnung eindeutig zuzuordnen. Die vollständige Gebäude-GPS-Koordinate bleibt offen.",
+      "nextStep": "Vom Vermieter die exakte Hausnummer getrennt von Stockwerk/Wohnung bestätigen lassen; danach ein dazu passendes öffentliches Gebäudeobjekt und ggf. den Eingang prüfen. Bis dahin nur die belegte Straße suchen.",
       "privateAirbnbProperty": false,
-      "knownPublicAddress": "Scalinata della Cittadella 2, 16126 Genova, Italy",
+      "knownPublicAddress": "Scalinata della Cittadella, 16126 Genova, Italy",
       "providerAddressSource": "https://www.booking.com/hotel/it/cittadella-3.html",
-      "googleMapsSearchUrl": "https://www.google.com/maps/search/?api=1&query=Cittadella%203%2C%20Scalinata%20della%20Cittadella%202%2C%2016126%20Genova%2C%20Italy%2C%20genoa",
-      "googleTransitUrl": "https://www.google.com/maps/dir/?api=1&destination=Cittadella%203%2C%20Scalinata%20della%20Cittadella%202%2C%2016126%20Genova%2C%20Italy%2C%20genoa&travelmode=transit",
+      "googleMapsSearchUrl": "https://www.google.com/maps/search/?api=1&query=Cittadella%203%2C%20Scalinata%20della%20Cittadella%2C%2016126%20Genova%2C%20Italy",
+      "googleTransitUrl": "https://www.google.com/maps/dir/?api=1&destination=Cittadella%203%2C%20Scalinata%20della%20Cittadella%2C%2016126%20Genova%2C%20Italy&travelmode=transit",
       "candidateCount": 4,
       "candidates": [
         {
@@ -263,7 +263,12 @@
       ],
       "coordinate": null,
       "coordinateStatus": "not_verifiably_exact",
-      "lastReviewedOn": "2026-11-13"
+      "lastReviewedOn": "2026-11-15",
+      "addressCorrectionV47": {
+        "basis": "listing_floor_or_number_ambiguity",
+        "sourceUrl": "https://www.booking.com/hotel/it/cittadella-3.html",
+        "note": "Alte normalisierte 2 als Hausnummer verworfen; nur veröffentlichte Straße und Stadt als Suchreferenz."
+      }
     },
     {
       "id": "research:bcom_3955394",
