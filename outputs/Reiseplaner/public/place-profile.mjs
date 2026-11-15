@@ -74,6 +74,32 @@ export function placeProfileModel(item, ctx = {}) {
   );
   else if(item.kind==='transport')facts.push(
     ['Betreiber',item.operator||'Nicht bestätigt'],['Fahrplan 2027',item.verification||'Nicht bestätigt']);
+  // User-uploaded 2026 research is preserved as a reference, not a bill.
+  if(item.researchV50){
+    const r=item.researchV50;
+    facts.push(['Preis aus beigefügter Recherche',
+      String(r.referencePrice??'Offen')+' '+String(r.currency??'')+
+      ' · Nutzerangabe, nicht als 2027-Tarif geprüft']);
+    facts.push(['Datenstand der Nutzerrecherche',
+      String(r.checkDate??'Unbekannt')+' · Eigenangabe "'+
+      String(r.claimedVerification??'ohne Status')+
+      '", keine unabhängige Prüfung']);
+  }
+  const club=item.nightlifeOfficialV51;
+  if(club){
+    facts.push(['Betreiberregeln recherchiert',
+      '15.11.2026 · keine bestätigte Veranstaltung für September 2027']);
+    facts.push(['Einlassalter laut Betreiber',
+      club.publishedEntranceAge===null?club.ageScope:
+      'Ab '+club.publishedEntranceAge+' Jahren · '+club.ageScope]);
+    if(club.publishedIdRequired)facts.push(['Ausweis',club.publishedIdRequired]);
+    if(club.publishedDressCode)facts.push(['Kleidung / Einlassregeln',club.publishedDressCode]);
+    if(club.admissionReference)facts.push(['Eintritt / Tickets',club.admissionReference]);
+    if(club.programmeReference)facts.push(['Abendprogramm',club.programmeReference]);
+    if(club.addressCaution)facts.push(['Adresskonflikt beim Anbieter',club.addressCaution]);
+    if(club.publishedAddress)facts.push(['Veröffentlichte Betreiberadresse',
+      club.publishedAddress+' · Eingang/Koordinate separat prüfen']);
+  }
   if(item.researchV20?.type==='activity'){
     const review=item.researchV20;
     facts.push(['Aktualisierte Quellenprüfung',review.reviewedOn
