@@ -41,6 +41,8 @@ test('All trip variants render city-labeled hero, map floating scope controls an
    assert.match(nav,/data-action="map-mode" data-value="total"/);
    assert.match(nav,/data-action="explorer-saved-only"/);
    assert.match(photo,/MIT QUELLENFOTOS/);
+   assert.doesNotMatch(photo, /class="reference-discovery-euro"[^>]*>€\?<\/span>/,
+     'Unknown prices appear as Open/Offen, never visually as €? badges');
    assert.match(photo,/Bildquelle|Fehlende Fotos prüfen/);
    const emptyDay=mapDayAgenda(ctx);
    if(ctx.all.some(x=>x.city===ctx.city&&x.guideV22?.sourceUrl&&x.kind==='activity')){
