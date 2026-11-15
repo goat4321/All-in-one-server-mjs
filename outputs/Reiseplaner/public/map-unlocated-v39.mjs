@@ -1,6 +1,7 @@
 import {esc,btn,chip,icon} from './ui.mjs';
 import {explorerCategory} from './map-explorer.mjs';
 import {hasIndependentPointEvidence,markerProvenance} from './poi-location-provenance.mjs';
+import {publicPinReviewLinks,publicPinReviewSummary} from './map-location-review.mjs';
 
 // Missing coordinates are not a place category or a map position. A city
 // orientation marker never becomes an item.point or is routed as a stop.
@@ -241,14 +242,30 @@ export function mapUnverifiedPointsReview(ctx){
    const action=source.kind==='provider'
      ?'Anbieterposition – unabhängig mit Gebäude-/POI-Quelle abgleichen.'
      :'Gespeicherte GPS-Position – exakte öffentliche Objektquelle und Genauigkeit nachweisen.';
+   const quality=publicPinReviewSummary(item);
+   const links=publicPinReviewLinks(item,city);
+   const stored=links.find(x=>x.type==='saved');
+   const other=links.filter(x=>x.type!=='saved');
+   const extra=other.length
+     ?'<details class="map-evidence-source-links"><summary>Objektname & Quellen vergleichen</summary>'
+       +'<div class="map-evidence-review-links">'
+       +other.map(x=>'<a class="button subtle" href="'+esc(x.url)+'" target="_blank"'
+         +' rel="noopener noreferrer">'+icon('external')+' '+esc(x.label)+'</a>').join('')
+       +'</div><small>Kartenrecherche allein verifiziert weder Hausnummer noch Eingang.</small></details>'
+     :'';
    return '<article class="map-unlocated-record map-evidence-record" data-source-quality="'
     +esc(source.kind)+'"><div class="map-unlocated-record-head">'
     +'<span class="map-unlocated-kind">'+icon('pin')+' '+esc(source.label)+'</span>'
     +'<small>'+esc(city)+'</small></div>'
-    +'<strong>'+esc(item.name)+'</strong><p>'+esc(action)+'</p>'
+    +'<strong>'+esc(item.name)+'</strong>'
+    +'<p class="map-evidence-position">Gespeicherter Pin: '+esc(quality?.pointLabel??'nicht vorhanden')
+      +' · kein verifizierter Eingang</p>'
+    +'<p>'+esc(action)+'</p>'
     +'<div class="map-unlocated-actions">'
-    +btn('details','Herkunft & Details prüfen','folder',item.id,'subtle')
-    +'</div></article>';
+    +btn('explorer-focus','Pin auf Karte','map',item.id,'subtle')
+    +(stored?'<a class="button subtle" href="'+esc(stored.url)+'" target="_blank"'
+      +' rel="noopener noreferrer">'+icon('external')+' Pin in OSM prüfen</a>':'')
+    +extra+'</div></article>';
  }).join('');
  return '<details class="map-unlocated-review map-evidence-review"'
    +(ctx.mapEvidenceOpen?' open':'')+'>'
@@ -258,8 +275,10 @@ export function mapUnverifiedPointsReview(ctx){
    +'<span class="map-unlocated-chevron">'+icon('chevron')+'</span></summary>'
    +'<div class="map-unlocated-body">'
    +'<p>Diese Datensätze haben bereits eine Koordinate, jedoch keinen hinreichenden '
-   +'unabhängigen Einzelnachweis. Die genaue Position und insbesondere der Zugang müssen '
-   +'weiter überprüft werden. Aktuelle Filter der Karte gelten auch für diese Liste.</p>'
+   +'unabhängigen Einzelnachweis. Öffne den gespeicherten Kartenpunkt und suche unabhängig '
+   +'nach dem öffentlichen Objekt, bevor du eine Position bestätigst. '
+   +'Eine Kartenrecherche verändert niemals automatisch deine Reisedaten. '
+   +'Aktuelle Filter der Karte gelten auch für diese Liste.</p>'
    +buttons
    +'<div class="map-unlocated-search map-evidence-search">'
    +'<input type="search" id="map-evidence-search" maxlength="100"'
