@@ -22,7 +22,17 @@ test('Genoa conflicting property identity and public address are not hidden',()=
  const trip=catalog.trips.find(t=>t.id==='interrail_classic');
  const ctx={catalog,trip,cities:catalog.cities};
  const m=providerLocationAudit(ctx);
- assert.ok(m.conflicts>=1);
+ assert.ok(m.conflicts>=4);
+ const cittadella=m.rows.find(r=>r.id==='research:bcom_13963152');
+ assert.equal(cittadella.currentPublishedAddress,'Scalinata della Cittadella, 16126 Genova, Italy');
+ assert.equal(cittadella.historicalAddressChanged,true);
+ assert.match(cittadella.qualificationHint,/Stockwerk/);
+ assert.equal(cittadella.verifiedReference,false);
+ const mestre=m.rows.find(r=>r.id==='research:bcom_17205591');
+ assert.match(mestre.qualificationHint,/30173/);
+ assert.equal(mestre.verifiedReference,false);
+ const bac=m.rows.find(r=>r.id==='local:food-v03-019');
+ assert.match(bac.qualificationHint,/anderen Lokal/);
  assert.equal(m.independentlyVerified,2);
  assert.equal(m.unlocated,15);
  assert.equal(m.providerLeads,13);
@@ -44,4 +54,9 @@ test('Genoa conflicting property identity and public address are not hidden',()=
  assert.match(html,/ca. 3 m/);
  assert.match(html,/2 unabhängig belegte Referenzpunkte/);
  assert.match(html,/Unabhängige Kartenreferenz/);
+ assert.match(html,/Aktuell belegte Anschrift/);
+ assert.match(html,/Alte Adressfassung zeigen/);
+ assert.match(html,/Nicht mehr als Hausnummer bestätigt/);
+ assert.match(html,/Die veröffentlichte Angabe/);
+ assert.match(html,/Scalinata della Cittadella, 16126 Genova/);
 });
