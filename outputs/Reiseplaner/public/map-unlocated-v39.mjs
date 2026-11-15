@@ -3,6 +3,9 @@ import {explorerCategory} from './map-explorer.mjs';
 import {hasIndependentPointEvidence,markerProvenance} from './poi-location-provenance.mjs';
 import {publicPinReviewLinks,publicPinReviewSummary} from './map-location-review.mjs';
 import {publicGeocodeLookupAllowed} from './public-geocode-eligibility.mjs';
+const isPrivateMapItem=item=>String(item?.provider??'').trim().toLowerCase()==='airbnb'
+ ||String(item?.id??'').startsWith('wishlist:airbnb:');
+
 
 // Missing coordinates are not a place category or a map position. A city
 // orientation marker never becomes an item.point or is routed as a stop.
@@ -13,13 +16,12 @@ export const UNLOCATED_TYPES=Object.freeze([
  ['private','Private Unterkünfte']
 ]);
 export function isSourcedPublicAddress(item){
- return !item?.point && item?.provider!=='Airbnb'
-   && !String(item?.id??'').startsWith('wishlist:airbnb:')
+ return !item?.point && !isPrivateMapItem(item)
    && typeof item?.addressEvidenceV09?.publishedAddress==='string'
    && /^https:\/\//.test(item?.addressEvidenceV09?.sourceUrl??'');
 }
 export function unlocatedKind(item){
- if(item?.provider==='Airbnb'||String(item?.id??'').startsWith('wishlist:airbnb:'))
+ if(isPrivateMapItem(item))
    return {key:'private',label:'Private Unterkunft',
      reason:'Private Hausadresse nicht öffentlich nachgewiesen; kein erfundener Haustür-Pin.',
      action:'Grobe Lage und Buchungsbedingungen privat prüfen.'};
@@ -249,7 +251,7 @@ export function mapUnlocatedReview(ctx){
 export function mapUnverifiedPinRows(ctx){
  const candidates=Array.isArray(ctx?.explorer?.placed)?ctx.explorer.placed:[];
  const rows=candidates.filter(item=>item?.id&&!item.explorerParent
-  &&item.provider!=='Airbnb'&&!String(item.id).startsWith('wishlist:airbnb:')
+  &&!isPrivateMapItem(item)
   &&!hasIndependentPointEvidence(item));
  const type=ctx.mapEvidenceType==='provider'?'provider'
   :ctx.mapEvidenceType==='unverified'?'unverified':'all';
