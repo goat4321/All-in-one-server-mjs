@@ -432,6 +432,16 @@ try {
   await until(()=>js('document.querySelector(".map-evidence-review [data-action=map-evidence-type][data-value=provider]")?.getAttribute("aria-pressed")==="true"'),
     'Anbieterpositionen sind filterbar');
   await click('.map-evidence-review [data-action=map-evidence-type][data-value=all]');
+  await until(()=>js('Boolean(document.querySelector("#map-evidence-search"))'),
+    'Unabhängige Quellenprüfungen sind durchsuchbar');
+  await js('document.querySelector("#map-evidence-search").value="__kein_objekt__"');
+  await click('.map-evidence-search [data-action=map-evidence-search]');
+  await until(()=>js('document.querySelector(".map-evidence-review .map-unlocated-count")?.textContent.includes("0 von")'),
+    'Quellenprüfung sucht innerhalb vorhandener, ungeprüfter Punkte');
+  await click('.map-evidence-search [data-action=map-evidence-clear]');
+  await until(()=>js('document.querySelector(".map-evidence-review .map-unlocated-count")?.textContent.includes(" von ")'),
+    'Die Suche ist rücksetzbar');
+  await screenshot('43-koordinaten-nachweispruefung-desktop.png');
 
   assert.equal(await js('Boolean(document.querySelector(".map-panel .map-unlocated-review"))'),false,
     'Die lange Prüfliste darf nicht innerhalb des sticky Kartenpanels sitzen');

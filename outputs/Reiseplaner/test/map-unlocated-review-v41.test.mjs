@@ -87,3 +87,20 @@ test('Existing unverified map pins form a distinct evidence queue without synthe
  assert.doesNotMatch(html,/Private property|Synthetic train arrival|OSM public point/);
  assert.doesNotMatch(html,/day-route-add|geocode-apply/);
 });
+
+test('Second review queue is searchable by accent-normalized city, name and provider',()=>{
+ const c={...ctx,cities:{nice:{name:'Nizza'},barcelona:{name:'Barcelona'}},
+  explorer:{unlocated:[],placed:[
+    {id:'cafe',name:'Café à Nice',city:'nice',point:[43.70,7.26]},
+    {id:'hotel',name:'Provider Test',city:'barcelona',provider:'Hotel',
+     point:[41.39,2.16],locationReferenceV07:{precision:'provider_reported_unverified'}}
+  ]}};
+ assert.equal(mapUnverifiedPinRows({...c,mapEvidenceSearch:'CAFE A NICE'}).filteredTotal,1);
+ assert.equal(mapUnverifiedPinRows({...c,mapEvidenceSearch:'BARCELONA'}).preview[0].item.id,'hotel');
+ assert.equal(mapUnverifiedPinRows({...c,mapEvidenceType:'provider',mapEvidenceSearch:'CAFE'}).filteredTotal,0);
+ const html=mapUnverifiedPointsReview({...c,mapEvidenceSearch:'cafe'});
+ assert.match(html,/id="map-evidence-search"/);
+ assert.match(html,/data-action="map-evidence-clear"/);
+ assert.match(html,/Café à Nice/);
+ assert.doesNotMatch(html,/Provider Test/);
+});

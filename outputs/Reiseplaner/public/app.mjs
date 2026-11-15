@@ -38,7 +38,7 @@ const view = {
   mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60,
   mapShowCityReferences: localStorage.getItem('reiseplan-map-city-references')==='on',
   mapUnlocatedOpen:false,mapUnlocatedFilter:'all',mapUnlocatedSearch:'',mapUnlocatedLimit:12,
-  mapEvidenceOpen:false,mapEvidenceType:'all',mapEvidenceLimit:10,
+  mapEvidenceOpen:false,mapEvidenceType:'all',mapEvidenceSearch:'',mapEvidenceLimit:10,
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
   mapDensity:localStorage.getItem('reiseplan-map-density')==='detail'?'detail':'calm',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
@@ -995,6 +995,13 @@ async function action(name, value = '') {
       if(!['all','provider','unverified'].includes(value))break;
       view.mapEvidenceType=value;view.mapEvidenceLimit=10;view.mapEvidenceOpen=true;
       render({restoreView:true,fetchRoutes:false});break;
+    case 'map-evidence-search':
+      view.mapEvidenceSearch=app.querySelector('#map-evidence-search')?.value.trim().slice(0,100)??'';
+      view.mapEvidenceLimit=10;view.mapEvidenceOpen=true;
+      render({restoreView:true,fetchRoutes:false});break;
+    case 'map-evidence-clear':
+      view.mapEvidenceSearch='';view.mapEvidenceLimit=10;view.mapEvidenceOpen=true;
+      render({restoreView:true,fetchRoutes:false});break;
     case 'map-evidence-more':
       view.mapEvidenceLimit=Math.min(100,view.mapEvidenceLimit+10);
       view.mapEvidenceOpen=true;render({restoreView:true,fetchRoutes:false});break;
@@ -1789,6 +1796,10 @@ document.addEventListener('keydown',event=>{
     view.mapSearch=event.target.value.trim().slice(0,100);
     view.mapListLimit=60;
     render({restoreView:true,fetchRoutes:false});
+    return;
+  }
+  if(event.target.id==='map-evidence-search'&&event.key==='Enter'){
+    event.preventDefault();void action('map-evidence-search').catch(error=>say(error.message));
     return;
   }
   if(event.target.id==='map-unlocated-search'&&event.key==='Enter'){

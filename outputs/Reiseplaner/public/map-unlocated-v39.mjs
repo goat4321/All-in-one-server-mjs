@@ -176,9 +176,13 @@ export function mapUnverifiedPinRows(ctx){
    ||String(a.item.name).localeCompare(String(b.item.name),'de'));
  const filter=type==='all'?sorted:sorted.filter(x=>
    type==='provider'?x.source.kind==='provider':x.source.kind!=='provider');
+ const query=norm(ctx.mapEvidenceSearch).trim().slice(0,100);
+ const matching=filter.filter(({item})=>!query||norm([
+   item.name,item.city,ctx.cities?.[item.city]?.name,
+   item.address,item.provider].join(' ')).includes(query));
  const limit=Math.max(10,Math.min(100,Number(ctx.mapEvidenceLimit)||10));
- return {total:rows.length,type,filteredTotal:filter.length,
-  preview:filter.slice(0,limit),hasMore:filter.length>limit,
+ return {total:rows.length,type,query,filteredTotal:matching.length,
+  preview:matching.slice(0,limit),hasMore:matching.length>limit,
   providerCount:rows.filter(x=>markerProvenance(x).kind==='provider').length};
 }
 export function mapUnverifiedPointsReview(ctx){
@@ -214,6 +218,13 @@ export function mapUnverifiedPointsReview(ctx){
    +'unabhängigen Einzelnachweis. Die genaue Position und insbesondere der Zugang müssen '
    +'weiter überprüft werden. Aktuelle Filter der Karte gelten auch für diese Liste.</p>'
    +buttons
+   +'<div class="map-unlocated-search map-evidence-search">'
+   +'<input type="search" id="map-evidence-search" maxlength="100"'
+   +' value="'+esc(ctx.mapEvidenceSearch??'')+'"'
+   +' placeholder="Name, Stadt oder Anbieter" aria-label="Koordinatenbelege suchen">'
+   +btn('map-evidence-search','Suchen','search','','subtle')
+   +(d.query?btn('map-evidence-clear','Zurücksetzen','reset','','subtle'):'')
+   +'</div>'
    +'<p class="map-unlocated-count" role="status">'+d.preview.length+' von '
      +d.filteredTotal+' passenden Quellenprüfungen sichtbar</p>'
    +'<div class="map-unlocated-grid">'+cards+'</div>'
