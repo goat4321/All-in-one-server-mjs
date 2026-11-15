@@ -1782,6 +1782,11 @@ document.addEventListener('keydown',event=>{
     render({restoreView:true,fetchRoutes:false});
     return;
   }
+  if(event.target.id==='map-unlocated-search'&&event.key==='Enter'){
+    event.preventDefault();
+    void action('map-unlocated-search').catch(error=>say(error.message));
+    return;
+  }
   if(event.target.id==='map-search'&&event.key==='Enter'){
     event.preventDefault();
     void action('explorer-search').catch(error=>say(error.message));

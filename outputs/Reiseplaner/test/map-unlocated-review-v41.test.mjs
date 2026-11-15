@@ -30,9 +30,9 @@ test('Large unlocated work queue is paginated and category-filterable',()=>{
  }
 });
 test('Search matches normalized names and stays local to missing items',()=>{
- const x=unlocatedOverview({...ctx,mapUnlocatedSearch:'OPÉN PLACE 3'});
+ const x=unlocatedOverview({...ctx,mapUnlocatedSearch:'OPÉN PLACE 37'});
  assert.equal(x.filteredTotal,1);
- assert.equal(x.preview[0].item.id,'place-3');
+ assert.equal(x.preview[0].item.id,'place-37');
  const y=unlocatedOverview({...ctx,mapUnlocatedSearch:'not-present'});
  assert.equal(y.filteredTotal,0);
 });
