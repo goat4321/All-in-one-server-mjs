@@ -47,6 +47,11 @@ export function createMotionController(doc){
   doc.addEventListener('error',event=>{
     const photo=event.target;
     if(photo?.tagName!=='IMG')return;
+    if(photo.classList.contains('place-context-image')){
+      photo.hidden=true;
+      photo.closest('.place-photo-placeholder')?.classList.add('photo-context-failed');
+      return;
+    }
     const host=photo.closest?.('.place-photo, .place-thumbnail, .hub-hero-art, .map-photo-disc');
     if(host){photo.hidden=true;host.classList.add('photo-load-failed');}
   },true);

@@ -1714,6 +1714,14 @@ app.addEventListener('error',event=>{
   if(!(image instanceof HTMLImageElement))return;
   const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo,.reference-intro-photo,.reference-discovery-image,.reference-hero-thumb');
   if(!frame||image.dataset.fallbackApplied)return;
+  // The decorative backup failing must not hide a separately sourced
+  // and successfully loaded individual photo.
+  if(image.classList.contains('place-context-image')){
+    image.dataset.fallbackApplied='true';
+    image.style.display='none';
+    frame.classList.add('photo-context-failed');
+    return;
+  }
   image.dataset.fallbackApplied='true';
   image.style.display='none';
   frame.dataset.imageUnavailable='true';

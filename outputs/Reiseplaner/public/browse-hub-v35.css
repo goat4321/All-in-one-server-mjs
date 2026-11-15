@@ -432,6 +432,19 @@
 .place-photo-placeholder.photo-context>strong,.place-photo-placeholder.photo-context>small,
 .place-photo-placeholder.photo-context>span{z-index:2;max-width:95%;text-shadow:0 2px 8px #061b1799}
 .place-photo-placeholder.photo-context>small{color:#fff}
-.photo-load-failed>img,.photo-load-failed .place-context-image{display:none!important}
+.photo-load-failed>img,.photo-context-failed .place-context-image{display:none!important}
 .hub-hero-art>svg{position:absolute;inset:0;z-index:0}
 .hub-hero-art>img{position:absolute;inset:0;z-index:1}
+
+/* Source image is layered over its distinctly labeled same-city backup. */
+.place-photo>.place-photo-placeholder{position:absolute;inset:0;height:100%;min-height:0}
+.place-photo>.place-specific-photo{position:absolute;inset:0;z-index:3}
+.place-photo>.place-specific-credit{z-index:4}
+.place-photo>.context-backup-credit{display:none;z-index:4}
+.place-photo[data-image-unavailable=true]>.place-specific-credit{display:none}
+.place-photo[data-image-unavailable=true]>.context-backup-credit{display:block}
+.place-photo[data-image-unavailable=true]>.place-photo-unavailable{
+ inset:auto auto 36px 8px;min-height:auto;max-width:calc(100% - 16px);
+ z-index:5;display:block;padding:7px 10px;border-radius:12px;
+ background:#14382fdc;color:white;text-align:left;font-size:.66rem;
+}

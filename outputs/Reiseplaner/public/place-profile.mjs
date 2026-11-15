@@ -133,26 +133,34 @@ export function placeImageHtml(item,ctx={}, {small=false}={}) {
   if(!p)return '';
   const type=p.facts[0][1];
   const label=esc(p.name);
-  const background=p.photo?null:curatedCityBackdrop(item);
+  const background=curatedCityBackdrop(item);
+  const symbol=({lodging:'⌂',food:'✦',shop:'◇',activity:'⌖',transport:'⇄'}[p.category]??'⌖');
+  // The labeled backdrop is always behind the specific image and becomes
+  // visible only when the main Wikimedia/provider image fails to load.
+  const fallback='<div class="place-photo-placeholder'+(background?' photo-context':'')+'"'
+    +' aria-label="'+(background?'Stadtmotiv, kein Foto dieses Eintrags':'Kein quellenbelegtes Foto')+'">'
+    +(background?'<img class="place-context-image" src="'+esc(background.url)+'"'
+      +' loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="">':'')
+    +'<span aria-hidden="true">'+symbol+'</span>'
+    +'<strong>'+label+'</strong><small>'+esc(background
+      ?'Stadtmotiv · kein Foto dieses Eintrags':type+' · Bildquelle offen')+'</small></div>';
+  const contextCredit=background?'<small class="place-photo-credit'
+    +(p.photo?' context-backup-credit':'')+'">Stadtmotiv · '
+    +'<a href="'+esc(background.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a> · '
+    +esc(background.credit)+'</small>':'';
   return '<div class="place-photo'+(small?' small':'')+'" data-photo-category="'+esc(p.category)+'">'
-    + (p.photo
-      ? '<img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(p.photo.url)
+    +fallback
+    +(p.photo
+      ?'<img class="place-specific-photo" loading="lazy" decoding="async"'
+        +' referrerpolicy="no-referrer" src="'+esc(p.photo.url)
         +'" alt="Hinterlegtes Bild: '+label+'">'
-        +'<small class="place-photo-credit">Bild: '+esc(p.photo.credit)+' · '
-        +'<a href="'+esc(p.photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a>'
+        +'<small class="place-photo-credit place-specific-credit">Bild: '
+        +esc(p.photo.credit)+' · <a href="'+esc(p.photo.sourceUrl)
+        +'" target="_blank" rel="noopener noreferrer">Bildquelle</a>'
         +(ccLicenseUrl(p.photo)?' · <a href="'+esc(ccLicenseUrl(p.photo))
-          +'" target="_blank" rel="noopener noreferrer">Lizenz</a>':'')+'</small>'
-      : '<div class="place-photo-placeholder'+(background?' photo-context':'')+'"'
-        +' aria-label="'+(background?'Stadtmotiv, kein Objektfoto':'Kein quellenbelegtes Foto')+'">'
-        +(background?'<img class="place-context-image" src="'+esc(background.url)+'" loading="lazy"'
-          +' decoding="async" referrerpolicy="no-referrer" alt="">':'')
-        +'<span aria-hidden="true">'+({lodging:'⌂',food:'✦',shop:'◇',activity:'⌖',transport:'⇄'}[p.category]??'⌖')+'</span>'
-        +'<strong>'+label+'</strong><small>'+esc(background
-           ?'Stadtmotiv · kein Foto dieses Eintrags':type+' · Bildquelle offen')+'</small></div>'
-        +(background?'<small class="place-photo-credit">Stadtmotiv · <a href="'
-          +esc(background.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a> · '
-          +esc(background.credit)+'</small>':'') )
-    +'</div>';
+        +'" target="_blank" rel="noopener noreferrer">Lizenz</a>':'')+'</small>'
+      :'')
+    +contextCredit+'</div>';
 }
 
 export function placePopupHtml(item,ctx={}) {
