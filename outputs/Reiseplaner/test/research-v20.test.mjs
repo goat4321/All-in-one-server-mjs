@@ -13,7 +13,7 @@ test('V20 archived research covers every 57/35/29/40 item, sourced points and of
   const catalog=await loadCatalog();
   const raw=await loadResearchV20(archive.activities.items,catalog.cities);
   assert.equal(raw.activities.items.length,57);
-  assert.equal(raw.activities.withSourcedPoint,40);
+  assert.equal(raw.activities.withSourcedPoint,45);
   assert.equal(raw.lodging.items.length,35);
   assert.equal(raw.lodging.updatedSearchOffers,22);
   assert.equal(raw.lodging.independentPointMatches,19);
