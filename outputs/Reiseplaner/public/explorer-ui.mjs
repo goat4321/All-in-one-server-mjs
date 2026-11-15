@@ -3,6 +3,7 @@ import { EXPLORER_GROUPS, explorerDetail, externalFootUrl, externalTransitUrl, m
 import { esc, btn, chip, status, urlLink, empty, transitPlanners } from './ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import { routePositionQuality } from './route-position-quality.mjs';
+import {publicGeocodeLookupAllowed} from './public-geocode-eligibility.mjs';
 import { placeQuickFacts, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
 import { planCostSignal } from './visual-experience.mjs';
 import { voteSnippet } from './group-vote.mjs';
@@ -133,8 +134,7 @@ export function explorerList(ctx) {
       +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
       +(urlLink(googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),'Google Maps · ÖPNV-Anreise')||'')
       +(located&&!simple?btn('details','Alle Details & Quellen','folder',item.id):'')
-      +(!located&&item.address&&!item.booked
-        &&item.addressEvidenceV09?.addressQualification!=='listing_floor_or_number_ambiguity'
+      +(!located&&publicGeocodeLookupAllowed(item)
         ?btn('geocode-lookup','Kartenstandort prüfen','pin',item.id):'')
       +actions
       +(canPlan&&located?btn('day-route-add','Zur Mehrstopp-Route','plus',item.id):'')
