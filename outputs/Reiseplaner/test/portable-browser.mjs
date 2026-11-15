@@ -902,6 +902,12 @@ try {
   await until(()=>js('Boolean(document.querySelector(".map-selected-place"))'),'Mobile selected POI card');
   assert.ok(await js('(() => { const card=document.querySelector(".map-selection-preview")?.getBoundingClientRect(); const map=document.querySelector("#map")?.getBoundingClientRect(); return card&&map&&card.top>=map.bottom-1&&card.width<=390; })()'),
     'Mobile POI preview is in document flow below map; never under the dock');
+  assert.ok(await js('(()=>{const a=document.querySelector(".map-place-switches")?.getBoundingClientRect();'
+    +'const b=document.querySelector(".map-selection-preview")?.getBoundingClientRect();'
+    +'const m=document.querySelector("#map")?.getBoundingClientRect();'
+    +'return a&&b&&m&&a.top>=m.bottom-1&&a.bottom<=b.top+1&&a.right<=innerWidth+3;})()'),
+    'Mobile map action controls stay between map and place details without covering the selected card');
+  await screenshot('43-mobile-karte-ohne-ueberlagerung-390.png');
   await js('document.querySelector(".map-selection-preview").scrollIntoView({block:"center"})');
   await screenshot('06-atlas-smartphone-auswahl-390.png');
   assert.ok(await js('(() => { const map=document.querySelector(".reference-map-workspace>.map-panel"),a=document.querySelector(".reference-map-workspace>.explorer-right");if(!map||!a)return false;const m=map.getBoundingClientRect(),l=a.getBoundingClientRect();return m.top<l.top&&m.right<=innerWidth+3&&l.right<=innerWidth+3; })()'),

@@ -111,3 +111,46 @@
 :root[data-theme=dark] .workspace>.map-evidence-review{background:#2d2b23;border-color:#6c6042}
 :root[data-theme=dark] .map-evidence-review .map-unlocated-summary-icon{
  background:#554629;color:#f2d698}
+
+
+/* V43 mobile visual review: fixed-on-map search controls previously covered
+ * the selected-place card. On phones put them in normal flow, AFTER the map
+ * and BEFORE the selected place. No sticky overlay and no hidden controls. */
+@media(max-width:650px){
+ .reference-travel-shell .map-wrap>.map-place-switches{
+   position:relative;top:auto;bottom:auto;left:auto;right:auto;
+   max-width:none;width:auto;margin:0;padding:10px 10px 3px;
+   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+   align-items:center;gap:7px;z-index:2;pointer-events:auto;
+   background:var(--paper)
+ }
+ .reference-travel-shell .map-wrap>.map-place-switches:not(:has(.market-toggle)){
+   grid-template-columns:1fr
+ }
+ .reference-travel-shell .map-wrap>.map-place-switches>.point-overview-toggle,
+ .reference-travel-shell .map-wrap>.map-place-switches>.market-toggle{
+   min-width:0;width:100%;min-height:40px;justify-content:center;
+   font-size:.69rem;line-height:1.3;white-space:normal;padding:7px 6px;
+   box-shadow:none;border:1px solid var(--line);background:var(--light)
+ }
+ .reference-travel-shell .map-wrap>.map-place-switches>.market-status{
+   grid-column:1/-1;text-align:center
+ }
+ .map-evidence-review .map-evidence-search{
+   display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center
+ }
+ .map-evidence-review .map-evidence-search>input{
+   width:100%;min-width:0;flex-basis:auto;grid-column:1;grid-row:1
+ }
+ .map-evidence-review .map-evidence-search>[data-action=map-evidence-search]{
+   grid-column:2;grid-row:1;white-space:nowrap
+ }
+ .map-evidence-review .map-evidence-search>[data-action=map-evidence-clear]{
+   grid-column:1/-1;justify-self:start
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .map-wrap>.map-place-switches button:hover{
+   transform:none!important
+ }
+}
