@@ -429,13 +429,22 @@
       "sourceUrl": "https://modo21.it/ristorazione/come-prenotare-da-cavour-modo21/",
       "point": null,
       "precision": "building_or_address",
-      "remark": "Betreiber bestätigt Piazza Cavour 21r, 16128 Genova; Italia.it bestätigt unabhängig die gleiche Restaurantanschrift als Piazza Cavour 21 Rosso. Es fehlt weiterhin ein separat belegter POI- bzw. Hausnummern-GPS-Punkt; insbesondere ist 21r in Genua nicht mit 21 (Wohnungsnummer) gleichzusetzen.",
+      "remark": "Betreiber bestätigt Piazza Cavour 21r, 16128 Genova; Italia.it bestätigt unabhängig die gleiche Restaurantanschrift als Piazza Cavour 21 Rosso. Es fehlt weiterhin ein separat belegter POI- bzw. Hausnummern-GPS-Punkt; insbesondere ist 21r in Genua nicht mit 21 (Wohnungsnummer) gleichzusetzen. Betreiberdaten zu Metro-Anreise, Kontaktnummer und historische Öffnungsreferenzen sind separat dokumentiert; daraus folgt kein bestätigter 2027er Tisch oder präziser Gebäude-Pin.",
       "observedOn": "2026-11-15",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
       "confirmedFor2027Checkout": false,
       "secondaryAddressSourceUrl": "https://www.italia.it/it/liguria/genova/dove-mangiare/cavour-modo21",
-      "addressQualification": "operator_and_national_tourism_office_agree_on_21_rosso"
+      "addressQualification": "operator_and_national_tourism_office_agree_on_21_rosso",
+      "operatorArrivalV47": {
+        "sourceUrl": "https://modo21.it/ristorazione/faq-domande-piu-frequenti/",
+        "publicContactPhone": "+39 393 851 1140",
+        "transitReference": "Metrostation San Giorgio laut Betreiber rund 100 Meter zu Fuß. Restaurant gegenüber dem westlichen Zugang zum Porto Antico.",
+        "historicalHours": "Laut Italia.it täglich 12:00–14:30 und 19:00–22:30 (Stand November 2026; für September 2027 neu prüfen).",
+        "hoursSourceUrl": "https://www.italia.it/it/liguria/genova/dove-mangiare/cavour-modo21",
+        "reservationReference": "Reservierungsanfrage über Betreiber-WhatsApp; gültig erst nach Bestätigung, kein automatischer Platzanspruch.",
+        "notConfirmedFor2027": true
+      }
     },
     {
       "id": "local:food-v03-019",
@@ -445,13 +454,21 @@
       "sourceUrl": "https://www.tripadvisor.it/Restaurant_Review-g187870-d33473744-Reviews-Bacarino_Venezia-Venice_Veneto.html",
       "point": null,
       "precision": "building_or_address",
-      "remark": "Tripadvisor nennt Bacarino, Salizada San Giovanni Grisostomo 5755. Der online kartierte 'Bacarandino'-POI gehört zu einem anders benannten Restaurant und darf trotz ähnlichen Namens nicht als GPS-Quelle übernommen werden. Straßenmitte genügt nicht als Eingang.",
+      "remark": "Tripadvisor nennt Bacarino, Salizada San Giovanni Grisostomo 5755. Der online kartierte 'Bacarandino'-POI gehört zu einem anders benannten Restaurant und darf trotz ähnlichen Namens nicht als GPS-Quelle übernommen werden. Straßenmitte genügt nicht als Eingang. Das als Betreiber beanspruchte Tripadvisor-Profil nennt 5755, während andere aus OSM abgeleitete Verzeichnisse einen Bacarino-Eintrag bei Cannaregio 5756 führen. Diese 1-Hausnummer-Differenz ist noch nicht anhand eines exakt zugeordneten Gebäude-Pins geklärt.",
       "observedOn": "2026-11-15",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
       "confirmedFor2027Checkout": false,
       "addressQualification": "published_restaurant_address_distinct_from_similar_named_poi",
-      "rejectedSimilarNameUrl": "https://mapcarta.com/N3240766156"
+      "rejectedSimilarNameUrl": "https://mapcarta.com/N3240766156",
+      "operatorArrivalV47": {
+        "sourceUrl": "https://www.tripadvisor.it/Restaurant_Review-g187870-d33473744-Reviews-Bacarino_Venezia-Venice_Veneto.html",
+        "publicContactPhone": "+39 349 896 1720",
+        "transitReference": "Lokal ist laut veröffentlichtem Profil nahe Rialtobrücke; keine nachgewiesene konkrete Anreise- oder Eingangslinie.",
+        "historicalHours": "Öffnungszeiten zwischen verschiedenen Drittanbieter-Portalen nicht einheitlich; direkt vor Besuch beim Lokal prüfen.",
+        "notConfirmedFor2027": true
+      },
+      "secondaryAddressSourceUrl": "https://www.localshop24.com/it/venezia-ve-it/attivita/bar/bacarino/"
     },
     {
       "id": "research:bcom_4482736",
