@@ -14,6 +14,17 @@ export function dayPlanPanel(ctx,{compact=false}={}){
  const day=ctx.dayPlan;
  if(!day)return '';
  const added=activeIds(ctx),pending=dayPlanCandidates(ctx);
+ const current=(ctx.active??[]).filter(item=>item.kind==='activity'
+   &&(localParts(item.start,item.zone).date??item.date)===ctx.date
+   &&!item.removed);
+ const currentRows=current.map(item=>
+  '<li class="day-plan-current-row"><strong>'+esc(item.name)+'</strong>'
+   +'<small>'+esc(ctx.cities?.[item.city]?.name??item.city)
+    +' · '+(item.start?'Mit eigener Zeit':'Flexibel, ohne feste Uhrzeit')+'</small>'
+   +(item.booked||item.locked
+     ?'<span class="day-plan-protected">Gebuchter/fester Eintrag</span>'
+     :btn('day-quick-remove','Entfernen','close',item.id,'subtle'))
+   +'</li>').join('');
  const selected=day.slots.filter(slot=>added.has(slot.id)).length;
  const total=day.slots.length;
  const pct=total?Math.round(100*selected/total):0;
@@ -45,12 +56,18 @@ export function dayPlanPanel(ctx,{compact=false}={}){
     +'<small>ca. '+slot.minutes+' Min. laut Planung · '
     +esc(ctx.cities?.[slot.city]?.name??slot.city)+'</small></span>'
     +'<div class="day-plan-item-actions">'
-    +(already?'<span class="day-plan-added">'+icon('check')+' Im Tagesplan</span>'
+    +(already?btn('day-quick-remove','Entfernen','close',slot.id,'subtle')
      :elsewhere?'<small>Anderweitig eingeplant</small>'
      :btn('day-plan-add',slot.optional?'Option hinzufügen':'Zum Tag','plus',slot.id,'subtle'))
     +btn('details','Details','folder',slot.id)+'</div></li>';
  }).join('');
  const body='<div class="day-plan-inner">'
+    +'<section class="day-plan-today" aria-label="Bereits eingeplante Aktivitäten">'
+    +'<div class="day-plan-today-head"><strong>Dein Tagesplan · '
+      +current.length+' Aktivitäten</strong><small>Einträge direkt entfernen oder weitere hinzufügen</small></div>'
+    +(currentRows?'<ul class="day-plan-current-list">'+currentRows+'</ul>'
+      :'<p class="day-plan-today-empty">Noch keine zusätzlichen Aktivitäten übernommen.</p>')
+    +'</section>'
     +progress
     +(rides||arrivals?'<div class="day-plan-block"><h4>'+icon('train')+' Anreise / Transfers (vorläufig)</h4>'
     +'<ul class="day-plan-ride-list">'+arrivals+rides+'</ul></div>':'')
