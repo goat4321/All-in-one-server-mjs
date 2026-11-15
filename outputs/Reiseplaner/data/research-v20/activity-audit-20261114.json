@@ -4,7 +4,7 @@
   "status": "Individual source audit; only sourced POI points promoted; visit exact time and 2027 bookings not inferred",
   "sourceAtlas": "Previous project OSM/Photon evidence plus publicly inspected operator/tourism sites",
   "count": 57,
-  "withSourcedPoint": 40,
+  "withSourcedPoint": 45,
   "withSpecificPublicEvidence": 24,
   "items": [
     {
@@ -274,13 +274,18 @@
       "id": "act-015",
       "city": "barcelona",
       "name": "Poblenou – Cafés und Straßen erkunden",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://www.barcelonaturisme.com/",
       "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
-      "researchStatus": "general_portal_or_concept_only"
+      "point": [
+        41.4028473,
+        2.1988557
+      ],
+      "pointPrecision": "sourced_public_street_reference",
+      "geoNote": "Offiziell publizierter Orientierungsort Rambla del Poblenou für Café- und Straßenrunde. NICHT ein bestimmtes Lokal oder die gesamte Stadtteilroute.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.barcelonabusturistic.cat/es/la-rambla-del-poblenou"
     },
     {
       "id": "act-016",
@@ -494,13 +499,18 @@
       "id": "act-028",
       "city": "nice",
       "name": "Port Lympia – Abendrunde",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://www.explorenicecotedazur.com/culture/parc-de-la-colline-du-chateau/",
       "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
-      "researchStatus": "general_portal_or_concept_only"
+      "point": [
+        43.69835,
+        7.28448
+      ],
+      "pointPrecision": "sourced_public_start_reference",
+      "geoNote": "Benannter Haltepunkt Port Lympia als öffentlich zugänglicher Ausgangspunkt der Hafenspazieridee. NICHT die gesamte Hafenpromenade, keine Schiffanlegestelle oder Privatadresse.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/fr/N7057879201"
     },
     {
       "id": "act-029",
@@ -536,13 +546,18 @@
       "id": "act-031",
       "city": "genoa",
       "name": "Corso Italia – 2,5 km Spaziergang",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://www.visitgenoa.it/en/node/21375",
       "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
-      "researchStatus": "general_portal_or_concept_only"
+      "point": [
+        44.39615,
+        8.94572
+      ],
+      "pointPrecision": "sourced_public_area_start_reference",
+      "geoNote": "Piazza Raffaele Rossetti als quellengestützter Start-/Orientierungspunkt am westlichen Abschnitt des Corso-Italia-Spaziergangs. NICHT die 2,5-km-Strecke, kein berechneter Wanderweg.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/W57966151"
     },
     {
       "id": "act-032",
@@ -646,13 +661,18 @@
       "id": "act-038",
       "city": "venice",
       "name": "Cannaregio – ruhigere Abendroute",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
       "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
-      "researchStatus": "general_portal_or_concept_only"
+      "point": [
+        45.44366,
+        12.32556
+      ],
+      "pointPrecision": "sourced_public_bridge_reference",
+      "geoNote": "Ponte delle Guglie als benannter Fußgängerbrücken-Startpunkt für eine Cannaregio-Runde. NICHT der vollständige Spaziergang oder eine genaue Restaurantadresse.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/W555651485"
     },
     {
       "id": "act-039",
@@ -954,13 +974,18 @@
       "id": "act-055",
       "city": "kandersteg",
       "name": "Kandersteg – ruhiger Dorfnachmittag",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://www.oeschinensee.ch/en/tarife-fahrplan/",
       "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
-      "researchStatus": "general_portal_or_concept_only"
+      "point": [
+        46.49553,
+        7.671342
+      ],
+      "pointPrecision": "sourced_public_station_reference",
+      "geoNote": "Publizierter Bahnhof Kandersteg als Start- und Ankunftsort für einen frei gestalteten Dorfnachmittag. NICHT das konkrete Café, ein Aussichtspunkt oder der gesamte Dorfspaziergang.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://geofinder.ch/28509"
     },
     {
       "id": "act-056",
