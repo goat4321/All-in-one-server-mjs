@@ -77,6 +77,7 @@ export function applyUploadedPlacesV50(trips,cities,source){
     category:lodging?'lodging':group==='shop'?'shop':group==='food'?'food':'activity',
     name:e.name,address:e.address,detail:e.description,tags:sourceTags(e),
     point:[e.lat,e.lon],pointPrecision:'user_submitted_unverified',
+    locationReferenceV07:{precision:'uploaded_user_coordinate_unverified',exactKnown:false},
     geoEvidence:{source:'Nutzerdatei · Koordinate nicht unabhängig geprüft',
       confidence:'user_supplied_unverified',url:null,isCentroid:false,
       note:'Nur vom Nutzer gelieferter Kartenhinweis, kein bestätigter Objekteingang. Angaben für September 2027 erneut prüfen.'},
