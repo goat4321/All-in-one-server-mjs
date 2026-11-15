@@ -247,3 +247,17 @@
  .hub-quick-day-actions{width:100%}
  .hub-quick-day-actions>.button{flex:1 1 125px}
 }
+
+/* Phase 52 visual QA: if an original club photograph is temporarily blocked,
+   give the user the REAL Commons source rather than an unrelated city credit. */
+.place-photo[data-image-unavailable=true]>.context-backup-credit{display:none!important}
+.place-photo[data-image-unavailable=true]>.place-specific-credit{
+ display:block!important;max-width:85%;background:#fffefaf1!important;
+ color:#315843!important;opacity:1!important;
+}
+.place-photo[data-image-unavailable=true]>.place-specific-credit a{color:#235e45!important}
+.place-photo-unavailable-source{
+ color:#fff;text-decoration:underline;text-underline-offset:2px;font-weight:760;
+}
+.place-photo-unavailable-source:hover,
+.place-photo-unavailable-source:focus-visible{color:#b6f5d3}
