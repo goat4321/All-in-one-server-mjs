@@ -7,16 +7,21 @@ import {loadSurveyFirstV19} from '../lib/research-v19.mjs';
 import {routeStudioModel} from '../public/route-studio.mjs';
 
 const records=[
+ ['act-015','barcelona',[41.4028473,2.1988557],'barcelonabusturistic.cat'],
+ ['act-028','nice',[43.69835,7.28448],'mapcarta.com'],
+ ['act-031','genoa',[44.39615,8.94572],'mapcarta.com'],
+ ['act-038','venice',[45.44366,12.32556],'mapcarta.com'],
+ ['act-055','kandersteg',[46.49553,7.671342],'geofinder.ch'],
  ['act-046','appenzell',[47.269558,9.401261],'deine-berge.de'],
  ['act-047','glarus',[47.03079,9.00390],'parkandhike.ch'],
  ['act-051','grindelwald',[46.624375,8.033506],'outdooractive.com'],
  ['act-052','grindelwald',[46.65988,8.05382],'bergbahnen.org'],
  ['act-054','kandersteg',[46.497737,7.714634],'outdooractive.com']
 ];
-test('Five additional public anchors are backed by sources and explicitly scoped',async()=>{
+test('Ten additional public anchors are backed by sources and explicitly scoped',async()=>{
  const c=await loadCatalog(),s=await loadSurveyFirstV19();
  const research=await loadResearchV20(s.activities.items,c.cities);
- assert.equal(research.activities.items.filter(x=>x.point!==null).length,40);
+ assert.equal(research.activities.items.filter(x=>x.point!==null).length,45);
  for(const [id,city,point,domain] of records){
    const r=research.byActivity.get(id);
    assert.equal(r.city,city);
