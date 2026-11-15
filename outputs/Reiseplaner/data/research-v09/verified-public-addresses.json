@@ -4,8 +4,8 @@
   "description": "Originalbenannte öffentliche Hotels, Hostels, Ferienwohnungen und Cafés aus den ungeklärten Katalogeinträgen; Quelle pro Hausadresse und GPS-Beleg. Keine Hotel-Checkouts, keine privaten Airbnb-Hausadressen. Weitere konkrete, öffentlich abrufbare Booking.com-/Tourismus-Hausadressen wurden einzeln ergänzt und bleiben bis zu unabhängiger Geokodierung ohne Pin.",
   "counts": {
     "entries": 50,
-    "withIndependentCoordinates": 33,
-    "verifiedAddressOnly": 17
+    "withIndependentCoordinates": 34,
+    "verifiedAddressOnly": 16
   },
   "warnings": [
     "No user-provided Airbnb wishlist address is geocoded.",
@@ -391,13 +391,18 @@
       "name": "Le Pouffre maison de pêcheur",
       "address": "85 Grande Rue Haute, 34200 Sète, France",
       "sourceUrl": "https://www.lepouffre.com/contact/",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "Unterkunftsbetreiber nennt diese Hausadresse öffentlich.",
-      "observedOn": "2026-11-13",
+      "point": [
+        43.398442,
+        3.694451
+      ],
+      "precision": "official_ban_house_number_reference",
+      "remark": "Betreiber belegt die öffentlich genannte Hausanschrift; IGN-Géoplateforme/BAN liefert exakt passende Adresse 85 Grande rue Haute, Sète (BAN-ID 34301_0850_00085). Amtlicher Adresspunkt, kein unabhängig bestätigter Gäste- oder Wohnungseingang und keine Buchungszusage.",
+      "observedOn": "2026-11-15",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "coordinateSourceUrl": "https://data.geopf.fr/geocodage/search?q=85+Grande+Rue+Haute%2C+34200+S%C3%A8te%2C+France&index=address&limit=6",
+      "coordinateReferenceId": "34301_0850_00085"
     },
     {
       "id": "local:food-v03-027",
