@@ -1,0 +1,38 @@
+name: "Reiseplaner · Öffentliche IGN-Adresskandidaten"
+# Deliberately independent of the regular portable quality gate:
+# optional public research only, no automatic data promotion or writes.
+on:
+  push:
+    branches:
+      - feature/v7-data-day-accommodation-rail
+    paths:
+      - .github/workflows/reiseplaner-geo-ign-v45.yml
+      - outputs/Reiseplaner/scripts/geo-ign-v45.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  geo-ign-public:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    defaults:
+      run:
+        working-directory: outputs/Reiseplaner
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Quellenprüfer auf Syntax prüfen
+        run: node --check scripts/geo-ign-v45.mjs
+      - name: Sieben veröffentlichte französische Hausanschriften als Kandidaten prüfen
+        run: node scripts/geo-ign-v45.mjs
+      - name: Kein automatischer Import: Kandidatenbericht für Einzelprüfung
+        uses: actions/upload-artifact@v4
+        with:
+          name: reiseplaner-ign-oeffentliche-adresskandidaten-v45
+          path: outputs/Reiseplaner/data/research-v45/ign-address-candidates.json
+          if-no-files-found: error
+          retention-days: 14
