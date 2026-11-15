@@ -40,7 +40,7 @@ test('A source-backed address-only filter works independently of the existing br
  assert.equal(result.filteredTotal,1);
  assert.deepEqual(result.preview.map(x=>x.item.id),['hotel']);
  const markup=mapUnlocatedReview(ctx);
- assert.match(markup,/Hausadresse in Google Maps suchen/);
+ assert.match(markup,/Adresse in Google Maps suchen/);
  assert.match(markup,/Published Street 15, Venezia, Italy/);
  assert.match(markup,/Genauigkeit und Prüfstand/);
  assert.match(markup,/example.org\/property/);
@@ -63,6 +63,17 @@ test('Six Sète queries stay unresolved while Italian business address discrepan
  const apartment=byId.get('research:bcom_13963152');
  assert.equal(apartment.point,null);
  assert.match(apartment.remark,/2 piano/);
+ assert.equal(apartment.address,'Scalinata della Cittadella, 16126 Genova, Italy');
+ const matches=catalog.trips.flatMap(t=>t.items.filter(i=>i.id==='research:bcom_13963152'));
+ assert.ok(matches.length>0);
+ assert.ok(matches.every(i=>i.address==='Scalinata della Cittadella, 16126 Genova, Italy'));
+ assert.ok(matches.every(i=>!i.point));
+ const selected={explorer:{placed:[],unlocated:[matches[0]],showCityReferences:false},
+  cities:{genoa:{name:'Genua'}},mapUnlocatedFilter:'sourced-address',mapUnlocatedOpen:true};
+ const html=mapUnlocatedReview(selected);
+ assert.match(html,/Hausnummer unklar/);
+ assert.doesNotMatch(html,/data-action="geocode-lookup"/);
+ assert.match(html,/Unabhängige Adressquelle/);
  const bacarino=byId.get('local:food-v03-019');
  assert.equal(bacarino.point,null);
  assert.match(bacarino.remark,/Bacarandino/);
