@@ -30,7 +30,7 @@ test('All trip variants render city-labeled hero, map floating scope controls an
    assert.match(easy,/Mein Tag/);
    assert.match(easy,/Route zeigen/);
    assert.match(easy,/data-action="map-simple-toggle"/);
-   assert.match(easy,/1\. Ort finden/);
+   assert.match(easy,/data-action="simple-find"/);
    assert.doesNotMatch(easy,/onclick=|javascript:/i);
    assert.match(intro,new RegExp(ctx.variant.state.title));
    assert.match(intro,/DEINE REISE/);

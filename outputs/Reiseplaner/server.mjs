@@ -220,8 +220,8 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
       "default-src 'self'; "+
       "script-src 'self' https://unpkg.com 'sha256-VwxUbM8Aa6fXOFgyj+XuKWSCSgp5VLJbBskEKbQGEKw='; "+
       "style-src 'self' 'unsafe-inline' https://unpkg.com; "+
-      "img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://basemaps.cartocdn.com https://commons.wikimedia.org https://upload.wikimedia.org https://tiles.openfreemap.org https://tile.openstreetmap.org https://wms.geo.admin.ch; "+
-      "connect-src 'self' https://tiles.openfreemap.org https://unpkg.com https://*.basemaps.cartocdn.com; "+
+      "img-src 'self' data: blob: https://commons.wikimedia.org https://upload.wikimedia.org https://tiles.openfreemap.org https://tile.openstreetmap.org https://wms.geo.admin.ch; "+
+      "connect-src 'self' https://tiles.openfreemap.org https://unpkg.com; "+
       "worker-src blob:; font-src 'self' data: https://tiles.openfreemap.org https://unpkg.com; "+
       "object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
     try {

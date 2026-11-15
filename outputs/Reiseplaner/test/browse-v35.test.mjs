@@ -50,10 +50,10 @@ test('Map browse panel counts all categories even while one filter is active',()
  const rendered=mapBrowsePanel({...ctx,explorer:{...foodOnly,scope:'city',group:'food',
   marketsShown:true,marketCount:4}});
  assert.match(rendered,/Orte unabhängig vom Reisetag entdecken/);
- assert.match(rendered,/Essen & Cafés/);
+ assert.match(rendered,/Essen &amp; Cafés/);
  assert.match(rendered,/Supermärkte/);
  assert.match(rendered,/Alle Unterkünfte/);
- assert.match(rendered,/Essen & Einkaufen/);
+ assert.match(rendered,/Essen &amp; Einkaufen/);
  const lodging=full.placed.concat(full.unlocated).filter(x=>x.explorerCategory==='lodging').length;
  assert.ok(lodging>0);
  assert.match(rendered,new RegExp(lodging+' recherchierte Orte'));
@@ -92,7 +92,7 @@ test('Food categories and cards remain separate from daily meal calculations',()
  assert.ok(food.length>0);
  const tabs=foodTypeTabs({...ctx,browseFoodType:'restaurants'},
    {all:food.length,restaurants:food.length,markets:0,cook:0});
- assert.match(tabs,/Restaurants & Cafés/);
+ assert.match(tabs,/Restaurants &amp; Cafés/);
  assert.match(tabs,/data-value="restaurants" aria-pressed="true"/);
  assert.match(tabs,/Supermärkte/);
  const html=foodBrowseCards(ctx,food.slice(0,4));
