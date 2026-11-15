@@ -339,3 +339,21 @@
 :root[data-theme=dark] .provider-location-difference{
  background:#294638;border-color:#75b592;
 }
+
+
+/* Source reconciliation V48: disclose conflicting civic/ZIP references
+   without falsely treating an inherited provider address as confirmed. */
+.provider-location-address-warning{
+ padding:8px 10px;margin:2px 0;border-left:3px solid #c39250;
+ border-radius:0 8px 8px 0;background:var(--warm,#fff4df);
+ color:var(--warn,#825a26);font-size:.72rem;line-height:1.5;
+}
+.provider-location-history{margin:0;padding:0;min-width:0}
+.provider-location-panel .provider-location-history>summary{
+ padding:2px 0;color:var(--muted,#5b6e61);
+ font-size:.69rem;font-weight:690;outline-offset:2px;
+}
+.provider-location-history>p{margin:5px 0;color:var(--muted,#5c6e60)}
+:root[data-theme=dark] .provider-location-address-warning{
+ background:#483823;color:#f0c886;border-color:#d7a55b;
+}
