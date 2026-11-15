@@ -68,6 +68,10 @@ test('Source-only map ledger prioritizes identity conflicts and exposes next ver
  assert.ok(review.filteredTotal>0);
  const flagged=review.preview.filter(x=>x.item.addressCheckV49?.priority==='critical');
  assert.ok(flagged.length>0);
+ const rank={critical:0,high:1,medium:2,low:3};
+ const priorities=review.preview.map(x=>rank[x.item.addressCheckV49?.priority]??4);
+ assert.deepEqual(priorities,[...priorities].sort((a,b)=>a-b),
+   'All urgent addresses must precede routine city round-robin entries');
  const markup=mapUnlocatedReview(ctx);
  assert.match(markup,/data-review-priority="critical"/);
  assert.match(markup,/Nächsten Quellencheck anzeigen/);
