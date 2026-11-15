@@ -446,7 +446,11 @@ export class TripMap {
           title:item.name+' · '+provenance.label,
           alt:item.name+' · '+provenance.label,zIndexOffset:this.poiFocused===id?2300:950})
           .addTo(this.poiLayer);
-        marker.bindTooltip(labelNode(item.name+' · '+provenance.label),{direction:'top'});
+        // Keep the tooltip compact on a phone. Full coordinate provenance
+        // remains in the marker's accessible title and detailed place profile.
+        marker.bindTooltip(labelNode(item.name),{
+          direction:'top',className:'map-poi-tooltip'
+        });
         marker.on('click',()=>this.handlers.select(id));
         marker.on('mouseover',()=>this.handlers.hover?.(id,true));
         marker.on('mouseout',()=>this.handlers.hover?.(id,false));
