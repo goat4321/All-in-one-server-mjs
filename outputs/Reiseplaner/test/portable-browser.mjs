@@ -391,6 +391,15 @@ try {
   assert.equal(await js('localStorage.getItem("reiseplan-map-tone")'),'midnight');
   await click('[data-action=map-tone][data-value=sand]');
   await until(() => js('document.querySelector(".map-wrap")?.dataset.mapTone === "sand"'), 'Sand Kartenstil');
+  await click('[data-action=map-density][data-value=detail]');
+  await until(()=>js('document.querySelector("[data-action=map-density][data-value=detail]")?.getAttribute("aria-pressed")==="true"'),
+    'Detaillierte Kartenmarker auswählbar');
+  assert.equal(await js('localStorage.getItem("reiseplan-map-density")'),'detail');
+  await click('[data-action=map-density][data-value=calm]');
+  await until(()=>js('document.querySelector("[data-action=map-density][data-value=calm]")?.getAttribute("aria-pressed")==="true"'),
+    'Ruhige Kartenmarker-Dichte aktiv');
+  assert.equal(await js('localStorage.getItem("reiseplan-map-density")'),'calm');
+  await screenshot('38-ruhige-kartenmarker-desktop.png');
   await click('[data-action=map-expand]');
   await until(() => js('document.querySelector(".map-panel")?.classList.contains("map-immersive")'), 'Große Kartendarstellung');
   await click('[data-action=map-expand]');
