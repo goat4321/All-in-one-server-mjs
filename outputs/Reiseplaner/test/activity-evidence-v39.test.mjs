@@ -22,6 +22,10 @@ test('All activity evidence facets partition the existing trip activities',()=>{
  assert.equal(evidenceCounts.all,all.length);
  for(const [yes,no] of [['photo','missingPhoto'],['point','missingPoint'],['price','missingPrice']])
   assert.equal(evidenceCounts[yes]+evidenceCounts[no],all.length);
+ assert.equal(evidenceCounts.sourcedPoint+evidenceCounts.unverifiedPoint,evidenceCounts.point,
+   'Coordinates with and without evidence partition the existing map-pin group');
+ assert.ok(all.every(item=>!activityFacetMatch(item,ctx,'sourcedPoint')
+   ||activityFacetMatch(item,ctx,'point')));
 });
 test('Evidence facet combines with category and existing browse scope',()=>{
  const x=activityRows({...ctx,activityEvidenceFilter:'photo',browseScope:'city',city:'barcelona'});
@@ -32,4 +36,6 @@ test('Evidence facet combines with category and existing browse scope',()=>{
  assert.match(html,/data-action="activity-evidence"/);
  assert.match(html,/Mit Quellenfoto/);
  assert.match(html,/Ohne Kartenpunkt/);
+ assert.match(html,/Mit Koordinatenbeleg/);
+ assert.match(html,/Punkt ohne Quellenbeleg/);
 });

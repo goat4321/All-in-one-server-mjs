@@ -799,7 +799,7 @@ async function action(name, value = '') {
       if(!['all','culture','nature','water','view','sport','night','other'].includes(value))break;
       view.activityCategory=value;view.browseLimit=24;render({fetchRoutes:false});break;
     case 'activity-evidence':
-      if(!['all','photo','missingPhoto','point','missingPoint','price','missingPrice'].includes(value))break;
+      if(!['all','photo','missingPhoto','point','sourcedPoint','unverifiedPoint','missingPoint','price','missingPrice'].includes(value))break;
       view.activityEvidenceFilter=value;view.browseLimit=24;
       render({fetchRoutes:false});break;
     case 'activity-saved':

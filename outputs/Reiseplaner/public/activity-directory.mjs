@@ -1,6 +1,7 @@
 import {browseHero,browseToolbar,browseItems,browseOptionCard} from './browse-hub-v35.mjs';
 import {explorerCategory,validPoint} from './map-explorer.mjs';
 import {placeProfileModel} from './place-profile.mjs';
+import {hasIndependentPointEvidence} from './poi-location-provenance.mjs';
 import {groupPrice} from './model.mjs';
 import {esc,icon} from './ui.mjs';
 
@@ -21,6 +22,8 @@ export const ACTIVITY_EVIDENCE_FILTERS=Object.freeze([
  ['photo','Mit Quellenfoto'],
  ['missingPhoto','Ohne Einzelbild'],
  ['point','Mit Kartenpunkt'],
+ ['sourcedPoint','Mit Koordinatenbeleg'],
+ ['unverifiedPoint','Punkt ohne Quellenbeleg'],
  ['missingPoint','Ohne Kartenpunkt'],
  ['price','Mit Preisreferenz'],
  ['missingPrice','Preis offen']
@@ -29,6 +32,7 @@ export function activityEvidence(item,ctx){
  return {
   photo:Boolean(placeProfileModel(item,ctx)?.photo),
   point:validPoint(item?.point),
+  sourcedPoint:hasIndependentPointEvidence(item),
   price:groupPrice(item?.effectivePrice??item?.price,ctx?.people?.length??3)!=null
  };
 }
@@ -38,6 +42,8 @@ export function activityFacetMatch(item,ctx,facet='all'){
  return facet==='photo'?e.photo
   :facet==='missingPhoto'?!e.photo
   :facet==='point'?e.point
+  :facet==='sourcedPoint'?e.sourcedPoint
+  :facet==='unverifiedPoint'?e.point&&!e.sourcedPoint
   :facet==='missingPoint'?!e.point
   :facet==='price'?e.price
   :facet==='missingPrice'?!e.price

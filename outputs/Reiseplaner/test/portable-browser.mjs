@@ -128,6 +128,14 @@ try {
   assert.equal(await js('document.querySelectorAll(".activity-card-grid .place-specific-photo").length'),0,
     'Ein dekoratives Stadtmotiv wird nicht als Objektfoto gezählt');
   await click('.activity-evidence-chip[data-value=all]');
+  await click('.activity-evidence-chip[data-value=sourcedPoint]');
+  await until(()=>js('document.querySelector(".activity-evidence-chip[data-value=sourcedPoint]")?.getAttribute("aria-pressed")==="true"'),
+    'Aktivitäten nur mit belegter öffentlicher Koordinate');
+  await click('.activity-evidence-chip[data-value=unverifiedPoint]');
+  await until(()=>js('document.querySelector(".activity-evidence-chip[data-value=unverifiedPoint]")?.getAttribute("aria-pressed")==="true"'),
+    'Aktivitäten mit vorhandener aber noch unbelegter Koordinate separat');
+  await click('.activity-evidence-chip[data-value=all]');
+  await screenshot('42-aktivitaeten-einzelnachweise-desktop.png');
   await screenshot('39-aktivitaeten-qualitaetsfilter-desktop.png');
   await screenshot('37-aktivitaeten-kategorien-desktop.png');
   await click('.sidebar [data-action=page][data-value=data]');
