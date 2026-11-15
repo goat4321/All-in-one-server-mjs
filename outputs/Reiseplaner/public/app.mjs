@@ -508,6 +508,10 @@ async function calculateExplorerRoute() {
       route = await api('/api/walk', 'POST', { points: input.points });
       if (!route?.walkOnly || !Array.isArray(route.points) || route.points.length < 2)
         throw new Error('Fußrouter hat keine nachvollziehbare Straßenroute geliefert.');
+      // The A→B planner must enforce the same endpoint check as Route Studio
+      // and the day-plan saver. Valid road geometry alone proves neither stop.
+      if (!footpathMatchesStops(from,to,route))
+        throw new Error('Der Fußweg endet nicht ausreichend nah an den gewählten Orten (maximal 75 m Abweichung). Gehzeit und Weg werden nicht übernommen.');
     } else {
       const meta = catalog.transitSchedules?.[from.city];
       if (!meta || date < meta.from || date > meta.to)
