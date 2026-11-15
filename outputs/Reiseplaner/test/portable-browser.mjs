@@ -456,6 +456,14 @@ try {
   await text('.map-unlocated-review','Alle fehlenden Kartenpunkte im Daten-Audit prüfen');
   await until(()=>js('Boolean(document.querySelector(".map-unlocated-facets [data-value=all]"))'),
     'Filter für ungeklärte Koordinaten bereit');
+  await click('.map-unlocated-facets [data-action=map-unlocated-filter][data-value=sourced-address]');
+  await until(()=>js('document.querySelector(".map-unlocated-facets [data-value=sourced-address]")?.getAttribute("aria-pressed")==="true"'),
+    'Öffentlich veröffentlichte Adressen ohne bestätigten Einzelpunkt gezielt filterbar');
+  assert.ok(await js('document.querySelectorAll(".map-unlocated-review .map-unlocated-public-address").length>0'),
+    'Mindestens eine echte veröffentlichte Hausadresse wird mit voller Anschrift gezeigt');
+  await text('.map-unlocated-review','Hausadresse in Google Maps suchen');
+  await js('document.querySelector(".map-unlocated-review").scrollIntoView({block:"start",behavior:"instant"})');
+  await screenshot('46-hausadressen-quellenpruefung-desktop.png');
   await click('.map-unlocated-facets [data-action=map-unlocated-filter][data-value=concept]');
   await until(()=>js('document.querySelector(".map-unlocated-facets [data-value=concept]")?.getAttribute("aria-pressed")==="true"'),
     'Konzept-Orte separat filterbar');
