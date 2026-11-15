@@ -109,6 +109,25 @@ try {
     'Explicit off preference prevents additional ripple animations');
   await js('document.documentElement.dataset.motion="auto"');
   await screenshot('25-einfacher-startbildschirm-1280.png');
+  // Dedicated activity directory and human-readable field audit are user-facing
+  // screens, not merely isolated model helpers.
+  await click('.sidebar [data-action=page][data-value=activities]');
+  await text('h1','Alle Aktivitäten');
+  assert.ok(await js('document.querySelectorAll(".activity-card-grid .hub-option-card").length>0'),
+    'Activities show real existing trip options');
+  assert.ok(await js('Boolean(document.querySelector(".activity-category-chip[data-value=water]"))'),
+    'Activities expose visual category filters');
+  await click('.activity-category-chip[data-value=water]');
+  assert.equal(await js('document.querySelector(".activity-category-chip[data-value=water]")?.getAttribute("aria-pressed")'),'true');
+  await click('.activity-category-chip[data-value=all]');
+  await screenshot('37-aktivitaeten-kategorien-desktop.png');
+  await click('.sidebar [data-action=page][data-value=data]');
+  await until(()=>js('Boolean(document.querySelector(".coverage-export-controls [data-action=coverage-export]"))'),
+    'Missing data audit offers local JSON export');
+  assert.ok(await js('document.querySelectorAll(".coverage-reasons").length>0'),
+    'Missing entries show individual reasons and contribution instructions');
+  await click('.sidebar [data-action=page][data-value=overview]');
+  await text('h1','Reiseübersicht');
   assert.equal(await js('document.querySelector(".motion-preference-button")?.getAttribute("aria-pressed")'),"true",
     'Global animation control is accessible from the existing sidebar');
   await click('.motion-preference-button');
