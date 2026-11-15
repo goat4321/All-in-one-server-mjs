@@ -98,3 +98,16 @@
  .workspace>.map-unlocated-review .map-unlocated-grid{grid-template-columns:1fr}
  .workspace>.map-unlocated-review .map-unlocated-record{min-height:0}
 }
+
+/* Phase 42: visually distinguish existing but unverified pins from unlocated ideas. */
+.workspace>.map-evidence-review{margin-top:12px;background:linear-gradient(135deg,#fbfaf6,#f6f2e9);
+ border-color:#eadbc4}
+.map-evidence-review .map-unlocated-summary-icon{background:#f6e9cb;color:#85602c}
+.map-evidence-facets{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;
+ scrollbar-width:thin}
+.map-evidence-facets .chip-button{white-space:nowrap;flex-shrink:0;font-size:.7rem}
+.map-evidence-record[data-source-quality=provider]{border-left:4px dotted #9b83a5}
+.map-evidence-record[data-source-quality=unverified]{border-left:4px solid #9ca8a0}
+:root[data-theme=dark] .workspace>.map-evidence-review{background:#2d2b23;border-color:#6c6042}
+:root[data-theme=dark] .map-evidence-review .map-unlocated-summary-icon{
+ background:#554629;color:#f2d698}

@@ -413,6 +413,18 @@ try {
   await screenshot('38-ruhige-kartenmarker-desktop.png');
   await until(()=>js('Boolean(document.querySelector(".map-unlocated-review"))'),
     'Quellenbasierte Prüfliste ohne erfundene POI-Koordinaten');
+  await until(()=>js('Boolean(document.querySelector(".map-evidence-review"))'),
+    'Vorhandene aber unbelegte Kartenpositionen erhalten getrennte Quellenliste');
+  await click('.map-evidence-review > summary');
+  await until(()=>js('document.querySelector(".map-evidence-review")?.open===true'),
+    'Koordinaten-Belegliste aufklappbar');
+  await until(()=>js('Boolean(document.querySelector(".map-evidence-review [data-action=map-evidence-type][data-value=provider]"))'),
+    'Anbieterquellen können gezielt getrennt geprüft werden');
+  await click('.map-evidence-review [data-action=map-evidence-type][data-value=provider]');
+  await until(()=>js('document.querySelector(".map-evidence-review [data-action=map-evidence-type][data-value=provider]")?.getAttribute("aria-pressed")==="true"'),
+    'Anbieterpositionen sind filterbar');
+  await click('.map-evidence-review [data-action=map-evidence-type][data-value=all]');
+
   assert.equal(await js('Boolean(document.querySelector(".map-panel .map-unlocated-review"))'),false,
     'Die lange Prüfliste darf nicht innerhalb des sticky Kartenpanels sitzen');
   assert.equal(await js('document.querySelector(".map-unlocated-review")?.previousElementSibling?.classList.contains("map-explorer-split")'),true,

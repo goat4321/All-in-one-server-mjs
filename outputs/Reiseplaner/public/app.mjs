@@ -38,6 +38,7 @@ const view = {
   mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60,
   mapShowCityReferences: localStorage.getItem('reiseplan-map-city-references')==='on',
   mapUnlocatedOpen:false,mapUnlocatedFilter:'all',mapUnlocatedSearch:'',mapUnlocatedLimit:12,
+  mapEvidenceOpen:false,mapEvidenceType:'all',mapEvidenceLimit:10,
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
   mapDensity:localStorage.getItem('reiseplan-map-density')==='detail'?'detail':'calm',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
@@ -990,6 +991,13 @@ async function action(name, value = '') {
     case 'map-unlocated-more':
       view.mapUnlocatedLimit=Math.min(120,view.mapUnlocatedLimit+12);view.mapUnlocatedOpen=true;
       render({restoreView:true,fetchRoutes:false});break;
+    case 'map-evidence-type':
+      if(!['all','provider','unverified'].includes(value))break;
+      view.mapEvidenceType=value;view.mapEvidenceLimit=10;view.mapEvidenceOpen=true;
+      render({restoreView:true,fetchRoutes:false});break;
+    case 'map-evidence-more':
+      view.mapEvidenceLimit=Math.min(100,view.mapEvidenceLimit+10);
+      view.mapEvidenceOpen=true;render({restoreView:true,fetchRoutes:false});break;
     case 'explorer-references':
       view.mapShowCityReferences = !view.mapShowCityReferences;
       localStorage.setItem('reiseplan-map-city-references',
@@ -1362,7 +1370,7 @@ async function action(name, value = '') {
       await save({...ctx.state,placePhotos:photos},'Ortsfoto aus Reisevariante entfernt');break;
     }
     case 'hud-audit': {
-      if(!['photo','location','price','source','hours'].includes(value))break;
+      if(!['photo','location','geo_evidence','price','source','hours'].includes(value))break;
       const city=ctx.page==='map'&&ctx.total?'all':ctx.city;
       changePage('data');
       const panel=app.querySelector('.entry-coverage');
@@ -1718,7 +1726,8 @@ app.addEventListener('pointerout',event=>hoverAtlasCard(event,false));
 app.addEventListener('toggle',event=>{
   if(event.target.matches('.sidebar-places'))view.cityNavOpen=event.target.open;
   if(event.target.matches('.map-design-details'))view.mapDesignOpen=event.target.open;
-  if(event.target.matches('.map-unlocated-review'))view.mapUnlocatedOpen=event.target.open;
+  if(event.target.matches('.map-evidence-review'))view.mapEvidenceOpen=event.target.open;
+  else if(event.target.matches('.map-unlocated-review'))view.mapUnlocatedOpen=event.target.open;
   if(event.target.matches('.explorer-view-advanced'))view.mapAdvancedOpen=event.target.open;
   if(event.target.matches('.explorer-day-notes'))view.mapDayNotesOpen=event.target.open;
   if(event.target.matches('.day-plan-compact'))view.dayPlanOpen=event.target.open;

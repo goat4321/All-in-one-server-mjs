@@ -25,7 +25,7 @@ import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.m
 import { dayRouteView } from './day-route-ui.mjs';
 import {foodDirectory,marketCoverage} from './food-discovery-v36.mjs';
 import {activityDirectory} from './activity-directory.mjs';
-import {mapUnlocatedReview} from './map-unlocated-v39.mjs';
+import {mapUnlocatedReview,mapUnverifiedPointsReview} from './map-unlocated-v39.mjs';
 import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
   mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview} from './day-plans-ui.mjs';
@@ -141,7 +141,7 @@ function content(ctx, city) {
         :mapBrowsePanel(ctx))
       + explorerToolbar(ctx) + explorerList(ctx) + '</div>'
       + mapPhotoDiscovery(ctx) + '</div>'
-      + mapUnlocatedReview(ctx) + dayRouteView(ctx);
+      + mapUnlocatedReview(ctx) + mapUnverifiedPointsReview(ctx) + dayRouteView(ctx);
     case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);

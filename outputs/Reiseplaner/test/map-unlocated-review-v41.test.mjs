@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {unlocatedOverview,mapUnlocatedReview,openStreetMapReviewUrl} from '../public/map-unlocated-v39.mjs';
+import {unlocatedOverview,mapUnlocatedReview,openStreetMapReviewUrl,mapUnverifiedPinRows,mapUnverifiedPointsReview} from '../public/map-unlocated-v39.mjs';
 const kinds=['address','unverified','concept','private'];
 const items=Array.from({length:42},(_,i)=>({
  id:'place-'+i,city:i%3===0?'barcelona':i%3===1?'nice':'genoa',
@@ -59,4 +59,31 @@ test('External OSM review is explicit and never built for private short lets or 
  const html=mapUnlocatedReview(ctx);
  assert.match(html,/In OpenStreetMap suchen/);
  assert.doesNotMatch(html,/data-action="geocode-apply"/);
+});
+
+
+test('Existing unverified map pins form a distinct evidence queue without synthetic arrival or Airbnb',()=>{
+ const placed=[
+  {id:'src',kind:'activity',city:'nice',name:'OSM public point',
+    point:[43.69,7.28],geoEvidence:{url:'https://www.openstreetmap.org/node/200'}},
+  {id:'raw',kind:'activity',city:'nice',name:'No source coordinate',point:[43.70,7.28]},
+  {id:'provider',kind:'lodging',city:'barcelona',name:'Provider hotel',
+    point:[41.39,2.17],locationReferenceV07:{precision:'provider_reported_unverified'}},
+  {id:'arrival:200',explorerParent:'200',kind:'transport',city:'nice',name:'Synthetic train arrival',point:[43.70,7.27]},
+  {id:'wishlist:airbnb:200',provider:'Airbnb',kind:'lodging',city:'nice',
+    name:'Private property',point:[43.69,7.25]}
+ ];
+ const c={...ctx,explorer:{placed,unlocated:items,showCityReferences:false},
+  mapEvidenceOpen:true,mapEvidenceType:'all',mapEvidenceLimit:10};
+ const summary=mapUnverifiedPinRows(c);
+ assert.equal(summary.total,2);
+ assert.equal(summary.providerCount,1);
+ assert.equal(mapUnverifiedPinRows({...c,mapEvidenceType:'provider'}).filteredTotal,1);
+ assert.equal(mapUnverifiedPinRows({...c,mapEvidenceType:'unverified'}).filteredTotal,1);
+ const html=mapUnverifiedPointsReview(c);
+ assert.match(html,/Kartenpositionen ohne unabhängigen Koordinatenbeleg/);
+ assert.match(html,/data-action="hud-audit" data-value="geo_evidence"/);
+ assert.match(html,/Provider hotel/);
+ assert.doesNotMatch(html,/Private property|Synthetic train arrival|OSM public point/);
+ assert.doesNotMatch(html,/day-route-add|geocode-apply/);
 });

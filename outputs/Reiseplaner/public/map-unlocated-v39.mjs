@@ -1,6 +1,6 @@
 import {esc,btn,chip,icon} from './ui.mjs';
 import {explorerCategory} from './map-explorer.mjs';
-import {hasIndependentPointEvidence} from './poi-location-provenance.mjs';
+import {hasIndependentPointEvidence,markerProvenance} from './poi-location-provenance.mjs';
 
 // Missing coordinates are not a place category or a map position. A city
 // orientation marker never becomes an item.point or is routed as a stop.
@@ -154,4 +154,73 @@ export function mapUnlocatedReview(ctx){
   +'<div class="map-unlocated-footer">'+btn('hud-audit','Alle fehlenden Kartenpunkte im Daten-Audit prüfen',
     'arrow','location','primary')+'</div>'
   +'</div></details>';
+}
+
+
+/**
+ * Map pins without an independent object-specific coordinate source are
+ * not "missing locations". They are a separate evidence queue. Displaying
+ * a pin is not validation of the coordinate or building entrance.
+ */
+export function mapUnverifiedPinRows(ctx){
+ const candidates=Array.isArray(ctx?.explorer?.placed)?ctx.explorer.placed:[];
+ const rows=candidates.filter(item=>item?.id&&!item.explorerParent
+  &&item.provider!=='Airbnb'&&!String(item.id).startsWith('wishlist:airbnb:')
+  &&!hasIndependentPointEvidence(item));
+ const type=ctx.mapEvidenceType==='provider'?'provider'
+  :ctx.mapEvidenceType==='unverified'?'unverified':'all';
+ const enriched=rows.map(item=>({item,source:markerProvenance(item)}));
+ const sorted=enriched.sort((a,b)=>
+   Number(a.source.kind==='provider')-Number(b.source.kind==='provider')
+   ||String(a.item.city).localeCompare(String(b.item.city),'de')
+   ||String(a.item.name).localeCompare(String(b.item.name),'de'));
+ const filter=type==='all'?sorted:sorted.filter(x=>
+   type==='provider'?x.source.kind==='provider':x.source.kind!=='provider');
+ const limit=Math.max(10,Math.min(100,Number(ctx.mapEvidenceLimit)||10));
+ return {total:rows.length,type,filteredTotal:filter.length,
+  preview:filter.slice(0,limit),hasMore:filter.length>limit,
+  providerCount:rows.filter(x=>markerProvenance(x).kind==='provider').length};
+}
+export function mapUnverifiedPointsReview(ctx){
+ const d=mapUnverifiedPinRows(ctx);
+ if(!d.total)return '';
+ const buttons='<div class="map-evidence-facets" role="group" aria-label="Unsichere Kartenpunkte filtern">'
+  +chip('map-evidence-type','Alle · '+d.total,d.type==='all','all')
+  +chip('map-evidence-type','Anbieterpositionen · '+d.providerCount,d.type==='provider','provider')
+  +chip('map-evidence-type','Andere ohne Beleg · '+(d.total-d.providerCount),
+    d.type==='unverified','unverified')+'</div>';
+ const cards=d.preview.map(({item,source})=>{
+   const city=ctx.cities?.[item.city]?.name??item.city;
+   const action=source.kind==='provider'
+     ?'Anbieterposition – unabhängig mit Gebäude-/POI-Quelle abgleichen.'
+     :'Gespeicherte GPS-Position – exakte öffentliche Objektquelle und Genauigkeit nachweisen.';
+   return '<article class="map-unlocated-record map-evidence-record" data-source-quality="'
+    +esc(source.kind)+'"><div class="map-unlocated-record-head">'
+    +'<span class="map-unlocated-kind">'+icon('pin')+' '+esc(source.label)+'</span>'
+    +'<small>'+esc(city)+'</small></div>'
+    +'<strong>'+esc(item.name)+'</strong><p>'+esc(action)+'</p>'
+    +'<div class="map-unlocated-actions">'
+    +btn('details','Herkunft & Details prüfen','folder',item.id,'subtle')
+    +'</div></article>';
+ }).join('');
+ return '<details class="map-unlocated-review map-evidence-review"'
+   +(ctx.mapEvidenceOpen?' open':'')+'>'
+   +'<summary><span class="map-unlocated-summary-icon">'+icon('alert')+'</span>'
+   +'<span><strong>'+d.total+' Kartenpositionen ohne unabhängigen Koordinatenbeleg</strong>'
+   +'<small>Die Karte zeigt diese Punkte als ungeprüft – nicht als bestätigten Eingang.</small></span>'
+   +'<span class="map-unlocated-chevron">'+icon('chevron')+'</span></summary>'
+   +'<div class="map-unlocated-body">'
+   +'<p>Diese Datensätze haben bereits eine Koordinate, jedoch keinen hinreichenden '
+   +'unabhängigen Einzelnachweis. Die genaue Position und insbesondere der Zugang müssen '
+   +'weiter überprüft werden. Aktuelle Filter der Karte gelten auch für diese Liste.</p>'
+   +buttons
+   +'<p class="map-unlocated-count" role="status">'+d.preview.length+' von '
+     +d.filteredTotal+' passenden Quellenprüfungen sichtbar</p>'
+   +'<div class="map-unlocated-grid">'+cards+'</div>'
+   +(!d.preview.length?'<p class="map-unlocated-empty">Kein Treffer in dieser Gruppe.</p>':'')
+   +(d.hasMore?'<div class="map-unlocated-pagination">'
+     +btn('map-evidence-more','Weitere Quellenprüfungen','plus','','subtle')+'</div>':'')
+   +'<div class="map-unlocated-footer">'
+   +btn('hud-audit','Koordinatenbelege im Daten-Audit öffnen','arrow','geo_evidence','primary')
+   +'</div></div></details>';
 }
