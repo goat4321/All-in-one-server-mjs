@@ -476,6 +476,16 @@ try {
     'Öffentlich veröffentlichte Adressen ohne bestätigten Einzelpunkt gezielt filterbar');
   assert.ok(await js('document.querySelectorAll(".map-unlocated-review .map-unlocated-public-address").length>0'),
     'Mindestens eine echte veröffentlichte Hausadresse wird mit voller Anschrift gezeigt');
+  assert.ok(await js('document.querySelector(".map-unlocated-review .map-unlocated-record[data-review-priority=critical]")!==null'),
+    'Source-only list prioritizes identity and floor-vs-number conflicts');
+  assert.ok(await js('document.querySelector(".map-unlocated-review .map-unlocated-next-check")!==null'),
+    'Each published unresolved address offers a specific manual verification step');
+  await click('.map-unlocated-review .map-unlocated-next-check>summary');
+  await until(()=>js('document.querySelector(".map-unlocated-review .map-unlocated-next-check")?.open===true'),
+    'Manual verification instructions expand without making unverified pins');
+  await text('.map-unlocated-review','Nur Recherchehinweis');
+  await js('document.querySelector(".map-unlocated-review").scrollIntoView({block:"start",behavior:"instant"})');
+  await screenshot('49-offene-hausadressen-priorisierte-quellenpruefung.png');
   await text('.map-unlocated-review','Adresse in Google Maps suchen');
   await click('.map-unlocated-review .map-unlocated-extra-actions > summary');
   await until(()=>js('document.querySelector(".map-unlocated-review .map-unlocated-extra-actions")?.open===true'),
