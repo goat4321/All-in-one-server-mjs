@@ -314,3 +314,28 @@
 @media(max-width:650px){
  .map-selected-location-source{font-size:.65rem;line-height:1.4}
 }
+
+
+/* Phase 48: historical provider hints reconciled with newly sourced POIs.
+   Distances compare two stored references; they do not verify a doorway. */
+.provider-location-item.has-independent-point{
+ border-color:var(--line,#b6cbbb);
+ background:var(--paper,#fff);
+}
+.provider-location-item.has-independent-point .provider-location-status{
+ color:var(--green,#276b50);
+}
+.provider-location-difference{
+ padding:7px 9px;border-left:3px solid #74a58d;
+ border-radius:0 7px 7px 0;background:var(--light,#eff6f1);
+ font-variant-numeric:tabular-nums;line-height:1.5;
+}
+:root[data-theme=dark] .provider-location-item.has-independent-point{
+ background:#1e3429;border-color:#46745e;
+}
+:root[data-theme=dark] .provider-location-item.has-independent-point .provider-location-status{
+ color:#b7e7c9;
+}
+:root[data-theme=dark] .provider-location-difference{
+ background:#294638;border-color:#75b592;
+}
