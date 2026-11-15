@@ -32,8 +32,8 @@ test('Le Pouffre BAN house number is separately sourced, never inserted into old
  assert.deepEqual(record.point,item.point);
  assert.equal(record.coordinateReferenceId,item.banId);
  assert.match(record.coordinateSourceUrl,/data\.geopf\.fr\/geocodage\/search/);
- assert.equal(addresses.counts.withIndependentCoordinates,34);
- assert.equal(addresses.counts.verifiedAddressOnly,16);
+ assert.equal(addresses.counts.withIndependentCoordinates,35);
+ assert.equal(addresses.counts.verifiedAddressOnly,15);
  const c=await loadCatalog();
  const occurrences=c.trips.flatMap(t=>t.items.filter(x=>x.id===item.id));
  assert.ok(occurrences.length>0);
