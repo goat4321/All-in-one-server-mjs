@@ -35,7 +35,7 @@ test('No failed street+number candidate is incorrectly promoted to precise POI',
    assert.equal(row.candidates.length,0,item.id);
    assert.equal(item.point,null,item.id);
  }
- assert.equal(pending.length,17);
+ assert.equal(pending.length,16);
  assert.ok(unresolved.items.some(x=>x.privateAirbnbProperty===true),
    'Private rental uncertainty must remain explicitly recorded');
 });
