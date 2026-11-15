@@ -49,3 +49,20 @@ test('Airbnb never receives a fake exact property pin in Google Maps', () => {
   assert.ok(/Paris/.test(url));
   assert.ok(!url.includes(property.name),'Must not imply exact property location');
 });
+
+test('Google Maps labels state provider uncertainty instead of treating each saved pin as verified',()=>{
+ const source={id:'restaurant',name:'Restaurant',city:'genoa',point:[44.41,8.93],
+  geoEvidence:{url:'https://www.openstreetmap.org/node/321'}};
+ const area={...source,id:'area',geoEvidence:{url:'https://www.openstreetmap.org/way/333',
+  isCentroid:true}};
+ const provider={...source,id:'hotel',geoEvidence:undefined,
+  locationReferenceV07:{precision:'provider_reported_unverified'}};
+ const raw={...source,id:'raw',geoEvidence:undefined};
+ assert.match(googleMapsLocationStatus(source),/Öffentlich belegter/);
+ assert.match(googleMapsLocationStatus(area),/kein nachgewiesener Eingang/);
+ assert.match(googleMapsLocationStatus(provider),/unabhängig noch nicht bestätigt/);
+ assert.match(googleMapsLocationStatus(raw),/unabhängiger Objektnachweis fehlt/);
+ assert.match(googleMapsSearchLabel(provider),/Anbieterposition prüfen/);
+ assert.match(googleMapsSearchLabel(raw),/gespeicherten Pin prüfen/);
+ assert.match(googleMapsSearchLabel(source),/Quellenpunkt/);
+});
