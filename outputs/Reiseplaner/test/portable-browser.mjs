@@ -430,12 +430,12 @@ try {
     'Anbieterquellen können gezielt getrennt geprüft werden');
   assert.ok(await js('document.querySelectorAll(".map-evidence-review .map-evidence-position").length>0'),
     'Unverified provider pins expose their saved coordinates instead of promising exact doors');
-  assert.ok(await js('document.querySelectorAll(".map-evidence-review .map-evidence-record a[href^=\"https://www.openstreetmap.org/?mlat=\"]').length>0'),
+  assert.ok(await js('Array.from(document.querySelectorAll(".map-evidence-review .map-evidence-record a")).some(a=>a.getAttribute("href")?.startsWith("https://www.openstreetmap.org/?mlat="))'),
     'One-click review opens the existing pin in OSM without overwriting it');
   await click('.map-evidence-review .map-evidence-source-links>summary');
   await until(()=>js('document.querySelector(".map-evidence-review .map-evidence-source-links")?.open===true'),
     'Independent object name search expands in the existing-pin evidence card');
-  assert.ok(await js('document.querySelectorAll(".map-evidence-review .map-evidence-review-links a[href*=\"openstreetmap.org/search\"]").length>0'),
+  assert.ok(await js('Array.from(document.querySelectorAll(".map-evidence-review .map-evidence-review-links a")).some(a=>a.getAttribute("href")?.startsWith("https://www.openstreetmap.org/search?query="))'),
     'The secondary OSM name search is linked separately from the unverified point');
   await screenshot('47-ungepruefte-pins-quellenvergleich-desktop.png');
   await click('.map-evidence-review .map-evidence-source-links>summary');
