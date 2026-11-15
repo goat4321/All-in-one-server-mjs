@@ -36,7 +36,9 @@ test('50 public hotel/business addresses are individually sourced and keep exact
 
 test('All previously missing unique objects get an individual reason or a proven coordinate',()=>{
  assert.ok(geo.acceptedUnique>=174);
- assert.equal(geo.acceptedUnique+audit.actuallyUnresolvedUnique,290);
+ const additionalBan=published.entries.filter(x=>x.precision==='official_ban_house_number_reference'
+   &&Array.isArray(x.point)).length;
+ assert.equal(geo.acceptedUnique+additionalBan+audit.actuallyUnresolvedUnique,290);
  assert.equal(audit.items.length,audit.actuallyUnresolvedUnique);
  assert.equal(new Set(audit.items.map(x=>x.id+'|'+x.city)).size,audit.items.length);
  for(const x of audit.items){
