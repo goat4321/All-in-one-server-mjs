@@ -1,0 +1,9 @@
+/* Detailed reasons per source gap, collapsed to keep the audit readable. */
+.coverage-reasons{margin-top:9px;border:1px solid #7aab9255;border-radius:11px;padding:8px 10px}
+.coverage-reasons>summary{cursor:pointer;font-size:.75rem;font-weight:750}
+.coverage-reasons-body{display:grid;gap:7px;margin-top:9px}
+.coverage-reasons-body article{background:#90ad9b13;padding:9px 11px;border-radius:9px}
+.coverage-reasons-body article strong{font-size:.77rem}
+.coverage-reasons-body article p{margin:4px 0;font-size:.73rem;line-height:1.5}
+.coverage-export-controls{display:flex;gap:11px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.coverage-export-controls span{font-size:.72rem;color:var(--muted)}

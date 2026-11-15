@@ -62,7 +62,14 @@ export function entryCoveragePanel(ctx){
         +'"><div><strong>'+esc(e.name)
         +'</strong><small>'+esc(e.kind==='lodging'?'Unterkunft':e.kind==='transport'?'Verkehr':'Ort / Aktivität')
         +(e.hasGuide?' · Einzelguide':'')
-        +' · '+esc(e.gaps.map(g=>labels[g.key]??g.key).join(' · '))+'</small></div>'
+        +' · '+esc(e.gaps.map(g=>labels[g.key]??g.key).join(' · '))+'</small>'
+        +'<details class="coverage-reasons"><summary>Gründe und dein möglicher Beitrag ('+e.gaps.length+')</summary>'
+        +'<div class="coverage-reasons-body">'+e.gaps.map(g=>
+          '<article><strong>'+esc(g.label)+'</strong>'
+          +'<p><b>Warum offen:</b> '+esc(g.reason)+'</p>'
+          +'<p><b>Dein Beitrag:</b> '+esc(g.manual)+'</p>'
+          +'<p><b>Nächste Recherche:</b> '+esc(g.next)+'</p></article>').join('')
+        +'</div></details></div>'
         +'<div class="row-actions">'+btn('details','Details & offene Quellen','folder',e.id,'subtle')
         +(e.hasPhoto?'':btn('commons-photo-search','Bild suchen','compass',e.id,'subtle'))
         +'</div></div>').join('')+'</div></details>';
@@ -87,6 +94,8 @@ export function entryCoveragePanel(ctx){
     +'Auch ein hinterlegtes Foto kann offline sein oder erneut zu prüfen sein.</p></header>'
     +'<div class="coverage-counts">'+countersHtml+'</div>'
     +'<div class="coverage-gap-summary">'+gapSummary+'</div>'
+    +'<div class="coverage-export-controls">'+btn('coverage-export','Alle offenen Punkte als JSON speichern','folder')
+    +'<span>Lokale Datei mit Gründen und konkreten Prüffragen, ohne Übertragung an externe Dienste.</span></div>'
     +'<p class="muted">Alle '+counters.total+' unterschiedlichen Einträge dieser Variante wurden einzeln ausgewertet. '
     +data.incomplete.length+' benötigen mindestens eine Ergänzung. '
     +'Die ungeklärten Felder stehen in den jeweiligen Details zusammen mit den nächsten Prüfschritten. '
