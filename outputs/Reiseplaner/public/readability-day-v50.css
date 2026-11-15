@@ -239,3 +239,11 @@
  .day-plan-batch-cta .button{flex:1 1 170px}
  .day-plan-quick-bottom>a{margin-left:auto}
 }
+
+/* Phase 52: moving an activity never hides the explicit remove action. */
+.hub-quick-day-actions{display:flex;gap:6px;flex-wrap:wrap;min-width:0}
+.hub-quick-day-actions>.button{min-height:35px;font-size:.71rem;padding:7px 10px}
+@media(max-width:650px){
+ .hub-quick-day-actions{width:100%}
+ .hub-quick-day-actions>.button{flex:1 1 125px}
+}
