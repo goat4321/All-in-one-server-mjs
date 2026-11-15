@@ -130,8 +130,8 @@ test('Old cached route geometry cannot supply new stops with fabricated walking 
    time:'09:00',focusIndex:0,displayMode:'all',status:''},
    people:[{id:'p1'}],cities:{barcelona:{name:'Barcelona'}},
    city:'barcelona',date:'2027-09-05'};
- assert.match(dayRouteView(ctx),/bisherige Wegberechnung\\(en\\) passen nicht mehr/);
- assert.doesNotMatch(dayRouteView(ctx),/7 Min\\. geprüfter Fußweg/);
+ assert.match(dayRouteView(ctx),/bisherige Wegberechnung\(en\) passen nicht mehr/);
+ assert.doesNotMatch(dayRouteView(ctx),/7 Min\. geprüfter Fußweg/);
 });
 test('Near-road snapping is allowed but reverse or distant route endpoints are rejected',()=>{
  const stops=[
