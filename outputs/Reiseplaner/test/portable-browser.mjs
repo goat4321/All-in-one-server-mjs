@@ -151,7 +151,7 @@ try {
   assert.equal(store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.selected,true,
     'Quick add persists the chosen day in existing editable state');
   const dayChosen=store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.date;
-  assert.match(dayChosen,/^2027-09-\\d{2}$/);
+  assert.match(dayChosen,/^2027-09-\d{2}$/);
   await click('.sidebar [data-action=page][data-value=plan]');
   await click('.days [data-action=day][data-value="'+dayChosen+'"]');
   await text('.timeline','Sala Apolo');
