@@ -3,6 +3,7 @@ import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './pub
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
 import {dayPlanDraftEdits} from './day-plans-logic.mjs';
+import {quickDayEdit} from './day-quick-edits-v50.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
 import { renderShell, mapDetail, mapSelectionPreview } from './views.mjs';
 import { TripMap } from './map.mjs';
@@ -928,6 +929,18 @@ async function action(name, value = '') {
       view.page='plan';view.mobile='plan';
       showCity(ctx.cityForDay(value),value,ctx.trip.id==='swiss_lakes');
       break;
+    case 'day-quick-add':
+    case 'day-quick-remove': {
+      const add=name==='day-quick-add';
+      const picker=[...document.querySelectorAll('.hub-quick-day')]
+        .find(el=>el.dataset.quickDayId===value);
+      const targetDate=add?(picker?.querySelector('select')?.value??ctx.date):ctx.date;
+      const draft=quickDayEdit(ctx,value,targetDate,add?'add':'remove');
+      if(!draft.ok){say(draft.reason);break;}
+      await save({...ctx.state,edits:draft.edits},
+        add?'Zum '+targetDate+' hinzugefügt (unverbindlich)':'Aktivität aus dem Tagesplan entfernt');
+      break;
+    }
     case 'day-plan-add':
     case 'day-plan-adopt': {
       if(!ctx.dayPlan)break;
