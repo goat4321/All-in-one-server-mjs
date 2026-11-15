@@ -151,7 +151,7 @@ export function placeImageHtml(item,ctx={}, {small=false}={}) {
   return '<div class="place-photo'+(small?' small':'')+'" data-photo-category="'+esc(p.category)+'">'
     +fallback
     +(p.photo
-      ?'<img class="place-specific-photo" loading="lazy" decoding="async"'
+      ?'<img loading="lazy" class="place-specific-photo" decoding="async"'
         +' referrerpolicy="no-referrer" src="'+esc(p.photo.url)
         +'" alt="Hinterlegtes Bild: '+label+'">'
         +'<small class="place-photo-credit place-specific-credit">Bild: '
