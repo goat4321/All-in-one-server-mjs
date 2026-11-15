@@ -126,3 +126,22 @@
 .map-source-retry[hidden]{display:none!important}
 .map-source-retry:focus-visible{outline:2px solid currentColor;outline-offset:2px}
 @media(max-width:650px){.map-source-indicator{font-size:.68rem;padding:6px 9px}}
+
+
+/* Floating map-source status: no extra row in the fixed-height map/photo grid. */
+.reference-travel-shell .map-source-indicator{
+ position:absolute;z-index:810;top:76px;right:12px;left:auto;bottom:auto;
+ transform:none;max-width:min(320px,calc(100% - 24px));
+ min-height:0;border:1px solid #ffffffd9;border-radius:999px;
+ padding:7px 11px;background:#fffef6ed;
+ box-shadow:0 4px 18px #1e493323;
+ backdrop-filter:blur(12px);
+}
+@media(max-width:650px){
+ .reference-travel-shell .map-source-indicator{
+  top:10px;right:9px;max-width:34%;
+  font-size:.6rem;padding:7px 9px;line-height:1.25;
+  border-radius:13px;flex-wrap:wrap;gap:4px;
+ }
+ .reference-travel-shell .map-source-retry{padding:3px 7px}
+}
