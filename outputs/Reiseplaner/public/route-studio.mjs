@@ -84,7 +84,8 @@ export function routeStudioSummary(model) {
   const geometry=model.complete
     ? 'Alle ' + count + ' Fußetappen anhand echter Weggeometrie berechnet.'
     : model.verifiedCount + ' von ' + count + ' Fußetappen berechnet. '
-      + model.unknownCount + ' Verbindung(en) als gestrichelte Luftlinie ohne Gehzeit.';
+      + model.unknownCount + (model.unknownCount===1?' Verbindung':' Verbindungen')
+      + ' als gestrichelte Luftlinie ohne Gehzeit.';
   return geometry+(model.positionQuality?.reviewCount
     ? ' Achtung: '+model.positionQuality.reviewCount+' von '+model.stops.length
       +' Stopp-Positionen prüfen.'
