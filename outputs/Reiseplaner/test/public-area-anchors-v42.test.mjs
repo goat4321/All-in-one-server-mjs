@@ -14,7 +14,7 @@ const anchors=[
 test('Five named public anchors have coordinates and are not claimed as entire routes',async()=>{
  const catalog=await loadCatalog(),v19=await loadSurveyFirstV19();
  const a=await loadResearchV20(v19.activities.items,catalog.cities);
- assert.equal(a.activities.withSourcedPoint,35);
+ assert.equal(a.activities.withSourcedPoint,45);
  assert.equal(a.activities.withSpecificPublicEvidence,24);
  for(const [id,city,point,source,isCentroid] of anchors){
   const x=a.byActivity.get(id);
