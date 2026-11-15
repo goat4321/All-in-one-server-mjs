@@ -3,7 +3,7 @@
 // Public-POI-only: never reveal or guess private Airbnb address/coordinates.
 import {validPoint} from './map-explorer.mjs';
 
-const isPrivate=item=>item?.provider==='Airbnb'
+const isPrivate=item=>String(item?.provider??'').toLowerCase()==='airbnb'
   ||String(item?.id??'').startsWith('wishlist:airbnb:');
 const safeText=value=>String(value??'').trim().replace(/\s+/g,' ').slice(0,220);
 const https=url=>typeof url==='string'&&/^https:\/\/[^\s/]+(?:\/[^\s]*)?$/i.test(url)
