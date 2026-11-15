@@ -1,4 +1,4 @@
-> **Windows-ZIP starten:** GitHub-Branch \`feature/v7-data-day-accommodation-rail\` herunterladen, vollständig entpacken und im ZIP-Hauptordner \`Start-Reiseplaner.cmd\` öffnen. Anleitung: [README-STARTEN.md](../../README-STARTEN.md). Vor neuen ZIP-Versionen lokale Daten mit \`Daten-sichern.cmd\` sichern. Noch kein Merge nach \`main\`; GitHub-Actions-Runner derzeit nicht bestätigt.
+> **Windows-ZIP starten:** GitHub-Branch `feature/v7-data-day-accommodation-rail` herunterladen, vollständig entpacken und im ZIP-Hauptordner `Start-Reiseplaner.cmd` öffnen. Anleitung: [README-STARTEN.md](../../README-STARTEN.md). Vor neuen ZIP-Versionen lokale Daten mit `Daten-sichern.cmd` sichern. Noch kein Merge nach `main`; GitHub-Actions-Runner derzeit nicht bestätigt.
 
 ## Phase 36 – weitere Bedienungs- und Datenoptimierungen
 
