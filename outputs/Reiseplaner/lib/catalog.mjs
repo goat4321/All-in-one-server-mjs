@@ -729,7 +729,11 @@ export async function loadCatalog() {
     const record=addressV09ById.get(item.id+'|'+item.city);
     if(!record||item.provider==='Airbnb'||String(item.id).startsWith('wishlist:airbnb:'))return item;
     addressAppliedV09++;
-    const addr=item.address??record.address;
+    // A booking string such as '2 piano' may describe a floor rather than
+    // a civic number. Never let a previously normalized guessed house number
+    // override the corrected public street-only record.
+    const addr=record.addressQualification==='listing_floor_or_number_ambiguity'
+      ?record.address:item.address??record.address;
     // The official French BAN phase-45 evidence is an independent address
     // number match. Keep it separate from the historical V06 OSM cohort.
     // It does not prove the holiday apartment entrance or any reservation.
@@ -756,6 +760,9 @@ export async function loadCatalog() {
         publishedAddress:record.address,
         observedOn:record.observedOn,
         precision:record.precision,
+        addressQualification:record.addressQualification??null,
+        secondarySourceUrl:record.secondaryAddressSourceUrl??null,
+        rejectedSimilarNameUrl:record.rejectedSimilarNameUrl??null,
         remark:record.remark,
         notABooking:Boolean(!record.confirmedFor2027Checkout),
       },
