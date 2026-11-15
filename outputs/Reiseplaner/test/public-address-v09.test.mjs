@@ -12,8 +12,8 @@ test('50 public hotel/business addresses are individually sourced and keep exact
  assert.equal(published.schema,'verified_public_addresses_v09');
  assert.equal(published.entries.length,50);
  assert.equal(published.counts.entries,50);
- assert.equal(published.counts.withIndependentCoordinates,33);
- assert.equal(published.counts.verifiedAddressOnly,17);
+ assert.equal(published.counts.withIndependentCoordinates,34);
+ assert.equal(published.counts.verifiedAddressOnly,16);
  assert.equal(new Set(published.entries.map(e=>e.id)).size,published.entries.length);
  for(const record of published.entries){
   assert.ok(record.id&&record.city&&record.name&&record.address);
