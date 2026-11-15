@@ -5,7 +5,7 @@ import {hasIndependentPointEvidence,markerProvenance} from './poi-location-prove
 // Missing coordinates are not a place category or a map position. A city
 // orientation marker never becomes an item.point or is routed as a stop.
 export const UNLOCATED_TYPES=Object.freeze([
- ['all','Alle offenen Positionen'],['sourced-address','Hausadresse mit Quelle'],
+ ['all','Alle offenen Positionen'],['sourced-address','Veröffentlichte Anschriften'],
  ['address','Weitere Adressen'],
  ['unverified','Ohne Standortbeleg'],['concept','Gebiete und Ideen'],
  ['private','Private Unterkünfte']
@@ -111,7 +111,16 @@ export function mapUnlocatedReview(ctx){
   const cityName=esc(ctx.cities?.[city]?.name??city);
   const published=isSourcedPublicAddress(item);
   const publicAddress=item.addressEvidenceV09?.publishedAddress??'';
-  const canLookup=reason.key==='address'&&!item.booked&&item.provider!=='Airbnb';
+  const quality=item.addressEvidenceV09?.addressQualification;
+  const qualityFlag={
+    listing_floor_or_number_ambiguity:'Hausnummer unklar – die Listingangabe kann das Stockwerk meinen.',
+    published_number_conflicting_postcode:'Postleitzahl zwischen Quellen widersprüchlich.',
+    published_restaurant_address_distinct_from_similar_named_poi:'Ähnlich benannter Karten-POI gehört zu einem anderen Restaurant.'
+  }[quality]??null;
+  const secondary=item.addressEvidenceV09?.secondarySourceUrl;
+  const secondLink=typeof secondary==='string'&&/^https:\/\//.test(secondary)?secondary:null;
+  const canLookup=reason.key==='address'&&!item.booked&&item.provider!=='Airbnb'
+    &&quality!=='listing_floor_or_number_ambiguity';
   const osmLink=openStreetMapReviewUrl(item,ctx.cities?.[city]?.name??city);
   const publicAddressSource=reason.key==='address'
     ?(item.addressEvidenceV09?.sourceUrl??item.geoReviewV09?.sourceUrl??null):null;
@@ -122,8 +131,9 @@ export function mapUnlocatedReview(ctx){
    +icon(explorerCategory(item)==='lodging'?'bed':'pin')+' '+esc(reason.label)+'</span>'
    +'<small>'+cityName+'</small></div>'
    +'<strong>'+esc(item.name??'Unbenannter Ort')+'</strong>'
-   +(published?'<p class="map-unlocated-public-address"><strong>Veröffentlichte Hausadresse:</strong> '
+   +(published?'<p class="map-unlocated-public-address"><strong>Veröffentlichte Anschrift:</strong> '
      +esc(publicAddress)+'</p>':'')
+   +(qualityFlag?'<p class="map-unlocated-address-warning">'+esc(qualityFlag)+'</p>':'')
    +'<p>'+esc(reason.reason)+'</p>'
    +(published&&item.addressEvidenceV09?.remark
       ?'<details class="map-unlocated-source-note"><summary>Genauigkeit und Prüfstand</summary><p>'
@@ -134,9 +144,11 @@ export function mapUnlocatedReview(ctx){
    +(canLookup?btn('geocode-lookup','Adresse prüfen','pin',item.id,'subtle'):'')
    +(published?'<a class="button subtle" href="https://www.google.com/maps/search/?api=1&amp;query='
      +encodeURIComponent(publicAddress)+'" target="_blank" rel="noopener noreferrer">'
-     +icon('external')+' Hausadresse in Google Maps suchen</a>':'')
+     +icon('external')+' Adresse in Google Maps suchen</a>':'')
    +(osmLink?'<a class="button subtle" href="'+esc(osmLink)+'" target="_blank"'
      +' rel="noopener noreferrer">'+icon('external')+' In OpenStreetMap suchen</a>':'')
+   +(secondLink?'<a class="button subtle" href="'+esc(secondLink)+'" target="_blank"'
+     +' rel="noopener noreferrer">'+icon('external')+' Unabhängige Adressquelle</a>':'')
    +(evidenceLink?'<a class="button subtle" href="'+esc(evidenceLink)+'" target="_blank"'
      +' rel="noopener noreferrer">'+icon('external')+' Hinterlegte Adressquelle</a>':'')
    +'</div></article>';
@@ -155,7 +167,7 @@ export function mapUnlocatedReview(ctx){
   +'<div class="map-unlocated-body">'
   +'<p>Die Kartenpunkte und ihre Nachweislage werden getrennt bewertet. '
   +'Private Hausadressen bleiben privat. '+(state.kinds.get('sourced-address')??0)
-  +' Einträge haben eine belegte öffentliche Hausanschrift, aber keinen bestätigten Einzelpunkt. Hier kannst du alle offenen '
+  +' Einträge haben eine veröffentlichte Anschrift, aber keinen bestätigten Einzelpunkt. Hier kannst du alle offenen '
   +'Einträge schrittweise prüfen, ohne sie als fiktive Stadtpunkte einzuzeichnen.</p>'
   +filters
   +'<div class="map-unlocated-search"><input type="search" id="map-unlocated-search" '
