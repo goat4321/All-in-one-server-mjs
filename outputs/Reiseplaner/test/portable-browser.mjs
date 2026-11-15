@@ -876,6 +876,16 @@ try {
   assert.ok(await js('document.documentElement.scrollWidth <= window.innerWidth + 5'), 'Mobiles Layout hat horizontalen Überlauf.');
   await js('document.querySelector(".map-explorer-split").scrollIntoView({block:"start"})');
   await screenshot('04-atlas-smartphone-390.png');
+  await until(()=>js('Boolean(document.querySelector(".map-evidence-review"))'),
+    'Quellenprüfungen für bestehende Marker auch auf Mobil erreichbar');
+  await click('.map-evidence-review > summary');
+  await js('document.querySelector(".map-evidence-review").scrollIntoView({block:"start",behavior:"instant"})');
+  assert.ok(await js('(() => {const panel=document.querySelector(".map-evidence-review");'
+    +'const bounds=panel.getBoundingClientRect();'
+    +'return bounds.left>=-2&&bounds.right<=innerWidth+2;})()'),
+    'Quellenprüfungsbereich liegt vollständig im Smartphone-Viewport');
+  await screenshot('42-koordinatenquellen-smartphone-390.png');
+  await click('.map-evidence-review > summary');
   await click('[data-action=explorer-scope][data-value=city]');
   await click('[data-action=explorer-group][data-value=food]');
   await click('[data-action=explorer-focus][data-value="local:bormuth"]');
