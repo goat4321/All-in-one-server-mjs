@@ -35,8 +35,8 @@ test('Reviewed independent restaurant POI matches same commercial civic and phon
  assert.equal(record.coordinateVerification.sameCivicConfirmed,true);
  assert.equal(record.coordinateVerification.samePhoneConfirmed,true);
  assert.equal(record.coordinateVerification.entranceConfirmed,false);
- assert.equal(addresses.counts.withIndependentCoordinates,35);
- assert.equal(addresses.counts.verifiedAddressOnly,15);
+ assert.equal(addresses.counts.withIndependentCoordinates,36);
+ assert.equal(addresses.counts.verifiedAddressOnly,14);
  assert.equal(legacy.points.length,175);
  assert.ok(!legacy.points.some(x=>x.id===entry.id));
 });
@@ -67,7 +67,7 @@ test('Cavour POI appears in relevant trip variants but remains an area reference
  }
  const unresolved=catalog.research.unresolvedReasonsV09;
  assert.ok(!unresolved.items.some(x=>x.id===entry.id));
- assert.equal(catalog.research.geoResearchV06.acceptedUnique+2+unresolved.actuallyUnresolvedUnique,290);
+ assert.equal(catalog.research.geoResearchV06.acceptedUnique+3+unresolved.actuallyUnresolvedUnique,290);
  assert.equal(catalog.research.geoResearchV06.acceptedUnique,175);
  assert.ok(catalog.trips.every(t=>t.items.filter(x=>x.provider==='Airbnb').every(x=>x.point===null)));
 });
