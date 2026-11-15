@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {loadCatalog} from '../lib/catalog.mjs';
-import {unlocatedOverview,mapUnlocatedReview} from '../public/map-unlocated-v39.mjs';
+import {unlocatedOverview,mapUnlocatedReview,isSourcedPublicAddress,mapUnverifiedPinRows} from '../public/map-unlocated-v39.mjs';
 
 const read=async name=>JSON.parse(await readFile(new URL('../data/'+name,import.meta.url),'utf8'));
 const [queue,addresses,providers]=await Promise.all([
@@ -78,4 +78,17 @@ test('Source-only map ledger prioritizes identity conflicts and exposes next ver
  assert.match(markup,/Anbietergebnis bezeichnet anderen Wohnungsstandort|Wohnungsstockwerk und Hausnummer/);
  assert.match(markup,/Nur Recherchehinweis/);
  assert.doesNotMatch(markup,/wishlist:airbnb:123.*data-review-priority="critical"/);
+});
+
+test('Airbnb provider aliases cannot enter public source-only or unverified-coordinate audits',()=>{
+ const secret={id:'research:private',city:'venice',name:'Private Villa',provider:'AIRBNB',
+   address:'Secret Road 77',point:null,
+   addressEvidenceV09:{publishedAddress:'Secret Road 77',sourceUrl:'https://example.com/secret'}};
+ assert.equal(isSourcedPublicAddress(secret),false);
+ const ctx={explorer:{unlocated:[secret],placed:[{...secret,point:[45.44,12.33]}]},
+  cities:{venice:{name:'Venedig'}},mapUnlocatedFilter:'sourced-address'};
+ assert.equal(unlocatedOverview(ctx).filteredTotal,0);
+ assert.equal(mapUnverifiedPinRows(ctx).total,0);
+ const html=mapUnlocatedReview(ctx);
+ assert.doesNotMatch(html,/Secret Road 77/);
 });
