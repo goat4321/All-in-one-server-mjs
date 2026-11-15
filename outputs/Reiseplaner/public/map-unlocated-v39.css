@@ -80,3 +80,21 @@
 .map-unlocated-actions>a.button{display:inline-flex;gap:5px;align-items:center;
  text-decoration:none;line-height:1.2}
 .map-unlocated-actions>a.button .ui-icon{width:14px;height:14px}
+
+/* Phase 41: the geolocation work queue belongs BELOW the map workspace.
+   It must not increase the sticky map-panel height or hide the day-route studio. */
+.workspace>.map-unlocated-review{position:relative;clear:both;width:100%;
+ margin:17px 0 20px;scroll-margin-top:72px}
+.workspace>.map-unlocated-review[open]{overflow:visible}
+.workspace>.map-unlocated-review .map-unlocated-grid{
+ grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.workspace>.map-unlocated-review .map-unlocated-record{min-height:155px}
+@media(max-width:1080px){
+ .workspace>.map-unlocated-review .map-unlocated-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:650px){
+ .workspace>.map-unlocated-review{margin:12px 0 17px}
+ .workspace>.map-unlocated-review .map-unlocated-grid{grid-template-columns:1fr}
+ .workspace>.map-unlocated-review .map-unlocated-record{min-height:0}
+}

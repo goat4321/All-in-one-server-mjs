@@ -140,7 +140,8 @@ function content(ctx, city) {
         ?mapDayAgenda(ctx)+dayPlanPanel(ctx,{compact:true})+fieldNoteStrip(ctx)
         :mapBrowsePanel(ctx))
       + explorerToolbar(ctx) + explorerList(ctx) + '</div>'
-      + mapPhotoDiscovery(ctx) + '</div>' + dayRouteView(ctx);
+      + mapPhotoDiscovery(ctx) + '</div>'
+      + mapUnlocatedReview(ctx) + dayRouteView(ctx);
     case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
@@ -398,7 +399,7 @@ function mapPanel(ctx, full = false) {
     ${!ctx.total && network?.dateLabel ? '<span>' + esc(network.dateLabel) + ' · Netzreferenz</span>' : ''}
     ${!ctx.total && ctx.cities[ctx.city].country === 'CH' && t.hiking ? '<span>Signalisiertes Netz · ab Zoomstufe 10</span>' : ''}
     ${!ctx.total ? urlLink(transitPlanners[ctx.city], 'ÖPNV-Planer') : ''}</div>
-    ${ctx.page==='map'?mapUnlocatedReview(ctx):''}
+
     ${dayRail}
     <div id="detail-container">${mapDetail(ctx)}</div>
   </section>`;

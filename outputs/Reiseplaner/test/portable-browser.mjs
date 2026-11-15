@@ -413,6 +413,11 @@ try {
   await screenshot('38-ruhige-kartenmarker-desktop.png');
   await until(()=>js('Boolean(document.querySelector(".map-unlocated-review"))'),
     'Quellenbasierte Prüfliste ohne erfundene POI-Koordinaten');
+  assert.equal(await js('Boolean(document.querySelector(".map-panel .map-unlocated-review"))'),false,
+    'Die lange Prüfliste darf nicht innerhalb des sticky Kartenpanels sitzen');
+  assert.equal(await js('document.querySelector(".map-unlocated-review")?.previousElementSibling?.classList.contains("map-explorer-split")'),true,
+    'Prüfliste steht als eigener Bereich direkt unter der Karte');
+
   assert.equal(await js('document.querySelectorAll("#map .city-reference-icon").length'),0,
     'Ungenaue Stadt-Sammelmarker sind standardmäßig ausgeblendet');
   await click('.map-unlocated-review > summary');
