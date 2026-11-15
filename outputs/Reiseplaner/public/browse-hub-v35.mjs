@@ -196,7 +196,8 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
  const status=active?'Im Reiseplan':item.booked?'Bereits gebucht':'Unverbindliche Option';
  const quickDays=!lodging&&!item.locked&&!item.booked&&!item.duplicateOf
    ?quickDayTargetDates(ctx,item):[];
- const suggestedDay=quickDays.includes(ctx.date)?ctx.date:quickDays[0];
+ const suggestedDay=active&&quickDays.includes(item.date)?item.date
+   :quickDays.includes(ctx.date)?ctx.date:quickDays[0];
  const nightlife=nightlifeVenueNote(item);
  const officialNightlife=item.nightlifeOfficialV51??null;
  const amenity=lodging
@@ -263,7 +264,10 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
           +(date===suggestedDay?' selected':'')+'>'+esc(date)+' · '
           +esc(ctx.cities?.[ctx.cityForDay(date)]?.name??ctx.cityForDay(date))+'</option>').join('')
         +'</select></label>'
-      +(active?btn('day-quick-remove','Aus Plan entfernen','close',item.id,'subtle')
+      +(active?'<div class="hub-quick-day-actions">'
+          +btn('day-quick-move','Tag ändern','calendar',item.id,'subtle')
+          +btn('day-quick-remove','Entfernen','close',item.id,'subtle')
+          +'</div>'
         :btn('day-quick-add','Direkt hinzufügen','plus',item.id,'primary'))
       +'</div>':'')
    +'<div class="hub-option-primary-actions">'
