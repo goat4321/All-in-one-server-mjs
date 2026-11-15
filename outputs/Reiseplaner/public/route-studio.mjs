@@ -23,6 +23,23 @@ export function footpathMatchesStops(from,to,route,maxSnapMetres=250){
 }
 
 
+/** A label on a routed polyline follows its travelled distance, not the
+ * midpoint between endpoints. Coordinates remain presentation-only. */
+export function pointAlongRoute(points=[],fraction=.5){
+  if(!Array.isArray(points)||points.length<2||!points.every(validPoint))return null;
+  const lengths=points.slice(1).map((p,i)=>metresBetween(points[i],p));
+  const total=lengths.reduce((sum,n)=>sum+n,0);
+  if(!Number.isFinite(total))return null;
+  if(total===0)return [...points[0]];
+  let left=total*Math.max(0,Math.min(1,Number.isFinite(fraction)?fraction:.5));
+  for(let i=0;i<lengths.length;i++){
+    if(left>lengths[i]){left-=lengths[i];continue;}
+    const a=points[i],b=points[i+1],t=lengths[i]?left/lengths[i]:0;
+    return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+  }
+  return [...points.at(-1)];
+}
+
 export function routeStudioModel(items = [], routes = [], current = 0) {
   const stops = Array.isArray(items) ? items : [];
   const checkedRoutes = Array.isArray(routes) ? routes : [];
