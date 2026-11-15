@@ -930,15 +930,19 @@ async function action(name, value = '') {
       showCity(ctx.cityForDay(value),value,ctx.trip.id==='swiss_lakes');
       break;
     case 'day-quick-add':
+    case 'day-quick-move':
     case 'day-quick-remove': {
-      const add=name==='day-quick-add';
+      const add=name==='day-quick-add',move=name==='day-quick-move';
       const picker=[...document.querySelectorAll('.hub-quick-day')]
         .find(el=>el.dataset.quickDayId===value);
-      const targetDate=add?(picker?.querySelector('select')?.value??ctx.date):ctx.date;
-      const draft=quickDayEdit(ctx,value,targetDate,add?'add':'remove');
+      const targetDate=add||move
+        ?(picker?.querySelector('select')?.value??ctx.date):ctx.date;
+      const draft=quickDayEdit(ctx,value,targetDate,add?'add':move?'move':'remove');
       if(!draft.ok){say(draft.reason);break;}
       await save({...ctx.state,edits:draft.edits},
-        add?'Zum '+targetDate+' hinzugefügt (unverbindlich)':'Aktivität aus dem Tagesplan entfernt');
+        add?'Zum '+targetDate+' hinzugefügt (unverbindlich)'
+          :move?'Auf '+targetDate+' verschoben (unverbindlich)'
+          :'Aktivität aus dem Tagesplan entfernt');
       break;
     }
     case 'day-plan-add':
