@@ -422,3 +422,16 @@
  .reference-travel-shell .reference-map-workspace .reference-map-floating{
   padding:4px}
 }
+
+/* V37 image fallbacks: same-city photo is context, not a hotel/venue image. */
+.place-photo-placeholder.photo-context{isolation:isolate;background:#173e39}
+.place-photo-placeholder.photo-context::before{content:'';position:absolute;inset:0;
+ background:linear-gradient(0deg,#112826ee,#1a4c4485 68%,#2548392b);z-index:1}
+.place-photo-placeholder.photo-context::after{display:none}
+.place-photo-placeholder.photo-context .place-context-image{z-index:0;inset:0;object-fit:cover}
+.place-photo-placeholder.photo-context>strong,.place-photo-placeholder.photo-context>small,
+.place-photo-placeholder.photo-context>span{z-index:2;max-width:95%;text-shadow:0 2px 8px #061b1799}
+.place-photo-placeholder.photo-context>small{color:#fff}
+.photo-load-failed>img,.photo-load-failed .place-context-image{display:none!important}
+.hub-hero-art>svg{position:absolute;inset:0;z-index:0}
+.hub-hero-art>img{position:absolute;inset:0;z-index:1}

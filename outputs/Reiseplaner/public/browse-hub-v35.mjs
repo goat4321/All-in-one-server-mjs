@@ -38,9 +38,8 @@ export function browseHero(ctx,kind,count){
  const city=cityLabel(ctx);
  const candidate=(ctx.all??[]).find(item=>item.city===ctx.city&&curatedPlacePhoto(item));
  const photo=candidate?curatedPlacePhoto(candidate):null;
- const img=photo
-  ?'<img src="'+esc(photo.url)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">'
-  :destinationIllustration(ctx.city);
+ const img=destinationIllustration(ctx.city)
+  +(photo?'<img src="'+esc(photo.url)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">':'');
  const source=photo?'<a class="hub-hero-photo-credit" href="'+esc(photo.sourceUrl)
    +'" target="_blank" rel="noopener noreferrer">Ortsbild / Quelle</a>':'';
  return '<header class="hub-hero" data-kind="'+esc(kind)+'">'

@@ -42,6 +42,14 @@ export function createMotionController(doc){
     const image=event.target;
     if(image?.tagName==='IMG'&&image.matches?.(IMAGE_TARGETS))imageReady(image);
   },true);
+  // Broken remote photos should reveal the existing icon or city artwork.
+  // Do not treat failed image fetches as successful source coverage.
+  doc.addEventListener('error',event=>{
+    const photo=event.target;
+    if(photo?.tagName!=='IMG')return;
+    const host=photo.closest?.('.place-photo, .place-thumbnail, .hub-hero-art, .map-photo-disc');
+    if(host){photo.hidden=true;host.classList.add('photo-load-failed');}
+  },true);
   // Interactions must never change or intercept a control's click semantics.
   doc.addEventListener('pointerdown',event=>{
     if(!canMove()||event.button!==0||(event.pointerType==='touch'&&event.isPrimary===false))return;
