@@ -395,6 +395,9 @@ try {
     'Nach Scope-Wechsel wieder mehrere passende Stadtorte sichtbar');
   await click('.map-scope-modes [data-action=explorer-scope][data-value=trip]');
   await text('#main', 'Reiseroute entdecken');
+  assert.equal(await js('Array.from(document.querySelectorAll(".reference-discovery-euro")).some(el=>el.textContent.trim()==="€?")'),false,
+    'No question-mark price badges in the route photo carousel');
+
   await until(() => js('document.querySelectorAll(".route-city-step").length >= 4'), 'Interaktive Stadtetappen');
   await until(() => js('document.querySelectorAll(".map-legend-control").length===5'),'Fünf anklickbare Kartenkategorien');
   await click('.map-legend-control[data-value=food]');
@@ -437,6 +440,7 @@ try {
     'Independent object name search expands in the existing-pin evidence card');
   assert.ok(await js('Array.from(document.querySelectorAll(".map-evidence-review .map-evidence-review-links a")).some(a=>a.getAttribute("href")?.startsWith("https://www.openstreetmap.org/search?query="))'),
     'The secondary OSM name search is linked separately from the unverified point');
+  await js('document.querySelector(".map-evidence-review").scrollIntoView({block:"start",behavior:"instant"})');
   await screenshot('47-ungepruefte-pins-quellenvergleich-desktop.png');
   await click('.map-evidence-review .map-evidence-source-links>summary');
   await click('.map-evidence-review [data-action=map-evidence-type][data-value=provider]');
