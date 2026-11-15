@@ -419,6 +419,21 @@ try {
   await until(()=>js('document.querySelector(".map-unlocated-review")?.open===true'),
     'Prüfliste für Orte ohne genaue Position aufklappbar');
   await text('.map-unlocated-review','Alle fehlenden Kartenpunkte prüfen');
+  await until(()=>js('Boolean(document.querySelector(".map-unlocated-facets [data-value=all]"))'),
+    'Filter für ungeklärte Koordinaten bereit');
+  await click('.map-unlocated-facets [data-action=map-unlocated-filter][data-value=concept]');
+  await until(()=>js('document.querySelector(".map-unlocated-facets [data-value=concept]")?.getAttribute("aria-pressed")==="true"'),
+    'Konzept-Orte separat filterbar');
+  await click('.map-unlocated-facets [data-action=map-unlocated-filter][data-value=all]');
+  await until(()=>js('document.querySelector(".map-unlocated-facets [data-value=all]")?.getAttribute("aria-pressed")==="true"'),
+    'Alle offenen Positionen wieder sichtbar');
+  await js('document.querySelector("#map-unlocated-search").value="__keine_realen_orte__"');
+  await click('.map-unlocated-search [data-action=map-unlocated-search]');
+  await until(()=>js('document.querySelector(".map-unlocated-count")?.textContent.includes("0 von")'),
+    'Öffentliche Prüfliste nach Stichwort suchbar');
+  await click('.map-unlocated-search [data-action=map-unlocated-clear]');
+  await until(()=>js('Number(document.querySelectorAll(".map-unlocated-record").length)>0'),
+    'Suche ist ohne Datenverlust rücksetzbar');
   await js('document.querySelector(".map-unlocated-review").scrollIntoView({block:"start",behavior:"instant"})');
   await screenshot('39-ungepruefte-orte-karte-desktop.png');
   await click('.map-unlocated-review [data-action=explorer-references]');

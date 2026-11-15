@@ -28,6 +28,16 @@ export function unlocatedKind(item){
    reason:'Kein belegter Einzelpunkt hinterlegt; ein Stadtzentrum wäre irreführend.',
    action:'Exakten öffentlichen Objektlink oder OSM-POI nachreichen.'};
 }
+// A user-triggered OSM lookup is research only; it does not update a pin.
+// Never search an exact private short-let property address.
+export function openStreetMapReviewUrl(item,city=''){
+ const type=unlocatedKind(item).key;
+ if(!['address','unverified'].includes(type))return null;
+ const term=String(item.address??item.name??'').trim().slice(0,150);
+ if(!term)return null;
+ return 'https://www.openstreetmap.org/search?query='
+   +encodeURIComponent(term+' '+String(city??'').slice(0,80));
+}
 const norm=value=>String(value??'').normalize('NFD')
   .replace(/[\u0300-\u036f]/g,'').toLowerCase();
 export function unlocatedOverview(ctx){
@@ -88,6 +98,11 @@ export function mapUnlocatedReview(ctx){
  const list=state.preview.map(({city,item,reason})=>{
   const cityName=esc(ctx.cities?.[city]?.name??city);
   const canLookup=reason.key==='address'&&!item.booked&&item.provider!=='Airbnb';
+  const osmLink=openStreetMapReviewUrl(item,ctx.cities?.[city]?.name??city);
+  const publicAddressSource=reason.key==='address'
+    ?(item.addressEvidenceV09?.sourceUrl??item.geoReviewV09?.sourceUrl??null):null;
+  const evidenceLink=typeof publicAddressSource==='string'&&/^https:\/\//.test(publicAddressSource)
+    ?publicAddressSource:null;
   return '<article class="map-unlocated-record" data-unlocated-type="'+reason.key+'">'
    +'<div class="map-unlocated-record-head"><span class="map-unlocated-kind">'
    +icon(explorerCategory(item)==='lodging'?'bed':'pin')+' '+esc(reason.label)+'</span>'
@@ -97,6 +112,10 @@ export function mapUnlocatedReview(ctx){
    +'<div class="map-unlocated-actions">'
    +btn('details','Details & Quellen','folder',item.id,'subtle')
    +(canLookup?btn('geocode-lookup','Adresse prüfen','pin',item.id,'subtle'):'')
+   +(osmLink?'<a class="button subtle" href="'+esc(osmLink)+'" target="_blank"'
+     +' rel="noopener noreferrer">'+icon('external')+' In OpenStreetMap suchen</a>':'')
+   +(evidenceLink?'<a class="button subtle" href="'+esc(evidenceLink)+'" target="_blank"'
+     +' rel="noopener noreferrer">'+icon('external')+' Hinterlegte Adressquelle</a>':'')
    +'</div></article>';
  }).join('');
  const filters='<div class="map-unlocated-facets" role="group" aria-label="Offene Orte filtern">'

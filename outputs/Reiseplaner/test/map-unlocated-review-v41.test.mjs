@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {unlocatedOverview,mapUnlocatedReview} from '../public/map-unlocated-v39.mjs';
+import {unlocatedOverview,mapUnlocatedReview,openStreetMapReviewUrl} from '../public/map-unlocated-v39.mjs';
 const kinds=['address','unverified','concept','private'];
 const items=Array.from({length:42},(_,i)=>({
  id:'place-'+i,city:i%3===0?'barcelona':i%3===1?'nice':'genoa',
@@ -46,4 +46,17 @@ test('Review makes privacy and source confidence explicit with usable controls',
  assert.match(html,/Private Hausadresse/);
  assert.match(html,/data-action="hud-audit"/);
  assert.doesNotMatch(html,/data-action="day-route-add"/);
+});
+
+test('External OSM review is explicit and never built for private short lets or vague concepts',()=>{
+ const pub=items[0],unverified=items[1],concept=items[2],privateStay=items[3];
+ const addressUrl=openStreetMapReviewUrl(pub,'Barcelona');
+ assert.ok(addressUrl?.startsWith('https://www.openstreetmap.org/search?query='));
+ assert.ok(decodeURIComponent(addressUrl).includes('Public Street 0'));
+ assert.ok(openStreetMapReviewUrl(unverified,'Nizza'));
+ assert.equal(openStreetMapReviewUrl(concept,'Genua'),null);
+ assert.equal(openStreetMapReviewUrl(privateStay,'Barcelona'),null);
+ const html=mapUnlocatedReview(ctx);
+ assert.match(html,/In OpenStreetMap suchen/);
+ assert.doesNotMatch(html,/data-action="geocode-apply"/);
 });

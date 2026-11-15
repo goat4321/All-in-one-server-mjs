@@ -75,3 +75,8 @@
 :root[data-theme=dark] .map-unlocated-count{color:#a8cbb7}
 :root[data-theme=dark] .map-unlocated-search>input{background:#1d3028;border-color:#40634e}
 :root[data-theme=dark] .map-unlocated-empty{background:#263d32}
+
+/* External OSM review is an intentional hyperlink, never an automatic pin. */
+.map-unlocated-actions>a.button{display:inline-flex;gap:5px;align-items:center;
+ text-decoration:none;line-height:1.2}
+.map-unlocated-actions>a.button .ui-icon{width:14px;height:14px}
