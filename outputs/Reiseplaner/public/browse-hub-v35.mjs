@@ -8,6 +8,7 @@ import {voteSnippet} from './group-vote.mjs';
 import {lodgingPriceMeter} from './price-insights.mjs';
 import {googleMapsSearchUrl,googleMapsSearchLabel} from './google-maps.mjs';
 import {quickDayTargetDates} from './day-quick-edits-v50.mjs';
+import {nightlifeVenueNote} from './nightlife-v50.mjs';
 
 const kindTitle={lodging:'Unterkünfte entdecken',food:'Essen & Einkaufen',discover:'Orte & Aktivitäten',activities:'Alle Aktivitäten'};
 const kindSub={lodging:'Aufenthalte vergleichen – erst prüfen, dann auswählen',
@@ -196,6 +197,7 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
  const quickDays=!lodging&&!item.locked&&!item.booked&&!item.duplicateOf
    ?quickDayTargetDates(ctx,item):[];
  const suggestedDay=quickDays.includes(ctx.date)?ctx.date:quickDays[0];
+ const nightlife=nightlifeVenueNote(item);
  const amenity=lodging
   ?[item.room||null,item.kitchen||'Küche nicht geprüft',
      item.bedsDisplayed!=null?String(item.bedsDisplayed)+' Betten angezeigt':null]
@@ -219,14 +221,20 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    +'<h3>'+esc(item.name)+'</h3>'
    +'<p class="hub-option-summary">'+esc(item.detail||item.note||
        (lodging?'Unterkunft mit noch offenen Angaben':'Reiseidee aus der Recherche'))+'</p>'
+   +(nightlife?'<div class="hub-option-nightlife">'
+     +'<strong>'+esc(nightlife.label)+'</strong><span>'+esc(nightlife.checklist)+'</span>'
+     +'</div>':'')
    +'<div class="hub-option-amenities">'
    +amenity.filter(Boolean).slice(0,3).map(a=>'<span>'+esc(a)+'</span>').join('')
    +(item.preference?.score!=null?'<span>Gruppeninteresse '
      +esc(item.preference.score)+'/100 · Heuristik</span>':'')
    +'</div>'
    +'<div class="hub-option-pricing"><div><small>Preisorientierung</small>'
-   +'<strong>'+esc(signal.tier)+' · '+esc(signal.amount)+'</strong>'
-   +'<span>'+esc(provenance)+'</span></div>'+rating+'</div>'
+   +'<strong>'+esc(item.researchV50?.referencePrice
+      ?'Preis offen · Recherche: '+item.researchV50.referencePrice+' '+item.researchV50.currency
+      :signal.tier+' · '+signal.amount)+'</strong>'
+   +'<span>'+esc(item.researchV50
+      ?'Nutzerangabe 2026, für 2027 nicht bestätigt':provenance)+'</span></div>'+rating+'</div>'
    +(quickDays.length?'<div class="hub-quick-day" data-quick-day-id="'+esc(item.id)+'">'
       +'<label>Reisetag <select class="hub-quick-day-select" aria-label="Reisetag für '
         +esc(item.name)+' auswählen">'
