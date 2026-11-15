@@ -35,7 +35,9 @@ const view = {
   theme: localStorage.getItem('reiseplan-theme') ?? 'light',
   filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
   optionFilter: 'all', sort: 'source', compareIds: new Set(), inspectorCompareIds: [],
-  mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60, mapShowCityReferences: true,
+  mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60,
+  mapShowCityReferences: localStorage.getItem('reiseplan-map-city-references')==='on',
+  mapUnlocatedOpen:false,
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
   mapDensity:localStorage.getItem('reiseplan-map-density')==='detail'?'detail':'calm',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
@@ -974,7 +976,9 @@ async function action(name, value = '') {
       render({fetchRoutes:false}); break;
     case 'explorer-references':
       view.mapShowCityReferences = !view.mapShowCityReferences;
-      render({ restoreView: true }); break;
+      localStorage.setItem('reiseplan-map-city-references',
+        view.mapShowCityReferences?'on':'off');
+      render({ restoreView: true,fetchRoutes:false }); break;
     case 'explorer-reset':
       view.mapGroup='all';view.mapSearch='';view.mapScope='trip';view.total=true;
       view.mapViewportOnly=false;view.mapViewportBounds=null;view.mapNearPointId=null;view.mapSavedOnly=false;
@@ -1698,6 +1702,7 @@ app.addEventListener('pointerout',event=>hoverAtlasCard(event,false));
 app.addEventListener('toggle',event=>{
   if(event.target.matches('.sidebar-places'))view.cityNavOpen=event.target.open;
   if(event.target.matches('.map-design-details'))view.mapDesignOpen=event.target.open;
+  if(event.target.matches('.map-unlocated-review'))view.mapUnlocatedOpen=event.target.open;
   if(event.target.matches('.explorer-view-advanced'))view.mapAdvancedOpen=event.target.open;
   if(event.target.matches('.explorer-day-notes'))view.mapDayNotesOpen=event.target.open;
   if(event.target.matches('.day-plan-compact'))view.dayPlanOpen=event.target.open;

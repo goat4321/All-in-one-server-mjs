@@ -25,6 +25,7 @@ import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.m
 import { dayRouteView } from './day-route-ui.mjs';
 import {foodDirectory,marketCoverage} from './food-discovery-v36.mjs';
 import {activityDirectory} from './activity-directory.mjs';
+import {mapUnlocatedReview} from './map-unlocated-v39.mjs';
 import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
   mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview} from './day-plans-ui.mjs';
@@ -392,6 +393,7 @@ function mapPanel(ctx, full = false) {
     ${!ctx.total && network?.dateLabel ? '<span>' + esc(network.dateLabel) + ' · Netzreferenz</span>' : ''}
     ${!ctx.total && ctx.cities[ctx.city].country === 'CH' && t.hiking ? '<span>Signalisiertes Netz · ab Zoomstufe 10</span>' : ''}
     ${!ctx.total ? urlLink(transitPlanners[ctx.city], 'ÖPNV-Planer') : ''}</div>
+    ${ctx.page==='map'?mapUnlocatedReview(ctx):''}
     ${dayRail}
     <div id="detail-container">${mapDetail(ctx)}</div>
   </section>`;
