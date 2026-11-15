@@ -400,8 +400,8 @@ try {
   await click('[data-action=explorer-search]');
   await until(() => js('document.querySelectorAll(".explorer-place").length === 1'), 'Restaurantsuche');
   await text('.explorer-place', 'Bormuth');
-  await until(()=>js('Boolean(document.querySelector("#map .photo-marker-container[title=\\\"Bormuth\\\"]"))'),'Visible place marker for Bormuth');
-  await click('#map .photo-marker-container[title="Bormuth"]');
+  await until(()=>js('Boolean(document.querySelector("#map .photo-marker-container[title*=\\\"Bormuth\\\"]"))'),'Visible place marker for Bormuth');
+  await click('#map .photo-marker-container[title*="Bormuth"]');
   await until(()=>js('document.querySelector(".map-selected-place")?.textContent.includes("Bormuth")===true'),
     'Clicking a real map marker synchronizes the selected preview');
   assert.ok(await js('(() => { const element=document.querySelector(".map-selected-place"); const r=element?.getBoundingClientRect();return r&&r.width>120&&r.height>50&&getComputedStyle(element).visibility==="visible"; })()'),
