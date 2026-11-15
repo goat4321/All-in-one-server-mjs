@@ -693,7 +693,8 @@ try {
   const state = store.current('interrail_classic').state;
   assert.equal(Object.keys(state.groceryOverrides ?? {}).length, 1);
   await cdp('Page.navigate', { url: address });
-  await text('h1', 'Barcelona');
+  // Reload begins at the new overview screen, not the previously open day.
+  await text('h1', 'Reiseübersicht');
   await click('.sidebar [data-action=page][data-value=food]');
    await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
   await text('#main', '3,25');
