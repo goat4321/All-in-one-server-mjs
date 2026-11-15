@@ -210,7 +210,10 @@ function plan(ctx, name) {
           ${placeThumbnailHtml(item,ctx)}<div class="timeline-event-copy">
           <h3>${icon(categoryIcon(item))}${esc(name)} ${item.locked || item.booked ? icon('lock') : ''}</h3>
           <small>${esc(line)}</small><span class="timeline-price" title="${esc(signal.note)}">${esc(signal.tier)} · ${esc(signal.amount)}</span></div></button>
-          <button type="button" class="mini-action" data-action="edit" data-value="${esc(item.id)}" aria-label="Bearbeiten: ${esc(item.name)}">${icon('edit')}</button></div></article>`
+          <button type="button" class="mini-action" data-action="edit" data-value="${esc(item.id)}" aria-label="Bearbeiten: ${esc(item.name)}">${icon('edit')}</button>
+          ${item.kind==='activity'&&!item.booked&&!item.locked
+            ?'<button type="button" class="mini-action timeline-quick-remove" data-action="day-quick-remove" data-value="'+esc(item.id)+'" aria-label="Vom Tag entfernen: '+esc(item.name)+'">'+icon('close')+'</button>'
+            :''}</div></article>`
           + (after >= 0 ? connector(ctx.segments[after], routes[after], after, ctx.segments[after] === last && last.to.anchor ? 'Zur Unterkunft' : '', people.length) : '');
         }),
       ].join('') : empty('Dieser Tag ist noch offen', 'Ergänze einen Termin oder übernimm eine Option aus Entdecken.')}</div>
