@@ -6,7 +6,7 @@ import {routePositionQuality} from './route-position-quality.mjs';
 export const MAP_TONES = Object.freeze(['standard', 'midnight', 'sand']);
 // A previously cached route must actually join these current stops.
 // It is not sufficient to have nonempty route geometry and a duration.
-// Allow small routing-engine snapping offsets (<=250m), never kilometres.
+// Allow small routing-engine snapping offsets (<=75m), never kilometres.
 const metresBetween=(a,b)=>{
  if(!validPoint(a)||!validPoint(b))return Infinity;
  const rad=Math.PI/180;
@@ -14,7 +14,7 @@ const metresBetween=(a,b)=>{
  const h=Math.sin(dl/2)**2+Math.cos(a[0]*rad)*Math.cos(b[0]*rad)*Math.sin(dn/2)**2;
  return 6371000*2*Math.asin(Math.min(1,Math.sqrt(Math.max(0,h))));
 };
-export function footpathMatchesStops(from,to,route,maxSnapMetres=250){
+export function footpathMatchesStops(from,to,route,maxSnapMetres=75){
  if(!from||!to||!route?.walkOnly||!Array.isArray(route.points)
    ||route.points.length<2||!route.points.every(validPoint))return false;
  const first=route.points[0],last=route.points.at(-1);
