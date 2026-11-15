@@ -1,8 +1,8 @@
 {
   "schema": "osm_photon_geocoded_v06",
   "observedOn": "2026-11-13",
-  "attribution": "© OpenStreetMap contributors (ODbL)",
-  "method": "One-off private travel dataset research using public Photon, 1 sequential request per 1.5 seconds, no Airbnb private property geocoding. Two wrong same-name hotel matches were corrected using independently published addresses/coordinates. After automated research, 19 unambiguous reviewed candidates were manually reconciled with public map features and/or independent published coordinates. Area/path centroids are explicitly labelled. Additional published geographic coordinates were individually sourced from official municipal, tourist, hotel, OSM map and railway-station records; no city-centre approximation. Group activities have explicitly qualified area/landmark centres.",
+  "attribution": "© OpenStreetMap contributors (ODbL); amtlicher Adresspunkt: IGN / Base Adresse Nationale (BAN)",
+  "method": "One-off private travel dataset research using public Photon, 1 sequential request per 1.5 seconds, no Airbnb private property geocoding. Two wrong same-name hotel matches were corrected using independently published addresses/coordinates. After automated research, 19 unambiguous reviewed candidates were manually reconciled with public map features and/or independent published coordinates. Area/path centroids are explicitly labelled. Additional published geographic coordinates were individually sourced from official municipal, tourist, hotel, OSM map and railway-station records; no city-centre approximation. Group activities have explicitly qualified area/landmark centres. Phase 45: One public Sète operator address cross-matched against a strict single official IGN/BAN house-number result; no approximate street or private-Airbnb geocoding.",
   "status": "completed_with_possible_unmatched",
   "legend": {
     "street_address_match": "Street/number aligned with named entity",
@@ -3972,6 +3972,27 @@
       "isCentroid": false,
       "manuallyReviewed": true,
       "locationDescription": "Geografische Restaurantdatenbank nennt Koordinaten 43.2968687/5.372008; die Stadt Marseille dokumentiert eine Terrassengenehmigung für French Burger, 28 Rue Coutellerie. Nicht gleich ein bestätigter Zugang oder 2027er Öffnungsstatus."
+    },
+    {
+      "id": "research:bcom_4032998",
+      "city": "sete",
+      "name": "Le Pouffre maison de pêcheur",
+      "address": "85 Grande Rue Haute, 34200 Sète, France",
+      "variants": [
+        "interrail_classic"
+      ],
+      "query": "85 Grande Rue Haute, 34200 Sète, France",
+      "observedOn": "2026-11-15",
+      "provider": "IGN Géoplateforme / Base Adresse Nationale + Betreiberanschrift",
+      "point": [
+        43.398442,
+        3.694451
+      ],
+      "sourceUrl": "https://data.geopf.fr/geocodage/search?q=85+Grande+Rue+Haute%2C+34200+S%C3%A8te%2C+France&index=address&limit=6",
+      "confidence": "verified_external_coordinates",
+      "isCentroid": true,
+      "addressMatch": true,
+      "locationDescription": "Quellenbelegter amtlicher BAN-Hausnummernpunkt (34301_0850_00085), keine gesonderte Verifizierung des Haustür- oder Wohnungseingangs."
     }
   ],
   "review": [
@@ -7341,5 +7362,6 @@
       "tripsy:activity:seed:a046"
     ],
     "rule": "Only official named point or explicit area orientation, never a fake individual meeting point."
-  }
+  },
+  "additionalOfficialBanAddressMatchesV45": 1
 }
