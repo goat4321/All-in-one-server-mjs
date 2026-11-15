@@ -4,8 +4,8 @@
   "description": "Originalbenannte öffentliche Hotels, Hostels, Ferienwohnungen und Cafés aus den ungeklärten Katalogeinträgen; Quelle pro Hausadresse und GPS-Beleg. Keine Hotel-Checkouts, keine privaten Airbnb-Hausadressen. Weitere konkrete, öffentlich abrufbare Booking.com-/Tourismus-Hausadressen wurden einzeln ergänzt und bleiben bis zu unabhängiger Geokodierung ohne Pin.",
   "counts": {
     "entries": 50,
-    "withIndependentCoordinates": 34,
-    "verifiedAddressOnly": 16
+    "withIndependentCoordinates": 35,
+    "verifiedAddressOnly": 15
   },
   "warnings": [
     "No user-provided Airbnb wishlist address is geocoded.",
@@ -427,9 +427,12 @@
       "name": "Cavour modo21",
       "address": "Piazza Cavour 21r, 16128 Genova, Italy",
       "sourceUrl": "https://modo21.it/ristorazione/come-prenotare-da-cavour-modo21/",
-      "point": null,
-      "precision": "building_or_address",
-      "remark": "Betreiber bestätigt Piazza Cavour 21r, 16128 Genova; Italia.it bestätigt unabhängig die gleiche Restaurantanschrift als Piazza Cavour 21 Rosso. Es fehlt weiterhin ein separat belegter POI- bzw. Hausnummern-GPS-Punkt; insbesondere ist 21r in Genua nicht mit 21 (Wohnungsnummer) gleichzusetzen. Betreiberdaten zu Metro-Anreise, Kontaktnummer und historische Öffnungsreferenzen sind separat dokumentiert; daraus folgt kein bestätigter 2027er Tisch oder präziser Gebäude-Pin.",
+      "point": [
+        44.406616,
+        8.927979
+      ],
+      "precision": "reviewed_public_poi_position",
+      "remark": "Öffentliches OSM-basiertes Ortsverzeichnis 'Molo Modo 21' nennt Piazza Cavour 21 rosso und +39 393 851 1140. Sein unabhängiger Kartenlink zeigt den POI-Referenzpunkt bei 44.406616, 8.927979; Nummer und Telefonnummer stimmen mit Betreiber / Handelskammer überein. Kartierter Restaurant-POI, ausdrücklich kein gesondert verifizierter Eingang. Historische Öffnungszeiten und Reservierungen für September 2027 erneut prüfen.",
       "observedOn": "2026-11-15",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
@@ -444,6 +447,25 @@
         "hoursSourceUrl": "https://www.italia.it/it/liguria/genova/dove-mangiare/cavour-modo21",
         "reservationReference": "Reservierungsanfrage über Betreiber-WhatsApp; gültig erst nach Bestätigung, kein automatischer Platzanspruch.",
         "notConfirmedFor2027": true
+      },
+      "coordinateSourceUrl": "https://genova-notizie.it/luoghi/molo-modo-21-piazza-cavour/",
+      "coordinateMapLink": "https://www.google.com/maps/search/?api=1&query=44.406616%2C8.927979",
+      "coordinateReferenceId": "genova-notizie:molo-modo-21-piazza-cavour",
+      "coordinateReviewedOn": "2026-11-15",
+      "coordinateVerification": {
+        "status": "accepted_public_poi_reference_not_verified_entrance",
+        "mappedPoiName": "Molo Modo 21",
+        "namedObjectReference": "https://genova-notizie.it/luoghi/molo-modo-21-piazza-cavour/",
+        "coordinatePublication": "https://www.google.com/maps/search/?api=1&query=44.406616%2C8.927979",
+        "publishedCivic": "Piazza Cavour 21 rosso, Genova",
+        "independentlyMatchingPhone": "+39 393 851 1140",
+        "primaryOperatorAddressSource": "https://modo21.it/ristorazione/come-prenotare-da-cavour-modo21/",
+        "operatorTelephoneSource": "https://modo21.it/ristorazione/faq-domande-piu-frequenti/",
+        "independentIndustryRegisterSource": "https://www.ge.camcom.gov.it/it/promuovi/ristoranti-e-bartender/ristoranti-genova-gourmet/elenco-promozionale-glg.pdf",
+        "sameCivicConfirmed": true,
+        "samePhoneConfirmed": true,
+        "entranceConfirmed": false,
+        "note": "OSM-basierte Restaurant-POI-Referenz des öffentlich erfassten Molo Modo 21. Name ist eine abweichende Register-/POI-Bezeichnung; vollständige Hausnummer 21 rosso und veröffentlichte Telefonnummer stimmen mit Cavour modo21 überein. Der POI-Punkt ist kein separat geprüfter barrierefreier Eingang."
       }
     },
     {
