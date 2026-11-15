@@ -387,7 +387,7 @@ try {
       'Tagesstopp über Zeitachse auswählbar');
   }
   await click('[data-action=explorer-group][data-value=food]');
-  await until(() => js('(document.querySelectorAll("#map .pin.place-food").length + document.querySelectorAll("#map .poi-cluster-icon").length) > 0 && document.querySelectorAll("#map .pin.place-lodging").length === 0'), 'Nur Restaurantkategorie im Städtefilter');
+  await until(() => js('(document.querySelectorAll("#map .photo-marker-container .group-food").length + document.querySelectorAll("#map .poi-cluster-icon").length) > 0 && document.querySelectorAll("#map .photo-marker-container .group-lodging").length === 0'), 'Nur Restaurantkategorie im Städtefilter');
   await text('#main', 'Bormuth');
   await click('[data-action=explorer-nearby][data-value="local:bormuth"]');
   await until(() => js('document.querySelector(".explorer-nearby-bar")?.textContent.includes("Bormuth")'), 'Echte Umkreissuche');
@@ -400,8 +400,8 @@ try {
   await click('[data-action=explorer-search]');
   await until(() => js('document.querySelectorAll(".explorer-place").length === 1'), 'Restaurantsuche');
   await text('.explorer-place', 'Bormuth');
-  await until(()=>js('Boolean(document.querySelector("#map .pin.place-food"))'),'Visible place marker for Bormuth');
-  await click('#map .pin.place-food');
+  await until(()=>js('Boolean(document.querySelector("#map .photo-marker-container[title=\\\"Bormuth\\\"]"))'),'Visible place marker for Bormuth');
+  await click('#map .photo-marker-container[title="Bormuth"]');
   await until(()=>js('document.querySelector(".map-selected-place")?.textContent.includes("Bormuth")===true'),
     'Clicking a real map marker synchronizes the selected preview');
   assert.ok(await js('(() => { const element=document.querySelector(".map-selected-place"); const r=element?.getBoundingClientRect();return r&&r.width>120&&r.height>50&&getComputedStyle(element).visibility==="visible"; })()'),
