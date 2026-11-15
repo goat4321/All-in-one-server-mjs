@@ -1,7 +1,7 @@
 import { transitNetworks } from './transit.mjs';
 import { localParts } from './model.mjs';
 import { explorerCategory, explorerUnlocatedCityClusters } from './map-explorer.mjs';
-import { routeStudioModel } from './route-studio.mjs';
+import { routeStudioModel, pointAlongRoute } from './route-studio.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { installSoftVectorBasemap, fallbackRasterUrl, fallbackRasterOptions,
   vectorAttribution, basemapLabels } from './vector-basemap.mjs';
@@ -271,9 +271,9 @@ export class TripMap {
     for (const row of explorerUnlocatedCityClusters(explorer, cities)) {
       const legend=document.createElement('span');
       legend.className='city-reference-count';
-      legend.textContent='?'+row.count;
+      legend.textContent=String(row.count);
       const icon=L.divIcon({className:'city-reference-icon',html:legend.outerHTML,
-        iconSize:[52,36],iconAnchor:[-19,18]});
+        iconSize:[60,44],iconAnchor:[-20,22]});
       const title=row.name+': '+row.count+' Einträge nur mit Stadtbezug – keine bestätigten POI-Koordinaten';
       const marker=L.marker(row.point,{icon,title,alt:title,keyboard:true,
         zIndexOffset:-100}).addTo(this.features);
@@ -321,6 +321,21 @@ export class TripMap {
               color:'#eafff8',weight:3,opacity:.88,dashArray:'2 17',
               className:'route-studio-map-flow',interactive:false,
             }).addTo(this.features);
+          }
+          // Route-length midpoint, not a misleading straight-line label.
+          // Show duration only for a real routed segment; unverified endpoint
+          // provenance is still disclosed in the Route Studio panel.
+          if(leg.verified && active){
+            const at=pointAlongRoute(leg.points,.5);
+            if(at){
+              const text=Math.round(leg.minutes)+' Min · '+Math.round(leg.metres)+' m';
+              const icon=L.divIcon({className:'route-studio-time-icon',
+                html:'<span class="route-studio-time-pill" aria-hidden="true">'
+                  +'<span class="route-studio-time-walk">🚶</span>'+text+'</span>',
+                iconSize:[128,34],iconAnchor:[64,17]});
+              L.marker(at,{icon,interactive:false,keyboard:false,
+                zIndexOffset:1100}).addTo(this.features);
+            }
           }
           this.storyBounds.push(...leg.points);
         });
