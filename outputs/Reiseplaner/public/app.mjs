@@ -1139,6 +1139,10 @@ async function action(name, value = '') {
       await calculateExplorerRoute(); break;
 
     case 'geocode-lookup': {
+      if(item?.addressEvidenceV09?.addressQualification==='listing_floor_or_number_ambiguity'){
+        say('Die Hausnummer ist nicht eindeutig: Die Anbieterangabe kann das Stockwerk meinen. Zuerst die genaue Anschrift bestätigen.');
+        break;
+      }
       if(!item?.address || item.booked){ say('Für diese Option ist keine offene Rechercheadresse vorhanden.');break; }
       const result=await api('/api/geocode','POST',{variantId:variant.id,itemId:item.id});
       view.geocodeReview={id:item.id,variantId:variant.id,candidates:result.candidates};
