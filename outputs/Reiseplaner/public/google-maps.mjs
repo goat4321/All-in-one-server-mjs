@@ -1,3 +1,4 @@
+import {markerProvenance} from './poi-location-provenance.mjs';
 // Google Maps universal URLs (no Maps Platform API key, no automatic geocoding).
 // A Google search URL is NOT evidence of an exact pin or verified property location.
 const cityFallback = {
@@ -27,11 +28,16 @@ const areaOnly = item => item?.provider === 'Airbnb' || String(item?.id ?? '').s
 
 export function googleMapsLocationStatus(item) {
   if (areaOnly(item)) return 'Nur Umgebung bekannt (kein exakter Unterkunfts-Pin)';
-  if (pointOk(item?.point) && item?.geoEvidence?.isCentroid)
-    return 'Geprüfter Gebiets- oder Objektmittelpunkt · Zugang / Eingang separat prüfen';
-  if (pointOk(item?.point) && item?.geoEvidence)
-    return 'Nachrecherchierter Kartenpunkt mit verlinkter Koordinatenquelle';
-  if (pointOk(item?.point)) return 'Kartenkoordinate in Quelldaten vorhanden';
+  if (pointOk(item?.point)) {
+    const kind=markerProvenance(item).kind;
+    if(kind==='provider')
+      return 'Anbieterkoordinate vorhanden · unabhängig noch nicht bestätigt; Eingang unbekannt';
+    if(kind==='area')
+      return 'Quellenbelegter Gebiets-/Adresspunkt · kein nachgewiesener Eingang';
+    if(kind==='sourced')
+      return 'Öffentlich belegter Koordinatenpunkt · Eingang separat prüfen';
+    return 'Gespeicherte Koordinate · unabhängiger Objektnachweis fehlt';
+  }
   if (text(item?.address)) return 'Adresse angegeben, Position noch nicht geokodiert';
   return 'Namenssuche, genaue Position ungeprüft';
 }
@@ -66,7 +72,11 @@ export function googleMapsDirectionsUrl(from,to,cities={},travelmode='transit') 
 
 export function googleMapsSearchLabel(item) {
   return areaOnly(item) ? 'Umgebung in Google Maps' :
-    pointOk(item?.point) ? 'Google Maps · Position' :
+    pointOk(item?.point) ? (markerProvenance(item).kind==='provider'
+      ?'Google Maps · Anbieterposition prüfen'
+      :markerProvenance(item).kind==='unverified'
+        ?'Google Maps · gespeicherten Pin prüfen'
+        :'Google Maps · Quellenpunkt') :
     text(item?.address) ? 'Adresse in Google Maps suchen' :
     'Ort in Google Maps suchen';
 }
