@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {loadCatalog} from '../lib/catalog.mjs';
 import {mapUnlocatedReview} from '../public/map-unlocated-v39.mjs';
+import {markerProvenance} from '../public/poi-location-provenance.mjs';
 
 const read=async rel=>JSON.parse(await readFile(new URL('../data/'+rel,import.meta.url),'utf8'));
 const [address,unresolved]=await Promise.all([
@@ -33,7 +34,7 @@ test('Old unresolved research never reintroduces a guessed Cittadella house numb
 
 test('Cavour operator hints are source-qualified, accessible and never 2027 booking promises',()=>{
  const row=address.entries.find(x=>x.id==='local:food-v03-015');
- assert.equal(row.point,null);
+ assert.deepEqual(row.point,[44.406616,8.927979]);
  assert.equal(row.operatorArrivalV47.notConfirmedFor2027,true);
  assert.match(row.operatorArrivalV47.sourceUrl,/modo21\.it/);
  assert.match(row.operatorArrivalV47.transitReference,/San Giorgio/);
@@ -41,15 +42,12 @@ test('Cavour operator hints are source-qualified, accessible and never 2027 book
  const entries=catalog.trips.flatMap(t=>t.items.filter(x=>x.id===row.id));
  assert.ok(entries.length>0);
  const item=entries[0];
- assert.equal(item.point,null);
+ assert.deepEqual(item.point,row.point);
+ assert.equal(markerProvenance(item).kind,'area');
+ assert.equal(item.geoEvidence.isCentroid,true);
  assert.equal(item.addressEvidenceV09.operatorArrivalV47.notConfirmedFor2027,true);
- const html=mapUnlocatedReview({
-   explorer:{placed:[],unlocated:[item],showCityReferences:false},
-   mapUnlocatedOpen:true,mapUnlocatedFilter:'sourced-address',cities:catalog.cities,
- });
- assert.match(html,/San Giorgio/);
- assert.match(html,/2027/);
- assert.match(html,/kein bestätigter 2027er Tisch/);
+ assert.match(item.addressEvidenceV09.operatorArrivalV47.transitReference,/San Giorgio/);
+ assert.match(item.geoEvidence.note,/kein separat geprüfter Eingang/);
 });
 
 test('Bacarino mismatched house numbering is not promoted as exact entrance',()=>{
