@@ -171,3 +171,13 @@
 .photo-marker-container.provenance-unverified .map-category-bubble,
 .photo-marker-container.provenance-unverified .map-photo-disc{
  border-color:#9aa69e!important}
+
+/* Marker provenance matches the actual dashed/dotted/neutral pin outline. */
+.map-source-legend{display:inline-flex;align-items:center;flex-wrap:wrap;gap:7px 12px;
+ font-size:.67rem;line-height:1.4}
+.map-source-legend>span{display:inline-flex;align-items:center;gap:5px;white-space:normal}
+.map-provenance-swatch{display:inline-block;width:13px;height:13px;flex:0 0 13px;
+ border-radius:50%;background:#fffefa;border:3px solid #cc8742}
+.map-provenance-swatch.area{border-style:dashed;border-color:#cc8742}
+.map-provenance-swatch.provider{border-style:dotted;border-color:#8f7f98}
+.map-provenance-swatch.unverified{border-style:solid;border-color:#9aa69e}
