@@ -14,7 +14,7 @@ test('On-map selected place uses source confidence rather than a generic validat
  assert.match(html,/Gebäude-\/Gebietsreferenz/);
  assert.doesNotMatch(html,/Kartenpunkt vorhanden/);
  assert.doesNotMatch(html,/€\?/);
- assert.match(html,/Preis offen/);
+ assert.match(html,/Preis pro Nacht offen/);
  const unsourced=mapSelectionPreview(ctx({...item,id:'map:b',geoEvidence:null}));
  assert.match(unsourced,/Position prüfen/);
  const missing=mapSelectionPreview(ctx({...item,id:'map:c',point:null}));
