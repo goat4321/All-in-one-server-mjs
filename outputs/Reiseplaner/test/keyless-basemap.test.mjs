@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { installSoftVectorBasemap,vectorBasemapStyle,fallbackRasterUrl,
-  fallbackRasterOptions,vectorAttribution,basemapLabels } from '../public/vector-basemap.mjs';
+  fallbackRasterOptions,vectorAttribution,basemapLabels,vectorAdapterSources } from '../public/vector-basemap.mjs';
 
 test('Free primary and fallback sources require no API key or CARTO service',()=>{
  assert.equal(vectorBasemapStyle,'https://tiles.openfreemap.org/styles/positron');
@@ -14,6 +14,12 @@ test('Free primary and fallback sources require no API key or CARTO service',()=
  assert.match(basemapLabels.vector,/ohne API-Key/);
  const all=Object.values(basemapLabels).join(' ');
  assert.doesNotMatch(all,/CARTO|MapTiler|Mapbox/i);
+ assert.equal(vectorAdapterSources.length,2);
+ assert.ok(vectorAdapterSources.every(url=>/^https:\/\//.test(url)));
+ assert.match(vectorAdapterSources[0],/unpkg\.com/);
+ assert.match(vectorAdapterSources[1],/cdn\.jsdelivr\.net/);
+ assert.ok(vectorAdapterSources.every(url=>url.includes('@0.1.4/dist/leaflet-maplibre-gl.mjs')));
+
 });
 test('Broken dynamic map adapter gracefully returns null for OSM fallback',async()=>{
  const map={};
@@ -49,6 +55,8 @@ test('Main code no longer requests CARTO anonymous watermark tiles',async()=>{
  assert.doesNotMatch(map,/basemaps\.cartocdn\.com/);
  assert.match(map,/useRasterFallback/);
  assert.match(server,/https:\/\/tile\.openstreetmap\.org/);
+ assert.match(server,/https:\/\/cdn\.jsdelivr\.net/);
+ assert.match(server,/https:\/\/unpkg\.com/);
  assert.match(views,/id="map-source-indicator"/);
  assert.match(app,/map-basemap-retry/);
 });
