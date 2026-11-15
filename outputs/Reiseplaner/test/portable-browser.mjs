@@ -167,6 +167,11 @@ try {
   assert.equal(store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.selected,false,
     'Day removal persists without deleting the researched source record');
   await js('document.querySelector(".activity-filter-panel").scrollIntoView({block:"start",behavior:"instant"})');
+  assert.ok(await js('Array.from(document.querySelectorAll(".hub-option-card img.place-specific-photo")).some(x=>x.getAttribute("src")?.includes("Sala%20Apolo"))'),
+    'Sala Apolo is illustrated with a specifically licensed venue facade, not a random Barcelona photo');
+  assert.ok(await js('Array.from(document.querySelectorAll(".hub-option-card img.place-specific-photo")).some(x=>x.getAttribute("src")?.includes("Razzmatazz"))'),
+    'Razzmatazz has a venue-specific Commons photograph with credited license');
+  await screenshot('52-clubs-mit-echten-lizenzierten-fassadenfotos-desktop.png');
   await screenshot('50-clubs-tagwahl-und-schnellplan-desktop.png');
   await click('.activity-category-chip[data-value=bars]');
   await until(()=>js('document.querySelector(".activity-category-chip[data-value=bars]")?.getAttribute("aria-pressed")==="true"'),
@@ -195,6 +200,8 @@ try {
     'Selected travel date displays a full provisional day outline');
   assert.ok(await js('Boolean(document.querySelector(".day-plan-quick-bar [data-action=day-plan-add]"))'),
     'The day planner exposes one-click proposed stops before the long day draft');
+  assert.ok(await js('Boolean(document.querySelector(".day-plan-quick-bar [data-action=day-plan-adopt]"))'),
+    'A full day draft can be adopted with one click without scrolling to the detailed research list');
   assert.ok(await js('(()=>{const a=document.querySelector(".day-plan-quick-bar")?.getBoundingClientRect();'
     +'const b=document.querySelector(".plan-grid")?.getBoundingClientRect();'
     +'const c=document.querySelector("#day-plan-draft-detail")?.getBoundingClientRect();'
