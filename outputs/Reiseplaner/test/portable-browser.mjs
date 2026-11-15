@@ -794,6 +794,13 @@ try {
     'Corrected street-only apartment location is visibly distinguished from historical unverified house number');
   await js('Array.from(document.querySelectorAll(".provider-location-item")).find(x=>x.querySelector("strong")?.textContent==="Cittadella 3")?.scrollIntoView({block:"center",behavior:"instant"})');
   await screenshot('48-provider-adresskonflikte-desktop.png');
+  assert.ok(await js('Array.from(document.querySelectorAll(".provider-location-item .row-actions a")).some(a=>a.textContent.includes("Öffentliche Adresse in OSM suchen")&&a.href.includes("openstreetmap.org/search"))'),
+    'Every public provider location offers an independent keyless OSM address search');
+  assert.ok(await js('Array.from(document.querySelectorAll(".provider-location-item .row-actions a")).some(a=>a.textContent.includes("Historischen Anbieterpin in OSM vergleichen")&&a.href.includes("mlat="))'),
+    'Existing provider coordinates can be inspected without being silently promoted as verified');
+  assert.ok(await js('Array.from(document.querySelectorAll(".provider-location-difference")).every(el=>["near","review","conflict"].includes(el.dataset.distanceState))'),
+    'Provider-point and independent street reference distances receive explicit diagnostic classifications');
+
 
 
   await click('.sidebar [data-action=page][data-value=budget]');
