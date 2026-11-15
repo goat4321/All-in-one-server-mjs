@@ -143,15 +143,15 @@ try {
   await click('.activity-category-chip[data-value=clubs]');
   await until(()=>js('document.querySelector(".activity-category-chip[data-value=clubs]")?.getAttribute("aria-pressed")==="true"'),
     'Clubs filter switches independently from bars and other evening plans');
-  assert.ok(await js('Boolean(document.querySelector(".hub-quick-day[data-quick-day-id=\\\"uploaded:v50:new_036\\\"]"))'),
+  assert.ok(await js('Array.from(document.querySelectorAll(".hub-quick-day")).some(el=>el.dataset.quickDayId==="uploaded:v50:new_036")'),
     'Imported Barcelona nightclub Sala Apolo can be assigned to a compatible travel day');
   await click('[data-action=day-quick-add][data-value="uploaded:v50:new_036"]');
-  await until(()=>js('Boolean(document.querySelector("[data-action=day-quick-remove][data-value=\\\"uploaded:v50:new_036\\\"]"))'),
+  await until(()=>js('Array.from(document.querySelectorAll("[data-action=day-quick-remove]")).some(el=>el.dataset.value==="uploaded:v50:new_036")'),
     'Activity quick-add immediately turns into a one-click remove control');
   assert.equal(store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.selected,true,
     'Quick add persists the chosen day in existing editable state');
   await click('[data-action=day-quick-remove][data-value="uploaded:v50:new_036"]');
-  await until(()=>js('Boolean(document.querySelector("[data-action=day-quick-add][data-value=\\\"uploaded:v50:new_036\\\"]"))'),
+  await until(()=>js('Array.from(document.querySelectorAll("[data-action=day-quick-add]")).some(el=>el.dataset.value==="uploaded:v50:new_036")'),
     'An activity can be removed with one click and then re-added');
   assert.equal(store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.selected,false,
     'Day removal persists without deleting the researched source record');
