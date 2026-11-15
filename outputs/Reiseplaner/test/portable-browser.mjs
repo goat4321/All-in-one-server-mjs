@@ -462,6 +462,12 @@ try {
   assert.ok(await js('document.querySelectorAll(".map-unlocated-review .map-unlocated-public-address").length>0'),
     'Mindestens eine echte veröffentlichte Hausadresse wird mit voller Anschrift gezeigt');
   await text('.map-unlocated-review','Adresse in Google Maps suchen');
+  await click('.map-unlocated-review .map-unlocated-extra-actions > summary');
+  await until(()=>js('document.querySelector(".map-unlocated-review .map-unlocated-extra-actions")?.open===true'),
+    'Additional public address source links remain accessible on deliberate expansion');
+  assert.ok(await js('document.querySelectorAll(".map-unlocated-review .map-unlocated-extra-links a").length>0'),
+    'The exact source/map links stay available, even in compact address rows');
+  await click('.map-unlocated-review .map-unlocated-extra-actions > summary');
   await js('document.querySelector(".map-unlocated-review").scrollIntoView({block:"start",behavior:"instant"})');
   await screenshot('46-hausadressen-quellenpruefung-desktop.png');
   await click('.map-unlocated-facets [data-action=map-unlocated-filter][data-value=concept]');
