@@ -40,6 +40,10 @@ Die vorherige Anbieter-Prüfansicht zeigte alle **17 historischen Einzelprüffä
 - **Le Pouffre:** gespeicherter Anbieterhinweis **43.398464, 3.694474** und unabhängig belegter amtlicher Adresspunkt **43.398442, 3.694451**. Die Haversine-Distanz beträgt gerundet **3 Meter**. Dies ist ein quantifizierter Lagevergleich, **kein Beweis für die Hauseingangstür**.
 - Die bereits erkannte falsche Objektidentität bei „A due passi dalla Lanterna“ bleibt als Konflikt sichtbar. Die anderen vorerst ungeprüften Anbieterkoordinaten werden nicht automatisch in die Karte übernommen.
 - Quellen und Kartenreferenzen werden einzeln verlinkt. Privatadressen aus Airbnb-Wunschlisten sind nicht enthalten.
+- **Screenshot-basierte Korrektur:** In der Anbieterprüfliste erschien bei **Cittadella 3** zunächst noch die alte, fälschlich als Hausnummer interpretierte „2 piano“-Angabe. Der dynamische Abgleich verwendet jetzt die korrigierte öffentliche Referenz **Scalinata della Cittadella, 16126 Genova**; die historische Aussage ist nur noch hinter „Alte Adressfassung zeigen“ sichtbar und ausdrücklich nicht als Hausnummer bestätigt.
+- Die Anbieterprüfliste markiert **vier** unterschiedliche bekannte Adress-/Identitätskonflikte: „A due passi dalla Lanterna“ (andere Objektanschrift), Cittadella 3 (Stockwerk statt Hausnummer möglich), „4 Venice rooms“ (abweichende Postleitzahl) und Bacarino (ähnlich benannter, falscher POI). Die alte Recherche bleibt archiviert, statt falsche Aussagen zu überschreiben.
+- Die überarbeitete Konfliktansicht ist im zusätzlichen Chrome-Screenshot `48-provider-adresskonflikte-desktop.png` dokumentiert.
+
 
 ## 4. Implementierung und Testabnahme
 
