@@ -4,6 +4,24 @@ import { validPoint } from './map-explorer.mjs';
 import {routePositionQuality} from './route-position-quality.mjs';
 
 export const MAP_TONES = Object.freeze(['standard', 'midnight', 'sand']);
+// A previously cached route must actually join these current stops.
+// It is not sufficient to have nonempty route geometry and a duration.
+// Allow small routing-engine snapping offsets (<=250m), never kilometres.
+const metresBetween=(a,b)=>{
+ if(!validPoint(a)||!validPoint(b))return Infinity;
+ const rad=Math.PI/180;
+ const dl=(b[0]-a[0])*rad, dn=(b[1]-a[1])*rad;
+ const h=Math.sin(dl/2)**2+Math.cos(a[0]*rad)*Math.cos(b[0]*rad)*Math.sin(dn/2)**2;
+ return 6371000*2*Math.asin(Math.min(1,Math.sqrt(Math.max(0,h))));
+};
+export function footpathMatchesStops(from,to,route,maxSnapMetres=250){
+ if(!from||!to||!route?.walkOnly||!Array.isArray(route.points)
+   ||route.points.length<2||!route.points.every(validPoint))return false;
+ const first=route.points[0],last=route.points.at(-1);
+ return metresBetween(first,from.point)<=maxSnapMetres
+   &&metresBetween(last,to.point)<=maxSnapMetres;
+}
+
 
 export function routeStudioModel(items = [], routes = [], current = 0) {
   const stops = Array.isArray(items) ? items : [];
@@ -12,15 +30,15 @@ export function routeStudioModel(items = [], routes = [], current = 0) {
     const from = stops[index];
     const walk = checkedRoutes[index];
     const sameCity = Boolean(from?.city && from.city === to?.city);
-    const real = sameCity && walk?.walkOnly === true
-      && Array.isArray(walk.points) && walk.points.length >= 2
-      && walk.points.every(validPoint)
-      && Number.isFinite(walk.minutes) && walk.minutes >= 0
-      && Number.isFinite(walk.metres) && walk.metres >= 0;
+    const real = sameCity && footpathMatchesStops(from,to,walk)
+      && Number.isFinite(walk?.minutes) && walk.minutes >= 0
+      && Number.isFinite(walk?.metres) && walk.metres >= 0;
+    const stale=Boolean(walk?.walkOnly&&Array.isArray(walk.points)&&!real);
     const canDraw = sameCity && validPoint(from.point) && validPoint(to.point);
     return {
       index, from, to,
       verified: Boolean(real),
+      staleGeometry:stale,
       pointType: real ? 'calculated_footpath' : canDraw ? 'schematic_straight_line' : 'no_coordinates',
       points: real ? walk.points : canDraw ? [from.point, to.point] : [],
       minutes: real ? walk.minutes : null,
@@ -34,6 +52,7 @@ export function routeStudioModel(items = [], routes = [], current = 0) {
     stops, legs, selectedIndex: index,positionQuality,
     activeLeg: legs.length ? Math.min(Math.max(0, index - 1), legs.length - 1) : -1,
     verifiedCount: verified.length,
+    staleGeometryCount:legs.filter(leg=>leg.staleGeometry).length,
     unknownCount: legs.length - verified.length,
     knownMinutes: verified.reduce((sum, leg) => sum + leg.minutes, 0),
     knownMetres: verified.reduce((sum, leg) => sum + leg.metres, 0),

@@ -47,6 +47,11 @@ export function dayRouteView(ctx) {
     + '</strong><small>Stopps</small></span><span><strong>'
     + studio.verifiedCount + '/' + studio.legs.length
     + '</strong><small>echte Wege</small></span></div></div>'
+    + (studio.staleGeometryCount
+      ? '<div class="route-studio-geowarning" role="alert"><strong>'
+        +studio.staleGeometryCount+' bisherige Wegberechnung(en) passen nicht mehr zu den gewählten Stopps.</strong>'
+        +'<p>Veraltete Gehzeiten werden nicht übernommen. Mit „Fußwege und Zeiten berechnen“ '
+        +'die aktuellen Endpunkte erneut prüfen.</p></div>':'')
     + (studio.positionQuality.reviewCount?'<div class="route-studio-geowarning" role="status">'
       +'<strong>Positionen überprüfen: '+studio.positionQuality.reviewCount+' von '+studio.stops.length+' Stopps</strong>'
       +'<p>Eine berechnete Fußroute verbindet gespeicherte Koordinaten, aber bestätigt keine tatsächlichen Eingänge. '

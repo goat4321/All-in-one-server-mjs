@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { routeStudioModel, routeStudioSummary, MAP_TONES } from '../public/route-studio.mjs';
+import { routeStudioModel, routeStudioSummary, footpathMatchesStops, MAP_TONES } from '../public/route-studio.mjs';
 import { dayRouteView } from '../public/day-route-ui.mjs';
 
 const barcelona=[
@@ -107,4 +107,40 @@ test('Real walking geometry does not remove warnings for unverified endpoints',(
  assert.match(html,/route-studio-geowarning/);
  assert.match(html,/data-location-confidence="provider"/);
  assert.match(html,/Positionen überprüfen: 1 von 2 Stopps/);
+});
+
+
+test('Old cached route geometry cannot supply new stops with fabricated walking time',()=>{
+ const source=[
+  {id:'1',name:'First',city:'barcelona',point:[41.388,2.186]},
+  {id:'2',name:'Second',city:'barcelona',point:[41.391,2.181]}
+ ];
+ const oldRoute={walkOnly:true,minutes:7,metres:480,
+   points:[[41.388,2.186],[41.389,2.185],[41.391,2.181]]};
+ const valid=routeStudioModel(source,[oldRoute]);
+ assert.equal(valid.verifiedCount,1);assert.equal(valid.staleGeometryCount,0);
+ const moved=[source[0],{...source[1],point:[41.43,2.23]}];
+ const stale=routeStudioModel(moved,[oldRoute]);
+ assert.equal(stale.staleGeometryCount,1);
+ assert.equal(stale.verifiedCount,0);
+ assert.equal(stale.knownMinutes,0);
+ assert.equal(stale.legs[0].pointType,'schematic_straight_line');
+ assert.equal(stale.legs[0].staleGeometry,true);
+ const ctx={explorer:{},dayRoute:{items:moved,routes:[oldRoute],
+   time:'09:00',focusIndex:0,displayMode:'all',status:''},
+   people:[{id:'p1'}],cities:{barcelona:{name:'Barcelona'}},
+   city:'barcelona',date:'2027-09-05'};
+ assert.match(dayRouteView(ctx),/bisherige Wegberechnung\\(en\\) passen nicht mehr/);
+ assert.doesNotMatch(dayRouteView(ctx),/7 Min\\. geprüfter Fußweg/);
+});
+test('Near-road snapping is allowed but reverse or distant route endpoints are rejected',()=>{
+ const stops=[
+  {id:'1',city:'barcelona',point:[41.388,2.186]},
+  {id:'2',city:'barcelona',point:[41.391,2.181]}
+ ];
+ const route={walkOnly:true,minutes:7,metres:490,
+   points:[[41.3885,2.1865],[41.390,2.184],[41.3915,2.1815]]};
+ assert.equal(footpathMatchesStops(stops[0],stops[1],route),true);
+ assert.equal(footpathMatchesStops(stops[0],stops[1],{...route,points:[...route.points].reverse()}),false);
+ assert.equal(footpathMatchesStops(stops[0],stops[1],{...route,points:[[41.4,2.20],...route.points]}),false);
 });
