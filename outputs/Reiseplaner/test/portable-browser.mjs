@@ -418,6 +418,18 @@ try {
     'Nach Scope-Wechsel wieder mehrere passende Stadtorte sichtbar');
   await click('.map-scope-modes [data-action=explorer-scope][data-value=trip]');
   await text('#main', 'Reiseroute entdecken');
+  assert.ok(await js('Array.from(document.querySelectorAll("link[rel=stylesheet]")).some(x=>x.getAttribute("href")==="/readability-day-v50.css")'),
+    'Screenshot-specific contrast repair loads after legacy styles');
+  await js('document.documentElement.dataset.theme="dark"');
+  assert.equal(await js('getComputedStyle(document.querySelector(".reference-map-intro h1")).color'),
+    'rgb(33, 59, 45)',
+    'Dark-mode inherited text remains legibly dark on the pale map hero');
+  assert.equal(await js('getComputedStyle(document.querySelector(".reference-discovery-title strong")).color'),
+    'rgb(34, 55, 44)',
+    'Source photo cards have strong text contrast even under dark global theme');
+  await js('document.documentElement.dataset.theme="light"');
+  await js('document.querySelector(".reference-map-intro").scrollIntoView({block:"start",behavior:"instant"})');
+  await screenshot('50-lesbare-kartenkopfzeile-und-bildkarten-1280.png');
   assert.equal(await js('Array.from(document.querySelectorAll(".reference-discovery-euro")).some(el=>el.textContent.trim()==="€?")'),false,
     'No question-mark price badges in the route photo carousel');
 
