@@ -21,11 +21,24 @@ export function providerLocationAudit(ctx){
  const rows=source.items.filter(r=>route.has(r.city)).map(row=>{
    const key=row.id+'|'+row.city;
    const record=addresses.get(key),item=items.get(key);
+   const addressQualification=record?.addressQualification??null;
+   const qualificationHint={
+     listing_floor_or_number_ambiguity:'Die veröffentlichte Angabe „2 piano“ könnte das Stockwerk statt der Hausnummer meinen. Der genaue Hauszugang bleibt ungeklärt.',
+     published_number_conflicting_postcode:'Die Postleitzahl weicht zwischen öffentlichen Quellen ab (30174 bzw. 30173).',
+     published_restaurant_address_distinct_from_similar_named_poi:'Ein ähnlich benannter Karten-POI gehört zu einem anderen Lokal; kein automatischer Standortabgleich.'
+   }[addressQualification]??null;
+   const addressConflict=row.reviewStatus==='provider_identity_address_conflict'
+      ||Boolean(qualificationHint);
    const reference=Array.isArray(record?.point)&&Array.isArray(item?.point)
      &&hasIndependentPointEvidence(item)
      &&distanceMetres(record.point,item.point)!==null
      &&distanceMetres(record.point,item.point)<=30;
    return {...row,
+     currentPublishedAddress:record?.address??row.publishedAddress,
+     currentAddressSource:record?.sourceUrl??row.publishedAddressSource,
+     historicalAddressChanged:Boolean(record?.address&&row.publishedAddress
+       &&record.address!==row.publishedAddress),
+     addressQualification,addressConflict,qualificationHint,
      verifiedReference:Boolean(reference),
      referencePoint:reference?record.point:null,
      referencePrecision:reference?record.precision:null,
@@ -38,7 +51,7 @@ export function providerLocationAudit(ctx){
  return {
    rows,
    providerLeads:rows.filter(r=>Array.isArray(r.providerPoint)).length,
-   conflicts:rows.filter(r=>r.reviewStatus==='provider_identity_address_conflict').length,
+   conflicts:rows.filter(r=>r.addressConflict).length,
    unlocated:rows.filter(r=>!r.verifiedReference).length,
    independentlyVerified:rows.filter(r=>r.verifiedReference).length,
    unmatchedProviderPoints:rows.filter(r=>Array.isArray(r.providerPoint)&&!r.verifiedReference).length,
@@ -59,10 +72,16 @@ export function providerLocationPanel(ctx){
    +(m.rows.length?'<details><summary>Einzelprüfung und Quellen öffnen ('+m.rows.length+')</summary>'
      +'<div class="provider-location-list">'+m.rows.map(r=>
        '<article class="provider-location-item'
-        +(r.reviewStatus==='provider_identity_address_conflict'?' has-conflict':'')
+        +(r.addressConflict?' has-conflict':'')
         +(r.verifiedReference?' has-independent-point':'')+'">'
        +'<strong>'+esc(r.name)+'</strong><small>'+esc(ctx.cities?.[r.city]?.name??r.city)+'</small>'
-       +'<p><b>Veröffentlichte Anschrift:</b> '+esc(r.publishedAddress??'Offen')+'</p>'
+       +'<p><b>Aktuell belegte Anschrift:</b> '+esc(r.currentPublishedAddress??'Offen')+'</p>'
+       +(r.historicalAddressChanged
+         ?'<details class="provider-location-history"><summary>Alte Adressfassung zeigen</summary>'
+           +'<p><b>Nicht mehr als Hausnummer bestätigt:</b> '
+           +esc(r.publishedAddress)+'</p></details>':'')
+       +(r.qualificationHint
+         ?'<p class="provider-location-address-warning">'+esc(r.qualificationHint)+'</p>':'')
        +'<p><b>Anbieterangabe (historisch):</b> '+esc(r.providerAddress??'Kein Anbieterpunkt vorhanden')+'</p>'
        +'<p class="provider-location-status">'
        +(r.reviewStatus==='provider_identity_address_conflict'
@@ -78,7 +97,7 @@ export function providerLocationPanel(ctx){
          ?'<p class="provider-location-difference">Abstand zwischen Anbieterpin und '
            +'öffentlicher Quellenposition: ca. '+r.providerDifferenceMetres
            +' m · Koordinatenvergleich, keine Eingangszertifizierung.</p>':'')
-       +'<div class="row-actions">'+urlLink(r.publishedAddressSource,'Adressquelle')
+       +'<div class="row-actions">'+urlLink(r.currentAddressSource,'Adressquelle')
        +urlLink(r.providerUrl,'Historische Anbieteransicht')
        +urlLink(r.referenceUrl,'Unabhängige Kartenreferenz')+'</div></article>'
       ).join('')+'</div></details>':'')
