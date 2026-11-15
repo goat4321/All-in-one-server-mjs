@@ -120,12 +120,23 @@ try {
   await click('.activity-category-chip[data-value=water]');
   assert.equal(await js('document.querySelector(".activity-category-chip[data-value=water]")?.getAttribute("aria-pressed")'),'true');
   await click('.activity-category-chip[data-value=all]');
+  await until(()=>js('Boolean(document.querySelector(".activity-evidence-chip[data-value=missingPhoto]"))'),
+    'Datenqualitätsfilter sind in Aktivitäten zugänglich');
+  await click('.activity-evidence-chip[data-value=missingPhoto]');
+  await until(()=>js('document.querySelector(".activity-evidence-chip[data-value=missingPhoto]")?.getAttribute("aria-pressed")==="true"'),
+    'Fehlende lizenzierte Bilder filtern');
+  assert.equal(await js('document.querySelectorAll(".activity-card-grid .place-specific-photo").length'),0,
+    'Ein dekoratives Stadtmotiv wird nicht als Objektfoto gezählt');
+  await click('.activity-evidence-chip[data-value=all]');
+  await screenshot('39-aktivitaeten-qualitaetsfilter-desktop.png');
   await screenshot('37-aktivitaeten-kategorien-desktop.png');
   await click('.sidebar [data-action=page][data-value=data]');
   await until(()=>js('Boolean(document.querySelector(".coverage-export-controls [data-action=coverage-export]"))'),
     'Missing data audit offers local JSON export');
   assert.ok(await js('document.querySelectorAll(".coverage-reasons").length>0'),
     'Missing entries show individual reasons and contribution instructions');
+  assert.ok(await js('Boolean(document.querySelector(".coverage-export-controls [data-action=coverage-export-csv]"))'),
+    'Prüflücken sind auch als Excel-kompatible CSV exportierbar');
   await click('.sidebar [data-action=page][data-value=overview]');
   await text('h1','Reiseübersicht');
   assert.equal(await js('document.querySelector(".motion-preference-button")?.getAttribute("aria-pressed")'),"true",
@@ -400,6 +411,22 @@ try {
     'Ruhige Kartenmarker-Dichte aktiv');
   assert.equal(await js('localStorage.getItem("reiseplan-map-density")'),'calm');
   await screenshot('38-ruhige-kartenmarker-desktop.png');
+  await until(()=>js('Boolean(document.querySelector(".map-unlocated-review"))'),
+    'Quellenbasierte Prüfliste ohne erfundene POI-Koordinaten');
+  assert.equal(await js('document.querySelectorAll("#map .city-reference-icon").length'),0,
+    'Ungenaue Stadt-Sammelmarker sind standardmäßig ausgeblendet');
+  await click('.map-unlocated-review > summary');
+  await until(()=>js('document.querySelector(".map-unlocated-review")?.open===true'),
+    'Prüfliste für Orte ohne genaue Position aufklappbar');
+  await text('.map-unlocated-review','Alle fehlenden Kartenpunkte prüfen');
+  await js('document.querySelector(".map-unlocated-review").scrollIntoView({block:"start",behavior:"instant"})');
+  await screenshot('39-ungepruefte-orte-karte-desktop.png');
+  await click('.map-unlocated-review [data-action=explorer-references]');
+  await until(()=>js('localStorage.getItem("reiseplan-map-city-references")==="on"'),
+    'Optionale Stadt-Hinweismarker einschaltbar');
+  await click('.map-unlocated-review [data-action=explorer-references]');
+  await until(()=>js('localStorage.getItem("reiseplan-map-city-references")==="off"'),
+    'Optionale Stadt-Hinweismarker ausblendbar und lokal gespeichert');
   await click('[data-action=map-expand]');
   await until(() => js('document.querySelector(".map-panel")?.classList.contains("map-immersive")'), 'Große Kartendarstellung');
   await click('[data-action=map-expand]');
