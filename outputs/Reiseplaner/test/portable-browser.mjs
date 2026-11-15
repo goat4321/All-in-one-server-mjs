@@ -353,6 +353,9 @@ try {
   await click('.map-scope-modes [data-action=explorer-scope][data-value=city]');
   assert.equal(await js('document.querySelector(".reference-map-floating [data-action=explorer-saved-only]")?.getAttribute("aria-pressed")'),"false",
     'Beim Scope-Wechsel darf ein unsichtbarer gespeicherte-Orte-Filter nicht aktiv bleiben');
+  await until(()=>js('document.querySelectorAll(".explorer-place").length>1'),
+    'Nach Scope-Wechsel wieder mehrere passende Stadtorte sichtbar');
+  await click('.map-scope-modes [data-action=explorer-scope][data-value=trip]');
   await text('#main', 'Reiseroute entdecken');
   await until(() => js('document.querySelectorAll(".route-city-step").length >= 4'), 'Interaktive Stadtetappen');
   await until(() => js('document.querySelectorAll(".map-legend-control").length===5'),'Fünf anklickbare Kartenkategorien');
