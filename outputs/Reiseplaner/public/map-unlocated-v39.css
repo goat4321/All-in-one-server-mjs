@@ -374,3 +374,19 @@
 :root[data-theme=dark] .provider-location-difference[data-distance-state="review"]{
  background:#433b28;color:#f1d4a2;
 }
+
+/* Phase 49: a compact, optional per-object evidence task for 14 addresses.
+ * Keep the sourced-address ledger readable rather than adding card clutter. */
+.map-unlocated-next-check{min-width:0;font-size:.7rem;line-height:1.45}
+.map-unlocated-next-check>summary{
+ cursor:pointer;display:inline-flex;align-items:center;
+ font-size:.7rem;font-weight:720;color:var(--muted,#416a52);
+ padding:5px 0;list-style:none;
+}
+.map-unlocated-next-check>summary::before{content:"+";font-weight:900;padding-right:7px}
+.map-unlocated-next-check[open]>summary::before{content:"−"}
+.map-unlocated-next-check>summary::-webkit-details-marker{display:none}
+.map-unlocated-next-check>summary:focus-visible{outline:2px solid #75b79a;outline-offset:3px}
+.map-unlocated-next-check>p{padding:4px 0 6px;margin:0;max-width:75ch}
+.map-unlocated-next-check>small{font-size:.65rem;color:var(--muted,#6b7b72)}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-next-check{grid-column:1/-1}
