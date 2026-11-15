@@ -7,6 +7,7 @@ import {explorerCategory,explorerData,EXPLORER_GROUPS} from './map-explorer.mjs'
 import {voteSnippet} from './group-vote.mjs';
 import {lodgingPriceMeter} from './price-insights.mjs';
 import {googleMapsSearchUrl,googleMapsSearchLabel} from './google-maps.mjs';
+import {quickDayTargetDates} from './day-quick-edits-v50.mjs';
 
 const kindTitle={lodging:'Unterkünfte entdecken',food:'Essen & Einkaufen',discover:'Orte & Aktivitäten',activities:'Alle Aktivitäten'};
 const kindSub={lodging:'Aufenthalte vergleichen – erst prüfen, dann auswählen',
@@ -192,6 +193,9 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    &&item.point.every(Number.isFinite);
  const favorite=ctx.browseSavedIds?.has(item.id)??(ctx.state?.favorites?.includes(item.id)??false);
  const status=active?'Im Reiseplan':item.booked?'Bereits gebucht':'Unverbindliche Option';
+ const quickDays=!lodging&&!item.locked&&!item.booked&&!item.duplicateOf
+   ?quickDayTargetDates(ctx,item):[];
+ const suggestedDay=quickDays.includes(ctx.date)?ctx.date:quickDays[0];
  const amenity=lodging
   ?[item.room||null,item.kitchen||'Küche nicht geprüft',
      item.bedsDisplayed!=null?String(item.bedsDisplayed)+' Betten angezeigt':null]
@@ -223,10 +227,20 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    +'<div class="hub-option-pricing"><div><small>Preisorientierung</small>'
    +'<strong>'+esc(signal.tier)+' · '+esc(signal.amount)+'</strong>'
    +'<span>'+esc(provenance)+'</span></div>'+rating+'</div>'
+   +(quickDays.length?'<div class="hub-quick-day" data-quick-day-id="'+esc(item.id)+'">'
+      +'<label>Reisetag <select class="hub-quick-day-select" aria-label="Reisetag für '
+        +esc(item.name)+' auswählen">'
+        +quickDays.map(date=>'<option value="'+esc(date)+'"'
+          +(date===suggestedDay?' selected':'')+'>'+esc(date)+' · '
+          +esc(ctx.cities?.[ctx.cityForDay(date)]?.name??ctx.cityForDay(date))+'</option>').join('')
+        +'</select></label>'
+      +(active?btn('day-quick-remove','Aus Plan entfernen','close',item.id,'subtle')
+        :btn('day-quick-add','Direkt hinzufügen','plus',item.id,'primary'))
+      +'</div>':'')
    +'<div class="hub-option-primary-actions">'
-   +btn(active?'edit':meal?'meal-choose':'choose',
+   +(!quickDays.length||lodging?btn(active?'edit':meal?'meal-choose':'choose',
      active?'Im Plan bearbeiten':lodging?'Unterkunft prüfen':'Zum Tag hinzufügen',
-     active?'edit':'plus',!active&&meal?meal.id:item.id,'primary')
+     active?'edit':'plus',!active&&meal?meal.id:item.id,'primary'):'')
    +(point?btn('browse-map-item','Karte','pin',item.id):'')
    +btn('details','Details','folder',item.id)
    +'</div>'
