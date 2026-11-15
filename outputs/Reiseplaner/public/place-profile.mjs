@@ -1,5 +1,6 @@
 import { groupPrice, money } from './model.mjs';
 import { explorerCategory, explorerDetail } from './map-explorer.mjs';
+import {markerProvenance,hasIndependentPointEvidence} from './poi-location-provenance.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, googleMapsLocationStatus } from './google-maps.mjs';
 import { esc, sourceList, urlLink } from './ui.mjs';
 import { curatedPlacePhoto,curatedCityBackdrop } from './curated-place-photos.mjs';
@@ -53,6 +54,8 @@ export function placeProfileModel(item, ctx = {}) {
     ['Preis für die Gruppe',priceLabel],
     ['Bewertung',rating],
     ['Standort',googleMapsLocationStatus(item)],
+    ['Koordinatenqualität',markerProvenance(item).label
+      +(item.point&&!hasIndependentPointEvidence(item)?' · unabhängige Prüfung offen':'')],
     ['Öffnung / Ankunft',detail.hours],
   ];
   if(item.address) facts.push(['Öffentliche Adresse',item.address]);
@@ -106,6 +109,9 @@ export function placeProfileModel(item, ctx = {}) {
     id:item.id,name:item.name,category,isAirbnb,description:detail.description,
     priceLabel,priceTier,priceKnown:total!=null,sampleLabel,rating,observed,
     facts,details:detail.extra,sourceStatus:detail.sourceStatus,
+    geoSourceUrl:typeof item.geoEvidence?.url==='string'&&/^https:\/\//.test(item.geoEvidence.url)
+      ?item.geoEvidence.url:null,
+    geoSourceNote:item.geoEvidence?.note??null,
     maps:googleMapsSearchUrl(item,ctx.cities),route:googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),
     providerUrl:item.website??null,photo:photos[0]??null,photos,ownPhotoCount:ownPhotos.length,
   };
@@ -241,6 +247,10 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
       +urlLink(p.providerUrl,'Originalangebot / Anbieter')
       +'</div>'
     + (compact?'':'<details class="place-profile-sources"><summary>Quellen und Aktualität</summary>'
-      +'<p>'+esc(p.sourceStatus)+'</p>'+sourceList(item,ctx.catalog?.sources??{})+'</details>')
+      +'<p>'+esc(p.sourceStatus)+'</p>'
+      +(p.geoSourceUrl?'<p><b>Geografische Referenz:</b> '
+        +urlLink(p.geoSourceUrl,'Quelle zur Koordinate prüfen')+'</p>':'')
+      +(p.geoSourceNote?'<p><b>Genauigkeit und Grenzen:</b> '+esc(p.geoSourceNote)+'</p>':'')
+      +sourceList(item,ctx.catalog?.sources??{})+'</details>')
     + '</section>';
 }

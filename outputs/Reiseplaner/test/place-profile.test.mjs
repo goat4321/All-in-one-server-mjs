@@ -95,3 +95,24 @@ test('Curated Commons images match only their named landmarks, not hotels or Air
   assert.equal(curatedPlacePhoto({id:'other',kind:'activity',city:'venice',name:'Porto Antico'}),null);
  assert.equal(curatedPlacePhoto({id:'food',kind:'activity',category:'food',city:'barcelona',name:'Park Güell Café'}),null);
 });
+
+
+test('POI profile separates stored point from independent object-specific source',()=>{
+ const base={id:'test:point',kind:'activity',city:'paris',name:'Public waypoint',
+   point:[48.862,2.28873],detail:'A public waypoint not necessarily the visitor entrance'};
+ const raw=placeProfileModel(base,ctx);
+ assert.match(raw.facts.find(x=>x[0]==='Koordinatenqualität')?.[1]??'',/unabhängige Prüfung offen/);
+ const source={...base,geoEvidence:{url:'https://www.openstreetmap.org/node/1697202142',
+   note:'Public viewpoint only, no confirmed building entrance'}};
+ const p=placeProfileModel(source,ctx);
+ assert.match(p.facts.find(x=>x[0]==='Koordinatenqualität')?.[1]??'',/Quellenpunkt/);
+ assert.equal(p.geoSourceUrl,source.geoEvidence.url);
+ const html=placeProfileHtml(source,ctx);
+ assert.match(html,/Quelle zur Koordinate prüfen/);
+ assert.match(html,/Public viewpoint only, no confirmed building entrance/);
+ const privateStay={...base,id:'wishlist:airbnb:fake',kind:'lodging',provider:'Airbnb',
+   point:null,geoEvidence:null};
+ const priv=placeProfileModel(privateStay,ctx);
+ assert.equal(priv.geoSourceUrl,null);
+ assert.match(priv.facts.find(x=>x[0]==='Koordinatenqualität')?.[1]??'',/Kein einzelner Kartenpunkt/);
+});
