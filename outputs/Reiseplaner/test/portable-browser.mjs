@@ -150,6 +150,20 @@ try {
     'Activity quick-add immediately turns into a one-click remove control');
   assert.equal(store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.selected,true,
     'Quick add persists the chosen day in existing editable state');
+  const movedClubDate=await js('(()=>{const wrapper=Array.from(document.querySelectorAll(".hub-quick-day"))'
+    +'.find(el=>el.dataset.quickDayId==="uploaded:v50:new_036");'
+    +'const select=wrapper?.querySelector("select");'
+    +'const current=select?.value;'
+    +'const another=Array.from(select?.options??[]).find(x=>x.value!==current);'
+    +'if(!another)return null;select.value=another.value;return another.value})()');
+  assert.match(movedClubDate,/^2027-09-\d\d$/,
+    'Club can be moved directly to another city-compatible travel day');
+  await click('[data-action=day-quick-move][data-value="uploaded:v50:new_036"]');
+  await until(()=>js('Array.from(document.querySelectorAll("[data-action=day-quick-move]")).some(x=>x.dataset.value==="uploaded:v50:new_036")'),
+    'The move action remains available for already scheduled club');
+  assert.equal(store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.date,movedClubDate,
+    'Direct move persists its new date without deleting and re-adding');
+  await screenshot('52-clubabend-auf-anderen-reisetag-verschoben.png');
   const dayChosen=store.current('interrail_classic').state.edits['uploaded:v50:new_036']?.date;
   assert.match(dayChosen,/^2027-09-\d{2}$/);
   await click('.sidebar [data-action=page][data-value=plan]');
