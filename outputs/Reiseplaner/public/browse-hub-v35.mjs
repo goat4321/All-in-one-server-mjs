@@ -198,6 +198,7 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    ?quickDayTargetDates(ctx,item):[];
  const suggestedDay=quickDays.includes(ctx.date)?ctx.date:quickDays[0];
  const nightlife=nightlifeVenueNote(item);
+ const officialNightlife=item.nightlifeOfficialV51??null;
  const amenity=lodging
   ?[item.room||null,item.kitchen||'Küche nicht geprüft',
      item.bedsDisplayed!=null?String(item.bedsDisplayed)+' Betten angezeigt':null]
@@ -222,8 +223,28 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    +'<p class="hub-option-summary">'+esc(item.detail||item.note||
        (lodging?'Unterkunft mit noch offenen Angaben':'Reiseidee aus der Recherche'))+'</p>'
    +(nightlife?'<div class="hub-option-nightlife">'
-     +'<strong>'+esc(nightlife.label)+'</strong><span>'+esc(nightlife.checklist)+'</span>'
+     +'<strong>'+esc(nightlife.label)+'</strong>'
+     +(officialNightlife
+       ?'<span>'+esc(officialNightlife.publishedEntranceAge!=null
+         ?'Einlass laut Betreiber: '+officialNightlife.publishedEntranceAge
+           +'+ (Stand Nov. 2026) · Ausweis erforderlich'
+         :'Betreiberseite geprüft · Altersregeln offen')+'</span>'
+       :'<span>'+esc(nightlife.checklist)+'</span>')
      +'</div>':'')
+   +(officialNightlife?'<details class="hub-official-nightlife"><summary>'
+     +'Betreiberhinweise & Originalquelle</summary><div>'
+     +'<p>'+esc(officialNightlife.ageScope)+'</p>'
+     +(officialNightlife.publishedDressCode?'<p><strong>Kleidung:</strong> '
+       +esc(officialNightlife.publishedDressCode)+'</p>':'')
+     +(officialNightlife.admissionReference?'<p><strong>Tickets:</strong> '
+       +esc(officialNightlife.admissionReference)+'</p>':'')
+     +(officialNightlife.addressCaution?'<p><strong>Adresse:</strong> '
+       +esc(officialNightlife.addressCaution)+'</p>':'')
+     +'<p>'+esc(officialNightlife.programmeReference||'')+'</p>'
+     +'<p>Konkrete Veranstaltung und Ticketpreis für September 2027 offen.</p>'
+     +urlLink(officialNightlife.sourceUrl,'Betreiberseite')
+     +(officialNightlife.secondaryUrl?urlLink(officialNightlife.secondaryUrl,'Weitere Betreiberangaben'):'')
+     +'</div></details>':'')
    +'<div class="hub-option-amenities">'
    +amenity.filter(Boolean).slice(0,3).map(a=>'<span>'+esc(a)+'</span>').join('')
    +(item.preference?.score!=null?'<span>Gruppeninteresse '
