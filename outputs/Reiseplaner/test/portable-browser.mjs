@@ -284,7 +284,7 @@ try {
     'Explorer agenda and search directly follow day carousel, not below full map height');
   assert.ok(await js('document.querySelectorAll(".map-browse-category").length===5'),
     'Browse panel exposes five categories even without a daily plan');
-  assert.ok(await js('(() => {const box=document.querySelector(".reference-map-workspace");const gallery=box?.querySelector(":scope > .reference-discovery");const map=box?.querySelector(":scope > .map-panel");if(!gallery||!map)return false;const m=map.getBoundingClientRect(),g=gallery.getBoundingClientRect();return innerWidth<1180||g.top>=m.bottom-15&&g.left>=m.left-5;})()'),
+  assert.ok(await js('(() => {const box=document.querySelector(".reference-map-workspace");const gallery=box?.querySelector(":scope > .reference-discovery");const panel=box?.querySelector(":scope > .map-panel");const canvas=panel?.querySelector("#map");if(!gallery||!panel||!canvas)return false;const p=panel.getBoundingClientRect(),m=canvas.getBoundingClientRect(),g=gallery.getBoundingClientRect();return innerWidth<1180||(g.top>=m.bottom-15&&g.top<m.bottom+220&&g.left>=p.left-5&&g.width<=p.width+10);})()'),
      'Barcelona reference: photo carousel sits directly below the right-hand map, not as a full-width block');
   await screenshot('28-reference-embedded-photo-timeline-1440.png');
   await screenshot('18-reference-day-map-desktop-1440.png');
