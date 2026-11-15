@@ -154,3 +154,21 @@ test('Map time chip follows the real walking path by distance, not air-line cent
   assert.equal(pointAlongRoute([[48.86,2.29]],.5),null);
   assert.equal(pointAlongRoute([[99,2.29],[48.86,2.3]],.5),null);
 });
+
+test('Excessive routing snap is rejected even when geometry otherwise looks valid',()=>{
+ const stops=[
+  {id:'a',city:'barcelona',point:[41.388,2.186]},
+  {id:'b',city:'barcelona',point:[41.391,2.181]}
+ ];
+ const route={walkOnly:true,minutes:8,metres:600,
+  points:[[41.389,2.186],[41.390,2.184],[41.391,2.181]]};
+ assert.equal(footpathMatchesStops(stops[0],stops[1],route),false,
+  'a route starting over 100m from its named stop must not claim verified geometry');
+ const m=routeStudioModel(stops,[route]);
+ assert.equal(m.verifiedCount,0);
+ assert.equal(m.staleGeometryCount,1);
+ assert.equal(m.knownMinutes,0);
+ assert.equal(m.legs[0].minutes,null);
+ const almost={...route,points:[[41.3883,2.1863],[41.390,2.184],[41.391,2.181]]};
+ assert.equal(footpathMatchesStops(stops[0],stops[1],almost),true);
+});
