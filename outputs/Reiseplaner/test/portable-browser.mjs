@@ -193,6 +193,14 @@ try {
   await text('h1', 'Barcelona');
   assert.ok(await js('Boolean(document.querySelector(".day-plan-panel .day-plan-stop-list"))'),
     'Selected travel date displays a full provisional day outline');
+  assert.ok(await js('Boolean(document.querySelector(".day-plan-quick-bar [data-action=day-plan-add]"))'),
+    'The day planner exposes one-click proposed stops before the long day draft');
+  assert.ok(await js('(()=>{const a=document.querySelector(".day-plan-quick-bar")?.getBoundingClientRect();'
+    +'const b=document.querySelector(".plan-grid")?.getBoundingClientRect();'
+    +'const c=document.querySelector("#day-plan-draft-detail")?.getBoundingClientRect();'
+    +'return a&&b&&c&&a.bottom<=b.top+1&&b.bottom<=c.top+1})()'),
+    'The actual itinerary is immediately after quick actions; longer research follows below');
+  await screenshot('51-tagesplan-kurze-bedienung-1280.png');
   assert.ok(await js('Boolean(document.querySelector(".day-plan-panel [data-action=day-plan-adopt]"))'),
     'Planning candidates can be adopted explicitly without silently rewriting trips');
   await screenshot('27-tagesprogramm-barcelona-1280.png');
