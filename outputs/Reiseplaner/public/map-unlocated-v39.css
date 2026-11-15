@@ -259,3 +259,42 @@
    grid-column:1;grid-row:auto;
  }
 }
+
+/* Phase 47 · A useful coordinate audit shows the saved point AND a separate
+ * public POI search, without representing the pin as verified geometry. */
+.workspace>.map-evidence-review .map-unlocated-grid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+}
+.map-evidence-review .map-evidence-record{
+ padding:12px 13px;gap:6px;border-radius:12px;
+}
+.map-evidence-position{
+ display:inline-flex;align-items:center;overflow-wrap:anywhere;
+ background:var(--light,#f1f6f1);border:1px dashed var(--line,#bccfc3);
+ border-radius:8px;padding:6px 9px;font-variant-numeric:tabular-nums;
+ font-size:.67rem!important;color:var(--muted,#496a58)!important;
+}
+.map-evidence-review .map-unlocated-actions{align-items:center}
+.map-evidence-source-links{min-width:0;flex-basis:100%}
+.map-evidence-source-links>summary{
+ display:inline-flex;align-items:center;gap:5px;
+ padding:6px 9px;border:1px solid var(--line,#d5e4d8);border-radius:8px;
+ background:var(--light,#f3f7f4);color:var(--muted,#365b49);
+ font-size:.68rem;font-weight:700;cursor:pointer;
+}
+.map-evidence-source-links>summary::after{content:" ▾"}
+.map-evidence-source-links[open]>summary::after{content:" ▴"}
+.map-evidence-source-links>summary:focus-visible{
+ outline:3px solid #73b79d;outline-offset:2px;
+}
+.map-evidence-review-links{display:flex;gap:7px;flex-wrap:wrap;padding:9px 0 6px}
+.map-evidence-source-links>small{
+ font-size:.66rem;color:var(--muted,#536c5c);line-height:1.45;
+}
+:root[data-theme=dark] .map-evidence-position{
+ background:#294238;border-color:#597565;color:#c2e2cc!important;
+}
+@media(max-width:880px){
+ .workspace>.map-evidence-review .map-unlocated-grid{grid-template-columns:1fr}
+ .map-evidence-review .map-evidence-record{padding:11px 12px}
+}
