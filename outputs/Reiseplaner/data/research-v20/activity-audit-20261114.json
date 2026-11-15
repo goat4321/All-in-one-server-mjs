@@ -4,20 +4,25 @@
   "status": "Individual source audit; only sourced POI points promoted; visit exact time and 2027 bookings not inferred",
   "sourceAtlas": "Previous project OSM/Photon evidence plus publicly inspected operator/tourism sites",
   "count": 57,
-  "withSourcedPoint": 24,
-  "withSpecificPublicEvidence": 16,
+  "withSourcedPoint": 27,
+  "withSpecificPublicEvidence": 18,
   "items": [
     {
       "id": "act-001",
       "city": "paris",
       "name": "Trocadéro – Blick auf den Eiffelturm",
-      "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://parisjetaime.com/",
-      "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
-      "researchStatus": "general_portal_or_concept_only"
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.openstreetmap.org/node/1697202142",
+      "specificFactVerified": true,
+      "point": [
+        48.862,
+        2.28873
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Benannter OSM-Aussichtspunkt Esplanade du Trocadéro (tourism=viewpoint). Orientierungspunkt für den Eiffelturmblick; Wege, Treffpunkt und Zugang nicht durch den Punkt garantiert.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://www.openstreetmap.org/node/1697202142",
+      "isCentroid": false
     },
     {
       "id": "act-002",
@@ -252,13 +257,18 @@
       "id": "act-014",
       "city": "barcelona",
       "name": "Montjuïc – Aussicht und Grünanlagen",
-      "reviewedOn": "2026-11-14",
-      "sourceUrl": "https://www.barcelonaturisme.com/",
-      "specificFactVerified": false,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
-      "researchStatus": "general_portal_or_concept_only"
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.openstreetmap.org/node/2509826686",
+      "specificFactVerified": true,
+      "point": [
+        41.36668,
+        2.16946
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Benannter OSM-Aussichtspunkt Mirador de l’Alcalde am Montjuïc. Einzelner öffentlicher Aussichtspunkt als Startanker; NICHT die Lage der gesamten Grünanlagen oder eine bereits berechnete Route.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://www.openstreetmap.org/node/2509826686",
+      "isCentroid": false
     },
     {
       "id": "act-015",
@@ -397,12 +407,15 @@
       "id": "act-024",
       "city": "nice",
       "name": "Colline du Château – Aussicht",
-      "reviewedOn": "2026-11-14",
+      "reviewedOn": "2026-11-15",
       "sourceUrl": "https://www.explorenicecotedazur.com/culture/parc-de-la-colline-du-chateau/",
       "specificFactVerified": true,
-      "point": null,
-      "pointPrecision": "unverified_or_not_single_location",
-      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
+      "point": [
+        43.69465,
+        7.2799
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Benannter OSM-Aussichtspunkt Colline du Château (tourism=viewpoint). Einzelner Aussichtspunkt im Park, NICHT jeder Zugang, Parkeingang oder der vollständige Rundgang.",
       "researchStatus": "specific_public_evidence_checked",
       "condition": "Tourismusamt Nizza bestätigt für 01.04.–30.09.2027 täglich 08:30–20:00 Uhr und freien Eintritt; Ausnahmen bei Sperrung möglich.",
       "priceOverride": {
@@ -412,7 +425,9 @@
         "scope": "person",
         "sourceUrl": "https://www.explorenicecotedazur.com/culture/parc-de-la-colline-du-chateau/"
       },
-      "publishedHours2027": "2027-04-01/2027-09-30 · täglich 08:30–20:00"
+      "publishedHours2027": "2027-04-01/2027-09-30 · täglich 08:30–20:00",
+      "geoSourceUrl": "https://www.openstreetmap.org/node/24630083",
+      "isCentroid": false
     },
     {
       "id": "act-025",
