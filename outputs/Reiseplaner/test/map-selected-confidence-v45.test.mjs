@@ -11,7 +11,7 @@ test('On-map selected place uses source confidence rather than a generic validat
    point:[43.398442,3.694451],geoEvidence:{
      url:'https://data.geopf.fr/geocodage/search?q=85',isCentroid:true}};
  const html=mapSelectionPreview(ctx(item));
- assert.match(html,/Gebäude-\\/Gebietsreferenz/);
+ assert.ok(html.includes('Gebäude-/Gebietsreferenz'));
  assert.match(html,/Koordinatenquelle prüfen/);
  assert.match(html,/Eingang gesondert prüfen/);
  assert.match(html,/href="https:\/\/data.geopf.fr\/geocodage\/search\?q=85"/);
