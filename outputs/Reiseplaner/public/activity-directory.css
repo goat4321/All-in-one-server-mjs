@@ -35,3 +35,27 @@
 @media(max-width:390px){.mobile-dock button{font-size:.56rem}}
 @media(prefers-reduced-motion:reduce){.activity-category-chip{transition:none!important}}
 :root[data-motion=off] .activity-category-chip{transition:none!important}
+
+/* Phase 39: source-evidence filters use compact scrolling pills, not more cards. */
+.activity-evidence-header{display:flex;justify-content:space-between;flex-wrap:wrap;
+ align-items:baseline;gap:8px;color:var(--muted,#64736a)}
+.activity-evidence-header small{font-size:.65rem;font-weight:850;letter-spacing:.11em;
+ color:#397355}
+.activity-evidence-header span{font-size:.72rem;line-height:1.45}
+.activity-evidence-chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:thin;
+ padding:2px 0 8px}
+.activity-evidence-chip{flex:none;white-space:nowrap;background:transparent;color:inherit;
+ padding:8px 11px;border:1px solid #c9d9cc;border-radius:999px;cursor:pointer;
+ font:600 .72rem/1.2 inherit;transition:background .17s,border-color .17s,transform .17s}
+.activity-evidence-chip small{font-size:.68rem;opacity:.65;margin-left:4px}
+.activity-evidence-chip[aria-pressed=true]{background:#e1f0e5;border-color:#8cbb9a;
+ color:#205a3d}
+.activity-evidence-chip:focus-visible{outline:3px solid #288a5a;outline-offset:2px}
+:root[data-theme=dark] .activity-evidence-chip{border-color:#40614c}
+:root[data-theme=dark] .activity-evidence-chip[aria-pressed=true]{
+ background:#25573c;color:#e4f4e9}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .activity-evidence-chip:hover{transform:translateY(-1px)}
+}
+@media(prefers-reduced-motion:reduce){.activity-evidence-chip{transition:none!important}}
+:root[data-motion=off] .activity-evidence-chip{transition:none!important}

@@ -1,5 +1,6 @@
 import {browseHero,browseToolbar,browseItems,browseOptionCard} from './browse-hub-v35.mjs';
-import {explorerCategory} from './map-explorer.mjs';
+import {explorerCategory,validPoint} from './map-explorer.mjs';
+import {placeProfileModel} from './place-profile.mjs';
 import {groupPrice} from './model.mjs';
 import {esc,icon} from './ui.mjs';
 
@@ -15,6 +16,33 @@ export const ACTIVITY_GROUPS=Object.freeze([
  ['night','Abend & Nightlife'],
  ['other','Weitere Ideen']
 ]);
+export const ACTIVITY_EVIDENCE_FILTERS=Object.freeze([
+ ['all','Alle Nachweise'],
+ ['photo','Mit Quellenfoto'],
+ ['missingPhoto','Ohne Einzelbild'],
+ ['point','Mit Kartenpunkt'],
+ ['missingPoint','Ohne Kartenpunkt'],
+ ['price','Mit Preisreferenz'],
+ ['missingPrice','Preis offen']
+]);
+export function activityEvidence(item,ctx){
+ return {
+  photo:Boolean(placeProfileModel(item,ctx)?.photo),
+  point:validPoint(item?.point),
+  price:groupPrice(item?.effectivePrice??item?.price,ctx?.people?.length??3)!=null
+ };
+}
+export function activityFacetMatch(item,ctx,facet='all'){
+ if(facet==='all')return true;
+ const e=activityEvidence(item,ctx);
+ return facet==='photo'?e.photo
+  :facet==='missingPhoto'?!e.photo
+  :facet==='point'?e.point
+  :facet==='missingPoint'?!e.point
+  :facet==='price'?e.price
+  :facet==='missingPrice'?!e.price
+  :true;
+}
 const normalize=value=>String(value??'').normalize('NFD')
  .replace(/[\u0300-\u036f]/g,'').toLowerCase();
 export function activityGroup(item){
@@ -36,7 +64,8 @@ export function activityRows(ctx){
  const saved=ctx.browseSavedIds??new Set(ctx.state?.favorites??[]);
  const filtered=searched.filter(item=>
   ((ctx.activityCategory??'all')==='all'||activityGroup(item)===ctx.activityCategory)
-  &&(!ctx.activitySavedOnly||saved.has(item.id)));
+  &&(!ctx.activitySavedOnly||saved.has(item.id))
+  &&activityFacetMatch(item,ctx,ctx.activityEvidenceFilter??'all'));
  const sort=ctx.activityOrder??'source';
  if(sort==='name')filtered.sort((a,b)=>a.name.localeCompare(b.name,'de'));
  if(sort==='score')filtered.sort((a,b)=>(b.preference?.score??-1)-(a.preference?.score??-1)
@@ -46,7 +75,10 @@ export function activityRows(ctx){
    ||a.name.localeCompare(b.name,'de'));
  return {all,searched,filtered,counts:Object.fromEntries(ACTIVITY_GROUPS.map(([key])=>[
   key,key==='all'?searched.length:searched.filter(item=>activityGroup(item)===key).length
- ])),savedCount:searched.filter(item=>saved.has(item.id)).length};
+ ])),savedCount:searched.filter(item=>saved.has(item.id)).length,
+  evidenceCounts:Object.fromEntries(ACTIVITY_EVIDENCE_FILTERS.map(([key])=>[
+    key,key==='all'?searched.length:searched.filter(item=>activityFacetMatch(item,ctx,key)).length
+  ]))};
 }
 export function activityDirectory(ctx){
  const data=activityRows(ctx);
@@ -72,6 +104,14 @@ export function activityDirectory(ctx){
   +'<button type="button" class="activity-category-chip activity-bookmark-chip"'
   +' data-action="activity-saved" aria-pressed="'+Boolean(ctx.activitySavedOnly)+'">'
   +icon('bookmark')+' Gemerkt <small>'+data.savedCount+'</small></button></div>'
+  +'<div class="activity-evidence-header"><small>DATENQUALITÄT</small>'
+  +'<span>Quellenfotos sind nicht mit Stadtmotiven gleichzusetzen. Unbekannte Preise bleiben offen.</span></div>'
+  +'<div class="activity-evidence-chips" role="group" aria-label="Nachweise für Aktivitäten filtern">'
+  +ACTIVITY_EVIDENCE_FILTERS.map(([key,label])=>'<button type="button" class="activity-evidence-chip"'
+   +' data-action="activity-evidence" data-value="'+key+'" aria-pressed="'
+   +((ctx.activityEvidenceFilter??'all')===key)+'">'+esc(label)
+   +' <small>'+data.evidenceCounts[key]+'</small></button>').join('')
+  +'</div>'
   +'<p class="activity-result-count" role="status">'+data.filtered.length+' von '+data.all.length
   +' Ideen sichtbar · Preise und Öffnungszeiten für 2027 teilweise offen</p></section>'
   +(cards?'<div class="hub-option-grid activity-card-grid">'+cards+'</div>'

@@ -42,7 +42,7 @@ const view = {
   mapDensity:localStorage.getItem('reiseplan-map-density')==='detail'?'detail':'calm',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
   browseScope:'city',browseSearch:'',browseFoodType:'all',browseLimit:24,
-  activityCategory:'all',activitySavedOnly:false,activityOrder:'source',
+  activityCategory:'all',activitySavedOnly:false,activityOrder:'source',activityEvidenceFilter:'all',
   browseFoodSavedOnly:false,browseMarketLoadingCity:null,browseMarketError:null,
   browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
   dayPlanOpen:false,
@@ -799,11 +799,15 @@ async function action(name, value = '') {
     case 'activity-category':
       if(!['all','culture','nature','water','view','sport','night','other'].includes(value))break;
       view.activityCategory=value;view.browseLimit=24;render({fetchRoutes:false});break;
+    case 'activity-evidence':
+      if(!['all','photo','missingPhoto','point','missingPoint','price','missingPrice'].includes(value))break;
+      view.activityEvidenceFilter=value;view.browseLimit=24;
+      render({fetchRoutes:false});break;
     case 'activity-saved':
       view.activitySavedOnly=!view.activitySavedOnly;view.browseLimit=24;
       render({fetchRoutes:false});break;
     case 'activity-reset':
-      view.activityCategory='all';view.activitySavedOnly=false;
+      view.activityCategory='all';view.activitySavedOnly=false;view.activityEvidenceFilter='all';
       view.browseSearch='';view.browseLimit=24;view.browseScope='trip';
       render({fetchRoutes:false});break;
     case 'browse-scope':
