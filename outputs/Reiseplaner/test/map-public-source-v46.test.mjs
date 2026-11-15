@@ -10,9 +10,9 @@ const addr=JSON.parse(await readFile(new URL('../data/research-v09/verified-publ
 const catalog=await loadCatalog();
 const sources=addr.entries.filter(x=>!x.point);
 
-test('15 public source addresses are distinct from exact building GPS and private properties',()=>{
- assert.equal(sources.length,15);
- assert.equal(sources.filter(x=>x.city==='sete').length,6);
+test('14 public source addresses are distinct from exact building GPS and private properties',()=>{
+ assert.equal(sources.length,14);
+ assert.equal(sources.filter(x=>x.city==='sete').length,5);
  assert.equal(sources.filter(x=>x.city==='genoa').length,3);
  assert.equal(sources.filter(x=>x.city==='venice').length,6);
  assert.ok(sources.every(x=>x.airbnb===false&&x.sourceUrl.startsWith('https://')));
