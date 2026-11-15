@@ -1,15 +1,28 @@
 /**
- * MapLibre paints a vector Positron basemap into the existing Leaflet map
- * without replacing Leaflet route overlays, controls, or source-backed pins.
- * The CARTO light raster stays in place on failed imports/WebGL/tile loads.
+ * Keyless map sources. OpenFreeMap vectors are the primary basemap; an
+ * interactive OSM raster is loaded ONLY if the vector stack fails. Do not
+ * preload map tiles or expose paid-provider API keys.
  */
 const STYLE='https://tiles.openfreemap.org/styles/positron';
+export const vectorBasemapStyle=STYLE;
+export const fallbackRasterUrl='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+export const fallbackRasterOptions=Object.freeze({
+  maxZoom:19,maxNativeZoom:19,keepBuffer:0,updateWhenIdle:true,
+  attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap-Mitwirkende</a>'
+});
+export const vectorAttribution='<a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a> © OpenMapTiles · Daten: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap-Mitwirkende</a>';
+export const basemapLabels=Object.freeze({
+ loading:'Kostenlose Karte wird geladen …',
+ vector:'OpenFreeMap · ohne API-Key',
+ fallback:'OpenStreetMap-Ersatzkarte · ohne API-Key',
+ error:'Kartenhintergrund nicht erreichbar · Orte und Routen bleiben nutzbar',
+ offline:'Offline-Testmodus · Kartenhintergrund ausgeschaltet'
+});
 let importer=null;
 const loadAdapter=()=>importer??=import(
  'https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.mjs'
 ).then(mod=>mod.maplibreGL).catch(error=>{importer=null;throw error});
 
-export const vectorBasemapStyle=STYLE;
 export function mapPalettePatch(gl){
  const layers=gl?.getStyle?.()?.layers??[];
  for(const layer of layers){
@@ -19,42 +32,55 @@ export function mapPalettePatch(gl){
    if(id.includes('water'))gl.setPaintProperty(layer.id,'fill-color','#bde5f1');
    else if(/park|forest|wood|grass|landcover|landuse/.test(id))
     gl.setPaintProperty(layer.id,'fill-color','#e0efd7');
-  }catch{/* some providers use data-driven paint rules; leave them intact */}
+  }catch{/* Provider-specific expressions must not break the whole map. */}
  }
 }
-export async function installSoftVectorBasemap(map,raster,{report=()=>{},alive=()=>true}={}){
- if(!map||!alive())return null;
- let layer=null,completed=false;
- try{
-  const create=await loadAdapter();
-  if(!alive())return null;
-  layer=create({style:STYLE,interactive:false}).addTo(map);
-  const gl=layer.getMaplibreMap();
-  const cleanup=()=>{
-   if(!completed){completed=true;
-    if(map.hasLayer(layer))map.removeLayer(layer);
-   }
+
+function awaitStyle(gl,timeoutMs){
+ return new Promise((resolve,reject)=>{
+  let ended=false,timer;
+  const done=error=>{
+   if(ended)return;
+   ended=true;clearTimeout(timer);
+   gl.off?.('load',loaded);gl.off?.('error',failed);
+   if(error)reject(error);else resolve();
   };
-  await new Promise((resolve,reject)=>{
-   const timer=setTimeout(()=>reject(Error('vector style timeout')),10000);
-   const success=()=>{
-    if(!alive()){clearTimeout(timer);reject(Error('map detached'));return;}
-    try{mapPalettePatch(gl)}catch{}
-    clearTimeout(timer);resolve();
-   };
-   gl.once('load',success);
-   gl.once('error',error=>{
-    if(!gl.isStyleLoaded()) {clearTimeout(timer);reject(Error(error?.error?.message||'vector style failed'));}
-   });
-  });
-  if(!alive()){cleanup();return null;}
-  completed=true;
-  if(map.hasLayer(raster))map.removeLayer(raster);
+  const loaded=()=>done(null);
+  const failed=event=>{
+   if(!gl.isStyleLoaded?.())done(new Error(event?.error?.message||'Map style unavailable'));
+  };
+  gl.on('load',loaded);gl.on('error',failed);
+  timer=setTimeout(()=>done(new Error('Map style timed out')),timeoutMs);
+  if(gl.isStyleLoaded?.())done(null);
+ });
+}
+
+/**
+ * The raster parameter is optional and is removed only AFTER the vector style
+ * loads. The caller can keep a functioning raster in place during retries.
+ * load is injectable for network-free regression tests.
+ */
+export async function installSoftVectorBasemap(map,raster=null,
+ {alive=()=>true,load=loadAdapter,timeoutMs=10000}={}){
+ if(!map||!alive())return null;
+ let layer=null;
+ try{
+  const create=await load();
+  if(!alive())return null;
+  if(typeof create!=='function')throw new Error('MapLibre adapter unavailable');
+  layer=create({style:STYLE,interactive:false}).addTo(map);
+  const gl=layer.getMaplibreMap?.();
+  if(!gl)throw new Error('MapLibre instance unavailable');
+  await awaitStyle(gl,timeoutMs);
+  if(!alive()){
+   try{if(map.hasLayer(layer))map.removeLayer(layer)}catch{}
+   return null;
+  }
+  mapPalettePatch(gl);
+  if(raster&&map.hasLayer(raster))map.removeLayer(raster);
   return layer;
- }catch(error){
-  if(layer&&map.hasLayer(layer))map.removeLayer(layer);
-  // No alarming UI message: fallback remains fully interactive.
-  report('');
+ }catch{
+  try{if(layer&&map.hasLayer(layer))map.removeLayer(layer)}catch{}
   return null;
  }
 }

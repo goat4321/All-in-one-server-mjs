@@ -330,6 +330,10 @@ function mapPanel(ctx, full = false) {
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
     <div class="map-wrap" data-map-tone="${esc(ctx.mapTone)}"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div>
+    <div class="map-source-indicator" id="map-source-indicator" data-state="loading" role="status" aria-live="polite">
+      <span id="map-source-label">Kostenlose Karte wird geladen …</span>
+      <button type="button" class="map-source-retry" id="map-source-retry" data-action="map-basemap-retry" hidden>Erneut laden</button>
+    </div>
       ${mapFloatingControls(ctx)}
       ${ctx.page==='map'?'<div class="map-place-switches">'
         +'<button type="button" class="point-overview-toggle" data-action="map-points-toggle" aria-pressed="'

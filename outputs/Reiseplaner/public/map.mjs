@@ -3,7 +3,8 @@ import { localParts } from './model.mjs';
 import { explorerCategory, explorerUnlocatedCityClusters } from './map-explorer.mjs';
 import { routeStudioModel } from './route-studio.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
-import { installSoftVectorBasemap } from './vector-basemap.mjs';
+import { installSoftVectorBasemap, fallbackRasterUrl, fallbackRasterOptions,
+  vectorAttribution, basemapLabels } from './vector-basemap.mjs';
 import { markerTier, validMapCoordinate, bubbleMarkup } from './photo-map-model.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
@@ -53,21 +54,19 @@ export class TripMap {
     this.map.on('zoomend', () => this.paintExplorerPins());
     this.transit = L.layerGroup().addTo(this.map);
     this.markers = new Map();
-    // A neutral, pastel CARTO raster is available immediately. A keyless
-    // MapLibre Positron vector layer replaces it when WebGL/style loads.
-    // Never request the public tile.openstreetmap.org raster service.
-    const raster=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{
-      subdomains:'abcd',maxZoom:19,maxNativeZoom:19,keepBuffer:2,
-      attribution:'© <a href="https://www.openstreetmap.org/copyright" rel="noopener" target="_blank">OSM contributors</a> · <a href="https://carto.com/attributions" rel="noopener" target="_blank">CARTO</a>'
-    });
-    this.basemap=raster;
-    if(!new URLSearchParams(location.search).has('offlineMap')){
-      raster.addTo(this.map);
-      void installSoftVectorBasemap(this.map,raster,{
-        report:message=>this.handlers.report?.(message),
-        alive:()=>element.isConnected
-      }).then(layer=>{if(layer)this.basemap=layer;});
-    }else this.map.attributionControl.addAttribution(raster.options.attribution);
+    // Never load CARTO: since September 2026 their unauthenticated
+    // tiles display the "API KEY REQUIRED" watermark.
+    this.element=element;
+    this.destroyed=false;
+    this.basemapAttempt=0;
+    this.basemap=null;
+    this.fallbackLayer=null;
+    this.basemapCredit=null;
+    this.vectorGL=null;
+    this.vectorGLOnError=null;
+    this.offlineMap=new URLSearchParams(location.search).has('offlineMap');
+    if(this.offlineMap)this.setBasemapStatus('offline');
+    else void this.startBasemap();
     this.hiking = L.tileLayer.wms('https://wms.geo.admin.ch/', {
       layers: 'ch.swisstopo.swisstlm3d-wanderwege', format: 'image/png', transparent: true,
       minZoom: 10, maxNativeZoom: 18, maxZoom: 19, className: 'hiking-reference', opacity: .82,
@@ -77,6 +76,81 @@ export class TripMap {
     this.map.setView([46.7, 6.2], 5);
     this.map.on('focus', () => this.map.scrollWheelZoom.enable());
     this.map.on('blur', () => this.map.scrollWheelZoom.disable());
+  }
+
+  setBasemapStatus(state){
+    if(this.destroyed)return;
+    const region=this.element.parentElement?.querySelector('#map-source-indicator');
+    if(!region)return;
+    region.dataset.state=state;
+    const label=region.querySelector('#map-source-label');
+    if(label)label.textContent=basemapLabels[state]??basemapLabels.error;
+    const retry=region.querySelector('#map-source-retry');
+    if(retry)retry.hidden=!(state==='fallback'||state==='error');
+  }
+
+  setBasemapCredit(credit){
+    if(this.basemapCredit)this.map.attributionControl.removeAttribution(this.basemapCredit);
+    this.basemapCredit=credit;
+    if(credit)this.map.attributionControl.addAttribution(credit);
+  }
+
+  useRasterFallback(){
+    if(this.destroyed)return;
+    if(!this.fallbackLayer){
+      const raster=L.tileLayer(fallbackRasterUrl,{...fallbackRasterOptions});
+      let failed=0;
+      raster.on('tileerror',()=>{
+        if(this.destroyed||this.basemap!==raster)return;
+        if(++failed>=3)this.setBasemapStatus('error');
+      });
+      raster.on('tileload',()=>{
+        if(this.destroyed||this.basemap!==raster)return;
+        failed=0;this.setBasemapStatus('fallback');
+      });
+      this.fallbackLayer=raster;
+      raster.addTo(this.map);
+    }
+    this.basemap=this.fallbackLayer;
+    this.setBasemapCredit(null); // Leaflet handles its raster attribution.
+    this.setBasemapStatus('fallback');
+  }
+
+  async startBasemap(){
+    if(this.destroyed||this.offlineMap)return;
+    const attempt=++this.basemapAttempt;
+    const alive=()=>!this.destroyed&&attempt===this.basemapAttempt
+      &&this.element.isConnected;
+    this.setBasemapStatus('loading');
+    const layer=await installSoftVectorBasemap(this.map,this.fallbackLayer,{alive});
+    if(!alive()){
+      try{if(layer&&this.map.hasLayer(layer))this.map.removeLayer(layer)}catch{}
+      return;
+    }
+    if(!layer){this.useRasterFallback();return;}
+    if(this.vectorGL&&this.vectorGLOnError)
+      this.vectorGL.off?.('error',this.vectorGLOnError);
+    this.vectorGL=layer.getMaplibreMap?.()??null;
+    let errors=0;
+    this.vectorGLOnError=()=>{
+      if(!alive()||this.basemap!==layer)return;
+      if(++errors<3)return;
+      this.vectorGL?.off?.('error',this.vectorGLOnError);
+      this.vectorGL=null;this.vectorGLOnError=null;
+      try{if(this.map.hasLayer(layer))this.map.removeLayer(layer)}catch{}
+      this.useRasterFallback();
+    };
+    this.vectorGL?.on?.('error',this.vectorGLOnError);
+    this.fallbackLayer=null;
+    this.basemap=layer;
+    this.setBasemapCredit(vectorAttribution);
+    this.setBasemapStatus('vector');
+  }
+
+  retryBasemap(){
+    if(this.destroyed||this.offlineMap)return false;
+    void this.startBasemap();
+    return true;
   }
 
   marker(point, id, text, number, style, click, offset = 0, popupHtml = null, group = this.features) {
@@ -501,9 +575,11 @@ export class TripMap {
   }
 
   destroy() {
-    // render() replaces this entire Leaflet instance. Stop pending camera
-    // transitions before removal so rapid route/stop clicks cannot call
-    // Leaflet positioning on a detached DOM pane.
+    // Cancel asynchronous vector imports before detaching the Leaflet pane.
+    this.destroyed=true;
+    this.basemapAttempt++;
+    if(this.vectorGL&&this.vectorGLOnError)
+      this.vectorGL.off?.('error',this.vectorGLOnError);
     this.map.stop();
     this.map.remove();
   }

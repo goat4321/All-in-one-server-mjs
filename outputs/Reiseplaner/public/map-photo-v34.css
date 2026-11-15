@@ -106,3 +106,23 @@
 .reference-travel-shell .market-toggle:focus-visible{
  outline:3px solid #278e5b;outline-offset:3px
 }
+
+
+/* Keyless OpenFreeMap primary source; OSM raster is shown only on failure. */
+.map-source-indicator{
+ display:flex;align-items:center;gap:10px;min-height:30px;
+ padding:5px 14px;border-bottom:1px solid var(--line);
+ background:var(--paper);color:var(--muted);font-size:.73rem;line-height:1.4;
+}
+.map-source-indicator[data-state=vector]{color:var(--muted)}
+.map-source-indicator[data-state=fallback]{color:#6c5b35}
+.map-source-indicator[data-state=error]{color:#a04636}
+.map-source-retry{
+ border:1px solid var(--line);border-radius:999px;
+ padding:4px 11px;background:var(--light);color:inherit;
+ font:inherit;font-weight:700;cursor:pointer;
+}
+.map-source-retry:hover{border-color:currentColor}
+.map-source-retry[hidden]{display:none!important}
+.map-source-retry:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+@media(max-width:650px){.map-source-indicator{font-size:.68rem;padding:6px 9px}}

@@ -1180,6 +1180,9 @@ async function action(name, value = '') {
     case 'explorer-clear-route':
       view.mapFrom = view.mapTo = view.mapRouteResult = null;
       render({ restoreView: true }); break;
+    case 'map-basemap-retry':
+      currentMap?.retryBasemap();
+      break;
     case 'map-tone':
       if(!['standard','midnight','sand'].includes(value))break;
       view.mapTone=value;localStorage.setItem('reiseplan-map-tone',value);
