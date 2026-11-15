@@ -8,6 +8,7 @@ import { loadCatalog, distanceKm } from './lib/catalog.mjs';
 import {fetchSupermarkets} from './lib/supermarket-source.mjs';
 import { InputError, openStore } from './lib/store.mjs';
 import { routeTransit } from './lib/transit-route.mjs';
+import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './public/public-geocode-eligibility.mjs';
 
 const publicDir = new URL('./public/', import.meta.url);
 const types = {
@@ -145,6 +146,10 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
     const item=[...current.trip.items,...current.imported,...current.state.manual]
       .find(x=>x.id===itemId && x.address && x.city && !x.booked);
     if(!item)throw new InputError('Nur vorhandene, ungebuchte Ortsadressen dürfen abgeglichen werden.',404);
+    // Enforce the same conflict restrictions on the server. Merely hiding the
+    // lookup button in a client is not a sufficient protection.
+    if(!publicGeocodeLookupAllowed(item))
+      throw new InputError(publicGeocodeLookupBlockedReason(item),409);
     if(typeof item.address!=='string' || item.address.length>200)throw new InputError('Die Adresse ist für die Geokodierung ungeeignet.');
     const city=catalog.cities[item.city];
     if(!city?.point)throw new InputError('Stadtkoordinate für Plausibilitätsprüfung fehlt.');
