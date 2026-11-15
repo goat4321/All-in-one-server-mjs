@@ -19,6 +19,7 @@ export function entryCoveragePanel(ctx){
     ['Einträge',counters.total],['Mit Quellenfoto',counters.withPhoto],
     ['Mit Beschreibung',counters.withStory],['Mit EUR-Vergleichspreis',counters.withPrice],
     ['Mit Webbeleg',counters.withSource],['Mit Kartenpunkt',counters.withPoint],
+    ['Davon mit unabhängigem Koordinatenbeleg',counters.independentGeo],
     ['Ohne offene Prüffelder',counters.complete],
   ];
   const countersHtml=headline.map(([name,n])=>
@@ -91,7 +92,8 @@ export function entryCoveragePanel(ctx){
     +'<h2>Welche Einträge haben noch fehlende Angaben oder Bilder?</h2>'
     +'<p class="muted">Echte Bestandsaufnahme dieser Reisevariante, keine erfundenen Vollständigkeitswerte. '
     +'Ein vorhandener Weblink belegt nicht automatisch Zimmer, Tarif oder Öffnungszeiten. '
-    +'Auch ein hinterlegtes Foto kann offline sein oder erneut zu prüfen sein.</p></header>'
+    +'Auch ein hinterlegtes Foto kann offline sein oder erneut zu prüfen sein. '
+    +'Ein gespeicherter Kartenpunkt ist nicht automatisch ein unabhängig belegter Gebäude- oder Eingangspunkt.</p></header>'
     +'<div class="coverage-counts">'+countersHtml+'</div>'
     +'<div class="coverage-gap-summary">'+gapSummary+'</div>'
     +'<div class="coverage-export-controls">'+btn('coverage-export','JSON-Bericht speichern','folder')
