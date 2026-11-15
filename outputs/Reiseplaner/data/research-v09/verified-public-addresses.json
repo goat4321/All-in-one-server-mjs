@@ -4,8 +4,8 @@
   "description": "Originalbenannte öffentliche Hotels, Hostels, Ferienwohnungen und Cafés aus den ungeklärten Katalogeinträgen; Quelle pro Hausadresse und GPS-Beleg. Keine Hotel-Checkouts, keine privaten Airbnb-Hausadressen. Weitere konkrete, öffentlich abrufbare Booking.com-/Tourismus-Hausadressen wurden einzeln ergänzt und bleiben bis zu unabhängiger Geokodierung ohne Pin.",
   "counts": {
     "entries": 50,
-    "withIndependentCoordinates": 35,
-    "verifiedAddressOnly": 15
+    "withIndependentCoordinates": 36,
+    "verifiedAddressOnly": 14
   },
   "warnings": [
     "No user-provided Airbnb wishlist address is geocoded.",
@@ -684,13 +684,36 @@
       "name": "L'Eternel Estivant",
       "address": "Promenade Jean-Baptiste Marty 26, 34200 Sète, France",
       "sourceUrl": "https://www.booking.com/hotel/fr/l-39-eternel-estivant.fr.html",
-      "point": null,
-      "precision": "published_listing_address",
-      "remark": "Konkrete postalische Hausadresse öffentlich in Objektprofil/Anbieterinformation; genaue Gebäudekoordinate, Etage, Eingang und 2027er Verfügbarkeit nicht separat bestätigt.",
+      "point": [
+        43.396048,
+        3.695277
+      ],
+      "precision": "independent_third_party_house_number_reference",
+      "remark": "Die externe Unternehmensliste führt die volle Adresse 26 Promenade Jean-Baptiste Marty mit GPS 43.396048,3.695277 für ein ANDERES Unternehmen (SIREN 751091828). Ein französisches Firmenregister listet an Hausnummer 26 zudem LE MOLE. Es ist ein referenzierter öffentlicher Hausnummernpunkt, KEIN separat verifizierter POI der Ferienwohnung und KEIN bestätigter Hauseingang. Den genauen Wohnungseingang und Buchungsstatus vor der Reise beim Anbieter erfragen.",
       "observedOn": "2026-11-13",
       "sourceMatchedToNamedPlace": true,
       "airbnb": false,
-      "confirmedFor2027Checkout": false
+      "confirmedFor2027Checkout": false,
+      "coordinateSourceUrl": "https://immobilier.annuairefrancais.fr/sete/",
+      "coordinateReferenceId": "annuairefrancais:751091828:26-promenade-jean-baptiste-marty",
+      "coordinateReviewedOn": "2026-11-15",
+      "coordinateVerification": {
+        "status": "third_party_address_reference_not_rental_property_poi",
+        "postalMatch": true,
+        "cityMatch": true,
+        "houseNumberMatch": true,
+        "coordinateAtDifferentBusiness": true,
+        "stayIdentityConfirmed": false,
+        "entranceConfirmed": false,
+        "publicAddress": "26 Promenade Jean-Baptiste Marty, 34200 Sète",
+        "coordinateListingBusiness": "GUILLAUME RUGGIERO",
+        "coordinateListingSiren": "751091828",
+        "coordinateSourceUrl": "https://immobilier.annuairefrancais.fr/sete/",
+        "secondaryStreetNumberSourceUrl": "https://www.pappers.fr/entreprise/central-bar-902013895",
+        "secondaryBusinessName": "LE MOLE (CENTRAL BAR), another business at civic 26",
+        "sourceProviderStayUrl": "https://www.booking.com/hotel/fr/l-39-eternel-estivant.fr.html",
+        "note": "The coordinate is published for a DIFFERENT business at house number 26, supported by another business register listing the same civic. It is only a public address reference; the rental unit, floor, building entrance and booking have not been independently located."
+      }
     },
     {
       "id": "research:bcom_4664508",
