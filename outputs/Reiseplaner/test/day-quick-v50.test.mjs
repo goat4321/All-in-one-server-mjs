@@ -68,3 +68,20 @@ test('Direct move changes only a valid activity day, clears old times and preser
  assert.equal(quickDayEdit({...ctx,activeSet:new Set()},'a','2027-09-02','move').ok,false);
  assert.equal(quickDayEdit({...ctx,all:[{...selected,booked:true}]},'a','2027-09-02','move').ok,false);
 });
+
+test('Swiss optional day trips are allowed only on matching city dates or explicitly researched day slots',()=>{
+ const swissNoDayplan={...base,trip:{id:'swiss_lakes',route:['paris','barcelona']},
+  all:[paris,barca]};
+ assert.deepEqual(quickDayTargetDates(swissNoDayplan,barca),['2027-09-03'],
+   'A Swiss route location does not automatically belong on every trip date');
+ const swissWithDayplan={...swissNoDayplan,
+  trip:{id:'swiss_lakes',route:['paris','barcelona'],dayPlansV32:[
+   {tripId:'swiss_lakes',date:'2027-09-02',slots:[{id:'b'}]},
+   {tripId:'swiss_lakes',date:'2027-09-01',slots:[{id:'a'}]}
+  ]}};
+ assert.deepEqual(quickDayTargetDates(swissWithDayplan,barca),
+   ['2027-09-02','2027-09-03'],
+   'Allow travel-day alternatives only if the actual researched day draft names the place');
+ assert.equal(quickDayEdit(swissWithDayplan,'b','2027-09-01').ok,false);
+ assert.equal(quickDayEdit(swissWithDayplan,'b','2027-09-02').ok,true);
+});
