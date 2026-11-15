@@ -1,12 +1,26 @@
 name: Reiseplaner · Branch-Qualitätsprüfung
 
 on:
-  push:
-    branches: [feature/v7-resilient-seed-fallback, feature/v7-curated-research-v02, feature/v7-verification-sources-2027, feature/v7-unified-map-and-day-builder, feature/v7-data-day-accommodation-rail]
+  # Entwicklungsbranches besitzen bereits offene PRs. Ein Push + PR-Trigger
+  # gleichzeitig erzeugte bisher zwei nahezu identische Checks pro Commit.
   pull_request:
     paths:
       - "outputs/Reiseplaner/**"
       - ".github/workflows/reiseplaner-ci.yml"
+      - "Start-Reiseplaner.cmd"
+      - "Pruefen-Reiseplaner.cmd"
+      - "Daten-sichern.cmd"
+      - "README-STARTEN.md"
+  # Nach dem spaeteren Merge weiterhin den Hauptbranch pruefen.
+  push:
+    branches: [main]
+    paths:
+      - "outputs/Reiseplaner/**"
+      - ".github/workflows/reiseplaner-ci.yml"
+      - "Start-Reiseplaner.cmd"
+      - "Pruefen-Reiseplaner.cmd"
+      - "Daten-sichern.cmd"
+      - "README-STARTEN.md"
   workflow_dispatch:
 
 concurrency:
