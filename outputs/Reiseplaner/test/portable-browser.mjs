@@ -790,6 +790,11 @@ try {
   await text('.provider-location-panel','ca. 3 m');
   await js('document.querySelector(".provider-location-panel").scrollIntoView({block:"start",behavior:"instant"})');
   await screenshot('48-provider-bananbieter-positionen-vergleich.png');
+  assert.ok(await js('Array.from(document.querySelectorAll(".provider-location-item")).some(x=>x.textContent.includes("Cittadella 3")&&x.textContent.includes("Stockwerk"))'),
+    'Corrected street-only apartment location is visibly distinguished from historical unverified house number');
+  await js('Array.from(document.querySelectorAll(".provider-location-item")).find(x=>x.querySelector("strong")?.textContent==="Cittadella 3")?.scrollIntoView({block:"center",behavior:"instant"})');
+  await screenshot('48-provider-adresskonflikte-desktop.png');
+
 
   await click('.sidebar [data-action=page][data-value=budget]');
   await text('#main', 'Was-wäre-wenn-Szenarien');
