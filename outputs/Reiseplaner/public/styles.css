@@ -1489,3 +1489,18 @@ h2{font-size:1.37rem}
  .map-explorer-split .explorer-right .explorer-search{grid-template-columns:minmax(0,1fr) 42px}
  .map-explorer-split .explorer-right .explorer-search .button{width:42px;min-width:42px}
 }
+
+/* Walking geometry and the provenance of its endpoints are separate claims. */
+.route-studio-geowarning{margin:13px 0;padding:11px 13px;
+ background:#fff2d9;color:#503713;border:1px solid #d7ae68;
+ border-radius:12px;font-size:.75rem;line-height:1.5}
+.route-studio-geowarning strong{font-size:.79rem}
+.route-studio-geowarning p{margin:4px 0 0}
+.route-studio-geo-ok{font-size:.72rem;color:#d4f4dd;margin:11px 0}
+.route-studio-position-status{font-weight:680;line-height:1.35}
+.route-studio-position-status[data-location-confidence=none],
+.route-studio-position-status[data-location-confidence=provider],
+.route-studio-position-status[data-location-confidence=unverified]{color:#ffd19b}
+.route-studio-position-status[data-location-confidence=area]{color:#ffe2ab}
+.route-studio-position-status[data-location-confidence=sourced]{color:#b9f5dc}
+:root[data-theme=dark] .route-studio-geowarning{background:#453a27;color:#fde6bb;border-color:#93703c}

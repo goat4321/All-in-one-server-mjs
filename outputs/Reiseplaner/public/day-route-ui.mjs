@@ -30,7 +30,9 @@ export function dayRouteView(ctx) {
       + i + '" aria-pressed="' + selected + '" aria-label="Stopp ' + (i+1)
       + ' anzeigen: ' + esc(stop.name) + '"><span class="route-studio-number">'
       + (i+1) + '</span><span class="route-studio-stop-copy"><strong>'
-      + esc(stop.name) + '</strong><small>'
+      + esc(stop.name) + '</strong><small class="route-studio-position-status"'
+      +' data-location-confidence="'+esc(studio.positionQuality.stops[i]?.kind??'none')+'">'
+      +esc(studio.positionQuality.stops[i]?.label??'Koordinaten offen')+'</small><small>'
       + (i===0?'Start':incoming?.verified
         ? (incoming.minutes.toLocaleString('de-DE',{maximumFractionDigits:0})+' Min. geprüfter Fußweg')
         :'Verbindung noch nicht berechnet') + '</small></span>'
@@ -45,6 +47,11 @@ export function dayRouteView(ctx) {
     + '</strong><small>Stopps</small></span><span><strong>'
     + studio.verifiedCount + '/' + studio.legs.length
     + '</strong><small>echte Wege</small></span></div></div>'
+    + (studio.positionQuality.reviewCount?'<div class="route-studio-geowarning" role="status">'
+      +'<strong>Positionen überprüfen: '+studio.positionQuality.reviewCount+' von '+studio.stops.length+' Stopps</strong>'
+      +'<p>Eine berechnete Fußroute verbindet gespeicherte Koordinaten, aber bestätigt keine tatsächlichen Eingänge. '
+      +'Anbieterpositionen und Gebietspunkte können vom Ziel abweichen.</p></div>'
+      :studio.stops.length?'<p class="route-studio-geo-ok">Quellenpunkte vorhanden; konkrete Eingänge prüfen.</p>':'')
     + '<div class="route-studio-track" role="group" aria-label="Stopps auf der Karte auswählen">'
     + (stopControls || '<p class="route-studio-empty">Füge rechts aus der Ortsliste deinen ersten Stopp hinzu. Hier entsteht deine interaktive Reiseroute.</p>')
     + '</div>'

@@ -1,6 +1,7 @@
 // Route Studio is presentation-only: map lines may show confirmed footpaths
 // or clearly labelled schematic orientation, never fabricated travel times.
 import { validPoint } from './map-explorer.mjs';
+import {routePositionQuality} from './route-position-quality.mjs';
 
 export const MAP_TONES = Object.freeze(['standard', 'midnight', 'sand']);
 
@@ -28,8 +29,9 @@ export function routeStudioModel(items = [], routes = [], current = 0) {
   });
   const index = stops.length ? Math.max(0, Math.min(stops.length - 1, Number.isInteger(current) ? current : 0)) : 0;
   const verified = legs.filter(leg => leg.verified);
+  const positionQuality=routePositionQuality(stops);
   return {
-    stops, legs, selectedIndex: index,
+    stops, legs, selectedIndex: index,positionQuality,
     activeLeg: legs.length ? Math.min(Math.max(0, index - 1), legs.length - 1) : -1,
     verifiedCount: verified.length,
     unknownCount: legs.length - verified.length,
@@ -43,8 +45,12 @@ export function routeStudioSummary(model) {
   if (!model?.stops?.length) return 'Füge Reiseorte zur Tagesroute hinzu.';
   if (model.stops.length === 1) return 'Ein Stopp gewählt. Mindestens zwei Stopps für eine Route auswählen.';
   const count = model.legs.length;
-  return model.complete
+  const geometry=model.complete
     ? 'Alle ' + count + ' Fußetappen anhand echter Weggeometrie berechnet.'
     : model.verifiedCount + ' von ' + count + ' Fußetappen berechnet. '
       + model.unknownCount + ' Verbindungen zeigen höchstens eine gestrichelte Luftlinie ohne Gehzeit.';
+  return geometry+(model.positionQuality?.reviewCount
+    ? ' Achtung: '+model.positionQuality.reviewCount+' von '+model.stops.length
+      +' Stopp-Koordinaten bedürfen einer Prüfung; berechneter Weg bedeutet keinen bestätigten Eingang.'
+    : ' Quellenbelegte Kartenpunkte vorhanden; Eingänge separat prüfen.');
 }

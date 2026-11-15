@@ -87,3 +87,24 @@ test('Route Studio renders accessible stop selection and visual mode controls',(
  assert.match(html,/gestrichelte Luftlinie/);
  assert.doesNotMatch(html,/23 Min\. berechnet/);
 });
+
+test('Real walking geometry does not remove warnings for unverified endpoints',()=>{
+ const route={walkOnly:true,minutes:7,metres:490,points:[[41.388,2.186],[41.39,2.185]]};
+ const items=[
+  {...barcelona[0],locationReferenceV07:{precision:'provider_reported_unverified'}},
+  {...barcelona[1],point:[41.39,2.185],geoEvidence:{url:'https://www.openstreetmap.org/node/100'}}
+ ];
+ const model=routeStudioModel(items,[route]);
+ assert.equal(model.complete,true);
+ assert.equal(model.positionQuality.reviewCount,1);
+ assert.equal(model.positionQuality.providerCount,1);
+ assert.equal(model.positionQuality.independentCount,1);
+ assert.match(routeStudioSummary(model),/Achtung/);
+ const ctx={explorer:{},dayRoute:{items,routes:[route],time:'09:00',focusIndex:1,
+   displayMode:'all',status:''},people:[{id:'1'}],
+   cities:{barcelona:{name:'Barcelona'}},city:'barcelona',date:'2027-09-05'};
+ const html=dayRouteView(ctx);
+ assert.match(html,/route-studio-geowarning/);
+ assert.match(html,/data-location-confidence="provider"/);
+ assert.match(html,/Positionen überprüfen: 1 von 2 Stopps/);
+});
