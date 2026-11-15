@@ -763,6 +763,7 @@ export async function loadCatalog() {
         addressQualification:record.addressQualification??null,
         secondarySourceUrl:record.secondaryAddressSourceUrl??null,
         rejectedSimilarNameUrl:record.rejectedSimilarNameUrl??null,
+        operatorArrivalV47:record.operatorArrivalV47??null,
         remark:record.remark,
         notABooking:Boolean(!record.confirmedFor2027Checkout),
       },
