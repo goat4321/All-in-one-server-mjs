@@ -1,7 +1,7 @@
 import { transitNetworks } from './transit.mjs';
 import { localParts } from './model.mjs';
 import { explorerCategory, explorerUnlocatedCityClusters } from './map-explorer.mjs';
-import { routeStudioModel, pointAlongRoute } from './route-studio.mjs';
+import { routeStudioModel, pointAlongRoute, routeDirectionAt } from './route-studio.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { installSoftVectorBasemap, fallbackRasterUrl, fallbackRasterOptions,
   vectorAttribution, basemapLabels } from './vector-basemap.mjs';
@@ -13,6 +13,15 @@ const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600'
 const layersCache = new Map();
 const quietMotion = () => document.documentElement.dataset.motion==='off'
   || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const routeArrowIcon = bearing => {
+ const angle=Math.round(bearing);
+ const svg='<svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">'
+  +'<path d="M12 2L20 21L12 16.8L4 21Z" fill="currentColor" /></svg>';
+ return L.divIcon({className:'route-studio-direction-icon',
+  html:'<span class="route-studio-direction-arrow" aria-hidden="true" '
+   +'style="--route-angle:'+angle+'deg">'+svg+'</span>',
+  iconSize:[30,30],iconAnchor:[15,15]});
+};
 const labelNode = label => {
   const el = document.createElement('span');
   el.textContent = label;
@@ -312,10 +321,17 @@ export class TripMap {
             className:'route-studio-map-line'+(active?' current':'')
               +(leg.verified?' measured':' schematic'),
           }).addTo(this.features);
-          top.bindTooltip(labelNode(leg.verified
-            ? 'Berechneter Fußweg · '+leg.minutes+' Min. · '+Math.round(leg.metres)+' m'
-            : 'Schematische Luftlinie · keine berechnete Gehzeit'));
-          top.on('click',()=>this.handlers.routeStop?.(leg.index+1));
+          // A visibly narrow SVG stroke was not clickable: top is rendered
+          // non-interactive. A transparent wide hit target makes the chosen
+          // section selectable by touch without changing the map appearance.
+          const routeHit=L.polyline(leg.points,{
+            color:'#ffffff',weight:19,opacity:.001,interactive:true,
+            className:'route-studio-hit-target'
+          }).addTo(this.features);
+          routeHit.bindTooltip(labelNode(leg.verified
+            ? 'Berechneter Fußweg · '+leg.minutes+' Min. · '+Math.round(leg.metres)+' m · zum Stopp'
+            : 'Schematische Luftlinie · keine berechnete Gehzeit · zum Stopp'));
+          routeHit.on('click',()=>this.handlers.routeStop?.(leg.index+1));
           if (leg.verified && active && !quietMotion()) {
             L.polyline(leg.points,{
               color:'#eafff8',weight:3,opacity:.88,dashArray:'2 17',
@@ -326,6 +342,11 @@ export class TripMap {
           // Show duration only for a real routed segment; unverified endpoint
           // provenance is still disclosed in the Route Studio panel.
           if(leg.verified && active){
+            const direction=routeDirectionAt(leg.points,.73);
+            if(direction){
+              L.marker(direction.point,{icon:routeArrowIcon(direction.bearing),
+                interactive:false,keyboard:false,zIndexOffset:1050}).addTo(this.features);
+            }
             const at=pointAlongRoute(leg.points,.5);
             if(at){
               const text=Math.round(leg.minutes)+' Min · '+Math.round(leg.metres)+' m';
@@ -357,7 +378,8 @@ export class TripMap {
         area.push(...this.storyBounds);
       }
     }
-    if (explorer?.connection?.route?.points?.length > 1) {
+    if (explorer?.connection?.route?.walkOnly===true
+      && explorer.connection.route?.points?.length > 1) {
       const route = explorer.connection.route;
       const points = route.points.filter(p => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite));
       if (points.length > 1) {
@@ -370,6 +392,23 @@ export class TripMap {
         if (!quietMotion()) L.polyline(points,{color:'#eafff8',weight:3,
           opacity:.9,dashArray:'2 17',interactive:false,
           className:'route-studio-map-flow'}).addTo(this.features);
+        const direction=routeDirectionAt(points,.73);
+        if(direction){
+          L.marker(direction.point,{icon:routeArrowIcon(direction.bearing),
+            interactive:false,keyboard:false,zIndexOffset:1050}).addTo(this.features);
+          if(Number.isFinite(route.minutes)&&Number.isFinite(route.metres)){
+            const at=pointAlongRoute(points,.5);
+            if(at){
+              const value=Math.round(route.minutes)+' Min · '+Math.round(route.metres)+' m';
+              const badge=L.divIcon({className:'route-studio-time-icon',
+                html:'<span class="route-studio-time-pill" aria-hidden="true">'
+                  +'<span class="route-studio-time-walk">🚶</span>'+value+'</span>',
+                iconSize:[128,34],iconAnchor:[64,17]});
+              L.marker(at,{icon:badge,interactive:false,keyboard:false,
+                zIndexOffset:1100}).addTo(this.features);
+            }
+          }
+        }
         area.push(...points);
       }
     }
