@@ -112,3 +112,16 @@ test('Evidence UI exposes details but no booking/payment actions',async()=>{
   assert.match(data,/30/);
   assert.doesNotMatch(data,/data-action="pay"/);
 });
+
+
+test('Optional Montpellier Geo lead stays auditable but not auto-promoted into a journey',async()=>{
+ const catalog=await loadCatalog();
+ const {v20DataLedger}=await import('../public/research-v20-ui.mjs');
+ const c={catalog,all:catalog.trips[0].items,cities:catalog.cities,trip:catalog.trips[0]};
+ const html=v20DataLedger(c);
+ assert.match(html,/verifizierte Georeferenz\(en\) für noch nicht aktive Alternativstädte/);
+ assert.match(html,/Montpellier/);
+ assert.match(html,/Place de la Comédie|Altstadt Montpellier/);
+ assert.match(html,/mapcarta\.com\/W80524864/);
+ assert.equal(catalog.cities.montpellier,undefined);
+});

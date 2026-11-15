@@ -81,6 +81,22 @@ export function v20DataLedger(ctx){
     +'<td>'+esc(x.geographyConflict?'Konflikt '+x.geographyConflict.distanceMetres+' m · nicht als belegt übernehmen':
       x.remaining.slice(0,3).join('; '))+'</td>'
     +'<td>'+link(x.newSearch?.url??x.providerUrl,'Anbieter')+'</td></tr>').join('');
+  const unmodeled=r.activities.filter(x=>Array.isArray(x.candidatePoint)
+    &&!ctx.catalog.cities[x.city]);
+  const optionalPlaces=unmodeled.length
+    ?'<details class="research-v20-optional-places"><summary>'
+       +unmodeled.length+' verifizierte Georeferenz(en) für noch nicht aktive Alternativstädte'
+       +'</summary><p>Diese Quellenpunkte sind dokumentiert, aber bewusst nicht als'
+       +' aktive Kartenmarker nutzbar. Die Stadt muss zunächst als Ziel mit Reisedaten'
+       +' und Quellen in den Reisekatalog aufgenommen werden; danach kann der'
+       +' öffentliche Orientierungspunkt gesondert freigegeben werden.</p>'
+       +'<div class="table-wrap"><table><thead><tr><th>Alternative Stadt</th>'
+       +'<th>Öffentlicher Bezugspunkt</th><th>Warum noch nicht auf der Karte?</th>'
+       +'<th>Geografische Quelle</th></tr></thead><tbody>'
+       +unmodeled.map(x=>'<tr><td>'+esc(x.city.charAt(0).toUpperCase()+x.city.slice(1))+'</td>'
+         +'<td>'+esc(x.name)+'</td><td>'+esc(x.geoNote??'Nicht im aktiven Reisekatalog')+'</td>'
+         +'<td>'+link(x.candidateGeoSourceUrl,'Öffentlichen Punkt prüfen')+'</td></tr>').join('')
+       +'</tbody></table></div></details>':'';
   const stats=r.stats;
   return panel('Einzelprüfung aller alten und neuen Datensätze',
     'Das Originalarchiv bleibt erhalten; nur quellenbezogene Änderungen werden im Katalog übernommen.',
@@ -98,6 +114,7 @@ export function v20DataLedger(ctx){
     +'<div class="table-wrap"><table><thead><tr><th>Ort</th><th>Unterkunft</th><th>Lage</th>'
     +'<th>Neuester Suchstand</th><th>Offene Einschränkung</th><th>Link</th></tr></thead><tbody>'+hotels
     +'</tbody></table></div></details>'
+    +optionalPlaces
     +'<details><summary>Alle 29 Bahn- und 40 Essens-/Abend-Prüffälle aus dem Archiv</summary>'
     +'<p>Alle Fälle sind einzeln in der Version 20 als JSON dokumentiert. '+stats.reviewedRailLegs
     +' Fahrt-/Transferreferenzen bleiben ohne 2027er Abfahrtszeit, '
