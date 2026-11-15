@@ -2,6 +2,7 @@ import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, go
 import { EXPLORER_GROUPS, explorerDetail, externalFootUrl, externalTransitUrl, mapPointInBounds } from './map-explorer.mjs';
 import { esc, btn, chip, status, urlLink, empty, transitPlanners } from './ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
+import { routePositionQuality } from './route-position-quality.mjs';
 import { placeQuickFacts, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
 import { planCostSignal } from './visual-experience.mjs';
 import { voteSnippet } from './group-vote.mjs';
@@ -17,6 +18,15 @@ export function explorerToolbar(ctx) {
       + (route.metres / 1000).toLocaleString('de-DE', { maximumFractionDigits: 2 }) + ' km'
     : route?.legs?.length ? 'ÖPNV-Referenzfahrplan · ' + route.minutes + ' Min. · nur für gültige Fahrplandaten'
       : ex.connection?.status ?? 'Wähle auf Karte oder Liste zuerst Start und Ziel.';
+  const endpointQuality=from&&to?routePositionQuality([from,to]):null;
+  const riskyEndpoints=endpointQuality?.reviewCount??0;
+  const positionNote=route?.walkOnly
+    ? (riskyEndpoints
+      ? '<p class="explorer-route-point-warning" role="status">'
+        + riskyEndpoints+' von 2 Zielpunkten sind Anbieter-/Gebiets-/ungeprüfte Positionen. '
+        +'Der Router bestätigt nur den Weg zwischen gespeicherten Koordinaten, nicht den Gebäudezugang.</p>'
+      : '<p class="explorer-route-point-note">Beide Zielkoordinaten haben Ortsquellen; der tatsächliche Eingang ist gesondert zu prüfen.</p>')
+    : '';
   const transitUrl = transitPlanners[from?.city ?? ctx.city];
   return '<section class="panel explorer-toolbar" aria-label="Karten-Explorer-Steuerung">'
     + '<div class="explorer-scope"><strong>Orte anzeigen</strong>'
@@ -73,10 +83,11 @@ export function explorerToolbar(ctx) {
       + btn('explorer-clear-route', 'Zurücksetzen', 'reset') + '</div>'
     + '<div class="explorer-route-result" aria-live="polite"><span class="explorer-route-status-dot">'
       + (route?.walkOnly ? '✓' : '•') + '</span><div><strong>'
-      + esc(route?.walkOnly?'Echte Fußweg-Geometrie geladen'
+      + esc(route?.walkOnly?'Berechnete Fußweg-Geometrie geladen'
         :route?.legs?.length?'ÖPNV-Fahrplanreferenz geladen':'Verbindung vorbereiten')
       + '</strong><p role="status" class="explorer-status">' + esc(statusLine)
       + '</p></div></div>'
+    + positionNote
     + (from && to ? '<div class="inline">' + (ex.routeMode === 'walk' ? (urlLink(externalFootUrl(from, to), 'Fußweg in OpenStreetMap') || '') : '')
       + (urlLink(externalTransitUrl(from, to,ctx.cities), 'Google Maps · ÖPNV A → B') || '')
       + (urlLink(googleMapsDirectionsUrl(from,to,ctx.cities,'walking'), 'Google Maps · Zu Fuß A → B') || '')
