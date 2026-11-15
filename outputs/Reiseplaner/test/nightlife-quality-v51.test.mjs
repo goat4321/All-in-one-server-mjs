@@ -5,6 +5,7 @@ import {NIGHTLIFE_PROVIDER_REFERENCES_V51} from '../lib/nightlife-official-v51.m
 import {placeProfileModel} from '../public/place-profile.mjs';
 import {placeInspectorHtml} from '../public/place-inspector.mjs';
 import {dayPlanQuickBar} from '../public/day-plans-ui.mjs';
+import {curatedPlacePhoto} from '../public/curated-place-photos.mjs';
 const catalog=await loadCatalog();
 const all=catalog.trips.flatMap(t=>t.items);
 const find=(name,city)=>all.find(i=>i.name===name&&i.city===city&&i.nightlifeOfficialV51);
@@ -24,9 +25,16 @@ test('Official rules match four actual provider venues without claiming 2027 eve
  assert.equal(apolo.nightlifeOfficialV51.publishedEntranceAge,18);
  assert.match(apolo.nightlifeOfficialV51.addressCaution,/113.*107/);
  assert.equal(apolo.researchV50.independentSourceVerified,false);
+ const apoloPhoto=curatedPlacePhoto(apolo);
+ assert.match(apoloPhoto.sourceUrl,/083_Sala_Apolo/);
+ assert.match(apoloPhoto.credit,/Enric · CC BY-SA 4\.0/);
+ assert.match(apoloPhoto.url,/Special:FilePath/);
  const razz=all.find(i=>i.nightlifeOfficialV51?.referenceId==='razzmatazz');
  assert.ok(razz);
  assert.equal(razz.nightlifeOfficialV51.publishedEntranceAge,18);
+ const razzPhoto=curatedPlacePhoto(razz);
+ assert.match(razzPhoto.sourceUrl,/0_-_Sala_Razzmatazz_-_facade/);
+ assert.match(razzPhoto.credit,/Jordiferrer · CC BY-SA 3\.0/);
  const wayne=find("Wayne's Bar",'nice'),nolan=find("Ma Nolan's Irish Pub (Vieux Nice)",'nice');
  assert.ok(wayne&&nolan);
  assert.equal(wayne.nightlifeOfficialV51.publishedEntranceAge,null);
@@ -56,4 +64,7 @@ test('Day quick bar keeps real selected stops and researched suggestions separat
  assert.match(html,/day-plan-draft-detail/);
  assert.match(html,/Tagesideen & Transfers ansehen/);
  assert.match(html,/data-action="day-plan-add"/);
+ assert.match(html,/data-action="day-plan-adopt"/);
+ assert.match(html,/Tagesideen übernehmen/);
+ assert.match(html,/Ohne feste Uhrzeiten/);
 });
