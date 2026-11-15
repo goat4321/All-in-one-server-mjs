@@ -27,6 +27,7 @@ test('Existing unverified pins show a precise OSM marker WITHOUT treating it as 
 test('No private Airbnb link, no invalid GPS, no arbitrary source URL scheme',()=>{
  const secret={...hotel,id:'wishlist:airbnb:123',provider:'Airbnb'};
  assert.equal(existingPinReviewUrl(secret),null);
+ assert.equal(existingPinReviewUrl({...secret,id:'other-id',provider:'AIRBNB'}),null);
  assert.equal(publicPlaceReviewSearchUrl(secret,'Venedig'),null);
  assert.deepEqual(publicPinReviewLinks(secret,'Venedig'),[]);
  assert.equal(publicPinReviewSummary(secret),null);
