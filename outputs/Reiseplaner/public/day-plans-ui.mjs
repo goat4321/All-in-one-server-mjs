@@ -21,6 +21,7 @@ export function dayPlanPanel(ctx,{compact=false}={}){
   '<li class="day-plan-current-row"><strong>'+esc(item.name)+'</strong>'
    +'<small>'+esc(ctx.cities?.[item.city]?.name??item.city)
     +' · '+(item.start?'Mit eigener Zeit':'Flexibel, ohne feste Uhrzeit')+'</small>'
+   +'<span class="day-plan-added">Im Tagesplan</span>'
    +(item.booked||item.locked
      ?'<span class="day-plan-protected">Gebuchter/fester Eintrag</span>'
      :btn('day-quick-remove','Entfernen','close',item.id,'subtle'))
@@ -64,7 +65,7 @@ export function dayPlanPanel(ctx,{compact=false}={}){
  const body='<div class="day-plan-inner">'
     +'<section class="day-plan-today" aria-label="Bereits eingeplante Aktivitäten">'
     +'<div class="day-plan-today-head"><strong>Dein Tagesplan · '
-      +current.length+' Aktivitäten</strong><small>Einträge direkt entfernen oder weitere hinzufügen</small></div>'
+      +current.length+(current.length===1?' Aktivität':' Aktivitäten')+'</strong><small>Einträge direkt entfernen oder weitere hinzufügen</small></div>'
     +(currentRows?'<ul class="day-plan-current-list">'+currentRows+'</ul>'
       :'<p class="day-plan-today-empty">Noch keine zusätzlichen Aktivitäten übernommen.</p>')
     +'</section>'
