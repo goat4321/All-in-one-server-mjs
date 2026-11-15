@@ -746,7 +746,9 @@ try {
   assert.equal(reviewed.edits['research:bcom_12814471'].price.cents, 29720);
   assert.equal(catalog.trips.find(x => x.id === 'interrail_classic').items
     .find(x => x.id === 'research:bcom_12814471').price.cents, 28590);
-  await text('#main', 'Eigene Prüfung 5/5');
+  // The new housing cards use an explicit evidence sentence instead of the
+  // removed legacy button label. Assert the reviewed 5/5 state is rendered.
+  await text('#main', 'Eigene Unterkunftsprüfung: 5/5');
   await click('.sidebar [data-action=page][data-value=budget]');
   await text('#main', '297,20');
   await set('#variant', 'swiss_lakes');
