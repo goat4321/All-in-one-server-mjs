@@ -195,6 +195,11 @@ try {
     +'const credit=el.querySelector(".place-specific-credit");'
     +'return hint&&credit&&hint.getBoundingClientRect().bottom+2<=credit.getBoundingClientRect().top})'),
     'Offline photo links never overlap the photographer and license line');
+  assert.ok(await js('Array.from(document.querySelectorAll(".hub-option-card .place-photo[data-image-unavailable=true]"))'
+    +'.filter(el=>el.querySelector(".place-specific-photo"))'
+    +'.every(el=>{const ghost=el.querySelector(".place-photo-placeholder>strong");'
+    +'return !ghost||getComputedStyle(ghost).display==="none"})'),
+    'Failed venue images should not ghost another place title beneath the original-source label');
   await screenshot('52-clubs-mit-echten-lizenzierten-fassadenfotos-desktop.png');
   await screenshot('50-clubs-tagwahl-und-schnellplan-desktop.png');
   await click('.activity-category-chip[data-value=bars]');
