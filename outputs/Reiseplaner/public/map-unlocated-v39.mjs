@@ -80,10 +80,15 @@ export function unlocatedOverview(ctx){
  // A round-robin preview prevents a single high-volume city from hiding all
  // other cities. Within each city, prioritize verifiable public addresses.
  const priority={address:0,unverified:1,concept:2,private:3};
+ const urgency={critical:0,high:1,medium:2,low:3};
+ const severity=item=>urgency[item?.addressCheckV49?.priority]??4;
  const groups=[...filteredCities.entries()]
-  .sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0],'de'))
+  .sort((a,b)=>(type==='sourced-address'
+     ?Math.min(...a[1].map(severity))-Math.min(...b[1].map(severity)):0)
+    ||b[1].length-a[1].length||a[0].localeCompare(b[0],'de'))
   .map(([city,items])=>({city,items:[...items].sort((a,b)=>
     Number(!isSourcedPublicAddress(a))-Number(!isSourcedPublicAddress(b))
+    ||(type==='sourced-address'?severity(a)-severity(b):0)
     ||priority[unlocatedKind(a).key]-priority[unlocatedKind(b).key]
     ||String(a.name).localeCompare(String(b.name),'de'))}));
  const limit=Math.min(120,Math.max(12,Number(ctx.mapUnlocatedLimit)||12));
@@ -113,6 +118,9 @@ export function mapUnlocatedReview(ctx){
   const published=isSourcedPublicAddress(item);
   const publicAddress=item.addressEvidenceV09?.publishedAddress??'';
   const quality=item.addressEvidenceV09?.addressQualification;
+  const risk=item.addressCheckV49?.priority??null;
+  const urgent=published&&(risk==='critical'||risk==='high');
+  const urgentReason=urgent?item.addressCheckV49?.blocker:null;
   const qualityFlag={
     listing_floor_or_number_ambiguity:'Hausnummer unklar – die Listingangabe kann das Stockwerk meinen.',
     published_number_conflicting_postcode:'Postleitzahl zwischen Quellen widersprüchlich.',
@@ -138,11 +146,15 @@ export function mapUnlocatedReview(ctx){
       +' rel="noopener noreferrer">'+icon('external')+' Unabhängige Adressquelle</a>':'')
     +(evidenceLink?'<a class="button subtle" href="'+esc(evidenceLink)+'" target="_blank"'
       +' rel="noopener noreferrer">'+icon('external')+' Hinterlegte Adressquelle</a>':'');
-  return '<article class="map-unlocated-record" data-unlocated-type="'+reason.key+'">'
+  return '<article class="map-unlocated-record" data-unlocated-type="'+reason.key+'"'
+    +(risk?' data-review-priority="'+esc(risk)+'"':'')+'>'
    +'<div class="map-unlocated-record-head"><span class="map-unlocated-kind">'
    +icon(explorerCategory(item)==='lodging'?'bed':'pin')+' '+esc(reason.label)+'</span>'
    +'<small>'+cityName+'</small></div>'
    +'<strong>'+esc(item.name??'Unbenannter Ort')+'</strong>'
+   +(urgent?'<p class="map-unlocated-review-urgency">'+esc(
+     risk==='critical'?'Identität zuerst klären':'Quellenkonflikt prüfen')+
+     ' · '+esc(urgentReason)+'</p>':'')
    +(published?'<p class="map-unlocated-public-address"><strong>Veröffentlichte Anschrift:</strong> '
      +esc(publicAddress)+'</p>':'')
    +(qualityFlag?'<p class="map-unlocated-address-warning">'+esc(qualityFlag)+'</p>':'')
@@ -162,9 +174,9 @@ export function mapUnlocatedReview(ctx){
                .filter(Boolean).map(line=>esc(line)).join(' · ')
             +'</p>':'')
         +'</details>':'')
-   +(published&&item.geoReviewV09?.nextStep
+   +(published&&(item.addressCheckV49?.nextManualCheck||item.geoReviewV09?.nextStep)
       ?'<details class="map-unlocated-next-check"><summary>Nächsten Quellencheck anzeigen</summary>'
-       +'<p>'+esc(item.geoReviewV09.nextStep)+'</p>'
+       +'<p>'+esc(item.addressCheckV49?.nextManualCheck??item.geoReviewV09.nextStep)+'</p>'
        +'<small>Nur Recherchehinweis – ändert den gespeicherten Kartenpunkt nicht.</small>'
        +'</details>':'')
    +(published?'':'<p class="map-unlocated-next"><strong>Dein nächster Schritt:</strong> '+esc(reason.action)+'</p>')
