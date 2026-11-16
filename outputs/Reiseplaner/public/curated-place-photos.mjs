@@ -2,6 +2,27 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 55: five individually verified Commons file pages (identity, author, reusable license).
+ {city:'sete',name:/^mus[eé]e paul val[eé]ry$/i,
+  file:"Exposition au musée Paul Valéry à Sète.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Exposition au musée Paul Valéry à Sète.jpg").replace(/%20/g,'_'),
+  credit:"Aviwater · CC BY-SA 4.0 · Ausstellungsraum (2016) · CSS-Bildausschnitt"},
+ {city:'nice',name:/^parc phoenix \(botanischer park\)$/i,
+  file:"Parc Phœnix à Nice.JPG",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Parc Phœnix à Nice.JPG").replace(/%20/g,'_'),
+  credit:"André Alliot · CC0 1.0 · Parc Phoenix (2006) · CSS-Bildausschnitt"},
+ {city:'genoa',name:/^palazzo ducale genova \(kulturzentrum\)$/i,
+  file:"Genova Palazzo Ducale.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Genova Palazzo Ducale.jpg").replace(/%20/g,'_'),
+  credit:"Andrzej Otrębski · CC BY-SA 3.0 · Dogenpalast (2012) · CSS-Bildausschnitt"},
+ {city:'venice',name:/^museo correr \(museen am markusplatz\)$/i,
+  file:"Venezia - Museo Correr - salone da ballo.JPG",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Venezia - Museo Correr - salone da ballo.JPG").replace(/%20/g,'_'),
+  credit:"Monica Rondoni · CC BY-SA 4.0 · Ballsaal im Museo Correr (2026) · CSS-Bildausschnitt"},
+ {city:'appenzell',name:/^kunstmuseum appenzell$/i,
+  file:"Kunstmuseum Appenzell - Das Foyer im Kunstmuseum Appenzell.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Kunstmuseum Appenzell - Das Foyer im Kunstmuseum Appenzell.jpg").replace(/%20/g,'_'),
+  credit:"Urs Baumann / Kunstmuseum Appenzell · CC BY-SA 4.0 · Foyer (2013) · CSS-Bildausschnitt"},
  // Phase 54: 16 individually matched public Commons file pages and licenses.
  // Search-derived photos are NOT verified object GPS, hotel imagery, or 2027 marketing photos.
  {city:'paris',name:/^bouillon pigalle$/i,allowFood:true,
