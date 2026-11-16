@@ -22,7 +22,7 @@ const images=[
   sourceUrl:'https://commons.wikimedia.org/wiki/File:Nice_-_MAMAC_(29394012484).jpg',
   credit:'Fred Romero · CC BY 2.0 · Außenaufnahme MAMAC Nizza (2016), Gebäude derzeit wegen Renovierung geschlossen · CSS-Bildausschnitt',
   licenseUrl:'https://creativecommons.org/licenses/by/2.0/'},
- {city:'appenzell',name:/^appenzeller schauk[aä]serei$/i,
+ {city:'appenzell',name:/^appenzeller schauk[aä]serei$/i,allowFood:true,
   file:'Stein Schaukäserei.jpg',
   sourceUrl:'https://commons.wikimedia.org/wiki/File:Stein_Schauk%C3%A4serei.jpg',
   credit:'Corradox · CC BY-SA 3.0 · Schaukäserei Stein AR (2003), historisches Außenfoto · CSS-Bildausschnitt',
