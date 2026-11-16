@@ -229,6 +229,50 @@ function updateRouteStoryUi(state){
     const el=panel.querySelector(selector);
     if(el&&el.textContent!==String(value))el.textContent=String(value);
   };
+  // Populate real catalog names only when the story arrives/departs a city;
+  // per-frame interpolation must not rebuild the interface or network map.
+  const arrival=panel.querySelector('#route-story-ideas');
+  const recaps=panel.querySelector('#route-story-idea-list');
+  const ideaKey=String(state.cityId??'')+':'+String(state.phase??'')
+    +':'+String(state.index??0);
+  if(arrival&&recaps&&panel.dataset.ideaKey!==ideaKey){
+    const inCity=state.phase==='dwell'||state.status==='complete';
+    const rows=inCity?(state.ideas??[]).slice(0,5):[];
+    arrival.hidden=!inCity||!rows.length;
+    recaps.replaceChildren();
+    if(rows.length){
+      const fragment=document.createDocumentFragment();
+      for(const item of rows){
+        const chip=document.createElement('div');
+        chip.className='route-story-idea';
+        const symbol=document.createElement('span');
+        symbol.className='route-story-idea-symbol';
+        symbol.setAttribute('aria-hidden','true');
+        symbol.textContent=item.symbol;
+        const detail=document.createElement('span');
+        detail.className='route-story-idea-copy';
+        const title=document.createElement('strong');title.textContent=item.name;
+        const type=document.createElement('small');
+        type.textContent=item.label;
+        detail.append(title,type);
+        const statusLabel=document.createElement('span');
+        statusLabel.className='route-story-idea-status'+(item.planned?' planned':'');
+        statusLabel.textContent=item.note;
+        chip.append(symbol,detail,statusLabel);
+        fragment.append(chip);
+      }
+      recaps.append(fragment);
+    }
+    const count=panel.querySelector('#route-story-ideas-count');
+    if(count)count.textContent=state.placesKnown+' vorhandene Orte · '
+      +state.plannedCount+' im Plan · '+state.ideaCount+' Ideen';
+    panel.dataset.ideaKey=ideaKey;
+  }
+  panel.dataset.phase=String(state.phase??'dwell');
+  const stageText=state.status==='complete'?'Ziel der Reisevorschau erreicht'
+    :state.phase==='travel'?'Unterwegs nach '+(state.nextName||'der nächsten Stadt')
+    :'Angekommen in '+state.name;
+  write('#route-story-stage',stageText);
   write('#route-story-symbol',state.symbol);
   write('#route-story-city',state.name);
   write('#route-story-description',state.description);
@@ -1392,7 +1436,7 @@ async function action(name, value = '') {
         view.mapFullscreenDrawer=false;view.selected=null;
         render({fetchRoutes:false});
       }
-      if(!currentMap?.playCityStory(context.trip,context.cities))
+      if(!currentMap?.playCityStory(context.trip,context.cities,context.all,context.activeSet))
         say('Für die Routenanimation werden mindestens zwei Reisestädte mit Kartenposition benötigt.');
       break;
     case 'route-story-pause':
@@ -1407,6 +1451,22 @@ async function action(name, value = '') {
     case 'route-story-stop':
       currentMap?.stopCityStory();
       break;
+    case 'route-story-explore': {
+      if(view.page!=='map')break;
+      const cityId=currentMap?.storyState().cityId;
+      if(!cityId||!context.trip.route.includes(cityId))break;
+      currentMap.stopCityStory();
+      view.mapScope='city';view.total=false;
+      view.mapSavedOnly=false;view.mapGroup='all';
+      view.mapViewportOnly=false;view.mapViewportBounds=null;
+      view.mapNearPointId=null;view.mapSearch='';
+      if(view.mapFullscreen)view.mapFullscreenDrawer=true;
+      showCity(cityId);
+      const list=app.querySelector('.reference-places-drawer');
+      if(list)list.open=true;
+      app.querySelector('#map-search')?.focus({preventScroll:true});
+      break;
+    }
     case 'map-expand':
       view.mapExpanded=!view.mapExpanded;
       render({restoreView:true,fetchRoutes:false});
