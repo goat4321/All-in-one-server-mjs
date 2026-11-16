@@ -1,8 +1,8 @@
+import {mapCategoryIcon} from './map-marker-icons-v64.mjs';
 // No unverified ratings or generic photographs are ever fabricated.
 export const MAP_ZOOM={cluster:11,category:13.5,photo:14.2,maxPhotos:24};
 const labels={lodging:'Unterkunft',food:'Essen',shop:'Supermarkt',
  activity:'Ausflug',transport:'Verkehr'};
-const glyphs={lodging:'▣',food:'✦',shop:'▤',activity:'✧',transport:'↗'};
 const escape=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
  .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 export function validMapCoordinate(point){
@@ -23,16 +23,17 @@ export function bubbleMarkup({id,name,category='activity',photoUrl=null,
   ?'<span class="bubble-rated" aria-label="Bewertung '+rating.toFixed(1)+'">'
      +'★ '+rating.toFixed(1).replace('.',',')+'</span>':'';
  const badge='<span class="bubble-category-badge">'
-    +escape(glyphs[cat])+' '+escape(labels[cat])+'</span>';
+    +mapCategoryIcon(cat)+' '+escape(labels[cat])+'</span>';
  const safePhoto=typeof photoUrl==='string'&&
    /^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\//.test(photoUrl)
    ?escape(photoUrl):null;
  if(tier==='dot')return '<span class="map-mini-dot group-'+cat+'"></span>';
  if(tier==='category')return '<span class="map-category-bubble group-'+cat
-   +'" aria-hidden="true">'+escape(glyphs[cat])+(saved?'●':'')+'</span>';
+   +'" aria-hidden="true">'+mapCategoryIcon(cat)+'</span>'
+   +(saved?'<span class="map-marker-bookmark" aria-hidden="true">♥</span>':'');
  return '<div class="map-photo-bubble group-'+cat+'" data-poi="'+escape(id)+'">'
   +'<div class="map-photo-disc">'
-  +'<span aria-hidden="true">'+escape(glyphs[cat])+'</span>'
+  +'<span aria-hidden="true">'+mapCategoryIcon(cat)+'</span>'
   +(safePhoto?'<img src="'+safePhoto+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">':'')
   +'</div><div class="map-photo-meta">'+(star||badge)+'</div>'
   +'<span class="map-photo-name" title="'+cleanName+'">'+cleanName+'</span>'
