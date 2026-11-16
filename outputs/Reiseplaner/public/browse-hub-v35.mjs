@@ -264,15 +264,15 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
      +esc(item.preference.score)+'/100 · Heuristik</span>':'')
    +'</div>'
    +'<div class="hub-option-pricing"><div><small>Preisorientierung</small>'
-   +'<strong>'+esc((officialRate||item.discoveryV54||item.discoveryV55||item.discoveryV60)
+   +'<strong>'+esc((officialRate||item.discoveryV54||item.discoveryV55||item.discoveryV60||item.discoveryV61)
       ?'Betreiber-Tarifreferenz · nicht im Budget'
       :item.researchV50?.referencePrice
       ?'Preis offen · Recherche: '+item.researchV50.referencePrice+' '+item.researchV50.currency
       :signal.tier+' · '+signal.amount)+'</strong>'
    +'<span>'+esc(officialRate
       ?officialRate+' · nicht gebucht, September 2027 prüfen'
-      :(item.discoveryV60??item.discoveryV54??item.discoveryV55)
-      ?(item.discoveryV60??item.discoveryV54??item.discoveryV55).priceReference+' · Datum/Anspruch 2027 prüfen'
+      :(item.discoveryV61??item.discoveryV60??item.discoveryV54??item.discoveryV55)
+      ?(item.discoveryV61??item.discoveryV60??item.discoveryV54??item.discoveryV55).priceReference+' · Datum/Anspruch 2027 prüfen'
       :item.researchV50
       ?'Nutzerangabe 2026, für 2027 nicht bestätigt':provenance)+'</span></div>'+rating+'</div>'
    +(quickDays.length?'<div class="hub-quick-day" data-quick-day-id="'+esc(item.id)+'">'
