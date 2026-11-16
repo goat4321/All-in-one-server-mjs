@@ -6,7 +6,7 @@ import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { installSoftVectorBasemap, fallbackRasterUrl, fallbackRasterOptions,
   vectorAttribution, basemapLabels } from './vector-basemap.mjs';
 import { markerTier, validMapCoordinate, bubbleMarkup } from './photo-map-model.mjs';
-import {mapLegacyPinContent,mapIconForPlace} from './map-marker-icons-v64.mjs';
+import {mapLegacyPinContent,mapIconForPlace,mapCategoryIcon} from './map-marker-icons-v64.mjs';
 import { groupPoiForDisplay, poiDensityPolicy } from './poi-density.mjs';
 import {markerProvenance} from './poi-location-provenance.mjs';
 
@@ -466,9 +466,20 @@ export class TripMap {
           items.reduce((s,x)=>s+x.point[1],0)/items.length];
         const count=items.length;
         const savedCount=items.filter(item=>this.poiSaved?.has(item.id)).length;
+        const kinds=items.map(item=>item.explorerCategory??explorerCategory(item));
+        const commonKind=kinds.every(kind=>kind===kinds[0])?kinds[0]:'mixed';
         const bubble=document.createElement('span');
-        bubble.className='poi-cluster-count';
-        bubble.textContent=String(count)+(savedCount?' ★':'');
+        bubble.className='poi-cluster-count group-'+commonKind;
+        // A shared category gets a recognizable miniature icon; mixed
+        // clusters display only their true item count, never a false type.
+        bubble.innerHTML=(commonKind!=='mixed'&&count<100
+          ?mapCategoryIcon(commonKind):'')+'<strong>'+count+'</strong>';
+        if(savedCount){
+          const savedDot=document.createElement('em');
+          savedDot.className='poi-cluster-saved';
+          savedDot.textContent='♥';
+          bubble.appendChild(savedDot);
+        }
         const icon=L.divIcon({className:'poi-cluster-icon',html:bubble.outerHTML,
           iconSize:[46,46],iconAnchor:[23,23]});
         const label=count+' eingetragene Orte · nur Bildschirm-Sammelmarker, kein eigener Ort'
