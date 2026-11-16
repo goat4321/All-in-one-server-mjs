@@ -50,7 +50,7 @@ export function googleMapsPlaceQuery(item,cities={}) {
   // A separately sourced, public visitor/valley-station address has precedence
   // over broad multi-stop names ('Sunnbüel & Gemmipass', 'Hoher Kasten & ...').
   // This improves the lookup but never turns that address into a verified pin.
-  const visitorAddress=item.officialAccessV57?.visitorAddress
+  const visitorAddress=item.officialAccessV58?.visitorAddress??item.officialAccessV57?.visitorAddress
     ??item.officialAccessV56?.visitorAddress??item.officialAccessV53?.visitorAddress;
   if(text(visitorAddress))return text(visitorAddress);
   const address = text(item.address);
