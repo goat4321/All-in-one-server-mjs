@@ -401,6 +401,17 @@ function mapPanel(ctx, full = false) {
         </div>
         <span class="route-story-count" id="route-story-count">0 / 0</span>
       </div>
+      <div class="route-story-ideas" id="route-story-ideas" hidden
+        aria-label="Vorhandene Aktivitäten, Restaurants und Ideen für diese Stadt">
+        <div class="route-story-ideas-top">
+          <span id="route-story-ideas-count">Orte in deinem Reiseplaner</span>
+          <span class="route-story-ideas-note">Symbole sind illustrativ · keine Ortspositionen</span>
+        </div>
+        <div id="route-story-idea-list" class="route-story-idea-list"></div>
+        <button type="button" class="route-story-ideas-open" data-action="route-story-explore">
+          ${icon('search')}<span>Alle Orte dieser Stadt ansehen</span>${icon('arrow-right')}
+        </button>
+      </div>
       <div class="route-story-progress" role="progressbar" aria-label="Abgespielte Reiseetappen"
         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <span id="route-story-progress-fill"></span></div>
