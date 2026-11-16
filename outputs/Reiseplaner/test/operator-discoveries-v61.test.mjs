@@ -65,7 +65,7 @@ test('Seven exact destination photographs have Commons attribution, never hotel 
   ['paris','Musée Bourdelle','Paris_musee_bourdelle_ext','Velvet'],
   ['barcelona','CosmoCaixa Barcelona','CosmoCaixa_building','Jirka Dl'],
   ['barcelona','El Born Centre de Cultura i Memòria','El_Born_Centre_Cultural','Bene Riobó'],
-  ['barcelona',"Parc del Laberint d'Horta",'Laberint_d%27Horta','Mirkaah'],
+  ['barcelona',"Parc del Laberint d'Horta","Laberint_d'Horta",'Mirkaah'],
   ['genoa','Palazzo Reale di Genova','Genova-palazzo_Reale','Fernando Galardi'],
   ['venice','Museo di Palazzo Grimani','Palazzo_Grimani','Stavros Argyropoulos'],
   ['venice','Museo del Vetro Murano (Glasmuseum)','Murano_museo_del_vetro','Abxbay'],
