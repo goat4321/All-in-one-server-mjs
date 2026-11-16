@@ -92,6 +92,12 @@ export class RouteCityStoryPlayer{
  }
  arrive(index){
   this.reveal(index);
+  // Keep only recent city badges. The original route markers and mini-stepper
+  // still show the entire trip without accumulating map overlays.
+  if(index>=2&&this.cityMarkers[index-2]){
+    this.layer.removeLayer(this.cityMarkers[index-2]);
+    this.cityMarkers[index-2]=null;
+  }
   this.cityMarkers[index]?.getElement()
     ?.querySelector('.story-arrived-marker')?.classList.add('story-arrived-current');
   if(reducedMotion())return;
@@ -169,6 +175,7 @@ export class RouteCityStoryPlayer{
   if(this.frame!=null)cancelAnimationFrame(this.frame);
   this.frame=null;this.lastTime=null;this.status='paused';
   this.burst?.getElement()?.classList.add('story-arrival-paused');
+  this.cityMarkers[this.index]?.getElement()?.classList.add('story-arrival-paused');
   this.emit();return true;
  }
  resume(){
@@ -178,6 +185,7 @@ export class RouteCityStoryPlayer{
    this.stops.forEach((_,i)=>this.reveal(i));this.finish();return true;
   }
   this.burst?.getElement()?.classList.remove('story-arrival-paused');
+  this.cityMarkers[this.index]?.getElement()?.classList.remove('story-arrival-paused');
   this.status='playing';this.lastTime=null;this.emit();
   this.frame=requestAnimationFrame(this.tick);return true;
  }
