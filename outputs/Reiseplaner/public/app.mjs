@@ -268,6 +268,30 @@ function updateRouteStoryUi(state){
       +state.plannedCount+' im Plan · '+state.ideaCount+' Ideen';
     panel.dataset.ideaKey=ideaKey;
   }
+  const rail=panel.querySelector('#route-story-stoprail');
+  const route=Array.isArray(state.routeOverview)?state.routeOverview:[];
+  if(rail&&panel.dataset.routeKey!==route.map(x=>x.id).join('|')){
+    const fragment=document.createDocumentFragment();
+    for(const [i,stop] of route.entries()){
+      const dot=document.createElement('span');
+      dot.className='route-story-rail-dot';
+      dot.title=(i+1)+'. '+stop.name;
+      dot.setAttribute('aria-label',(i+1)+'. '+stop.name);
+      dot.dataset.stageIndex=String(i);
+      fragment.append(dot);
+    }
+    rail.replaceChildren(fragment);
+    panel.dataset.routeKey=route.map(x=>x.id).join('|');
+    panel.dataset.railIndex='';
+  }
+  const railKey=String(state.index)+':'+state.phase;
+  if(rail&&panel.dataset.railIndex!==railKey){
+    for(const [i,node] of [...rail.children].entries()){
+      node.classList.toggle('complete',i<state.index);
+      node.classList.toggle('current',i===state.index);
+    }
+    panel.dataset.railIndex=railKey;
+  }
   panel.dataset.phase=String(state.phase??'dwell');
   const stageText=state.status==='complete'?'Ziel der Reisevorschau erreicht'
     :state.phase==='travel'?'Unterwegs nach '+(state.nextName||'der nächsten Stadt')
