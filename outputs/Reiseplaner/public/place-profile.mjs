@@ -123,6 +123,20 @@ export function placeProfileModel(item, ctx = {}) {
       ?'Unabhängiger POI-Gebietspunkt, kein gesicherter Eingang'
       :'Offizielle Postadresse vorhanden; individuelle GPS-Koordinate nicht bestätigt']);
   }
+  if(item.publicPlaceGuideV68){
+    const g=item.publicPlaceGuideV68.visitorGuide;
+    if(![item.discoveryV54,item.discoveryV55,item.discoveryV60,
+      item.discoveryV61,item.discoveryV62].some(x=>x?.visitorGuide)){
+      facts.push(['Sehenswert',g.highlights.join(' · ')]);
+      facts.push(['Praktische Besuchsplanung',g.visitTip]);
+      facts.push(['Kombinierbar mit',g.combineWith]);
+      facts.push(['Anreise und Eingang',g.arrivalTip]);
+      facts.push(['Vor Reisebeginn 2027 prüfen',g.check2027]);
+    }
+    facts.push(['Zusätzliche Ortsrecherche',
+      'Quellenstand '+item.publicPlaceGuideV68.checkedOn+
+      ' · September 2027 nicht als geöffnet oder gebucht bestätigt']);
+  }
   for(const access of [item.officialAccessV53,item.officialAccessV56,item.officialAccessV57,item.officialAccessV58].filter(Boolean)){
     facts.push(['Betreiber-/Quellenprüfung '+access.checkedOn,access.summary]);
     facts.push(['Zugang September 2027','Noch nicht unabhängig bestätigt']);
@@ -176,6 +190,7 @@ export function placeProfileModel(item, ctx = {}) {
     providerUrl:item.website??null,
     secondaryProviderUrl:item.discoveryV62?.secondarySourceUrl
       ??item.discoveryV60?.secondarySourceUrl??null,
+    guideSourceUrl:item.publicPlaceGuideV68?.sourceUrl??null,
     photo:photos[0]??null,photos,ownPhotoCount:ownPhotos.length,
   };
 }
@@ -309,6 +324,8 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
       +urlLink(p.route,'ÖPNV-Anreise in Google Maps')
       +urlLink(p.providerUrl,'Originalangebot / Anbieter')
       +urlLink(p.secondaryProviderUrl,'Weitere offizielle Besucherinformationen')
+      +(p.guideSourceUrl&&p.guideSourceUrl!==p.providerUrl
+        ?urlLink(p.guideSourceUrl,'Zusätzliche offizielle Ortsquelle'):'')
       +'</div>'
     + (compact?'':'<details class="place-profile-sources"><summary>Quellen und Aktualität</summary>'
       +'<p>'+esc(p.sourceStatus)+'</p>'
