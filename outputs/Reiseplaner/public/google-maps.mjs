@@ -77,7 +77,11 @@ export function googleMapsDirectionsUrl(from,to,cities={},travelmode='transit') 
 }
 
 export function googleMapsSearchLabel(item) {
-  return areaOnly(item) ? 'Umgebung in Google Maps' :
+  if(areaOnly(item))return 'Umgebung in Google Maps';
+  if(item?.officialAccessV58?.visitorAddress||item?.officialAccessV57?.visitorAddress
+    ||item?.officialAccessV56?.visitorAddress||item?.officialAccessV53?.visitorAddress)
+    return 'Google Maps · öffentliche Betreiberadresse';
+  return
     pointOk(item?.point) ? (markerProvenance(item).kind==='provider'
       ?'Google Maps · Anbieterposition prüfen'
       :markerProvenance(item).kind==='unverified'
