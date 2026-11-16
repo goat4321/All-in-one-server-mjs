@@ -499,6 +499,37 @@ try {
   console.log('PASS Städtepaket · Paris-Tarife, Sète-Unterkunft und jeweilige Stadtansicht');
   // V69: real Chrome checks both viewport layout and retained Leaflet state.
   await navOnMobile('map');
+  // V72: one primary scope control and a direct, understandable search journey.
+  await wait('.map-context-summary');
+  await click('.map-scope-modes [data-action=explorer-scope][data-value=city]');
+  await retry(()=>js('document.querySelector(".map-context-summary")?.textContent.includes("Orte mit Pin")'),
+    'V72 map counters show individual places, not route hubs');
+  assert.equal(await js('document.querySelector(".reference-places-drawer")?.open'),true);
+  assert.equal(await js('getComputedStyle(document.querySelector(".reference-map-floating")).display'),'none',
+    'V72 redundant floating scope controls must stay out of the cartographic area');
+  const normalMobile=await js('(() => {const m=document.querySelector("#map").getBoundingClientRect(),h=document.querySelector(".map-panel>.panel-head").getBoundingClientRect();return {mapHeight:m.height,titleBottom:h.bottom,mapTop:m.top};})()');
+  assert.ok(normalMobile.mapHeight>=400,'V72 mobile map canvas stays prominent');
+  assert.ok(normalMobile.titleBottom<=normalMobile.mapTop+2,
+    'V72 header actions must sit ABOVE the map, not obscure markers');
+  await click('.map-context-summary [data-action=map-open-search]');
+  await retry(()=>js('document.activeElement?.id==="map-search"'),'V72 search receives keyboard focus');
+  await set('#map-search','Sagrada');
+  await click('.explorer-search [data-action=explorer-search]');
+  await retry(()=>js('document.querySelector(".map-active-filter")?.textContent.includes("Suche: Sagrada")'),
+    'V72 search is visibly tagged as active');
+  await click('.map-context-summary [data-action=map-clear-filters]');
+  assert.equal(await js('document.querySelectorAll(".map-active-filter").length'),0);
+  assert.equal(await js('document.querySelector("#map-search")?.value'),'');
+  await click('.map-scope-modes [data-action=explorer-scope][data-value=trip]');
+  await retry(()=>js('document.querySelector(".map-context-summary")?.textContent.includes("Städte")'),
+    'V72 trip scope counts city hubs rather than all place markers');
+  await click('.explorer-categories [data-action=explorer-group][data-value=food]');
+  await retry(()=>js('document.querySelector(".map-context-summary")?.textContent.includes("Essen & Cafés")'),
+    'V72 group filter is visible immediately');
+  assert.equal(await js('document.querySelector(".map-scope-modes [data-value=city]")?.getAttribute("aria-pressed")'),'true',
+    'V72 choosing a place category switches schematic trip to actual city POIs');
+  await click('.map-context-summary [data-action=map-clear-filters]');
+  await screenshot('karte-uebersicht-v72-mobil');
   await wait('.map-fullscreen-launch');
   const originalLeafletId=await js('document.querySelector("#map")._leaflet_id');
   await click('.map-fullscreen-launch');
@@ -532,6 +563,14 @@ try {
   assert.equal(await js('document.querySelector("#map")._leaflet_id'),originalLeafletId,
     'Fullscreen transitions must not recreate Leaflet map');
   await screenshot('karte-vollbild-desktop');
+  // V72 desktop also retains quick controls and genuinely larger map surface.
+  const desktopMapInfo=await js('(() => {const m=document.querySelector("#map").getBoundingClientRect(),a=document.querySelector(".map-context-summary").getBoundingClientRect();return {height:m.height,statusHeight:a.height,layoutWidth:document.querySelector(".reference-map-workspace").getBoundingClientRect().width};})()');
+  assert.ok(desktopMapInfo.height>=475,'V72 desktop map is not forced into old 375-437px card');
+  assert.ok(desktopMapInfo.statusHeight>30&&desktopMapInfo.statusHeight<200,
+    'V72 status should be a compact summary, not a second information sidebar');
+  assert.ok(await js('Boolean(document.querySelector(".map-extra-details .map-tools"))'),
+    'V72 map overlays remain available in technical details');
+  await screenshot('karte-uebersicht-v72-desktop');
   // V70 real playback: city badges appear progressively and a traveling dot
   // moves along the pre-existing schematic city polyline without recreating Leaflet.
   await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
