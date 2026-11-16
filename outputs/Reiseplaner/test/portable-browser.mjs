@@ -370,7 +370,10 @@ try {
   await screenshot('08-atlas-oben-desktop.png');
   assert.ok(await js('(() => { const shell=document.querySelector(".reference-travel-shell"),aside=document.querySelector(".reference-travel-shell>.sidebar"),m=document.querySelector(".reference-map-workspace>.map-panel"),l=document.querySelector(".reference-map-workspace>.explorer-right");if(!shell||!aside||!m||!l)return false;const mr=m.getBoundingClientRect(),lr=l.getBoundingClientRect();return getComputedStyle(aside).display==="none"&&mr.width>lr.width*2&&mr.top<210&&mr.left>lr.left; })()'),
    'Travel reference: full-width map, no permanent sidebar, map aligned within first 210px');
+  await js('window.__mapBeforeScope = document.querySelector("#map")');
   await click('.map-scope-modes [data-action=explorer-scope][data-value=city]');
+  assert.ok(await js('window.__mapBeforeScope === document.querySelector("#map")'),
+    'Wechsel von Kartenmodus erhält dasselbe Leaflet-Element ohne Karten-Neustart');
   assert.ok(await js('document.querySelector(".map-scope-modes [data-value=city]")?.getAttribute("aria-pressed")==="true"'),
     'City mode highlights the independent city discovery option');
   await screenshot('22-reference-city-map-1440.png');
