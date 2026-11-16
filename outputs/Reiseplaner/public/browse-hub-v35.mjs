@@ -166,6 +166,7 @@ export function foodBrowseCards(ctx,items){
     +'<div class="hub-food-card-actions">'
     +btn('details','Details & Quellen','folder',item.id)
     +(hasMap?btn('browse-map-item','Auf Karte','pin',item.id):'')
+    +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
     +(options?btn(active?'edit':meal?'meal-choose':'choose',
       active?'Im Plan bearbeiten':'Einplanen',active?'edit':'plus',
       meal&&!active?meal.id:item.id,'primary'):'')
@@ -275,6 +276,7 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
      active?'Im Plan bearbeiten':lodging?'Unterkunft prüfen':'Zum Tag hinzufügen',
      active?'edit':'plus',!active&&meal?meal.id:item.id,'primary'):'')
    +(point?btn('browse-map-item','Karte','pin',item.id):'')
+   +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
    +btn('details','Details','folder',item.id)
    +'</div>'
    +'<div class="hub-option-secondary-actions">'
