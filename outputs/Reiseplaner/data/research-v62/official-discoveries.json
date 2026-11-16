@@ -1,0 +1,206 @@
+{
+  "meta": {
+    "package": "research-v62-operator-discoveries",
+    "checkedOn": "2026-11-16",
+    "entries": 10,
+    "pricing": "Only 2026 published or historical tariff references; never imply Sept 2027 confirmed booking.",
+    "coordinates": "Only Sète Musée de la Mer has an official tourism-office POI point, not proven building entrance.",
+    "routeExclusions": "Curie Museum in Paris closed in August, so excluded from August variant."
+  },
+  "entries": [
+    {
+      "id": "paris-musee-curie",
+      "city": "paris",
+      "name": "Musée Curie (Marie Curie)",
+      "address": "1 rue Pierre-et-Marie-Curie, 75005 Paris, Frankreich",
+      "description": "Kleines kostenloses Wissenschafts- und Geschichtsmuseum in Marie Curies früherem Labor mit ihrem Arbeitsplatz und Garten. Wegen geschlossenem August ist es ausschließlich eine Option für die Septembervarianten, nicht den August-Interrail.",
+      "tags": [
+        "Wissenschaft",
+        "Physik",
+        "Geschichte",
+        "Gratis"
+      ],
+      "openingReference": "Mittwoch–Samstag 13:00–17:00 Uhr; an Feiertagen, im August und in Weihnachtsferien geschlossen. Bei vielen Gästen Einlass früher beendet.",
+      "priceReference": "Offizielle Museumsregelung 2026: Eintritt zum Museum und Marie-Curie-Garten kostenlos; Führungen/Veranstaltungen gesondert.",
+      "priceYear": "2026",
+      "durationMinutes": 65,
+      "sourceUrl": "https://curiotheque.musee.curie.fr/s/fr/page/reglement-interieur",
+      "excludeTrips": [
+        "interrail_august"
+      ],
+      "accessCaution": "August geschlossen; am Museumsstandort ist der Eingang je nach Wochentag zu prüfen."
+    },
+    {
+      "id": "paris-buttes-chaumont",
+      "city": "paris",
+      "name": "Parc des Buttes-Chaumont",
+      "address": "Place Armand-Carrel, 75019 Paris, Frankreich",
+      "description": "Hügeliger öffentlicher Landschaftspark mit See, Aussichtshängen und weiten Wiesen. Der beliebte Tempel der Sibylle, die Insel und einige Kaskaden sind derzeit aus Sicherheitsgründen gesperrt: kein Zugang hinter Absperrungen.",
+      "tags": [
+        "Park",
+        "Natur",
+        "Spaziergang",
+        "Gratis"
+      ],
+      "openingReference": "Stadt Paris veröffentlicht getrennte 2027-Zeitabschnitte bis September 2027. Auf der 2026/27-Winteransicht 07:00–20:00 Uhr; exakte Sommerzeit September 2027 vor Besuch nach Zeitraum prüfen.",
+      "priceReference": "Öffentlicher Park kostenlos; große Teilbereiche wegen Geländesicherung geschlossen. Keine kostenpflichtige Park-Eintrittskarte.",
+      "priceYear": "2026",
+      "durationMinutes": 75,
+      "sourceUrl": "https://www.paris.fr/lieux/parc-des-buttes-chaumont-1757",
+      "accessCaution": "Insel, Tempel und Kaskaden bleiben gesperrt; örtliche Absperrungen beachten."
+    },
+    {
+      "id": "barcelona-cccb",
+      "city": "barcelona",
+      "name": "CCCB – Centre de Cultura Contemporània",
+      "address": "Carrer de Montalegre 5, 08001 Barcelona, Spanien",
+      "description": "Zentrum für zeitgenössische Kultur in El Raval mit wechselnden Ausstellungen zu Film, Städten, Medien, Gesellschaft und Technologie. Kurzer Weg zu MACBA und Universitat; ermäßigte Tickets hängen von konkreten Voraussetzungen ab.",
+      "tags": [
+        "Museum",
+        "Kultur",
+        "Medien",
+        "Regenprogramm"
+      ],
+      "openingReference": "Dienstag–Sonntag und Feiertage 10:00–20:00 Uhr, montags normalerweise geschlossen; an bestimmten Dezember-/Januartagen kürzere Zeiten.",
+      "priceReference": "Betreiberstand 2026: eine Ausstellung 8 € online oder 10 € vor Ort, zwei Ausstellungen 10 € online/12 € vor Ort. Ermäßigt ab 6 € online, Berechtigung erforderlich.",
+      "priceYear": "2026",
+      "durationMinutes": 90,
+      "sourceUrl": "https://www.cccb.org/en/visit"
+    },
+    {
+      "id": "sete-musee-mer",
+      "city": "sete",
+      "name": "Musée de la Mer de Sète",
+      "address": "1 rue Jean Vilar, 34200 Sète, Frankreich",
+      "description": "Kostenloses Museum über die Geschichte von Sète, Schiffbau und traditionelles Fischerstechen (joutes nautiques). Oberhalb des Théâtre de la Mer gelegen; gut als kurzer, wetterunabhängiger Zwischenstopp.",
+      "tags": [
+        "Museum",
+        "Meer",
+        "Geschichte",
+        "Gratis"
+      ],
+      "openingReference": "Tourismusamt 2026: Montag und Mittwoch–Sonntag 10:00–18:00 Uhr; Dienstag geschlossen. Außergewöhnliche Schließungen möglich.",
+      "priceReference": "Tourismusamt 2026: Eintritt kostenlos; größere Gruppen/Führungen ggf. vorab reservieren.",
+      "priceYear": "2026",
+      "durationMinutes": 60,
+      "sourceUrl": "https://en.tourisme-sete.com/musee-de-la-mer-sete.html",
+      "point": [
+        43.39365,
+        3.69172
+      ],
+      "geoSourceUrl": "https://en.tourisme-sete.com/musee-de-la-mer-sete.html",
+      "geoSourceNote": "Tourismusamt publiziert GPS-Koordinate des öffentlichen Museumsobjekts (43.39365,3.69172); kein eigens verifizierter barrierefreier Eingang."
+    },
+    {
+      "id": "nice-palais-lascaris",
+      "city": "nice",
+      "name": "Palais Lascaris (Barockpalast)",
+      "address": "15 rue Droite, 06300 Nice, Frankreich",
+      "description": "Barockpalast im Vieux-Nice mit Fresken, Prunktreppe und Sammlung historischer Musikinstrumente. Wegen Denkmalschutz gibt es keinen Aufzug; Führung ist extra kostenpflichtig.",
+      "tags": [
+        "Architektur",
+        "Museum",
+        "Musik",
+        "Regenprogramm"
+      ],
+      "openingReference": "Stadt Nice 2026: Montag und Mittwoch–Sonntag 10:00–18:00 Uhr, dienstags und an wenigen Feiertagen geschlossen.",
+      "priceReference": "Stadtmuseum 2026: 5 € regulär, 4 € Gruppen ab 10; unter 18 und Studierende mit gültigem Nachweis frei. Als volljährige Schüler nicht automatisch gratis.",
+      "priceYear": "2026",
+      "durationMinutes": 65,
+      "sourceUrl": "https://www.nice.fr/lieux/palais-lascaris/"
+    },
+    {
+      "id": "nice-musee-photographie",
+      "city": "nice",
+      "name": "Musée de la Photographie Charles Nègre",
+      "address": "1 place Pierre Gautier, 06300 Nice, Frankreich",
+      "description": "Fotografiemuseum und Galerie nahe Cours Saleya in der Altstadt. Die Galerie schließt mittags für eine Stunde; Ausstellungen wechseln, einzelne Räume können für Umbauten vorübergehend geschlossen sein.",
+      "tags": [
+        "Museum",
+        "Fotografie",
+        "Kunst",
+        "Regenprogramm"
+      ],
+      "openingReference": "Museum 2026 Dienstag–Sonntag 10:00–18:00 Uhr, Montag geschlossen; Galerie 10:00–12:30 und 13:30–18:00 Uhr. Ausstellungswechsel beachten.",
+      "priceReference": "Stadt Nice 2026: 5 € regulär, 4 € bei Gruppen ab 10; Studierende mit Nachweis und unter 18-Jährige frei. Keine allgemeine Gratisberechtigung allein mit 18.",
+      "priceYear": "2026",
+      "durationMinutes": 50,
+      "sourceUrl": "https://www.nice.fr/lieux/musee-de-la-photographie-charles-negre/",
+      "secondarySourceUrl": "https://museephotographie.nice.fr/infos-pratiques/"
+    },
+    {
+      "id": "genoa-villa-durazzo",
+      "city": "genoa",
+      "name": "Parco Villa Durazzo Pallavicini (Pegli)",
+      "address": "Via Ignazio Pallavicini 13, 16155 Genova Pegli, Italien",
+      "description": "Großer historischer Landschaftspark mit künstlichen Seen, Grotten und Aussichtspunkten westlich der Innenstadt. Direkt beim Bahnhof Genova Pegli, aber ein längerer Tagesausflug statt kurzer Innenstadt-Stopp; Wochenendticket umfasst zusätzlich einige Gebäudeteile.",
+      "tags": [
+        "Park",
+        "Gärten",
+        "Fotospot",
+        "Ausflug"
+      ],
+      "openingReference": "Betreiberreferenz: Saison Ende Februar–Anfang November; Ende März–September Dienstag–Freitag 09:30–19:00 Uhr, Samstag/Sonntag 10:00–19:30 Uhr, montags geschlossen; letzter Einlass ca. 2 Stunden vorher.",
+      "priceReference": "Betreiber 2026: Werktag 11 € regulär, 9 € ermäßigt für 13–18 Jahre u. a.; Wochenende 13 € regulär, 11 € ermäßigt. Anspruch am Besuchstag prüfen.",
+      "priceYear": "2026",
+      "durationMinutes": 150,
+      "sourceUrl": "https://www.villadurazzopallavicini.it/en/informazioni-pratiche/",
+      "accessCaution": "Genova Pegli liegt westlich des Zentrums; Anreise mit Regionalzug einplanen."
+    },
+    {
+      "id": "genoa-parchi-nervi",
+      "city": "genoa",
+      "name": "Parchi di Nervi (Villa Grimaldi & Serra)",
+      "address": "Via Capolungo / Passeggiata Anita Garibaldi, 16167 Genova Nervi, Italien",
+      "description": "Große öffentliche Küstenpark-Anlagen im Genueser Stadtteil Nervi, mit Palmen, historischen Villen und Verbindung zur Meerpromenade. Der städtische Grünflächenbetrieb meldete 2026 Pflegemaßnahmen; einzelne Bereiche können gesperrt sein.",
+      "tags": [
+        "Park",
+        "Meerblick",
+        "Spaziergang",
+        "Gratis"
+      ],
+      "openingReference": "Städtische Referenz: üblicherweise September 08:00–18:30 Uhr; im warmen Sommer 2026 zeitweise verlängert auf 21:00 Uhr bis 15. September. Keine feststehende September-2027-Zeit.",
+      "priceReference": "Städtische Parkflächen kostenfrei; benachbarte Museen in Villa Grimaldi/Serra kosten ggf. Eintritt.",
+      "priceYear": "2026",
+      "durationMinutes": 85,
+      "sourceUrl": "https://smart.comune.genova.it/articoli-comunicati-stampa/parchi-e-giardini-anche-questanno-chiusura-posticipata-alle-21-il-caldo",
+      "accessCaution": "Nervi liegt außerhalb der Altstadt; Regionalzug und Fußweg berücksichtigen. Vor Ort gesperrte Baum-/Wegbereiche beachten."
+    },
+    {
+      "id": "venice-museo-fortuny",
+      "city": "venice",
+      "name": "Museo Fortuny (Palazzo Pesaro degli Orfei)",
+      "address": "San Marco 3958, 30124 Venezia, Italien",
+      "description": "Museum im ehemaligen Wohn- und Arbeitsgebäude des Designers Mariano Fortuny mit Textilien, Fotografie und Kunst. Nahe Vaporetto Sant'Angelo; Kombiticket mit Ca' Pesaro möglich, auf Anzahl und Gültigkeit prüfen.",
+      "tags": [
+        "Museum",
+        "Design",
+        "Kunst",
+        "Regenprogramm"
+      ],
+      "openingReference": "Betreiber 2026 April–Oktober 10:00–18:00 Uhr, dienstags geschlossen, letzter Einlass 17:00 Uhr; Winter 10:00–17:00 Uhr.",
+      "priceReference": "Betreiber 2026: 15 € regulär, 7,50 € für Studierende von 15–25 oder Rolling Venice, nicht nur wegen Alters; Kombiticket Fortuny/Ca' Pesaro/MUVEC 20 € bzw. 10 € ermäßigt.",
+      "priceYear": "2026",
+      "durationMinutes": 85,
+      "sourceUrl": "https://fortuny.visitmuve.it/en/visitor-information/"
+    },
+    {
+      "id": "appenzell-kunsthalle",
+      "city": "appenzell",
+      "name": "Kunsthalle Appenzell (Ziegelhütte)",
+      "address": "Ziegeleistrasse 14, 9050 Appenzell, Schweiz",
+      "description": "Ausstellungshalle in einer ehemaligen Ziegelhütte mit moderner und zeitgenössischer Kunst. Das Eintrittsticket kann auch das Kunstmuseum Appenzell umfassen; geeignet als Regen- oder Kulturprogramm.",
+      "tags": [
+        "Kunst",
+        "Museum",
+        "Regenprogramm",
+        "Kombiticket"
+      ],
+      "openingReference": "Appenzellerland Tourismus 2026: April–Oktober Mittwoch–Freitag 12:00–18:00 Uhr, Samstag/Sonntag 11:00–17:00 Uhr; montags und dienstags geschlossen.",
+      "priceReference": "Appenzellerland 2026: CHF 15 regulär für Kunsthalle und Kunstmuseum zusammen, CHF 10 Studierende mit Nachweis / weitere Berechtigte; Museumspässe und Ferienkarte ggf. frei.",
+      "priceYear": "2026",
+      "durationMinutes": 70,
+      "sourceUrl": "https://www.appenzell.ch/de/kultur-und-braeuche/museen/kunsthalle-appenzell.html"
+    }
+  ]
+}
