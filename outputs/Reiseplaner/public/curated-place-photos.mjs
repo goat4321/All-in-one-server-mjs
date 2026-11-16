@@ -2,6 +2,37 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 68: individually matched Commons files for 7 public outdoor/cultural V50 places.
+ // Motif, author, reuse license and original file page remain visible in credits.
+ {city:"paris",name:/^[iî]le aux cygnes/i,
+  file:"Statue de la Liberté, île aux Cygnes, Paris.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Statue de la Liberté, île aux Cygnes, Paris.jpg").replace(/%20/g,'_'),
+  credit:"Polymagou · CC BY-SA 4.0 · Kleine Freiheitsstatue auf der Île aux Cygnes; keine Gesamtansicht · CSS-Bildausschnitt"},
+ {city:"barcelona",name:/^parc de cervantes$/i,
+  file:"Barcelona - Parc de Cervantes 01.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Barcelona - Parc de Cervantes 01.jpg").replace(/%20/g,'_'),
+  credit:"Joe Mabel · CC BY-SA 4.0 · Parc de Cervantes (2024) · CSS-Bildausschnitt"},
+ {city:"sete",name:/^phare du m[oô]le saint-louis$/i,
+  file:"Phare de Sète (1).jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Phare de Sète (1).jpg").replace(/%20/g,'_'),
+  credit:"Christian Ferrer · CC BY-SA 3.0 · Außenansicht des Leuchtturms (2013); kein Turmzugangsnachweis · CSS-Bildausschnitt"},
+ {city:"genoa",name:/^via garibaldi \(strade nuove\)/i,
+  file:"Genova via G. Garibaldi.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Genova via G. Garibaldi.jpg").replace(/%20/g,'_'),
+  credit:"Al*from*Lig · CC BY-SA 4.0 · Via Garibaldi (2023), öffentliche Straße, keine Innenbesichtigung · CSS-Bildausschnitt"},
+ {city:"barcelona",name:/^carretera de les aig[uü]es$/i,
+  file:"Carretera de les aigues.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Carretera de les aigues.jpg").replace(/%20/g,'_'),
+  credit:"Lizel (Seiko09) · CC BY-SA 4.0 · Carretera de les Aigües (2015) · CSS-Bildausschnitt"},
+ {city:"nice",name:/^mont boron wald-/i,
+  file:"Mont Boron, Nice (20260619-IMG 3716).jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Mont Boron, Nice (20260619-IMG 3716).jpg").replace(/%20/g,'_'),
+  credit:"Matti Blume · CC BY-SA 4.0 · Mont Boron, Nizza (2026) · CSS-Bildausschnitt"},
+ {city:"venice",name:/^giardini della biennale/i,
+  file:"Giardini Biennale 2026.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Giardini Biennale 2026.jpg").replace(/%20/g,'_'),
+  credit:"Baseluna014 · CC BY-SA 4.0 · Biennale-Garteneingang (2026), nicht gesamter Park · CSS-Bildausschnitt"},
+
  // Phase 67: seven individually sourced Commons object photos, distinct from city fallback images.
  {city:"venice",name:/^museo fortuny \(palazzo pesaro degli orfei\)$/i,
   file:"Interno, Museo Fortuny, Venezia.jpg",
