@@ -3,6 +3,7 @@ import {loadDayPlansV32} from './day-plans-v32.mjs';
 import {applyUploadedPlacesV50} from './uploaded-places-v50.mjs';
 import {attachNightlifeReferencesV51} from './nightlife-official-v51.mjs';
 import {applyOperatorDiscoveriesV54} from './operator-discoveries-v54.mjs';
+import {applyOperatorDiscoveriesV55} from './operator-discoveries-v55.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsLocationStatus } from '../public/google-maps.mjs';
 import { localParts, minor, utcFromLocal } from '../public/model.mjs';
 import { italyLodgings, italyPlaces, italySources, italyStations } from './italy.mjs';
@@ -1013,6 +1014,9 @@ export async function loadCatalog() {
   const operatorDiscoveryV54=JSON.parse(await readFile(
     new URL('../data/research-v54/official-discoveries.json',import.meta.url),'utf8'));
   const operatorDiscoveryStatsV54=applyOperatorDiscoveriesV54(output,cities,operatorDiscoveryV54);
+  const operatorDiscoveryV55=JSON.parse(await readFile(
+    new URL('../data/research-v55/official-discoveries.json',import.meta.url),'utf8'));
+  const operatorDiscoveryStatsV55=applyOperatorDiscoveriesV55(output,cities,operatorDiscoveryV55);
   for(const trip of output)trip.items=trip.items.map(item=>
     !item.researchV50?item:{
       ...item,
@@ -1037,7 +1041,7 @@ export async function loadCatalog() {
         || ref.startsWith('operator-v07-') || ref.startsWith('official-v03:')
         || ref.startsWith('food-v03-') || ref.startsWith('survey-v19:') || ref.startsWith('survey-v20:') || ref.startsWith('survey-v20-indoor:') || ref.startsWith('wishlist-v04:')
         || ref.startsWith('address-v09:') || ref.startsWith('food-v08-menu:')
-        || ref.startsWith('operator-v54:'));
+        || ref.startsWith('operator-v54:')||ref.startsWith('operator-v55:'));
       return {
         id:item.id,city:item.city,name:item.name,category:categoryOf(item),
         selected:Boolean(item.selected),
@@ -1082,6 +1086,7 @@ export async function loadCatalog() {
       uploadedResearchV50:{meta:uploadedResearchV50.meta,stats:uploadedStatsV50},
       nightlifeOfficialV51:nightlifeOfficialStatsV51,
       operatorDiscoveryV54:{meta:operatorDiscoveryV54.meta,stats:operatorDiscoveryStatsV54},
+      operatorDiscoveryV55:{meta:operatorDiscoveryV55.meta,stats:operatorDiscoveryStatsV55},
       providerSearchV13,providerLocationsV13,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
@@ -1192,6 +1197,12 @@ export async function loadCatalog() {
         url: place.website,
         accessed_on: place.observedOn,
         validity: 'business_listing_snapshot_address_and_hours_not_confirmed_for_2027',
+      })),
+      ...operatorDiscoveryV55.entries.map(place=>({
+        id:'operator-v55:'+place.id,
+        publisher:'Offizielle Betreiber-/Stadtquelle · '+place.name,
+        url:place.sourceUrl,accessed_on:operatorDiscoveryV55.meta.checkedOn,
+        validity:'2026 veröffentlichte Info/ggf. 2027 Saisonfenster; keine bestätigte Buchung oder aktueller Checkout',
       })),
       ...operatorDiscoveryV54.entries.map(place=>({
         id:'operator-v54:'+place.id,
