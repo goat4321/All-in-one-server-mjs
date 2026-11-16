@@ -2,6 +2,19 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 58: exact place/photo matches checked on original Commons file/license pages.
+ {city:'paris',name:/^ground control$/i,
+  file:"Paris - Ground Control (47128148922).jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Paris - Ground Control (47128148922).jpg").replace(/%20/g,'_'),
+  credit:"Fred Romero · CC BY 2.0 · Ground Control Paris, 2018 · CSS-Bildausschnitt"},
+ {city:'sete',name:/^th[eé][aâ]tre de la mer$/i,
+  file:"Théatre de la Mer à Sète.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Théatre de la Mer à Sète.jpg").replace(/%20/g,'_'),
+  credit:"Christian Ferrer · CC BY-SA 3.0 · Théâtre de la Mer von Norden, 2013 · CSS-Bildausschnitt"},
+ {city:'genoa',name:/^il bigo \(panoramalift im porto antico\)$/i,
+  file:"Bigo Genova.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Bigo Genova.jpg").replace(/%20/g,'_'),
+  credit:"Al*from*Lig · CC BY-SA 4.0 · Il Bigo Gesamtansicht, 2023 · CSS-Bildausschnitt"},
  // Phase 57: four file pages individually verified on Commons. Historic image dates explicit.
  {city:'paris',name:/^piscine jos[eé]phine baker$/i,
   file:"Piscine Josephine Baker Paris.jpg",
