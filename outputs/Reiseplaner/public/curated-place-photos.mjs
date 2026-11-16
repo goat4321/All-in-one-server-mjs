@@ -27,7 +27,7 @@ const images=[
   file:"Musée Narbonne (1).jpg",
   sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Musée Narbonne (1).jpg").replace(/%20/g,'_'),
   credit:"Jcb-caz-11 · CC BY-SA 4.0 · Lapidarwand im Narbo Via 2023 · CSS-Bildausschnitt"},
- {city:"wasserauen",name:/^berggasthaus [aä]scher$/i,
+ {city:"wasserauen",name:/^berggasthaus [aä]scher$/i,allowFood:true,
   file:"Äscher.jpg",
   sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Äscher.jpg").replace(/%20/g,'_'),
   credit:"Friedrich-Karl Mohr (FkMohr) · CC BY-SA 3.0 DE · Äscher und Wildkirchli von Chlihütten 2014 · CSS-Bildausschnitt",
