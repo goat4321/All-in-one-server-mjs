@@ -53,7 +53,8 @@ export function buildCityArrivalScenes(stops,items=[],activeIds=new Set(),limit=
  return safeEntries(stops).map(stop=>{
   const all=cities.get(stop.id)??[];
   const seenIds=new Set(),seenNames=new Set();
-  const unique=all.filter(item=>{
+  const unique=[...all].sort((a,b)=>Number(b.planned)-Number(a.planned))
+    .filter(item=>{
    const nameKey=item.city+':'+canonical(item.name);
    if(seenIds.has(item.id)||seenNames.has(nameKey))return false;
    seenIds.add(item.id);seenNames.add(nameKey);return true;
