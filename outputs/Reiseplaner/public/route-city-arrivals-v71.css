@@ -152,3 +152,24 @@
 :root[data-motion=off] .story-arrived-current .story-arrived-symbol{
   animation:none!important
 }
+
+/* Story mode focuses on one action at a time; existing filters return after Stop.
+   The Leaflet copyright/attribution control is intentionally never hidden. */
+body.route-story-active .reference-travel-shell .reference-map-floating,
+body.route-story-active .reference-travel-shell .map-fullscreen-categories,
+body.route-story-active .reference-travel-shell .map-source-indicator,
+body.route-story-active .reference-travel-shell .route-story-launch,
+body.route-story-active .reference-travel-shell .map-story-toolbar-play{
+  display:none!important
+}
+.reference-travel-shell .route-story-player{
+  max-height:min(72dvh,calc(100% - 35px))
+}
+@media(max-width:680px){
+ .reference-travel-shell .route-story-player{
+  max-height:min(55dvh,calc(100% - 60px))
+ }
+ .reference-travel-shell .map-fullscreen-mode .route-story-player{
+  max-height:min(55dvh,calc(100% - 90px))
+ }
+}
