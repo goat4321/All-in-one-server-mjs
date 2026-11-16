@@ -444,7 +444,11 @@ function mapPanel(ctx, full = false) {
         <span id="route-story-progress-fill"></span></div>
       <div class="route-story-actions">
         <span id="route-story-announcement" role="status" aria-live="polite">Reisevorschau</span>
-        <button type="button" class="route-story-pause" data-action="route-story-pause">${icon('pause')}<span>Pause</span></button>
+        <button type="button" class="route-story-ideas-toggle" data-action="route-story-ideas-toggle"
+          aria-controls="route-story-ideas" aria-expanded="false" aria-label="Ortsideen anzeigen"
+          title="Ortsideen ein- oder ausblenden" hidden>${icon('compass')}<span>Ideen</span></button>
+        <button type="button" class="route-story-pause" data-action="route-story-pause"
+          aria-label="Animation pausieren">${icon('pause')}<span>Pause</span></button>
         <button type="button" data-action="route-story-speed" title="Abspielgeschwindigkeit" aria-label="Abspielgeschwindigkeit ändern">1×</button>
         <button type="button" data-action="route-story-play" title="Vom Anfang starten" aria-label="Reise erneut abspielen">${icon('reset')}</button>
         <button type="button" data-action="route-story-stop" title="Animation beenden" aria-label="Animation beenden">${icon('close')}</button>
