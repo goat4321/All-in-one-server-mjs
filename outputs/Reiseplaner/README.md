@@ -376,3 +376,15 @@ Details und offene Datenlücken: `PHASE_1_TO_4.md`. Die Karte/Entdecken-Ansicht 
 Unter **Karte → Mehrstopp-Tagesroute** lassen sich 2–8 bestehende Punkte in einer Stadt sammeln, sortieren, die tatsächlichen Fußwege berechnen und nach Konfliktprüfung in den Tagesplan übertragen. Ohne echte Wege bleibt die Zeitplanung unvollständig. **Unterkünfte** bieten jetzt prüfbare EUR-Gesamtpreise, Person/Nacht-Werte, Bahnhof-Wege, Betten-/Steuer-/Storno-/Checkoutstatus und entsprechende Sortieroptionen. **Bahn & Interrail** zeigt eine eigene Pass-Tage-Prüfung, Nachtzugkonstellationen, knappe Anschlüsse sowie ausdrücklich unbestätigte 2027er Fahrpläne und Reservierungen.
 
 Vor Änderungen an echten Buchungen oder Daten der Anbieter muss der Nutzer die Aktion separat beim Anbieter bestätigen. Die Website tätigt keine Käufe und ist weiterhin eine lokale Node.js-Anwendung; `main` wurde nicht geändert.
+
+## Vollbildkarte (v69)
+
+Unter **Karte** auf **Vollbildkarte** klicken (alternativ das **Vollbild**-Symbol in der schwebenden Kartenleiste). Die Karte nimmt dann die gesamte verfügbare Browserfensterfläche ein – auf Desktop, Tablet und Smartphone. Es handelt sich um einen Vollbildmodus **innerhalb der Website**, nicht um eine automatische Umstellung des Browsers auf F11.
+
+- Oben **Mein Tag**, **Stadt** oder **Gesamtroute** umschalten und über **Ort wechseln** eine andere Reisestadt wählen.
+- Schnellfilter für **Aktivitäten**, **Essen**, **Unterkünfte**, **Einkaufen** und die **Merkliste** bleiben über der Karte verfügbar.
+- **Orte & Filter** öffnet ein seitliches Such-/Detailpanel mit der bestehenden Liste, Kategorien und Route A→B. **In Liste** an einem ausgewählten Marker öffnet dieses Panel ebenfalls.
+- **Schließen** beendet den Modus. **Esc** schließt zuerst die geöffnete Suchleiste und beim zweiten Druck den Vollbildmodus. Auf Mobilgeräten ist der gleiche Schließen-Button vorhanden.
+- Beim Öffnen/Schließen bleiben Leaflet-Karteninstanz, Zoom und Mittelpunkt erhalten. Daten, bestehende Tagespläne und Buchungen werden durch diesen Anzeigemodus **nicht** verändert.
+
+Technik: `public/map-fullscreen-v69.css` enthält die Responsive-Ansicht, `public/views.mjs` die Steuerung, `public/app.mjs` den lokalen UI-Zustand und die Tastatur-/Schaltflächenaktionen. Der vorhandene OSM/OpenFreeMap-Kartenstack bleibt kostenlos und ohne Google-Maps-Key; externe Kartenkacheln benötigen Internet. Den echten Browser-Vollbildmodus kannst du zusätzlich mit **F11** aktivieren.
