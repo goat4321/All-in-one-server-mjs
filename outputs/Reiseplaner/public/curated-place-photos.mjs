@@ -2,6 +2,18 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 74: specifically matched existing places, with Commons license pages
+ // checked on 2026-11-16. These archival photos are not proof of current access.
+ {city:'nice',name:/^mamac \(mus[eé]e d.art moderne et d.art contemporain\)$/i,
+  file:'Nice - MAMAC (29394012484).jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Nice_-_MAMAC_(29394012484).jpg',
+  credit:'Fred Romero · CC BY 2.0 · Außenaufnahme MAMAC Nizza (2016), Gebäude derzeit wegen Renovierung geschlossen · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by/2.0/'},
+ {city:'appenzell',name:/^appenzeller schauk[aä]serei$/i,
+  file:'Stein Schaukäserei.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Stein_Schauk%C3%A4serei.jpg',
+  credit:'Corradox · CC BY-SA 3.0 · Schaukäserei Stein AR (2003), historisches Außenfoto · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/3.0/'},
  // Phase 68: individually matched Commons files for 7 public outdoor/cultural V50 places.
  // Motif, author, reuse license and original file page remain visible in credits.
  {city:"paris",name:/^[iî]le aux cygnes/i,
