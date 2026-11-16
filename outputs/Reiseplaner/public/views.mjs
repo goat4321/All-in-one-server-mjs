@@ -390,7 +390,7 @@ function mapPanel(ctx, full = false) {
       <button type="button" class="map-fullscreen-bookmarks" data-action="explorer-saved-only"
         aria-pressed="${Boolean(ctx.explorer?.savedOnly)}">${icon('bookmark')}<span>Merkliste</span></button>
     </nav>`:''}
-    ${ctx.page==='map'?\`<section id="route-story-player" class="route-story-player" hidden
+    ${ctx.page==='map'?`<section id="route-story-player" class="route-story-player" hidden
       aria-label="Animierte Reisevorschau" data-status="idle">
       <div class="route-story-leading">
         <span class="route-story-symbol" id="route-story-symbol" aria-hidden="true">🧭</span>
@@ -412,7 +412,7 @@ function mapPanel(ctx, full = false) {
         <button type="button" data-action="route-story-stop" title="Animation beenden" aria-label="Animation beenden">${icon('close')}</button>
       </div>
       <small class="route-story-disclaimer">Verlauf nur schematisch · keine reale Zugstrecke oder Fahrplanbestätigung</small>
-    </section>\`:''}
+    </section>`:''}
     <div class="map-source-indicator" id="map-source-indicator" data-state="loading" role="status" aria-live="polite">
       <span id="map-source-label">Kostenlose Karte wird geladen …</span>
       <button type="button" class="map-source-retry" id="map-source-retry" data-action="map-basemap-retry" hidden>Erneut laden</button>
