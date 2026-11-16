@@ -220,7 +220,10 @@ export function mapFloatingControls(ctx){
     +icon('map')+'<span>Gesamtroute</span></button>'
     +'<button type="button" data-action="explorer-saved-only"'
     +' aria-pressed="'+saved+'" title="Nur gemerkte Orte anzeigen">'
-    +icon('bookmark')+'<span>Merkliste</span></button></nav>';
+    +icon('bookmark')+'<span>Merkliste</span></button>'
+    +'<button type="button" class="reference-map-fullscreen-launch" data-action="map-fullscreen"'
+    +' aria-label="Karte im Vollbild öffnen" aria-pressed="'+Boolean(ctx.mapFullscreen)+'" title="Karte im Vollbild öffnen">'
+    +icon('target')+'<span>Vollbild</span></button></nav>';
 }
 
 /**
