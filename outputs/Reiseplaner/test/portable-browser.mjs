@@ -1067,11 +1067,11 @@ try {
   await until(()=>js('Boolean(document.querySelector(".map-selected-place"))'),'Mobile selected POI card');
   assert.ok(await js('(() => { const card=document.querySelector(".map-selection-preview")?.getBoundingClientRect(); const map=document.querySelector("#map")?.getBoundingClientRect(); return card&&map&&card.top>=map.bottom-1&&card.width<=390; })()'),
     'Mobile POI preview is in document flow below map; never under the dock');
-  assert.ok(await js('(()=>{const a=document.querySelector(".map-place-switches")?.getBoundingClientRect();'
+  assert.ok(await js('(()=>{const a=document.querySelector(".map-context-summary")?.getBoundingClientRect();'
     +'const b=document.querySelector(".map-selection-preview")?.getBoundingClientRect();'
     +'const m=document.querySelector("#map")?.getBoundingClientRect();'
-    +'return a&&b&&m&&a.top>=m.bottom-1&&a.bottom<=b.top+1&&a.right<=innerWidth+3;})()'),
-    'Mobile map action controls stay between map and place details without covering the selected card');
+    +'return a&&b&&m&&b.top>=m.bottom-1&&a.top>=b.bottom-1&&a.right<=innerWidth+3;})()'),
+    'V72 mobile selection stays directly below the map; context and search follow it without overlap');
 
   await js('document.querySelector(".map-selection-preview").scrollIntoView({block:"center"})');
   await screenshot('43-mobile-karte-ohne-ueberlagerung-390.png');
