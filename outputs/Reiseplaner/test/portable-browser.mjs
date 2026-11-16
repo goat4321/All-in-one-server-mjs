@@ -293,16 +293,16 @@ try {
   // Default onboarding is intentionally calmer than the advanced tool view.
   assert.ok(await js('document.querySelector(".simple-map-mode")!==null'),
     'Map starts in easy mode for a new visitor');
-  assert.equal(await js('document.querySelectorAll(".simple-main-actions button").length'),3,
-    'Exactly three large default actions are visible');
+  assert.equal(await js('document.querySelectorAll(".map-scope-modes button").length'),3,
+    'The primary map navigation shows exactly three map scopes');
   assert.equal(await js('getComputedStyle(document.querySelector(".reference-map-floating")).display'),'none',
     'Redundant floating controls are hidden in easy mode');
   assert.ok(await js('document.querySelector("#reference-top-search")?.getBoundingClientRect().width>100'),
     'The reference header has a single visible search input in desktop easy mode');
   assert.equal(await js('getComputedStyle(document.querySelector(".explorer-search")).display'),'none',
     'Duplicate explorer search is hidden in desktop easy mode');
-  assert.ok(await js('document.querySelector(".simple-main-button").getBoundingClientRect().height>=44'),
-    'Easy-mode primary actions use large touch targets');
+  assert.ok(await js('document.querySelector(".map-scope-modes button").getBoundingClientRect().height>=44 && document.querySelector(".map-find-button").getBoundingClientRect().height>=44'),
+    'The visible map modes and direct search use large touch targets');
   await screenshot('23-einfacher-reiseplaner-1280.png');
   await click('[data-action=map-simple-toggle]');
   assert.ok(await js('document.querySelector(".simple-map-mode")===null'),
