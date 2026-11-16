@@ -110,9 +110,11 @@ export function placeProfileModel(item, ctx = {}) {
     facts.push(['Veröffentlichte Öffnungszeiten',o.openingReference+' · Reisetag 2027 erneut prüfen']);
     facts.push(['Karten- und Quellenstatus','Offizielle Postadresse vorhanden; individuelle GPS-Koordinate nicht bestätigt']);
   }
-  for(const access of [item.officialAccessV53,item.officialAccessV56,item.officialAccessV57].filter(Boolean)){
+  for(const access of [item.officialAccessV53,item.officialAccessV56,item.officialAccessV57,item.officialAccessV58].filter(Boolean)){
     facts.push(['Betreiber-/Quellenprüfung '+access.checkedOn,access.summary]);
     facts.push(['Zugang September 2027','Noch nicht unabhängig bestätigt']);
+    if(access.september2027EventConfirmed===false)
+      facts.push(['Konkrete Veranstaltung September 2027','Nicht bestätigt · vor Einplanung Betreiberprogramm prüfen']);
     if(access.publishedSeason2027)facts.push(['Saisoninformation für 2027 veröffentlicht',
       access.hoursReference+' · keine garantierte Tagesverfügbarkeit/Buchung']);
     if(access.priceReference)facts.push(['Historischer Betreiberpreis · nicht im Budget',access.priceReference]);
