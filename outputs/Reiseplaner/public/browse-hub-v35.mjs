@@ -201,6 +201,8 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    :quickDays.includes(ctx.date)?ctx.date:quickDays[0];
  const nightlife=nightlifeVenueNote(item);
  const officialNightlife=item.nightlifeOfficialV51??null;
+ const officialRate=item.officialAccessV58?.priceReference??item.officialAccessV57?.priceReference
+   ??item.officialAccessV56?.priceReference??null;
  const amenity=lodging
   ?[item.room||null,item.kitchen||'Küche nicht geprüft',
      item.bedsDisplayed!=null?String(item.bedsDisplayed)+' Betten angezeigt':null]
@@ -224,14 +226,14 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    +'<h3>'+esc(item.name)+'</h3>'
    +'<p class="hub-option-summary">'+esc(item.detail||item.note||
        (lodging?'Unterkunft mit noch offenen Angaben':'Reiseidee aus der Recherche'))+'</p>'
-   +((item.officialAccessV57??item.officialAccessV56??item.officialAccessV53)?'<p class="hub-entry-access"'
-      +((item.officialAccessV57??item.officialAccessV56??item.officialAccessV53).status.startsWith('closed')?' data-closed="true"':'')
-      +'><strong>'+((item.officialAccessV57??item.officialAccessV56??item.officialAccessV53).status.startsWith('closed')
+   +((item.officialAccessV58??item.officialAccessV57??item.officialAccessV56??item.officialAccessV53)?'<p class="hub-entry-access"'
+      +((item.officialAccessV58??item.officialAccessV57??item.officialAccessV56??item.officialAccessV53).status.startsWith('closed')?' data-closed="true"':'')
+      +'><strong>'+((item.officialAccessV58??item.officialAccessV57??item.officialAccessV56??item.officialAccessV53).status.startsWith('closed')
        ?'Derzeit geschlossen / Wiedereröffnung offen: '
        :item.officialAccessV57?.schedulingAssurance==='published_2027_timetable_weather_dependent'
          ?'Saisonfahrplan 2027 veröffentlicht: '
          :'Betreiberhinweis (2026): ')+'</strong>'
-      +esc((item.officialAccessV57??item.officialAccessV56??item.officialAccessV53).summary)
+      +esc((item.officialAccessV58??item.officialAccessV57??item.officialAccessV56??item.officialAccessV53).summary)
       +'</p>':'')
    +(nightlife?'<div class="hub-option-nightlife">'
      +'<strong>'+esc(nightlife.label)+'</strong>'
@@ -262,12 +264,14 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
      +esc(item.preference.score)+'/100 · Heuristik</span>':'')
    +'</div>'
    +'<div class="hub-option-pricing"><div><small>Preisorientierung</small>'
-   +'<strong>'+esc((item.discoveryV54??item.discoveryV55)
+   +'<strong>'+esc((officialRate||item.discoveryV54||item.discoveryV55)
       ?'Betreiber-Tarifreferenz · nicht im Budget'
       :item.researchV50?.referencePrice
       ?'Preis offen · Recherche: '+item.researchV50.referencePrice+' '+item.researchV50.currency
       :signal.tier+' · '+signal.amount)+'</strong>'
-   +'<span>'+esc((item.discoveryV54??item.discoveryV55)
+   +'<span>'+esc(officialRate
+      ?officialRate+' · nicht gebucht, September 2027 prüfen'
+      :(item.discoveryV54??item.discoveryV55)
       ?(item.discoveryV54??item.discoveryV55).priceReference+' · Datum/Anspruch 2027 prüfen'
       :item.researchV50
       ?'Nutzerangabe 2026, für 2027 nicht bestätigt':provenance)+'</span></div>'+rating+'</div>'
@@ -290,6 +294,8 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
      active?'edit':'plus',!active&&meal?meal.id:item.id,'primary'):'')
    +(point?btn('browse-map-item','Karte','pin',item.id):'')
    +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
+   +((item.officialAccessV58??item.officialAccessV57??item.officialAccessV56)?.sourceUrl
+     ?urlLink((item.officialAccessV58??item.officialAccessV57??item.officialAccessV56).sourceUrl,'Betreiberquelle'):'')
    +btn('details','Details','folder',item.id)
    +'</div>'
    +'<div class="hub-option-secondary-actions">'
