@@ -22,6 +22,7 @@ import { railSalesStatus, reviewProgress } from './verification.mjs';
 import { official2027Notices } from './official-rules-2027.mjs';
 import { EXPLORER_GROUPS, explorerDetail, explorerCategory } from './map-explorer.mjs';
 import {markerProvenance} from './poi-location-provenance.mjs';
+import {mapViewSummary} from './map-view-summary-v72.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import {foodDirectory,marketCoverage} from './food-discovery-v36.mjs';
@@ -141,14 +142,18 @@ function content(ctx, city) {
        +'<div class="map-fullscreen-drawer-heading"><strong>Orte & Filter</strong>'
        +'<button type="button" data-action="map-fullscreen-drawer" aria-label="Orte und Filter schließen">'
        +icon('close')+'</button></div>'
-      +mapDayAgenda(ctx)
+      +(ctx.explorer?.scope==='day'?mapDayAgenda(ctx):'')
       +(ctx.explorer?.scope==='day'
-        ?dayPlanPanel(ctx,{compact:true})+fieldNoteStrip(ctx)
-        :mapBrowsePanel(ctx))
+        ?'<details class="map-day-more"><summary>'+icon('calendar')
+          +'<span>Tagesplanung & Hinweise</span>'+icon('chevron')+'</summary>'
+          +dayPlanPanel(ctx,{compact:true})+fieldNoteStrip(ctx)+'</details>'
+        :'<details class="map-category-discovery"><summary>'+icon('compass')
+          +'<span>Kategorien & weitere Inspiration</span>'+icon('chevron')+'</summary>'
+          +mapBrowsePanel(ctx)+'</details>')
       + '<details class="reference-places-drawer"'
-      +(ctx.mapFullscreen||!ctx.mapSimple||ctx.mapSearch||ctx.explorer?.search?' open':'')
+      +(ctx.mapFullscreen||ctx.mapListOpen||ctx.mapSearch||ctx.explorer?.search?' open':'')
       +'><summary>'+icon('compass')+'<span>Alle Orte, Filter und Quellen</span>'
-      +'<small>Recherche gezielt durchsuchen</small>'+icon('chevron')+'</summary>'
+      +'<small>'+((ctx.explorer?.placed.length??0)+(ctx.explorer?.unlocated.length??0))+' passende Einträge</small>'+icon('chevron')+'</summary>'
       + explorerToolbar(ctx) + explorerList(ctx) + '</details></div>'
       + mapPhotoDiscovery(ctx) + '</div>'
       + mapUnlocatedReview(ctx) + mapUnverifiedPointsReview(ctx) + dayRouteView(ctx);
@@ -309,6 +314,29 @@ export function mapSelectionPreview(ctx) {
     +btn('details','Details','folder',id)+'</div></div>';
 }
 
+/** Map information hierarchy: one compact truthfully scoped status line,
+ * plus one explicit next action. Does not reinterpret unverified points. */
+function mapContextSummary(ctx){
+ const summary=mapViewSummary(ctx);
+ const tags=summary.filters.map(f=>'<span class="map-active-filter">'
+   +icon(f.key==='saved'?'bookmark':f.key==='search'?'search':'layers')
+   +esc(f.label)+'</span>').join('');
+ return '<section class="map-context-summary" aria-label="Kartenübersicht und Filterstatus">'
+  +'<div class="map-context-identity"><span class="map-context-kicker">'
+  +icon(summary.scope==='day'?'calendar':summary.scope==='trip'?'map':'pin')
+  +esc(summary.title)+'</span><div class="map-context-count">'
+  +'<strong>'+summary.displayCount+'</strong> '+esc(summary.displayLabel)
+  +(summary.scope==='trip'?'':summary.unlocated?' · '+summary.unlocated+' ohne Pin':'')
+  +'</div><small class="map-context-help">'+esc(summary.hint)+'</small></div>'
+  +'<div class="map-context-actions">'
+  +(tags?'<div class="map-active-filters" aria-label="Aktive Kartenfilter">'+tags+'</div>':'')
+  +(summary.canClear?'<button class="map-filter-clear" type="button"'
+    +' data-action="map-clear-filters">'+icon('reset')+' Filter zurücksetzen</button>':'')
+  +'<button class="map-find-button" type="button" data-action="map-open-search">'
+  +icon('search')+'<span>Orte durchsuchen</span>'+icon('arrow-right')+'</button>'
+  +'</div></section>';
+}
+
 function mapPanel(ctx, full = false) {
   const tourCities=[...new Set(ctx.trip.route)].filter(id=>ctx.cities[id]?.point);
   const tripJourney=ctx.total&&ctx.page==='map'
@@ -331,7 +359,7 @@ function mapPanel(ctx, full = false) {
   const quickLayer = network?.quick;
   const timetable = ctx.catalog.transitSchedules?.[ctx.city];
   const outside = timetable && (ctx.date < timetable.from || ctx.date > timetable.to);
-  const dayRail=ctx.explorer&&!ctx.total&&ctx.day.length
+  const dayRail=ctx.explorer?.scope==='day'&&ctx.day.length
     ?'<nav class="map-day-rail" aria-label="Zeitfolge der ausgewählten Tagesplanung">'
       +'<span class="map-day-rail-label">'+icon('clock')+' Im Tagesplan</span>'
       +'<div class="map-day-rail-track">'+ctx.day.slice(0,9).map((entry,i)=>
@@ -352,13 +380,6 @@ function mapPanel(ctx, full = false) {
         :ctx.explorer?.placed.length+' Kartenpunkte · '+ctx.explorer?.unlocated.length+' Ortsangaben ohne Pin'}</p></div>
     <div class="inline">${ctx.page==='map'?'<button type="button" class="route-story-launch" data-action="route-story-play" title="Deine Reise als animierte Städtefolge ansehen">'+icon('play')+' <span>Route abspielen</span></button>':''}${ctx.page==='map'?'<button type="button" class="map-fullscreen-launch" data-action="map-fullscreen" aria-pressed="'+Boolean(ctx.mapFullscreen)+'">'
       +icon('map')+' <span>Vollbildkarte</span></button>':''}${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div></div>
-    <div class="map-tools" aria-label="Kartenebenen">
-      ${chip('map-mode', 'Tag', !ctx.total, 'day')}${chip('map-mode', 'Gesamt', ctx.total, 'total')}
-      ${ctx.explorer ? '<span class="muted">Alle vorhandenen Orte · farbige Kategorien · keine erfundenen Positionen</span>' : ''}
-      ${!ctx.total ? chip('filter', 'Fußwege', t.walk, 'walk', 'walk') + chip('filter', 'Alternativen', t.options, 'options', 'pin')
-        + (quickLayer ? chip('transit', network.groups[quickLayer].title, t.transit[quickLayer], quickLayer, 'train') : '')
-        + (ctx.cities[ctx.city].country === 'CH' ? chip('filter', 'Wanderwege', t.hiking, 'hiking', 'walk') : '') : ''}
-    </div>
     ${!full && !ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
     ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
@@ -445,7 +466,6 @@ function mapPanel(ctx, full = false) {
           ?'<span class="market-status" title="'+esc(ctx.explorer.marketsNote)+'">6,5 km Umkreis · Geodaten, Öffnung unbestätigt</span>':'')
         +'</div>':''}
       <div id="map-selection-preview" class="map-selection-preview" aria-live="polite">${mapSelectionPreview(ctx)}</div>
-      ${renderMapHud(ctx)}
       ${ctx.explorer && ctx.dayRoute.items.length>1 && !ctx.total
         ? '<div class="route-map-hud"><span class="route-map-pulse"></span><strong>Route Studio</strong><span>'
           +ctx.dayRoute.items.length+' Stopps · '
@@ -461,6 +481,20 @@ function mapPanel(ctx, full = false) {
       +'<div>Die lokale Referenz deckt nur '+esc(dateText(timetable.from))+' bis '+esc(dateText(timetable.to))
       +' ab. Für '+esc(dateText(ctx.date))+' keine bestätigten Echtzeitfahrten. '
       +urlLink(transitPlanners[ctx.city],'Beim Betreiber prüfen')+'</div></details>' : ''}
+    ${ctx.page==='map'?mapContextSummary(ctx):''}
+    <details class="map-extra-details" aria-label="Optionale Karteninformationen und Ebenen">
+      <summary>${icon('layers')} <span>Kartenstil, Ebenen & Quellen</span>
+        <small>Bei Bedarf anpassen</small>${icon('chevron')}</summary>
+      <div class="map-extra-content">
+      ${renderMapHud(ctx)}
+      ${ctx.page==='map'?'': ''}
+    <div class="map-tools" aria-label="Kartenebenen">
+      ${chip('map-mode', 'Tag', !ctx.total, 'day')}${chip('map-mode', 'Gesamt', ctx.total, 'total')}
+      ${ctx.explorer ? '<span class="muted">Alle vorhandenen Orte · farbige Kategorien · keine erfundenen Positionen</span>' : ''}
+      ${!ctx.total ? chip('filter', 'Fußwege', t.walk, 'walk', 'walk') + chip('filter', 'Alternativen', t.options, 'options', 'pin')
+        + (quickLayer ? chip('transit', network.groups[quickLayer].title, t.transit[quickLayer], quickLayer, 'train') : '')
+        + (ctx.cities[ctx.city].country === 'CH' ? chip('filter', 'Wanderwege', t.hiking, 'hiking', 'walk') : '') : ''}
+    </div>
     <details class="map-design-details" ${ctx.mapDesignOpen?'open':''}><summary>Darstellung & Kartengröße</summary>
     <div class="map-design-controls" role="group" aria-label="Design und Größe der Karte">
       <span class="map-design-caption">Kartenlook</span>
@@ -492,6 +526,7 @@ function mapPanel(ctx, full = false) {
     ${!ctx.total && network?.dateLabel ? '<span>' + esc(network.dateLabel) + ' · Netzreferenz</span>' : ''}
     ${!ctx.total && ctx.cities[ctx.city].country === 'CH' && t.hiking ? '<span>Signalisiertes Netz · ab Zoomstufe 10</span>' : ''}
     ${!ctx.total ? urlLink(transitPlanners[ctx.city], 'ÖPNV-Planer') : ''}</div></details>
+    </div></details>
 
     ${dayRail}
     <div id="detail-container">${mapDetail(ctx)}</div>
