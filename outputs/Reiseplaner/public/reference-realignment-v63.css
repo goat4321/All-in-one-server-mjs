@@ -532,3 +532,46 @@ body{background:var(--ref63-bg)}
   background:#28392f;border-color:#455c49
 }
 :root[data-theme=dark] .reference-travel-shell .reference-global-search input{color:#edf4ec}
+
+/* Discovery controls are available, but do not crowd out the reference's
+   chronological photo timeline. On explicit search or in advanced mode this
+   section opens automatically, preserving existing filters and all entries. */
+.reference-travel-shell .reference-places-drawer{
+  margin:13px 0 0;border-top:1px solid var(--ref63-stroke);
+  background:var(--ref63-surface);
+}
+.reference-travel-shell .reference-places-drawer>summary{
+  display:flex;align-items:center;gap:9px;cursor:pointer;
+  list-style:none;min-height:46px;padding:10px 13px;
+  color:#285840;font-size:.79rem;font-weight:780;
+  border-radius:13px;
+}
+.reference-travel-shell .reference-places-drawer>summary::-webkit-details-marker{display:none}
+.reference-travel-shell .reference-places-drawer>summary:hover{background:#ecf6ed}
+.reference-travel-shell .reference-places-drawer>summary>span{flex:1}
+.reference-travel-shell .reference-places-drawer>summary>small{
+  font-size:.69rem;font-weight:550
+}
+.reference-travel-shell .reference-places-drawer>summary>.ui-icon:last-child{
+  transition:transform .18s ease
+}
+.reference-travel-shell .reference-places-drawer[open]>summary>.ui-icon:last-child{
+  transform:rotate(90deg)
+}
+.reference-travel-shell .reference-places-drawer .explorer-toolbar{
+  border-top:1px solid var(--ref63-stroke)
+}
+@media(max-width:650px){
+  .reference-travel-shell .reference-places-drawer{margin:8px 0 0}
+  .reference-travel-shell .reference-places-drawer>summary{
+    min-height:48px;padding:11px 10px;flex-wrap:wrap
+  }
+  .reference-travel-shell .reference-places-drawer>summary>small{
+    flex-basis:100%;padding-left:27px
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .reference-travel-shell .reference-places-drawer>summary>.ui-icon:last-child{
+    transition:none!important
+  }
+}
