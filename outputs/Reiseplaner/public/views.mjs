@@ -132,16 +132,21 @@ function content(ctx, city) {
   switch (ctx.page) {
     case 'overview': return overview(ctx);
     case 'map': return mapImageIntro(ctx)
-      + '<div class="map-explorer-split reference-map-workspace" aria-label="Orte, Karte und Reiseplanung">'
+      + '<div class="map-explorer-split reference-map-workspace'+(ctx.mapFullscreen
+         ?' map-fullscreen-mode'+(ctx.mapFullscreenDrawer?' fullscreen-drawer-open':''):'')
+       +'" aria-label="Orte, Karte und Reiseplanung">'
       + '<div class="reference-stage-days">'+mapBrowseModes(ctx)
       +(ctx.explorer?.scope==='day'?explorerDayStrip(ctx):'')+'</div>'
-      + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Kategorien, Orte und Tagesplanung">'
+      + mapPanel(ctx, true) + '<div class="explorer-right" id="map-fullscreen-drawer" aria-label="Kategorien, Orte und Tagesplanung">'
+       +'<div class="map-fullscreen-drawer-heading"><strong>Orte & Filter</strong>'
+       +'<button type="button" data-action="map-fullscreen-drawer" aria-label="Orte und Filter schließen">'
+       +icon('close')+'</button></div>'
       +mapDayAgenda(ctx)
       +(ctx.explorer?.scope==='day'
         ?dayPlanPanel(ctx,{compact:true})+fieldNoteStrip(ctx)
         :mapBrowsePanel(ctx))
       + '<details class="reference-places-drawer"'
-      +(ctx.mapSimple&&!ctx.mapSearch&&!ctx.explorer?.search?'':' open')
+      +(ctx.mapFullscreen||!ctx.mapSimple||ctx.mapSearch||ctx.explorer?.search?' open':'')
       +'><summary>'+icon('compass')+'<span>Alle Orte, Filter und Quellen</span>'
       +'<small>Recherche gezielt durchsuchen</small>'+icon('chevron')+'</summary>'
       + explorerToolbar(ctx) + explorerList(ctx) + '</details></div>'
@@ -345,7 +350,8 @@ function mapPanel(ctx, full = false) {
       :ctx.explorer?.scope==='day'
         ?(ctx.day.length?ctx.day.length+' geplante Stopps':(ctx.dayPlan?.slots.length??0)+' Tagesideen')+' · '+esc(shortDay(ctx.date))
         :ctx.explorer?.placed.length+' Kartenpunkte · '+ctx.explorer?.unlocated.length+' Ortsangaben ohne Pin'}</p></div>
-    <div class="inline">${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div></div>
+    <div class="inline">${ctx.page==='map'?'<button type="button" class="map-fullscreen-launch" data-action="map-fullscreen" aria-pressed="'+Boolean(ctx.mapFullscreen)+'">'
+      +icon('map')+' <span>Vollbildkarte</span></button>':''}${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div></div>
     <div class="map-tools" aria-label="Kartenebenen">
       ${chip('map-mode', 'Tag', !ctx.total, 'day')}${chip('map-mode', 'Gesamt', ctx.total, 'total')}
       ${ctx.explorer ? '<span class="muted">Alle vorhandenen Orte · farbige Kategorien · keine erfundenen Positionen</span>' : ''}
@@ -358,6 +364,31 @@ function mapPanel(ctx, full = false) {
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
     <div class="map-wrap" data-map-tone="${esc(ctx.mapTone)}"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div>
+    ${ctx.page==='map'?`<div class="map-fullscreen-toolbar" role="toolbar" aria-label="Vollbildkarte steuern">
+      <div class="map-fullscreen-brand"><small>REISEATLAS</small><strong>${esc(ctx.cities[ctx.city]?.name??ctx.city)}</strong></div>
+      <div class="map-fullscreen-scope" role="group" aria-label="Kartenumfang">
+        ${[['day','Mein Tag'],['city','Stadt'],['trip','Gesamtroute']].map(([id,label])=>
+          '<button type="button" data-action="explorer-scope" data-value="'+id+'" aria-pressed="'
+          +(ctx.explorer?.scope===id)+'">'+label+'</button>').join('')}
+      </div>
+      <details class="map-fullscreen-city-picker"><summary>${icon('pin')}<span>Ort wechseln</span></summary>
+        <div class="map-fullscreen-city-options" role="group" aria-label="Reiseort auswählen">
+        ${[...new Set(ctx.trip.route)].map(id=>'<button type="button" data-action="city" data-value="'
+          +esc(id)+'" aria-pressed="'+(id===ctx.city)+'">'+esc(ctx.cities[id]?.name??id)+'</button>').join('')}
+        </div></details>
+      <button type="button" class="map-fullscreen-drawer-toggle" data-action="map-fullscreen-drawer"
+        aria-expanded="${Boolean(ctx.mapFullscreenDrawer)}" aria-controls="map-fullscreen-drawer">
+        ${icon('search')}<span>Orte & Filter</span></button>
+      <button type="button" class="map-fullscreen-exit" data-action="map-fullscreen"
+        aria-label="Vollbildkarte schließen" title="Vollbild schließen (Esc)">${icon('close')}<span>Schließen</span></button>
+    </div>
+    <nav class="map-fullscreen-categories" aria-label="Kategorien im Vollbild filtern">
+      ${[['all','Alle'],['activity','Aktivitäten'],['food','Essen'],['lodging','Unterkünfte'],['shop','Einkaufen']]
+        .map(([id,label])=>'<button type="button" data-action="explorer-group" data-value="'+id
+        +'" aria-pressed="'+(ctx.explorer?.group===id)+'">'+esc(label)+'</button>').join('')}
+      <button type="button" class="map-fullscreen-bookmarks" data-action="explorer-saved-only"
+        aria-pressed="${Boolean(ctx.explorer?.savedOnly)}">${icon('bookmark')}<span>Merkliste</span></button>
+    </nav>`:''}
     <div class="map-source-indicator" id="map-source-indicator" data-state="loading" role="status" aria-live="polite">
       <span id="map-source-label">Kostenlose Karte wird geladen …</span>
       <button type="button" class="map-source-retry" id="map-source-retry" data-action="map-basemap-retry" hidden>Erneut laden</button>
