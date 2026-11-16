@@ -64,8 +64,8 @@
 }
 @media(max-width:650px){
  .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) #map{
-  height:clamp(320px,44dvh,475px)!important;
-  min-height:320px!important;max-height:475px!important
+  height:clamp(405px,54dvh,535px)!important;
+  min-height:405px!important;max-height:535px!important
  }
  .reference-travel-shell .map-context-summary{padding:10px!important;gap:8px!important}
  .reference-travel-shell .map-context-identity{flex-basis:100%}
