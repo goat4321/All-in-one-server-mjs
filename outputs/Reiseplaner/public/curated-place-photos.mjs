@@ -2,6 +2,19 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 74 addendum: two more existing public sites with license,
+ // historical motifs only; reopening or rooftop access is NOT implied.
+ {city:'paris',name:/^montparnasse tower \(tour montparnasse\)/i,
+  file:'Montparnasse Tower @ Paris (8616062858).jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Montparnasse_Tower_%40_Paris_(8616062858).jpg',
+  credit:'Guilhem Vellut · CC BY 2.0 · Tour Montparnasse Außenaufnahme (2013); Terrasse derzeit wegen Umbau nicht als geöffnet bestätigt · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by/2.0/'},
+ {city:'venice',name:/^fondaco dei tedeschi/i,
+  file:'Fondaco dei tedeschi außen.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Fondaco_dei_tedeschi_au%C3%9Fen.jpg',
+  credit:'Ktiv · CC BY-SA 4.0 · Fondaco dei Tedeschi Fassade am Canal Grande (2018); kein Nachweis aktueller Dachterrassenöffnung · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/4.0/'},
+
  // Phase 74: specifically matched existing places, with Commons license pages
  // checked on 2026-11-16. These archival photos are not proof of current access.
  {city:'nice',name:/^mamac \(mus[eé]e d.art moderne et d.art contemporain\)$/i,
