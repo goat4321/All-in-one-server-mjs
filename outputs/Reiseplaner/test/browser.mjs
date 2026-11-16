@@ -532,6 +532,47 @@ try {
   assert.equal(await js('document.querySelector("#map")._leaflet_id'),originalLeafletId,
     'Fullscreen transitions must not recreate Leaflet map');
   await screenshot('karte-vollbild-desktop');
+  // V70 real playback: city badges appear progressively and a traveling dot
+  // moves along the pre-existing schematic city polyline without recreating Leaflet.
+  await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
+  const storyMapId=await js('document.querySelector("#map")._leaflet_id');
+  await click('.route-story-launch');
+  await retry(()=>js('document.querySelector("#route-story-player")?.dataset.status==="playing"'),
+    'V70 story should start');
+  assert.equal(await js('document.querySelector("#map")._leaflet_id'),storyMapId);
+  assert.ok(await js('document.querySelectorAll(".story-arrived-icon").length>=1'));
+  await retry(()=>js('Number(document.querySelector(".route-story-progress").getAttribute("aria-valuenow"))>0'),
+    'V70 traveling dot should progress',5500);
+  await click('#route-story-player [data-action=route-story-pause]');
+  await retry(()=>js('document.querySelector("#route-story-player")?.dataset.status==="paused"'),
+    'V70 pause');
+  const pausedPct=await js('document.querySelector(".route-story-progress").getAttribute("aria-valuenow")');
+  await delay(280);
+  assert.equal(await js('document.querySelector(".route-story-progress").getAttribute("aria-valuenow")'),pausedPct,
+    'Travel progress must freeze while paused');
+  await click('#route-story-player [data-action=route-story-speed]');
+  await hasText('#route-story-player', '1.5×');
+  await click('#route-story-player [data-action=route-story-pause]');
+  await retry(()=>js('document.querySelectorAll(".story-arrived-icon").length>=2'),
+    'V70 second city popup',6000);
+  assert.ok(await js('document.querySelector(".route-story-player").textContent.includes("schematisch")'));
+  await screenshot('karte-route-mit-stadtsymbolen');
+  await click('#route-story-player [data-action=route-story-stop]');
+  await retry(()=>js('document.querySelector("#route-story-player")?.hidden===true'),
+    'V70 stop clears overlay');
+  assert.equal(await js('document.querySelectorAll(".story-traveler-icon").length'),0);
+  assert.equal(await js('document.querySelector("#map")._leaflet_id'),storyMapId);
+
+  // Motion preferences disable travel interpolation, while preserving all city reveals.
+  await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+  await click('.route-story-launch');
+  await retry(()=>js('document.querySelector("#route-story-player")?.dataset.status==="complete"'),
+    'V70 accessible still view');
+  const finalCount=await js('Number(document.querySelector("#route-story-count").textContent.split("/")[1].trim())');
+  assert.ok(finalCount>=2);
+  assert.equal(await js('document.querySelectorAll(".story-arrived-icon").length'),finalCount);
+  await click('#route-story-player [data-action=route-story-stop]');
+  console.log('PASS V70 Reiseanimation · beweglicher Punkt, Stadt-Popups, Pause, 1.5×, Replay-Fallback und Quellschutz');
   console.log('PASS V69 Vollbildkarte · Desktop, Mobil, bestehende Leaflet-Karte, Drawer, Filter, Esc, Scope');
   assert.deepEqual(errors, []);
   console.log('PASS Mobil · Liste/Karte, Navigation, reduzierte Bewegung und idempotenter CSV-Import');
