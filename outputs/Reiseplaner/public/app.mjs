@@ -1286,8 +1286,9 @@ async function action(name, value = '') {
         say('Dieser Ort liegt außerhalb des aktuellen Kartenfilters. Filter oder Kartenausschnitt ändern.');
         break;
       }
-      if(index>=view.mapListLimit||view.mapFullscreen&&!view.mapFullscreenDrawer){
+      if(index>=view.mapListLimit||!view.mapListOpen||view.mapFullscreen&&!view.mapFullscreenDrawer){
         if(index>=view.mapListLimit)view.mapListLimit=Math.ceil((index+1)/60)*60;
+        view.mapListOpen=true;
         if(view.mapFullscreen)view.mapFullscreenDrawer=true;
         render({restoreView:true,fetchRoutes:false});
       }
@@ -1457,18 +1458,32 @@ async function action(name, value = '') {
       // when the default simple mode normally hides advanced explorer tools.
       view.mapSimple=false;
       view.mapListOpen=true;
-      if(view.mapScope!=='city'){
+      const changedScope=view.mapScope!=='city';
+      if(changedScope){
         // Search returns individually mapped places instead of only route hubs.
         view.mapScope='city';view.total=false;view.mapViewportOnly=false;
         view.mapViewportBounds=null;view.mapListLimit=60;
       }
       if(view.mapFullscreen)view.mapFullscreenDrawer=true;
-      render({fetchRoutes:false});
+      render({restoreView:!changedScope,fetchRoutes:false});
       const drawer=app.querySelector('.reference-places-drawer');
       if(drawer)drawer.open=true;
       const search=app.querySelector('#map-search');
       if(!view.mapFullscreen)drawer?.scrollIntoView({block:'nearest',behavior:'auto'});
       search?.focus({preventScroll:true});
+      break;
+    }
+    case 'map-remove-filter': {
+      // Remove one constraint without disturbing the other active filters.
+      if(!['group','search','saved','viewport','nearby'].includes(value))break;
+      if(value==='group')view.mapGroup='all';
+      if(value==='search')view.mapSearch='';
+      if(value==='saved')view.mapSavedOnly=false;
+      if(value==='viewport'){view.mapViewportOnly=false;view.mapViewportBounds=null;}
+      if(value==='nearby')view.mapNearPointId=null;
+      view.mapListLimit=60;
+      render({restoreView:true,fetchRoutes:false});
+      app.querySelector('.map-active-filter, .map-find-button')?.focus({preventScroll:true});
       break;
     }
     case 'map-clear-filters':
