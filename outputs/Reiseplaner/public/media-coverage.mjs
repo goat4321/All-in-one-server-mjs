@@ -28,29 +28,55 @@ export function mediaCoverage(ctx) {
     groups,lacking};
 }
 
+const isPrivateStay=item=>item?.provider==='Airbnb'||String(item?.id??'').startsWith('wishlist:airbnb:');
+function coverageItemHtml(row,ctx){
+ const item=row.item;
+ const commons=isPrivateStay(item)?'<small>Privates Airbnb: kein öffentlich belegtes Objektfoto</small>'
+   :(urlLink(commonsWebSearchUrl(commonsDefaultQuery(item,ctx.cities)),
+     'Commons-Bildsuche')||'');
+ return '<div class="media-coverage-item"><div><strong>'+esc(item.name)+'</strong><small>'
+   +esc(ctx.cities?.[item.city]?.name??item.city)
+   +' · '+esc(label[row.category]??row.category)
+   +(row.active?' · Bereits im Plan':'')+'</small></div>'
+   +'<div class="row-actions">'+btn('details','Details & Quellen','folder',item.id)
+   +btn('photo-edit','Quellenfoto ergänzen','plus',item.id)
+   +commons
+   +(urlLink(googleMapsSearchUrl(item,ctx.cities),'Google Maps')||'')
+   +'</div></div>';
+}
 export function mediaCoveragePanel(ctx) {
-  const m=mediaCoverage(ctx);
-  const fraction=m.total?Math.round(m.illustrated/m.total*100):0;
-  return '<section class="section panel panel-pad media-coverage" aria-label="Bildabdeckung und Quellenfotos">'
-    +'<div class="media-coverage-heading"><div><h2>Bildabdeckung & offene Quellenfotos</h2>'
-    +'<p>Nur individuell zugeordnete Fotos mit Commons-Lizenz oder selbst hinterlegter Bildquelle. Keine erfundenen Airbnb-Objektbilder.</p></div>'
-    +'<strong>'+m.illustrated+' von '+m.total+' mit Foto · '+fraction+' %</strong></div>'
-    +'<div class="media-coverage-grid">'+m.groups.map(g=>
-      '<div class="media-coverage-stat"><strong>'+esc(g.title)+'</strong>'
-      +'<span>'+g.illustrated+' / '+g.total+'</span><div class="media-coverage-track" aria-hidden="true"><span style="width:'
-      +(g.total?Math.round(g.illustrated/g.total*100):0)+'%"></span></div>'
-      +'<small>'+g.missing+' ohne Quellenfoto</small></div>').join('')+'</div>'
-    +'<details class="media-coverage-missing"><summary>Priorisierte offene Einträge anzeigen ('
-    +Math.min(25,m.lacking.length)+' von '+m.lacking.length+')</summary>'
-    +'<div class="media-coverage-list">'+m.lacking.slice(0,25).map(row=>
-      '<div class="media-coverage-item"><div><strong>'+esc(row.item.name)+'</strong><small>'
-      +esc(ctx.cities?.[row.item.city]?.name??row.item.city)
-      +' · '+esc(label[row.category]??row.category)
-      +(row.active?' · Bereits im Plan':'')+'</small></div>'
-      +'<div class="row-actions">'+btn('details','Details & Quellen','folder',row.item.id)
-      +btn('photo-edit','Quellenfoto ergänzen','plus',row.item.id)
-      +(urlLink(commonsWebSearchUrl(commonsDefaultQuery(row.item,ctx.cities)),'Commons-Bildsuche')||'')
-      +(urlLink(googleMapsSearchUrl(row.item,ctx.cities),'Google Maps')||'')+'</div></div>').join('')+'</div>'
-    +'<p class="muted">Diese Liste ist eine Auswahl. Ohne zuordenbare, rechtlich nutzbare Datei bleibt ein gestalteter Platzhalter. Eigene Bilder sind lokal und variantenbezogen.</p>'
-    +'</details></section>';
+ const m=mediaCoverage(ctx);
+ const fraction=m.total?Math.round(m.illustrated/m.total*100):0;
+ const priority=m.lacking.slice(0,25);
+ const remaining=m.lacking.slice(25);
+ const byCity=new Map();
+ for(const row of remaining){
+  const city=row.item.city;
+  if(!byCity.has(city))byCity.set(city,[]);
+  byCity.get(city).push(row);
+ }
+ const cityGroups=[...byCity].sort(([a],[b])=>
+  (ctx.cities?.[a]?.name??a).localeCompare(ctx.cities?.[b]?.name??b,'de'));
+ return '<section class="section panel panel-pad media-coverage" aria-label="Bildabdeckung und Quellenfotos">'
+   +'<div class="media-coverage-heading"><div><h2>Bildabdeckung & offene Quellenfotos</h2>'
+   +'<p>Nur individuell zugeordnete Fotos mit Commons-Lizenz oder selbst hinterlegter Bildquelle. Keine erfundenen Airbnb-Objektbilder.</p></div>'
+   +'<strong>'+m.illustrated+' von '+m.total+' mit Foto · '+fraction+' %</strong></div>'
+   +'<div class="media-coverage-grid">'+m.groups.map(g=>
+     '<div class="media-coverage-stat"><strong>'+esc(g.title)+'</strong>'
+     +'<span>'+g.illustrated+' / '+g.total+'</span><div class="media-coverage-track" aria-hidden="true"><span style="width:'
+     +(g.total?Math.round(g.illustrated/g.total*100):0)+'%"></span></div>'
+     +'<small>'+g.missing+' ohne Quellenfoto</small></div>').join('')+'</div>'
+   +(m.lacking.length?'<details class="media-coverage-missing"><summary>Priorisierte offene Einträge anzeigen ('
+     +priority.length+' von '+m.lacking.length+')</summary>'
+     +'<div class="media-coverage-list">'+priority.map(row=>coverageItemHtml(row,ctx)).join('')+'</div>'
+     +'</details>':'<p>Jeder sichtbare Eintrag hat bereits ein individuelles Quellenfoto.</p>')
+   +(remaining.length?'<details class="media-coverage-missing media-coverage-all"><summary>Weitere '
+     +remaining.length+' Einträge ohne Bild · alle Städte durchsuchen</summary>'
+     +cityGroups.map(([city,rows])=>
+       '<details class="media-coverage-city"><summary>'
+       +esc(ctx.cities?.[city]?.name??city)+' · '+rows.length+' fehlende Fotos</summary>'
+       +'<div class="media-coverage-list">'+rows.map(row=>coverageItemHtml(row,ctx)).join('')
+       +'</div></details>').join('')+'</details>':'')
+   +'<p class="muted">Alle Lückeneinträge sind über die Schnellliste und die Stadtgruppen erreichbar. Die Bildsuche ist nur ein Recherchelink: Vor Verwendung müssen Motiv, Lizenz und Urheber geprüft werden. Für private Airbnbs keine öffentliche Objektbildsuche.</p>'
+   +'</section>';
 }
