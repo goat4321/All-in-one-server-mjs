@@ -259,13 +259,13 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
      +esc(item.preference.score)+'/100 · Heuristik</span>':'')
    +'</div>'
    +'<div class="hub-option-pricing"><div><small>Preisorientierung</small>'
-   +'<strong>'+esc(item.discoveryV54
+   +'<strong>'+esc((item.discoveryV54??item.discoveryV55)
       ?'Betreiber-Tarifreferenz · nicht im Budget'
       :item.researchV50?.referencePrice
       ?'Preis offen · Recherche: '+item.researchV50.referencePrice+' '+item.researchV50.currency
       :signal.tier+' · '+signal.amount)+'</strong>'
-   +'<span>'+esc(item.discoveryV54
-      ?item.discoveryV54.priceReference+' · Datum/Anspruch 2027 prüfen'
+   +'<span>'+esc((item.discoveryV54??item.discoveryV55)
+      ?(item.discoveryV54??item.discoveryV55).priceReference+' · Datum/Anspruch 2027 prüfen'
       :item.researchV50
       ?'Nutzerangabe 2026, für 2027 nicht bestätigt':provenance)+'</span></div>'+rating+'</div>'
    +(quickDays.length?'<div class="hub-quick-day" data-quick-day-id="'+esc(item.id)+'">'
