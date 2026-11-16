@@ -20,7 +20,7 @@ const images=[
  {city:'barcelona',name:/^tibidabo vergn[uü]gungspark/i,
   file:'Amusement Park on Tibidabo with views of Barcelona.jpg',
   sourceUrl:'https://commons.wikimedia.org/wiki/File:Amusement_Park_on_Tibidabo_with_views_of_Barcelona.jpg',
-  credit:'Mattsjc · CC BY-SA 4.0 · Tibidabo-Park (2022) · CSS-Bildausschnitt'},
+  credit:'Mattsjc · CC BY 4.0 · Tibidabo-Park (2022) · CSS-Bildausschnitt'},
  {city:'barcelona',name:/^mercat de santa caterina$/i,
   file:'Barcelona - Mercat de Santa Caterina.jpg',
   sourceUrl:'https://commons.wikimedia.org/wiki/File:Barcelona_-_Mercat_de_Santa_Caterina.jpg',
