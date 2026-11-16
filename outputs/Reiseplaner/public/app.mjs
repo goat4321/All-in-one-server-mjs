@@ -272,7 +272,7 @@ function selectPoint(id, focusMap = true) {
     button.setAttribute('aria-pressed', pressed);
     button.closest('.event-card').classList.toggle('selected', pressed);
   });
-  paintMap();
+  currentMap?.selectMarkerOnly(context.page==='map'?mapKey:selectedKey);
   motion.spotlight(app,mapKey);
   if (focusMap) currentMap?.focus(context.page==='map'?mapKey:selectedKey);
   if (focusMap && matchMedia('(max-width:910px)').matches && context.mobile === 'plan') {
