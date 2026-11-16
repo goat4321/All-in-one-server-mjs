@@ -2,6 +2,23 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 57: four file pages individually verified on Commons. Historic image dates explicit.
+ {city:'paris',name:/^piscine jos[eé]phine baker$/i,
+  file:"Piscine Josephine Baker Paris.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Piscine Josephine Baker Paris.jpg").replace(/%20/g,'_'),
+  credit:"Cahtls · CC BY-SA 4.0 · Piscine Joséphine Baker, Außenansicht 2020 · CSS-Bildausschnitt"},
+ {city:'appenzell',name:/^hoher kasten drehrestaurant/i,
+  file:"Brülisau Kastenbahn HoherKasten.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Brülisau Kastenbahn HoherKasten.jpg").replace(/%20/g,'_'),
+  credit:"Ark001 · CC BY-SA 4.0 · Seilbahn Brülisau–Hoher Kasten (2016), nicht Drehrestaurant-Innenraum · CSS-Bildausschnitt"},
+ {city:'kandersteg',name:/^allmenalp luftseilbahn/i,
+  file:"Klettersteig Allmenalp Kandersteg.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Klettersteig Allmenalp Kandersteg.jpg").replace(/%20/g,'_'),
+  credit:"BenHur · CC BY-SA 3.0 · Klettersteig Allmenalp (2008), nicht Seilbahnstation · CSS-Bildausschnitt"},
+ {city:'kandersteg',name:/^sunnb[uü]el & gemmipass/i,
+  file:"Seilbahn Kandersteg-Sunnbüel (1344619257).jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Seilbahn Kandersteg-Sunnbüel (1344619257).jpg").replace(/%20/g,'_'),
+  credit:"Martin Abegglen · CC BY-SA 2.0 · Sunnbüel-Seilbahn (2007), historische Außenaufnahme · CSS-Bildausschnitt"},
  // Phase 56: five source-checked outdoor/museum motifs for existing user-uploaded places.
  {city:'paris',name:/^parc montsouris$/i,
   file:"Parc Montsouris - Paris XIV (FR75) - 2025-04-27 - 1.jpg",
