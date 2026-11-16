@@ -450,3 +450,10 @@
  z-index:5;display:block;padding:7px 10px;border-radius:12px;
  background:#14382fdc;color:white;text-align:left;font-size:.66rem;
 }
+
+/* Phase 53: concise, accessible factual access alerts; distinct from 2027 bookings. */
+.hub-entry-access{border-left:3px solid #559b9a;padding:10px 12px;border-radius:4px;background:rgba(77,158,153,.075);font-size:.87rem;line-height:1.5;margin:10px 0;color:inherit}
+.hub-entry-access[data-closed="true"]{border-left-color:#cf784d;background:rgba(207,120,77,.1)}
+.hub-entry-access strong{font-weight:750}
+.hub-food-card-actions a,.hub-option-primary-actions a{display:inline-flex;align-items:center;min-height:36px;padding:8px 10px;border-radius:10px;font-size:.82rem;line-height:1.25;text-decoration:underline;text-underline-offset:3px}
+.hub-food-card-actions a:focus-visible,.hub-option-primary-actions a:focus-visible{outline:2px solid currentColor;outline-offset:3px}
