@@ -59,7 +59,7 @@ test('V68 enriches exactly 37 known V50 destinations without creating new candid
  }
 });
 test('V68 source links are independent from provider prices or live status',()=>{
- assert.equal(guides.entries.filter(x=>x.sourceUrl).length,13);
+ assert.equal(guides.entries.filter(x=>x.sourceUrl).length,22);
  for(const r of guides.entries.filter(x=>x.sourceUrl)){
   assert.match(r.sourceUrl,/^https:\/\//);
   const item=all.find(i=>i.publicPlaceGuideV68?.uploadedId===r.id);
