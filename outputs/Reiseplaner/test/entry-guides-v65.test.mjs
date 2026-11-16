@@ -75,3 +75,32 @@ test('V65 seven licensed photos match their exact existing destinations',()=>{
   assert.equal(curatedPlacePhoto({...item,kind:'lodging'}),null);
  }
 });
+
+test('V66 enriches 16 additional existing V61 entries across all applicable trip variants',async()=>{
+ const v61=JSON.parse(await readFile(new URL(
+  '../data/research-v61/official-discoveries.json',import.meta.url),'utf8'));
+ assert.equal(v61.entries.length,16);
+ const v61Items=all.filter(x=>x.discoveryV61?.visitorGuide);
+ const unique61=new Map(v61Items.map(x=>[x.id,x]));
+ assert.equal(unique61.size,16);
+ for(const row of v61.entries){
+  const item=unique61.get('operator:v61:'+row.id);
+  assert.ok(item,row.id);
+  assert.equal(item.booked,false);
+  assert.equal(item.selected,false);
+  assert.equal(item.price,null);
+  assert.equal(item.point,null);
+  assert.equal(item.discoveryV61.september2027OpeningConfirmed,false);
+  assert.equal(item.discoveryV61.september2027TicketConfirmed,false);
+  assert.deepEqual(item.discoveryV61.visitorGuide,row.visitorGuide);
+  assert.ok(row.visitorGuide.highlights.length>=2);
+  const trip=catalog.trips.find(t=>t.items.includes(item));
+  const ctx={trip,catalog,cities:catalog.cities,all:trip.items,city:item.city,
+   people:[{id:1},{id:2},{id:3}],state:{placePhotos:{},favorites:[],votes:{}}};
+  const profile=placeProfileModel(item,ctx);
+  assert.ok(profile.facts.some(([k])=>k==='Praktische Besuchsplanung'),row.id);
+  assert.ok(profile.facts.some(([k])=>k==='Vor Reisebeginn 2027 prüfen'),row.id);
+  assert.match(placeProfileHtml(item,ctx),/Google Maps/);
+  assert.match(placeProfileHtml(item,ctx),/Originalangebot/);
+ }
+});
