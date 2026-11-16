@@ -100,6 +100,16 @@ export function placeProfileModel(item, ctx = {}) {
     if(club.publishedAddress)facts.push(['Veröffentlichte Betreiberadresse',
       club.publishedAddress+' · Eingang/Koordinate separat prüfen']);
   }
+  if(item.discoveryV54){
+    const o=item.discoveryV54;
+    facts.push(['Geprüfte Betreiberquelle',o.checkedOn+' · Originalangaben, keine Reservierung']);
+    facts.push(['Preisreferenz',o.priceReference
+      +(o.priceYear==='published_2027_reference'
+        ?' · veröffentlichter Tarif ab 2027, konkreten Reisetag prüfen'
+        :' · historischer Quellenstand, September 2027 offen')]);
+    facts.push(['Veröffentlichte Öffnungszeiten',o.openingReference+' · Reisetag 2027 erneut prüfen']);
+    facts.push(['Karten- und Quellenstatus','Offizielle Postadresse vorhanden; individuelle GPS-Koordinate nicht bestätigt']);
+  }
   if(item.officialAccessV53){
     const access=item.officialAccessV53;
     facts.push(['Betreiber-/Quellenprüfung '+access.checkedOn,access.summary]);
