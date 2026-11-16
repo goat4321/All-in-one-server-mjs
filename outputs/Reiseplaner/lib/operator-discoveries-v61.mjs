@@ -19,6 +19,10 @@ export function applyOperatorDiscoveriesV61(trips,cities,archive){
    ||!Array.isArray(r.tags)||!r.tags.length
    ||!r.priceReference?.trim()||!r.openingReference?.trim()
    ||!Number.isInteger(r.durationMinutes)||r.durationMinutes<20
+   ||!r.visitorGuide||!Array.isArray(r.visitorGuide.highlights)
+   ||r.visitorGuide.highlights.length<2
+   ||r.visitorGuide.highlights.some(v=>typeof v!=='string'||!v.trim())
+   ||['visitTip','combineWith','arrivalTip','check2027'].some(k=>typeof r.visitorGuide[k]!=='string'||!r.visitorGuide[k].trim())
    ||!secure(r.sourceUrl)||r.point!==undefined||r.price!==undefined)
    throw new Error('V61: invalid source or contents for '+r.id);
  }
@@ -45,6 +49,7 @@ export function applyOperatorDiscoveriesV61(trips,cities,archive){
     openingHoursNote:r.openingReference,
     discoveryV61:{
      checkedOn:archive.meta.checkedOn,sourceUrl:r.sourceUrl,
+     visitorGuide:{...r.visitorGuide,highlights:[...r.visitorGuide.highlights]},
      priceReference:r.priceReference,priceYear:r.priceYear,
      openingReference:r.openingReference,
      publishedSeason2027:r.special2027==='published_2027_operating_season',
