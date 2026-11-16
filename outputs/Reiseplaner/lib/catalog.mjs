@@ -4,6 +4,7 @@ import {applyUploadedPlacesV50} from './uploaded-places-v50.mjs';
 import {attachNightlifeReferencesV51} from './nightlife-official-v51.mjs';
 import {applyOperatorDiscoveriesV54} from './operator-discoveries-v54.mjs';
 import {applyOperatorDiscoveriesV55} from './operator-discoveries-v55.mjs';
+import {VERIFIED_PLACE_UPDATES_V56} from './verified-place-updates-v56.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsLocationStatus } from '../public/google-maps.mjs';
 import { localParts, minor, utcFromLocal } from '../public/model.mjs';
 import { italyLodgings, italyPlaces, italySources, italyStations } from './italy.mjs';
@@ -1087,6 +1088,7 @@ export async function loadCatalog() {
       nightlifeOfficialV51:nightlifeOfficialStatsV51,
       operatorDiscoveryV54:{meta:operatorDiscoveryV54.meta,stats:operatorDiscoveryStatsV54},
       operatorDiscoveryV55:{meta:operatorDiscoveryV55.meta,stats:operatorDiscoveryStatsV55},
+      operatorAccessV56:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V56).length},
       providerSearchV13,providerLocationsV13,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
@@ -1197,6 +1199,12 @@ export async function loadCatalog() {
         url: place.website,
         accessed_on: place.observedOn,
         validity: 'business_listing_snapshot_address_and_hours_not_confirmed_for_2027',
+      })),
+      ...Object.entries(VERIFIED_PLACE_UPDATES_V56).map(([id,place])=>({
+        id:'operator-v56:'+id,
+        publisher:'Original-Betreiber-/Stadtquelle · Zugang und Tarif · '+id,
+        url:place.sourceUrl,accessed_on:place.checkedOn,
+        validity:'Historische Betreiberreferenz 2026; keine garantierte Öffnung/Tickets für September 2027',
       })),
       ...operatorDiscoveryV55.entries.map(place=>({
         id:'operator-v55:'+place.id,
