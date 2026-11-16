@@ -725,3 +725,29 @@ dialog:has(.inspector-shell) .inspector-tab[aria-selected=true]{
 :root[data-motion=off] .reference-travel-shell .overview-quick-card{
   transition:none!important;transform:none!important
 }
+
+/* Keep actual light cards legible when the site-wide theme is dark.
+   All these surfaces deliberately stay parchment-colored like the reference;
+   set the matching local text variables at the surface, never light-on-light. */
+:root[data-theme=dark] .reference-travel-shell .overview-start,
+:root[data-theme=dark] .reference-travel-shell .overview-quick-card,
+:root[data-theme=dark] .reference-travel-shell .activity-filter-panel,
+:root[data-theme=dark] .reference-travel-shell .reference-places-drawer,
+:root[data-theme=dark] .reference-travel-shell .hub-option-card,
+:root[data-theme=dark] .reference-travel-shell .hub-food-card,
+:root[data-theme=dark] .reference-travel-shell .day-plan-quick-bar{
+  --text:#20372b;--muted:#5a7160;--green:#175f3e;
+  --line:#dce7db;--paper:#fffefa;--light:#f0f6f0;
+  --accent:#e4f2e8;color:#20372b;
+}
+:root[data-theme=dark] .reference-travel-shell .overview-start-copy strong,
+:root[data-theme=dark] .reference-travel-shell .overview-quick-card strong,
+:root[data-theme=dark] .reference-travel-shell .activity-filter-header h2,
+:root[data-theme=dark] .reference-travel-shell .hub-option-card h3{
+  color:#20372b!important
+}
+:root[data-theme=dark] .reference-travel-shell .overview-start-copy span,
+:root[data-theme=dark] .reference-travel-shell .overview-quick-card small,
+:root[data-theme=dark] .reference-travel-shell .activity-filter-header p{
+  color:#617667!important
+}
