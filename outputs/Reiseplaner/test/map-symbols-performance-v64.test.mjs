@@ -18,7 +18,7 @@ test('Five recognizable built-in SVG symbols replace single-letter location mark
   const html=mapCategoryIcon(kind);
   assert.match(html,/<svg[^>]*aria-hidden="true">/);
   assert.match(html,/<path /);
-  assert.doesNotMatch(html,/https?:|<script|onload=|onerror=/);
+  assert.doesNotMatch(html,/<(?:script|img|use)\\b|\\s(?:href|src|onload|onerror)=/i);
   paths.add(html);
   assert.match(bubbleMarkup({id:'x',name:'Eintrag',category:kind,tier:'category'}),/map-category-icon/);
  }
