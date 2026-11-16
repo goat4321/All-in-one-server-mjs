@@ -2,6 +2,49 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 53: individual public-place photos, checked against each Commons
+ // file description and license on 2026-11-16. Never imply these are interiors,
+ // hotel rooms, current events, or independently verified location pins.
+ {city:'paris',name:/^ar[eè]nes de lut[eè]ce$/i,
+  file:'Arènes Lutèce Paris 5.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Ar%C3%A8nes_Lut%C3%A8ce_Paris_5.jpg',
+  credit:'Chabe01 · CC BY-SA 4.0 · Arènes de Lutèce (2019) · CSS-Bildausschnitt'},
+ {city:'paris',name:/^mus[eé]e carnavalet$/i,
+  file:'Musée Carnavalet.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Mus%C3%A9e_Carnavalet.jpg',
+  credit:'Formulavee · CC BY-SA 4.0 · Musée Carnavalet (2022) · CSS-Bildausschnitt'},
+ {city:'paris',name:/^petit palais$/i,
+  file:'Petit Palais Paris Facade.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Petit_Palais_Paris_Facade.jpg',
+  credit:'KoS · CC BY-SA 3.0 · Petit Palais, Fassade (2009) · CSS-Bildausschnitt'},
+ {city:'barcelona',name:/^tibidabo vergn[uü]gungspark/i,
+  file:'Amusement Park on Tibidabo with views of Barcelona.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Amusement_Park_on_Tibidabo_with_views_of_Barcelona.jpg',
+  credit:'Mattsjc · CC BY-SA 4.0 · Tibidabo-Park (2022) · CSS-Bildausschnitt'},
+ {city:'barcelona',name:/^mercat de santa caterina$/i,
+  file:'Barcelona - Mercat de Santa Caterina.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Barcelona_-_Mercat_de_Santa_Caterina.jpg',
+  credit:'Fred Romero · CC BY 2.0 · Mercat de Santa Caterina (2017) · CSS-Bildausschnitt'},
+ {city:'sete',name:/^cimeti[eè]re marin de s[eè]te$/i,
+  file:'Cimetière marin, Sète, Hérault 01.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Cimeti%C3%A8re_marin,_S%C3%A8te,_H%C3%A9rault_01.jpg',
+  credit:'Christian Ferrer · CC BY-SA 3.0 · Cimetière marin und Meer (2013) · CSS-Bildausschnitt'},
+ {city:'nice',name:/^promenade du paillon/i,
+  file:'Promenade du Paillon, Nice, France.JPG',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Promenade_du_Paillon,_Nice,_France.JPG',
+  credit:'SarahVstk · CC BY-SA 3.0 · Promenade du Paillon (2014) · CSS-Bildausschnitt'},
+ {city:'genoa',name:/^cattedrale di san lorenzo$/i,
+  file:'Cattedrale san lorenzo genova.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Cattedrale_san_lorenzo_genova.jpg',
+  credit:'Racchets · CC BY-SA 3.0 · Kathedrale San Lorenzo (2004) · CSS-Bildausschnitt'},
+ {city:'venice',name:/^scala contarini del bovolo$/i,
+  file:'Venezia Scala Contarini del Bovolo.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Venezia_Scala_Contarini_del_Bovolo.jpg',
+  credit:'Nekojami · CC0 1.0 · Scala Contarini del Bovolo (2021) · CSS-Bildausschnitt'},
+ {city:'wasserauen',name:/^ebenalp & wildkirchli/i,
+  file:'Wildkirchli.JPG',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Wildkirchli.JPG',
+  credit:'Hadi · Public Domain · Wildkirchli von der Seilbahn (2006) · CSS-Bildausschnitt'},
  // Phase 52: actual nightclub exterior photographs with independently checked
  // Commons file descriptions & reuse licenses; do NOT confuse with tickets or
  // the club's 2027 event photos. Show source & CC cropping credit on cards.
@@ -232,7 +275,7 @@ const images=[
   credit:'Mike Peel (www.mikepeel.net) · CC BY-SA 4.0 · CSS-Bildausschnitt'},
 ];
 export function curatedPlacePhoto(item) {
-  if (!item || item.kind!=='activity' || item.category==='food') return null;
+  if (!item || item.kind!=='activity') return null;
   const candidate=images.find(row=>row.city===item.city&&row.name.test(item.name??''));
   return candidate?{
     url:'https://commons.wikimedia.org/wiki/Special:FilePath/'
