@@ -1,0 +1,325 @@
+{
+  "meta": {
+    "package": "research-v60-operator-discoveries",
+    "checkedOn": "2026-11-16",
+    "entries": 16,
+    "pricing": "2026 reference only; no validated Sept 2027 offers.",
+    "scope": "New optional places for sparse August/Swiss variants.",
+    "coordinatePolicy": "Only independently documented public-venue coordinates, area markers and no claimed entrances."
+  },
+  "entries": [
+    {
+      "id": "toulouse-jardin-japonais",
+      "city": "toulouse",
+      "name": "Jardin Japonais Pierre Baudis",
+      "address": "Jardin Compans Caffarelli, Boulevard Lascrosses, 31000 Toulouse, Frankreich",
+      "description": "Japanischer Garten im Stadtpark Compans-Caffarelli mit roter Brücke, Teepavillon und Wassergarten. Ruhiger kurzer Spaziergang nahe der Metro Compans-Caffarelli, als kostenlose Ergänzung im Zentrum geeignet.",
+      "tags": [
+        "Park",
+        "Natur",
+        "Foto",
+        "Günstig"
+      ],
+      "openingReference": "Städtisches Tourismusamt: täglich etwa 08:00–18:00 Uhr, saisonal bis 20:00 Uhr; bei starkem Wind kann geschlossen werden.",
+      "priceReference": "Öffentlicher Garten ohne reguläres Eintrittsticket; wetterbedingte Schließungen und Saisonzeiten vorab prüfen.",
+      "priceYear": "2026",
+      "durationMinutes": 40,
+      "sourceUrl": "https://www.toulouse-tourisme.com/activite/jardin-japonais/"
+    },
+    {
+      "id": "toulouse-halle-machine",
+      "city": "toulouse",
+      "name": "Halle de La Machine (Minotaure)",
+      "address": "3 avenue de l'Aérodrome de Montaudran, 31400 Toulouse, Frankreich",
+      "description": "Mechanische Riesenfiguren und der begehbare Minotaurus im Quartier Montaudran. Die eigentliche Ausstellung und eine Minotaurusfahrt sind getrennte Tickets; nicht direkt im historischen Zentrum.",
+      "tags": [
+        "Technik",
+        "Erlebnis",
+        "Museum",
+        "Regenprogramm"
+      ],
+      "openingReference": "Tourismusamt 2026: typischerweise Dienstag–Sonntag 10:00–18:00 Uhr, teils abweichende Wochentage/Saisonblöcke; Montag häufig geschlossen.",
+      "priceReference": "2026: Besuch ODER Minotaurusfahrt 12 €, Kombination 21 € regulär; 18-Jährige nicht allein aufgrund des Alters ermäßigt.",
+      "priceYear": "2026",
+      "durationMinutes": 100,
+      "sourceUrl": "https://www.toulouse-tourisme.com/activite/la-halle-de-la-machine/",
+      "accessCaution": "Liegt in Montaudran außerhalb des zentralen Stadtkerns; ÖPNV und ausreichende Besuchszeit einplanen."
+    },
+    {
+      "id": "toulouse-aeroscopia",
+      "city": "toulouse",
+      "name": "Musée Aeroscopia (Airbus A380)",
+      "address": "Allée André Turcat, 31700 Blagnac, Frankreich",
+      "description": "Großes Luftfahrtmuseum mit Airbus A380 und Exponaten zur Flugzeugentwicklung. Besonders für Technikinteressierte, aber in Blagnac außerhalb des Zentrums; Simulationen/Extras separat buchen.",
+      "tags": [
+        "Flugzeuge",
+        "Technik",
+        "Museum",
+        "Regenprogramm"
+      ],
+      "openingReference": "Tourismusamt 2026: täglich 09:30–18:00 Uhr, in Ferien der Zone C teils bis 19:00 Uhr; 1. Januar und 25. Dezember geschlossen.",
+      "priceReference": "2026: 16 € Erwachsene, 13 € nur für Studierende mit Berechtigungsnachweis oder Kinder 6–17; Zusatzangebote gesondert.",
+      "priceYear": "2026",
+      "durationMinutes": 150,
+      "sourceUrl": "https://www.toulouse-tourisme.com/activite/musee-aeroscopia/",
+      "accessCaution": "Das Museum befindet sich in Blagnac, nicht direkt in Toulouse; Transportzeit berücksichtigen."
+    },
+    {
+      "id": "narbonne-les-halles",
+      "city": "narbonne",
+      "name": "Les Halles de Narbonne",
+      "address": "1 boulevard du Docteur Ferroul, 11100 Narbonne, Frankreich",
+      "description": "Historische Markthalle mit mehr als 70 Ständen für Lebensmittel, Snacks und regionale Produkte unmittelbar am Canal de la Robine. Eignet sich gut als günstige Mittagspause beim Zwischenstopp.",
+      "tags": [
+        "Essen",
+        "Streetfood",
+        "Markt",
+        "Günstig"
+      ],
+      "category": "food",
+      "openingReference": "Stadt Narbonne 2026: grundsätzlich 365 Tage 07:00–14:00 Uhr; montags teils eingeschränkter Betrieb, Wartungs-/Ausnahmeschließungen möglich.",
+      "priceReference": "Zugang zur Markthalle kostenfrei; Preise für Speisen und Einkäufe pro Stand individuell und nicht geprüft.",
+      "priceYear": "2026",
+      "durationMinutes": 50,
+      "sourceUrl": "https://www.narbonne.fr/halles",
+      "secondarySourceUrl": "https://www.audetourisme.com/fr/fiche/narbonne/les-halles_TFOPCULAR011FS00011/",
+      "point": [
+        43.1813417,
+        3.0052861
+      ],
+      "geoSourceUrl": "https://www.audetourisme.com/fr/fiche/narbonne/les-halles_TFOPCULAR011FS00011/",
+      "geoSourceNote": "Tourismusamt veröffentlicht geografische DMS-Koordinate für die Markthalle; öffentlicher POI-Referenzpunkt, nicht Eingang oder Ladenstand."
+    },
+    {
+      "id": "narbonne-horreum",
+      "city": "narbonne",
+      "name": "Horreum Romain de Narbonne",
+      "address": "7 rue Rouget de Lisle, 11100 Narbonne, Frankreich",
+      "description": "Unterirdische römische Lager- und Gangstrukturen im Zentrum von Narbonne. Die historische Besichtigung ist kompakt und lässt sich mit der Markthalle verbinden.",
+      "tags": [
+        "Geschichte",
+        "Museum",
+        "Archäologie",
+        "Regenprogramm"
+      ],
+      "openingReference": "Narbo Via: Mai–September Dienstag–Sonntag etwa 10:00–12:30 und 14:00–18:00 Uhr; montags geschlossen, Änderungen vorbehalten.",
+      "priceReference": "Betreiber 2026: 6 € regulär; ermäßigte/gruppenbezogene Pässe nur unter den jeweils genannten Bedingungen.",
+      "priceYear": "2026",
+      "durationMinutes": 55,
+      "sourceUrl": "https://narbovia.fr/accueil-2-2/visiter/visiter-horreum/"
+    },
+    {
+      "id": "narbonne-narbo-via",
+      "city": "narbonne",
+      "name": "Musée Narbo Via",
+      "address": "2 avenue André Mècle, 11100 Narbonne, Frankreich",
+      "description": "Modernes Museum zum römischen Narbo Martius mit großflächiger Präsentation antiker Reliefs und Geschichte der Region. Der Standort ist etwas außerhalb des Altstadtkerns, aber per Stadtbus erreichbar.",
+      "tags": [
+        "Geschichte",
+        "Archäologie",
+        "Museum",
+        "Regenprogramm"
+      ],
+      "openingReference": "Betreiberreferenz 2026: vom 2. Mai bis 30. September Dienstag–Sonntag 10:00–19:00 Uhr; montags geschlossen.",
+      "priceReference": "Preis abhängig von Ausstellung und Pass; 2026 veröffentlichte Referenz ca. 9 € Basismuseum, temporäre Ausstellungen ggf. Aufpreis. Aktuelle 2027-Tarife offen.",
+      "priceYear": "2026",
+      "durationMinutes": 90,
+      "sourceUrl": "https://narbovia.fr/accueil/nous-contacter/",
+      "secondarySourceUrl": "https://narbovia.fr/app/uploads/2026/01/NARBO-VIA_AGENDA_FEV-MAI26_BAT-1.pdf"
+    },
+    {
+      "id": "marseille-parc-longchamp",
+      "city": "marseille",
+      "name": "Parc du Palais Longchamp",
+      "address": "Boulevard du Jardin Zoologique, 13004 Marseille, Frankreich",
+      "description": "Große kostenlose Parkanlage rund um die monumentale Brunnenarchitektur des Palais Longchamp. Gute Verbindung per Metro M1 über Cinq Avenues–Longchamp.",
+      "tags": [
+        "Park",
+        "Natur",
+        "Fotospot",
+        "Gratis"
+      ],
+      "openingReference": "Tourismusamt für 2027 veröffentlicht: September–Mai täglich 07:00–19:00 Uhr, Juni–August 07:00–21:00 Uhr; wetterbedingte Sperrungen möglich.",
+      "priceReference": "Parkeintritt kostenfrei; Museen und Sonderangebote getrennt prüfen.",
+      "priceYear": "2026",
+      "durationMinutes": 60,
+      "sourceUrl": "https://www.marseille-tourisme.com/decouvrez-marseille/culture-et-patrimoine/parc-longchamp-marseille-4eme-fr-2791907/",
+      "published2027Period": "2027-01-01/2027-12-31"
+    },
+    {
+      "id": "marseille-fort-saint-jean",
+      "city": "marseille",
+      "name": "Fort Saint-Jean (Mucem-Außenanlagen)",
+      "address": "Esplanade du J4 / Fort Saint-Jean, 13002 Marseille, Frankreich",
+      "description": "Historisches Fort mit mediterranem Garten, Hafenblick und zwei Fußgängerbrücken zum Mucem und zum Panier-Viertel. Die Außenanlagen sind gratis zugänglich; Ausstellungen separat.",
+      "tags": [
+        "Architektur",
+        "Aussicht",
+        "Foto",
+        "Gratis"
+      ],
+      "openingReference": "Mucem: meist täglich außer Dienstag und ausgewählten Feiertagen; September/Oktober etwa 10:00–19:00 Uhr. Brücken schließen vor dem Gelände.",
+      "priceReference": "Außenanlagen und Garten ohne Eintritt; kostenpflichtige Ausstellungsbereiche nicht eingeschlossen.",
+      "priceYear": "2026",
+      "durationMinutes": 60,
+      "sourceUrl": "https://mucem.org/infos-pratiques/fort-saint-jean/"
+    },
+    {
+      "id": "marseille-vieille-charite",
+      "city": "marseille",
+      "name": "Centre de la Vieille Charité",
+      "address": "2 rue de la Charité, 13002 Marseille, Frankreich",
+      "description": "Barocke Hofanlage im Le-Panier-Viertel mit mediterraner Archäologie und außereuropäischer Kunst. Der Innenhof ist auch architektonisch interessant; einzelne Museumsteile sind laut Stadt kostenlos.",
+      "tags": [
+        "Architektur",
+        "Museum",
+        "Kultur",
+        "Regenprogramm"
+      ],
+      "openingReference": "Stadt Marseille: Dienstag–Sonntag 09:00–18:00 Uhr, montags und an bestimmten Feiertagen geschlossen. Sonderausstellungen abweichend.",
+      "priceReference": "Städtische Museen MAM und MAAOA hier kostenlos; wechselnde Sonderausstellungen ggf. Eintritt, 2027-Programm offen.",
+      "priceYear": "2026",
+      "durationMinutes": 65,
+      "sourceUrl": "https://musees.marseille.fr/centre-de-la-vieille-charite-cvc"
+    },
+    {
+      "id": "ventimiglia-hanbury",
+      "city": "ventimiglia",
+      "name": "Giardini Botanici Hanbury",
+      "address": "Corso Montecarlo 43, La Mortola, 18039 Ventimiglia, Italien",
+      "description": "Großer botanischer Garten mit exotischen Pflanzen, Meerblick und Wegen am Capo Mortola westlich der Stadt. Anreise ab Ventimiglia mit Bus Linie 1 Richtung La Mortola oder Taxi; Gartenbesuch erfordert Zeit.",
+      "tags": [
+        "Natur",
+        "Botanischer Garten",
+        "Meerblick",
+        "Wandern"
+      ],
+      "openingReference": "Gartenbetreiber 2026: 16. Juni–15. September 09:30–18:00 Uhr (Ausgang bis 19:00 Uhr); bei Regen-/Gewitterwarnung möglicherweise geschlossen.",
+      "priceReference": "Gartenbetreiber 2026: 10 € regulär, 8,50 € nur für ausgewiesene Ermäßigungsgruppen; keine generelle Jugendermäßigung für 18-Jährige.",
+      "priceYear": "2026",
+      "durationMinutes": 100,
+      "sourceUrl": "https://giardinihanbury.com/giardino/info-visitatori/orari-tariffe",
+      "secondarySourceUrl": "https://giardinihanbury.com/en/garden/visitors-information",
+      "point": [
+        43.784514,
+        7.554547
+      ],
+      "geoSourceUrl": "https://www.isprambiente.gov.it/it/attivita/museo/regioni/musei/giardini-botanici-hanbury",
+      "geoSourceNote": "Ministerielle ISPRA-Datenbank mit Koordinaten der großflächigen Gartenanlage; kein individuell belegter Haupteingang.",
+      "accessCaution": "Garten liegt an der französischen Grenze außerhalb des Zentrums Ventimiglia; Hin-/Rückfahrt und Wetterwarnungen berücksichtigen."
+    },
+    {
+      "id": "ventimiglia-museo-rossi",
+      "city": "ventimiglia",
+      "name": "Museo Archeologico Girolamo Rossi",
+      "address": "Via Verdi 41, Forte dell'Annunziata, 18039 Ventimiglia, Italien",
+      "description": "Archäologisches Museum im Forte dell'Annunziata mit Funden aus dem antiken Albintimilium. Alternative bei Regen bzw. historischer Zwischenstopp; Altstadt-Lage mit Fußweg bergauf.",
+      "tags": [
+        "Museum",
+        "Archäologie",
+        "Geschichte",
+        "Regenprogramm"
+      ],
+      "openingReference": "Museumsbetreiber: Dienstag–Samstag 09:00–12:30 und 15:00–17:00 Uhr; erster und dritter Sonntag 10:00–12:30 Uhr; montags geschlossen (Stand Quellenprüfung 2026).",
+      "priceReference": "Museumsangabe 2026: 6 € regulär, 4,50 € Gruppentarif bei Erfüllung der Bedingungen; weitere Rabatte prüfen.",
+      "priceYear": "2026",
+      "durationMinutes": 60,
+      "sourceUrl": "https://www.marventimiglia.it/informazioni"
+    },
+    {
+      "id": "milan-museo-novecento",
+      "city": "milan",
+      "name": "Museo del Novecento Milano",
+      "address": "Piazza Duomo 8, 20123 Milano, Italien",
+      "description": "Museum für Kunst des 20. und 21. Jahrhunderts mit Blick auf den Domplatz. Für 18- bis 25-Jährige veröffentlicht der Betreiber einen reduzierten Ticketpreis; ein zweiter Dienstag im Monat kann kostenlos sein.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Domplatz",
+        "Regenprogramm"
+      ],
+      "openingReference": "Museum: Dienstag–Sonntag 10:00–19:30 Uhr, donnerstags bis 22:30 Uhr; montags geschlossen, letzter Einlass eine Stunde vor Schluss.",
+      "priceReference": "Betreiber 2026: 10 € normal, 5 € ermäßigt für 18–25-Jährige. Zweiter Dienstag jedes Monats kostenlos für bis 25 Jahre, erster Sonntag kostenlos für alle; Ansprüche 2027 erneut prüfen.",
+      "priceYear": "2026",
+      "durationMinutes": 90,
+      "sourceUrl": "https://www.museodelnovecento.org/it/biglietti-abbonamenti-card",
+      "secondarySourceUrl": "https://www.museodelnovecento.org/it/visita/dove-siamo-e-orari"
+    },
+    {
+      "id": "milan-bam",
+      "city": "milan",
+      "name": "BAM – Biblioteca degli Alberi Milano",
+      "address": "Via Gaetano de Castillia 28, 20124 Milano, Italien",
+      "description": "Moderner öffentlicher Landschaftspark zwischen Porta Nuova, Isola und Piazza Gae Aulenti. Gut für einen kostenlosen Spaziergang mit Blick auf die Hochhäuser; einzelne Kulturveranstaltungen können Anmeldung verlangen.",
+      "tags": [
+        "Park",
+        "Spaziergang",
+        "Architektur",
+        "Gratis"
+      ],
+      "openingReference": "BAM-Betreiber: öffentlicher, nicht eingezäunter Park 24/7 an allen Tagen; Veranstaltungstermine und Sonderregeln separat prüfen.",
+      "priceReference": "Öffentlicher Park kostenlos; BAM-Kulturprogramm häufig kostenfrei nach Registrierung, jeweils Veranstaltung prüfen.",
+      "priceYear": "2026",
+      "durationMinutes": 55,
+      "sourceUrl": "https://bam.milano.it/visitare-il-parco/",
+      "secondarySourceUrl": "https://bam.milano.it/app/uploads/2025/09/bam-fair-play-libretto-a5-digitale.pdf"
+    },
+    {
+      "id": "milan-museo-scienza",
+      "city": "milan",
+      "name": "Museo Nazionale Scienza e Tecnologia Leonardo da Vinci",
+      "address": "Via San Vittore 21, 20123 Milano, Italien",
+      "description": "Großes Technik- und Wissenschaftsmuseum mit Leonardo-Ausstellung, Eisenbahnen, Raumfahrt, Flugzeugen und dem U-Boot Enrico Toti. Zusatzführungen und Mitmachangebote zeitlich/finanziell getrennt.",
+      "tags": [
+        "Technik",
+        "Wissenschaft",
+        "Museum",
+        "Regenprogramm"
+      ],
+      "openingReference": "Museumsbetrieb 2026: Wochentags- und Ferienzeiten abhängig vom Kalender; vor dem Besuch die offizielle Tagesübersicht überprüfen.",
+      "priceReference": "Keine einheitliche 2027-Tarifbestätigung aus den aktuell gelesenen Betreiberinformationen. U-Boot-Führung und zusätzliche Workshops können eine separate Buchung erfordern.",
+      "priceYear": "2026",
+      "durationMinutes": 150,
+      "sourceUrl": "https://www.museoscienza.org/visitare/informazioni"
+    },
+    {
+      "id": "glarus-landesplattenberg",
+      "city": "glarus",
+      "name": "Landesplattenberg Engi (Schieferbergwerk)",
+      "address": "Sernftalstrasse 109, 8765 Engi, Schweiz",
+      "description": "Geführter Besuch eines ehemaligen Schieferbergwerks im Sernftal mit großen unterirdischen Hallen. Rund 2,5 Stunden, warme Kleidung und feste Schuhe erforderlich; 130 Höhenmeter Aufstieg vom Besucherpavillon. Zusätzliche Fahrt ab Glarus.",
+      "tags": [
+        "Outdoor",
+        "Geschichte",
+        "Bergwerk",
+        "Ausflug"
+      ],
+      "openingReference": "Öffentliche Führungen 2026 mit konkreten Terminen, Treff am Pavillon 13:15–13:30 Uhr. Für September 2027 noch KEINE öffentliche Führung bestätigt.",
+      "priceReference": "2026: CHF 28 Erwachsene, CHF 23 Jugendliche nur innerhalb der jeweiligen Anspruchsbedingungen; keine 2027-Buchbarkeit.",
+      "priceYear": "2026",
+      "durationMinutes": 150,
+      "sourceUrl": "https://glarnerland.ch/de/map/poi/offentliche-fuhrungen-durch-den-landesplattenberg-engi--id--civ_s9t_behsgacb-gfgj-ebsb-rada-hfdaddjugjjc.html",
+      "accessCaution": "Kein spontaner Museumsbetrieb: konkrete Führungsdaten 2027 vorher prüfen; Dorf Engi liegt außerhalb von Glarus."
+    },
+    {
+      "id": "wasserauen-aescher",
+      "city": "wasserauen",
+      "name": "Berggasthaus Äscher",
+      "address": "Berggasthaus Äscher, 9057 Weissbad, Schweiz",
+      "description": "Berghaus direkt an einer Felswand oberhalb Wasserauen, über Ebenalpbahn und etwa 15–20 Minuten Fußweg durch die Wildkirchli-Höhlen erreichbar. Einkehrmöglichkeit mit Alpsteinblick; nicht gleichbedeutend mit einer Unterkunftsbuchung.",
+      "tags": [
+        "Berggasthaus",
+        "Wandern",
+        "Aussicht",
+        "Einkehr"
+      ],
+      "category": "food",
+      "openingReference": "Appenzellerland Tourismus 2026: saisonal etwa Mai–November, ab 07:30 Uhr, im September sonntags ab 18:00 Uhr geschlossen; Wetter und Bahnbetrieb prüfen.",
+      "priceReference": "Kein unabhängig verifizierter 2027-Menüpreis. Zugang über Bergwanderweg/Seilbahn ggf. kostenpflichtig; kein pauschaler Gesamtpreis.",
+      "priceYear": "2026",
+      "durationMinutes": 65,
+      "sourceUrl": "https://www.appenzell.ch/de/gastronomie/restaurants/berggasthaus-aescher.html",
+      "accessCaution": "Nicht am Bahnhof Wasserauen, sondern über Seilbahn Ebenalp und Bergweg; alpine Bedingungen berücksichtigen."
+    }
+  ]
+}
