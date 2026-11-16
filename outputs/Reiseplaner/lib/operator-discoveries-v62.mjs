@@ -16,7 +16,7 @@ export function applyOperatorDiscoveriesV62(trips,cities,archive){
  const rows=archive?.entries;
  if(archive?.meta?.package!=='research-v62-operator-discoveries'
   ||archive?.meta?.checkedOn!=='2026-11-16'||!Array.isArray(rows)
-  ||rows.length!==10||new Set(rows.map(x=>x.id)).size!==16)
+  ||rows.length!==10||new Set(rows.map(x=>x.id)).size!==10)
   throw new Error('V62 research: expected 10 distinct operator-sourced places.');
  for(const row of rows){
   if(!/^[a-z0-9-]+$/.test(row.id)||!cities[row.city]
