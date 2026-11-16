@@ -1,0 +1,154 @@
+/* Phase 71: a city itself celebrates arrival; venue badges are illustrative,
+   not map markers, directions, entrances, rail geometry or verified events. */
+.story-arrival-icon,.story-arrived-icon{overflow:visible!important;pointer-events:none!important}
+.story-arrival-stage{position:relative;width:0;height:0;overflow:visible;pointer-events:none}
+.story-arrival-pulse{position:absolute;top:-25px;left:-25px;width:50px;height:50px;
+  border:3px solid #23e6ad;border-radius:50%;background:#2edca725;
+  box-shadow:0 0 0 7px #24d99b21,0 0 24px #17bc9c;
+  animation:arrivalCityHalo 1.25s ease-out 2 both}
+.story-arrival-bubble{position:absolute;top:-21px;left:-21px;
+  display:grid;place-items:center;width:42px;height:42px;
+  border:2px solid #fff;border-radius:15px;
+  color:#153e34;font-size:22px;line-height:1;
+  background:linear-gradient(152deg,#fff,#e7fff2);
+  box-shadow:0 5px 17px #0a3b31a1,0 0 0 2px #e7faf2b5;
+  opacity:0;transform:translate(0,0) scale(.2);
+  animation:arrivalBadgeBurst .76s cubic-bezier(.22,1.23,.27,1) var(--burst-delay) forwards}
+.story-arrival-bubble.story-type-food{background:#fff5e4}
+.story-arrival-bubble.story-type-nightlife{background:#f4eaff}
+.story-arrival-bubble.story-type-lodging{background:#e7f0ff}
+.story-arrival-bubble.story-type-nature{background:#e4f9e8}
+.story-arrival-bubble.story-type-shop{background:#fff5dc}
+.story-arrived-current .story-arrived-symbol{
+  animation:arrivalCityWiggle .64s ease-in-out .04s 2 both;
+  box-shadow:0 5px 23px #072b2675,0 0 0 5px #21e3a739
+}
+@keyframes arrivalCityHalo{
+  0%{opacity:0;transform:scale(.35)}
+  35%{opacity:.95}
+  100%{opacity:0;transform:scale(2.35)}
+}
+@keyframes arrivalBadgeBurst{
+  0%{opacity:0;transform:translate(0,0) rotate(-13deg) scale(.2)}
+  46%{opacity:1}
+  70%{opacity:1;transform:translate(var(--burst-x),var(--burst-y)) rotate(6deg) scale(1.14)}
+  100%{opacity:1;transform:translate(var(--burst-x),var(--burst-y)) scale(1)}
+}
+@keyframes arrivalCityWiggle{
+  0%,100%{transform:translateX(0) rotate(0deg)}
+  19%{transform:translateX(-2px) rotate(-3deg)}
+  39%{transform:translateX(2px) rotate(2.8deg)}
+  61%{transform:translateX(-1px) rotate(-1.5deg)}
+  79%{transform:translateX(1px) rotate(1.5deg)}
+}
+.story-arrival-paused .story-arrival-bubble,
+.story-arrival-paused .story-arrival-pulse,
+.story-arrival-paused .story-arrived-current .story-arrived-symbol{
+  animation-play-state:paused!important
+}
+
+/* Information hierarchy: location first, then actual ideas and optional detail.
+   Labels are built with DOM textContent from real itinerary candidates. */
+.reference-travel-shell .route-story-player{
+  width:min(578px,calc(100% - 28px));gap:8px;padding:12px 14px 11px;
+  max-height:min(75dvh,450px);overflow-y:auto;scrollbar-width:thin
+}
+.reference-travel-shell .route-story-eyebrow{
+  font-size:.6rem;letter-spacing:.08em;color:#b6f3d8
+}
+.reference-travel-shell .route-story-heading strong{font-size:1.1rem}
+.route-story-ideas[hidden]{display:none!important}
+.route-story-ideas{display:grid;gap:6px;border-top:1px solid #b3e5c135;
+  padding-top:8px}
+.route-story-ideas-top{display:flex;align-items:center;gap:8px;justify-content:space-between;
+  flex-wrap:wrap}
+.route-story-ideas-top>#route-story-ideas-count{font-size:.7rem;font-weight:780;color:#e1f9e7}
+.route-story-ideas-note{color:#b9dacf;font-size:.58rem;line-height:1.2}
+.route-story-idea-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.route-story-idea{display:grid;grid-template-columns:29px minmax(0,1fr) auto;
+  align-items:center;gap:7px;min-width:0;min-height:40px;
+  padding:5px 7px;border-radius:10px;background:#ffffff12;
+  border:1px solid #ffffff19}
+.route-story-idea-symbol{display:grid;place-items:center;font-size:17px;
+  width:28px;height:28px;border-radius:9px;background:#fff;color:#153e34}
+.route-story-idea-copy{display:grid;min-width:0;gap:1px}
+.route-story-idea-copy strong{font-size:.71rem;line-height:1.2;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:0}
+.route-story-idea-copy small{color:#cae8d9;font-size:.6rem}
+.route-story-idea-status{font-size:.55rem;border-radius:8px;
+  color:#e3efe7;background:#ffffff15;padding:3px 5px;
+  font-weight:700;white-space:nowrap}
+.route-story-idea-status.planned{background:#a4ecc7;color:#134333}
+.route-story-ideas-open{display:inline-flex;align-items:center;gap:7px;
+  width:max-content;max-width:100%;min-height:28px;margin-left:auto;padding:4px 7px;
+  border:1px solid #ffffff4a;border-radius:9px;
+  color:#eefaf3;background:#ffffff0b;font-size:.66rem;font-weight:740}
+.route-story-ideas-open:hover{background:#ffffff30}
+.route-story-ideas-open .ui-icon{height:14px;width:14px}
+.route-story-ideas-open .ui-icon:last-child{height:12px;width:12px}
+.route-story-ideas-open:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* Route overview uses accessible dots, not a second giant sidebar. */
+.route-story-stoprail{display:flex;align-items:center;gap:5px;
+  min-height:12px;padding:0 2px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.route-story-stoprail::-webkit-scrollbar{display:none}
+.route-story-rail-dot{display:block;flex:0 0 9px;width:9px;height:9px;
+  background:#ffffff50;border-radius:50%;border:1px solid #ffffff4a;
+  transition:background .2s,transform .2s}
+.route-story-rail-dot.complete{background:#79e0b3;border-color:#79e0b3}
+.route-story-rail-dot.current{background:#f0fff1;border:2px solid #23a77b;
+  transform:scale(1.35);box-shadow:0 0 0 2px #ddf9eb33}
+.reference-travel-shell .route-story-player[data-phase=travel] .route-story-heading strong{
+  color:#d7f8e6
+}
+.reference-travel-shell .route-story-player[data-phase=travel] .route-story-symbol{
+  opacity:.7
+}
+.reference-travel-shell .map-fullscreen-mode .route-story-player{
+  width:min(610px,calc(100vw - 24px))!important
+}
+.reference-travel-shell .route-story-idea:nth-child(n+5){display:none}
+.reference-travel-shell .map-fullscreen-mode .route-story-idea:nth-child(n+5){display:grid}
+
+/* Keep the summary useful without covering the entire map on phones. */
+@media(max-width:680px){
+ .story-arrival-stage{transform:scale(.72);transform-origin:0 0}
+ .reference-travel-shell .route-story-player{
+  padding:10px 11px;gap:6px;
+  width:calc(100% - 16px);max-height:min(62dvh,420px)
+ }
+ .reference-travel-shell .route-story-ideas-top{gap:3px}
+ .reference-travel-shell .route-story-ideas-note{display:none}
+ .route-story-idea-list{grid-template-columns:1fr}
+ .route-story-idea{min-height:33px;grid-template-columns:25px minmax(0,1fr) auto;
+   gap:6px;padding:3px 6px}
+ .route-story-idea-symbol{font-size:15px;width:24px;height:24px}
+ .route-story-idea-copy strong{font-size:.7rem}
+ .route-story-idea-copy small{font-size:.57rem}
+ .route-story-idea-status{font-size:.54rem}
+ .reference-travel-shell .route-story-idea:nth-child(n+4){display:none}
+ .reference-travel-shell .map-fullscreen-mode .route-story-idea:nth-child(n+4){display:none}
+ .reference-travel-shell .route-story-player .route-story-ideas-open{min-height:28px}
+ .reference-travel-shell .route-story-eyebrow{font-size:.55rem}
+ .route-story-rail-dot{flex-basis:7px;width:7px;height:7px}
+}
+@media(max-width:390px){
+ .reference-travel-shell .route-story-player{
+   max-height:min(56dvh,390px)
+ }
+ .reference-travel-shell .route-story-idea:nth-child(n+3){display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .story-arrival-pulse,.story-arrival-bubble,.story-arrived-current .story-arrived-symbol{
+  animation:none!important
+ }
+ .story-arrival-pulse,.story-arrival-bubble{display:none!important}
+ .route-story-rail-dot{transition:none}
+}
+:root[data-motion=off] .story-arrival-pulse,
+:root[data-motion=off] .story-arrival-bubble{
+  display:none!important;animation:none!important
+}
+:root[data-motion=off] .story-arrived-current .story-arrived-symbol{
+  animation:none!important
+}
