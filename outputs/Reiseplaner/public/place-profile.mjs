@@ -100,8 +100,8 @@ export function placeProfileModel(item, ctx = {}) {
     if(club.publishedAddress)facts.push(['Veröffentlichte Betreiberadresse',
       club.publishedAddress+' · Eingang/Koordinate separat prüfen']);
   }
-  if(item.discoveryV54){
-    const o=item.discoveryV54;
+  if(item.discoveryV54||item.discoveryV55){
+    const o=item.discoveryV54??item.discoveryV55;
     facts.push(['Geprüfte Betreiberquelle',o.checkedOn+' · Originalangaben, keine Reservierung']);
     facts.push(['Preisreferenz',o.priceReference
       +(o.priceYear==='published_2027_reference'
