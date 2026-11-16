@@ -1,7 +1,12 @@
 import {storyPointBetween,storyProgress} from './route-city-story-v70.mjs';
 
-const STAY_MS=830;
+// Deliberate pause in each city so the arrival and successive symbols can
+// be perceived before the route continues. Durations are animations, not ETAs.
+const STAY_MS=3050;
 const TRAVEL_MS=1350;
+const BURST_DIRECTIONS=[
+  [-82,-69],[82,-69],[-108,5],[108,10],[-40,100],
+];
 const reducedMotion=()=>document.documentElement.dataset.motion==='off'
   ||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -21,9 +26,30 @@ function travelerIcon(){
   iconSize:[38,38],iconAnchor:[19,19]});
 }
 
-/** Animation is an independent Leaflet overlay.
- * It does not mutate the city, itinerary, tiles, selected place or route data.
- * Lines between city coordinates are only a schematic order, never rail geometry.
+// No actual venue coordinates are used here: a radial burst is an
+// illustration anchored to the existing city centre/reference point.
+function arrivalBurstIcon(stop){
+ const root=document.createElement('div');
+ root.className='story-arrival-stage';
+ root.setAttribute('aria-hidden','true');
+ const pulse=document.createElement('span');
+ pulse.className='story-arrival-pulse';
+ root.append(pulse);
+ for(const [i,item] of (stop.ideas??[]).slice(0,5).entries()){
+  const bubble=document.createElement('span');
+  bubble.className='story-arrival-bubble story-type-'+item.type;
+  bubble.style.setProperty('--burst-x',BURST_DIRECTIONS[i][0]+'px');
+  bubble.style.setProperty('--burst-y',BURST_DIRECTIONS[i][1]+'px');
+  bubble.style.setProperty('--burst-delay',(0.23+i*.33)+'s');
+  bubble.textContent=item.symbol;
+  root.append(bubble);
+ }
+ return L.divIcon({className:'story-arrival-icon',html:root.outerHTML,
+  iconSize:[0,0],iconAnchor:[0,0]});
+}
+
+/** Independent Leaflet presentation layer; it never changes route, prices,
+ * selected places, real POI locations, tickets or the underlying tile map.
  */
 export class RouteCityStoryPlayer{
  constructor(map,onChange=()=>{}){
@@ -32,16 +58,19 @@ export class RouteCityStoryPlayer{
   this.stops=[];this.status='idle';this.index=0;this.part=0;
   this.speed=1;this.phase='dwell';this.elapsed=0;this.lastTime=null;
   this.frame=null;this.dot=null;this.trail=null;
+  this.burst=null;this.cityMarkers=[];
   this.revealed=new Set();
   this.tick=this.tick.bind(this);
  }
  state(){
   const stop=this.stops[this.index]??null;
   const next=this.stops[this.index+1]??null;
-  return {status:this.status,index:this.index,total:this.stops.length,
-   name:stop?.name??'',symbol:stop?.symbol??'🧭',
+  return {status:this.status,phase:this.phase,index:this.index,total:this.stops.length,
+   cityId:stop?.id??null,name:stop?.name??'',symbol:stop?.symbol??'🧭',
    description:stop?.description??'',nextName:next?.name??'',
    progress:storyProgress(this.index,this.part,this.stops),speed:this.speed,
+   ideas:stop?.ideas??[],plannedCount:stop?.plannedCount??0,
+   placesKnown:stop?.placesKnown??0,ideaCount:stop?.ideaCount??0,
    schematic:true};
  }
  emit(){this.onChange(this.state());}
@@ -49,11 +78,27 @@ export class RouteCityStoryPlayer{
   if(this.revealed.has(index))return;
   const stop=this.stops[index];if(!stop)return;
   this.revealed.add(index);
-  L.marker(stop.point,{icon:L.divIcon({
+  const marker=L.marker(stop.point,{icon:L.divIcon({
     className:'story-arrived-icon',html:markerContent(stop),
     iconSize:[96,70],iconAnchor:[48,62],
   }),interactive:false,keyboard:false,zIndexOffset:1800+index})
     .addTo(this.layer);
+  this.cityMarkers[index]=marker;
+ }
+ clearArrival(){
+  if(this.burst){this.layer.removeLayer(this.burst);this.burst=null;}
+  this.cityMarkers[this.index]?.getElement()
+    ?.querySelector('.story-arrived-marker')?.classList.remove('story-arrived-current');
+ }
+ arrive(index){
+  this.reveal(index);
+  this.cityMarkers[index]?.getElement()
+    ?.querySelector('.story-arrived-marker')?.classList.add('story-arrived-current');
+  if(reducedMotion())return;
+  const stop=this.stops[index];if(!stop)return;
+  this.burst=L.marker(stop.point,{icon:arrivalBurstIcon(stop),
+   interactive:false,keyboard:false,zIndexOffset:2300})
+   .addTo(this.layer);
  }
  draw(){
   const a=this.stops[this.index],b=this.stops[this.index+1];
@@ -66,7 +111,8 @@ export class RouteCityStoryPlayer{
  play(stops=[]){
   this.stop(true);
   if(!Array.isArray(stops)||!stops.length){this.emit();return false;}
-  this.stops=stops.map(stop=>({...stop,point:[...stop.point]}));
+  this.stops=stops.map(stop=>({...stop,point:[...stop.point],
+   ideas:Array.isArray(stop.ideas)?stop.ideas.map(idea=>({...idea})):[]}));
   this.status='playing';this.index=0;this.part=0;this.phase='dwell';
   this.elapsed=0;this.lastTime=null;
   this.trail=L.polyline([this.stops[0].point],{
@@ -81,7 +127,7 @@ export class RouteCityStoryPlayer{
    this.index=this.stops.length-1;this.part=0;this.draw();
    this.status='complete';this.emit();return true;
   }
-  this.reveal(0);this.draw();this.emit();
+  this.arrive(0);this.draw();this.emit();
   this.frame=requestAnimationFrame(this.tick);
   return true;
  }
@@ -89,23 +135,23 @@ export class RouteCityStoryPlayer{
   this.frame=null;
   if(this.status!=='playing')return;
   if(this.lastTime==null)this.lastTime=now;
-  // Cap huge tab-resume frame deltas, so hidden tabs cannot silently skip cities.
+  // Cap enormous tab-resume deltas: hidden tabs never skip several cities.
   this.elapsed+=Math.max(0,Math.min(80,now-this.lastTime))*this.speed;
   this.lastTime=now;
   if(this.phase==='dwell'){
    if(this.elapsed>=STAY_MS){
     this.elapsed=0;
-    if(this.index>=this.stops.length-1){this.finish();return;}
+    if(this.index>=this.stops.length-1){this.clearArrival();this.finish();return;}
+    this.clearArrival();
     this.phase='travel';
    }
   }else{
    const linear=Math.min(1,this.elapsed/TRAVEL_MS);
-   // Ease smoothly into and out of the stop so arrival markers can pop naturally.
    this.part=linear*linear*(3-2*linear);
    this.draw();
    if(linear>=1){
     this.index+=1;this.part=0;this.phase='dwell';this.elapsed=0;
-    this.reveal(this.index);this.draw();
+    this.arrive(this.index);this.draw();
    }
   }
   this.emit();
@@ -114,18 +160,23 @@ export class RouteCityStoryPlayer{
  finish(){
   if(this.frame!=null)cancelAnimationFrame(this.frame);
   this.frame=null;this.lastTime=null;this.status='complete';
-  this.index=this.stops.length-1;this.part=0;this.draw();this.emit();
+  this.index=this.stops.length-1;this.part=0;this.phase='dwell';
+  this.draw();this.emit();
  }
  pause(){
   if(this.status!=='playing')return false;
   if(this.frame!=null)cancelAnimationFrame(this.frame);
-  this.frame=null;this.lastTime=null;this.status='paused';this.emit();return true;
+  this.frame=null;this.lastTime=null;this.status='paused';
+  this.burst?.getElement()?.classList.add('story-arrival-paused');
+  this.emit();return true;
  }
  resume(){
   if(this.status!=='paused')return false;
   if(reducedMotion()){
+   this.clearArrival();
    this.stops.forEach((_,i)=>this.reveal(i));this.finish();return true;
   }
+  this.burst?.getElement()?.classList.remove('story-arrival-paused');
   this.status='playing';this.lastTime=null;this.emit();
   this.frame=requestAnimationFrame(this.tick);return true;
  }
@@ -139,7 +190,7 @@ export class RouteCityStoryPlayer{
   this.layer.clearLayers();this.revealed.clear();
   this.stops=[];this.status='idle';this.index=0;this.part=0;
   this.phase='dwell';this.elapsed=0;
-  this.dot=null;this.trail=null;
+  this.dot=null;this.trail=null;this.burst=null;this.cityMarkers=[];
   if(!silent)this.emit();
  }
  destroy(){this.stop(true);this.map.removeLayer(this.layer);}
