@@ -25,7 +25,7 @@ export function applyExistingPlaceGuidesV68(trips,cities,uploadedArchive,guideAr
   if(!src||!cities[uploadedPlaceCity(src.city)]
     ||uploadedPlaceType(src)==='lodging'
     ||!g||!Array.isArray(g.highlights)||g.highlights.length<2
-    ||g.highlights.some(s=>!requiredText(s))
+    ||g.highlights.some(s=>typeof s!=='string'||s.trim().length<5)
     ||['visitTip','combineWith','arrivalTip','check2027'].some(k=>!requiredText(g[k]))
     ||(row.sourceUrl&&!validHttps(row.sourceUrl)))
    throw new Error('V68: invalid place guide or source: '+row.id);
