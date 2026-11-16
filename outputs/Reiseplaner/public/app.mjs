@@ -313,12 +313,25 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   const focusValue = active?.dataset?.value;
   const sideScroll = app.querySelector('.sidebar-inner')?.scrollTop;
   const dateScroll = app.querySelector('.days')?.scrollLeft;
-  currentMap?.destroy();
-  currentMap = null;
+  // Retain the actual Leaflet DOM (tiles, vector canvas and all listeners)
+  // through ordinary page rerenders. Previously every filter/day interaction
+  // discarded the entire map, forcing another network/WebGL initialization.
+  const oldMap=currentMap;
   context = buildContext();
+  const reuse=Boolean(oldMap?.element?.isConnected&&mapVisible(context)&&window.L);
+  const mapNode=reuse?oldMap.element:null;
+  if(reuse)mapNode.remove();
+  else{oldMap?.destroy();currentMap=null}
   document.documentElement.dataset.theme = view.theme;
   document.documentElement.dataset.motion = view.mapMotion;
   app.innerHTML = renderShell(context);
+  const replacement=app.querySelector('#map');
+  if(mapNode&&replacement){
+    replacement.replaceWith(mapNode);
+    currentMap=oldMap;
+  }else if(mapNode){
+    oldMap.destroy();currentMap=null;
+  }
   motion.reveal(app,context);
   motion.images(app);
   if (guideStep(view.guideIndex)) {
@@ -339,25 +352,34 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
     const replacement = [...app.querySelectorAll('[data-action]')].find(b => b.dataset.action === focusAction && b.dataset.value === focusValue && b.offsetParent);
     replacement?.focus({ preventScroll: true });
   }
-  const element = document.querySelector('#map');
-  if (element && mapVisible(context) && window.L) {
-    currentMap = new TripMap(element, {
-      select: id => { selectPoint(id, false); },
-      leg: index => action('leg', index), visitCity: id => action('city', id),
-      routeStop: index => action('day-route-focus', String(index)),
-      hover: (id,on)=>{
-        const card=[...app.querySelectorAll('.explorer-place')].find(el=>el.dataset.placeId===id);
-        card?.classList.toggle('atlas-hover',on);
-      },
-      report: message => {
-        const hint = document.querySelector('#map-hint');
-        if (hint) { hint.textContent = message; hint.hidden = !message; }
-      },
-    });
-    paintMap(true);
-    if (previous) currentMap.map.setView(previous[0], previous[1], { animate: false });
-    if (focusMap) currentMap.focus(context.selected);
-    currentMap.map.on('moveend',refreshViewportList);
+  const element=app.querySelector('#map');
+  if(element&&mapVisible(context)&&window.L){
+    const retained=Boolean(currentMap&&currentMap.element===element);
+    if(!retained){
+      currentMap = new TripMap(element, {
+        select: id => { selectPoint(id, false); },
+        leg: index => action('leg', index), visitCity: id => action('city', id),
+        routeStop: index => action('day-route-focus', String(index)),
+        hover: (id,on)=>{
+          const card=[...app.querySelectorAll('.explorer-place')].find(el=>el.dataset.placeId===id);
+          card?.classList.toggle('atlas-hover',on);
+        },
+        report: message => {
+          const hint = document.querySelector('#map-hint');
+          if (hint) { hint.textContent = message; hint.hidden = !message; }
+        },
+      });
+    }
+    // The layout has already settled by the time the map is reattached.
+    currentMap.map.invalidateSize({pan:false});
+    paintMap(!retained||!restoreView);
+    if(!retained&&previous)
+      currentMap.map.setView(previous[0],previous[1],{animate:false});
+    if(focusMap)currentMap.focus(context.selected);
+    if(!currentMap.viewportListenerRegistered){
+      currentMap.map.on('moveend',refreshViewportList);
+      currentMap.viewportListenerRegistered=true;
+    }
     if(view.mapViewportOnly)refreshViewportList();
   }
   if (fetchRoutes) void fetchCachedRoutes(context);
