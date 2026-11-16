@@ -2,15 +2,18 @@
    direct search and progressive disclosure for technical metadata.
    The Leaflet map, license credits and existing research are untouched. */
 
+/* The same three scope choices are already at the top of the map.
+   The hero remains compact and the actual search action is in the status row. */
+.reference-travel-shell .reference-map-intro .simple-main-actions{
+  display:none!important
+}
+
 /* Normal map: primary scope is in the day/city/trip tabs ABOVE the surface.
    Remove redundant floating scope controls over the actual geography. */
 .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) .reference-map-floating{
   display:none!important
 }
 .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) .map-place-switches{
-  display:none!important
-}
-.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) .travel-map-hud.map-atlas-hud{
   display:none!important
 }
 .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) .map-legend-disclosure{
