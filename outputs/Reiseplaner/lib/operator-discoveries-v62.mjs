@@ -26,6 +26,10 @@ export function applyOperatorDiscoveriesV62(trips,cities,archive){
    ||!['activity','food'].includes(row.category??'activity')
    ||!Number.isInteger(row.durationMinutes)||row.durationMinutes<15
    ||!Array.isArray(row.tags)||!row.tags.length
+   ||!row.visitorGuide||!Array.isArray(row.visitorGuide.highlights)
+   ||row.visitorGuide.highlights.length<2
+   ||row.visitorGuide.highlights.some(v=>typeof v!=='string'||!v.trim())
+   ||['visitTip','combineWith','arrivalTip','check2027'].some(k=>typeof row.visitorGuide[k]!=='string'||!row.visitorGuide[k].trim())
    ||!secureUrl(row.sourceUrl)
    ||(row.secondarySourceUrl&&!secureUrl(row.secondarySourceUrl))
    ||(row.excludeTrips&&(!Array.isArray(row.excludeTrips)
@@ -70,6 +74,7 @@ export function applyOperatorDiscoveriesV62(trips,cities,archive){
     openingHoursNote:row.openingReference,
     discoveryV62:{
      checkedOn:archive.meta.checkedOn,
+     visitorGuide:{...row.visitorGuide,highlights:[...row.visitorGuide.highlights]},
      sourceUrl:row.sourceUrl,secondarySourceUrl:row.secondarySourceUrl??null,
      priceReference:row.priceReference,priceYear:row.priceYear,
      openingReference:row.openingReference,
