@@ -1070,8 +1070,8 @@ try {
   assert.ok(await js('(()=>{const a=document.querySelector(".map-context-summary")?.getBoundingClientRect();'
     +'const b=document.querySelector(".map-selection-preview")?.getBoundingClientRect();'
     +'const m=document.querySelector("#map")?.getBoundingClientRect();'
-    +'return a&&b&&m&&b.top>=m.bottom-1&&a.top>=b.bottom-1&&a.right<=innerWidth+3;})()'),
-    'V72 mobile selection stays directly below the map; context and search follow it without overlap');
+    +'return a&&b&&m&&a.bottom<=m.top+2&&b.top>=m.bottom-1&&a.right<=innerWidth+3;})()'),
+    'Mobile search/filter status stays above the map; selection below it, with no overlap');
 
   await js('document.querySelector(".map-selection-preview").scrollIntoView({block:"center"})');
   await screenshot('43-mobile-karte-ohne-ueberlagerung-390.png');
