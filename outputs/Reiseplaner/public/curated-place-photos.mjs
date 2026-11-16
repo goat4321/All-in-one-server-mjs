@@ -2,6 +2,37 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 67: seven individually sourced Commons object photos, distinct from city fallback images.
+ {city:"venice",name:/^museo fortuny \(palazzo pesaro degli orfei\)$/i,
+  file:"Interno, Museo Fortuny, Venezia.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Interno, Museo Fortuny, Venezia.jpg").replace(/%20/g,'_'),
+  credit:"Nicola Quirico · CC BY-SA 4.0 · Museumsinnenraum Juni 2025 · CSS-Bildausschnitt"},
+ {city:"sete",name:/^mus[eé]e de la mer de s[eè]te$/i,
+  file:"Maquette du \"Gabès\" - Musée de la Mer de Sète, 2015.JPG",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Maquette du \"Gabès\" - Musée de la Mer de Sète, 2015.JPG").replace(/%20/g,'_'),
+  credit:"Anthony Levrot · CC BY-SA 4.0 · Schiffsmodell aus dem Museum 2015, keine Gebäudefassade · CSS-Bildausschnitt"},
+ {city:"appenzell",name:/^kunsthalle appenzell \(ziegelh[uü]tte\)$/i,
+  file:"Appenzell-Kunsthalle.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Appenzell-Kunsthalle.jpg").replace(/%20/g,'_'),
+  credit:"Roland Zumbuehl · CC BY 3.0 · Kunsthalle Ziegelhütte von außen 2009 · CSS-Bildausschnitt"},
+ {city:"toulouse",name:/^halle de la machine \(minotaure\)$/i,
+  file:"Minotaure.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Minotaure.jpg").replace(/%20/g,'_'),
+  credit:"Frédéric Neupont · CC BY-SA 4.0 · Mechanischer Minotaurus und Halle 2021 · CSS-Bildausschnitt"},
+ {city:"toulouse",name:/^mus[eé]e aeroscopia \(airbus a380\)$/i,
+  file:"Aeroscopia Blagnac.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Aeroscopia Blagnac.jpg").replace(/%20/g,'_'),
+  credit:"Patrice Bon · CC0 1.0 · Luftfahrtmuseum Blagnac 2018 · CSS-Bildausschnitt"},
+ {city:"narbonne",name:/^mus[eé]e narbo via$/i,
+  file:"Musée Narbonne (1).jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Musée Narbonne (1).jpg").replace(/%20/g,'_'),
+  credit:"Jcb-caz-11 · CC BY-SA 4.0 · Lapidarwand im Narbo Via 2023 · CSS-Bildausschnitt"},
+ {city:"wasserauen",name:/^berggasthaus [aä]scher$/i,
+  file:"Äscher.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Äscher.jpg").replace(/%20/g,'_'),
+  credit:"Friedrich-Karl Mohr (FkMohr) · CC BY-SA 3.0 DE · Äscher und Wildkirchli von Chlihütten 2014 · CSS-Bildausschnitt",
+  licenseUrl:"https://creativecommons.org/licenses/by-sa/3.0/de/"},
+
  // Phase 65: seven individually checked Commons pictures of existing V62 entries.
  // Provider photos and private accommodation images are intentionally excluded.
  {city:'paris',name:/^mus[eé]e curie \(marie curie\)$/i,
@@ -547,7 +578,7 @@ export function curatedPlacePhoto(item) {
     url:'https://commons.wikimedia.org/wiki/Special:FilePath/'
       +encodeURIComponent(candidate.file)+'?width=960',
     sourceUrl:candidate.sourceUrl,credit:candidate.credit,licensedBy:'Wikimedia Commons',
-    curated:true,
+    curated:true,licenseUrl:candidate.licenseUrl??null,
   }:null;
 }
 export const curatedPhotoCount=images.length;
