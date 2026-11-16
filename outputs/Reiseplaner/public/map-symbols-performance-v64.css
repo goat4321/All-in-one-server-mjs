@@ -1,0 +1,124 @@
+/* Phase 64: reference-oriented POI icon family, no external icon requests.
+ * Calm, readable markers match the source screenshots' green travel style.
+ * Every POI has a recognizable pictogram, not a letter or abstract glyph.
+ */
+.map-category-icon{width:21px;height:21px;display:block;flex:none;
+ stroke:currentColor;fill:none;stroke-linecap:round;stroke-linejoin:round;
+ stroke-width:2.1;overflow:visible}
+.map-category-bubble{
+ position:relative;width:37px;height:37px;
+ border:3px solid #fff!important;border-radius:50%;
+ background:#e6f4e9;color:#1e7550;
+ box-shadow:0 4px 13px rgba(26,57,39,.23),0 0 0 1px rgba(28,75,46,.09);
+ transition:transform .14s,box-shadow .14s;
+ animation:none!important;
+}
+.map-category-bubble .map-category-icon{width:20px;height:20px}
+.map-category-bubble.group-lodging,
+.map-photo-bubble.group-lodging .map-photo-disc{
+ background:#e6f1fd;color:#256298;
+}
+.map-category-bubble.group-food,
+.map-photo-bubble.group-food .map-photo-disc{
+ background:#fff0e6;color:#b9612d;
+}
+.map-category-bubble.group-shop,
+.map-photo-bubble.group-shop .map-photo-disc{
+ background:#fff4d8;color:#98710f;
+}
+.map-category-bubble.group-activity,
+.map-photo-bubble.group-activity .map-photo-disc{
+ background:#e5f4eb;color:#197b51;
+}
+.map-category-bubble.group-transport,
+.map-photo-bubble.group-transport .map-photo-disc{
+ background:#f2eafa;color:#77549f;
+}
+.map-mini-dot{animation:none!important;box-shadow:0 3px 8px #1b43322b}
+.map-mini-dot.group-lodging{background:#5c92c9}
+.map-mini-dot.group-food{background:#e58a58}
+.map-mini-dot.group-shop{background:#d4ae42}
+.map-mini-dot.group-activity{background:#319268}
+.map-mini-dot.group-transport{background:#9370bb}
+.map-photo-bubble{animation:none!important;filter:drop-shadow(0 3px 8px #21462b20)}
+.map-photo-disc{
+ background:#e8f4e9;border:3px solid #fff;
+ box-shadow:0 4px 14px rgba(32,71,43,.26)
+}
+.map-photo-disc>span{display:grid;place-items:center}
+.map-photo-disc>span .map-category-icon{width:29px;height:29px;stroke-width:1.9}
+.bubble-category-badge{
+ display:inline-flex;align-items:center;justify-content:center;gap:5px;
+ padding:4px 9px;font-size:.66rem;letter-spacing:-.01em;
+ background:#fffefa;color:#3d5d4c;min-height:24px
+}
+.bubble-category-badge .map-category-icon{width:13px;height:13px}
+.map-marker-bookmark{
+ position:absolute;top:-5px;right:-3px;
+ display:grid;place-items:center;min-width:15px;height:15px;
+ padding:0 2px;border-radius:999px;background:#d94767;color:white;
+ font-size:10px;box-shadow:0 1px 5px #193c2d44
+}
+.photo-marker-container.provenance-area .map-category-bubble,
+.photo-marker-container.provenance-area .map-photo-disc{
+ border-style:dashed!important;
+}
+.photo-marker-container.provenance-provider .map-category-bubble,
+.photo-marker-container.provenance-provider .map-photo-disc{
+ border-style:dotted!important;
+}
+.photo-marker-container.provenance-unverified .map-category-bubble,
+.photo-marker-container.provenance-unverified .map-photo-disc{
+ border-color:#a5aca5!important;
+}
+.reference-travel-shell .leaflet-marker-icon .pin .map-category-icon{
+ width:17px;height:17px;stroke-width:2.45;stroke:#fff;fill:none;
+}
+.reference-travel-shell .leaflet-marker-icon .pin.place-lodging{
+ background:#4e82b5
+}
+.reference-travel-shell .leaflet-marker-icon .pin.place-food{
+ background:#cc7949
+}
+.reference-travel-shell .leaflet-marker-icon .pin.place-shop{
+ background:#c49d2c
+}
+.reference-travel-shell .leaflet-marker-icon .pin.place-activity{
+ background:#24825a
+}
+.reference-travel-shell .leaflet-marker-icon .pin.place-transport{
+ background:#8862a9
+}
+.reference-travel-shell .leaflet-marker-icon .pin:has(.map-category-icon){
+ box-shadow:0 4px 11px rgba(25,54,35,.3);border-width:2px;
+}
+.reference-travel-shell .leaflet-marker-icon .pin:has(.map-category-icon) span{
+ display:grid;place-items:center
+}
+.reference-travel-shell .map-category-bubble:hover,
+.reference-travel-shell .photo-marker-container:hover .map-category-bubble{
+ transform:translateY(-2px) scale(1.065);box-shadow:0 6px 16px #1c4a3260
+}
+.reference-travel-shell .photo-marker-container:focus-visible{
+ border-radius:14px;outline:3px solid #164b33;outline-offset:3px
+}
+/* Fast first render: avoid many independent entrance animations when map
+   clusters are rebuilt after panning. Motion preferences remain authoritative. */
+.reference-travel-shell .map-photo-bubble,
+.reference-travel-shell .map-mini-dot,
+.reference-travel-shell .map-category-bubble,
+.reference-travel-shell .poi-cluster-count{
+ animation:none!important;
+}
+@media(max-width:650px){
+ .map-category-bubble{width:38px;height:38px}
+ .map-category-bubble .map-category-icon{width:20px;height:20px}
+ .bubble-category-badge{font-size:.62rem}
+ .reference-travel-shell .map-photo-bubble{filter:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .map-category-bubble{transition:none!important}
+}
+:root[data-motion=off] .reference-travel-shell .map-category-bubble{
+ transition:none!important
+}
