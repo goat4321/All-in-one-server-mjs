@@ -1,6 +1,8 @@
 import { placeProfileModel } from './place-profile.mjs';
 import { explorerCategory } from './map-explorer.mjs';
-import { btn, esc } from './ui.mjs';
+import { btn, esc, urlLink } from './ui.mjs';
+import {googleMapsSearchUrl} from './google-maps.mjs';
+import {commonsDefaultQuery,commonsWebSearchUrl} from './commons-photo-search.mjs';
 
 const label={lodging:'Unterkünfte',food:'Restaurants & Cafés',shop:'Einkaufen',
   activity:'Sehenswürdigkeiten & Aktivitäten',transport:'Verkehr & Bahnhöfe'};
@@ -46,7 +48,9 @@ export function mediaCoveragePanel(ctx) {
       +' · '+esc(label[row.category]??row.category)
       +(row.active?' · Bereits im Plan':'')+'</small></div>'
       +'<div class="row-actions">'+btn('details','Details & Quellen','folder',row.item.id)
-      +btn('photo-edit','Quellenfoto ergänzen','plus',row.item.id)+'</div></div>').join('')+'</div>'
+      +btn('photo-edit','Quellenfoto ergänzen','plus',row.item.id)
+      +(urlLink(commonsWebSearchUrl(commonsDefaultQuery(row.item,ctx.cities)),'Commons-Bildsuche')||'')
+      +(urlLink(googleMapsSearchUrl(row.item,ctx.cities),'Google Maps')||'')+'</div></div>').join('')+'</div>'
     +'<p class="muted">Diese Liste ist eine Auswahl. Ohne zuordenbare, rechtlich nutzbare Datei bleibt ein gestalteter Platzhalter. Eigene Bilder sind lokal und variantenbezogen.</p>'
     +'</details></section>';
 }
