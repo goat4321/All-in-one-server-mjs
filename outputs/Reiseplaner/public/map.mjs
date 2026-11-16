@@ -11,6 +11,7 @@ import { groupPoiForDisplay, poiDensityPolicy } from './poi-density.mjs';
 import {markerProvenance} from './poi-location-provenance.mjs';
 import {storyCityStops} from './route-city-story-v70.mjs';
 import {RouteCityStoryPlayer} from './route-city-story-player-v70.mjs';
+import {buildCityArrivalScenes} from './route-city-arrivals-v71.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
@@ -629,8 +630,8 @@ export class TripMap {
     }
   }
 
-  playCityStory(trip,cities){
-    const stops=storyCityStops(trip,cities);
+  playCityStory(trip,cities,items=[],activeIds=new Set()){
+    const stops=buildCityArrivalScenes(storyCityStops(trip,cities),items,activeIds);
     if(stops.length<2)return false;
     this.map.invalidateSize({pan:false});
     // Visible city symbols and the bottom playback HUD need some map breathing room.
