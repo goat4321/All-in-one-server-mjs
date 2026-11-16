@@ -24,7 +24,18 @@
       "priceReference": "Öffentlicher Garten ohne reguläres Eintrittsticket; wetterbedingte Schließungen und Saisonzeiten vorab prüfen.",
       "priceYear": "2026",
       "durationMinutes": 40,
-      "sourceUrl": "https://www.toulouse-tourisme.com/activite/jardin-japonais/"
+      "sourceUrl": "https://www.toulouse-tourisme.com/activite/jardin-japonais/",
+      "visitorGuide": {
+        "highlights": [
+          "Rote Brücke und Wassergarten",
+          "Teepavillon im japanischen Garten",
+          "Ruhige Parkwege"
+        ],
+        "visitTip": "Als kostenlosen, kurzen Spaziergang einplanen; der Garten kann bei starkem Wind geschlossen werden.",
+        "combineWith": "Compans-Caffarelli und den Stadtkern als getrennte Ziele",
+        "arrivalTip": "Metrostation Compans-Caffarelli als Anreiseorientierung, Parkeingang nicht als exakten GPS-Pin behaupten.",
+        "check2027": "Saisonöffnungszeiten und wetterbedingte Schließungen"
+      }
     },
     {
       "id": "toulouse-halle-machine",
@@ -43,7 +54,18 @@
       "priceYear": "2026",
       "durationMinutes": 100,
       "sourceUrl": "https://www.toulouse-tourisme.com/activite/la-halle-de-la-machine/",
-      "accessCaution": "Liegt in Montaudran außerhalb des zentralen Stadtkerns; ÖPNV und ausreichende Besuchszeit einplanen."
+      "accessCaution": "Liegt in Montaudran außerhalb des zentralen Stadtkerns; ÖPNV und ausreichende Besuchszeit einplanen.",
+      "visitorGuide": {
+        "highlights": [
+          "Bewegliche Großmaschinen",
+          "Mechanischer Minotaurus",
+          "Ausstellung im Quartier Montaudran"
+        ],
+        "visitTip": "Ausstellung und Fahrt mit dem Minotaurus sind unterschiedliche Ticketangebote. Für die Fahrt einen festen Slot und zusätzliche Zeit vorsehen.",
+        "combineWith": "Die Piste des Géants im Viertel Montaudran",
+        "arrivalTip": "Avenue de l'Aérodrome de Montaudran 3 liegt außerhalb des historischen Zentrums; ÖPNV-Verbindung prüfen.",
+        "check2027": "Betriebstage, Fahrttickets, Vorbuchung und 2027er Tarife"
+      }
     },
     {
       "id": "toulouse-aeroscopia",
@@ -62,7 +84,18 @@
       "priceYear": "2026",
       "durationMinutes": 150,
       "sourceUrl": "https://www.toulouse-tourisme.com/activite/musee-aeroscopia/",
-      "accessCaution": "Das Museum befindet sich in Blagnac, nicht direkt in Toulouse; Transportzeit berücksichtigen."
+      "accessCaution": "Das Museum befindet sich in Blagnac, nicht direkt in Toulouse; Transportzeit berücksichtigen.",
+      "visitorGuide": {
+        "highlights": [
+          "Airbus A380 und Luftfahrtgeschichte",
+          "Großflugzeuge und technische Exponate",
+          "Optionale Simulationen oder Führungen"
+        ],
+        "visitTip": "Als mehrstündigen Technikbesuch planen, nicht als kurzen Altstadtstopp. Simulationen sind möglicherweise zusätzliche Buchungen.",
+        "combineWith": "Blagnac als gesonderter Ausflug aus Toulouse",
+        "arrivalTip": "Museumsadresse Allée André Turcat in Blagnac; Anreise und Rückfahrt separat planen.",
+        "check2027": "2027er Ticketkategorien, Sonderangebote und tatsächliche Öffnungszeit"
+      }
     },
     {
       "id": "narbonne-les-halles",
@@ -88,7 +121,18 @@
         3.0052861
       ],
       "geoSourceUrl": "https://www.audetourisme.com/fr/fiche/narbonne/les-halles_TFOPCULAR011FS00011/",
-      "geoSourceNote": "Tourismusamt veröffentlicht geografische DMS-Koordinate für die Markthalle; öffentlicher POI-Referenzpunkt, nicht Eingang oder Ladenstand."
+      "geoSourceNote": "Tourismusamt veröffentlicht geografische DMS-Koordinate für die Markthalle; öffentlicher POI-Referenzpunkt, nicht Eingang oder Ladenstand.",
+      "visitorGuide": {
+        "highlights": [
+          "Überdachte historische Markthalle",
+          "Regionale Lebensmittel und Marktstände",
+          "Kurzer Essensstopp am Kanal"
+        ],
+        "visitTip": "Am besten am Vormittag oder zur frühen Mittagszeit besuchen: historische Referenz nennt 7 bis 14 Uhr. Speisenpreise hängen vom Stand ab.",
+        "combineWith": "Canal de la Robine und Altstadt Narbonne",
+        "arrivalTip": "Boulevard du Docteur Ferroul 1, zentral an der Robine; Markthallenzugang vor Ort prüfen.",
+        "check2027": "Welche Marktstände 2027 geöffnet haben und deren aktuelle Preise"
+      }
     },
     {
       "id": "narbonne-horreum",
@@ -106,7 +150,18 @@
       "priceReference": "Betreiber 2026: 6 € regulär; ermäßigte/gruppenbezogene Pässe nur unter den jeweils genannten Bedingungen.",
       "priceYear": "2026",
       "durationMinutes": 55,
-      "sourceUrl": "https://narbovia.fr/accueil-2-2/visiter/visiter-horreum/"
+      "sourceUrl": "https://narbovia.fr/accueil-2-2/visiter/visiter-horreum/",
+      "visitorGuide": {
+        "highlights": [
+          "Unterirdische römische Gänge",
+          "Antike Lagerstrukturen",
+          "Geschichte des römischen Narbonne"
+        ],
+        "visitTip": "Die Öffnungsreferenz enthält eine Mittagspause. Den unterirdischen Zugang und Barrierefreiheit vor dem Besuch prüfen.",
+        "combineWith": "Markthalle Les Halles und Altstadtspaziergang",
+        "arrivalTip": "Rue Rouget de Lisle 7; den Zugang zum Horreum nicht mit dem gesamten Altstadtbereich verwechseln.",
+        "check2027": "2027er Mittagspause, Eintritt, Barrierefreiheit und mögliche Führungen"
+      }
     },
     {
       "id": "narbonne-narbo-via",
@@ -125,7 +180,18 @@
       "priceYear": "2026",
       "durationMinutes": 90,
       "sourceUrl": "https://narbovia.fr/accueil/nous-contacter/",
-      "secondarySourceUrl": "https://narbovia.fr/app/uploads/2026/01/NARBO-VIA_AGENDA_FEV-MAI26_BAT-1.pdf"
+      "secondarySourceUrl": "https://narbovia.fr/app/uploads/2026/01/NARBO-VIA_AGENDA_FEV-MAI26_BAT-1.pdf",
+      "visitorGuide": {
+        "highlights": [
+          "Römisches Narbo Martius",
+          "Antike Reliefs und Museumsarchitektur",
+          "Ausstellungen zur Regionalgeschichte"
+        ],
+        "visitTip": "Etwas außerhalb des Altstadtkerns gelegen; ausreichend Zeit für Anfahrt und die Sammlungen statt bloßer Durchfahrt vorsehen.",
+        "combineWith": "Horreum nur bei passenden Zeitfenstern und verfügbarem Ticket",
+        "arrivalTip": "Avenue André Mècle 2; lokalen Busfahrplan zum Museumsgebäude vorab prüfen.",
+        "check2027": "Ausstellungen, Eintrittsoptionen und saisonale Öffnung 2027"
+      }
     },
     {
       "id": "marseille-parc-longchamp",
@@ -144,7 +210,18 @@
       "priceYear": "2026",
       "durationMinutes": 60,
       "sourceUrl": "https://www.marseille-tourisme.com/decouvrez-marseille/culture-et-patrimoine/parc-longchamp-marseille-4eme-fr-2791907/",
-      "published2027Period": "2027-01-01/2027-12-31"
+      "published2027Period": "2027-01-01/2027-12-31",
+      "visitorGuide": {
+        "highlights": [
+          "Monumentale Brunnenanlage",
+          "Garten rund um den Palais Longchamp",
+          "Kostenloser öffentlicher Park"
+        ],
+        "visitTip": "Der Park ist gratis, angrenzende Museen können aber eigene Öffnungs- und Eintrittsregeln haben. Bei Extremwetter Zugang kontrollieren.",
+        "combineWith": "Palais Longchamp und Viertel Cinq Avenues",
+        "arrivalTip": "Metro M1 Cinq Avenues–Longchamp als ÖPNV-Orientierung; verschiedene Parkzugänge möglich.",
+        "check2027": "2027er Parköffnungszeit, gesperrte Wege und Museumszugang"
+      }
     },
     {
       "id": "marseille-fort-saint-jean",
@@ -162,7 +239,18 @@
       "priceReference": "Außenanlagen und Garten ohne Eintritt; kostenpflichtige Ausstellungsbereiche nicht eingeschlossen.",
       "priceYear": "2026",
       "durationMinutes": 60,
-      "sourceUrl": "https://mucem.org/infos-pratiques/fort-saint-jean/"
+      "sourceUrl": "https://mucem.org/infos-pratiques/fort-saint-jean/",
+      "visitorGuide": {
+        "highlights": [
+          "Historische Festungsanlage",
+          "Mediterraner Garten",
+          "Hafenpanorama und Brücken zum Mucem"
+        ],
+        "visitTip": "Die kostenlosen Außenflächen nicht mit kostenpflichtigen Mucem-Ausstellungen verwechseln. Brücken und Fort können unterschiedliche Zugangszeiten haben.",
+        "combineWith": "Mucem-Außenbereich und Panier-Viertel",
+        "arrivalTip": "Esplanade du J4, mehrere Zugangspunkte; aktuellen Brückenzugang kontrollieren.",
+        "check2027": "Schließtage, Öffnungszeiten der Brücken und 2027er Ausstellungen"
+      }
     },
     {
       "id": "marseille-vieille-charite",
@@ -180,7 +268,18 @@
       "priceReference": "Städtische Museen MAM und MAAOA hier kostenlos; wechselnde Sonderausstellungen ggf. Eintritt, 2027-Programm offen.",
       "priceYear": "2026",
       "durationMinutes": 65,
-      "sourceUrl": "https://musees.marseille.fr/centre-de-la-vieille-charite-cvc"
+      "sourceUrl": "https://musees.marseille.fr/centre-de-la-vieille-charite-cvc",
+      "visitorGuide": {
+        "highlights": [
+          "Barocker Innenhof",
+          "Archäologische Sammlungen",
+          "Außereuropäische Kunst"
+        ],
+        "visitTip": "Die öffentlich zugängliche Hofanlage und Museumssäle getrennt bewerten. Sonderausstellungen können kostenpflichtig sein.",
+        "combineWith": "Altstadtviertel Le Panier",
+        "arrivalTip": "Rue de la Charité 2, innerhalb Le Panier; Eingang und barrierefreie Wege prüfen.",
+        "check2027": "Sonderausstellungsprogramm, Museumsöffnung und Eintritt"
+      }
     },
     {
       "id": "ventimiglia-hanbury",
@@ -206,7 +305,18 @@
       ],
       "geoSourceUrl": "https://www.isprambiente.gov.it/it/attivita/museo/regioni/musei/giardini-botanici-hanbury",
       "geoSourceNote": "Ministerielle ISPRA-Datenbank mit Koordinaten der großflächigen Gartenanlage; kein individuell belegter Haupteingang.",
-      "accessCaution": "Garten liegt an der französischen Grenze außerhalb des Zentrums Ventimiglia; Hin-/Rückfahrt und Wetterwarnungen berücksichtigen."
+      "accessCaution": "Garten liegt an der französischen Grenze außerhalb des Zentrums Ventimiglia; Hin-/Rückfahrt und Wetterwarnungen berücksichtigen.",
+      "visitorGuide": {
+        "highlights": [
+          "Mediterrane und exotische Pflanzen",
+          "Gartenpfade mit Meerblick",
+          "Botanischer Landschaftspark Capo Mortola"
+        ],
+        "visitTip": "Ein ausgedehnter Gartenbesuch mit Steigungen; Wetterwarnungen und Hitze beachten. Nicht als spontane Kurzpause im Bahnhof Ventimiglia planen.",
+        "combineWith": "Die Küste bei La Mortola als eigenständigen Ausflug",
+        "arrivalTip": "Corso Montecarlo 43; Busverbindung Richtung La Mortola laut älterer Recherche, Tagesfahrplan prüfen.",
+        "check2027": "Saisonöffnungen, wetterbedingte Sperren und 2027er Ermäßigungen"
+      }
     },
     {
       "id": "ventimiglia-museo-rossi",
@@ -224,7 +334,18 @@
       "priceReference": "Museumsangabe 2026: 6 € regulär, 4,50 € Gruppentarif bei Erfüllung der Bedingungen; weitere Rabatte prüfen.",
       "priceYear": "2026",
       "durationMinutes": 60,
-      "sourceUrl": "https://www.marventimiglia.it/informazioni"
+      "sourceUrl": "https://www.marventimiglia.it/informazioni",
+      "visitorGuide": {
+        "highlights": [
+          "Antike Funde aus Albintimilium",
+          "Museum in Forte dell'Annunziata",
+          "Geschichte Ventimiglias"
+        ],
+        "visitTip": "Die bisherige Referenz zeigt eine Mittagsschließung und eingeschränkte Sonntage. Den Anstieg zur Altstadt einberechnen.",
+        "combineWith": "Ventimiglia Altstadt und Küstenpanorama",
+        "arrivalTip": "Via Verdi 41 im Forte dell'Annunziata; Zugang am Hang vorab auf Karte prüfen.",
+        "check2027": "Sonntagstermine, Mittagspause und aktuelle Eintrittspreise"
+      }
     },
     {
       "id": "milan-museo-novecento",
@@ -243,7 +364,18 @@
       "priceYear": "2026",
       "durationMinutes": 90,
       "sourceUrl": "https://www.museodelnovecento.org/it/biglietti-abbonamenti-card",
-      "secondarySourceUrl": "https://www.museodelnovecento.org/it/visita/dove-siamo-e-orari"
+      "secondarySourceUrl": "https://www.museodelnovecento.org/it/visita/dove-siamo-e-orari",
+      "visitorGuide": {
+        "highlights": [
+          "Kunst des 20. Jahrhunderts",
+          "Ausstellungsräume direkt am Domplatz",
+          "Blick zum Mailänder Dom"
+        ],
+        "visitTip": "Ermäßigte 18–25-Tickets und eventuelle kostenlose Aktionstage an Belege und konkreten Wochentag binden.",
+        "combineWith": "Mailänder Dom und Piazza Duomo",
+        "arrivalTip": "Piazza Duomo 8, zentrale Innenstadt; Museumszugang beim Veranstalter prüfen.",
+        "check2027": "Kostenlos-Aktionstage, Ausstellungen, letzter Einlass und Altersnachweise"
+      }
     },
     {
       "id": "milan-bam",
@@ -262,7 +394,18 @@
       "priceYear": "2026",
       "durationMinutes": 55,
       "sourceUrl": "https://bam.milano.it/visitare-il-parco/",
-      "secondarySourceUrl": "https://bam.milano.it/app/uploads/2025/09/bam-fair-play-libretto-a5-digitale.pdf"
+      "secondarySourceUrl": "https://bam.milano.it/app/uploads/2025/09/bam-fair-play-libretto-a5-digitale.pdf",
+      "visitorGuide": {
+        "highlights": [
+          "Landschaftspark in Porta Nuova",
+          "Baumgruppen und moderne Architektur",
+          "Spazierwege nahe Piazza Gae Aulenti"
+        ],
+        "visitTip": "Als kostenlose Erholungspause geeignet; kulturelle Einzelveranstaltungen können Anmeldung verlangen, obwohl der Park frei zugänglich ist.",
+        "combineWith": "Bosco Verticale und Piazza Gae Aulenti von außen",
+        "arrivalTip": "Via Gaetano de Castillia 28 als Lagehinweis; Park hat mehrere offene Zugänge.",
+        "check2027": "Veranstaltungen, temporäre Wegsperrungen und Anmeldebedingungen"
+      }
     },
     {
       "id": "milan-museo-scienza",
@@ -280,7 +423,18 @@
       "priceReference": "Keine einheitliche 2027-Tarifbestätigung aus den aktuell gelesenen Betreiberinformationen. U-Boot-Führung und zusätzliche Workshops können eine separate Buchung erfordern.",
       "priceYear": "2026",
       "durationMinutes": 150,
-      "sourceUrl": "https://www.museoscienza.org/visitare/informazioni"
+      "sourceUrl": "https://www.museoscienza.org/visitare/informazioni",
+      "visitorGuide": {
+        "highlights": [
+          "Leonardo-Ausstellungen",
+          "Züge, Flugzeuge und Raumfahrt",
+          "U-Boot Enrico Toti"
+        ],
+        "visitTip": "Ein umfangreiches Technikmuseum; für U-Boot-Führung und Workshops zusätzliche Slots und Gebühren prüfen. Mehr Zeit als für einen kurzen Museumsstopp einplanen.",
+        "combineWith": "Stadtteil Sant'Ambrogio und weitere Ziele der Innenstadt",
+        "arrivalTip": "Via San Vittore 21, Milano; tatsächliche ÖPNV-Verbindung und Eingang verifizieren.",
+        "check2027": "2027er Öffnungskalender, Ticketstufe und erforderliche Sonderreservierungen"
+      }
     },
     {
       "id": "glarus-landesplattenberg",
@@ -299,7 +453,18 @@
       "priceYear": "2026",
       "durationMinutes": 150,
       "sourceUrl": "https://glarnerland.ch/de/map/poi/offentliche-fuhrungen-durch-den-landesplattenberg-engi--id--civ_s9t_behsgacb-gfgj-ebsb-rada-hfdaddjugjjc.html",
-      "accessCaution": "Kein spontaner Museumsbetrieb: konkrete Führungsdaten 2027 vorher prüfen; Dorf Engi liegt außerhalb von Glarus."
+      "accessCaution": "Kein spontaner Museumsbetrieb: konkrete Führungsdaten 2027 vorher prüfen; Dorf Engi liegt außerhalb von Glarus.",
+      "visitorGuide": {
+        "highlights": [
+          "Historische Schiefergewinnung",
+          "Unterirdische Hallen",
+          "Geführter Bergwerksbesuch"
+        ],
+        "visitTip": "Nur als geführte Aktivität vorsehen. Feste Schuhe, warme Kleidung, ca. 130 Höhenmeter Aufstieg und zusätzliche Anreisezeit beachten.",
+        "combineWith": "Glarnerland als wetterabhängigen Halbtagesausflug",
+        "arrivalTip": "Sernftalstrasse 109 in Engi; Treffpunkt am Besucherpavillon ist nicht automatisch der Eingang in den Stollen.",
+        "check2027": "Ob im September 2027 eine Führung angeboten und buchbar ist"
+      }
     },
     {
       "id": "wasserauen-aescher",
@@ -319,7 +484,18 @@
       "priceYear": "2026",
       "durationMinutes": 65,
       "sourceUrl": "https://www.appenzell.ch/de/gastronomie/restaurants/berggasthaus-aescher.html",
-      "accessCaution": "Nicht am Bahnhof Wasserauen, sondern über Seilbahn Ebenalp und Bergweg; alpine Bedingungen berücksichtigen."
+      "accessCaution": "Nicht am Bahnhof Wasserauen, sondern über Seilbahn Ebenalp und Bergweg; alpine Bedingungen berücksichtigen.",
+      "visitorGuide": {
+        "highlights": [
+          "Felswand-Berggasthaus",
+          "Blick auf den Alpstein",
+          "Zugang über Wildkirchli und Ebenalp"
+        ],
+        "visitTip": "Wetter, Bergwege und Seilbahn vorab prüfen. Einkehr ist keine Unterkunftsbuchung, Preise für Anreise und Essen sind separat.",
+        "combineWith": "Ebenalp und Wildkirchli nur bei geeigneter Weglage",
+        "arrivalTip": "Ab Wasserauen zunächst zur Ebenalpbahn und von dort nach Betreiberreferenz etwa 15–20 Minuten zu Fuß.",
+        "check2027": "Berggasthaus-Saison, letzte Bergbahn, Wegsperrungen und Menükosten"
+      }
     }
   ]
 }
