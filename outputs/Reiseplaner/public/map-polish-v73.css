@@ -49,8 +49,8 @@
   align-self:start;overflow:visible!important
  }
  .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) #map{
-  height:clamp(405px,51dvh,535px)!important;
-  min-height:405px!important;max-height:535px!important
+  height:clamp(485px,55dvh,535px)!important;
+  min-height:485px!important;max-height:535px!important
  }
  .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.explorer-right{
   max-height:710px!important;overflow-y:auto!important;scrollbar-gutter:stable
