@@ -62,8 +62,9 @@ test('New visual layout does not rewrite plans, tickets or independently sourced
  const catalog=await loadCatalog();
  assert.equal(catalog.trips.length,4);
  assert.ok(catalog.trips.every(t=>t.items.length>0));
- const planned=catalog.trips.flatMap(t=>t.items.filter(i=>i.booked));
- assert.equal(planned.length,0);
+ const newlySourced=catalog.trips.flatMap(t=>t.items.filter(i=>i.discoveryV61||i.discoveryV62));
+ assert.ok(newlySourced.length>0);
+ assert.ok(newlySourced.every(i=>!i.booked&&!i.selected&&i.price==null));
  const photos=await read('public/reference-realignment-v63.css');
  assert.doesNotMatch(photos,/https?:\/\/(?:maps\.google\.com|api\.mapbox\.com)/);
 });
