@@ -6,6 +6,7 @@ import {applyOperatorDiscoveriesV54} from './operator-discoveries-v54.mjs';
 import {applyOperatorDiscoveriesV55} from './operator-discoveries-v55.mjs';
 import {VERIFIED_PLACE_UPDATES_V56} from './verified-place-updates-v56.mjs';
 import {VERIFIED_PLACE_UPDATES_V57} from './verified-place-updates-v57.mjs';
+import {VERIFIED_PLACE_UPDATES_V58} from './verified-place-updates-v58.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsLocationStatus } from '../public/google-maps.mjs';
 import { localParts, minor, utcFromLocal } from '../public/model.mjs';
 import { italyLodgings, italyPlaces, italySources, italyStations } from './italy.mjs';
@@ -1092,6 +1093,7 @@ export async function loadCatalog() {
       operatorAccessV56:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V56).length},
       operatorAccessV57:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V57).length,
         publishedSeasonCandidates:Object.values(VERIFIED_PLACE_UPDATES_V57).filter(x=>x.publishedSeason2027).length},
+      operatorAccessV58:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V58).length},
       providerSearchV13,providerLocationsV13,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
@@ -1202,6 +1204,12 @@ export async function loadCatalog() {
         url: place.website,
         accessed_on: place.observedOn,
         validity: 'business_listing_snapshot_address_and_hours_not_confirmed_for_2027',
+      })),
+      ...Object.entries(VERIFIED_PLACE_UPDATES_V58).map(([id,place])=>({
+        id:'operator-v58:'+id,
+        publisher:'Betreiber oder Stadtverwaltung · '+id,
+        url:place.sourceUrl,accessed_on:place.checkedOn,
+        validity:'Referenz 2026 mit unbestätigten Veranstaltungsdaten und Preisen für 2027',
       })),
       ...Object.entries(VERIFIED_PLACE_UPDATES_V57).map(([id,place])=>({
         id:'operator-v57:'+id,
