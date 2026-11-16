@@ -9,6 +9,8 @@ import { markerTier, validMapCoordinate, bubbleMarkup } from './photo-map-model.
 import {mapLegacyPinContent,mapIconForPlace,mapCategoryIcon} from './map-marker-icons-v64.mjs';
 import { groupPoiForDisplay, poiDensityPolicy } from './poi-density.mjs';
 import {markerProvenance} from './poi-location-provenance.mjs';
+import {storyCityStops} from './route-city-story-v70.mjs';
+import {RouteCityStoryPlayer} from './route-city-story-player-v70.mjs';
 
 const metroColors = { L1: '#c8102e', L2: '#93328e', L3: '#368729', L4: '#b88600', L5: '#0072cf', L9: '#e75400', L10: '#077daf', L11: '#568508' };
 const layersCache = new Map();
@@ -52,8 +54,8 @@ function dataFile(file) {
 }
 
 export class TripMap {
-  constructor(element, { focus, select, leg, visitCity, report, routeStop, hover }) {
-    this.handlers = { focus, select, leg, visitCity, report, routeStop, hover };
+  constructor(element, { focus, select, leg, visitCity, report, routeStop, hover, storyState }) {
+    this.handlers = { focus, select, leg, visitCity, report, routeStop, hover, storyState };
     this.map = L.map(element, {zoomControl:true,scrollWheelZoom:true,
       preferCanvas:false,fadeAnimation:true,zoomAnimation:true,
       markerZoomAnimation:true,minZoom:3,maxZoom:19,zoomSnap:.5,
@@ -62,6 +64,8 @@ export class TripMap {
     this.map.attributionControl.setPrefix(false);
     this.features = L.layerGroup().addTo(this.map);
     this.poiLayer = L.layerGroup().addTo(this.map);
+    // A separately stoppable schematic itinerary animation; never persisted.
+    this.cityStory=new RouteCityStoryPlayer(this.map,state=>this.handlers.storyState?.(state));
     this.poiItems = []; this.poiKeys = new Set(); this.poiProfileCtx = null;
     // Rebuild only markers entering the viewport after a completed pan/zoom.
     this.map.on('moveend', () => this.paintExplorerPins());
@@ -184,6 +188,7 @@ export class TripMap {
   }
 
   paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null, profileCtx = null, dayPreview = null }) {
+    if(!total&&this.cityStory.state().status!=='idle')this.cityStory.stop();
     this.city = city;
     this.features.clearLayers();
     this.poiLayer.clearLayers();
@@ -624,6 +629,24 @@ export class TripMap {
     }
   }
 
+  playCityStory(trip,cities){
+    const stops=storyCityStops(trip,cities);
+    if(stops.length<2)return false;
+    this.map.invalidateSize({pan:false});
+    // Visible city symbols and the bottom playback HUD need some map breathing room.
+    this.map.fitBounds(stops.map(stop=>stop.point),{
+      paddingTopLeft:[48,142],paddingBottomRight:[48,162],
+      maxZoom:8,animate:false,
+    });
+    return this.cityStory.play(stops);
+  }
+
+  pauseCityStory(){return this.cityStory.pause();}
+  resumeCityStory(){return this.cityStory.resume();}
+  stopCityStory(){this.cityStory.stop();}
+  storyState(){return this.cityStory.state();}
+  storySpeed(speed){return this.cityStory.setSpeed(speed);}
+
   fit() {
     this.map.invalidateSize({ pan: false });
     if (this.bounds?.length > 1) this.map.fitBounds(this.bounds, { padding: [35, 35], maxZoom: 15, animate: false });
@@ -685,6 +708,7 @@ export class TripMap {
     if(this.vectorGL&&this.vectorGLOnError)
       this.vectorGL.off?.('error',this.vectorGLOnError);
     this.map.stop();
+    this.cityStory.destroy();
     this.map.remove();
   }
 }
