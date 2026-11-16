@@ -61,6 +61,7 @@ const view = {
   mapTone: ['standard','midnight','sand'].includes(localStorage.getItem('reiseplan-map-tone'))
     ? localStorage.getItem('reiseplan-map-tone') : 'standard',
   mapExpanded: false,
+  mapFullscreen: false,mapFullscreenDrawer:false,
   mapDesignOpen:false,
   mapAdvancedOpen:false,
   mapDayNotesOpen:false,
@@ -324,6 +325,7 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   else{oldMap?.destroy();currentMap=null}
   document.documentElement.dataset.theme = view.theme;
   document.documentElement.dataset.motion = view.mapMotion;
+  document.body.classList.toggle('map-fullscreen-active',view.page==='map'&&view.mapFullscreen);
   app.innerHTML = renderShell(context);
   const replacement=app.querySelector('#map');
   if(mapNode&&replacement){
@@ -643,6 +645,7 @@ function changePage(page) {
     view.browseMealsOpen=false;view.browseFoodResearchOpen=false;
   }
   view.page = page;
+  if(page!=='map'){view.mapFullscreen=false;view.mapFullscreenDrawer=false;}
   view.menu = false;
   view.optionFilter = 'all';
   if (page !== 'map') view.total = false;
@@ -1315,6 +1318,23 @@ async function action(name, value = '') {
       view.mapTone=value;localStorage.setItem('reiseplan-map-tone',value);
       render({restoreView:true,fetchRoutes:false});
       break;
+    case 'map-fullscreen':
+      if(view.page!=='map')break;
+      view.mapFullscreen=!view.mapFullscreen;
+      view.mapFullscreenDrawer=false;
+      render({restoreView:true,fetchRoutes:false});
+      if(!view.mapFullscreen)
+        app.querySelector('.map-fullscreen-launch')?.focus({preventScroll:true});
+      else
+        app.querySelector('.map-fullscreen-exit')?.focus({preventScroll:true});
+      break;
+    case 'map-fullscreen-drawer':
+      if(view.page!=='map'||!view.mapFullscreen)break;
+      view.mapFullscreenDrawer=!view.mapFullscreenDrawer;
+      render({restoreView:true,fetchRoutes:false});
+      if(view.mapFullscreenDrawer)app.querySelector('#map-search')?.focus({preventScroll:true});
+      else app.querySelector('.map-fullscreen-drawer-toggle')?.focus({preventScroll:true});
+      break;
     case 'map-expand':
       view.mapExpanded=!view.mapExpanded;
       render({restoreView:true,fetchRoutes:false});
@@ -1760,6 +1780,20 @@ async function action(name, value = '') {
   }
 }
 
+document.addEventListener('keydown',event=>{
+  if(event.key!=='Escape'||!view.mapFullscreen||view.page!=='map')return;
+  if(document.querySelector('#dialog')?.open||guideStep(view.guideIndex))return;
+  event.preventDefault();
+  if(view.mapFullscreenDrawer){
+    view.mapFullscreenDrawer=false;
+    render({restoreView:true,fetchRoutes:false});
+    app.querySelector('.map-fullscreen-drawer-toggle')?.focus({preventScroll:true});
+  }else{
+    view.mapFullscreen=false;
+    render({restoreView:true,fetchRoutes:false});
+    app.querySelector('.map-fullscreen-launch')?.focus({preventScroll:true});
+  }
+});
 document.addEventListener('keydown', event => {
   if (!guideStep(view.guideIndex)) return;
   if (event.key === 'Escape') { event.preventDefault(); closeGuide(); return; }
