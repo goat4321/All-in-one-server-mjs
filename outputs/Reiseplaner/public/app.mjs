@@ -1111,6 +1111,11 @@ async function action(name, value = '') {
       }
       await toggleSavedEntry(ctx,item,{preferLocal:true});
       break;
+    case 'nav-saved':
+      view.mapSavedOnly=true;view.mapListLimit=60;
+      if(view.page!=='map')changePage('map');
+      else render({restoreView:true,fetchRoutes:false});
+      break;
     case 'explorer-saved-only':
       view.mapSavedOnly=!view.mapSavedOnly;view.mapListLimit=60;
       render({restoreView:true,fetchRoutes:false});break;
@@ -1917,7 +1922,10 @@ app.addEventListener('change', event => {
   if (event.target.id === 'map-search' || event.target.id === 'reference-top-search') {
     view.mapSearch = event.target.value.trim().slice(0,100);
     view.mapListLimit = 60;
-    render({restoreView:true,fetchRoutes:false});
+    if(event.target.id==='reference-top-search'&&view.page!=='map'){
+      view.mapScope='city';view.mapSavedOnly=false;
+      changePage('map');
+    } else render({restoreView:true,fetchRoutes:false});
   }
   if (event.target.id === 'explorer-time') { view.mapRouteTime = event.target.value; view.mapRouteResult = null; render({ restoreView: true }); }
   if (event.target.id === 'day-route-start') { view.dayQueueTime=event.target.value; view.dayQueueRoutes=[]; render({restoreView:true}); }
