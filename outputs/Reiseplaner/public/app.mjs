@@ -218,6 +218,49 @@ function buildContext() {
   };
 }
 
+function updateRouteStoryUi(state){
+  const panel=app.querySelector('#route-story-player');
+  if(!panel)return;
+  const status=state?.status??'idle',visible=status!=='idle';
+  panel.hidden=!visible;panel.dataset.status=status;
+  document.body.classList.toggle('route-story-active',view.page==='map'&&visible);
+  if(!visible)return;
+  const write=(selector,value)=>{
+    const el=panel.querySelector(selector);
+    if(el&&el.textContent!==String(value))el.textContent=String(value);
+  };
+  write('#route-story-symbol',state.symbol);
+  write('#route-story-city',state.name);
+  write('#route-story-description',state.description);
+  write('#route-story-count',(state.index+1)+' / '+state.total);
+  const bar=panel.querySelector('.route-story-progress');
+  if(bar)bar.setAttribute('aria-valuenow',String(Math.round(state.progress)));
+  const fill=panel.querySelector('#route-story-progress-fill');
+  if(fill)fill.style.width=state.progress.toFixed(2)+'%';
+  const pause=panel.querySelector('[data-action="route-story-pause"]');
+  if(pause){
+    pause.hidden=status==='complete';
+    pause.disabled=status==='complete';
+    const label=status==='paused'?'Fortsetzen':'Pause';
+    if(pause.dataset.label!==label){
+      pause.innerHTML=icon(status==='paused'?'play':'pause')+'<span>'+label+'</span>';
+      pause.dataset.label=label;
+    }
+  }
+  write('[data-action="route-story-speed"]',state.speed+'×');
+  const announcement=panel.querySelector('#route-story-announcement');
+  const key=status+':'+state.index;
+  if(announcement&&panel.dataset.lastAnnouncement!==key){
+    announcement.textContent=status==='complete'
+      ?'Alle '+state.total+' Reiseorte gezeigt'
+      :status==='paused'?'Pausiert · '+state.name
+      :state.nextName&&state.index<state.total-1
+        ?'Halt '+(state.index+1)+' · Als Nächstes: '+state.nextName
+        :'Letzter Halt · '+state.name;
+    panel.dataset.lastAnnouncement=key;
+  }
+}
+
 function mapVisible(ctx) {
   return ctx.page === 'map' || ctx.page === 'plan' && (!matchMedia('(max-width:910px)').matches || ctx.mobile === 'map');
 }
@@ -360,6 +403,7 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
     if(!retained){
       currentMap = new TripMap(element, {
         select: id => { selectPoint(id, false); },
+        storyState:state=>updateRouteStoryUi(state),
         leg: index => action('leg', index), visitCity: id => action('city', id),
         routeStop: index => action('day-route-focus', String(index)),
         hover: (id,on)=>{
@@ -383,6 +427,7 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
       currentMap.viewportListenerRegistered=true;
     }
     if(view.mapViewportOnly)refreshViewportList();
+    updateRouteStoryUi(currentMap.storyState());
   }
   if (fetchRoutes) void fetchCachedRoutes(context);
 }
@@ -442,6 +487,7 @@ async function switchVariant(id) {
   if (loading || saving || !catalog.variants.some(v => v.id === id)) return;
   loading = true;
   try {
+    currentMap?.stopCityStory();
     variant = await api('/api/variant/' + encodeURIComponent(id));
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
@@ -479,6 +525,7 @@ function showCity(id, date, wholeDay = false) {
   if (id !== view.city || (date && date !== view.date)) {
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0;
   }
+  currentMap?.stopCityStory();
   view.city = id;
   view.timetablePreview = null;
   view.wholeDay = wholeDay;
@@ -1335,6 +1382,30 @@ async function action(name, value = '') {
       render({restoreView:true,fetchRoutes:false});
       if(view.mapFullscreenDrawer)app.querySelector('#map-search')?.focus({preventScroll:true});
       else app.querySelector('.map-fullscreen-drawer-toggle')?.focus({preventScroll:true});
+      break;
+    case 'route-story-play':
+      if(view.page!=='map')break;
+      if(!view.total||view.mapScope!=='trip'){
+        view.mapScope='trip';view.total=true;view.mapSavedOnly=false;
+        view.mapGroup='all';view.mapSearch='';view.mapNearPointId=null;
+        view.mapViewportOnly=false;view.mapViewportBounds=null;
+        view.mapFullscreenDrawer=false;view.selected=null;
+        render({fetchRoutes:false});
+      }
+      if(!currentMap?.playCityStory(context.trip,context.cities))
+        say('Für die Routenanimation werden mindestens zwei Reisestädte mit Kartenposition benötigt.');
+      break;
+    case 'route-story-pause':
+      if(currentMap?.storyState().status==='paused')currentMap.resumeCityStory();
+      else currentMap?.pauseCityStory();
+      break;
+    case 'route-story-speed': {
+      const now=currentMap?.storyState().speed??1;
+      currentMap?.storySpeed(now===1?1.5:now===1.5?2:1);
+      break;
+    }
+    case 'route-story-stop':
+      currentMap?.stopCityStory();
       break;
     case 'map-expand':
       view.mapExpanded=!view.mapExpanded;
