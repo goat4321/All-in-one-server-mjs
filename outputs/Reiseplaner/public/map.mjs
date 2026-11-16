@@ -6,6 +6,7 @@ import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { installSoftVectorBasemap, fallbackRasterUrl, fallbackRasterOptions,
   vectorAttribution, basemapLabels } from './vector-basemap.mjs';
 import { markerTier, validMapCoordinate, bubbleMarkup } from './photo-map-model.mjs';
+import {mapLegacyPinContent} from './map-marker-icons-v64.mjs';
 import { groupPoiForDisplay, poiDensityPolicy } from './poi-density.mjs';
 import {markerProvenance} from './poi-location-provenance.mjs';
 
@@ -62,7 +63,8 @@ export class TripMap {
     this.features = L.layerGroup().addTo(this.map);
     this.poiLayer = L.layerGroup().addTo(this.map);
     this.poiItems = []; this.poiKeys = new Set(); this.poiProfileCtx = null;
-    this.map.on('zoomend', () => this.paintExplorerPins());
+    // Rebuild only markers entering the viewport after a completed pan/zoom.
+    this.map.on('moveend', () => this.paintExplorerPins());
     this.transit = L.layerGroup().addTo(this.map);
     this.markers = new Map();
     // Never load CARTO: since September 2026 their unauthenticated
@@ -76,8 +78,10 @@ export class TripMap {
     this.vectorGL=null;
     this.vectorGLOnError=null;
     this.offlineMap=new URLSearchParams(location.search).has('offlineMap');
+    // Avoid fetching tiles for the temporary Europe-wide bootstrap view.
+    // Raster is added after the first actual fit; vector upgrade is optional.
+    this.basemapBooted=false;
     if(this.offlineMap)this.setBasemapStatus('offline');
-    else void this.startBasemap();
     this.hiking = L.tileLayer.wms('https://wms.geo.admin.ch/', {
       layers: 'ch.swisstopo.swisstlm3d-wanderwege', format: 'image/png', transparent: true,
       minZoom: 10, maxNativeZoom: 18, maxZoom: 19, className: 'hiking-reference', opacity: .82,
@@ -132,7 +136,7 @@ export class TripMap {
     const attempt=++this.basemapAttempt;
     const alive=()=>!this.destroyed&&attempt===this.basemapAttempt
       &&this.element.isConnected;
-    this.setBasemapStatus('loading');
+    if(!this.fallbackLayer)this.setBasemapStatus('loading');
     const layer=await installSoftVectorBasemap(this.map,this.fallbackLayer,{alive});
     if(!alive()){
       try{if(layer&&this.map.hasLayer(layer))this.map.removeLayer(layer)}catch{}
@@ -165,7 +169,8 @@ export class TripMap {
   }
 
   marker(point, id, text, number, style, click, offset = 0, popupHtml = null, group = this.features) {
-    const icon = L.divIcon({ className: '', html: '<span class="pin ' + style + '"><span>' + number + '</span></span>',
+    const icon = L.divIcon({ className: '', html: '<span class="pin ' + style + '"><span>'
+      + mapLegacyPinContent(number,style) + '</span></span>',
       iconSize: [30, 30], iconAnchor: [14 - offset, 29] });
     const marker = L.marker(point, { icon, title: text, alt: text, keyboard: true,
       zIndexOffset: style.includes('draft') ? 1800 : style.includes('focused') ? 1000 : 0 }).addTo(group);
@@ -447,7 +452,11 @@ export class TripMap {
     const shownPhotoCells=new Set();
     // Group only existing source-record points by screen-space density.
     // The focused POI stays selectable; no cluster is written to trip data.
-    const buckets=groupPoiForDisplay(this.poiItems,zoom,
+    // Marker DOM is the expensive layer: render only currently visible POIs.
+    // Keep all source records in poiItems for search, selection and fit bounds.
+    const visible=this.map.getBounds?.().pad(.22);
+    const onScreen=visible?this.poiItems.filter(item=>visible.contains(item.point)):this.poiItems;
+    const buckets=groupPoiForDisplay(onScreen,zoom,
       point=>this.map.project(point,zoom),{
         mode:this.poiDensity,focusedId:this.poiFocused
       });
@@ -595,6 +604,13 @@ export class TripMap {
     this.map.invalidateSize({ pan: false });
     if (this.bounds?.length > 1) this.map.fitBounds(this.bounds, { padding: [35, 35], maxZoom: 15, animate: false });
     else if (this.bounds?.length) this.map.setView(this.bounds[0], 13, { animate: false });
+    // Leaflet's responsive raster is available immediately; optional vector
+    // scenery upgrades without holding up the first real map interaction.
+    if(!this.offlineMap&&!this.basemapBooted){
+      this.basemapBooted=true;
+      this.useRasterFallback();
+      void this.startBasemap();
+    }
   }
 
   focusStudio() {
