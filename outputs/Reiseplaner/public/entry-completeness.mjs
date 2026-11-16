@@ -15,7 +15,7 @@ const ownPhotos=(item,state)=>{
 // A generic "Öffnungszeiten im September 2027 nicht bestätigt" note is NOT
 // a published time reference. Earlier V50 imports used that placeholder on
 // every activity, inflating the completeness audit for all 105 raw candidates.
-const realClock=/\\b(?:[01]?\\d|2[0-3])(?::[0-5]\\d)?\\s*[–—-]\\s*(?:[01]?\\d|2[0-3])(?::[0-5]\\d)?\\s*(?:uhr|h)?\\b|\\b\\d{1,2}:[0-5]\\d\\b/i;
+const realClock=/\b(?:[01]?\d|2[0-3])(?::[0-5]\d)?\s*[–—-]\s*(?:[01]?\d|2[0-3])(?::[0-5]\d)?\s*(?:uhr|h)?\b|\b\d{1,2}:[0-5]\d\b/i;
 const unsupportedHours=/^(?:öffnungs(?:zeit|zeiten)|besuchs(?:zeit|zeiten)).{0,140}(?:nicht bestätigt|noch offen|unbekannt|ungeprüft)|^keine (?:bestätigten )?öffnungszeiten/i;
 export function hasDocumentedOpeningReference(item){
  if(!item)return false;
@@ -23,7 +23,7 @@ export function hasDocumentedOpeningReference(item){
    ||item.weekly?.hours||item.checkInTime)return true;
  const note=String(item.openingHoursNote??'').trim();
  if(note&&!unsupportedHours.test(note)
-   &&(realClock.test(note)||/\\b(?:täglich geöffnet|durchgehend geöffnet|rund um die uhr|montags geschlossen)\\b/i.test(note)))
+   &&(realClock.test(note)||/\b(?:täglich geöffnet|durchgehend geöffnet|rund um die uhr|montags geschlossen)\b/i.test(note)))
   return true;
  const official=[item.officialAccessV53,item.officialAccessV56,
    item.officialAccessV57,item.officialAccessV58,item.discoveryV54,item.discoveryV55];
