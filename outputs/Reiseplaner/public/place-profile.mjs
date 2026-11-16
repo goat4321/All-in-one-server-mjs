@@ -100,6 +100,12 @@ export function placeProfileModel(item, ctx = {}) {
     if(club.publishedAddress)facts.push(['Veröffentlichte Betreiberadresse',
       club.publishedAddress+' · Eingang/Koordinate separat prüfen']);
   }
+  if(item.officialAccessV53){
+    const access=item.officialAccessV53;
+    facts.push(['Betreiber-/Quellenprüfung '+access.checkedOn,access.summary]);
+    facts.push(['Zugang September 2027','Noch nicht unabhängig bestätigt']);
+    if(access.visitorAddress)facts.push(['Vom Betreiber genannte Besucheradresse',access.visitorAddress]);
+  }
   if(item.researchV20?.type==='activity'){
     const review=item.researchV20;
     facts.push(['Aktualisierte Quellenprüfung',review.reviewedOn
