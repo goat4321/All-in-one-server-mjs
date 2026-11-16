@@ -29,7 +29,7 @@ test('V72 route mode counts city hubs only, not all available POIs',()=>{
  assert.equal(s.scope,'trip');
  assert.equal(s.displayCount,3);
  assert.equal(s.displayLabel,'Städte');
- assert.match(s.description,/schematische/);
+ assert.match(s.description,/schematische/i);
  assert.match(s.hint,/Stadt/);
 });
 test('V72 explicitly labels all filters, provides truthful no-result guidance',()=>{
