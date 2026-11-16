@@ -387,6 +387,26 @@ try {
     'Whole trip mode is separate from the current day');
   assert.ok(await js('document.querySelector(".trip-schematic-flow")!==null'),
     'Route animation is present only as a schematically labeled line when motion is enabled');
+  // V74: play the real story to check the rendered panel, not only a CSS
+  // selector in a static unit test. Stop it again before unrelated UI checks.
+  await click('.map-panel>.panel-head [data-action=route-story-play]');
+  await until(()=>js('document.querySelector("#route-story-player")?.hidden===false'),
+    'V74 story player becomes visible after pressing Route abspielen');
+  assert.ok(await js('(() => {const p=document.querySelector("#route-story-player"),m=document.querySelector("#map");if(!p||!m)return false;const a=p.getBoundingClientRect(),b=m.getBoundingClientRect(),bg=getComputedStyle(p).backgroundColor;const alpha=Number(bg.split(",").at(-1).replace(")",""));return a.width<=310&&a.height<=205&&a.width<b.width*.55&&a.height<b.height*.5&&alpha>.4&&alpha<.85})()'),
+    'V74 animation is a small transparent overlay with most of the map still visible');
+  assert.equal(await js('document.querySelector("#route-story-ideas")?.hidden'),true,
+    'V74 full city recommendations are hidden until explicitly requested');
+  if(await js('document.querySelector(".route-story-ideas-toggle")?.hidden===false')){
+    await click('.route-story-ideas-toggle');
+    assert.equal(await js('document.querySelector(".route-story-ideas-toggle")?.getAttribute("aria-expanded")'),'true');
+    assert.equal(await js('document.querySelector("#route-story-ideas")?.hidden'),false);
+    await click('.route-story-ideas-toggle');
+    assert.equal(await js('document.querySelector("#route-story-ideas")?.hidden'),true);
+  }
+  await screenshot('30-v74-translucent-route-animation-1440.png');
+  await click('#route-story-player [data-action=route-story-stop]');
+  await until(()=>js('document.querySelector("#route-story-player")?.hidden===true'),
+    'V74 player closes and returns control of map to the user');
   assert.ok(await js('(() => { const m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect(),a=document.querySelector(".reference-map-workspace>.explorer-right")?.getBoundingClientRect();return m&&a&&m.left>a.left&&m.width>a.width*1.12; })()'),
     'Reference layout uses compact agenda on left and wider interactive map on right');
   assert.ok(await js('Boolean(document.querySelector(".reference-map-intro h1"))'),
