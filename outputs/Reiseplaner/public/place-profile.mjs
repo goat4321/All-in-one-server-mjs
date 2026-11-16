@@ -110,6 +110,13 @@ export function placeProfileModel(item, ctx = {}) {
     facts.push(['Veröffentlichte Öffnungszeiten',o.openingReference+' · Reisetag 2027 erneut prüfen']);
     if(o.publishedSeason2027)facts.push(['Betreiber-Saison 2027 veröffentlicht','Allgemeine Saisonzeiten publiziert; Wetter, Tagesöffnung und Ticket noch nicht garantiert']);
     if(o.accessCaution)facts.push(['Anreise / Lage',o.accessCaution]);
+    if(o.visitorGuide){
+      facts.push(['Sehenswert',o.visitorGuide.highlights.join(' · ')]);
+      facts.push(['Praktische Besuchsplanung',o.visitorGuide.visitTip]);
+      facts.push(['Kombinierbar mit',o.visitorGuide.combineWith]);
+      facts.push(['Anreise und Eingang',o.visitorGuide.arrivalTip]);
+      facts.push(['Vor Reisebeginn 2027 prüfen',o.visitorGuide.check2027]);
+    }
     if(o.published2027Period)facts.push(['Veröffentlichtes allgemeines Saisonfenster 2027',
       o.published2027Period+' · Wetter/Sonderregelungen und tatsächlichen Reisetag prüfen']);
     facts.push(['Karten- und Quellenstatus',o.locationPrecision==='independent_public_poi_area_only'
@@ -166,7 +173,9 @@ export function placeProfileModel(item, ctx = {}) {
       ?item.geoEvidence.url:null,
     geoSourceNote:item.geoEvidence?.note??null,
     maps:googleMapsSearchUrl(item,ctx.cities),route:googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),
-    providerUrl:item.website??null,photo:photos[0]??null,photos,ownPhotoCount:ownPhotos.length,
+    providerUrl:item.website??null,
+    secondaryProviderUrl:item.discoveryV62?.secondarySourceUrl??null,
+    photo:photos[0]??null,photos,ownPhotoCount:ownPhotos.length,
   };
 }
 
@@ -298,6 +307,7 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
       +urlLink(p.maps,googleMapsSearchLabel(item))
       +urlLink(p.route,'ÖPNV-Anreise in Google Maps')
       +urlLink(p.providerUrl,'Originalangebot / Anbieter')
+      +urlLink(p.secondaryProviderUrl,'Weitere offizielle Besucherinformationen')
       +'</div>'
     + (compact?'':'<details class="place-profile-sources"><summary>Quellen und Aktualität</summary>'
       +'<p>'+esc(p.sourceStatus)+'</p>'
