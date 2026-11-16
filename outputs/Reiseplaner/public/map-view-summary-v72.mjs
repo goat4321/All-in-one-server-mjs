@@ -1,3 +1,4 @@
+import {mapPointInBounds} from './map-explorer.mjs';
 // Presentation-only counters and context for the interactive map.
 // Always describe what the map actually draws: trip scope plots route cities,
 // whereas city/day scopes display source-backed individual POI markers.
@@ -31,13 +32,24 @@ export function mapViewSummary(ctx={}){
   empty:allCities.length===0,cityCount:allCities.length,
  };
  const isDay=scope==='day';
- const displayCount=placed,empty=placed===0;
+ const viewportLimited=Boolean(explorer.viewportOnly&&Array.isArray(explorer.viewportBounds)
+  &&explorer.viewportBounds.length===4&&explorer.viewportBounds.every(Number.isFinite));
+ // Viewport-only filters the list, not the underlying geographic inventory.
+ const displayCount=viewportLimited?(explorer.placed??[]).filter(item=>
+  mapPointInBounds(item.point,explorer.viewportBounds)).length:placed;
+ const empty=displayCount===0;
  return {scope,city,
   title:isDay?'Dein Reisetag':city+' entdecken',
-  description:isDay?'Nur aktuell eingeplante Stopps':'Aktivitäten und Orte aus deiner Recherche',
-  displayCount,displayLabel:placed===1?'Ort mit Pin':'Orte mit Pin',
-  placed,unlocated,saved,filters,canClear:filters.length>0,empty,
-  hint:empty?isDay
+  description:viewportLimited?'Listenorte im sichtbaren Ausschnitt'
+    :isDay?'Nur aktuell eingeplante Stopps':'Aktivitäten und Orte aus deiner Recherche',
+  displayCount,displayLabel:viewportLimited
+    ?displayCount===1?'Ort in der Liste':'Orte in der Liste'
+    :placed===1?'Ort mit Pin':'Orte mit Pin',
+  placed,unlocated,saved,filters,canClear:filters.length>0,empty,viewportLimited,
+  hint:viewportLimited
+    ?empty?'Im Ausschnitt keine Treffer. Karte verschieben oder Ausschnittfilter entfernen.'
+      :'Nur die Liste ist auf den Kartenausschnitt begrenzt; ohne Pin erfasste Orte sind ausgeblendet.'
+    :empty?isDay
    ?'Für diesen Tag sind keine individuellen Kartenpunkte vorhanden. Unter „Stadt“ findest du weitere Ideen.'
    :'Keine Orte mit Kartenpunkt passen zu dieser Auswahl. Filter zurücksetzen oder Ort wechseln.'
    :unlocated>0
