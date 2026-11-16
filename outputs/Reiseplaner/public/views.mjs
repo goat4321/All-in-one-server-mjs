@@ -297,6 +297,8 @@ export function mapSelectionPreview(ctx) {
     &&String(item.provider??'').toLowerCase()!=='airbnb'
     &&!String(item.id??'').startsWith('wishlist:airbnb:');
   return '<div class="map-selected-place" role="group" aria-label="Ausgewählter Reiseort">'
+    +'<button class="map-selected-dismiss" type="button" data-action="map-clear-selection"'
+    +' aria-label="Ortskarte schließen" title="Schließen">'+icon('close')+'</button>'
     +placeThumbnailHtml(item,ctx)
     +'<div class="map-selected-copy"><strong>'+esc(item.name)+'</strong><small>'
     +esc(ctx.cities[item.city]?.name??item.city)+' · '+esc(category)
@@ -487,7 +489,6 @@ function mapPanel(ctx, full = false) {
         <small>Bei Bedarf anpassen</small>${icon('chevron')}</summary>
       <div class="map-extra-content">
       ${renderMapHud(ctx)}
-      ${ctx.page==='map'?'': ''}
     <div class="map-tools" aria-label="Kartenebenen">
       ${chip('map-mode', 'Tag', !ctx.total, 'day')}${chip('map-mode', 'Gesamt', ctx.total, 'total')}
       ${ctx.explorer ? '<span class="muted">Alle vorhandenen Orte · farbige Kategorien · keine erfundenen Positionen</span>' : ''}
