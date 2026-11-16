@@ -23,7 +23,18 @@
       "priceReference": "Dauersammlung gratis; wechselnde Ausstellungen separat kostenpflichtig (Betreiberstand November 2026).",
       "priceYear": "2026",
       "durationMinutes": 90,
-      "sourceUrl": "https://www.mam.paris.fr/fr/node/20"
+      "sourceUrl": "https://www.mam.paris.fr/fr/node/20",
+      "visitorGuide": {
+        "highlights": [
+          "Moderne und zeitgenössische Kunst",
+          "Kostenlose Dauersammlung",
+          "Temporäre Ausstellungen"
+        ],
+        "visitTip": "Dauersammlung gratis, Sonderausstellungen separat buchbar. Auch bei kostenlosem Zutritt auf Warteschlangen achten.",
+        "combineWith": "Palais de Tokyo und Trocadéro als benachbarte, getrennte Stationen",
+        "arrivalTip": "Avenue du Président Wilson 11, öffentliche Museumsadresse als Ziel für Maps.",
+        "check2027": "2027er Sonderausstellungen, Schließtage und mögliche Reservierung"
+      }
     },
     {
       "id": "barcelona-muhba-placa-del-rei",
@@ -41,7 +52,18 @@
       "priceReference": "7,30 € regulär, 5,20 € mit ausdrücklich erfüllter Ermäßigungsberechtigung, u. a. Studierende unter 29; erster Monatssonntag frei sowie sonntags ab 15 Uhr (Betreiberstand November 2026).",
       "priceYear": "2026",
       "durationMinutes": 90,
-      "sourceUrl": "https://guia.barcelona.cat/en/detall/museu-d-historia-de-barcelona_92086011563.html"
+      "sourceUrl": "https://guia.barcelona.cat/en/detall/museu-d-historia-de-barcelona_92086011563.html",
+      "visitorGuide": {
+        "highlights": [
+          "Römische Ausgrabungen unter der Altstadt",
+          "Stadtgeschichte Barcelonas",
+          "Museumsräume am Plaça del Rei"
+        ],
+        "visitTip": "Die archäologischen Bereiche und die anderen MUHBA-Standorte haben möglicherweise voneinander abweichende Zutrittsregeln. Gratiszeiten nicht als garantierten Einlass rechnen.",
+        "combineWith": "Gotisches Viertel und Kathedrale außen",
+        "arrivalTip": "Plaça del Rei 7–9, zu Fuß in den Gassen des Barri Gòtic erreichbar.",
+        "check2027": "Öffnungen, Ermäßigungsnachweise und sonntägliche Gratisregel 2027"
+      }
     },
     {
       "id": "sete-musee-paul-valery",
@@ -59,7 +81,18 @@
       "priceReference": "Laut Betreiber 2026: 6,20 € außerhalb Sommerausstellung, 9,90 € während Sommerausstellung; 18-Jährige nicht allein wegen Alters ermäßigt, Studierende unter 25 teilweise.",
       "priceYear": "2026",
       "durationMinutes": 75,
-      "sourceUrl": "https://museepaulvalery-sete.fr/informations/"
+      "sourceUrl": "https://museepaulvalery-sete.fr/informations/",
+      "visitorGuide": {
+        "highlights": [
+          "Kunstsammlung über dem Meer",
+          "Literarische Bezüge zu Paul Valéry",
+          "Blick oberhalb des Cimetière marin"
+        ],
+        "visitTip": "Der Eintritt variiert nach Sommerausstellung. Das ehemals vorhandene Museumsrestaurant laut Betreiber nicht als Essensstopp einplanen.",
+        "combineWith": "Cimetière marin und Küstenwege bei passendem Wetter",
+        "arrivalTip": "Rue François Desnoyer 148 liegt oberhalb des Hafens; Anstieg einberechnen.",
+        "check2027": "Sommerausstellung 2027, Ticketpreis und eventuelle Feiertagsschließung"
+      }
     },
     {
       "id": "nice-parc-phoenix",
@@ -77,7 +110,18 @@
       "priceReference": "Laut Betreiber aktuell 5,50 € regulär, 3,20 € bei ausgewiesener Ermäßigungsberechtigung; 18 Jahre allein begründen nicht alle Ermäßigungen (Tarifstand 2026).",
       "priceYear": "2026",
       "durationMinutes": 120,
-      "sourceUrl": "https://www.parc-phoenix.org/le-parc/infos-pratiques/"
+      "sourceUrl": "https://www.parc-phoenix.org/le-parc/infos-pratiques/",
+      "visitorGuide": {
+        "highlights": [
+          "Botanischer Park",
+          "Tropenhalle",
+          "Tierbereiche und Gartenanlagen"
+        ],
+        "visitTip": "Das Gelände liegt beim Flughafen, nicht in der Altstadt. Betreiber nennt geänderten Eingang an der Tramseite; bei Sturmwarnungen Sperrungen beachten.",
+        "combineWith": "Flughafen-/Westpromenadenbereich als getrennte Planungszone",
+        "arrivalTip": "Promenade des Anglais 405, richtigen Trameingang prüfen, nicht alten ARENAS-Eingang verwenden.",
+        "check2027": "Tagesöffnung, Sturmwarnungen, Ticket-Endzeit und Ermäßigung 2027"
+      }
     },
     {
       "id": "genoa-palazzo-ducale",
@@ -95,7 +139,18 @@
       "priceReference": "Haupthaus kein einheitlicher Museumspreis; wechselnde Ausstellungen mit separaten Tickets. 2026 Ausstellungstarife nicht als 2027er Gesamtpreis nutzen.",
       "priceYear": "2026",
       "durationMinutes": 60,
-      "sourceUrl": "https://palazzoducale.genova.it/home/"
+      "sourceUrl": "https://palazzoducale.genova.it/home/",
+      "visitorGuide": {
+        "highlights": [
+          "Ehemaliger Dogenpalast",
+          "Historischer Innenhof",
+          "Wechselnde Ausstellungen und Kulturveranstaltungen"
+        ],
+        "visitTip": "Die Öffnung des Gebäudes sagt nichts über den Zutritt zu einzelnen Ausstellungen oder deren Preise aus.",
+        "combineWith": "Piazza De Ferrari und Innenstadtspaziergang",
+        "arrivalTip": "Piazza Matteotti 9, zentral; Veranstaltungseingang je nach Programm prüfen.",
+        "check2027": "Konkrete Ausstellung, Öffnungszeit und Ticket 2027"
+      }
     },
     {
       "id": "venice-museo-correr",
@@ -113,7 +168,18 @@
       "priceReference": "Offiziell veröffentlichter Kombipass 35 € regulär, 15 € für Schüler/Studierende von 15–25 Jahren bzw. weitere Berechtigte; 30 € bei Onlinekauf mindestens 30 Tage vorher. Kein kostenloser Eintritt nur aufgrund des Alters 18.",
       "priceYear": "2026",
       "durationMinutes": 90,
-      "sourceUrl": "https://correr.visitmuve.it/de/besucherinformation/"
+      "sourceUrl": "https://correr.visitmuve.it/de/besucherinformation/",
+      "visitorGuide": {
+        "highlights": [
+          "Venezianische Stadtgeschichte",
+          "Ehemalige königliche Räume",
+          "Piazza San Marco"
+        ],
+        "visitTip": "Museumspass und Einzeleintritt vergleichen, insbesondere falls Dogenpalast ohnehin eingeplant ist. Altersrabatt benötigt konkrete Berechtigung.",
+        "combineWith": "Dogenpalast nur mit tatsächlich gültigem Museumspass",
+        "arrivalTip": "San Marco 52, Eingang über Ala Napoleonica am Markusplatz nach Betreiberangabe.",
+        "check2027": "2027er Museumspass-Preise, Gültigkeit und Einlassfristen"
+      }
     },
     {
       "id": "appenzell-kunstmuseum",
@@ -130,7 +196,18 @@
       "priceReference": "CHF 15 regulär, CHF 10 für Studierende mit Nachweis sowie weitere Gruppen; Appenzeller Ferienkarte und bestimmte Museumspässe können kostenlos sein (2026).",
       "priceYear": "2026",
       "durationMinutes": 75,
-      "sourceUrl": "https://www.appenzell.ch/de/kultur-und-braeuche/museen/kunstmuseum-appenzell.html"
+      "sourceUrl": "https://www.appenzell.ch/de/kultur-und-braeuche/museen/kunstmuseum-appenzell.html",
+      "visitorGuide": {
+        "highlights": [
+          "Moderne und zeitgenössische Kunst",
+          "Architektur des Museums",
+          "Wechselnde Kunstausstellungen"
+        ],
+        "visitTip": "Kombiticket mit Kunsthalle als Option beachten, aber nur tatsächlich offene Häuser am selben Tag kombinieren.",
+        "combineWith": "Kunsthalle Appenzell und Dorfspaziergang",
+        "arrivalTip": "Unterrainstrasse 5, im Dorf Appenzell; genaue Fußwege über Maps planen.",
+        "check2027": "2027er Ausstellungen, Kombitarif und Öffnung am konkreten Tag"
+      }
     },
     {
       "id": "glarus-kunsthaus",
@@ -147,7 +224,18 @@
       "priceReference": "CHF 10 regulär, CHF 5 mit Studierendennachweis oder anderen ausgewiesenen Ermäßigungen; unter 16 frei (2026).",
       "priceYear": "2026",
       "durationMinutes": 60,
-      "sourceUrl": "https://kunsthausglarus.ch/de/information"
+      "sourceUrl": "https://kunsthausglarus.ch/de/information",
+      "visitorGuide": {
+        "highlights": [
+          "Zeitgenössische Kunst",
+          "Wechselausstellungen",
+          "Kulturstopp nahe Bahnhof"
+        ],
+        "visitTip": "Als Regenalternative geeignet. Montags und dienstags laut Referenz geschlossen; Sondertermine separat prüfen.",
+        "combineWith": "Glarus-Zentrum als wetterfesten Alternativtag",
+        "arrivalTip": "Im Volksgarten 3, Glarus; kurze Bahnhofslage nicht als bereits gemessene Gehzeit ausgeben.",
+        "check2027": "2027er Ausstellungen, Öffnungszeiten und CHF-Ermäßigung"
+      }
     }
   ]
 }
