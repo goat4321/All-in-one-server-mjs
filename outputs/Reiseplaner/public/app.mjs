@@ -1154,8 +1154,9 @@ async function action(name, value = '') {
         say('Dieser Ort liegt außerhalb des aktuellen Kartenfilters. Filter oder Kartenausschnitt ändern.');
         break;
       }
-      if(index>=view.mapListLimit){
-        view.mapListLimit=Math.ceil((index+1)/60)*60;
+      if(index>=view.mapListLimit||view.mapFullscreen&&!view.mapFullscreenDrawer){
+        if(index>=view.mapListLimit)view.mapListLimit=Math.ceil((index+1)/60)*60;
+        if(view.mapFullscreen)view.mapFullscreenDrawer=true;
         render({restoreView:true,fetchRoutes:false});
       }
       const card=[...app.querySelectorAll('.explorer-place')].find(el=>el.dataset.placeId===item.id);
