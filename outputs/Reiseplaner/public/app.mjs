@@ -239,7 +239,14 @@ function updateRouteStoryUi(state){
   if(arrival&&recaps&&panel.dataset.ideaKey!==ideaKey){
     const inCity=state.phase==='dwell'||state.status==='complete';
     const rows=inCity?(state.ideas??[]).slice(0,5):[];
-    arrival.hidden=!inCity||!rows.length;
+    const available=inCity&&rows.length>0;
+    panel.dataset.ideasAvailable=String(available);
+    arrival.hidden=!available||panel.dataset.expanded!=='true';
+    const toggler=panel.querySelector('[data-action="route-story-ideas-toggle"]');
+    if(toggler){
+      toggler.hidden=!available;
+      toggler.setAttribute('aria-expanded',String(available&&panel.dataset.expanded==='true'));
+    }
     recaps.replaceChildren();
     if(rows.length){
       const fragment=document.createDocumentFragment();
@@ -308,6 +315,7 @@ function updateRouteStoryUi(state){
   if(fill)fill.style.width=state.progress.toFixed(2)+'%';
   const pause=panel.querySelector('[data-action="route-story-pause"]');
   if(pause){
+    pause.setAttribute('aria-label',status==='paused'?'Animation fortsetzen':'Animation pausieren');
     pause.hidden=status==='complete';
     pause.disabled=status==='complete';
     const label=status==='paused'?'Fortsetzen':'Pause';
@@ -1515,6 +1523,11 @@ async function action(name, value = '') {
       break;
     case 'route-story-play':
       if(view.page!=='map')break;
+      // A fresh playback always begins as a tiny map overlay; the user may
+      // explicitly expand city details while the playback is in a city.
+      if(app.querySelector('#route-story-player')){
+        app.querySelector('#route-story-player').dataset.expanded='false';
+      }
       if(!view.total||view.mapScope!=='trip'){
         view.mapScope='trip';view.total=true;view.mapSavedOnly=false;
         view.mapGroup='all';view.mapSearch='';view.mapNearPointId=null;
@@ -1525,6 +1538,18 @@ async function action(name, value = '') {
       if(!currentMap?.playCityStory(context.trip,context.cities,context.all,context.activeSet))
         say('Für die Routenanimation werden mindestens zwei Reisestädte mit Kartenposition benötigt.');
       break;
+    case 'route-story-ideas-toggle': {
+      const player=app.querySelector('#route-story-player');
+      const trigger=player?.querySelector('[data-action="route-story-ideas-toggle"]');
+      if(!player||!trigger||trigger.hidden)break;
+      const expanded=player.dataset.expanded!=='true';
+      player.dataset.expanded=String(expanded);
+      trigger.setAttribute('aria-expanded',String(expanded));
+      trigger.setAttribute('aria-label',expanded?'Ortsideen ausblenden':'Ortsideen anzeigen');
+      const details=player.querySelector('#route-story-ideas');
+      if(details)details.hidden=!expanded||player.dataset.ideasAvailable!=='true';
+      break;
+    }
     case 'route-story-pause':
       if(currentMap?.storyState().status==='paused')currentMap.resumeCityStory();
       else currentMap?.pauseCityStory();
