@@ -42,8 +42,10 @@ test('Global saved and search actions navigate to real map tools',()=>{
  assert.match(app,/event\.target\.id==='reference-top-search'&&view\.page!=='map'/);
  assert.match(app,/view\.mapScope='city'/);
 });
-test('Map keeps chronology visible in every scope, advanced filters still accessible',()=>{
- assert.match(views,/\+mapDayAgenda\(ctx\)/);
+test('Day map keeps chronology visible; other modes emphasize searchable places',()=>{
+ assert.match(views,/ctx\.explorer\?\.scope==='day'\?mapDayAgenda\(ctx\)/);
+ assert.match(views,/map-day-more/);
+ assert.match(views,/map-category-discovery/);
  assert.match(views,/reference-places-drawer/);
  assert.match(views,/explorerToolbar\(ctx\) \+ explorerList\(ctx\)/);
  assert.match(views,/mapPhotoDiscovery\(ctx\)/);
