@@ -255,3 +255,28 @@ body.map-fullscreen-active .mobile-dock{visibility:hidden;pointer-events:none}
 @media(prefers-reduced-motion:reduce){
  .reference-travel-shell .map-fullscreen-mode>.explorer-right{transition:none}
 }
+
+/* Give the standard (non-fullscreen) floating map controls a clear entry point.
+   In fullscreen the dedicated close/filters bar replaces the old floating tabs. */
+.reference-travel-shell .reference-map-floating>.reference-map-fullscreen-launch{
+  background:#e1f3e8!important;color:#1f6647!important;font-weight:800!important;
+  border:1px solid #b8ddc7!important
+}
+.reference-travel-shell .reference-map-floating>.reference-map-fullscreen-launch:hover{
+  background:#cce9d8!important
+}
+.reference-travel-shell .map-fullscreen-mode .reference-map-floating{display:none!important}
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel>.panel-head{
+  max-width:min(510px,calc(100% - 150px))!important
+}
+@media(max-width:650px){
+ .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel>.panel-head{
+   max-width:calc(100% - 88px)!important
+ }
+ .reference-travel-shell .map-fullscreen-launch span{display:none}
+ .reference-travel-shell .map-fullscreen-launch{
+   width:35px;min-width:35px;min-height:35px;padding:7px!important;
+   justify-content:center
+ }
+ .reference-travel-shell .reference-map-floating>.reference-map-fullscreen-launch{flex-shrink:0}
+}
