@@ -35,7 +35,7 @@ test('Finer map icons match only recorded park, beach, museum, club and viewpoin
  assert.equal(mapIconForPlace({name:'Gletscherschlucht Grindelwald'},'activity'),'viewpoint');
  assert.equal(mapIconForPlace({name:'Schlichte Unterkunft'},'lodging'),'lodging');
  assert.equal(mapIconForPlace({name:'Unbekannte Attraktion'},'activity'),'activity');
- assert.match(bubbleMarkup({category:'activity',iconType:'park',tier:'photo'}),/>Park<\/span>/);
+ assert.match(bubbleMarkup({category:'activity',iconType:'park',tier:'photo'}),/ Park<\/span>/);
 });
 test('Map legacy pins keep numbered day sequences but replace H/R/S/A/B letters',()=>{
  assert.match(mapLegacyPinContent('H','place-lodging'),/<svg/);
