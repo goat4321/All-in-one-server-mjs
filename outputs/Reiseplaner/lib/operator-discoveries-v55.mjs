@@ -13,7 +13,7 @@ export function applyOperatorDiscoveriesV55(trips,cities,archive){
  if(archive?.meta?.package!=='research-v55-operator-discoveries'
   ||archive?.meta?.checkedOn!=='2026-11-16'
   ||!Array.isArray(archive.entries)||archive.entries.length!==8
-  ||new Set(archive.entries.map(e=>e.id)).size!==13)
+  ||new Set(archive.entries.map(e=>e.id)).size!==8)
   throw new Error('V55 research: expected 8 distinct operator-sourced places.');
  const tally={sourceCandidates:archive.entries.length,createdAcrossVariants:0,
   uniqueCreated:new Set(),duplicateAcrossVariants:0,byCity:{}};
