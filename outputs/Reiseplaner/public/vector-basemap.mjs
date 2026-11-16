@@ -26,8 +26,23 @@ const adapterSources=Object.freeze([
  'https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.mjs'
 ]);
 export const vectorAdapterSources=adapterSources;
+const vectorStylesheet='https://unpkg.com/maplibre-gl@6.3.0/dist/maplibre-gl.css';
+let cssRequested=false;
+export function requestVectorStyles(){
+ // A remote CSS link in static <head> blocked first paint. Load only while
+ // upgrading an already visible Leaflet raster, never during initial HTML.
+ if(typeof document==='undefined')return false;
+ if(cssRequested)return true;
+ cssRequested=true;
+ const link=document.createElement('link');
+ link.rel='stylesheet';link.href=vectorStylesheet;
+ link.dataset.maplibreAsync='true';
+ document.head.append(link);
+ return true;
+}
 let importer=null;
 const loadAdapter=()=>importer??=(async()=>{
+ requestVectorStyles();
  let lastError;
  for(const url of adapterSources){
   try{
