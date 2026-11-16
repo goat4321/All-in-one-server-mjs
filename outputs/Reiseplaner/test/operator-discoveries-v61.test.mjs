@@ -51,14 +51,16 @@ test('All new attractions retain booking, budget and GPS integrity',()=>{
   assert.match(googleMapsLocationStatus(row),/Adresse angegeben/);
  }
 });
-test('One published 2027 Swiss museum season stays distinct from a booked ticket',()=>{
+test('Swiss museum has published 2026 opening reference but no confirmed 2027 season',()=>{
  const glarus=byTrip.swiss_lakes.find(x=>x.name==='Anna Göldi Museum Ennenda');
  assert.ok(glarus);
- assert.equal(glarus.discoveryV61.publishedSeason2027,true);
+ assert.equal(glarus.discoveryV61.publishedSeason2027,false);
  assert.equal(glarus.discoveryV61.september2027TicketConfirmed,false);
+ assert.equal(glarus.discoveryV61.september2027OpeningConfirmed,false);
  assert.equal(glarus.price,null);
- assert.match(glarus.openingHoursNote,/2027/);
- assert.ok(all.filter(x=>x.discoveryV61.publishedSeason2027).length===1);
+ assert.match(glarus.openingHoursNote,/Saison 2026/);
+ assert.match(glarus.openingHoursNote,/2027.*kein bestätigter/);
+ assert.equal(all.filter(x=>x.discoveryV61.publishedSeason2027).length,0);
 });
 test('Seven exact destination photographs have Commons attribution, never hotel imagery',()=>{
  const cases=[
