@@ -26,7 +26,7 @@ export function mapIconForPlace(item,category='activity'){
  if(category!=='activity')return category;
  const words=[item?.name,item?.category,...(item?.tags??[])]
    .filter(v=>typeof v==='string').join(' ').toLocaleLowerCase('de');
- if(/\bclub\b|disco|party|nachtleben|nightlife|nightclub|musikclub/.test(words))
+ if(/\bclub[a-zäöüß]*\b|disco|party|nachtleben|nightlife|nightclub|musikclub/.test(words))
    return 'nightlife';
  if(/museum|museo|mus[eé]e|kunsthalle|kunsthaus|galerie|galleria|pinakothek/.test(words))
    return 'museum';
