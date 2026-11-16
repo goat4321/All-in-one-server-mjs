@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "package": "research-v55-operator-discoveries",
+    "checkedOn": "2026-11-16",
+    "entries": 8,
+    "prices": "Published reference only; no 2027 reservations or automatic budgets.",
+    "coordinatePolicy": "Addresses verified by public source; do not convert to independent POI GPS point."
+  },
+  "entries": [
+    {
+      "id": "paris-musee-art-moderne",
+      "city": "paris",
+      "name": "Musée d’Art Moderne de Paris",
+      "address": "11 avenue du Président Wilson, 75116 Paris, Frankreich",
+      "description": "Museum mit moderner und zeitgenössischer Kunst nahe Palais de Tokyo und Trocadéro. Die Dauerausstellungen sind ohne Reservierung kostenlos; temporäre Ausstellungen haben eigene Ticketbedingungen.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Regenprogramm",
+        "Dauerausstellung gratis"
+      ],
+      "openingReference": "Dienstag–Sonntag 10:00–18:00 Uhr; montags und an einigen Feiertagen geschlossen. Sonderausstellungen am Donnerstag teilweise länger.",
+      "priceReference": "Dauersammlung gratis; wechselnde Ausstellungen separat kostenpflichtig (Betreiberstand November 2026).",
+      "priceYear": "2026",
+      "durationMinutes": 90,
+      "sourceUrl": "https://www.mam.paris.fr/fr/node/20"
+    },
+    {
+      "id": "barcelona-muhba-placa-del-rei",
+      "city": "barcelona",
+      "name": "MUHBA Plaça del Rei (Stadtgeschichtsmuseum)",
+      "address": "Plaça del Rei 7–9, 08002 Barcelona, Spanien",
+      "description": "Archäologische Ausgrabungen und Stadtgeschichte unter dem gotischen Viertel. Museum mit mehreren Standorten und kombiniertem Eintritt. Bei 18-Jährigen ist eine mögliche Studentenermäßigung nicht automatisch gegeben.",
+      "tags": [
+        "Museum",
+        "Geschichte",
+        "Archäologie",
+        "Regenprogramm"
+      ],
+      "openingReference": "Dienstag–Samstag 10:00–19:00 Uhr, Sonntag/Feiertag 10:00–20:00 Uhr; Ausnahmen und Sonderöffnungen prüfen.",
+      "priceReference": "7,30 € regulär, 5,20 € mit ausdrücklich erfüllter Ermäßigungsberechtigung, u. a. Studierende unter 29; erster Monatssonntag frei sowie sonntags ab 15 Uhr (Betreiberstand November 2026).",
+      "priceYear": "2026",
+      "durationMinutes": 90,
+      "sourceUrl": "https://guia.barcelona.cat/en/detall/museu-d-historia-de-barcelona_92086011563.html"
+    },
+    {
+      "id": "sete-musee-paul-valery",
+      "city": "sete",
+      "name": "Musée Paul Valéry",
+      "address": "148 rue François Desnoyer, 34200 Sète, Frankreich",
+      "description": "Kunst- und Literaturmuseum oberhalb des Cimetière marin mit Blick auf das Meer. Als Regenprogramm oder kurzer Museumsbesuch sinnvoll; Restaurant im Museum laut Betreiber dauerhaft geschlossen.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Literatur",
+        "Regenprogramm"
+      ],
+      "openingReference": "Dienstag–Sonntag 10:00–18:00 Uhr; montags sowie 1. Januar, 1. Mai und 25. Dezember geschlossen.",
+      "priceReference": "Laut Betreiber 2026: 6,20 € außerhalb Sommerausstellung, 9,90 € während Sommerausstellung; 18-Jährige nicht allein wegen Alters ermäßigt, Studierende unter 25 teilweise.",
+      "priceYear": "2026",
+      "durationMinutes": 75,
+      "sourceUrl": "https://museepaulvalery-sete.fr/informations/"
+    },
+    {
+      "id": "nice-parc-phoenix",
+      "city": "nice",
+      "name": "Parc Phoenix (Botanischer Park)",
+      "address": "405 promenade des Anglais, 06200 Nice, Frankreich",
+      "description": "Botanischer Garten mit großer Tropenhalle und Tierbereichen nahe Flughafen. Der Eingang liegt an der Straßenbahnseite, nicht mehr am früheren ARENAS-Eingang. Bei Sturmwarnungen kann der Park schließen.",
+      "tags": [
+        "Natur",
+        "Park",
+        "Gewächshaus",
+        "Regenprogramm"
+      ],
+      "openingReference": "Veröffentlicht für April–September 2027: täglich 09:30–19:30 Uhr; Ticketschluss eine Stunde vorher. Sonder- und wetterbedingte Schließungen möglich.",
+      "priceReference": "Laut Betreiber aktuell 5,50 € regulär, 3,20 € bei ausgewiesener Ermäßigungsberechtigung; 18 Jahre allein begründen nicht alle Ermäßigungen (Tarifstand 2026).",
+      "priceYear": "2026",
+      "durationMinutes": 120,
+      "sourceUrl": "https://www.parc-phoenix.org/le-parc/infos-pratiques/"
+    },
+    {
+      "id": "genoa-palazzo-ducale",
+      "city": "genoa",
+      "name": "Palazzo Ducale Genova (Kulturzentrum)",
+      "address": "Piazza Matteotti 9, 16123 Genova, Italien",
+      "description": "Ehemaliger Dogenpalast am zentralen Platz De Ferrari. Architektur und Foyer lassen sich mit Ausstellungen verbinden; Eintritt und Öffnung hängen vom jeweiligen Programm ab.",
+      "tags": [
+        "Architektur",
+        "Kultur",
+        "Ausstellung",
+        "Altstadt"
+      ],
+      "openingReference": "Gebäude laut Betreiber täglich 07:00–23:00 Uhr geöffnet; Ausstellungen und Veranstaltungen mit separaten Zeiten und Zugängen.",
+      "priceReference": "Haupthaus kein einheitlicher Museumspreis; wechselnde Ausstellungen mit separaten Tickets. 2026 Ausstellungstarife nicht als 2027er Gesamtpreis nutzen.",
+      "priceYear": "2026",
+      "durationMinutes": 60,
+      "sourceUrl": "https://palazzoducale.genova.it/home/"
+    },
+    {
+      "id": "venice-museo-correr",
+      "city": "venice",
+      "name": "Museo Correr (Museen am Markusplatz)",
+      "address": "San Marco 52, Piazza San Marco, 30124 Venezia, Italien",
+      "description": "Kunst, Stadtgeschichte und ehemalige königliche Räume an der Piazza San Marco. Der reguläre Markusplatz-Museumspass schließt auch den Dogenpalast und zwei weitere Einrichtungen ein.",
+      "tags": [
+        "Museum",
+        "Geschichte",
+        "Kunst",
+        "Regenprogramm"
+      ],
+      "openingReference": "April–Oktober 10:00–18:00 Uhr; letzter Einlass 17:00 Uhr. Zugang durch die Ala Napoleonica am Markusplatz.",
+      "priceReference": "Offiziell veröffentlichter Kombipass 35 € regulär, 15 € für Schüler/Studierende von 15–25 Jahren bzw. weitere Berechtigte; 30 € bei Onlinekauf mindestens 30 Tage vorher. Kein kostenloser Eintritt nur aufgrund des Alters 18.",
+      "priceYear": "2026",
+      "durationMinutes": 90,
+      "sourceUrl": "https://correr.visitmuve.it/de/besucherinformation/"
+    },
+    {
+      "id": "appenzell-kunstmuseum",
+      "city": "appenzell",
+      "name": "Kunstmuseum Appenzell",
+      "address": "Unterrainstrasse 5, 9050 Appenzell, Schweiz",
+      "description": "Museum für moderne und zeitgenössische Kunst in Appenzell. Als Schlechtwetteralternative oder Ergänzung zum Dorfspaziergang geeignet; Museum und Kunsthalle haben gemeinsames Preisschema.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Regenprogramm"
+      ],
+      "openingReference": "April–Oktober Mittwoch–Freitag 12:00–18:00 Uhr, Samstag/Sonntag 11:00–17:00 Uhr; montags und dienstags normalerweise geschlossen.",
+      "priceReference": "CHF 15 regulär, CHF 10 für Studierende mit Nachweis sowie weitere Gruppen; Appenzeller Ferienkarte und bestimmte Museumspässe können kostenlos sein (2026).",
+      "priceYear": "2026",
+      "durationMinutes": 75,
+      "sourceUrl": "https://www.appenzell.ch/de/kultur-und-braeuche/museen/kunstmuseum-appenzell.html"
+    },
+    {
+      "id": "glarus-kunsthaus",
+      "city": "glarus",
+      "name": "Kunsthaus Glarus",
+      "address": "Im Volksgarten 3, 8750 Glarus, Schweiz",
+      "description": "Zeitgenössische Kunst und wechselnde Ausstellungen in der Nähe des Bahnhofs. Sinnvolles alternatives Regenprogramm zur Glarner Seenreise.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Regenprogramm"
+      ],
+      "openingReference": "Mittwoch–Freitag 12:00–18:00 Uhr, Samstag/Sonntag 11:00–17:00 Uhr; einzelne Feiertage abweichend.",
+      "priceReference": "CHF 10 regulär, CHF 5 mit Studierendennachweis oder anderen ausgewiesenen Ermäßigungen; unter 16 frei (2026).",
+      "priceYear": "2026",
+      "durationMinutes": 60,
+      "sourceUrl": "https://kunsthausglarus.ch/de/information"
+    }
+  ]
+}
