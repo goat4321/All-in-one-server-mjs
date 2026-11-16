@@ -4,7 +4,7 @@
     "checkedOn": "2026-11-16",
     "entries": 16,
     "reference": "Official museum, municipal and tourism sources. 2026 fares unless otherwise noted; never auto-book or auto-budget",
-    "year2027": "Only Anna Göldi Museum publicly publishes a seasonal 2027 schedule; day/date and changes remain subject to review"
+    "year2027": "In diesem V61-Paket ist keine September-2027-Tagesöffnung oder Buchung bestätigt."
   },
   "entries": [
     {
@@ -285,12 +285,12 @@
         "Regenprogramm",
         "2027 Öffnung"
       ],
-      "openingReference": "Museum veröffentlicht bereits Saison 1. April–1. November 2027, Mittwoch–Sonntag 13:30–18:00 Uhr; einzelne Sondertage und Führungen separat.",
+      "openingReference": "Museumsbetreiber veröffentlicht Saison 2026: 1. April–1. November, Mittwoch–Sonntag 13:30–18:00 Uhr; im Winter geschlossen. Für September 2027 liegt noch kein bestätigter Saison- oder Tagesplan vor.",
       "priceReference": "Betreiberreferenz 2026: CHF 10 Erwachsene, CHF 5 Kinder 6–16; 18 Jahre grundsätzlich regulärer Tarif, Spezialpässe separat. 2027er Tarif neu prüfen.",
       "durationMinutes": 70,
       "sourceUrl": "https://www.annagoeldimuseum.ch/informationen/",
       "priceYear": "2026",
-      "special2027": "published_2027_operating_season"
+      "special2027": null
     },
     {
       "id": "glarus-berglistueber",
