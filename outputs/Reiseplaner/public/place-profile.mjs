@@ -174,7 +174,8 @@ export function placeProfileModel(item, ctx = {}) {
     geoSourceNote:item.geoEvidence?.note??null,
     maps:googleMapsSearchUrl(item,ctx.cities),route:googleMapsDirectionsUrl(null,item,ctx.cities,'transit'),
     providerUrl:item.website??null,
-    secondaryProviderUrl:item.discoveryV62?.secondarySourceUrl??null,
+    secondaryProviderUrl:item.discoveryV62?.secondarySourceUrl
+      ??item.discoveryV60?.secondarySourceUrl??null,
     photo:photos[0]??null,photos,ownPhotoCount:ownPhotos.length,
   };
 }
