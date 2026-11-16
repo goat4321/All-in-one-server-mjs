@@ -378,10 +378,10 @@ try {
     'City mode highlights the independent city discovery option');
   await screenshot('22-reference-city-map-1440.png');
    await screenshot('29-freie-stadtkarte-desktop-1440.png');
-  assert.ok(await js('(() => { const root=document.querySelector(".reference-map-workspace"),map=root?.querySelector("#map"),head=root?.querySelector(".map-panel>.panel-head"),alert=root?.querySelector(".reference-map-schedule-notice"); if(!map||!head||!alert)return false; const m=map.getBoundingClientRect(),h=head.getBoundingClientRect(); return h.top>=m.top-3&&h.top<m.top+45&&alert.querySelector("summary")?.textContent.includes("2027"); })()'),
-    'City view: map starts directly under hero, calendar caveat stays available in a compact disclosure');
-  assert.ok(await js('(() => {const c=document.querySelector(".reference-discovery");return c&&c.getBoundingClientRect().top<810;})()'),
-    'Photo-led discovery belongs in the opening desktop screen, not below a large data panel');
+  assert.ok(await js('(() => { const root=document.querySelector(".reference-map-workspace"),map=root?.querySelector("#map"),head=root?.querySelector(".map-panel>.panel-head"),alert=root?.querySelector(".reference-map-schedule-notice"); if(!map||!head||!alert)return false; const m=map.getBoundingClientRect(),h=head.getBoundingClientRect(); return h.bottom<=m.top+3&&m.height>=475&&alert.querySelector("summary")?.textContent.includes("2027"); })()'),
+    'V72 city view: toolbar remains above larger map, calendar caveat stays available in compact disclosure');
+  assert.ok(await js('(() => {const gallery=document.querySelector(".reference-discovery"),map=document.querySelector("#map");if(!gallery||!map)return false;const g=gallery.getBoundingClientRect(),m=map.getBoundingClientRect();return g.top>=m.bottom-10&&g.top<m.bottom+300;})()'),
+    'V72 licensed photo discovery follows the larger map without an unrelated report in between');
   await click('.map-scope-modes [data-action=explorer-scope][data-value=trip]');
   assert.ok(await js('document.querySelector(".map-scope-modes [data-value=trip]")?.getAttribute("aria-pressed")==="true"'),
     'Whole trip mode is separate from the current day');
