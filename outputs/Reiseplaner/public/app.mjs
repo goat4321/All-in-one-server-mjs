@@ -1931,6 +1931,14 @@ app.addEventListener('change', event => {
   if (event.target.id === 'day-route-start') { view.dayQueueTime=event.target.value; view.dayQueueRoutes=[]; render({restoreView:true}); }
   if (event.target.id === 'meal-date' && context.dates.includes(event.target.value)) showCity(context.city, event.target.value);
 });
+// The reference header search is global: route to the map BEFORE the user
+// types, then restore focus so the first character is not lost on navigation.
+app.addEventListener('focusin',event=>{
+  if(event.target?.id!=='reference-top-search'||view.page==='map')return;
+  view.mapScope='city';view.mapSavedOnly=false;view.mapListLimit=60;
+  changePage('map');
+  requestAnimationFrame(()=>document.querySelector('#reference-top-search')?.focus());
+});
 app.addEventListener('submit', async event => {
   if(event.target.id==='browse-search-form'){
     event.preventDefault();
