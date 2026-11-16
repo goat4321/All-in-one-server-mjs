@@ -1453,6 +1453,9 @@ async function action(name, value = '') {
       break;
     case 'map-open-search': {
       if(view.page!=='map')break;
+      // An explicit search request must reveal the actual search field even
+      // when the default simple mode normally hides advanced explorer tools.
+      view.mapSimple=false;
       view.mapListOpen=true;
       if(view.mapScope!=='city'){
         // Search returns individually mapped places instead of only route hubs.
