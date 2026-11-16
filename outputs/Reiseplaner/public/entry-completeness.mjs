@@ -12,6 +12,25 @@ const ownPhotos=(item,state)=>{
   const saved=state?.placePhotos?.[item.id];
   return (Array.isArray(saved)?saved:saved?[saved]:[]).filter(imageStored);
 };
+// A generic "Öffnungszeiten im September 2027 nicht bestätigt" note is NOT
+// a published time reference. Earlier V50 imports used that placeholder on
+// every activity, inflating the completeness audit for all 105 raw candidates.
+const realClock=/\\b(?:[01]?\\d|2[0-3])(?::[0-5]\\d)?\\s*[–—-]\\s*(?:[01]?\\d|2[0-3])(?::[0-5]\\d)?\\s*(?:uhr|h)?\\b|\\b\\d{1,2}:[0-5]\\d\\b/i;
+const unsupportedHours=/^(?:öffnungs(?:zeit|zeiten)|besuchs(?:zeit|zeiten)).{0,140}(?:nicht bestätigt|noch offen|unbekannt|ungeprüft)|^keine (?:bestätigten )?öffnungszeiten/i;
+export function hasDocumentedOpeningReference(item){
+ if(!item)return false;
+ if((Array.isArray(item.hours)&&item.hours.length===2&&item.hours.every(Boolean))
+   ||item.weekly?.hours||item.checkInTime)return true;
+ const note=String(item.openingHoursNote??'').trim();
+ if(note&&!unsupportedHours.test(note)
+   &&(realClock.test(note)||/\\b(?:täglich geöffnet|durchgehend geöffnet|rund um die uhr|montags geschlossen)\\b/i.test(note)))
+  return true;
+ const official=[item.officialAccessV53,item.officialAccessV56,
+   item.officialAccessV57,item.officialAccessV58,item.discoveryV54,item.discoveryV55];
+ return official.some(src=>src?.sourceUrl&&realClock.test(
+   String(src.hoursReference??src.openingReference??src.summary??'')));
+}
+
 export function entryCompleteness(item,ctx={}){
   const kind=item.kind??'unknown';
   const photos=ownPhotos(item,ctx.state);
@@ -34,8 +53,7 @@ export function entryCompleteness(item,ctx={}){
   // old exactKnown flag is computed from any non-null point, including
   // unverified provider locations, and must not satisfy this audit.
   const sourcePoint=hasPoint&&hasIndependentPointEvidence(item);
-  const publishedHours=Boolean((Array.isArray(item.hours)&&item.hours.length>0)
-    ||item.weekly?.hours||item.openingHoursNote||item.checkInTime);
+  const publishedHours=hasDocumentedOpeningReference(item);
   const price=planCostSignal(item,ctx.people?.length??ctx.trip?.travellers??3);
   const hasPrice=price.known;
   const hotelDetails=kind!=='lodging'?true:Boolean(item.room&&item.fees===true
