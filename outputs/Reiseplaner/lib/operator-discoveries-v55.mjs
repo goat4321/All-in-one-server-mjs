@@ -21,6 +21,10 @@ export function applyOperatorDiscoveriesV55(trips,cities,archive){
   if(!/^[a-z0-9-]+$/.test(row.id)||!cities[row.city]
    ||typeof row.name!=='string'||!row.name.trim()
    ||typeof row.address!=='string'||!row.address.trim()
+   ||!row.visitorGuide||!Array.isArray(row.visitorGuide.highlights)
+   ||row.visitorGuide.highlights.length<2
+   ||row.visitorGuide.highlights.some(x=>typeof x!=='string'||!x.trim())
+   ||['visitTip','combineWith','arrivalTip','check2027'].some(k=>typeof row.visitorGuide[k]!=='string'||!row.visitorGuide[k].trim())
    ||!validSource(row.sourceUrl)||!row.priceReference||!row.openingReference)
    throw new Error('V55 entry lacks a valid city, address, source, price or hours: '+row.id);
  }
@@ -46,6 +50,7 @@ export function applyOperatorDiscoveriesV55(trips,cities,archive){
     openingHoursNote:row.openingReference,
     discoveryV55:{
      checkedOn:archive.meta.checkedOn,sourceUrl:row.sourceUrl,
+     visitorGuide:{...row.visitorGuide,highlights:[...row.visitorGuide.highlights]},
      priceReference:row.priceReference,priceYear:row.priceYear,
      openingReference:row.openingReference,
      september2027TicketConfirmed:false,
