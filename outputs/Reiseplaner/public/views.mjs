@@ -74,23 +74,22 @@ export function renderShell(ctx) {
       return '<button type="button" class="nav-btn" data-action="page" data-value="'+id
         +'" aria-current="'+(page===id?'page':'false')+'">'+icon(tab[2])+'<span>'+esc(tab[1])+'</span></button>';
     }).join('')+'</nav></section>').join('');
-  const referenceNav=page==='map'?'<div class="reference-nav-brand"><button type="button" class="reference-brand-menu" data-action="menu" aria-label="Reisevarianten und weitere Seiten öffnen">'
+  const referenceNav='<div class="reference-nav-brand"><button type="button" class="reference-brand-menu" data-action="menu" aria-label="Reisevarianten und weitere Seiten öffnen">'
     +icon('menu')+'</button><strong>Reiseplaner</strong></div>'
     +'<nav class="reference-main-nav" aria-label="Reise-Navigation">'
-    +'<button type="button" data-action="page" data-value="map" aria-current="page">'+icon('pin')+'<span>Reise</span></button>'
-    +'<button type="button" data-action="page" data-value="discover">'+icon('compass')+'<span>Entdecken</span></button>'
-    +'<button type="button" data-action="explorer-saved-only" aria-pressed="'+Boolean(ctx.explorer?.savedOnly)+'">'+icon('bookmark')+'<span>Merkliste</span></button>'
+    +'<button type="button" data-action="page" data-value="map" aria-current="'+(page==='map'?'page':'false')+'">'+icon('pin')+'<span>Reise</span></button>'
+    +'<button type="button" data-action="page" data-value="discover" aria-current="'+(page==='discover'||page==='activities'?'page':'false')+'">'+icon('compass')+'<span>Entdecken</span></button>'
+    +'<button type="button" data-action="nav-saved" aria-pressed="'+Boolean(page==='map'&&ctx.explorer?.savedOnly)+'">'+icon('bookmark')+'<span>Merkliste</span></button>'
     +'</nav><label class="reference-global-search"><span class="sr-only">Reiseorte durchsuchen</span>'
     +icon('search')+'<input id="reference-top-search" type="search" maxlength="100" autocomplete="off"'
-    +' value="'+esc(ctx.mapSearch??'')+'" placeholder="Ziele, Orte, Aktivitäten suchen …"></label>'
-    : '';
+    +' value="'+esc(ctx.mapSearch??'')+'" placeholder="Ziele, Orte, Aktivitäten suchen …"></label>';
   const mobileDock='<nav class="mobile-dock" aria-label="Schnellnavigation">'
     +mobileTabs.map(id=>{
       const tab=tabs.find(t=>t[0]===id);
       return '<button type="button" data-action="page" data-value="'+id
         +'" aria-current="'+(page===id?'page':'false')+'">'+icon(tab[2])+'<span>'+esc(tab[1])+'</span></button>';
     }).join('')+'</nav>';
-  return `<div class="shell ${page==='map'?'reference-travel-shell'+(ctx.mapSimple?' simple-map-mode':''):''}"><aside class="sidebar ${menu ? 'open' : ''}" aria-label="Reisenavigation">
+  return `<div class="shell reference-travel-shell ${page==='map'&&ctx.mapSimple?'simple-map-mode':''} ${page==='map'?'is-map-page':'is-content-page'}"><aside class="sidebar ${menu ? 'open' : ''}" aria-label="Reisenavigation">
     <div class="brand"><span class="brandmark">${icon('train')}</span> Reiseplaner</div>
     <div class="sidebar-inner">
       <div class="side-label">Reisevariante</div>
@@ -112,7 +111,7 @@ export function renderShell(ctx) {
         ${icon('spark')} ${ctx.mapMotion==='off'?'Animationen einschalten':'Animationen ausschalten'}
       </button>
     </div>
-  </aside><div class="main-column"><header class="topbar ${page==='map'?'reference-topbar':''}">
+  </aside><div class="main-column"><header class="topbar reference-topbar">
     ${referenceNav}
     <div class="crumb"><span class="mobile-menu">${iconBtn('menu', 'Navigation öffnen', 'menu')}</span><strong>${esc(currentTitle)}</strong>${icon('chevron')}<span>${esc(tabTitle)}</span></div>
     ${renderHeaderHud(ctx)}
@@ -137,8 +136,9 @@ function content(ctx, city) {
       + '<div class="reference-stage-days">'+mapBrowseModes(ctx)
       +(ctx.explorer?.scope==='day'?explorerDayStrip(ctx):'')+'</div>'
       + mapPanel(ctx, true) + '<div class="explorer-right" aria-label="Kategorien, Orte und Tagesplanung">'
+      +mapDayAgenda(ctx)
       +(ctx.explorer?.scope==='day'
-        ?mapDayAgenda(ctx)+dayPlanPanel(ctx,{compact:true})+fieldNoteStrip(ctx)
+        ?dayPlanPanel(ctx,{compact:true})+fieldNoteStrip(ctx)
         :mapBrowsePanel(ctx))
       + explorerToolbar(ctx) + explorerList(ctx) + '</div>'
       + mapPhotoDiscovery(ctx) + '</div>'
