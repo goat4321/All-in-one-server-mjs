@@ -28,7 +28,18 @@
       "excludeTrips": [
         "interrail_august"
       ],
-      "accessCaution": "August geschlossen; am Museumsstandort ist der Eingang je nach Wochentag zu prüfen."
+      "accessCaution": "August geschlossen; am Museumsstandort ist der Eingang je nach Wochentag zu prüfen.",
+      "visitorGuide": {
+        "highlights": [
+          "Marie Curies ehemaliger Labor- und Arbeitsbereich",
+          "Einblick in die Geschichte der Radioaktivitätsforschung",
+          "Marie-Curie-Garten"
+        ],
+        "visitTip": "Als kompakter Museumsstopp am Nachmittag planen; die veröffentlichte Zeitspanne beträgt nur vier Stunden. Einlass kann bei hoher Auslastung vorher enden.",
+        "combineWith": "Quartier Latin und Panthéon als getrennte nahegelegene Programmpunkte",
+        "arrivalTip": "Die veröffentlichte Adresse in der Rue Pierre-et-Marie-Curie in Google Maps öffnen; der genaue Eingang ist nicht separat georeferenziert.",
+        "check2027": "Öffnung am gewählten Septembertag, Feiertage und etwaige Sonderführungen"
+      }
     },
     {
       "id": "paris-buttes-chaumont",
@@ -47,7 +58,18 @@
       "priceYear": "2026",
       "durationMinutes": 75,
       "sourceUrl": "https://www.paris.fr/lieux/parc-des-buttes-chaumont-1757",
-      "accessCaution": "Insel, Tempel und Kaskaden bleiben gesperrt; örtliche Absperrungen beachten."
+      "accessCaution": "Insel, Tempel und Kaskaden bleiben gesperrt; örtliche Absperrungen beachten.",
+      "visitorGuide": {
+        "highlights": [
+          "Landschaftspark mit See und Aussichtshängen",
+          "Wiesen und Spazierwege abseits der zentralen Touristenzone",
+          "Wechselnde Höhenlagen und Blickachsen"
+        ],
+        "visitTip": "Mehr Zeit für hügelige Wege einplanen. Die Insel, der Tempel der Sibylle und Kaskaden sind laut früherer städtischer Sperrinformation keine frei zugänglichen Programmpunkte.",
+        "combineWith": "Ein eigenständiger Parkspaziergang ohne fest verplanten Tempelbesuch",
+        "arrivalTip": "Mehrere Parkzugänge; die angegebene Place Armand-Carrel ist eine Lage- und Suchreferenz, kein bestätigter Haupteingang.",
+        "check2027": "Tatsächliche Sperrungen und Tagesöffnungszeiten des städtischen Parks"
+      }
     },
     {
       "id": "barcelona-cccb",
@@ -65,7 +87,18 @@
       "priceReference": "Betreiberstand 2026: eine Ausstellung 8 € online oder 10 € vor Ort, zwei Ausstellungen 10 € online/12 € vor Ort. Ermäßigt ab 6 € online, Berechtigung erforderlich.",
       "priceYear": "2026",
       "durationMinutes": 90,
-      "sourceUrl": "https://www.cccb.org/en/visit"
+      "sourceUrl": "https://www.cccb.org/en/visit",
+      "visitorGuide": {
+        "highlights": [
+          "Wechselnde Ausstellungen zu Kultur, Gesellschaft und Medien",
+          "Architektur des Kulturzentrums im Viertel El Raval",
+          "Veranstaltungs- und Filmprogramm abhängig vom Reisetag"
+        ],
+        "visitTip": "Zuerst das konkrete Ausstellungsprogramm auswählen, weil Einzel- und Kombitickets unterschiedlich ausgezeichnet sind. Nicht von dauerhaft gleichen Ausstellungen ausgehen.",
+        "combineWith": "MACBA und weitere Ziele rund um El Raval",
+        "arrivalTip": "Carrer de Montalegre 5 als veröffentlichte Besuchsadresse verwenden, Anreise mit Google Maps am gewählten Tag planen.",
+        "check2027": "Programm, Onlinepreis, Rabattnachweise und Montagsschließung"
+      }
     },
     {
       "id": "sete-musee-mer",
@@ -89,7 +122,18 @@
         3.69172
       ],
       "geoSourceUrl": "https://en.tourisme-sete.com/musee-de-la-mer-sete.html",
-      "geoSourceNote": "Tourismusamt publiziert GPS-Koordinate des öffentlichen Museumsobjekts (43.39365,3.69172); kein eigens verifizierter barrierefreier Eingang."
+      "geoSourceNote": "Tourismusamt publiziert GPS-Koordinate des öffentlichen Museumsobjekts (43.39365,3.69172); kein eigens verifizierter barrierefreier Eingang.",
+      "visitorGuide": {
+        "highlights": [
+          "Geschichte des Hafens und der Seefahrt von Sète",
+          "Tradition des Fischerstechens (joutes nautiques)",
+          "Kurzer Innenraumstopp nahe dem Théâtre de la Mer"
+        ],
+        "visitTip": "Geeignet für einen wetterunabhängigen Besuch; Dienstags-Schließung in der bisherigen Referenz berücksichtigen. Gruppenregelung vorab klären.",
+        "combineWith": "Théâtre de la Mer und einen Spaziergang Richtung Hafen",
+        "arrivalTip": "Öffentlicher Museumspunkt ist nur ein Gebietsnachweis; den genauen Eingang anhand der Rue Jean Vilar kontrollieren.",
+        "check2027": "Veröffentlichte Öffnungszeiten und mögliche Sonder- oder Gruppenbedingungen"
+      }
     },
     {
       "id": "nice-palais-lascaris",
@@ -107,7 +151,18 @@
       "priceReference": "Stadtmuseum 2026: 5 € regulär, 4 € Gruppen ab 10; unter 18 und Studierende mit gültigem Nachweis frei. Als volljährige Schüler nicht automatisch gratis.",
       "priceYear": "2026",
       "durationMinutes": 65,
-      "sourceUrl": "https://www.nice.fr/lieux/palais-lascaris/"
+      "sourceUrl": "https://www.nice.fr/lieux/palais-lascaris/",
+      "visitorGuide": {
+        "highlights": [
+          "Barocke Prunkräume und historische Fresken",
+          "Sammlung historischer Musikinstrumente",
+          "Repräsentative Treppe im Altstadtpalast"
+        ],
+        "visitTip": "Die historischen Treppen sind Teil des Besuchs, das Gebäude hat laut Betreiber keinen Aufzug. Volljährigkeit alleine begründet keinen freien Eintritt.",
+        "combineWith": "Spaziergang durch die Altstadt Vieux-Nice",
+        "arrivalTip": "Rue Droite 15 als offizielle Besucheradresse; Altstadtwege und Zugang selbst prüfen.",
+        "check2027": "Eintrittsvoraussetzungen für Schüler/Studierende, Tagesöffnung und Barrierefreiheit"
+      }
     },
     {
       "id": "nice-musee-photographie",
@@ -126,7 +181,18 @@
       "priceYear": "2026",
       "durationMinutes": 50,
       "sourceUrl": "https://www.nice.fr/lieux/musee-de-la-photographie-charles-negre/",
-      "secondarySourceUrl": "https://museephotographie.nice.fr/infos-pratiques/"
+      "secondarySourceUrl": "https://museephotographie.nice.fr/infos-pratiques/",
+      "visitorGuide": {
+        "highlights": [
+          "Wechselnde Fotoausstellungen und Bildjournalismus",
+          "Museumsgebäude unmittelbar an der Altstadt",
+          "Zusätzliche Galerie mit abweichenden Pausen"
+        ],
+        "visitTip": "Die Galerie kann zwischen 12:30 und 13:30 Uhr schließen, obwohl das Hauptmuseum durchgehend geöffnet ist. Ausstellung vor der Anfahrt prüfen.",
+        "combineWith": "Cours Saleya und die Altstadt von Nizza",
+        "arrivalTip": "Place Pierre Gautier 1 als vom Betreiber veröffentlichte Adresse verwenden.",
+        "check2027": "Ausstellungswechsel, Galeriezeiten und eventuelle Ermäßigungen"
+      }
     },
     {
       "id": "genoa-villa-durazzo",
@@ -145,7 +211,18 @@
       "priceYear": "2026",
       "durationMinutes": 150,
       "sourceUrl": "https://www.villadurazzopallavicini.it/en/informazioni-pratiche/",
-      "accessCaution": "Genova Pegli liegt westlich des Zentrums; Anreise mit Regionalzug einplanen."
+      "accessCaution": "Genova Pegli liegt westlich des Zentrums; Anreise mit Regionalzug einplanen.",
+      "visitorGuide": {
+        "highlights": [
+          "Romantischer Park mit Grotten, Seen und Aussichtspunkten",
+          "Historische Gartenarchitektur in Genova Pegli",
+          "Ausgedehnter Rundgang statt kurzer Innenstadtsehenswürdigkeit"
+        ],
+        "visitTip": "Als längeren Ausflug planen und die letzte Einlassfrist beachten. Bei Schlechtwetter oder eingeschränkter Mobilität den Rundgang vorab prüfen.",
+        "combineWith": "Genova Pegli als eigenständigen Halbtagesausflug",
+        "arrivalTip": "Bahnhof Genova Pegli ist ein sinnvoller Anreiseknoten; offizielle Parkadresse Via Ignazio Pallavicini 13 prüfen.",
+        "check2027": "Saisonöffnung, Wochentags-/Wochenendtarif und letzter Einlass"
+      }
     },
     {
       "id": "genoa-parchi-nervi",
@@ -164,7 +241,18 @@
       "priceYear": "2026",
       "durationMinutes": 85,
       "sourceUrl": "https://smart.comune.genova.it/articoli-comunicati-stampa/parchi-e-giardini-anche-questanno-chiusura-posticipata-alle-21-il-caldo",
-      "accessCaution": "Nervi liegt außerhalb der Altstadt; Regionalzug und Fußweg berücksichtigen. Vor Ort gesperrte Baum-/Wegbereiche beachten."
+      "accessCaution": "Nervi liegt außerhalb der Altstadt; Regionalzug und Fußweg berücksichtigen. Vor Ort gesperrte Baum-/Wegbereiche beachten.",
+      "visitorGuide": {
+        "highlights": [
+          "Küstenpark mit historischen Villen und Bäumen",
+          "Verbindung zur Passeggiata Anita Garibaldi",
+          "Freie Parkflächen, benachbarte Museen separat"
+        ],
+        "visitTip": "Parkflächen und kostenpflichtige Museumseintritte getrennt bewerten. Die frühere Hitze-Sonderöffnung bis 21 Uhr nicht als Dauerregel verwenden.",
+        "combineWith": "Spaziergang an der Meerpromenade von Nervi",
+        "arrivalTip": "Nervi ist ein eigener Stadtteil östlich der Innenstadt; die angegebene Straße beschreibt den Parkbereich, nicht einen einzigen Eingang.",
+        "check2027": "Tatsächliche Schließzeit, Baustellen und Pflege-Sperrungen"
+      }
     },
     {
       "id": "venice-museo-fortuny",
@@ -182,7 +270,18 @@
       "priceReference": "Betreiber 2026: 15 € regulär, 7,50 € für Studierende von 15–25 oder Rolling Venice, nicht nur wegen Alters; Kombiticket Fortuny/Ca' Pesaro/MUVEC 20 € bzw. 10 € ermäßigt.",
       "priceYear": "2026",
       "durationMinutes": 85,
-      "sourceUrl": "https://fortuny.visitmuve.it/en/visitor-information/"
+      "sourceUrl": "https://fortuny.visitmuve.it/en/visitor-information/",
+      "visitorGuide": {
+        "highlights": [
+          "Wohn- und Ateliergebäude von Mariano Fortuny",
+          "Textilien, Design und Kunst im historischen Palazzo",
+          "Gelegentliche Wechselausstellungen"
+        ],
+        "visitTip": "Im veröffentlichten Tarif ist eine Ermäßigung an konkrete Nachweise gebunden; das mögliche Kombiticket mit Ca’ Pesaro auf Gültigkeit prüfen.",
+        "combineWith": "Ca’ Pesaro nur bei passendem Zeitfenster und gültigem Ticket",
+        "arrivalTip": "San Marco 3958 als Postadresse verwenden; Vaporetto und anschließenden Fußweg am Reisetag planen.",
+        "check2027": "Saison- und Tagesöffnung, Ticketarten, letzter Einlass und Kombiticketbedingungen"
+      }
     },
     {
       "id": "appenzell-kunsthalle",
@@ -200,7 +299,18 @@
       "priceReference": "Appenzellerland 2026: CHF 15 regulär für Kunsthalle und Kunstmuseum zusammen, CHF 10 Studierende mit Nachweis / weitere Berechtigte; Museumspässe und Ferienkarte ggf. frei.",
       "priceYear": "2026",
       "durationMinutes": 70,
-      "sourceUrl": "https://www.appenzell.ch/de/kultur-und-braeuche/museen/kunsthalle-appenzell.html"
+      "sourceUrl": "https://www.appenzell.ch/de/kultur-und-braeuche/museen/kunsthalle-appenzell.html",
+      "visitorGuide": {
+        "highlights": [
+          "Moderne und zeitgenössische Kunst",
+          "Historische Ziegelhütte als Ausstellungsgebäude",
+          "Mögliches gemeinsames Ticket mit Kunstmuseum Appenzell"
+        ],
+        "visitTip": "Als Regenalternative sinnvoll, aber nicht für Montag oder Dienstag einplanen, solange kein neuer Betreiberfahrplan vorliegt.",
+        "combineWith": "Kunstmuseum Appenzell bei tatsächlich gültigem Kombiticket",
+        "arrivalTip": "Ziegeleistrasse 14, Appenzell als veröffentlichte Besucheradresse; keine erfundene GPS-Eingangsposition.",
+        "check2027": "Ausstellungsprogramm, Öffnung, CHF-Preise und Ermäßigungsnachweise"
+      }
     }
   ]
 }
