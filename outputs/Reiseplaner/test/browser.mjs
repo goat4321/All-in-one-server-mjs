@@ -497,6 +497,42 @@ try {
   await hasText('.grid-cards', '44,40');
   await hasText('.grid-cards', 'EWR');
   console.log('PASS Städtepaket · Paris-Tarife, Sète-Unterkunft und jeweilige Stadtansicht');
+  // V69: real Chrome checks both viewport layout and retained Leaflet state.
+  await navOnMobile('map');
+  await wait('.map-fullscreen-launch');
+  const originalLeafletId=await js('document.querySelector("#map")._leaflet_id');
+  await click('.map-fullscreen-launch');
+  await retry(()=>js('document.body.classList.contains("map-fullscreen-active")'),'V69 mobile fullscreen active');
+  const fullMobile=await js('(() => {const r=document.querySelector("#map").getBoundingClientRect();return {w:r.width,h:r.height,vw:innerWidth,vh:innerHeight};})()');
+  assert.ok(fullMobile.w>=fullMobile.vw-2,'Mobile fullscreen map must fill viewport width');
+  assert.ok(fullMobile.h>=fullMobile.vh-2,'Mobile fullscreen map must fill viewport height');
+  assert.equal(await js('document.querySelector("#map")._leaflet_id'),originalLeafletId);
+  await click('.map-fullscreen-drawer-toggle');
+  await retry(()=>js('document.querySelector(".map-fullscreen-mode").classList.contains("fullscreen-drawer-open")'),'V69 drawer opens');
+  assert.equal(await js('getComputedStyle(document.querySelector(".map-fullscreen-mode>.explorer-right")).visibility'),'visible');
+  assert.ok(await js('Boolean(document.querySelector(".map-fullscreen-mode #map-search"))'));
+  await click('.map-fullscreen-mode .map-fullscreen-categories [data-value=activity]');
+  await retry(()=>js('document.querySelector(".map-fullscreen-categories [data-value=activity]")?.getAttribute("aria-pressed")==="true"'),'V69 activity filter');
+  assert.equal(await js('document.querySelector("#map")._leaflet_id'),originalLeafletId);
+  await js('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
+  await retry(()=>js('!document.querySelector(".map-fullscreen-mode").classList.contains("fullscreen-drawer-open")'),'V69 first Escape closes drawer');
+  await js('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
+  await retry(()=>js('!document.body.classList.contains("map-fullscreen-active")'),'V69 second Escape exits');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:960,deviceScaleFactor:1,mobile:false});
+  await js('window.dispatchEvent(new Event("resize"))');
+  await click('.map-fullscreen-launch');
+  await retry(()=>js('document.body.classList.contains("map-fullscreen-active")'),'V69 desktop fullscreen active');
+  const fullDesktop=await js('(() => {const r=document.querySelector("#map").getBoundingClientRect();return {w:r.width,h:r.height,vw:innerWidth,vh:innerHeight};})()');
+  assert.ok(fullDesktop.w>=fullDesktop.vw-2,'Desktop fullscreen map must fill viewport width');
+  assert.ok(fullDesktop.h>=fullDesktop.vh-2,'Desktop fullscreen map must fill viewport height');
+  await click('.map-fullscreen-mode .map-fullscreen-scope [data-value=trip]');
+  await retry(()=>js('document.querySelector(".map-fullscreen-scope [data-value=trip]")?.getAttribute("aria-pressed")==="true"'),'V69 trip scope');
+  await click('.map-fullscreen-exit');
+  await retry(()=>js('!document.body.classList.contains("map-fullscreen-active")'),'V69 close fullscreen');
+  assert.equal(await js('document.querySelector("#map")._leaflet_id'),originalLeafletId,
+    'Fullscreen transitions must not recreate Leaflet map');
+  await screenshot('karte-vollbild-desktop');
+  console.log('PASS V69 Vollbildkarte · Desktop, Mobil, bestehende Leaflet-Karte, Drawer, Filter, Esc, Scope');
   assert.deepEqual(errors, []);
   console.log('PASS Mobil · Liste/Karte, Navigation, reduzierte Bewegung und idempotenter CSV-Import');
   }
