@@ -224,11 +224,14 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    +'<h3>'+esc(item.name)+'</h3>'
    +'<p class="hub-option-summary">'+esc(item.detail||item.note||
        (lodging?'Unterkunft mit noch offenen Angaben':'Reiseidee aus der Recherche'))+'</p>'
-   +((item.officialAccessV56??item.officialAccessV53)?'<p class="hub-entry-access"'
-      +((item.officialAccessV56??item.officialAccessV53).status.startsWith('closed')?' data-closed="true"':'')
-      +'><strong>'+((item.officialAccessV56??item.officialAccessV53).status.startsWith('closed')
-       ?'Derzeit geschlossen / Wiedereröffnung offen: ': 'Betreiberhinweis (2026): ')+'</strong>'
-      +esc((item.officialAccessV56??item.officialAccessV53).summary)
+   +((item.officialAccessV57??item.officialAccessV56??item.officialAccessV53)?'<p class="hub-entry-access"'
+      +((item.officialAccessV57??item.officialAccessV56??item.officialAccessV53).status.startsWith('closed')?' data-closed="true"':'')
+      +'><strong>'+((item.officialAccessV57??item.officialAccessV56??item.officialAccessV53).status.startsWith('closed')
+       ?'Derzeit geschlossen / Wiedereröffnung offen: '
+       :item.officialAccessV57?.schedulingAssurance==='published_2027_timetable_weather_dependent'
+         ?'Saisonfahrplan 2027 veröffentlicht: '
+         :'Betreiberhinweis (2026): ')+'</strong>'
+      +esc((item.officialAccessV57??item.officialAccessV56??item.officialAccessV53).summary)
       +'</p>':'')
    +(nightlife?'<div class="hub-option-nightlife">'
      +'<strong>'+esc(nightlife.label)+'</strong>'
