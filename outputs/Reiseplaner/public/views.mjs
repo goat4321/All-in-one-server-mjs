@@ -320,15 +320,17 @@ export function mapSelectionPreview(ctx) {
  * plus one explicit next action. Does not reinterpret unverified points. */
 function mapContextSummary(ctx){
  const summary=mapViewSummary(ctx);
- const tags=summary.filters.map(f=>'<span class="map-active-filter">'
+ const tags=summary.filters.map(f=>'<button type="button" class="map-active-filter"'
+   +' data-action="map-remove-filter" data-value="'+esc(f.key)+'"'
+   +' aria-label="Filter '+esc(f.label)+' entfernen" title="Diesen Filter entfernen">'
    +icon(f.key==='saved'?'bookmark':f.key==='search'?'search':'layers')
-   +esc(f.label)+'</span>').join('');
+   +'<span>'+esc(f.label)+'</span>'+icon('close')+'</button>').join('');
  return '<section class="map-context-summary" aria-label="Kartenübersicht und Filterstatus">'
   +'<div class="map-context-identity"><span class="map-context-kicker">'
   +icon(summary.scope==='day'?'calendar':summary.scope==='trip'?'map':'pin')
   +esc(summary.title)+'</span><div class="map-context-count">'
   +'<strong>'+summary.displayCount+'</strong> '+esc(summary.displayLabel)
-  +(summary.scope==='trip'?'':summary.unlocated?' · '+summary.unlocated+' ohne Pin':'')
+  +(summary.scope==='trip'||summary.viewportLimited?'':summary.unlocated?' · '+summary.unlocated+' ohne Pin':'')
   +'</div><small class="map-context-help">'+esc(summary.hint)+'</small></div>'
   +'<div class="map-context-actions">'
   +(tags?'<div class="map-active-filters" aria-label="Aktive Kartenfilter">'+tags+'</div>':'')
