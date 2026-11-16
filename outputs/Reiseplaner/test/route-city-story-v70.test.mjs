@@ -61,7 +61,7 @@ test('V70 motion, map schema and access to source details remain separate',async
  assert.match(player,/requestAnimationFrame\(this\.tick\)/);
  assert.match(player,/reducedMotion\(\)/);
  assert.match(player,/this\.reveal\(this\.index\)/);
- assert.match(player,/this\.pause\(\)/);
+ assert.match(player,/pause\(\)\{/);
  assert.match(player,/this\.layer\.clearLayers\(\)/);
  assert.match(map,/playCityStory\(trip,cities\)/);
  assert.match(ui,/route-story-player/);
