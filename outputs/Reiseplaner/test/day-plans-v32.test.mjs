@@ -130,3 +130,15 @@ test('Progress indicators show only actually selected date-specific ideas',()=>{
   active:[{...item,date:'2027-09-04',start:null,selected:true}]});
  assert.match(index,/1 übernommen/);
 });
+
+test('Concrete day-plan stops offer direct Google Maps lookup without claiming verified 2027 routes',()=>{
+ let mapCount=0;
+ for(const trip of trips)for(const day of trip.dayPlansV32){
+  const ctx=sample(trip,day.date);
+  const html=dayPlanPanel(ctx);
+  const count=(html.match(/www\.google\.com\/maps\/search/g)||[]).length;
+  mapCount+=count;
+  if(count)assert.match(html,/2027 nicht bestätigt|keine bestätigten 2027/);
+ }
+ assert.ok(mapCount>0,'The 46 day plans should expose concrete place lookups');
+});
