@@ -71,7 +71,7 @@ export class RouteCityStoryPlayer{
    progress:storyProgress(this.index,this.part,this.stops),speed:this.speed,
    ideas:stop?.ideas??[],plannedCount:stop?.plannedCount??0,
    placesKnown:stop?.placesKnown??0,ideaCount:stop?.ideaCount??0,
-   schematic:true};
+   routeOverview:this.routeOverview??[],schematic:true};
  }
  emit(){this.onChange(this.state());}
  reveal(index){
@@ -113,6 +113,7 @@ export class RouteCityStoryPlayer{
   if(!Array.isArray(stops)||!stops.length){this.emit();return false;}
   this.stops=stops.map(stop=>({...stop,point:[...stop.point],
    ideas:Array.isArray(stop.ideas)?stop.ideas.map(idea=>({...idea})):[]}));
+  this.routeOverview=this.stops.map(stop=>({id:stop.id,name:stop.name}));
   this.status='playing';this.index=0;this.part=0;this.phase='dwell';
   this.elapsed=0;this.lastTime=null;
   this.trail=L.polyline([this.stops[0].point],{
@@ -191,6 +192,7 @@ export class RouteCityStoryPlayer{
   this.stops=[];this.status='idle';this.index=0;this.part=0;
   this.phase='dwell';this.elapsed=0;
   this.dot=null;this.trail=null;this.burst=null;this.cityMarkers=[];
+  this.routeOverview=[];
   if(!silent)this.emit();
  }
  destroy(){this.stop(true);this.map.removeLayer(this.layer);}
