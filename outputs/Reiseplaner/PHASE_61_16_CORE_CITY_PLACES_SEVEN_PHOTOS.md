@@ -25,7 +25,7 @@ Besonders relevante Tarif- und Zugangsbedingungen:
 - CosmoCaixa Barcelona: 8 € regulär; **18 Jahre allein kein Gratis-Tarif**.
 - Murano Glasmuseum und Ca’ Pesaro: 7,50 € Ermäßigung nach **Schüler-/Studierendenstatus 15–25 oder weiteren Bedingungen**, nicht automatisch nur wegen des Alters.
 - Seilbahn Alp Sigel: CHF 27 Retour in der 2026-Referenz, **GA/Halbtax ausdrücklich ungültig**.
-- **Anna Göldi Museum hat bereits eine 2027er Saison vom 1. April bis 1. November veröffentlicht** (Mi–So 13:30–18:00); das ist weder eine Ticketbuchung noch die Garantie für einen bestimmten Öffnungstag.
+- **Korrektur 16.11.2026:** Das Anna Göldi Museum veröffentlicht auf seiner offiziellen Seite die **Saison 2026**, 1. April bis 1. November (Mi–So 13:30–18:00). Für 2027 ist kein Saisonplan bestätigt. Eine früher eingetragene 2027-Angabe wurde in den Quelldaten zurückgenommen.
 
 ## Sieben Commons-Fotos
 
@@ -41,10 +41,10 @@ Jedes Foto ist per Stadt und exaktem Ortsnamen zugeordnet. Die Datei-Beschreibun
 | Palazzo Grimani | [Palazzo Grimani, Venice - 2026.jpg](https://commons.wikimedia.org/wiki/File:Palazzo_Grimani%2C_Venice_-_2026.jpg) | Stavros Argyropoulos, CC BY-SA 4.0; bereits bearbeitet, 2026 |
 | Murano Glasmuseum | [Murano museo del vetro.JPG](https://commons.wikimedia.org/wiki/File:Murano_museo_del_vetro.JPG) | Abxbay, CC BY-SA 3.0 |
 
-`public/curated-place-photos.mjs` nutzt externe Commons-Foto-URLs und hält Attribution/Dateiquelle sichtbar. Ein Bild darf niemals einer privaten Unterkunft zugeordnet werden. **9 der 16 neuen Orte haben noch kein individuell geprüftes Motiv.**
+`public/curated-place-photos.mjs` nutzt externe Commons-Foto-URLs und hält Attribution/Dateiquelle sichtbar. Ein Bild darf niemals einer privaten Unterkunft zugeordnet werden. **Nach Phase 62:** Auch die neun zuvor fehlenden V61-Motive wurden individuell in Wikimedia Commons gefunden und mit Bildbeschreibung, Urheber und Lizenz ergänzt; bei der Alp Sigel zeigt die Datei die Landschaft statt der Kabine.
 
 ## Sicherheitsgrenzen
 
-Alle neuen Einträge haben `price:null`, `booked:false`, `selected:false`, `start:null`, `end:null`, `point:null` und `geoEvidence:null`. Offizielle Straßenadressen werden mit `googleMapsSearchUrl` und ÖPNV-Links angezeigt, **nicht** zu erfundenen GPS-Eingängen. Alle Preise sind Betreiber-/Stadt-Referenzen vom November 2026. Der veröffentlichte Saisonhinweis beim Anna Göldi Museum bleibt ausdrücklich ohne Ticketbestätigung.
+Alle neuen Einträge haben `price:null`, `booked:false`, `selected:false`, `start:null`, `end:null`, `point:null` und `geoEvidence:null`. Offizielle Straßenadressen werden mit `googleMapsSearchUrl` und ÖPNV-Links angezeigt, **nicht** zu erfundenen GPS-Eingängen. Alle Preise sind Betreiber-/Stadt-Referenzen vom November 2026. Das Anna Göldi Museum hat nur eine 2026er Öffnungsreferenz und ausdrücklich keine bestätigte 2027-Saison.
 
 Tests in `test/operator-discoveries-v61.test.mjs`: Quellen, Variante, Duplikate, Foto-Match und Lizenz, Budget/Buchung, Kartenlinks, besondere 18–25-Tarife und 2027-Saisonbezug. In `npm run test:portable` ergänzt.
