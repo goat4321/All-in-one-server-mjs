@@ -2,6 +2,37 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 65: seven individually checked Commons pictures of existing V62 entries.
+ // Provider photos and private accommodation images are intentionally excluded.
+ {city:'paris',name:/^mus[eé]e curie \(marie curie\)$/i,
+  file:"Musée Curie, Paris.JPG",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Musée Curie, Paris.JPG").replace(/%20/g,'_'),
+  credit:"Guilhem wilko · CC BY-SA 3.0 · Eingang Musée Curie 2013 · CSS-Bildausschnitt"},
+ {city:'paris',name:/^parc des buttes-chaumont$/i,
+  file:"Parc des Buttes-Chaumont.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Parc des Buttes-Chaumont.jpg").replace(/%20/g,'_'),
+  credit:"FreCha · CC BY-SA 4.0 · Landschaftspark 2020/2024 · CSS-Bildausschnitt; kein Zugangsnachweis für gesperrte Teilbereiche"},
+ {city:'barcelona',name:/^cccb\b/i,
+  file:"Barcelona - Centre de Cultura Contemporània de Barcelona (CCCB).jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Barcelona - Centre de Cultura Contemporània de Barcelona (CCCB).jpg").replace(/%20/g,'_'),
+  credit:"Zarateman · CC0 1.0 · CCCB-Gebäude 2016 · CSS-Bildausschnitt"},
+ {city:'nice',name:/^palais lascaris \(barockpalast\)$/i,
+  file:"Palais Lascaris - Escalier.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Palais Lascaris - Escalier.jpg").replace(/%20/g,'_'),
+  credit:"Jean-Pierre Dalbéra / dalbera · CC BY 2.0 · Barocktreppe 2011 · CSS-Bildausschnitt"},
+ {city:'nice',name:/^mus[eé]e de la photographie charles n[eè]gre$/i,
+  file:"Musee de la Photographie de Nice.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Musee de la Photographie de Nice.jpg").replace(/%20/g,'_'),
+  credit:"Sprsarcastique · CC BY-SA 4.0 · Museumfassade 2019 · CSS-Bildausschnitt"},
+ {city:'genoa',name:/^parco villa durazzo pallavicini \(pegli\)$/i,
+  file:"Villa Durazzo- Pallavicini, Il Castello del Capitano a Genova Pegli, Italia.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Villa Durazzo- Pallavicini, Il Castello del Capitano a Genova Pegli, Italia.jpg").replace(/%20/g,'_'),
+  credit:"Faber1893 · CC BY-SA 4.0 · historischer Park Genova Pegli 2017 · CSS-Bildausschnitt"},
+ {city:'genoa',name:/^parchi di nervi \(villa grimaldi & serra\)$/i,
+  file:"Parchi di Nervi.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Parchi di Nervi.jpg").replace(/%20/g,'_'),
+  credit:"Stefano Soresina · CC BY-SA 3.0 · Parchi di Nervi 2014 · CSS-Bildausschnitt"},
+
  // Phase 62: nine individually checked site images. Credit labels explain when the building
  // or the landscape rather than the exact attraction equipment is pictured.
  {city:'paris',name:/^mus[eé]e de la lib[eé]ration de paris$/i,
