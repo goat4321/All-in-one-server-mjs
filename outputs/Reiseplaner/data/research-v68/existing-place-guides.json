@@ -60,7 +60,8 @@
         "combineWith": "Le Marais",
         "arrivalTip": "23 rue Madame de Sévigné als offizielle Museumseingangsadresse.",
         "check2027": "Ermäßigungen, Ausstellung und Reservierung"
-      }
+      },
+      "sourceUrl": "https://www.carnavalet.paris.fr/en"
     },
     {
       "id": "new_009",
@@ -73,7 +74,8 @@
         "combineWith": "Pont Alexandre III",
         "arrivalTip": "Avenue Winston-Churchill als öffentlicher Zugang.",
         "check2027": "Sonderausstellungen und letzter Einlass"
-      }
+      },
+      "sourceUrl": "https://www.petitpalais.paris.fr/visiter/preparer-votre-visite"
     },
     {
       "id": "new_010",
@@ -165,7 +167,8 @@
         "combineWith": "Tibidabo als Halbtagesausflug",
         "arrivalTip": "Berglage außerhalb der Innenstadt, Rückfahrt prüfen.",
         "check2027": "Tage mit Fahrgeschäften, Ticketstufen, Transport"
-      }
+      },
+      "sourceUrl": "https://tibidabo.cat/en/panoramic-area"
     },
     {
       "id": "new_028",
@@ -205,7 +208,8 @@
         "combineWith": "Font Màgica",
         "arrivalTip": "Palau Nacional auf dem Montjuïc, Aufstieg einplanen.",
         "check2027": "Dachpreis, Ermäßigung und Öffnung"
-      }
+      },
+      "sourceUrl": "https://www.museunacional.cat/en/rooftop-viewpoint-0"
     },
     {
       "id": "new_031",
@@ -272,7 +276,8 @@
         "combineWith": "Hafenkanäle von Sète",
         "arrivalTip": "23 quai Maréchal de Lattre de Tassigny laut Betreiberquelle.",
         "check2027": "Öffnung, Programme und Eintritt"
-      }
+      },
+      "sourceUrl": "https://miam.org/horaires-tarifs/"
     },
     {
       "id": "new_044",
@@ -313,7 +318,8 @@
         "combineWith": "Andere tatsächlich geöffnete Museen Nizzas",
         "arrivalTip": "MAMAC-Gebäude ist nicht automatisch der Ort des Ausweichprogramms.",
         "check2027": "Wiedereröffnung und Alternativstandort"
-      }
+      },
+      "sourceUrl": "https://www.mamac-nice.org/en/"
     },
     {
       "id": "new_069",
@@ -421,7 +427,8 @@
         "combineWith": "Brülisau",
         "arrivalTip": "Talstation außerhalb Appenzell-Zentrum.",
         "check2027": "Wetter, letzte Talfahrt, Restaurantauslastung"
-      }
+      },
+      "sourceUrl": "https://www.hoherkasten.ch/entdecken/gastronomie/"
     },
     {
       "id": "new_092",
@@ -447,7 +454,8 @@
         "combineWith": "Appenzell-Dorf",
         "arrivalTip": "Schaukäserei als konkretes Besucherziel statt Ortsmittelpunkt.",
         "check2027": "Führungen, Eintritt und verfügbare Sprachen"
-      }
+      },
+      "sourceUrl": "https://www.schaukaeserei.ch/de/"
     },
     {
       "id": "new_095",
@@ -460,7 +468,8 @@
         "combineWith": "Grindelwald",
         "arrivalTip": "Gletscherschlucht 1; früher Betreiberhinweis Bus 122.",
         "check2027": "Saison 2027, Zutritt, Bus und Wetter"
-      }
+      },
+      "sourceUrl": "https://grindelwald.swiss/de/map/detail/gletscherschlucht-grindelwald-aaa98968-c9e4-4a2a-b871-8c25abefc234.html"
     },
     {
       "id": "new_097",
