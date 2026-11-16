@@ -140,7 +140,11 @@ function content(ctx, city) {
       +(ctx.explorer?.scope==='day'
         ?dayPlanPanel(ctx,{compact:true})+fieldNoteStrip(ctx)
         :mapBrowsePanel(ctx))
-      + explorerToolbar(ctx) + explorerList(ctx) + '</div>'
+      + '<details class="reference-places-drawer"'
+      +(ctx.mapSimple&&!ctx.mapSearch&&!ctx.explorer?.search?'':' open')
+      +'><summary>'+icon('compass')+'<span>Alle Orte, Filter und Quellen</span>'
+      +'<small>Recherche gezielt durchsuchen</small>'+icon('chevron')+'</summary>'
+      + explorerToolbar(ctx) + explorerList(ctx) + '</details></div>'
       + mapPhotoDiscovery(ctx) + '</div>'
       + mapUnlocatedReview(ctx) + mapUnverifiedPointsReview(ctx) + dayRouteView(ctx);
     case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
