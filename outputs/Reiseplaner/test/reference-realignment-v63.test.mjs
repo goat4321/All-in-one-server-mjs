@@ -14,11 +14,12 @@ const [html,css,views,app]=await Promise.all([
 test('The visual reference CSS precedes later targeted map overrides',()=>{
  const styles=[...html.matchAll(/<link rel="stylesheet" href="(\/[^"]+\.css)"/g)]
   .map(x=>x[1]);
- assert.equal(styles.at(-1),'/route-city-arrivals-v71.css');
- assert.equal(styles.at(-2),'/route-city-story-v70.css');
- assert.equal(styles.at(-3),'/map-fullscreen-v69.css');
- assert.equal(styles.at(-4),'/map-symbols-performance-v64.css');
- assert.equal(styles.at(-5),'/reference-realignment-v63.css');
+ assert.equal(styles.at(-1),'/map-clarity-v72.css');
+ assert.equal(styles.at(-2),'/route-city-arrivals-v71.css');
+ assert.equal(styles.at(-3),'/route-city-story-v70.css');
+ assert.equal(styles.at(-4),'/map-fullscreen-v69.css');
+ assert.equal(styles.at(-5),'/map-symbols-performance-v64.css');
+ assert.equal(styles.at(-6),'/reference-realignment-v63.css');
  assert.ok(styles.indexOf('/readability-day-v50.css')<styles.length-1);
  assert.ok(styles.includes('/map-photo-v34.css'));
  assert.ok(css.length>14000);
