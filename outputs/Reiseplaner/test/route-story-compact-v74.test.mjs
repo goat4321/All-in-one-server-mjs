@@ -40,11 +40,13 @@ test('V74 nine linked public site guides are source-backed, not new bookings',as
   assert.ok(rows.every(x=>x.publicPlaceGuideV68.september2027OpeningConfirmed===false));
  }
 });
-test('V74 two historical public-place photographs retain attribution and do not imply access',async()=>{
+test('V74 four historical public-place photographs retain attribution and do not imply access',async()=>{
  const cat=await loadCatalog();
  for(const [id,author,license] of [
   ['new_058','Fred Romero','CC BY 2.0'],
-  ['new_093','Corradox','CC BY-SA 3.0']
+  ['new_093','Corradox','CC BY-SA 3.0'],
+  ['new_020','Guilhem Vellut','CC BY 2.0'],
+  ['new_082','Ktiv','CC BY-SA 4.0']
  ]){
   const p=cat.trips.flatMap(x=>x.items).find(
     x=>x.publicPlaceGuideV68?.uploadedId===id);
