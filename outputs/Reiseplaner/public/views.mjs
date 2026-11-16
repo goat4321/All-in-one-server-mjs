@@ -395,7 +395,7 @@ function mapPanel(ctx, full = false) {
       <div class="route-story-leading">
         <span class="route-story-symbol" id="route-story-symbol" aria-hidden="true">🧭</span>
         <div class="route-story-heading">
-          <span class="route-story-eyebrow">DEINE REISE · STÄDTEFOLGE</span>
+          <span class="route-story-eyebrow" id="route-story-stage">DEINE REISE · STÄDTEFOLGE</span>
           <strong id="route-story-city">Reiseroute</strong>
           <small id="route-story-description">Schematische Verbindung, keine Bahngleise</small>
         </div>
@@ -412,6 +412,8 @@ function mapPanel(ctx, full = false) {
           ${icon('search')}<span>Alle Orte dieser Stadt ansehen</span>${icon('arrow-right')}
         </button>
       </div>
+      <div class="route-story-stoprail" id="route-story-stoprail"
+        aria-label="Übersicht aller Städte der Reiseroute"></div>
       <div class="route-story-progress" role="progressbar" aria-label="Abgespielte Reiseetappen"
         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <span id="route-story-progress-fill"></span></div>
