@@ -21,7 +21,7 @@ const images=[
   file:'Amusement Park on Tibidabo with views of Barcelona.jpg',
   sourceUrl:'https://commons.wikimedia.org/wiki/File:Amusement_Park_on_Tibidabo_with_views_of_Barcelona.jpg',
   credit:'Mattsjc · CC BY 4.0 · Tibidabo-Park (2022) · CSS-Bildausschnitt'},
- {city:'barcelona',name:/^mercat de santa caterina$/i,
+ {city:'barcelona',name:/^mercat de santa caterina$/i,allowFood:true,
   file:'Barcelona - Mercat de Santa Caterina.jpg',
   sourceUrl:'https://commons.wikimedia.org/wiki/File:Barcelona_-_Mercat_de_Santa_Caterina.jpg',
   credit:'Fred Romero · CC BY 2.0 · Mercat de Santa Caterina (2017) · CSS-Bildausschnitt'},
@@ -276,7 +276,8 @@ const images=[
 ];
 export function curatedPlacePhoto(item) {
   if (!item || item.kind!=='activity') return null;
-  const candidate=images.find(row=>row.city===item.city&&row.name.test(item.name??''));
+  const candidate=images.find(row=>row.city===item.city&&row.name.test(item.name??'')
+    &&(item.category!=='food'||row.allowFood===true));
   return candidate?{
     url:'https://commons.wikimedia.org/wiki/Special:FilePath/'
       +encodeURIComponent(candidate.file)+'?width=960',
