@@ -741,6 +741,18 @@ dialog::backdrop{background:#102a2099;backdrop-filter:blur(2px)}
 .media-coverage-item small{font-size:.7rem}
 .media-coverage-item .button{font-size:.71rem;min-height:33px;padding:5px 9px}
 
+.media-coverage-city{margin-top:9px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--light)}
+.media-coverage-city>summary{display:list-item;cursor:pointer;font-size:.83rem;font-weight:700;color:var(--text)}
+.media-coverage-city[open]>summary{margin-bottom:8px}
+.media-coverage-city .media-coverage-list{margin:7px 0 0}
+.media-coverage-all>summary{line-height:1.5}
+.media-coverage-item .row-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+@media(max-width:600px){.media-coverage-item{align-items:flex-start;flex-direction:column}
+ .media-coverage-item .row-actions{width:100%}
+ .media-coverage-city{padding:9px}
+}
+
+
 
 /* Provider research stays strictly separate from active budget or booked hotels. */
 .provider-quote-panel,.provider-location-panel{display:grid;gap:14px}
