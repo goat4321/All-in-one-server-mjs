@@ -523,6 +523,18 @@ export class TripMap {
     }
   }
 
+  selectMarkerOnly(id){
+    // Selection must not refetch the basemap or reconstruct every POI icon.
+    this.poiFocused=id;
+    for(const [key,marker] of this.markers){
+      const selected=key===id;
+      const el=marker.getElement?.();
+      el?.classList.toggle('is-map-focused',selected);
+      el?.querySelector('.pin')?.classList.toggle('focused',selected);
+      marker.setZIndexOffset?.(selected?2300:(this.poiKeys.has(key)?950:0));
+    }
+  }
+
   focusNearby() {
     if(!this.nearbyCircle)return false;
     this.map.invalidateSize({pan:false});
