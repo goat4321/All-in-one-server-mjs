@@ -2,6 +2,12 @@ import {esc,icon,btn,shortDay,urlLink} from './ui.mjs';
 import {dayPlanCandidates} from './day-plans-logic.mjs';
 import {placeThumbnailHtml} from './place-profile.mjs';
 import {localParts} from './model.mjs';
+import {googleMapsSearchUrl} from './google-maps.mjs';
+const mapsForFixedPlace=(item,cities)=>item?.name&&item.kind==='activity'
+ &&item.pointPrecision!=='unverified_or_not_single_location'
+ &&!item.researchV20?.reviewStatus?.includes('concept')
+ &&!/^(?:gemeinsam kochen|selbst kochen|flexible freizeit)$/i.test(item.name.trim())
+ ?urlLink(googleMapsSearchUrl(item,cities),'Google Maps'):'';
 
 const periods={morning:'Vormittag',noon:'Mittag',afternoon:'Nachmittag',evening:'Abend'};
 const styles={reise:'Reisetag',rueckreise:'Rückreise',stadt:'Stadt entdecken',
@@ -59,6 +65,7 @@ export function dayPlanPanel(ctx,{compact=false}={}){
    +'<small>'+esc(ctx.cities?.[item.city]?.name??item.city)
     +' · '+(item.start?'Mit eigener Zeit':'Flexibel, ohne feste Uhrzeit')+'</small>'
    +'<span class="day-plan-added">Im Tagesplan</span>'
+   +(mapsForFixedPlace(item,ctx.cities)||'')
    +(item.booked||item.locked
      ?'<span class="day-plan-protected">Gebuchter/fester Eintrag</span>'
      :btn('day-quick-remove','Entfernen','close',item.id,'subtle'))
@@ -97,7 +104,8 @@ export function dayPlanPanel(ctx,{compact=false}={}){
     +(already?btn('day-quick-remove','Entfernen','close',slot.id,'subtle')
      :elsewhere?'<small>Anderweitig eingeplant</small>'
      :btn('day-plan-add',slot.optional?'Option hinzufügen':'Zum Tag','plus',slot.id,'subtle'))
-    +btn('details','Details','folder',slot.id)+'</div></li>';
+    +btn('details','Details','folder',slot.id)
+    +(mapsForFixedPlace(item,ctx.cities)||'')+'</div></li>';
  }).join('');
  const body='<div class="day-plan-inner">'
     +'<section class="day-plan-today" aria-label="Bereits eingeplante Aktivitäten">'
