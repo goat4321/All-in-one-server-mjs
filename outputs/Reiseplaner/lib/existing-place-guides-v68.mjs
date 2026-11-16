@@ -7,7 +7,7 @@ const validHttps=value=>{try{
  return url.protocol==='https:'&&url.hostname.includes('.')
    &&!url.username&&!url.password;
 }catch{return false;}};
-const requiredText=value=>typeof value==='string'&&value.trim().length>=12;
+const requiredText=value=>typeof value==='string'&&value.trim().length>=5;
 
 /** Adds public-source visitor notes to EXISTING items, including V50 duplicates.
  * Never creates places, prices, tickets, private lodging points or schedules. */
