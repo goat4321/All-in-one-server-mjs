@@ -81,8 +81,7 @@ export function googleMapsSearchLabel(item) {
   if(item?.officialAccessV58?.visitorAddress||item?.officialAccessV57?.visitorAddress
     ||item?.officialAccessV56?.visitorAddress||item?.officialAccessV53?.visitorAddress)
     return 'Google Maps · öffentliche Betreiberadresse';
-  return
-    pointOk(item?.point) ? (markerProvenance(item).kind==='provider'
+  return pointOk(item?.point) ? (markerProvenance(item).kind==='provider'
       ?'Google Maps · Anbieterposition prüfen'
       :markerProvenance(item).kind==='unverified'
         ?'Google Maps · gespeicherten Pin prüfen'
