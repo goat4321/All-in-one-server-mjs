@@ -47,6 +47,12 @@ export function googleMapsPlaceQuery(item,cities={}) {
   if (!item) return null;
   const city = placeContext(item,cities);
   if (areaOnly(item)) return text([item.locality, city].filter(Boolean).join(', ')) || null;
+  // A separately sourced, public visitor/valley-station address has precedence
+  // over broad multi-stop names ('Sunnbüel & Gemmipass', 'Hoher Kasten & ...').
+  // This improves the lookup but never turns that address into a verified pin.
+  const visitorAddress=item.officialAccessV57?.visitorAddress
+    ??item.officialAccessV56?.visitorAddress??item.officialAccessV53?.visitorAddress;
+  if(text(visitorAddress))return text(visitorAddress);
   const address = text(item.address);
   if (address) return text([item.name,address,city].filter(Boolean).join(', '));
   if (pointOk(item.point)) return item.point.join(',');
