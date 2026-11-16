@@ -219,11 +219,11 @@ function buildContext() {
 }
 
 function updateRouteStoryUi(state){
+  const status=state?.status??'idle',visible=status!=='idle';
+  document.body.classList.toggle('route-story-active',view.page==='map'&&visible);
   const panel=app.querySelector('#route-story-player');
   if(!panel)return;
-  const status=state?.status??'idle',visible=status!=='idle';
   panel.hidden=!visible;panel.dataset.status=status;
-  document.body.classList.toggle('route-story-active',view.page==='map'&&visible);
   if(!visible)return;
   const write=(selector,value)=>{
     const el=panel.querySelector(selector);
