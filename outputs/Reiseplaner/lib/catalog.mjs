@@ -5,6 +5,7 @@ import {attachNightlifeReferencesV51} from './nightlife-official-v51.mjs';
 import {applyOperatorDiscoveriesV54} from './operator-discoveries-v54.mjs';
 import {applyOperatorDiscoveriesV55} from './operator-discoveries-v55.mjs';
 import {applyOperatorDiscoveriesV60} from './operator-discoveries-v60.mjs';
+import {applyOperatorDiscoveriesV61} from './operator-discoveries-v61.mjs';
 import {VERIFIED_PLACE_UPDATES_V56} from './verified-place-updates-v56.mjs';
 import {VERIFIED_PLACE_UPDATES_V57} from './verified-place-updates-v57.mjs';
 import {VERIFIED_PLACE_UPDATES_V58} from './verified-place-updates-v58.mjs';
@@ -1024,6 +1025,9 @@ export async function loadCatalog() {
   const operatorDiscoveryV60=JSON.parse(await readFile(
     new URL('../data/research-v60/official-discoveries.json',import.meta.url),'utf8'));
   const operatorDiscoveryStatsV60=applyOperatorDiscoveriesV60(output,cities,operatorDiscoveryV60);
+  const operatorDiscoveryV61=JSON.parse(await readFile(
+    new URL('../data/research-v61/official-discoveries.json',import.meta.url),'utf8'));
+  const operatorDiscoveryStatsV61=applyOperatorDiscoveriesV61(output,cities,operatorDiscoveryV61);
   for(const trip of output)trip.items=trip.items.map(item=>
     !item.researchV50?item:{
       ...item,
@@ -1049,7 +1053,7 @@ export async function loadCatalog() {
         || ref.startsWith('food-v03-') || ref.startsWith('survey-v19:') || ref.startsWith('survey-v20:') || ref.startsWith('survey-v20-indoor:') || ref.startsWith('wishlist-v04:')
         || ref.startsWith('address-v09:') || ref.startsWith('food-v08-menu:')
         || ref.startsWith('operator-v54:')||ref.startsWith('operator-v55:')
-        || ref.startsWith('operator-v60:'));
+        || ref.startsWith('operator-v60:')||ref.startsWith('operator-v61:'));
       return {
         id:item.id,city:item.city,name:item.name,category:categoryOf(item),
         selected:Boolean(item.selected),
@@ -1096,6 +1100,7 @@ export async function loadCatalog() {
       operatorDiscoveryV54:{meta:operatorDiscoveryV54.meta,stats:operatorDiscoveryStatsV54},
       operatorDiscoveryV55:{meta:operatorDiscoveryV55.meta,stats:operatorDiscoveryStatsV55},
       operatorDiscoveryV60:{meta:operatorDiscoveryV60.meta,stats:operatorDiscoveryStatsV60},
+      operatorDiscoveryV61:{meta:operatorDiscoveryV61.meta,stats:operatorDiscoveryStatsV61},
       operatorAccessV56:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V56).length},
       operatorAccessV57:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V57).length,
         publishedSeasonCandidates:Object.values(VERIFIED_PLACE_UPDATES_V57).filter(x=>x.publishedSeason2027).length},
@@ -1230,6 +1235,12 @@ export async function loadCatalog() {
         publisher:'Original-Betreiber-/Stadtquelle · Zugang und Tarif · '+id,
         url:place.sourceUrl,accessed_on:place.checkedOn,
         validity:'Historische Betreiberreferenz 2026; keine garantierte Öffnung/Tickets für September 2027',
+      })),
+      ...operatorDiscoveryV61.entries.map(place=>({
+        id:'operator-v61:'+place.id,
+        publisher:'Betreiber-/Stadt-/Tourismusquelle · '+place.name,
+        url:place.sourceUrl,accessed_on:operatorDiscoveryV61.meta.checkedOn,
+        validity:'Veröffentlichte Öffnungs- oder Preisreferenz (überwiegend 2026), keine 2027-Ticketzusage',
       })),
       ...operatorDiscoveryV60.entries.map(place=>({
         id:'operator-v60:'+place.id,
