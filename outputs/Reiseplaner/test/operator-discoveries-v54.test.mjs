@@ -77,7 +77,7 @@ test('Sixteen actual Commons photos are matched to their intended existing and n
   const photo=curatedPlacePhoto({kind:'activity',city,name,category});
   assert.ok(photo?.curated,name);
   assert.ok(photo.sourceUrl.includes(key),name);
-  assert.match(photo.credit,/CC (BY|BY-SA|0)|Public Domain/,name);
+  assert.match(photo.credit,/CC (BY|BY-SA)|CC0|Public Domain/,name);
   assert.match(photo.url,/^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\//);
  }
  assert.equal(curatedPlacePhoto({kind:'lodging',city:'genoa',name:'Galata Museo del Mare'}),null);
