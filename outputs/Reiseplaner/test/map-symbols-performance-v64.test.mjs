@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {mapCategoryIcon,mapLegacyPinContent,MAP_ICON_CATEGORIES}
+import {mapCategoryIcon,mapLegacyPinContent,mapIconForPlace,MAP_ICON_CATEGORIES}
   from '../public/map-marker-icons-v64.mjs';
 import {bubbleMarkup} from '../public/photo-map-model.mjs';
 import {poiDensityPolicy} from '../public/poi-density.mjs';
@@ -27,6 +27,16 @@ test('Five recognizable built-in SVG symbols replace single-letter location mark
  assert.match(mapCategoryIcon('food'),/M4 3v7/,'Restaurants show cutlery');
  assert.match(mapCategoryIcon('transport'),/rect x="5"/,'Transport shows a train');
 });
+test('Finer map icons match only recorded park, beach, museum, club and viewpoint text',()=>{
+ assert.equal(mapIconForPlace({name:'Parc de la Ciutadella'},'activity'),'park');
+ assert.equal(mapIconForPlace({name:'Barceloneta Strand'},'activity'),'beach');
+ assert.equal(mapIconForPlace({name:'Musée Curie'},'activity'),'museum');
+ assert.equal(mapIconForPlace({name:'Optionaler Clubabend Barcelona'},'activity'),'nightlife');
+ assert.equal(mapIconForPlace({name:'Gletscherschlucht Grindelwald'},'activity'),'viewpoint');
+ assert.equal(mapIconForPlace({name:'Schlichte Unterkunft'},'lodging'),'lodging');
+ assert.equal(mapIconForPlace({name:'Unbekannte Attraktion'},'activity'),'activity');
+ assert.match(bubbleMarkup({category:'activity',iconType:'park',tier:'photo'}),/>Park<\/span>/);
+});
 test('Map legacy pins keep numbered day sequences but replace H/R/S/A/B letters',()=>{
  assert.match(mapLegacyPinContent('H','place-lodging'),/<svg/);
  assert.match(mapLegacyPinContent('R','place-food'),/<svg/);
@@ -47,7 +57,10 @@ test('Photo marker keeps a real licensed URL and shows house when photo is unava
   tier:'photo'});
  assert.match(image,/<img src="https:\/\/commons\.wikimedia\.org/);
 });
-test('First map loads at real fitted location, displays raster before optional vector',()=>{
+test('First map loads at real fitted location, displays raster before optional vector',async()=>{
+ const vector=await read('public/vector-basemap.mjs');
+ assert.doesNotMatch(index,/<link[^>]+href="https:\/\/unpkg\.com\/maplibre-gl[^\"]+\.css"/);
+ assert.match(vector,/requestVectorStyles\(\)/);
  assert.match(map,/this\.basemapBooted=false/);
  assert.match(map,/this\.useRasterFallback\(\);\s*void this\.startBasemap\(\)/);
  assert.match(map,/if\(!this\.fallbackLayer\)this\.setBasemapStatus\('loading'\)/);
