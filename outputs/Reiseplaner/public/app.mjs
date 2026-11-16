@@ -1219,12 +1219,13 @@ async function action(name, value = '') {
       // In trip mode the base map intentionally renders city hubs only.
       // Move to the current city's POI map for category markers, rather than
       // implying that a category-filtered trip line plots individual venues.
-      if(view.mapScope==='trip'&&value!=='all'){
+      const switchingCity=view.mapScope==='trip'&&value!=='all';
+      if(switchingCity){
         view.mapScope='city';view.total=false;
         view.mapViewportOnly=false;view.mapViewportBounds=null;
       }
       view.mapGroup=value;view.mapListOpen=true;view.mapListLimit=60;
-      render({restoreView:view.mapScope!=='city',fetchRoutes:false});break;
+      render({restoreView:!switchingCity,fetchRoutes:false});break;
     case 'explorer-search':
       view.mapSearch = document.querySelector('#map-search')?.value?.trim().slice(0, 100) ?? '';
       view.mapListOpen=true;
@@ -1265,12 +1266,16 @@ async function action(name, value = '') {
       break;
     case 'nav-saved':
       view.mapSavedOnly=true;view.mapListLimit=60;view.mapListOpen=true;
+      if(view.mapScope==='trip'){view.mapScope='city';view.total=false;}
       if(view.page!=='map')changePage('map');
       else render({restoreView:true,fetchRoutes:false});
       break;
-    case 'explorer-saved-only':
+    case 'explorer-saved-only': {
+      const switching=view.mapScope==='trip'&&!view.mapSavedOnly;
       view.mapSavedOnly=!view.mapSavedOnly;view.mapListLimit=60;view.mapListOpen=true;
-      render({restoreView:true,fetchRoutes:false});break;
+      if(switching){view.mapScope='city';view.total=false;}
+      render({restoreView:!switching,fetchRoutes:false});break;
+    }
     case 'explorer-list-focus': {
       if(view.page!=='map'||!item)break;
       const displayItems=context.explorer?.viewportOnly&&context.explorer.viewportBounds
