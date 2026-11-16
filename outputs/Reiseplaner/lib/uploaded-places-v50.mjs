@@ -1,4 +1,5 @@
 import {applyVerifiedPlaceUpdateV53} from './verified-place-updates-v53.mjs';
+import {applyVerifiedPlaceUpdateV56} from './verified-place-updates-v56.mjs';
 // Import user-provided September 2027 research WITHOUT pretending its
 // "Verifiziert" string is a third-party source check or a confirmed booking.
 const placeCities=Object.freeze({
@@ -66,7 +67,10 @@ export function applyUploadedPlacesV50(trips,cities,source){
    const duplicateOf=known.get(key);
    if(duplicateOf){
     const existing=trip.items.find(x=>x.id===duplicateOf);
-    if(existing)applyVerifiedPlaceUpdateV53(existing,e.id);
+    if(existing){
+      applyVerifiedPlaceUpdateV53(existing,e.id);
+      applyVerifiedPlaceUpdateV56(existing,e.id);
+    }
     tally.dupesAcrossVariants++;
     tally.uniqueDuplicates.add(e.id);
     continue;
@@ -106,6 +110,7 @@ export function applyUploadedPlacesV50(trips,cities,source){
     }}:{})
    };
    applyVerifiedPlaceUpdateV53(item,e.id);
+   applyVerifiedPlaceUpdateV56(item,e.id);
    trip.items.push(item);known.set(key,id);
    tally.createdAcrossVariants++;
    tally.uniqueCreatedIds.add(e.id);
