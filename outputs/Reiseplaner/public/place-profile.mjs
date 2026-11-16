@@ -100,15 +100,20 @@ export function placeProfileModel(item, ctx = {}) {
     if(club.publishedAddress)facts.push(['Veröffentlichte Betreiberadresse',
       club.publishedAddress+' · Eingang/Koordinate separat prüfen']);
   }
-  if(item.discoveryV54||item.discoveryV55){
-    const o=item.discoveryV54??item.discoveryV55;
+  if(item.discoveryV54||item.discoveryV55||item.discoveryV60){
+    const o=item.discoveryV60??item.discoveryV54??item.discoveryV55;
     facts.push(['Geprüfte Betreiberquelle',o.checkedOn+' · Originalangaben, keine Reservierung']);
     facts.push(['Preisreferenz',o.priceReference
       +(o.priceYear==='published_2027_reference'
         ?' · veröffentlichter Tarif ab 2027, konkreten Reisetag prüfen'
         :' · historischer Quellenstand, September 2027 offen')]);
     facts.push(['Veröffentlichte Öffnungszeiten',o.openingReference+' · Reisetag 2027 erneut prüfen']);
-    facts.push(['Karten- und Quellenstatus','Offizielle Postadresse vorhanden; individuelle GPS-Koordinate nicht bestätigt']);
+    if(o.accessCaution)facts.push(['Anreise / Lage',o.accessCaution]);
+    if(o.published2027Period)facts.push(['Veröffentlichtes allgemeines Saisonfenster 2027',
+      o.published2027Period+' · Wetter/Sonderregelungen und tatsächlichen Reisetag prüfen']);
+    facts.push(['Karten- und Quellenstatus',o.locationPrecision==='independent_public_poi_area_only'
+      ?'Unabhängiger POI-Gebietspunkt, kein gesicherter Eingang'
+      :'Offizielle Postadresse vorhanden; individuelle GPS-Koordinate nicht bestätigt']);
   }
   for(const access of [item.officialAccessV53,item.officialAccessV56,item.officialAccessV57,item.officialAccessV58].filter(Boolean)){
     facts.push(['Betreiber-/Quellenprüfung '+access.checkedOn,access.summary]);
