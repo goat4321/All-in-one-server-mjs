@@ -26,7 +26,7 @@ export function hasDocumentedOpeningReference(item){
    &&(realClock.test(note)||/\b(?:täglich geöffnet|durchgehend geöffnet|rund um die uhr|montags geschlossen)\b/i.test(note)))
   return true;
  const official=[item.officialAccessV53,item.officialAccessV56,
-   item.officialAccessV57,item.officialAccessV58,item.discoveryV54,item.discoveryV55,item.discoveryV60];
+   item.officialAccessV57,item.officialAccessV58,item.discoveryV54,item.discoveryV55,item.discoveryV60,item.discoveryV61];
  return official.some(src=>src?.sourceUrl&&realClock.test(
    String(src.hoursReference??src.openingReference??src.summary??'')));
 }
