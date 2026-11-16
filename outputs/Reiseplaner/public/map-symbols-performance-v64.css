@@ -122,3 +122,31 @@
 :root[data-motion=off] .reference-travel-shell .map-category-bubble{
  transition:none!important
 }
+/* Numeric clusters preserve their counts; single-category groups also show
+   the category glyph. Mixed clusters remain neutral instead of mislabelled. */
+.poi-cluster-count{
+ position:relative;display:flex;flex-direction:column;gap:0;
+ align-items:center;justify-content:center;
+ font-size:.87rem;line-height:1;overflow:visible
+}
+.poi-cluster-count .map-category-icon{
+ width:15px;height:15px;stroke-width:2.2;margin:0 0 2px
+}
+.poi-cluster-count strong{
+ font-size:.77rem;line-height:1;font-weight:850;letter-spacing:-.01em
+}
+.poi-cluster-count.group-lodging{background:#3977aa}
+.poi-cluster-count.group-food{background:#bc703e}
+.poi-cluster-count.group-shop{background:#a88622}
+.poi-cluster-count.group-activity{background:#176f4c}
+.poi-cluster-count.group-transport{background:#79579b}
+.poi-cluster-count.group-mixed{background:#235c4e}
+.poi-cluster-saved{
+ position:absolute;right:-3px;top:-4px;
+ display:grid;place-items:center;width:15px;height:15px;
+ color:#fff;background:#d65064;border:2px solid #fff;border-radius:50%;
+ font-size:9px;font-style:normal;line-height:1
+}
+.reference-travel-shell .poi-cluster-icon:hover .poi-cluster-count{
+ filter:brightness(1.1)
+}
