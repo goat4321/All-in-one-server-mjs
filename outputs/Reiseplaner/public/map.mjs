@@ -6,7 +6,7 @@ import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { installSoftVectorBasemap, fallbackRasterUrl, fallbackRasterOptions,
   vectorAttribution, basemapLabels } from './vector-basemap.mjs';
 import { markerTier, validMapCoordinate, bubbleMarkup } from './photo-map-model.mjs';
-import {mapLegacyPinContent} from './map-marker-icons-v64.mjs';
+import {mapLegacyPinContent,mapIconForPlace} from './map-marker-icons-v64.mjs';
 import { groupPoiForDisplay, poiDensityPolicy } from './poi-density.mjs';
 import {markerProvenance} from './poi-location-provenance.mjs';
 
@@ -485,6 +485,7 @@ export class TripMap {
       items.forEach((item,i)=>{
         const id=item.explorerId??item.id;
         const category=item.explorerCategory??explorerCategory(item);
+        const iconType=mapIconForPlace(item,category);
         const provenance=markerProvenance(item);
         const photo=curatedPlacePhoto(item);
         const pixel=this.map.project(item.point,zoom);
@@ -497,7 +498,7 @@ export class TripMap {
         const content=bubbleMarkup({
           id,name:item.name,category,photoUrl:tier==='photo'?photo?.url:null,
           rating:item.rating??item.providerRating??null,
-          saved:this.poiSaved?.has(item.id),tier,
+          saved:this.poiSaved?.has(item.id),tier,iconType,
         });
         const width=tier==='photo'?132:tier==='dot'?19:40;
         const height=tier==='photo'?132:tier==='dot'?19:40;
