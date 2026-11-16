@@ -43,6 +43,7 @@ const view = {
   mapUnlocatedOpen:false,mapUnlocatedFilter:'all',mapUnlocatedSearch:'',mapUnlocatedLimit:12,
   mapEvidenceOpen:false,mapEvidenceType:'all',mapEvidenceSearch:'',mapEvidenceLimit:10,
   mapSimple:localStorage.getItem('reiseplan-map-simple')!=='off',
+  mapListOpen:true,
   mapDensity:localStorage.getItem('reiseplan-map-density')==='detail'?'detail':'calm',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
   browseScope:'city',browseSearch:'',browseFoodType:'all',browseLimit:24,
@@ -1110,6 +1111,7 @@ async function action(name, value = '') {
       render({restoreView:true,fetchRoutes:false});
       break;
     case 'simple-find':
+      view.mapListOpen=true;
       view.mapScope='city';view.total=false;view.mapSavedOnly=false;
       view.mapViewportOnly=false;view.mapViewportBounds=null;
       view.mapGroup='all';view.mapListLimit=60;
@@ -1117,6 +1119,7 @@ async function action(name, value = '') {
       const search=matchMedia('(min-width:1180px)').matches
         ?app.querySelector('#reference-top-search')??app.querySelector('#map-search')
         :app.querySelector('#map-search');
+      if(search?.closest('.reference-places-drawer'))search.closest('details').open=true;
       search?.scrollIntoView({block:'center',behavior:'instant'});
       search?.focus({preventScroll:true});
       break;
@@ -1213,10 +1216,19 @@ async function action(name, value = '') {
     }
     case 'explorer-group':
       if (!['all', 'lodging', 'food', 'shop', 'activity', 'transport'].includes(value)) break;
-      view.mapGroup = value; view.mapListLimit = 60; render({ restoreView: true }); break;
+      // In trip mode the base map intentionally renders city hubs only.
+      // Move to the current city's POI map for category markers, rather than
+      // implying that a category-filtered trip line plots individual venues.
+      if(view.mapScope==='trip'&&value!=='all'){
+        view.mapScope='city';view.total=false;
+        view.mapViewportOnly=false;view.mapViewportBounds=null;
+      }
+      view.mapGroup=value;view.mapListOpen=true;view.mapListLimit=60;
+      render({restoreView:view.mapScope!=='city',fetchRoutes:false});break;
     case 'explorer-search':
       view.mapSearch = document.querySelector('#map-search')?.value?.trim().slice(0, 100) ?? '';
-      view.mapListLimit = 60; render({ restoreView: true }); break;
+      view.mapListOpen=true;
+      view.mapListLimit = 60; render({ restoreView: true,fetchRoutes:false }); break;
     case 'explorer-viewport':
       view.mapViewportOnly=!view.mapViewportOnly;
       view.mapViewportBounds=view.mapViewportOnly?visibleBounds(currentMap?.map):null;
@@ -1252,12 +1264,12 @@ async function action(name, value = '') {
       await toggleSavedEntry(ctx,item,{preferLocal:true});
       break;
     case 'nav-saved':
-      view.mapSavedOnly=true;view.mapListLimit=60;
+      view.mapSavedOnly=true;view.mapListLimit=60;view.mapListOpen=true;
       if(view.page!=='map')changePage('map');
       else render({restoreView:true,fetchRoutes:false});
       break;
     case 'explorer-saved-only':
-      view.mapSavedOnly=!view.mapSavedOnly;view.mapListLimit=60;
+      view.mapSavedOnly=!view.mapSavedOnly;view.mapListLimit=60;view.mapListOpen=true;
       render({restoreView:true,fetchRoutes:false});break;
     case 'explorer-list-focus': {
       if(view.page!=='map'||!item)break;
@@ -1432,6 +1444,33 @@ async function action(name, value = '') {
     case 'map-tone':
       if(!['standard','midnight','sand'].includes(value))break;
       view.mapTone=value;localStorage.setItem('reiseplan-map-tone',value);
+      render({restoreView:true,fetchRoutes:false});
+      break;
+    case 'map-open-search': {
+      if(view.page!=='map')break;
+      view.mapListOpen=true;
+      if(view.mapScope!=='city'){
+        // Search returns individually mapped places instead of only route hubs.
+        view.mapScope='city';view.total=false;view.mapViewportOnly=false;
+        view.mapViewportBounds=null;view.mapListLimit=60;
+      }
+      if(view.mapFullscreen)view.mapFullscreenDrawer=true;
+      render({fetchRoutes:false});
+      const drawer=app.querySelector('.reference-places-drawer');
+      if(drawer)drawer.open=true;
+      const search=app.querySelector('#map-search');
+      if(!view.mapFullscreen)drawer?.scrollIntoView({block:'nearest',behavior:'auto'});
+      search?.focus({preventScroll:true});
+      break;
+    }
+    case 'map-clear-filters':
+      view.mapGroup='all';view.mapSearch='';view.mapSavedOnly=false;
+      view.mapViewportOnly=false;view.mapViewportBounds=null;
+      view.mapNearPointId=null;view.mapListLimit=60;view.mapListOpen=true;
+      render({restoreView:true,fetchRoutes:false});
+      break;
+    case 'map-clear-selection':
+      view.selected=null;
       render({restoreView:true,fetchRoutes:false});
       break;
     case 'map-fullscreen':
@@ -1980,6 +2019,7 @@ app.addEventListener('pointerout',event=>hoverAtlasCard(event,false));
 app.addEventListener('toggle',event=>{
   if(event.target.matches('.sidebar-places'))view.cityNavOpen=event.target.open;
   if(event.target.matches('.map-design-details'))view.mapDesignOpen=event.target.open;
+  if(event.target.matches('.reference-places-drawer'))view.mapListOpen=event.target.open;
   if(event.target.matches('.map-evidence-review'))view.mapEvidenceOpen=event.target.open;
   else if(event.target.matches('.map-unlocated-review'))view.mapUnlocatedOpen=event.target.open;
   if(event.target.matches('.explorer-view-advanced'))view.mapAdvancedOpen=event.target.open;
