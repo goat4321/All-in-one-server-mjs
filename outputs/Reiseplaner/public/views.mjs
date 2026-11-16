@@ -350,7 +350,7 @@ function mapPanel(ctx, full = false) {
       :ctx.explorer?.scope==='day'
         ?(ctx.day.length?ctx.day.length+' geplante Stopps':(ctx.dayPlan?.slots.length??0)+' Tagesideen')+' · '+esc(shortDay(ctx.date))
         :ctx.explorer?.placed.length+' Kartenpunkte · '+ctx.explorer?.unlocated.length+' Ortsangaben ohne Pin'}</p></div>
-    <div class="inline">${ctx.page==='map'?'<button type="button" class="map-fullscreen-launch" data-action="map-fullscreen" aria-pressed="'+Boolean(ctx.mapFullscreen)+'">'
+    <div class="inline">${ctx.page==='map'?'<button type="button" class="route-story-launch" data-action="route-story-play" title="Deine Reise als animierte Städtefolge ansehen">'+icon('play')+' <span>Route abspielen</span></button>':''}${ctx.page==='map'?'<button type="button" class="map-fullscreen-launch" data-action="map-fullscreen" aria-pressed="'+Boolean(ctx.mapFullscreen)+'">'
       +icon('map')+' <span>Vollbildkarte</span></button>':''}${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div></div>
     <div class="map-tools" aria-label="Kartenebenen">
       ${chip('map-mode', 'Tag', !ctx.total, 'day')}${chip('map-mode', 'Gesamt', ctx.total, 'total')}
@@ -371,6 +371,7 @@ function mapPanel(ctx, full = false) {
           '<button type="button" data-action="explorer-scope" data-value="'+id+'" aria-pressed="'
           +(ctx.explorer?.scope===id)+'">'+label+'</button>').join('')}
       </div>
+      <button type="button" class="map-story-toolbar-play" data-action="route-story-play" title="Reiseroute abspielen" aria-label="Reiseroute abspielen">${icon('play')}<span>Route abspielen</span></button>
       <details class="map-fullscreen-city-picker"><summary>${icon('pin')}<span>Ort wechseln</span></summary>
         <div class="map-fullscreen-city-options" role="group" aria-label="Reiseort auswählen">
         ${[...new Set(ctx.trip.route)].map(id=>'<button type="button" data-action="city" data-value="'
@@ -389,6 +390,29 @@ function mapPanel(ctx, full = false) {
       <button type="button" class="map-fullscreen-bookmarks" data-action="explorer-saved-only"
         aria-pressed="${Boolean(ctx.explorer?.savedOnly)}">${icon('bookmark')}<span>Merkliste</span></button>
     </nav>`:''}
+    ${ctx.page==='map'?\`<section id="route-story-player" class="route-story-player" hidden
+      aria-label="Animierte Reisevorschau" data-status="idle">
+      <div class="route-story-leading">
+        <span class="route-story-symbol" id="route-story-symbol" aria-hidden="true">🧭</span>
+        <div class="route-story-heading">
+          <span class="route-story-eyebrow">DEINE REISE · STÄDTEFOLGE</span>
+          <strong id="route-story-city">Reiseroute</strong>
+          <small id="route-story-description">Schematische Verbindung, keine Bahngleise</small>
+        </div>
+        <span class="route-story-count" id="route-story-count">0 / 0</span>
+      </div>
+      <div class="route-story-progress" role="progressbar" aria-label="Abgespielte Reiseetappen"
+        aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span id="route-story-progress-fill"></span></div>
+      <div class="route-story-actions">
+        <span id="route-story-announcement" role="status" aria-live="polite">Reisevorschau</span>
+        <button type="button" class="route-story-pause" data-action="route-story-pause">${icon('pause')}<span>Pause</span></button>
+        <button type="button" data-action="route-story-speed" title="Abspielgeschwindigkeit" aria-label="Abspielgeschwindigkeit ändern">1×</button>
+        <button type="button" data-action="route-story-play" title="Vom Anfang starten" aria-label="Reise erneut abspielen">${icon('reset')}</button>
+        <button type="button" data-action="route-story-stop" title="Animation beenden" aria-label="Animation beenden">${icon('close')}</button>
+      </div>
+      <small class="route-story-disclaimer">Verlauf nur schematisch · keine reale Zugstrecke oder Fahrplanbestätigung</small>
+    </section>\`:''}
     <div class="map-source-indicator" id="map-source-indicator" data-state="loading" role="status" aria-live="polite">
       <span id="map-source-label">Kostenlose Karte wird geladen …</span>
       <button type="button" class="map-source-retry" id="map-source-retry" data-action="map-basemap-retry" hidden>Erneut laden</button>
@@ -437,6 +461,7 @@ function mapPanel(ctx, full = false) {
       ${chip('map-motion',ctx.mapMotion==='off'?'Animationen aus':'Sanfte Animationen',ctx.mapMotion!=='off',ctx.mapMotion==='off'?'on':'off','spark')}
     </div></details>
     ${tripJourney}
+    <details class="map-legend-disclosure"><summary>${icon('layers')} <span>Legende & Kartenhinweise</span><small>Bei Bedarf öffnen</small></summary>
     <div class="map-legend"><span><i class="legend-line ${ctx.total ? 'dashed' : ''}"></i> ${ctx.total ? 'Städtefolge · Schema' : 'Berechneter Fußweg'}</span>
     ${ctx.explorer ? Object.entries(EXPLORER_GROUPS).map(([id, group]) =>
       '<button type="button" class="map-legend-control" data-action="explorer-group" data-value="'+esc(id)
@@ -453,7 +478,7 @@ function mapPanel(ctx, full = false) {
     ${!ctx.total ? '<span><i class="legend-dot"></i> Alternative</span>' : ''}
     ${!ctx.total && network?.dateLabel ? '<span>' + esc(network.dateLabel) + ' · Netzreferenz</span>' : ''}
     ${!ctx.total && ctx.cities[ctx.city].country === 'CH' && t.hiking ? '<span>Signalisiertes Netz · ab Zoomstufe 10</span>' : ''}
-    ${!ctx.total ? urlLink(transitPlanners[ctx.city], 'ÖPNV-Planer') : ''}</div>
+    ${!ctx.total ? urlLink(transitPlanners[ctx.city], 'ÖPNV-Planer') : ''}</div></details>
 
     ${dayRail}
     <div id="detail-container">${mapDetail(ctx)}</div>
