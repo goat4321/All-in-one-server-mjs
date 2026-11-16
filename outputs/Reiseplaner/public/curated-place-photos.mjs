@@ -2,6 +2,27 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 56: five source-checked outdoor/museum motifs for existing user-uploaded places.
+ {city:'paris',name:/^parc montsouris$/i,
+  file:"Parc Montsouris - Paris XIV (FR75) - 2025-04-27 - 1.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Parc Montsouris - Paris XIV (FR75) - 2025-04-27 - 1.jpg").replace(/%20/g,'_'),
+  credit:"Chabe01 · CC BY-SA 4.0 · Park Montsouris (2025) · CSS-Bildausschnitt"},
+ {city:'barcelona',name:/^font m[aà]gica de montju[iï]c$/i,
+  file:"Barcelona Font màgica de Montjuïc 01.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Barcelona Font màgica de Montjuïc 01.jpg").replace(/%20/g,'_'),
+  credit:"Ad Meskens · CC BY-SA 4.0 · Font Màgica (2017) · CSS-Bildausschnitt"},
+ {city:'barcelona',name:/^mnac \(museu nacional d.art de catalunya\)/i,
+  file:"Museu Nacional d'Art de Catalunya.JPG",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("Museu Nacional d'Art de Catalunya.JPG").replace(/%20/g,'_'),
+  credit:"Vishwa.ar · CC BY-SA 3.0 ES · MNAC-Fassade (2013) · CSS-Bildausschnitt"},
+ {city:'sete',name:/^miam \(mus[eé]e international des arts modestes\)$/i,
+  file:"MIAM.0.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("MIAM.0.jpg").replace(/%20/g,'_'),
+  credit:"Demeester · CC BY-SA 3.0 · MIAM Sète (2010) · CSS-Bildausschnitt"},
+ {city:'grindelwald',name:/^gletscherschlucht grindelwald$/i,
+  file:"GrindelwaldGletscherschlucht.jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("GrindelwaldGletscherschlucht.jpg").replace(/%20/g,'_'),
+  credit:"Herzi Pinki · CC BY-SA 3.0 · Gletscherschlucht Grindelwald (1998) · CSS-Bildausschnitt"},
  // Phase 55: five individually verified Commons file pages (identity, author, reusable license).
  {city:'sete',name:/^mus[eé]e paul val[eé]ry$/i,
   file:"Exposition au musée Paul Valéry à Sète.jpg",
