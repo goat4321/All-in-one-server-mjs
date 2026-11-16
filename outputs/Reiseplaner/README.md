@@ -388,3 +388,13 @@ Unter **Karte** auf **Vollbildkarte** klicken (alternativ das **Vollbild**-Symbo
 - Beim Öffnen/Schließen bleiben Leaflet-Karteninstanz, Zoom und Mittelpunkt erhalten. Daten, bestehende Tagespläne und Buchungen werden durch diesen Anzeigemodus **nicht** verändert.
 
 Technik: `public/map-fullscreen-v69.css` enthält die Responsive-Ansicht, `public/views.mjs` die Steuerung, `public/app.mjs` den lokalen UI-Zustand und die Tastatur-/Schaltflächenaktionen. Der vorhandene OSM/OpenFreeMap-Kartenstack bleibt kostenlos und ohne Google-Maps-Key; externe Kartenkacheln benötigen Internet. Den echten Browser-Vollbildmodus kannst du zusätzlich mit **F11** aktivieren.
+
+## Animierte Reiseroute & ruhige Kartenoberfläche (v70)
+
+In **Karte** den Button **Route abspielen** benutzen. Der Kartenmodus wechselt dafür in **Gesamtroute**, zoomt auf die vorhandenen Stadt-Koordinaten und animiert einen leuchtenden Punkt **in der gespeicherten Reihenfolge**. Bei jedem Stadthalt erscheinen ein Stadtsymbol und der Stadtname; ein kompakter Fortschrittsbereich nennt die aktuelle und die nächste Etappe. **Pause/Fortsetzen**, **1× / 1,5× / 2×**, **Neustart** und **Beenden** sind manuell bedienbar. Die Animation funktioniert auch in der Vollbildkarte. „Legende & Kartenhinweise“ ist jetzt standardmäßig eingeklappt, die Details bleiben bei Bedarf zugänglich.
+
+**Wichtig:** Die Verbindungslinien zwischen den belegten **Stadt-Referenzkoordinaten** sind **schematische direkte Verbindungen**, **keine** verifizierten Bahntrassen oder 2027-Fahrpläne. Die Animation nutzt **keine** angenommenen Hotel-/Eingangskoordinaten. Städte ohne gespeicherte Stadtkoordinate werden für die Animation übersprungen. Der Wiedergabemodus verändert **keinen** Tagesplan, keine Auswahl, Preise, Buchungen oder Datenquellen.
+
+Bei eingeschalteter Systemeinstellung „Bewegung reduzieren“ oder in der Website-Einstellung „Animationen aus“ wird die Route **ohne laufenden Punkt** gezeigt und alle Stadtsymbole sofort eingeblendet. Die Story läuft **nur nach aktivem Start**, nicht automatisch beim Öffnen der Website. Bilder/Lizenzen der gespeicherten Ortsprofile bleiben unabhängig von den symbolischen Stadtmotiven.
+
+Technik: `route-city-story-v70.mjs` (geprüfte Stadtfolge, Motive und Interpolation), `route-city-story-player-v70.mjs` (separate Leaflet-Overlay-Animation mit eigener Bereinigung), `route-city-story-v70.css` (responsive Karten-/Popupgestaltung), Integration in `map.mjs`, `app.mjs` und `views.mjs`. Tests: `test/route-city-story-v70.test.mjs` und Browserdurchlauf in `test/browser.mjs`.
