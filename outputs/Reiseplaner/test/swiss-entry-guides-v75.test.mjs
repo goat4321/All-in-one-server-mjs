@@ -42,7 +42,9 @@ test('V75 two Swiss variants receive separate verified-context guides for every 
      }
      const html=placeProfileHtml(item,{cities:catalog.cities,catalog,
       people:Array.from({length:trip.travellers},(_,i)=>({id:i})),state:{placePhotos:{}}},{compact:true});
-     assert.ok(html.includes(g.sourceUrl)||html.includes('Schweiz · regionale Besucherinformation'),item.id+' source');
+     // HTML attributes correctly escape query-string '&' to '&amp;'.
+     const renderedUrl=g.sourceUrl.replace(/&/g,'&amp;');
+     assert.ok(html.includes(renderedUrl)||html.includes('Schweiz · regionale Besucherinformation'),item.id+' source');
    }
  }
 });
