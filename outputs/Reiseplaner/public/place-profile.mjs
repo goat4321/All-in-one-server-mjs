@@ -4,6 +4,7 @@ import {markerProvenance,hasIndependentPointEvidence} from './poi-location-prove
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, googleMapsLocationStatus } from './google-maps.mjs';
 import { esc, sourceList, urlLink } from './ui.mjs';
 import { curatedPlacePhoto,curatedCityBackdrop } from './curated-place-photos.mjs';
+import {commonsDefaultQuery,commonsWebSearchUrl} from './commons-photo-search.mjs';
 import { planCostSignal } from './visual-experience.mjs';
 import { entryCompleteness } from './entry-completeness.mjs';
 import { icon } from './ui.mjs';
@@ -123,6 +124,23 @@ export function placeProfileModel(item, ctx = {}) {
       ?'Unabhängiger POI-Gebietspunkt, kein gesicherter Eingang'
       :'Offizielle Postadresse vorhanden; individuelle GPS-Koordinate nicht bestätigt']);
   }
+  if(item.venueSourceV78){
+    const g=item.venueSourceV78;
+    facts.push(['Neue Orts-/Unterkunftsrecherche',g.title]);
+    facts.push(['Anfahrt / veröffentlichte Adresse',g.arrival]);
+    facts.push(['Öffnung / Check-in · Quellenstand',g.hours]);
+    facts.push(['Preisstand / Tarifgültigkeit',g.price+' · keine bestätigte Einzelbuchung September 2027']);
+    facts.push(['Bedingungen / mögliche Zusatzkosten',g.caution]);
+    facts.push(['Weiter zu prüfen',g.notes]);
+    facts.push(['Quelle und Verifizierung',g.checkedOn+' · '+(g.sourceType==='operator'
+      ?'Originalanbieter':g.sourceType==='tourism'?'Tourismusbüro':'Redaktionelle Drittquelle')
+      +' · kein aktueller Checkout']);
+  }
+  if(item.venueIdentityReviewV78){
+    const c=item.venueIdentityReviewV78;
+    facts.push(['Achtung: Eintrag und Anbieter nicht sicher identisch',c.issue]);
+    facts.push(['Identität vor der Buchung / Anreise klären',c.nextAction]);
+  }
   if(item.officialVenueV77){
     const g=item.officialVenueV77;
     if(g.status==='closed_reopening_unknown')
@@ -237,6 +255,14 @@ export function placeProfileModel(item, ctx = {}) {
       ??item.discoveryV60?.secondarySourceUrl??null,
     guideSourceUrl:item.publicPlaceGuideV68?.sourceUrl??null,
     venueSourceUrl:item.officialVenueV77?.sourceUrl??null,
+    v78SourceUrl:item.venueSourceV78?.sourceUrl??null,
+    v78SourceLabel:item.venueSourceV78?.sourceType==='operator'
+      ?'Original-Betreiberinformation':item.venueSourceV78?.sourceType==='tourism'
+        ?'Tourismusamt · Ortsinformation':'Redaktionelle Referenz · Zeiten prüfen',
+    conflictReviewSourceUrl:item.venueIdentityReviewV78?.evidenceUrl??null,
+    identityWarning:item.venueIdentityReviewV78?.issue??null,
+    photoSearchUrl:!photos.length&&!isAirbnb&&item.kind==='activity'
+      ?commonsWebSearchUrl(commonsDefaultQuery(item,ctx.cities)):null,
     operationalNotice:item.officialVenueV77?.status==='closed_reopening_unknown'
       ?'Derzeit geschlossen · Wiedereröffnung für September 2027 nicht bestätigt.'
       :item.officialVenueV77?.status==='event_date_unconfirmed'
@@ -365,6 +391,8 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
     + '</span><h3>'+esc(p.name)+'</h3><p>'+esc(p.description)+'</p></div></div>'
     + (p.operationalNotice?'<p class="place-profile-access-warning"><strong>Planungshinweis:</strong> '
       +esc(p.operationalNotice)+'</p>':'')
+    + (p.identityWarning?'<p class="place-profile-access-warning"><strong>Identitätskonflikt:</strong> '
+      +esc(p.identityWarning)+'</p>':'')
     + '<dl class="place-profile-facts">'+visible.map(([label,value])=>'<div><dt>'
       +esc(label)+'</dt><dd>'+esc(value)+'</dd></div>').join('')+'</dl>'
     + (compact?'':'<details class="place-profile-coverage"><summary>Was fehlt noch? · '
@@ -385,6 +413,13 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
       +urlLink(p.providerUrl,'Originalangebot / Anbieter')
       +(p.venueSourceUrl&&p.venueSourceUrl!==p.providerUrl
         ?urlLink(p.venueSourceUrl,'Veröffentlichte Betreiber-/Tourismusangaben'):'')
+      +(p.v78SourceUrl&&p.v78SourceUrl!==p.providerUrl
+        &&p.v78SourceUrl!==p.venueSourceUrl
+        ?urlLink(p.v78SourceUrl,p.v78SourceLabel):'')
+      +(p.conflictReviewSourceUrl
+        ?urlLink(p.conflictReviewSourceUrl,'Nur Gegenquelle prüfen · möglicherweise anderes Geschäft'):'')
+      +(p.photoSearchUrl
+        ?urlLink(p.photoSearchUrl,'Lizenzierte Fotos bei Wikimedia Commons suchen'):'')
       +urlLink(p.secondaryProviderUrl,'Weitere offizielle Besucherinformationen')
       +(p.guideSourceUrl&&p.guideSourceUrl!==p.providerUrl
         ?urlLink(p.guideSourceUrl,'Zusätzliche offizielle Ortsquelle'):'')
