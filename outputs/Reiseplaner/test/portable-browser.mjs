@@ -1048,6 +1048,19 @@ try {
   assert.equal(await js('document.querySelectorAll(".swiss-focus-corridor").length'),4,
     'Both Nice cross-border routing hypotheses and two Swiss onward corridors visible');
   await screenshot('47-interrail-schweiz-bahnrisiken.png');
+  await text('.swiss-stay-rail-note','Kandersteg');
+  await click('.swiss-stay-rail-note [data-action=page][data-value=lodging]');
+  await until(()=>js('Boolean(document.querySelector(".swiss-stay-board"))'),
+    '3-person Swiss lodging comparison visible after rail-page button');
+  await text('.swiss-stay-board','Alte Metzg');
+  await text('.swiss-stay-board','KISC');
+  assert.equal(await js('document.querySelectorAll(".swiss-stay-candidate").length'),8,
+    'Eight sourced room categories, not invented room bookings');
+  assert.equal(await js('document.querySelectorAll(".swiss-stay-original").length'),2,
+    'Historic Tripsy Kandersteg and Appenzell offers remain separately labeled');
+  await text('.swiss-stay-board','CHF 165');
+  await text('.swiss-stay-board','CHF 170');
+  await screenshot('48-interrail-schweiz-unterkunftsvergleich.png');
   assert.equal(store.current('swiss_lakes').state.people.length,4,
     'Swiss Interrail inspection never changes the separate car trip group');
   await set('#variant', 'interrail_classic');
