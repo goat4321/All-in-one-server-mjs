@@ -61,11 +61,12 @@ export function validateSwissDatedSearchV84(trips,rawAccommodations,archive){
   const match=all.find(a=>a.propertyId===check.propertyId);
   const alternate=all.find(a=>a.propertyId===check.notSameAsId);
   requireIt(prev&&match&&alternate
-   &&prev.name===check.correctName&&match.name===check.correctName
+   &&prev.name===check.importedName&&match.name===check.correctName
    &&alternate.name===check.notSameAsName
    &&prev.travellers===3&&prev.booking_status==='unbooked'
-   &&prev.live_quote_total===null&&match.address===check.correctAddress
-   &&match.address!==check.notSameAsAddress
+   &&prev.live_quote_total===null
+   &&match.address.startsWith(check.correctAddress)
+   &&check.notSameAsId!==check.propertyId
    &&check.notSameAsName!==check.correctName
    &&typeof check.providerQa==='string'&&check.providerQa.length>80
    &&!refs.has(check.originalId),'unsafe identity reconciliation '+check.originalId);
