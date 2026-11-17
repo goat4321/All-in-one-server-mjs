@@ -19,7 +19,7 @@ export function venueAlternativesHtml(item,{compact=false}={}){
   +'<p class="venue-alt-v80-caution">'+esc(data.caveat)+'</p>'
   +(data.contextPhotos?.length
     ?'<div class="venue-alt-v80-context" aria-label="Lizenzierte regionale Kontextfotos, keine Betriebsbilder">'
-      +data.contextPhotos.map(p=>
+      +data.contextPhotos.slice(0,compact?1:3).map(p=>
         '<figure><img loading="lazy" decoding="async" referrerpolicy="no-referrer"'
         +' src="'+esc(p.url)+'" alt="'+esc(p.description)+'">'
         +'<figcaption><strong>Kontextbild · kein konkreter Anbieter:</strong> '
