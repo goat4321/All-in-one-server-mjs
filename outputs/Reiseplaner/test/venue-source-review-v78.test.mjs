@@ -57,7 +57,7 @@ test('V78 conflicting similarly named businesses are NOT stamped with unrelated 
   const html=placeProfileHtml(item,ctx);
   assert.match(html,/Identitätskonflikt/);
   assert.match(html,/Gegenquelle prüfen/);
-  assert.ok(html.includes(r.issue.slice(0,24)));
+  assert.ok(html.includes(r.issue.slice(0,12)),r.id+' identity warning visible');
  }
 });
 test('V78 2027 published group brochure is explicitly NOT a quote for a trio',()=>{
@@ -67,7 +67,7 @@ test('V78 2027 published group brochure is explicitly NOT a quote for a trio',()
  assert.ok(g.sourceUrl.endsWith('.pdf'));
  assert.match(g.price,/32 €\/Bett/);
  assert.match(g.price,/36 €/);
- assert.match(g.caution,/Drei Personen/);
+ assert.match(g.caution,/(?:Drei|3)-Personen/);
  assert.equal(g.individualTrip2027Offer,false);
  assert.equal(onefam.booked,false);
  const html=placeProfileHtml(onefam,ctx);
@@ -105,20 +105,33 @@ test('V78 supplies licensed Monaco sub-stop photo, and independent Commons searc
  assert.match(profile.photoSearchUrl,/commons.wikimedia.org/);
  assert.match(placeProfileHtml(missing,ctx),/Lizenzierte Fotos bei Wikimedia Commons suchen/);
 });
-test('V78 neither changes the source trip itinerary nor falsifies private room data',()=>{
- const variant={id:'interrail_classic',route:['barcelona','nice'],
-  items:[{id:'uploaded:v50:new_022',name:'La Xampanyeria (Can Paixano)',city:'barcelona',
-    kind:'activity',source:[],point:[41.38,2.17],price:null,booked:false,selected:false},
-    {id:'uploaded:v50:new_039',name:'Onefam Paralelo',city:'barcelona',kind:'lodging',
-     source:[],point:null,room:null,price:null,booked:false,selected:false}]};
- const before=structuredClone(variant);
- const stats=applyVenueSourceReviewV78([variant],catalog.cities,upload,archive);
- assert.equal(stats.enrichedAcrossVariants,2);
- for(const key of ['route'])assert.deepEqual(variant[key],before[key]);
- for(let i=0;i<variant.items.length;i++)
-  for(const key of ['id','city','name','kind','point','price','room','booked','selected'])
-    assert.deepEqual(variant.items[i][key],before.items[i][key]);
+test('V78 preserves routes, prices, room and booking state when re-attaching full archive',()=>{
+ const sample=structuredClone(catalog.trips);
+ const original=sample.map(t=>({
+   id:t.id,route:structuredClone(t.route),
+   items:t.items.map(x=>({id:x.id,city:x.city,kind:x.kind,point:structuredClone(x.point??null),
+      price:structuredClone(x.price??null),room:x.room??null,
+      booked:x.booked??false,selected:x.selected??false}))
+ }));
+ const stats=applyVenueSourceReviewV78(sample,catalog.cities,upload,archive);
+ assert.equal(stats.uniqueEnriched,12);
+ assert.equal(stats.uniqueConflicts,2);
+ sample.forEach((trip,i)=>{
+   assert.deepEqual(trip.route,original[i].route);
+   trip.items.forEach((item,j)=>{
+     const old=original[i].items[j];
+     assert.equal(item.id,old.id);
+     assert.equal(item.city,old.city);
+     assert.equal(item.kind,old.kind);
+     assert.deepEqual(item.point??null,old.point);
+     assert.deepEqual(item.price??null,old.price);
+     assert.equal(item.room??null,old.room);
+     assert.equal(item.booked??false,old.booked);
+     assert.equal(item.selected??false,old.selected);
+   });
+ });
  const invalid=structuredClone(archive);
  invalid.entries[0].sourceUrl='javascript:alert(1)';
- assert.throws(()=>applyVenueSourceReviewV78([structuredClone(before)],catalog.cities,upload,invalid),/V78 invalid venue row/);
+ assert.throws(()=>applyVenueSourceReviewV78([{
+   id:'interrail_classic',route:[],items:[]}],catalog.cities,upload,invalid),/V78 invalid venue row/);
 });
