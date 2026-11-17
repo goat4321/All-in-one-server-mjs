@@ -5,6 +5,7 @@ import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, go
 import { esc, sourceList, urlLink } from './ui.mjs';
 import { curatedPlacePhoto,curatedCityBackdrop } from './curated-place-photos.mjs';
 import {commonsDefaultQuery,commonsWebSearchUrl} from './commons-photo-search.mjs';
+import {venueAlternativesHtml} from './venue-alternatives-v80.mjs';
 import { planCostSignal } from './visual-experience.mjs';
 import { entryCompleteness } from './entry-completeness.mjs';
 import { icon } from './ui.mjs';
@@ -63,9 +64,10 @@ export function placeProfileModel(item, ctx = {}) {
     const addressDisputed=Boolean(item.sourceConflictV79
       &&['branch_identity_mismatch','address_conflict','venue_identity_conflict']
         .includes(item.sourceConflictV79.type));
-    facts.push([addressDisputed
-      ?'Importierte Adresse · widersprüchlich, noch nicht bestätigt'
-      :'Öffentliche Adresse',item.address]);
+    facts.push([item.alternativeVenueReviewV80?.status==='corner_addresses_correlated'
+      ?'Ecklagen-Adresse · beide Straßennamen belegt, Eingang offen'
+      :addressDisputed?'Importierte Adresse · widersprüchlich, noch nicht bestätigt'
+        :'Öffentliche Adresse',item.address]);
   }
   if(item.kind==='lodging') facts.push(
     ['Zimmer / Belegung',item.room || 'Zimmerart nicht bestätigt'],
@@ -142,6 +144,14 @@ export function placeProfileModel(item, ctx = {}) {
     facts.push(['Belegtyp',g.sourceType==='municipality'?'Stadtverwaltung'
       :g.sourceType==='park'?'Offizielle Parkverwaltung'
         :g.sourceType==='operator'?'Originalanbieter':'Tourismusamt']);
+  }
+  if(item.alternativeVenueReviewV80){
+    const d=item.alternativeVenueReviewV80;
+    facts.push(['Recherche zum Adress-/Anbietervergleich',d.evidenceSummary]);
+    facts.push(['Grenzen des Nachweises',d.caveat]);
+    if(d.alternatives?.length)
+      facts.push(['Eigenständige, belegte Alternativen',d.alternatives.length+
+        ' · nicht identisch mit dem importierten Eintrag und nicht automatisch eingeplant']);
   }
   if(item.sourceConflictV79){
     const c=item.sourceConflictV79;
@@ -281,13 +291,16 @@ export function placeProfileModel(item, ctx = {}) {
     venueSourceUrl:item.officialVenueV77?.sourceUrl??null,
     v79SourceUrl:item.lastCityGuideV79?.sourceUrl??null,
     v79OtherSourceUrl:item.sourceConflictV79?.otherSourceUrl??null,
-    v79Warning:item.sourceConflictV79?.issue??null,
+    v79Warning:item.alternativeVenueReviewV80?.status==='corner_addresses_correlated'
+      ?null:item.sourceConflictV79?.issue??null,
+    v80ReviewStatus:item.alternativeVenueReviewV80?.status??null,
     v78SourceUrl:item.venueSourceV78?.sourceUrl??null,
     v78SourceLabel:item.venueSourceV78?.sourceType==='operator'
       ?'Original-Betreiberinformation':item.venueSourceV78?.sourceType==='tourism'
         ?'Tourismusamt · Ortsinformation':'Redaktionelle Referenz · Zeiten prüfen',
     conflictReviewSourceUrl:item.venueIdentityReviewV78?.evidenceUrl??null,
-    identityWarning:item.venueIdentityReviewV78?.issue??null,
+    identityWarning:item.alternativeVenueReviewV80?.status==='corner_addresses_correlated'
+      ?null:item.venueIdentityReviewV78?.issue??null,
     photoSearchUrl:!photos.length&&!isAirbnb&&item.kind==='activity'
       ?commonsWebSearchUrl(commonsDefaultQuery(item,ctx.cities)):null,
     operationalNotice:item.officialVenueV77?.status==='closed_reopening_unknown'
@@ -424,6 +437,7 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
       +esc(p.v79Warning)+'</p>':'')
     + '<dl class="place-profile-facts">'+visible.map(([label,value])=>'<div><dt>'
       +esc(label)+'</dt><dd>'+esc(value)+'</dd></div>').join('')+'</dl>'
+    + venueAlternativesHtml(item,{compact})
     + (compact?'':'<details class="place-profile-coverage"><summary>Was fehlt noch? · '
       +(coverage.gaps.length?coverage.gaps.length+' offene Prüfpunkte':'Keine weiteren Lücken nach Datenprüfung')
       +'</summary><div class="place-profile-gaplist">'
