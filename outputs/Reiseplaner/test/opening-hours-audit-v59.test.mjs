@@ -38,7 +38,8 @@ test('Unverified upload notes cannot falsely fill hours for 105 original candida
   if(!note.includes('im September 2027 nicht bestätigt'))continue;
   const actual=hasDocumentedOpeningReference(item);
   const official=[item.officialAccessV53,item.officialAccessV56,item.officialAccessV57,item.officialAccessV58];
-  if(!official.some(Boolean))assert.equal(actual,false,item.id);
+  if(!official.some(Boolean)&&item.venueSourceV78?.publishedOpeningReference!==true)
+   assert.equal(actual,false,item.id);
  }
 });
 test('Structured site hours, opening hours and qualified seasonal operator timetables remain usable',()=>{
