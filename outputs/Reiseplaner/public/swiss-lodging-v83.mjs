@@ -56,7 +56,7 @@ export function swissLodgingSummaryV83(ctx){
 export function swissLodgingCompareV83(ctx){
  const d=research(ctx);if(!d)return '';
  return '<section class="swiss-stay-board section" aria-label="Interrail Schweiz · Unterkunftsvergleich 3 Personen">'
- +'<header class="swiss-stay-head"><span class="swiss-stay-small">INTERAIL SCHWEIZ · UNTERKÜNFTE FÜR DREI</span>'
+ +'<header class="swiss-stay-head"><span class="swiss-stay-small">INTERRAIL SCHWEIZ · UNTERKÜNFTE FÜR DREI</span>'
  +'<h2>8 Betreiberoptionen statt unbestätigter Hotelpreise</h2>'
  +'<p>Die 2 bisherigen Tripsy-Unterkünfte bleiben im Reiseplan unverändert. '
  +'Verglichen werden nur nachweisbare Zimmerarten und veröffentlichte Preisreferenzen. '
@@ -80,4 +80,19 @@ export function swissLodgingCompareV83(ctx){
  +'3 Erwachsene und 2 Nächte einschließlich Steuern, Frühstück, Reinigung, Storno '
  +'und möglicher später Schlüsselübergabe durchführen.</p>'
  +'</section>';
+}
+
+/** Expose the real connection between the unverified late rail arrival and
+ * overnight eligibility without suggesting an actual time or a hotel booking.
+ */
+export function swissLodgingRailNoteV83(ctx){
+ const d=research(ctx);if(!d)return '';
+ const issues=d.checks.filter(x=>['late-arrival','kisc-boundary'].includes(x.id));
+ return '<aside class="swiss-stay-rail-note" aria-label="Kandersteg Ankunft und Unterkunft">'
+  +'<strong>Wichtige Anschlussprüfung: Nizza → Kandersteg am 10. September</strong>'
+  +issues.map(x=>'<p><b>'+esc(x.title)+':</b> '+esc(x.text)+'</p>').join('')
+  +'<button type="button" data-action="page" data-value="lodging">'
+  +'Passende 3er-Unterkünfte vergleichen</button>'
+  +'<small>Der Reisefahrplan und die Ankunftszeit 2027 sind unbestätigt; keine Unterkunft ist gebucht.</small>'
+  +'</aside>';
 }
