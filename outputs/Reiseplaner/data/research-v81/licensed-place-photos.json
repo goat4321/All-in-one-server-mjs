@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "package": "research-v81-licensed-site-photos",
+    "checkedOn": "2026-11-17",
+    "count": 4,
+    "policy": "Use only published Commons file pages with creator, license, subject and photograph age. No generic event/venue substitution and no implied 2027 conditions."
+  },
+  "images": [
+    {
+      "id": "new_004",
+      "city": "paris",
+      "name": "Marché des Enfants Rouges",
+      "file": "Paris III-Marché des Enfants-Rouges.jpg",
+      "author": "Popolon",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "photographed": "2012-08-26",
+      "scope": "exact_historic_external",
+      "caption": "Historische Außenansicht des Marché des Enfants Rouges (2012). Nach dem Brand vom Oktober 2026 ist eine Wiedereröffnung für September 2027 nicht bestätigt.",
+      "confirmedAs2027Opening": false,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paris_III-March%C3%A9_des_Enfants-Rouges.jpg",
+      "resizeMethod": "CSS-Bildausschnitt, Originaldatei auf Wikimedia Commons",
+      "isExactVenuePhotograph": true
+    },
+    {
+      "id": "new_022",
+      "city": "barcelona",
+      "name": "La Xampanyeria (Can Paixano)",
+      "file": "El laureado pan con chorizo (y cava)... @ Can Paixano (aka La Champañería), BCN, ES.jpg",
+      "author": "robertorodriguex",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+      "photographed": "2010-05-02",
+      "scope": "at_venue_historic_food",
+      "caption": "Historisches Foto eines Bocadillos mit Cava bei Can Paixano (2010). Kein Nachweis für heutige Karte, Preis oder Verfügbarkeit.",
+      "confirmedAs2027Opening": false,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:El_laureado_pan_con_chorizo_(y_cava)..._%40_Can_Paixano_(aka_La_Champa%C3%B1er%C3%ADa)%2C_BCN%2C_ES.jpg",
+      "resizeMethod": "CSS-Bildausschnitt, Originaldatei auf Wikimedia Commons",
+      "isExactVenuePhotograph": false
+    },
+    {
+      "id": "new_032",
+      "city": "barcelona",
+      "name": "Platja de la Mar Bella",
+      "file": "Platja de la Mar Bella (Barcelona) 01.JPG",
+      "author": "Jordiferrer",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "photographed": "2012-07-03",
+      "scope": "exact_historic_beach",
+      "caption": "Strand Platja de la Mar Bella (2012); keine Aussage über aktuelle Wasserqualität, Strandaufsicht oder Wassersportpreise.",
+      "confirmedAs2027Opening": false,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Platja_de_la_Mar_Bella_(Barcelona)_01.JPG",
+      "resizeMethod": "CSS-Bildausschnitt, Originaldatei auf Wikimedia Commons",
+      "isExactVenuePhotograph": true
+    },
+    {
+      "id": "new_034",
+      "city": "barcelona",
+      "name": "Palo Alto Market (Palo Market Fest)",
+      "file": "01 Palo Alto (antiga fàbrica Gal i Puigsech), c. Pellaires (Barcelona), interior.jpg",
+      "author": "Enric",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "photographed": "2017-08-03",
+      "scope": "venue_site_not_event",
+      "caption": "Innenhof/-bereich der ehemaligen Fabrik Palo Alto (2017), Veranstaltungsort des Palo Market Fest. Das Bild zeigt KEIN Festival und belegt keinen Termin für September 2027.",
+      "confirmedAs2027Opening": false,
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:01_Palo_Alto_(antiga_f%C3%A0brica_Gal_i_Puigsech)%2C_c._Pellaires_(Barcelona)%2C_interior.jpg",
+      "resizeMethod": "CSS-Bildausschnitt, Originaldatei auf Wikimedia Commons",
+      "isExactVenuePhotograph": false
+    }
+  ]
+}
