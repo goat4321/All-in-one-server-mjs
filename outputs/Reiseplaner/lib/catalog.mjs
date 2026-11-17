@@ -13,6 +13,7 @@ import {applyCityGuidesV76} from './city-guides-v76.mjs';
 import {applyOfficialVenuesV77} from './official-venues-v77.mjs';
 import {applyVenueSourceReviewV78} from './venue-source-review-v78.mjs';
 import {applyLastCityGapsV79} from './last-city-gaps-v79.mjs';
+import {applyAlternativeVenuesV80} from './alternative-venues-v80.mjs';
 import {VERIFIED_PLACE_UPDATES_V56} from './verified-place-updates-v56.mjs';
 import {VERIFIED_PLACE_UPDATES_V57} from './verified-place-updates-v57.mjs';
 import {VERIFIED_PLACE_UPDATES_V58} from './verified-place-updates-v58.mjs';
@@ -1063,6 +1064,10 @@ export async function loadCatalog() {
     new URL('../data/research-v79/last-city-gaps.json',import.meta.url),'utf8'));
   const lastCityStatsV79=applyLastCityGapsV79(
     output,cities,uploadedResearchV50,lastCityArchiveV79);
+  const alternativesArchiveV80=JSON.parse(await readFile(
+    new URL('../data/research-v80/alternative-venues.json',import.meta.url),'utf8'));
+  const alternativeStatsV80=applyAlternativeVenuesV80(
+    output,cities,uploadedResearchV50,alternativesArchiveV80);
   // Coverage counts distinct imported identities, not repeated travel variants.
   // A source-backed location profile is not a verified 2027 booking or pin.
   const fourCityImportRows=uploadedResearchV50.new_entries.filter(row=>
@@ -1085,6 +1090,18 @@ export async function loadCatalog() {
       })),
     conflictIds:[...fourCityConflicts].sort(),
     label:'Einzelquellen belegen nur die jeweilige Besucherinfo; keine vollständige 2027-Öffnung, Preis- oder GPS-Verifizierung',
+  };
+  const fourCityIdentityResolutionV80={
+    checkedOn:'2026-11-17',
+    distinctImports:fourCityImportRows.length,
+    directNamedSources:fourCitySourceCoverageV79.withIndividualReference,
+    additionalCornerAliasSupported:alternativesArchiveV80.dossiers
+      .filter(d=>d.status==='corner_addresses_correlated').map(d=>d.id),
+    remainingOriginalIdentityUnconfirmed:alternativesArchiveV80.dossiers
+      .filter(d=>d.status==='original_identity_unconfirmed_with_sourced_alternatives')
+      .map(d=>d.id),
+    distinctAlternatives:alternativesArchiveV80.meta.alternativeCount,
+    userSelectionRequired:true,matchedBusinessCheckout2027:false,
   };
   for(const trip of output)trip.items=trip.items.map(item=>
     !item.researchV50?item:{
@@ -1167,6 +1184,8 @@ export async function loadCatalog() {
        venueSourceReviewV78:{meta:venueArchiveV78.meta,stats:venueReviewStatsV78},
        lastCityGapsV79:{meta:lastCityArchiveV79.meta,stats:lastCityStatsV79},
        fourCitySourceCoverageV79,
+       alternativeVenuesV80:{meta:alternativesArchiveV80.meta,stats:alternativeStatsV80},
+       fourCityIdentityResolutionV80,
       operatorAccessV56:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V56).length},
       operatorAccessV57:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V57).length,
         publishedSeasonCandidates:Object.values(VERIFIED_PLACE_UPDATES_V57).filter(x=>x.publishedSeason2027).length},
@@ -1314,6 +1333,13 @@ export async function loadCatalog() {
          url:place.sourceUrl,accessed_on:swissArchiveV75.meta.checkedOn,
          validity:'Regionalinfo, keine objektbezogene Leistungs-/Buchungsquelle',
        })),
+       ...alternativesArchiveV80.dossiers.flatMap(d=>d.alternatives.map(a=>({
+         id:'alt-v80:'+a.key,
+         publisher:(a.sourceType==='operator'?'Originalanbieter':'Offizielles Tourismusamt')
+           +' · eigenständige Alternative · '+a.name,
+         url:a.officialUrl,accessed_on:alternativesArchiveV80.meta.checkedOn,
+         validity:'Alternativer Ort, nicht identisch mit dem importierten Eintrag, kein 2027-Checkout',
+       }))),
        ...lastCityArchiveV79.entries.map(place=>({
          id:'city-v79:'+place.id,
          publisher:'Originalreferenz kleiner Stadt-Orte · '+place.city+' · '+place.id,
