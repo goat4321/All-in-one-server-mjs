@@ -5,7 +5,9 @@
     "originVersion": "research-v79-last-city-gaps",
     "count": 3,
     "alternativeCount": 7,
-    "purpose": "Research resolution without altering a user's itinerary or turning substitutes into the original entry."
+    "purpose": "Research resolution without altering a user's itinerary or turning substitutes into the original entry.",
+    "contextPhotos": 2,
+    "photoScope": "Historic Commons contextual only; no venue-specific photo claim; source and CC license explicitly disclosed"
   },
   "dossiers": [
     {
@@ -90,6 +92,30 @@
           "price": "Keine bestätigten September-2027-Preise.",
           "pinVerified": false,
           "notAutomaticallyPlanned": true
+        }
+      ],
+      "contextPhotos": [
+        {
+          "file": "Sète Les Halles (52238627073).jpg",
+          "description": "Halles de Sète – Marktgebäude, kein Foto eines bestimmten Tielle-Verkäufers",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:S%C3%A8te_Les_Halles_%2852238627073%29.jpg",
+          "author": "Jorge Franganillo",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+          "picturedYear": 2022,
+          "scope": "market_context_not_venue",
+          "processed": "Nur verkleinert / CSS-Bildausschnitt"
+        },
+        {
+          "file": "Vente de tielles à Sète.jpg",
+          "description": "Tielle-Verkauf in Sète – allgemeines Streetfood-Motiv, nicht einer bestimmten Bäckerei zugeordnet",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vente_de_tielles_%C3%A0_S%C3%A8te.jpg",
+          "author": "TCY",
+          "license": "CC BY 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+          "picturedYear": 2021,
+          "scope": "city_food_context_not_venue",
+          "processed": "Nur verkleinert / CSS-Bildausschnitt"
         }
       ]
     },
