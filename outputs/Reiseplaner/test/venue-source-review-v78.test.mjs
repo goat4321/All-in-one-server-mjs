@@ -55,9 +55,15 @@ test('V78 conflicting similarly named businesses are NOT stamped with unrelated 
   assert.ok(!item.venueSourceV78);
   assert.ok(!item.source?.includes('venue-v78:'+r.id));
   const html=placeProfileHtml(item,ctx);
-  assert.match(html,/Identitätskonflikt/);
   assert.match(html,/Gegenquelle prüfen/);
-  assert.ok(html.includes(r.issue.slice(0,12)),r.id+' identity warning visible');
+  if(r.id==='new_021'){
+   assert.match(html,/Adressprüfung · vermutlich derselbe Eckstandort/);
+   assert.doesNotMatch(html,/<strong>Identitätskonflikt:<\/strong>/);
+   assert.match(html,/exakte Eingangstür/);
+  }else{
+   assert.match(html,/Identitätskonflikt/);
+   assert.ok(html.includes(r.issue.slice(0,12)),r.id+' identity warning visible');
+  }
  }
 });
 test('V78 2027 published group brochure is explicitly NOT a quote for a trio',()=>{
