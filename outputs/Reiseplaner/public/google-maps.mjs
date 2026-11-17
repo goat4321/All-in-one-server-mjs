@@ -28,6 +28,8 @@ const areaOnly = item => item?.provider === 'Airbnb' || String(item?.id ?? '').s
 
 export function googleMapsLocationStatus(item) {
   if (areaOnly(item)) return 'Nur Umgebung bekannt (kein exakter Unterkunfts-Pin)';
+  if(item?.sourceConflictV79&&['address_conflict','branch_identity_mismatch','venue_identity_conflict'].includes(item.sourceConflictV79.type))
+    return 'Ortsidentität oder Adresse widersprüchlich – markierter Pin NICHT als bestätigter Eingang verwenden';
   if (pointOk(item?.point)) {
     const kind=markerProvenance(item).kind;
     if(kind==='provider')
@@ -55,6 +57,10 @@ export function googleMapsPlaceQuery(item,cities={}) {
   const visitorAddress=item.officialAccessV58?.visitorAddress??item.officialAccessV57?.visitorAddress
     ??item.officialAccessV56?.visitorAddress??item.officialAccessV53?.visitorAddress;
   if(text(visitorAddress))return text(visitorAddress);
+  // For disputed venue identity, search only a broad NAME. Never pass
+  // the user's disputed house number or unconfirmed map coordinate to Google.
+  const disputedSearch=item.mapsSearchV79?.query;
+  if(typeof disputedSearch==='string'&&disputedSearch.trim())return text(disputedSearch);
   const curatedSearch=item.mapsSearchV77?.query;
   if(typeof curatedSearch==='string'&&curatedSearch.trim())return text(curatedSearch);
   const address = text(item.address);
@@ -85,6 +91,8 @@ export function googleMapsDirectionsUrl(from,to,cities={},travelmode='transit') 
 
 export function googleMapsSearchLabel(item) {
   if(areaOnly(item))return 'Umgebung in Google Maps';
+  if(item?.sourceConflictV79&&['address_conflict','branch_identity_mismatch','venue_identity_conflict'].includes(item.sourceConflictV79.type))
+    return 'Google Maps · Adresse / Anbieter verifizieren';
   if(item?.officialAccessV58?.visitorAddress||item?.officialAccessV57?.visitorAddress
     ||item?.officialAccessV56?.visitorAddress||item?.officialAccessV53?.visitorAddress)
     return 'Google Maps · öffentliche Betreiberadresse';
