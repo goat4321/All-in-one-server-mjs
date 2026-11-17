@@ -9,6 +9,7 @@ import {applyOperatorDiscoveriesV61} from './operator-discoveries-v61.mjs';
 import {applyOperatorDiscoveriesV62} from './operator-discoveries-v62.mjs';
 import {applyExistingPlaceGuidesV68} from './existing-place-guides-v68.mjs';
 import {applySwissGuidesV75} from './swiss-guides-v75.mjs';
+import {applyCityGuidesV76} from './city-guides-v76.mjs';
 import {VERIFIED_PLACE_UPDATES_V56} from './verified-place-updates-v56.mjs';
 import {VERIFIED_PLACE_UPDATES_V57} from './verified-place-updates-v57.mjs';
 import {VERIFIED_PLACE_UPDATES_V58} from './verified-place-updates-v58.mjs';
@@ -1044,6 +1045,9 @@ export async function loadCatalog() {
   const swissArchiveV75=JSON.parse(await readFile(
     new URL('../data/research-v75/swiss-entry-guides.json',import.meta.url),'utf8'));
   const swissGuideStatsV75=applySwissGuidesV75(output,cities,swissArchiveV75);
+  const cityArchiveV76=JSON.parse(await readFile(
+    new URL('../data/research-v76/city-details.json',import.meta.url),'utf8'));
+  const cityGuideStatsV76=applyCityGuidesV76(output,cities,uploadedResearchV50,cityArchiveV76);
   for(const trip of output)trip.items=trip.items.map(item=>
     !item.researchV50?item:{
       ...item,
@@ -1069,7 +1073,7 @@ export async function loadCatalog() {
         || ref.startsWith('food-v03-') || ref.startsWith('survey-v19:') || ref.startsWith('survey-v20:') || ref.startsWith('survey-v20-indoor:') || ref.startsWith('wishlist-v04:')
         || ref.startsWith('address-v09:') || ref.startsWith('food-v08-menu:')
         || ref.startsWith('operator-v54:')||ref.startsWith('operator-v55:')
-        || ref.startsWith('operator-v60:')||ref.startsWith('operator-v61:')||ref.startsWith('operator-v62:')||ref.startsWith('guide-v68:'));
+        || ref.startsWith('operator-v60:')||ref.startsWith('operator-v61:')||ref.startsWith('operator-v62:')||ref.startsWith('guide-v68:')||ref.startsWith('city-v76:'));
       return {
         id:item.id,city:item.city,name:item.name,category:categoryOf(item),
         selected:Boolean(item.selected),
@@ -1120,6 +1124,7 @@ export async function loadCatalog() {
       operatorDiscoveryV62:{meta:operatorDiscoveryV62.meta,stats:operatorDiscoveryStatsV62},
        existingPlaceGuidesV68:{meta:existingGuidesV68.meta,stats:existingGuidesStatsV68},
        swissEntryGuidesV75:{meta:swissArchiveV75.meta,stats:swissGuideStatsV75},
+       fourCityDetailsV76:{meta:cityArchiveV76.meta,stats:cityGuideStatsV76},
       operatorAccessV56:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V56).length},
       operatorAccessV57:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V57).length,
         publishedSeasonCandidates:Object.values(VERIFIED_PLACE_UPDATES_V57).filter(x=>x.publishedSeason2027).length},
@@ -1266,6 +1271,18 @@ export async function loadCatalog() {
          publisher:'Regionale Schweiz Besucherinformation · '+city,
          url:place.sourceUrl,accessed_on:swissArchiveV75.meta.checkedOn,
          validity:'Regionalinfo, keine objektbezogene Leistungs-/Buchungsquelle',
+       })),
+       ...cityArchiveV76.entries.map(place=>({
+         id:'city-v76:'+place.id,
+         publisher:'Öffentliche Orts-/Betreiberreferenz · '+place.city+' · '+place.id,
+         url:place.sourceUrl,accessed_on:cityArchiveV76.meta.checkedOn,
+         validity:'Veröffentlichte Referenz, kein bestätigter 2027-Termin, Preis oder Ticket',
+       })),
+       ...Object.entries(cityArchiveV76.regions).map(([city,place])=>({
+         id:'city-region-v76:'+city,
+         publisher:'Städtische Reiseorientierung · '+city,
+         url:place.sourceUrl,accessed_on:cityArchiveV76.meta.checkedOn,
+         validity:'Nur allgemeine Stadtinformation, keine belegte Anbieterleistung',
        })),
        ...existingGuidesV68.entries.filter(place=>place.sourceUrl).map(place=>({
          id:'guide-v68:'+place.id,
