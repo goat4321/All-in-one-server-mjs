@@ -9,6 +9,7 @@ import {applyOperatorDiscoveriesV61} from './operator-discoveries-v61.mjs';
 import {applyOperatorDiscoveriesV62} from './operator-discoveries-v62.mjs';
 import {applyExistingPlaceGuidesV68} from './existing-place-guides-v68.mjs';
 import {applySwissGuidesV75} from './swiss-guides-v75.mjs';
+import {validateInterrailSwissFocusV82} from './interrail-swiss-focus-v82.mjs';
 import {applyCityGuidesV76} from './city-guides-v76.mjs';
 import {applyOfficialVenuesV77} from './official-venues-v77.mjs';
 import {applyVenueSourceReviewV78} from './venue-source-review-v78.mjs';
@@ -1192,6 +1193,10 @@ export async function loadCatalog() {
     };
   });
   const dayPlansV32=await loadDayPlansV32(output,transport);
+  const swissInterrailArchiveV82=JSON.parse(await readFile(
+    new URL('../data/research-v82/interrail-swiss-focus.json',import.meta.url),'utf8'));
+  const swissInterrailStatsV82=validateInterrailSwissFocusV82(
+    output,transport,swissInterrailArchiveV82);
   return { trips: output, cities, fares: fareMap, mealPlans,
     research: {
       version: research.import_rules.version,
@@ -1217,6 +1222,7 @@ export async function loadCatalog() {
        alternativeVenuesV80:{meta:alternativesArchiveV80.meta,stats:alternativeStatsV80},
        fourCityIdentityResolutionV80,
        licensedPlacePhotosV81:{meta:photoArchiveV81.meta,stats:photoQualityV81},
+       interrailSwissFocusV82:{...swissInterrailArchiveV82,stats:swissInterrailStatsV82},
       operatorAccessV56:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V56).length},
       operatorAccessV57:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V57).length,
         publishedSeasonCandidates:Object.values(VERIFIED_PLACE_UPDATES_V57).filter(x=>x.publishedSeason2027).length},
@@ -1363,6 +1369,18 @@ export async function loadCatalog() {
          publisher:'Regionale Schweiz Besucherinformation · '+city,
          url:place.sourceUrl,accessed_on:swissArchiveV75.meta.checkedOn,
          validity:'Regionalinfo, keine objektbezogene Leistungs-/Buchungsquelle',
+       })),
+       ...swissInterrailArchiveV82.priority.map(task=>({
+         id:'swiss-v82:'+task.key,
+         publisher:'Interrail Schweiz · gezielte Betreiberprüfung · '+task.title,
+         url:task.sourceUrls[0],accessed_on:swissInterrailArchiveV82.meta.checkedOn,
+         validity:'Konkreter September-2027-Reisetag geplant, Live-Anschluss, Ticket und Preis offen',
+       })),
+       ...swissInterrailArchiveV82.days.map(day=>({
+         id:'swiss-v82-day:'+day.date,
+         publisher:'Schweiz-Finale · '+day.label,
+         url:day.sourceUrls[0],accessed_on:swissInterrailArchiveV82.meta.checkedOn,
+         validity:'Besucher- und Betriebsreferenz, keine zugesagte 2027-Ankunft oder Buchung',
        })),
        ...photoArchiveV81.images.map(photo=>({
          id:'photo-v81:'+photo.id,
