@@ -1048,6 +1048,10 @@ try {
   assert.equal(await js('document.querySelectorAll(".swiss-focus-corridor").length'),4,
     'Both Nice cross-border routing hypotheses and two Swiss onward corridors visible');
   await screenshot('47-interrail-schweiz-bahnrisiken.png');
+  await text('.swiss-v84-rail','Brig–Kandersteg');
+  await click('.swiss-v84-rail summary');
+  assert.equal(await js('document.querySelectorAll(".swiss-v84-rail-note").length'),4,
+    'Four independently sourced BLS/Interrail/local fare notes in the rail view');
   await text('.swiss-stay-rail-note','Kandersteg');
   await click('.swiss-stay-rail-note [data-action=page][data-value=lodging]');
   await until(()=>js('Boolean(document.querySelector(".swiss-stay-board"))'),
@@ -1060,7 +1064,15 @@ try {
     'Historic Tripsy Kandersteg and Appenzell offers remain separately labeled');
   await text('.swiss-stay-board','CHF 165');
   await text('.swiss-stay-board','CHF 170');
+  await text('.swiss-v84-board','20 Preise');
+  await text('.swiss-v84-board','415,78');
+  await text('.swiss-v84-board','406,03');
+  assert.equal(await js('document.querySelectorAll(".swiss-v84-hotel").length'),20,
+    'Twenty exact-date provider search rows, not twenty confirmed bookings');
+  assert.equal(await js('document.querySelectorAll(".swiss-v84-city").length'),2,
+    'Both Swiss town dates covered for three adults');
   await screenshot('48-interrail-schweiz-unterkunftsvergleich.png');
+  await screenshot('49-interrail-schweiz-datierte-preise.png');
   assert.equal(store.current('swiss_lakes').state.people.length,4,
     'Swiss Interrail inspection never changes the separate car trip group');
   await set('#variant', 'interrail_classic');
