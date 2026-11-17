@@ -2,6 +2,19 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // Phase 75: verified Commons pages for exact Swiss outdoor subjects.
+ // Photos show historic landscapes, not up-to-date access or route conditions.
+ {city:'oeschinensee',name:/oeschinen|[öo]schinen/i,
+  file:'OeschinenseeCH.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:OeschinenseeCH.jpg',
+  credit:'kat.lis · CC BY-SA 4.0 · Oeschinensee (2016); kein Zustand- oder Sperrnachweis für 2027 · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/4.0/'},
+ {city:'kloental',name:/kl[oö]ntalersee/i,
+  file:'Klöntalersee Schweiz.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent('Klöntalersee Schweiz.jpg').replace(/%20/g,'_'),
+  credit:'gabriel_20xx · CC BY-SA 4.0 · Klöntalersee (2020); historisches Landschaftsfoto · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/4.0/'},
+
  // Phase 74 addendum: two more existing public sites with license,
  // historical motifs only; reopening or rooftop access is NOT implied.
  {city:'paris',name:/^montparnasse tower \(tour montparnasse\)/i,
