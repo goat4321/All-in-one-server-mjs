@@ -6,7 +6,7 @@ import {curatedPlacePhoto,curatedCityBackdrop} from '../public/curated-place-pho
 import {entryCompleteness} from '../public/entry-completeness.mjs';
 import {placeImageHtml,placeProfileHtml,placeProfileModel,placeThumbnailHtml} from '../public/place-profile.mjs';
 
-const read=path=>JSON.parse(await readFile(new URL('../data/'+path,import.meta.url),'utf8'));
+const read=async path=>JSON.parse(await readFile(new URL('../data/'+path,import.meta.url),'utf8'));
 const audit=await read('research-v81/licensed-place-photos.json');
 const catalog=await loadCatalog();
 const all=catalog.trips.flatMap(trip=>trip.items).filter(x=>!x.removed&&!x.duplicateOf);
