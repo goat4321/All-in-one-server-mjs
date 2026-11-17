@@ -12,6 +12,7 @@ import {applySwissGuidesV75} from './swiss-guides-v75.mjs';
 import {applyCityGuidesV76} from './city-guides-v76.mjs';
 import {applyOfficialVenuesV77} from './official-venues-v77.mjs';
 import {applyVenueSourceReviewV78} from './venue-source-review-v78.mjs';
+import {applyLastCityGapsV79} from './last-city-gaps-v79.mjs';
 import {VERIFIED_PLACE_UPDATES_V56} from './verified-place-updates-v56.mjs';
 import {VERIFIED_PLACE_UPDATES_V57} from './verified-place-updates-v57.mjs';
 import {VERIFIED_PLACE_UPDATES_V58} from './verified-place-updates-v58.mjs';
@@ -1058,6 +1059,10 @@ export async function loadCatalog() {
     new URL('../data/research-v78/venue-source-review.json',import.meta.url),'utf8'));
   const venueReviewStatsV78=applyVenueSourceReviewV78(
     output,cities,uploadedResearchV50,venueArchiveV78);
+  const lastCityArchiveV79=JSON.parse(await readFile(
+    new URL('../data/research-v79/last-city-gaps.json',import.meta.url),'utf8'));
+  const lastCityStatsV79=applyLastCityGapsV79(
+    output,cities,uploadedResearchV50,lastCityArchiveV79);
   for(const trip of output)trip.items=trip.items.map(item=>
     !item.researchV50?item:{
       ...item,
@@ -1083,7 +1088,7 @@ export async function loadCatalog() {
         || ref.startsWith('food-v03-') || ref.startsWith('survey-v19:') || ref.startsWith('survey-v20:') || ref.startsWith('survey-v20-indoor:') || ref.startsWith('wishlist-v04:')
         || ref.startsWith('address-v09:') || ref.startsWith('food-v08-menu:')
         || ref.startsWith('operator-v54:')||ref.startsWith('operator-v55:')
-        || ref.startsWith('operator-v60:')||ref.startsWith('operator-v61:')||ref.startsWith('operator-v62:')||ref.startsWith('guide-v68:')||ref.startsWith('city-v76:')||ref.startsWith('venue-v77:')||ref.startsWith('venue-v78:'));
+        || ref.startsWith('operator-v60:')||ref.startsWith('operator-v61:')||ref.startsWith('operator-v62:')||ref.startsWith('guide-v68:')||ref.startsWith('city-v76:')||ref.startsWith('venue-v77:')||ref.startsWith('venue-v78:')||ref.startsWith('city-v79:'));
       return {
         id:item.id,city:item.city,name:item.name,category:categoryOf(item),
         selected:Boolean(item.selected),
@@ -1137,6 +1142,7 @@ export async function loadCatalog() {
        fourCityDetailsV76:{meta:cityArchiveV76.meta,stats:cityGuideStatsV76},
        officialVenuesV77:{meta:venueArchiveV77.meta,stats:venueGuideStatsV77},
        venueSourceReviewV78:{meta:venueArchiveV78.meta,stats:venueReviewStatsV78},
+       lastCityGapsV79:{meta:lastCityArchiveV79.meta,stats:lastCityStatsV79},
       operatorAccessV56:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V56).length},
       operatorAccessV57:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V57).length,
         publishedSeasonCandidates:Object.values(VERIFIED_PLACE_UPDATES_V57).filter(x=>x.publishedSeason2027).length},
@@ -1283,6 +1289,12 @@ export async function loadCatalog() {
          publisher:'Regionale Schweiz Besucherinformation · '+city,
          url:place.sourceUrl,accessed_on:swissArchiveV75.meta.checkedOn,
          validity:'Regionalinfo, keine objektbezogene Leistungs-/Buchungsquelle',
+       })),
+       ...lastCityArchiveV79.entries.map(place=>({
+         id:'city-v79:'+place.id,
+         publisher:'Originalreferenz kleiner Stadt-Orte · '+place.city+' · '+place.id,
+         url:place.sourceUrl,accessed_on:place.checkedOn,
+         validity:'Besucher-/Check-in-Referenz, kein bestätigter September-2027-Tarif oder Checkout',
        })),
        ...venueArchiveV78.entries.map(venue=>({
          id:'venue-v78:'+venue.id,
