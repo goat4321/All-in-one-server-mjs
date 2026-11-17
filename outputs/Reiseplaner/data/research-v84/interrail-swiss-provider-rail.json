@@ -16,7 +16,12 @@
     "checkedOut": false,
     "booked": false,
     "originalRouteModified": false,
-    "independentSwissLakesModified": false
+    "independentSwissLakesModified": false,
+    "providerSnapshotTotals": {
+      "kandersteg": 766604,
+      "appenzell": 712095
+    },
+    "providerSnapshotTotalAllCents": 1478699
   },
   "quotes": [
     {
