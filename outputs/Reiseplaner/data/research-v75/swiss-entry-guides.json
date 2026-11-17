@@ -8,7 +8,8 @@
     ],
     "country": "CH",
     "description": "Sourced site-specific guides plus clearly labeled regional fallback for every existing Swiss catalog item. No new place, booking, price, geometry or itinerary.",
-    "baseSources": 29
+    "baseSources": 29,
+    "note": "Official public operator links researched and visitor-context claims; no live booking or 2027 price confirmation."
   },
   "regions": {
     "appenzell": {
@@ -754,6 +755,100 @@
       "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
       "sourceUrl": "https://www.sbb.ch/de/angebote/spartageskarte",
       "sourceLabel": "sbb"
+    },
+    {
+      "key": "appenzell-blatten-6og3",
+      "cities": [
+        "appenzell"
+      ],
+      "kind": "lodging",
+      "match": [
+        "blattenheimat 6og3",
+        "blattenheimat 6og 3",
+        "blattenheimat 6 og3"
+      ],
+      "summary": "Konkrete 3,5-Zimmer-Ferienwohnung Blattenheimat 6OG3 mit zwei Schlafzimmern und Küche; andere Blattenheimat-Einheiten sind nicht identisch.",
+      "access": "Blattenheimatstrasse 8, 9050 Appenzell; Anreise und Etage der gebuchten Einheit kontrollieren.",
+      "duration": "Check-in und Check-out von der tatsächlich gebuchten Unterkunft bestätigen.",
+      "cost": "Tourismusreferenz ca. CHF 150 pro Nacht plus CHF 260 Endreinigung, Kurtaxe separat; nur historischer Tarif und kein Preis für September 2027.",
+      "caution": "Wohnung ist laut Tourismus für ca. 4–5 Personen geeignet; zusätzliche Betten, Kurtaxe, Stornobedingungen und Parken vor Buchung prüfen.",
+      "check2027": "Buchbare Nächte 2027 für 3 oder 4 Personen, tatsächliche Wohnung 6OG3, Gesamtpreis inkl. Endreinigung und Kurtaxe prüfen.",
+      "sourceUrl": "https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/ferienwohnung-blattenheimat-6og3.html",
+      "sourceLabel": "appenzell-blatten"
+    },
+    {
+      "key": "appenzell-blatten",
+      "cities": [
+        "appenzell"
+      ],
+      "kind": "lodging",
+      "match": [
+        "blattenheimat"
+      ],
+      "summary": "Ferienwohnungen Blattenheimat mit verschiedenen Etagen und Grundrissen; die Angebote sind nicht austauschbar.",
+      "access": "Blattenheimatstrasse 8, Appenzell; Wohnungsnummer vor Ort und in der Buchung abgleichen.",
+      "duration": "Anreise- und Abreisezeiten je Wohnung offen.",
+      "cost": "Wöchentliche und tägliche Basispreise unterscheiden sich; Endreinigung und Kurtaxe möglicherweise zusätzlich.",
+      "caution": "Beim Preisvergleich Bettenverteilung, Anzahl Schlafzimmer, Badezimmer und Parkmöglichkeit je Wohnung prüfen.",
+      "check2027": "Exakte Wohnung statt Hausname, 3-/4er-Belegung, Nebenkosten und verfügbare Septemberdaten überprüfen.",
+      "sourceUrl": "https://www.appenzell.ch/de/unterkunft/ferien-wohnungen.html",
+      "sourceLabel": "appenzell-blatten"
+    },
+    {
+      "key": "glarnerhof",
+      "cities": [
+        "glarus"
+      ],
+      "kind": "lodging",
+      "match": [
+        "post glarnerhof",
+        "glarnerhof"
+      ],
+      "summary": "Hotel Post Glarnerhof nahe dem Bahnhof, laut Betreiber 46 Zimmer und Restaurant.",
+      "access": "Bahnhofstrasse 2, 8750 Glarus, fußläufig zum Bahnhof; geeignet als zentraler ÖV-Ausgangspunkt.",
+      "duration": "Check-in/-out nur mit gebuchter Rate bestätigt.",
+      "cost": "Offizielle Preisauskunft nur als aktuelles Angebot; Gruppentarif 2027 offen.",
+      "caution": "Unterschiedliche Zimmerarten und individuelle Bettenzahl; für drei oder vier Personen verbindliche Belegung prüfen.",
+      "check2027": "Familien- oder Mehrbettzimmer, Frühstück, Kurtaxe, Stornobedingungen und 2027-Gesamtpreis prüfen.",
+      "sourceUrl": "https://www.hotelpost-glarnerhof.ch/",
+      "sourceLabel": "glarnerhof"
+    },
+    {
+      "key": "rhodannenberg",
+      "cities": [
+        "glarus",
+        "kloental"
+      ],
+      "kind": "lodging",
+      "match": [
+        "rhodannenberg"
+      ],
+      "summary": "Hotel/Restaurant direkt am Klöntalersee, laut Betreiber Zimmer mit See- oder Bergblick.",
+      "access": "Klöntalerstrasse 36, 8750 Klöntal, nicht direkt am Bahnhof Glarus; Bus-/Autotransfer prüfen.",
+      "duration": "Check-in/-out und Seezugang vom Hotel separat prüfen.",
+      "cost": "Betreiber nennt ältere Beispiele ab CHF 135 pro Nacht für zwei Personen inklusive Frühstück; 2027 und Gruppenzimmer nicht bestätigt.",
+      "caution": "Saisonbetrieb, Klöntaler Park-/Fahrregeln und Lage im Tal beachten.",
+      "check2027": "Verfügbarkeit und konkrete Zimmer für 3/4 Personen, Frühstück, Kurtaxe, Transfer im September 2027 prüfen.",
+      "sourceUrl": "https://www.rhodannenberg.ch/",
+      "sourceLabel": "rhodannenberg"
+    },
+    {
+      "key": "bernerhof",
+      "cities": [
+        "kandersteg"
+      ],
+      "kind": "lodging",
+      "match": [
+        "bernerhof"
+      ],
+      "summary": "Chalet-Hotel im Dorf Kandersteg mit Wellnessbereich und Restaurant laut Betreiber.",
+      "access": "Äussere Dorfstrasse 37, 3718 Kandersteg; Betreiber nennt ca. fünf Gehminuten zum Bahnhof.",
+      "duration": "Individuelle Check-in/-out-Zeiten und Bergbahntransfer getrennt prüfen.",
+      "cost": "2027-Gesamtpreis für passende Betten und Stornotarif offen.",
+      "caution": "Wellness, Frühstück und Gästekarte nicht ohne gebuchten Tarif als inklusive annehmen.",
+      "check2027": "3-/4-Personen-Zimmer, Preis inkl. Steuern, Storno und mögliche Gästekartenleistungen direkt beim Betreiber prüfen.",
+      "sourceUrl": "https://www.bernerhof.ch/de/hotel/hotel",
+      "sourceLabel": "bernerhof"
     }
   ]
 }
