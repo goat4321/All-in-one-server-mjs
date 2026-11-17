@@ -124,6 +124,23 @@ export function placeProfileModel(item, ctx = {}) {
       ?'Unabhängiger POI-Gebietspunkt, kein gesicherter Eingang'
       :'Offizielle Postadresse vorhanden; individuelle GPS-Koordinate nicht bestätigt']);
   }
+  if(item.lastCityGuideV79){
+    const g=item.lastCityGuideV79;
+    facts.push(['Neu: konkret recherchierter Ort',g.summary]);
+    facts.push(['Anreise / Betreiberadresse',g.address]);
+    facts.push(['Öffnung / Ankunft · Quellenstand',g.opening]);
+    facts.push(['Preisreferenz · kein 2027-Checkout',g.price]);
+    facts.push(['Besuchs- und Übernachtungsbedingungen',g.requirements]);
+    facts.push(['September 2027 überprüfen',g.check2027]);
+    facts.push(['Belegtyp',g.sourceType==='municipality'?'Stadtverwaltung'
+      :g.sourceType==='park'?'Offizielle Parkverwaltung'
+        :g.sourceType==='operator'?'Originalanbieter':'Tourismusamt']);
+  }
+  if(item.sourceConflictV79){
+    const c=item.sourceConflictV79;
+    facts.push(['Quellenwiderspruch',c.issue]);
+    facts.push(['Nächster Prüfschritt',c.action]);
+  }
   if(item.venueSourceV78){
     const g=item.venueSourceV78;
     facts.push(['Neue Orts-/Unterkunftsrecherche',g.title]);
@@ -255,6 +272,9 @@ export function placeProfileModel(item, ctx = {}) {
       ??item.discoveryV60?.secondarySourceUrl??null,
     guideSourceUrl:item.publicPlaceGuideV68?.sourceUrl??null,
     venueSourceUrl:item.officialVenueV77?.sourceUrl??null,
+    v79SourceUrl:item.lastCityGuideV79?.sourceUrl??null,
+    v79OtherSourceUrl:item.sourceConflictV79?.otherSourceUrl??null,
+    v79Warning:item.sourceConflictV79?.issue??null,
     v78SourceUrl:item.venueSourceV78?.sourceUrl??null,
     v78SourceLabel:item.venueSourceV78?.sourceType==='operator'
       ?'Original-Betreiberinformation':item.venueSourceV78?.sourceType==='tourism'
@@ -393,6 +413,8 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
       +esc(p.operationalNotice)+'</p>':'')
     + (p.identityWarning?'<p class="place-profile-access-warning"><strong>Identitätskonflikt:</strong> '
       +esc(p.identityWarning)+'</p>':'')
+    + (p.v79Warning?'<p class="place-profile-access-warning"><strong>Quellenabgleich erforderlich:</strong> '
+      +esc(p.v79Warning)+'</p>':'')
     + '<dl class="place-profile-facts">'+visible.map(([label,value])=>'<div><dt>'
       +esc(label)+'</dt><dd>'+esc(value)+'</dd></div>').join('')+'</dl>'
     + (compact?'':'<details class="place-profile-coverage"><summary>Was fehlt noch? · '
@@ -416,6 +438,11 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
       +(p.v78SourceUrl&&p.v78SourceUrl!==p.providerUrl
         &&p.v78SourceUrl!==p.venueSourceUrl
         ?urlLink(p.v78SourceUrl,p.v78SourceLabel):'')
+      +(p.v79SourceUrl&&p.v79SourceUrl!==p.providerUrl
+        &&p.v79SourceUrl!==p.venueSourceUrl
+        ?urlLink(p.v79SourceUrl,'Neue Orts-/Besucherquelle (Stand 2026)'):'')
+      +(p.v79OtherSourceUrl&&p.v79OtherSourceUrl!==p.v79SourceUrl
+        ?urlLink(p.v79OtherSourceUrl,'Abweichende Quelle · nicht ungeprüft übernehmen'):'')
       +(p.conflictReviewSourceUrl
         ?urlLink(p.conflictReviewSourceUrl,'Nur Gegenquelle prüfen · möglicherweise anderes Geschäft'):'')
       +(p.photoSearchUrl
