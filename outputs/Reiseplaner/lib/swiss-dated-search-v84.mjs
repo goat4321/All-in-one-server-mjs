@@ -50,11 +50,17 @@ export function validateSwissDatedSearchV84(trips,rawAccommodations,archive){
     'unsafe dated search quote '+row?.name);
    previous=row.amountCents;seen.add(row.propertyId);all.push({...row,city:g.city});
   }
+  const observedGroupTotal=g.rows.reduce((n,x)=>n+x.amountCents,0);
+  requireIt(observedGroupTotal===m.providerSnapshotTotals?.[g.city],
+    'unsafe dated search quote totals for '+g.city);
   groups[g.city]={checkin:g.checkin,checkout:g.checkout,minCents:g.rows[0].amountCents,
    minName:g.rows[0].name,options:g.rows.length};
  }
  requireIt(seen.size===20&&groups.kandersteg&&groups.appenzell,
  'incomplete 20 quote search results');
+ requireIt(m.providerSnapshotTotalAllCents===
+   m.providerSnapshotTotals.kandersteg+m.providerSnapshotTotals.appenzell,
+   'unsafe dated search quote overall total');
  const refs=new Set();
  for(const check of archive.identityChecks){
   const prev=rawAccommodations.find(a=>a.id===check.originalId&&a.trip_id==='interrail_swiss');
