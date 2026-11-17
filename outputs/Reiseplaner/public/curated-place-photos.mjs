@@ -2,6 +2,38 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // V81 · exact photographic provenance checked against Commons file pages.
+ // Different scopes: a historic meal is not today's menu; a venue courtyard
+ // is NOT evidence that an event takes place on the travel date.
+ {city:'paris',name:/^march[eé] des enfants rouges$/i,allowFood:true,
+  file:'Paris III-Marché des Enfants-Rouges.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent('Paris III-Marché des Enfants-Rouges.jpg').replace(/%20/g,'_'),
+  credit:'Popolon · CC BY-SA 3.0 · Außenaufnahme von 2012, NICHT der Zustand nach dem Marktbrand 2026 · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/3.0/',
+  photoScope:'exact_historic_external',photographed:'2012-08-26',
+  subjectDisclaimer:'Historisches Außenfoto vor dem Brand 2026, keine bestätigte Öffnung 2027.'},
+ {city:'barcelona',name:/^la xampanyeria \(can paixano\)$/i,allowFood:true,
+  file:'El laureado pan con chorizo (y cava)... @ Can Paixano (aka La Champañería), BCN, ES.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent('El laureado pan con chorizo (y cava)... @ Can Paixano (aka La Champañería), BCN, ES.jpg').replace(/%20/g,'_'),
+  credit:'robertorodriguex · CC BY-SA 2.0 · Bocadillo und Cava bei Can Paixano 2010, KEINE aktuelle Karte · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/2.0/',
+  photoScope:'at_venue_historic_food',photographed:'2010-05-02',
+  subjectDisclaimer:'Historisches Foto eines dort verzehrten Gerichts. Aktuelle Speisen und Preise sind nicht belegt.'},
+ {city:'barcelona',name:/^platja de la mar bella$/i,
+  file:'Platja de la Mar Bella (Barcelona) 01.JPG',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent('Platja de la Mar Bella (Barcelona) 01.JPG').replace(/%20/g,'_'),
+  credit:'Jordiferrer · CC BY-SA 3.0 · Strandfoto vom 03.07.2012, keine heutige Badefreigabe · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/3.0/',
+  photoScope:'exact_historic_beach',photographed:'2012-07-03',
+  subjectDisclaimer:'Historische Strandaufnahme, keine Angabe zu Badeflaggen oder Rettungsdienst 2027.'},
+ {city:'barcelona',name:/^palo alto market \(palo market fest\)$/i,allowFood:true,
+  file:'01 Palo Alto (antiga fàbrica Gal i Puigsech), c. Pellaires (Barcelona), interior.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent('01 Palo Alto (antiga fàbrica Gal i Puigsech), c. Pellaires (Barcelona), interior.jpg').replace(/%20/g,'_'),
+  credit:'Enric · CC BY-SA 4.0 · Palo-Alto-Gelände 2017; KEIN Festivalfoto oder September-2027-Termin · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/4.0/',
+  photoScope:'venue_site_not_event',photographed:'2017-08-03',
+  subjectDisclaimer:'Nur das historische Veranstaltungsgelände; Festivalprogramm und Einlass September 2027 offen.'},
+
  // V78: Specific Palais Princier picture for one STOP of the combined Monaco
  // trip. Not evidence for the full route or for 2027 opening.
  {city:'nice',name:/^tagesausflug monaco & monte[- ]carlo/i,
@@ -674,14 +706,21 @@ const images=[
   credit:'Mike Peel (www.mikepeel.net) · CC BY-SA 4.0 · CSS-Bildausschnitt'},
 ];
 export function curatedPlacePhoto(item) {
-  if (!item || item.kind!=='activity') return null;
+  // The explicit allowFood flag limits exceptions to an EXACT named public
+  // restaurant/market. Never treat a hotel room, booking or private rental as
+  // photographed merely because a similar city/food venue has a picture.
+  if(!item||!['activity','food','shop'].includes(item.kind))return null;
   const candidate=images.find(row=>row.city===item.city&&row.name.test(item.name??'')
+    &&(item.kind==='activity'||row.allowFood===true)
     &&(item.category!=='food'||row.allowFood===true));
   return candidate?{
     url:'https://commons.wikimedia.org/wiki/Special:FilePath/'
       +encodeURIComponent(candidate.file)+'?width=960',
     sourceUrl:candidate.sourceUrl,credit:candidate.credit,licensedBy:'Wikimedia Commons',
     curated:true,licenseUrl:candidate.licenseUrl??null,
+    photoScope:candidate.photoScope??'object_historic',
+    photographed:candidate.photographed??null,
+    subjectDisclaimer:candidate.subjectDisclaimer??null,
   }:null;
 }
 export const curatedPhotoCount=images.length;
