@@ -17,6 +17,18 @@ export function venueAlternativesHtml(item,{compact=false}={}){
   +'<div class="venue-alt-v80-body">'
   +'<p class="venue-alt-v80-explain">'+esc(data.evidenceSummary)+'</p>'
   +'<p class="venue-alt-v80-caution">'+esc(data.caveat)+'</p>'
+  +(data.contextPhotos?.length
+    ?'<div class="venue-alt-v80-context" aria-label="Lizenzierte regionale Kontextfotos, keine Betriebsbilder">'
+      +data.contextPhotos.map(p=>
+        '<figure><img loading="lazy" decoding="async" referrerpolicy="no-referrer"'
+        +' src="'+esc(p.url)+'" alt="'+esc(p.description)+'">'
+        +'<figcaption><strong>Kontextbild · kein konkreter Anbieter:</strong> '
+        +esc(p.description)+' · '+esc(p.author)+' · '+esc(p.license)
+        +' · '+esc(String(p.picturedYear))+' · '+esc(p.processed)
+        +' · '+urlLink(p.sourceUrl,'Bildquelle')
+        +' · '+urlLink(p.licenseUrl,'Lizenz')+'</figcaption></figure>').join('')
+      +'</div>'
+    :'')
   +(correlated?'<p class="venue-alt-v80-corner">Ecklage laut Sekundärquellen nachvollziehbar; '
      +'exakte Eingangstür, Koordinate und Öffnungszeiten 2027 nicht bestätigt.</p>'
      +'<div class="venue-alt-v80-links">'
