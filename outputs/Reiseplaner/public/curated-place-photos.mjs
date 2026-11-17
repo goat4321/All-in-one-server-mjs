@@ -2,6 +2,19 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // V77: venue-specific licensed historical images; does not imply that
+ // pictured exhibition/program or previous building use exists in 2027.
+ {city:'paris',name:/^atelier des lumi[eè]res$/i,
+  file:'Atelier des Lumières – intérieur.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent('Atelier des Lumières – intérieur.jpg').replace(/%20/g,'_'),
+  credit:'Emalquier · CC BY-SA 4.0 · Atelier des Lumières während Klimt-Ausstellung 2018, NICHT aktuelles 2027-Programm · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/4.0/'},
+ {city:'paris',name:/^la recyclerie$/i,allowFood:true,
+  file:"L'ancienne gare Ornano, la Recyclerie (19601628304) (cropped).jpg",
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent("L'ancienne gare Ornano, la Recyclerie (19601628304) (cropped).jpg").replace(/%20/g,'_'),
+  credit:'Jeanne Menjoulet · CC BY 2.0 · ehemalige Gare Ornano / La Recyclerie 2015, historisches Bild · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by/2.0/'},
+
  // V76: exact Wikimedia Commons files and license pages reviewed 17 Nov 2026.
  // Historic imagery is NOT proof of present-day shoreline conditions.
  {city:'sete',name:/^plage du lazaret$/i,
