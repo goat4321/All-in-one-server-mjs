@@ -343,7 +343,8 @@
       "notSameAsId": 66280,
       "notSameAsName": "Hotel Alpina",
       "notSameAsAddress": "Äussere Dorfstrasse 92",
-      "providerQa": "Unterschiedliche Unterkünfte. Apartment mit zwei Schlafzimmern für bis zu 3 sowie Küchenzeile; späte Ankunft, vollständige Gebühren und Zimmerzuteilung unbestätigt."
+      "providerQa": "Unterschiedliche Unterkünfte. Apartment mit zwei Schlafzimmern für bis zu 3 sowie Küchenzeile; späte Ankunft, vollständige Gebühren und Zimmerzuteilung unbestätigt.",
+      "importedName": "Alpina Appartment 2"
     },
     {
       "originalId": "iv-appenzell",
@@ -353,7 +354,8 @@
       "notSameAsId": 7304669,
       "notSameAsName": "Alte Metzg - Boutique Pension",
       "notSameAsAddress": "Gaiserstrasse 6",
-      "providerQa": "Hostel mit gemeinschaftlich genutztem Bad vs. Boutique-Pension mit privaten Zimmeroptionen/Bädern; 2027-Zimmerzuordnung und Gebühren noch offen."
+      "providerQa": "Hostel mit gemeinschaftlich genutztem Bad vs. Boutique-Pension mit privaten Zimmeroptionen/Bädern; 2027-Zimmerzuordnung und Gebühren noch offen.",
+      "importedName": "Alte Metzg Hostel"
     }
   ],
   "railClarifications": [
