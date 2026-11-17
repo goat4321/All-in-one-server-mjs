@@ -60,6 +60,10 @@ export function placeProfileModel(item, ctx = {}) {
       +(item.point&&!hasIndependentPointEvidence(item)?' · unabhängige Prüfung offen':'')],
     ['Öffnung / Ankunft',detail.hours],
   ];
+  if(curated?.subjectDisclaimer){
+    facts.push(['Bildnachweis · Motiv und Datum',
+      curated.subjectDisclaimer+(curated.photographed?' · Aufnahme: '+curated.photographed:'')]);
+  }
   if(item.address){
     const addressDisputed=Boolean(item.sourceConflictV79
       &&['branch_identity_mismatch','address_conflict','venue_identity_conflict']
@@ -326,10 +330,12 @@ export function placeThumbnailHtml(item,ctx={}) {
   const symbol={lodging:'bed',food:'food',shop:'wallet',activity:'compass',transport:'train'}[model.category]??'pin';
   const background=model.photo?null:curatedCityBackdrop(item);
   const shown=model.photo??background;
-  return '<span class="place-thumbnail" data-licensed="'+Boolean(model.photo)+'">'
+  return '<span class="place-thumbnail" data-licensed="'+Boolean(model.photo)+'"'
+    +' data-photo-scope="'+esc(model.photo?.photoScope??(background?'city_backdrop':'missing'))+'">'
     +'<span class="place-thumbnail-fallback" aria-hidden="true">'+icon(symbol)+'</span>'
     +(shown?'<img src="'+esc(shown.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt=""'
-      +' title="'+esc(background?'Stadtmotiv (kein Objektfoto) · '+shown.credit:shown.credit)+'">':'')
+      +' title="'+esc(background?'Stadtmotiv (kein Objektfoto) · '+shown.credit
+        :(shown.subjectDisclaimer??shown.credit))+'">':'')
     +'</span>';
 }
 
@@ -355,17 +361,21 @@ export function placeImageHtml(item,ctx={}, {small=false}={}) {
     +(p.photo?' context-backup-credit':'')+'">Stadtmotiv · '
     +'<a href="'+esc(background.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a> · '
     +esc(background.credit)+'</small>':'';
-  return '<div class="place-photo'+(small?' small':'')+'" data-photo-category="'+esc(p.category)+'">'
+  return '<div class="place-photo'+(small?' small':'')+'" data-photo-category="'+esc(p.category)+'"'
+    +' data-photo-scope="'+esc(p.photo?.photoScope??(background?'city_backdrop':'missing'))+'">'
     +fallback
     +(p.photo
       ?'<img loading="lazy" class="place-specific-photo" decoding="async"'
         +' referrerpolicy="no-referrer" src="'+esc(p.photo.url)
-        +'" alt="Hinterlegtes Bild: '+label+'">'
+        +'" alt="'+esc(p.photo.subjectDisclaimer
+          ?'Historisches Bild zu '+p.name+' · '+p.photo.subjectDisclaimer
+          :'Hinterlegtes Bild: '+p.name)+'">'
         +'<small class="place-photo-credit place-specific-credit">Bild: '
         +esc(p.photo.credit)+' · <a href="'+esc(p.photo.sourceUrl)
         +'" target="_blank" rel="noopener noreferrer">Bildquelle</a>'
         +(ccLicenseUrl(p.photo)?' · <a href="'+esc(ccLicenseUrl(p.photo))
-        +'" target="_blank" rel="noopener noreferrer">Lizenz</a>':'')+'</small>'
+        +'" target="_blank" rel="noopener noreferrer">Lizenz</a>':'')
+        +(p.photo.subjectDisclaimer?' · '+esc(p.photo.subjectDisclaimer):'')+'</small>'
       :'')
     +contextCredit+'</div>';
 }
