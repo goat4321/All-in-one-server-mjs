@@ -25,6 +25,10 @@ export function hasDocumentedOpeningReference(item){
  if(note&&!unsupportedHours.test(note)
    &&(realClock.test(note)||/\b(?:täglich geöffnet|durchgehend geöffnet|rund um die uhr|montags geschlossen)\b/i.test(note)))
   return true;
+ // Source-qualified historic hours count as a DOCUMENTED REFERENCE only.
+ // They never certify the website's September 2027 visiting dates.
+ if(item.venueSourceV78?.publishedOpeningReference===true
+   &&item.venueSourceV78?.sourceType==='operator')return true;
  const official=[item.officialAccessV53,item.officialAccessV56,
    item.officialAccessV57,item.officialAccessV58,item.discoveryV54,item.discoveryV55,item.discoveryV60,item.discoveryV61,item.discoveryV62];
  return official.some(src=>src?.sourceUrl&&realClock.test(
