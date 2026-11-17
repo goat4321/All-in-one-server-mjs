@@ -4,7 +4,8 @@
     "checkedOn": "2026-11-17",
     "entries": 12,
     "reviews": 2,
-    "scope": "No booking or budget mutation; published reference vs 2027 availability separate."
+    "scope": "No booking or budget mutation; published reference vs 2027 availability separate.",
+    "note": "Published opening reference flags are source-scoped and not 2027 daily confirmation."
   },
   "entries": [
     {
@@ -20,7 +21,8 @@
       "notes": "Der Betreibertext zu geöffneten Bar-/Restaurantzeiten gilt ausdrücklich nicht als Hostel-Check-in.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": false
     },
     {
       "id": "new_022",
@@ -35,7 +37,8 @@
       "notes": "Der alte 2026-Ferienzeitraum darf NICHT auf September 2027 übertragen werden.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": true
     },
     {
       "id": "new_023",
@@ -50,7 +53,8 @@
       "notes": "Die Betreiberseite beschreibt Bar- und Küchenzeiten unabhängig vom Eintritt zu Veranstaltungen.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": true
     },
     {
       "id": "new_037",
@@ -65,7 +69,8 @@
       "notes": "Drei Personen: Nur gebuchte Zimmer-/Bettenart und inkludierte Leistungen gelten.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": false
     },
     {
       "id": "new_038",
@@ -80,7 +85,8 @@
       "notes": "Genaue Ankunft und ggf. später Schlüsselzugang beim Hostel nachfragen.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": false
     },
     {
       "id": "new_039",
@@ -95,7 +101,8 @@
       "notes": "Quelle: Seite 4 des offiziellen PDFs. Eine Einzelbuchung für drei Personen muss gesondert abgefragt werden.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": false
     },
     {
       "id": "new_040",
@@ -110,7 +117,8 @@
       "notes": "Direkte Website und getrennte Drittanbieter-Angebote nicht miteinander gleichsetzen.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": false
     },
     {
       "id": "new_052",
@@ -125,7 +133,8 @@
       "notes": "Eintrag ausdrücklich als Quellenkonflikt statt als offiziell bestätigtes Stundenprofil geführt.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": false
     },
     {
       "id": "new_053",
@@ -140,7 +149,8 @@
       "notes": "Geschäft, Markenherkunft und Filialadresse belegt, aber nicht jedes historische Foto oder jede Plattformzeit.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": false
     },
     {
       "id": "new_062",
@@ -155,7 +165,8 @@
       "notes": "Nicht den gesamten Tagesausflug als Eintritt zur Palastbesichtigung bepreisen.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": true
     },
     {
       "id": "new_063",
@@ -170,7 +181,8 @@
       "notes": "Zwei verschiedene Zimmerkategorien nicht mit identischer Bettzahl gleichsetzen.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": false
     },
     {
       "id": "new_065",
@@ -185,7 +197,8 @@
       "notes": "Geprüft wurde nur der öffentliche Tourismusbeleg, keine Zimmerbuchbarkeit 2027.",
       "observedOn": "2026-11-17",
       "validForSept2027": false,
-      "bookable2027": false
+      "bookable2027": false,
+      "publishedOpeningReference": false
     }
   ],
   "reviews": [
