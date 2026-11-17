@@ -11,6 +11,7 @@ import {applyExistingPlaceGuidesV68} from './existing-place-guides-v68.mjs';
 import {applySwissGuidesV75} from './swiss-guides-v75.mjs';
 import {validateInterrailSwissFocusV82} from './interrail-swiss-focus-v82.mjs';
 import {validateSwissLodgingV83} from './swiss-lodging-v83.mjs';
+import {validateSwissDatedSearchV84} from './swiss-dated-search-v84.mjs';
 import {applyCityGuidesV76} from './city-guides-v76.mjs';
 import {applyOfficialVenuesV77} from './official-venues-v77.mjs';
 import {applyVenueSourceReviewV78} from './venue-source-review-v78.mjs';
@@ -1204,6 +1205,10 @@ export async function loadCatalog() {
     new URL('../data/accommodations.json',import.meta.url),'utf8'));
   const swissLodgingStatsV83=validateSwissLodgingV83(
     output,sourceLodgingsV83,swissLodgingArchiveV83);
+  const swissDatedArchiveV84=JSON.parse(await readFile(
+    new URL('../data/research-v84/interrail-swiss-provider-rail.json',import.meta.url),'utf8'));
+  const swissDatedStatsV84=validateSwissDatedSearchV84(
+    output,sourceLodgingsV83,swissDatedArchiveV84);
   return { trips: output, cities, fares: fareMap, mealPlans,
     research: {
       version: research.import_rules.version,
@@ -1231,6 +1236,7 @@ export async function loadCatalog() {
        licensedPlacePhotosV81:{meta:photoArchiveV81.meta,stats:photoQualityV81},
        interrailSwissFocusV82:{...swissInterrailArchiveV82,stats:swissInterrailStatsV82},
        interrailSwissLodgingV83:{...swissLodgingArchiveV83,stats:swissLodgingStatsV83},
+       interrailSwissDatedV84:{...swissDatedArchiveV84,stats:swissDatedStatsV84},
       operatorAccessV56:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V56).length},
       operatorAccessV57:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V57).length,
         publishedSeasonCandidates:Object.values(VERIFIED_PLACE_UPDATES_V57).filter(x=>x.publishedSeason2027).length},
@@ -1377,6 +1383,18 @@ export async function loadCatalog() {
          publisher:'Regionale Schweiz Besucherinformation · '+city,
          url:place.sourceUrl,accessed_on:swissArchiveV75.meta.checkedOn,
          validity:'Regionalinfo, keine objektbezogene Leistungs-/Buchungsquelle',
+       })),
+       ...swissDatedArchiveV84.quotes.flatMap(group=>group.rows.map(q=>({
+         id:'swiss-search-v84:'+q.propertyId,
+         publisher:'Booking.com · datierte 3-Personen-Suche · '+q.name,
+         url:q.bookingUrl,accessed_on:swissDatedArchiveV84.meta.observedOn,
+         validity:'Preis aus Suchergebnis 3 Erwachsene, 1 Zimmer, 2 Nächte September 2027; keine vollständige Zimmer- oder Checkout-Zusage',
+       }))),
+       ...swissDatedArchiveV84.railClarifications.map(rail=>({
+         id:'swiss-rail-v84:'+rail.id,
+         publisher:'BLS/Interrail/Bergbahnen · Planungshinweis · '+rail.topic,
+         url:rail.sourceUrls[0],accessed_on:swissDatedArchiveV84.meta.observedOn,
+         validity:'Offizielle Linien- und Ticketregel; 2027-Zugfahrt nur bei separat bestätigtem Fahrplan',
        })),
        ...swissLodgingArchiveV83.candidates.map(stay=>({
          id:'swiss-stay-v83:'+stay.id,
