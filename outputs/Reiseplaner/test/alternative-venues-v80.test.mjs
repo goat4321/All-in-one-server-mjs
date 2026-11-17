@@ -142,6 +142,35 @@ test('V80 updates only separate evidence overlays, not original itinerary, price
  assert.throws(()=>applyAlternativeVenuesV80(
   [{id:'interrail_classic',items:[],route:[]}],catalog.cities,upload,bad),/V80 invalid alternative/);
 });
+test('V80 two Sète contextual images include Commons attribution and cannot be mistaken for vendor photos',()=>{
+ const item=place('new_047'),a=item.alternativeVenueReviewV80;
+ assert.equal(a.contextPhotos.length,2);
+ const stats=catalog.research.alternativeVenuesV80.stats;
+ assert.equal(stats.licensedContextPhotos,2);
+ assert.equal(stats.venuePhotosImpliedByContext,0);
+ const licenses=new Set(['CC BY 2.0','CC BY 3.0']);
+ for(const p of a.contextPhotos){
+  assert.ok(licenses.has(p.license));
+  assert.ok(p.url.startsWith('https://commons.wikimedia.org/wiki/Special:FilePath/'));
+  assert.ok(p.sourceUrl.startsWith('https://commons.wikimedia.org/wiki/File:'));
+  assert.match(p.licenseUrl,/creativecommons.org\/licenses\/by/);
+  assert.match(p.description,/kein Foto eines bestimmten|nicht einer bestimmten/);
+  assert.match(p.scope,/_not_venue/);
+ }
+ const full=venueAlternativesHtml(item);
+ const small=venueAlternativesHtml(item,{compact:true});
+ assert.equal((full.match(/class="venue-alt-v80-context"/g)||[]).length,1);
+ assert.equal((full.match(/<figure>/g)||[]).length,2);
+ assert.equal((small.match(/<figure>/g)||[]).length,1);
+ assert.match(full,/Kontextbild · kein konkreter Anbieter/);
+ assert.match(full,/Jorge Franganillo/);
+ assert.match(full,/TCY/);
+ assert.match(full,/Bildquelle/);
+ assert.match(full,/Lizenz/);
+ assert.equal(curatedPlacePhoto(item),null,
+  'Regional context may never fill the individual venue-photo field');
+});
+
 test('V80 distinct progress audit differentiates supported alias from unresolved identities',async()=>{
  const report=catalog.research.fourCityIdentityResolutionV80;
  assert.equal(report.distinctImports,65);
