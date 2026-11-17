@@ -29,6 +29,10 @@ export function hasDocumentedOpeningReference(item){
  // They never certify the website's September 2027 visiting dates.
  if(item.venueSourceV78?.publishedOpeningReference===true
    &&item.venueSourceV78?.sourceType==='operator')return true;
+ // The municipality has a dated September 2027 24h opening calendar for
+ // Allée des Cygnes. Other V79 descriptions do not count as opening hours.
+ if(item.lastCityGuideV79?.publishedOpeningReference===true
+   &&item.lastCityGuideV79?.sourceType==='municipality')return true;
  const official=[item.officialAccessV53,item.officialAccessV56,
    item.officialAccessV57,item.officialAccessV58,item.discoveryV54,item.discoveryV55,item.discoveryV60,item.discoveryV61,item.discoveryV62];
  return official.some(src=>src?.sourceUrl&&realClock.test(
