@@ -1030,6 +1030,26 @@ try {
   await text('#main', 'Schweizer Mietwagen · Mindestalter');
   await text('#main', 'Oeschinensee · Gondelbahn');
   assert.equal(store.current('swiss_lakes').state.people.length, 4);
+  // The 14-day Swiss Interrail variant has a DIFFERENT practical finish than
+  // the 7-day rental-car Swiss lakes trip. Verify the real browser interaction.
+  await set('#variant', 'interrail_swiss');
+  await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
+  await click('.sidebar [data-action=page][data-value=overview]');
+  await text('.swiss-focus-overview', 'Schweiz-Finale');
+  await text('.swiss-focus-overview', 'Wasserauen');
+  assert.equal(await js('document.querySelectorAll(".swiss-focus-day-shortcuts [data-action=day-plan-go]").length'),5,
+    'Five exact Swiss final-day navigation targets, no separate Swiss-lakes leakage');
+  await click('.swiss-focus-day-shortcuts [data-action=day-plan-go][data-value="2027-09-11"]');
+  await text('#main', 'Oeschinensee');
+  await until(()=>js('Boolean(document.querySelector(".swiss-focus-day"))'),'Swiss day-specific notes after day jump');
+  await text('.swiss-focus-day','24.04.');
+  await click('.sidebar [data-action=page][data-value=rail]');
+  await text('.swiss-focus-rail', 'Schweiz-Verbindungen');
+  assert.equal(await js('document.querySelectorAll(".swiss-focus-corridor").length'),4,
+    'Both Nice cross-border routing hypotheses and two Swiss onward corridors visible');
+  await screenshot('47-interrail-schweiz-bahnrisiken.png');
+  assert.equal(store.current('swiss_lakes').state.people.length,4,
+    'Swiss Interrail inspection never changes the separate car trip group');
   await set('#variant', 'interrail_classic');
   await js('document.querySelector("#variant").dispatchEvent(new Event("change", { bubbles: true }))');
   await until(() => js('Boolean(document.querySelector(".sidebar [data-action=city][data-value=barcelona]"))'), 'Barcelona navigation after variant switch');
