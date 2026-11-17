@@ -1,0 +1,310 @@
+{
+  "meta": {
+    "package": "research-v83-interrail-swiss-lodging",
+    "observedOn": "2026-11-17",
+    "tripId": "interrail_swiss",
+    "partySize": 3,
+    "cities": [
+      "kandersteg",
+      "appenzell"
+    ],
+    "count": 8,
+    "originals": 2,
+    "checks": 5,
+    "bookingsCreated": 0,
+    "availability2027Checked": false,
+    "passTravelDatesChanged": false,
+    "notSwissLakes": true
+  },
+  "originals": [
+    {
+      "id": "iv-kandersteg",
+      "city": "kandersteg",
+      "name": "Alpina Appartment 2",
+      "from": "2027-09-10",
+      "to": "2027-09-12",
+      "historicEuroTotal": 417.95,
+      "guests": 3,
+      "currency": "EUR",
+      "source": "Tripsy-Altwert ohne bestätigte Buchung",
+      "identityWarning": "„Alpina Appartment 2“ wurde nicht zweifelsfrei dem Hotel Alpina oder einem konkreten Apartment zugeordnet. Nicht auf Hotel Alpina Dreibettzimmer umschreiben."
+    },
+    {
+      "id": "iv-appenzell",
+      "city": "appenzell",
+      "name": "Alte Metzg Hostel",
+      "from": "2027-09-12",
+      "to": "2027-09-14",
+      "historicEuroTotal": 408.15,
+      "guests": 3,
+      "currency": "EUR",
+      "source": "Tripsy-Altwert ohne bestätigte Buchung",
+      "identityWarning": "Die Alte Metzg hat mehrere getrennte Hostel-/Pensionszimmer mit unterschiedlichen Betten, Preisen und Bädern. Originalpreis darf nicht einem bestimmten Zimmer zugerechnet werden."
+    }
+  ],
+  "candidates": [
+    {
+      "id": "alpina-triple",
+      "city": "kandersteg",
+      "name": "Hotel Alpina · Dreibettzimmer",
+      "category": "hotel",
+      "sourceUrl": "https://www.alpina-kandersteg.ch/en/rooms",
+      "secondaryUrls": [
+        "https://www.alpina-kandersteg.ch/de/hotel/standortanfahrt"
+      ],
+      "bedConfiguration": "Offizielle Zimmerkategorie Triple Room, ca. 20 m²; die konkrete Bettenanordnung muss im Checkout nochmals geprüft werden.",
+      "bathroom": "Eigenes Bad laut Betreiber",
+      "kitchen": "Keine frei nutzbare Gästeküche durch Quelle belegt",
+      "checkin": "Anreise nach 19 Uhr und Schlüsselübergabe nicht durch Zimmerseite belegt, direkt abstimmen.",
+      "price": "Kein offener, für 10.–12.09.2027 gültiger Gesamtpreis.",
+      "practical": "Äussere Dorfstrasse 92, 3718 Kandersteg. Der Originaleintrag „Alpina Appartment 2“ ist NICHT zweifelsfrei identisch mit diesem Hotel.",
+      "risk": "Hohe Priorität: bei Nizza–Kandersteg eventuell späte Ankunft; Dreibettzimmer-Tarif und Check-in schriftlich bestätigen.",
+      "mapsQuery": "Hotel Alpina Aussere Dorfstrasse 92 Kandersteg",
+      "exactMapPinVerified": false,
+      "threeGuestsVerifiedForRoomType": true,
+      "checkedOn": "2026-11-17",
+      "confirmed2027Rate": false,
+      "confirmed2027Availability": false,
+      "booked": false,
+      "roomPhotoLicenseVerified": false,
+      "checkoutFeesFullyVerified": false
+    },
+    {
+      "id": "bernerhof-family",
+      "city": "kandersteg",
+      "name": "Hotel Bernerhof · Familienzimmer Allmenalp",
+      "category": "hotel",
+      "sourceUrl": "https://www.bernerhof.ch/de/hotel/zimmer/familienzimmer-standard-quotallmenalpquot",
+      "secondaryUrls": [],
+      "bedConfiguration": "Familienzimmer mit zwei Zimmern und 2–4 Betten laut Betreiber; 3 Erwachsene und Ausstattung der dritten Schlafstelle vor Buchung prüfen.",
+      "bathroom": "Eigene Dusche/Bad und WC",
+      "kitchen": "Keine Gästeküche in der Zimmerbeschreibung",
+      "checkin": "Spätanreise und Rezeption nach 19 Uhr direkt nachfragen.",
+      "price": "Veröffentlichte allgemeine Spanne CHF 250–380 pro Zimmer und Nacht inkl. Frühstück. Nicht auf September 2027 oder konkrete 3er-Belegung datiert.",
+      "practical": "Äussere Dorfstrasse 37, Kandersteg; Betreiber nennt Bahnhofnähe. Budget und Frühstück separat mit dem Dreibettzimmer vergleichen.",
+      "risk": "Preis deutlich höher als reine Hostelreferenzen; keine genaue Aussage zur Verfügbarkeit 2027.",
+      "mapsQuery": "Hotel Bernerhof Aeussere Dorfstrasse 37 Kandersteg",
+      "exactMapPinVerified": false,
+      "threeGuestsVerifiedForRoomType": true,
+      "checkedOn": "2026-11-17",
+      "confirmed2027Rate": false,
+      "confirmed2027Availability": false,
+      "booked": false,
+      "roomPhotoLicenseVerified": false,
+      "checkoutFeesFullyVerified": false
+    },
+    {
+      "id": "kisc-new-chalet",
+      "city": "kandersteg",
+      "name": "KISC · New Chalet (Dreibettzimmer)",
+      "category": "hostel",
+      "sourceUrl": "https://www.kisc.ch/accommodation",
+      "secondaryUrls": [
+        "https://www.kisc.ch/faq"
+      ],
+      "bedConfiguration": "Betreiber nennt neun 3-Betten-Zimmer im New Chalet. Als Einzelgruppe von drei Nicht-Pfadfindern anfragbar, aber keine Buchungszusage.",
+      "bathroom": "Gemeinschaftsbad/Zimmerausstattung je tatsächlicher Zimmerkategorie überprüfen",
+      "kitchen": "Küchennutzung abhängig von gebuchtem Gebäude/Leistung; nicht automatisch enthalten",
+      "checkin": "Grundsätzlich Check-in ab 14:00, Check-out bis 10:00. Nachtanreise muss individuell freigegeben werden.",
+      "price": "Nicht-SCOUT-Tarife sind gebäude- und bettenabhängig. Kein bestätigter exakter 3er-/2-Nächte-Checkout.",
+      "practical": "Kandersteg International Scout Centre, Zugang mit Bus Kandersteg Pfadizentrum. Nicht zwingend im Bahnhofsortskern.",
+      "risk": "Achtung: Für das New Chalet nennt der Betreiber 1. Juni bis 10. September als nicht buchbaren Zeitraum. Euer Anreisetag ist GENAU der 10.09.2027. Nicht ohne schriftliche Klärung vormerken.",
+      "mapsQuery": "Kandersteg International Scout Centre New Chalet",
+      "exactMapPinVerified": false,
+      "threeGuestsVerifiedForRoomType": true,
+      "checkedOn": "2026-11-17",
+      "confirmed2027Rate": false,
+      "confirmed2027Availability": false,
+      "booked": false,
+      "roomPhotoLicenseVerified": false,
+      "checkoutFeesFullyVerified": false
+    },
+    {
+      "id": "adler-apartments",
+      "city": "kandersteg",
+      "name": "Chalet-Hotel Adler · Ferienwohnungen",
+      "category": "apartment",
+      "sourceUrl": "https://www.chalethotel.ch/",
+      "secondaryUrls": [],
+      "bedConfiguration": "Betreiber nennt neun Ferienwohnungen für 2–9 Personen; genaue Einheit mit drei zulässigen Erwachsenen und Betten wählen.",
+      "bathroom": "Eigenes Bad je gebuchter Einheit nachfragen",
+      "kitchen": "Eigene Küche in den Ferienwohnungen nach Betreiberbeschreibung",
+      "checkin": "Hotel: Check-in ab 16:00. Für Ferienwohnung und Ankunft spät abends gesondert bestätigen.",
+      "price": "Kein offizieller September-2027-Zweinächte-Endpreis. Endreinigung, Mindestnächte und Kaution prüfen.",
+      "practical": "Laut Betreiber ca. 5 Fußminuten vom Bahnhof und 10 Fußminuten zur Oeschinensee-Gondel.",
+      "risk": "Nicht davon ausgehen, dass ein 2-Nächte-Ferienwohnungsaufenthalt akzeptiert wird oder der Spa-Eintritt inklusive ist.",
+      "mapsQuery": "Chalet Hotel Adler Kandersteg",
+      "exactMapPinVerified": false,
+      "threeGuestsVerifiedForRoomType": true,
+      "checkedOn": "2026-11-17",
+      "confirmed2027Rate": false,
+      "confirmed2027Availability": false,
+      "booked": false,
+      "roomPhotoLicenseVerified": false,
+      "checkoutFeesFullyVerified": false
+    },
+    {
+      "id": "altemetzg-hostel8",
+      "city": "appenzell",
+      "name": "Alte Metzg · Hostel Zimmer 8",
+      "category": "hostel",
+      "sourceUrl": "https://www.altemetzg.ch/en/price-overview.html",
+      "secondaryUrls": [
+        "https://www.altemetzg.ch/en/multi-bed-room-8.html"
+      ],
+      "bedConfiguration": "Zimmer 8 mit Doppelbett und zwei Extrabetten laut Zimmerdetail; für 3 Erwachsene räumlich möglich, tatsächliche Reservierung offen.",
+      "bathroom": "Gemeinschaftsbad auf der Etage",
+      "kitchen": "Gästeküche laut Preisübersicht inklusive",
+      "checkin": "Check-in ab 15:00 Uhr, Check-out bis 11:00 Uhr laut Preisübersicht.",
+      "price": "Betreiber-Preisübersicht April–November: CHF 170 pro Nacht für 3. Die Einzelzimmerseite nennt abweichend CHF 165 pro Nacht. Widerspruch vor Buchung klären.",
+      "practical": "Gaiserstrasse 6, 9050 Appenzell; euer alter Tripsy-Wert 408,15 € für 2 Nächte ist historisch und kein bestätigtes Angebot.",
+      "risk": "Preisabweichung 165/170 CHF; 2027 sowie getrennte Buchbarkeit für 3 prüfen. Gemeinsames Doppelbett berücksichtigen.",
+      "mapsQuery": "Alte Metzg Gaiserstrasse 6 Appenzell",
+      "exactMapPinVerified": false,
+      "threeGuestsVerifiedForRoomType": true,
+      "checkedOn": "2026-11-17",
+      "confirmed2027Rate": false,
+      "confirmed2027Availability": false,
+      "booked": false,
+      "roomPhotoLicenseVerified": false,
+      "checkoutFeesFullyVerified": false
+    },
+    {
+      "id": "altemetzg-hostel9",
+      "city": "appenzell",
+      "name": "Alte Metzg · Hostel Zimmer 9",
+      "category": "hostel",
+      "sourceUrl": "https://www.altemetzg.ch/en/price-overview.html",
+      "secondaryUrls": [],
+      "bedConfiguration": "Mehrbettzimmer 9, Mindestbelegung 3 Betten laut Betreiber; tatsächliche Konfiguration vor der Bezahlung prüfen.",
+      "bathroom": "Gemeinschaftsbad je Zimmerbelegung nachfragen",
+      "kitchen": "Gästeküche laut Betreiber inklusive",
+      "checkin": "Check-in ab 15:00, Check-out bis 11:00 laut Preisübersicht.",
+      "price": "Preisübersicht April–November: CHF 60 pro Bett und Nacht, Mindestbelegung 3 Betten = CHF 180 pro Nacht (3 Personen). Nicht 2027 datiert.",
+      "practical": "Gleicher Betreiber und gleiche Adresse wie Zimmer 8; ist eine Zimmeralternative, KEIN weiteres Hotel.",
+      "risk": "Exakte Bettenanzahl, ob Zimmer exklusiv, Storno und gültigen Endpreis prüfen.",
+      "mapsQuery": "Alte Metzg Hostel Appenzell",
+      "exactMapPinVerified": false,
+      "threeGuestsVerifiedForRoomType": true,
+      "checkedOn": "2026-11-17",
+      "confirmed2027Rate": false,
+      "confirmed2027Availability": false,
+      "booked": false,
+      "roomPhotoLicenseVerified": false,
+      "checkoutFeesFullyVerified": false
+    },
+    {
+      "id": "altemetzg-room5",
+      "city": "appenzell",
+      "name": "Alte Metzg · Pension Zimmer 5",
+      "category": "guesthouse",
+      "sourceUrl": "https://www.altemetzg.ch/en/boutique-guesthouse/room-5.html",
+      "secondaryUrls": [
+        "https://www.altemetzg.ch/en/price-overview.html"
+      ],
+      "bedConfiguration": "Laut Betreiber Doppelbett plus Einzelbett im Dachgeschoss; 3 Personen als Zusatzbelegung beschrieben.",
+      "bathroom": "Gemeinschaftsbad für Zimmer 5/6",
+      "kitchen": "Gemeinschaftsküche im Haus laut Preisübersicht",
+      "checkin": "Check-in ab 15:00, Check-out bis 11:00 nach allgemeiner Preisseite.",
+      "price": "Betreiberpreis April–November: CHF 150 für 2 + CHF 40 für weitere Person = CHF 190 pro Nacht bei 3 Erwachsenen als Tarifreferenz.",
+      "practical": "Gaiserstrasse 6, 9050 Appenzell. Privates Dreierzimmer mit geteilter Nasszelle; keine Bildrechte zur Veröffentlichung.",
+      "risk": "Dachgeschoss/Lift, Badteilung, Gesamtpreis und 2027-Verfügbarkeit überprüfen.",
+      "mapsQuery": "Alte Metzg Boutique Pension Appenzell",
+      "exactMapPinVerified": false,
+      "threeGuestsVerifiedForRoomType": true,
+      "checkedOn": "2026-11-17",
+      "confirmed2027Rate": false,
+      "confirmed2027Availability": false,
+      "booked": false,
+      "roomPhotoLicenseVerified": false,
+      "checkoutFeesFullyVerified": false
+    },
+    {
+      "id": "altemetzg-room3",
+      "city": "appenzell",
+      "name": "Alte Metzg · Pension Suite 3",
+      "category": "guesthouse",
+      "sourceUrl": "https://www.altemetzg.ch/en/boutique-guesthouse/overview.html",
+      "secondaryUrls": [
+        "https://www.altemetzg.ch/en/price-overview.html"
+      ],
+      "bedConfiguration": "Familien-Suite mit Doppelbett und zwei Einzelbetten; drei Erwachsene räumlich möglich.",
+      "bathroom": "Eigenes Bad/Dusche laut Betreiber",
+      "kitchen": "Gemeinschaftsküche im Haus laut Betreiber",
+      "checkin": "Check-in ab 15:00, Check-out bis 11:00 (Hausregel laut Preisseite).",
+      "price": "Betreiberpreis April–November: CHF 220 für 2 + CHF 40 weitere Person = CHF 260 pro Nacht als allgemeine Referenz.",
+      "practical": "Gaiserstrasse 6, 9050 Appenzell; Komfortoption mit eigenem Bad, nicht derselbe Einheitstarif wie Hostel.",
+      "risk": "Nicht mit dem historischen Alte-Metzg-Hostel-Tarif gleichsetzen; Drei-Personen-Checkout, Gebühren und Verfügbarkeit prüfen.",
+      "mapsQuery": "Alte Metzg Boutique Pension Appenzell",
+      "exactMapPinVerified": false,
+      "threeGuestsVerifiedForRoomType": true,
+      "checkedOn": "2026-11-17",
+      "confirmed2027Rate": false,
+      "confirmed2027Availability": false,
+      "booked": false,
+      "roomPhotoLicenseVerified": false,
+      "checkoutFeesFullyVerified": false
+    }
+  ],
+  "checks": [
+    {
+      "id": "late-arrival",
+      "day": "2027-09-10",
+      "city": "kandersteg",
+      "severity": "high",
+      "title": "Späte Zugankunft und Check-in",
+      "text": "Nizza–Kandersteg ist nur mit einer vollständigen, nicht bestätigten Verbindung eingeplant. Für jede Unterkunft schriftlich klären, ob Ankunft gegen 19:30 Uhr oder später mit Schlüsselübergabe möglich ist.",
+      "sourceUrls": [
+        "https://www.sbb.ch/de",
+        "https://www.alpina-kandersteg.ch/en/rooms"
+      ]
+    },
+    {
+      "id": "minnights",
+      "day": "2027-09-10",
+      "city": "kandersteg",
+      "severity": "medium",
+      "title": "Zwei Nächte tatsächlich buchbar?",
+      "text": "Einzelne Ferienwohnungen können Mindestnächte und Reinigungspauschalen haben. Die Originalsuche für 2 Nächte ist kein Live-Checkout.",
+      "sourceUrls": [
+        "https://www.chalethotel.ch/",
+        "https://www.kisc.ch/accommodation"
+      ]
+    },
+    {
+      "id": "kisc-boundary",
+      "day": "2027-09-10",
+      "city": "kandersteg",
+      "severity": "high",
+      "title": "KISC New Chalet: Sperrzeit endet erst am 10. September",
+      "text": "Die Betreiberseite kennzeichnet New Chalet als nicht buchbar vom 1. Juni bis 10. September. Die Anreise ist genau am 10. September 2027 geplant; ohne schriftliche Zusage NICHT als verfügbar einstufen.",
+      "sourceUrls": [
+        "https://www.kisc.ch/accommodation",
+        "https://www.kisc.ch/faq"
+      ]
+    },
+    {
+      "id": "metzg-conflict",
+      "day": "2027-09-12",
+      "city": "appenzell",
+      "severity": "medium",
+      "title": "Alte Metzg Zimmer 8: Preisangaben widersprüchlich",
+      "text": "Die allgemeine 2026er Preisliste nennt CHF 170 pro Nacht für drei, die Zimmer-8-Seite CHF 165. Es gibt deshalb keinen eindeutigen Betreiberbetrag, erst recht keine 2027-Rate.",
+      "sourceUrls": [
+        "https://www.altemetzg.ch/en/price-overview.html",
+        "https://www.altemetzg.ch/en/multi-bed-room-8.html"
+      ]
+    },
+    {
+      "id": "ferienscard",
+      "day": "2027-09-12",
+      "city": "appenzell",
+      "severity": "high",
+      "title": "Appenzeller Ferienkarte nicht für nur zwei Nächte einrechnen",
+      "text": "Ab drei zusammenhängenden Nächten im teilnehmenden Betrieb erhältlich. Für Aufenthalt 12.–14.09.2027 (zwei Nächte) fehlt diese Voraussetzung: keine kostenlose regionale Bahn oder Ebenalp-Seilbahn über die Ferienkarte annehmen.",
+      "sourceUrls": [
+        "https://www.appenzell.ch/de/unterkunft/appenzeller-ferienkarte.html"
+      ]
+    }
+  ]
+}
