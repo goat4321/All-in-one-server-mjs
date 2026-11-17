@@ -33,6 +33,7 @@ import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
 import {dayPlanPanel,dayPlanOverview,dayPlanQuickBar} from './day-plans-ui.mjs';
 import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
 import {swissLodgingSummaryV83,swissLodgingCompareV83,swissLodgingRailNoteV83} from './swiss-lodging-v83.mjs';
+import {swissDatedSearchBoardV84,swissRailPrecisionV84} from './swiss-dated-search-v84.mjs';
 import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
 import { dayPeriod,planCostSignal } from './visual-experience.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
@@ -737,7 +738,7 @@ function options(ctx, lodging) {
     chip('option-filter',label,optionFilter===id,id)).join('');
   const advanced=filters.slice(3).map(([id,label])=>
     chip('option-filter',label,optionFilter===id,id)).join('');
-  return (lodging?swissLodgingCompareV83(ctx):'')
+  return (lodging?swissDatedSearchBoardV84(ctx)+swissLodgingCompareV83(ctx):'')
     +browseHero(ctx,lodging?'lodging':'discover',list.length)
     +browseToolbar(ctx,{kind:lodging?'lodging':'discover',total:found.length,
        filtered:list.length})
@@ -1052,6 +1053,7 @@ function rail(ctx) {
     + stat('Einzeltickets', ticketUnknown ? 'Teilpreis ' + money(knownSingles) : money(knownSingles), ticketUnknown + ' Fahrten mit offenem Preis') + '</div>'
     + railReviewTimeline(ctx)
     + swissInterrailRailV82(ctx)
+    + swissRailPrecisionV84(ctx)
     + swissLodgingRailNoteV83(ctx)
     + '<section class="section panel panel-pad"><h2>Pass-Reisetage und Tarifprüfung</h2>'
     + '<p>Die Passrechnung verwendet Abfahrtstage, nicht die Anzahl der Züge. Bei Nachtzügen ist entscheidend, ob am nächsten Tag ein weiterer Zug benutzt wird. Keine Annahme über 2027er Sitzplätze.</p>'
