@@ -131,14 +131,14 @@
     {
       "key": "simplon",
       "date": "2027-09-10",
-      "title": "Nizza → Ventimiglia → Mailand → Brig → Spiez → Kandersteg",
+      "title": "Nizza → Ventimiglia → Mailand → Brig → Kandersteg (BLS RE1 via Goppenstein)",
       "kind": "Prüfhypothese über Italien und Simplon",
-      "note": "Grenz-/Bahnhofswechsel, EuroCity/InterCity-Passgültigkeit, Reservierungspflicht, letzte Verbindung Spiez–Kandersteg und Anschlussreserven kontrollieren. Keine bestätigte 2027-Fahrzeit.",
-      "preferredFor": "Mögliche Alternative, wenn die Verbindung über Genf zu lang oder ungünstig ist",
+      "note": "BLS dokumentiert 2025/26 die direkte RE1-Bergstrecke Brig–Goppenstein–Kandersteg; ein Umweg über Spiez ist nicht grundsätzlich notwendig. Ankunft Mailand–Brig (EuroCity), obligatorische EC-Platzreservierung und letzte RE1-Verbindung am 10.09.2027 prüfen. Kein 2027-Fahrplan bestätigt.",
+      "preferredFor": "Potentiell weniger Rückfahrt und Umstiege als via Spiez; nur nutzen, wenn die tatsächliche RE1-Anschlusszeit zu eurem EuroCity passt.",
       "sourceUrls": [
-        "https://www.trenitalia.com/",
-        "https://www.sbb.ch/de",
-        "https://www.interrail.com/en/plan-your-trip/tips-and-tricks/trains-europe/railway-companies"
+        "https://www.bls.ch/de/fahren/fahrplan/bls-linien",
+        "https://www.interrail.com/en-int/plan-your-trip/tips-and-tricks/trains-europe/trains-country/trains-italy",
+        "https://www.sbb.ch/de"
       ]
     },
     {
