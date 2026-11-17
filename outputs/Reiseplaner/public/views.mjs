@@ -32,6 +32,7 @@ import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
   mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview,dayPlanQuickBar} from './day-plans-ui.mjs';
 import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
+import {swissLodgingSummaryV83,swissLodgingCompareV83} from './swiss-lodging-v83.mjs';
 import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
 import { dayPeriod,planCostSignal } from './visual-experience.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
@@ -632,6 +633,7 @@ function overview(ctx) {
   return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
     + quickStartHtml
     + swissInterrailOverviewV82(ctx)
+    + swissLodgingSummaryV83(ctx)
     + dayPlanOverview(ctx)
     + '<div class="cockpit-layout">'
     + '<section class="cockpit-welcome" aria-label="Reise auf einen Blick">'
@@ -735,7 +737,8 @@ function options(ctx, lodging) {
     chip('option-filter',label,optionFilter===id,id)).join('');
   const advanced=filters.slice(3).map(([id,label])=>
     chip('option-filter',label,optionFilter===id,id)).join('');
-  return browseHero(ctx,lodging?'lodging':'discover',list.length)
+  return (lodging?swissLodgingCompareV83(ctx):'')
+    +browseHero(ctx,lodging?'lodging':'discover',list.length)
     +browseToolbar(ctx,{kind:lodging?'lodging':'discover',total:found.length,
        filtered:list.length})
     +'<div class="hub-result-settings"><div class="hub-quick-filters">'+quick
