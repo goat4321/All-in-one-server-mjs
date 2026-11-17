@@ -1,0 +1,759 @@
+{
+  "meta": {
+    "package": "research-v75-swiss-entry-guides",
+    "checkedOn": "2026-11-17",
+    "variants": [
+      "interrail_swiss",
+      "swiss_lakes"
+    ],
+    "country": "CH",
+    "description": "Sourced site-specific guides plus clearly labeled regional fallback for every existing Swiss catalog item. No new place, booking, price, geometry or itinerary.",
+    "baseSources": 29
+  },
+  "regions": {
+    "appenzell": {
+      "summary": "Appenzellerland: Bergwege, Dörfer und Tagesausflüge; einzelne Orte sorgfältig lokalisieren.",
+      "access": "Regionale Anfahrt über Appenzell; für Bergziele Wasserauen, Brülisau oder Jakobsbad gesondert prüfen.",
+      "cost": "Kein 2027-Preis aus dem Eintragsnamen ableitbar; Bergbahn, Lokalbus und Gastronomie separat.",
+      "caution": "SAC-Wegkategorie und Wetter bestimmen die sichere Route.",
+      "sourceUrl": "https://www.appenzell.ch/"
+    },
+    "wasserauen": {
+      "summary": "Wasserauen: Bahnhof und Talstation als Startpunkte für Seealpsee oder Ebenalp.",
+      "access": "Mit der Appenzeller Bahn nach Wasserauen, Fußweg zur jeweiligen Talstation prüfen.",
+      "cost": "Bergbahnen nicht im normalen Seealpsee-Wanderpreis enthalten.",
+      "caution": "T2- und steilere Bergwege ausdrücklich unterscheiden.",
+      "sourceUrl": "https://www.appenzell.ch/de/service/tour-pdf.html?tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Bcontroller%5D=Tour&tx_wstourismus_tourismus%5Btour%5D=39"
+    },
+    "seealpsee": {
+      "summary": "Seealpsee: ruhiger Bergsee mit Bergrestaurants, nur zu Fuß erreichbar.",
+      "access": "Zugang in der Regel zu Fuß ab Wasserauen; nicht mit dem Äscher-Steilstück gleichsetzen.",
+      "cost": "See-Zugang als Wanderziel ohne Eintritt; Gastronomie extra.",
+      "caution": "Wanderschuhe und Regenreserve; keine Autozufahrt ans Ufer.",
+      "sourceUrl": "https://www.appenzell.ch/de/service/tour-pdf.html?tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Bcontroller%5D=Tour&tx_wstourismus_tourismus%5Btour%5D=39"
+    },
+    "kloental": {
+      "summary": "Klöntal: Bergsee, Uferwege und saisonaler Postauto-Verkehr.",
+      "access": "Postauto Linie 504 ab Glarus; Fahrplan für den Wochentag kontrollieren.",
+      "cost": "Bus/Parken separat; keine beliebige Seeumrundung unterstellen.",
+      "caution": "Begrenzte Parkplätze, mögliche Fahrverbote, Bergwanderweg statt Rundwegspaziergang.",
+      "sourceUrl": "https://www.postauto.ch/de/fahrplan-und-netz/ortsbus/glarnerland"
+    },
+    "glarus": {
+      "summary": "Glarnerland: Museum, Bergseen und Wasserfälle sind räumlich verteilt.",
+      "access": "Glarus als Bahn-/Busknoten, Ausflüge nach Linthal/Engi/Klöntal einzeln planen.",
+      "cost": "Eintritt oder Seilbahn nur für tatsächlich gewählte Aktivität.",
+      "caution": "Täler und Höhenpunkte nicht ohne Transferzeit kombinieren.",
+      "sourceUrl": "https://glarnerland.ch/"
+    },
+    "grindelwald": {
+      "summary": "Grindelwald: Eigernordwand, Jungfraubahnen und Bergwege.",
+      "access": "Bahnhof Grindelwald als Knoten; First, Männlichen und Gletscherschlucht sind unterschiedliche Standorte.",
+      "cost": "Bergbahnen/Adventure-Programme kosten extra; 2027-Checkout offen.",
+      "caution": "Über 2.000 Meter sind Frost, Nebel und Sperrungen auch im September möglich.",
+      "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwald/"
+    },
+    "bachalpsee": {
+      "summary": "Bachalpsee: Hochgelegener Bergsee mit Aussicht auf das Wetterhornmassiv.",
+      "access": "In der Regel vom First zu Fuß, nicht mit Auto/Bus bis zum Ufer.",
+      "cost": "Fußweg ohne gesondertes Ticket; Firstbahn kostenpflichtig.",
+      "caution": "Bergwetter, Höhenlage und letzter Gondelrückweg entscheidend.",
+      "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwaldfirst/"
+    },
+    "kandersteg": {
+      "summary": "Kandersteg: Oeschinensee, Sunnbüel und Allmenalp als getrennte Ausflugsziele.",
+      "access": "Bahnhof Kandersteg; je nach Seilbahn eigene Talstation und Gehwege.",
+      "cost": "Unterkunft, Gästekarte und Bergbahntickets separat prüfen.",
+      "caution": "Saisonfahrpläne 2027 teils veröffentlicht; Betrieb wetterabhängig.",
+      "sourceUrl": "https://www.oeschinensee.ch/tarife-fahrplan/"
+    },
+    "oeschinensee": {
+      "summary": "Oeschinensee: UNESCO-Alpensee, Fußwege und Gondelbahn.",
+      "access": "Keine private Auto-/Rad-Zufahrt bis ans Seeufer; Gondel plus Fußweg.",
+      "cost": "See selbst ohne gesonderten Eintritt, Seilbahn und Ruderboote extra.",
+      "caution": "Steinschlagzonen beachten und Wintersperrungen respektieren.",
+      "sourceUrl": "https://www.oeschinensee.ch/live/"
+    }
+  },
+  "rules": [
+    {
+      "key": "seealp-steil",
+      "cities": [
+        "appenzell"
+      ],
+      "kind": "activity",
+      "match": [
+        "ascher seealpsee abstieg",
+        "aescher seealpsee abstieg"
+      ],
+      "summary": "Steiler Bergweg ab Ebenalp/Äscher, ausdrücklich keine leichte Seealpsee-Alternative.",
+      "access": "Nur bei Trittsicherheit; nicht als Abkürzung für einen lockeren Seetag planen.",
+      "duration": "Appenzellerland beschreibt Ebenalp–Wasserauen mit rund 4,39 km, 716 m Abstieg und 1 h 30 min.",
+      "cost": "Seilbahn zusätzlich; Wanderweg ohne Ticket.",
+      "caution": "Steile und teils rutschige Passagen; bei Nässe vermeiden.",
+      "check2027": "SAC-Bergweg: tatsächliche Route, Nässe, Sturzwarnungen und letzte Seilbahn prüfen.",
+      "sourceUrl": "https://www.appenzell.ch/de/sommer/wandern/wandervorschlaege.html",
+      "sourceLabel": "alpstein"
+    },
+    {
+      "key": "oesch-gondel",
+      "cities": [
+        "kandersteg",
+        "oeschinensee"
+      ],
+      "kind": "activity",
+      "match": [
+        "oeschinensee gondel",
+        "oeschinensee talstation",
+        "oeschinen bergstation",
+        "berstation spazier",
+        "oeschinensee leichter seeweg"
+      ],
+      "summary": "Gondelbahn und gut ausgebauter Fußweg zum See, keine Zufahrt mit privatem Auto bis ans Ufer.",
+      "access": "Ab Bahnhof Kandersteg etwa 10–15 Minuten zur Talstation, von der Bergstation rund 30 Minuten zum See.",
+      "duration": "Gondel überwindet rund 480 Höhenmeter; Spaziergang Bergstation–See rund 30 Minuten.",
+      "cost": "2026 Berg- und Talfahrt regulär in Hauptsaison CHF 40; 2027 Tarif separat prüfen.",
+      "caution": "Zeitslot für Bergfahrt empfohlen; Steinschlag-Sperrungen und letzte Gondel beachten.",
+      "check2027": "SOMMER 2027 veröffentlicht: 24.04.–19.09. täglich 08:30–18:00; konkreten Betriebstag und Ticket prüfen.",
+      "sourceUrl": "https://www.oeschinensee.ch/tarife-fahrplan/",
+      "sourceLabel": "oesch"
+    },
+    {
+      "key": "oesch-ufer",
+      "cities": [
+        "oeschinensee",
+        "kandersteg"
+      ],
+      "kind": "activity",
+      "match": [
+        "oeschinensee",
+        "oschinensee",
+        "oeschinen lake",
+        "oeschinen see",
+        "oeschinensee leichte wanderung"
+      ],
+      "summary": "UNESCO-Alpensee; Spazierwege, Picknick, Bergpanorama. Im Gegensatz zu einem Rundweg ist nicht jedes Ufer durchgehend begehbar.",
+      "access": "Vom Dorf per Gondel und Wanderweg oder direkt zu Fuß; Auto-, E-Bike- und Radverkehr am See untersagt.",
+      "duration": "Direktweg Bergstation–See ca. 30 Minuten; Talstation–See zu Fuß ca. 90 Minuten und etwa 450 Höhenmeter.",
+      "cost": "See-Zugang ohne eigenes Eintrittsticket; Gondel, Ruderboote und Bergangebote separat.",
+      "caution": "Steinschlagbereiche, Sperrungen, Wetter und Schutzgebiete ernst nehmen; Ufer nicht frei umrunden.",
+      "check2027": "Sommerzeiten der Gondel 2027 publiziert; tatsächliche Wegsperren und Ruderbootsaison prüfen.",
+      "sourceUrl": "https://www.oeschinensee.ch/live/",
+      "sourceLabel": "oeschLive"
+    },
+    {
+      "key": "first-cliff",
+      "cities": [
+        "grindelwald"
+      ],
+      "kind": "activity",
+      "match": [
+        "first cliff walk",
+        "cliff walk"
+      ],
+      "summary": "Aussichtssteg am First mit exponiertem Abschnitt und Plattform über der Felswand.",
+      "access": "Mit Firstbahn ab Grindelwald zur Bergstation; Cliff Walk direkt beim First.",
+      "duration": "Für den Cliff Walk vor Ort ungefähr 20 Minuten plus eventuelle Wartezeit.",
+      "cost": "Firstbahnticket erforderlich; etwaige Zusatzpreise für Aktivitäten separat.",
+      "caution": "Bei Gewitter, starkem Wind und Höhenangst Alternative bereithalten.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwaldfirst/first-cliff-walk-by-tissot/",
+      "sourceLabel": "cliff"
+    },
+    {
+      "key": "first-view",
+      "cities": [
+        "grindelwald"
+      ],
+      "kind": "activity",
+      "match": [
+        "first view"
+      ],
+      "summary": "Aussichtsplattform mit sieben Blickrichtungen auf die Berner Alpen.",
+      "access": "Kurzer Fußweg von der First-Bergstation.",
+      "duration": "Rund 20 Minuten einplanen.",
+      "cost": "Firstbahnticket separat, 2027-Preis offen.",
+      "caution": "Ausgesetzte Höhenlage, bei Wolken eingeschränkte Sicht.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwaldfirst/first-view/",
+      "sourceLabel": "firstView"
+    },
+    {
+      "key": "first-bachalp",
+      "cities": [
+        "grindelwald",
+        "bachalpsee"
+      ],
+      "kind": "activity",
+      "match": [
+        "firstbahn und bachalpsee",
+        "bachalpsee wanderung",
+        "bachalpsee als",
+        "bachalpsee"
+      ],
+      "summary": "Panoramawanderung vom First zum Bachalpsee mit Eiger-, Wetterhorn- und Schreckhornkulisse.",
+      "access": "Gondelbahn Grindelwald–First; Weg ab Bergstation ohne technische Kletterei.",
+      "duration": "Laut Jungfraubahnen rund 2 Stunden für Hin- und Rückweg zum Bachalpsee.",
+      "cost": "Kosten für Bergbahn; Wanderweg selbst ohne zusätzliches Ticket.",
+      "caution": "Auf 2.200 m kann es im September kalt sein; Wegstatus und letzte Talfahrt prüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwaldfirst/",
+      "sourceLabel": "first"
+    },
+    {
+      "key": "firstbahn",
+      "cities": [
+        "grindelwald"
+      ],
+      "kind": "activity",
+      "match": [
+        "firstbahn",
+        "grindelwald first",
+        "first flieger",
+        "first flyer"
+      ],
+      "summary": "Firstbahn als Ausgangspunkt für Cliff Walk, First View und Bachalpsee.",
+      "access": "Talstation im Dorf Grindelwald; passende Rückfahrt vorab planen.",
+      "duration": "Fahrplanabhängig; Bachalpsee zusätzlich rund 2 Stunden hin und zurück.",
+      "cost": "Offizielle aktuelle Ticketübersicht ab CHF 36/38 für einzelne Angebote; keine bestätigte 2027-Endsumme.",
+      "caution": "Ausflugs- und Adventure-Angebote wetterbedingt einzeln geschlossen möglich.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwaldfirst/",
+      "sourceLabel": "first"
+    },
+    {
+      "key": "maennlichen",
+      "cities": [
+        "grindelwald"
+      ],
+      "kind": "activity",
+      "match": [
+        "mannlichen",
+        "maennlichen",
+        "kleine scheidegg panoramaweg",
+        "panoramaweg"
+      ],
+      "summary": "Panoramaweg Männlichen–Kleine Scheidegg mit Blick auf Eiger, Mönch und Jungfrau.",
+      "access": "Mit Bergbahn nach Männlichen, zurück ab Kleine Scheidegg mit Bahnverbindung.",
+      "duration": "Betreiber: 4,5 km und etwa 1 h 20 min Männlichen→Kleine Scheidegg.",
+      "cost": "Auf- und Rückfahrten der Bahnen getrennt von Wanderweg planen.",
+      "caution": "Saison Mitte Juni–Oktober als Orientierung; Schnee und letzte Bahn überprüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.maennlichen.ch/de/sommer/erleben/panoramaweg.html",
+      "sourceLabel": "maennlichen"
+    },
+    {
+      "key": "gletscherschlucht",
+      "cities": [
+        "grindelwald"
+      ],
+      "kind": "activity",
+      "match": [
+        "gletscherschlucht"
+      ],
+      "summary": "Schlucht mit Stegen, Tunnelpassagen und Spiderweb-Netz über dem Wasser.",
+      "access": "Bus-/Fußweg Richtung Gletscherschlucht; Anfahrt nicht mit First-Bergbahn verwechseln.",
+      "duration": "Dauer abhängig vom Aufenthalt, für den Besuch mindestens etwa 1 Stunde einplanen (Planungsschätzung).",
+      "cost": "Eigenes Eintrittsticket; 2027-Tarif offen.",
+      "caution": "Feuchte Stege, Witterung, Saisonöffnung und Höhenangst beachten.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://grindelwald.swiss/de/map/detail/gletscherschlucht-grindelwald-aaa98968-c9e4-4a2a-b871-8c25abefc234.html",
+      "sourceLabel": "gorge"
+    },
+    {
+      "key": "grindel-sport",
+      "cities": [
+        "grindelwald"
+      ],
+      "kind": "activity",
+      "match": [
+        "sportzentrum",
+        "hallenbad",
+        "eishalle"
+      ],
+      "summary": "Schlechtwetteroption im Dorf; Schwimmbad und Eisangebote nicht automatisch gleichzeitig offen.",
+      "access": "Sportzentrum Grindelwald, jeweils aktuellen Kurs-/Publikumsplan prüfen.",
+      "duration": "1–2 Stunden als flexible Eigenplanung.",
+      "cost": "Eintrittstarif und mögliche Mietausrüstung offen.",
+      "caution": "Publikumszeiten gegenüber Vereins-/Schulbelegung prüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwald/",
+      "sourceLabel": "jungfrau"
+    },
+    {
+      "key": "grindel-dorf",
+      "cities": [
+        "grindelwald"
+      ],
+      "kind": "activity",
+      "match": [
+        "dorfspaziergang",
+        "dorf grindelwald"
+      ],
+      "summary": "Ruhiger Dorfspaziergang mit Blick auf die Eigernordwand.",
+      "access": "Vom Bahnhof oder Ortszentrum starten; flexibel mit Supermarkt kombinieren.",
+      "duration": "30–90 Minuten als frei anpassbare Eigenplanung.",
+      "cost": "Spaziergang ohne Eintritt; Gastronomie separat.",
+      "caution": "Im Dorf können steile Abschnitte vorkommen; Wetter prüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwald/",
+      "sourceLabel": "jungfrau"
+    },
+    {
+      "key": "grindel-hostel",
+      "cities": [
+        "grindelwald"
+      ],
+      "kind": "lodging",
+      "match": [
+        "youth hostel",
+        "jugendherberge"
+      ],
+      "summary": "Schweizer Jugendherberge mit Aussicht auf die Eigernordwand; offizieller Anbieter veröffentlicht Mehrbettzimmer.",
+      "access": "Geissstutzstrasse 12, 3818 Grindelwald; Weg vom Bahnhof mit Gepäck prüfen.",
+      "duration": "Check-in/-out und Aufenthaltsdauer nur nach gewählter Zimmerbuchung bestätigt.",
+      "cost": "Originalanbieter nennt 4-, 6- und 7-Bettzimmer; konkreten 4-Personen-Tarif 2027 prüfen.",
+      "caution": "Ob alle vier Gäste in einem Zimmer unterkommen, Bad, Frühstück und Kurtaxe prüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.youthhostel.ch/de/hostels/jugendherberge-grindelwald",
+      "sourceLabel": "hostel"
+    },
+    {
+      "key": "appenzell-alte",
+      "cities": [
+        "appenzell"
+      ],
+      "kind": "lodging",
+      "match": [
+        "alte metzg"
+      ],
+      "summary": "Historisches Hostel/Boutique-Pension mit zwei Mehrbettzimmern; Gebäude laut Tourismus 2021 renoviert.",
+      "access": "Gaiserstrasse 6, 9050 Appenzell, genaue Lage des gebuchten Zimmers erfragen.",
+      "duration": "Zeiten und Zimmerkonfiguration nicht allein aus der Angebotsbezeichnung ableiten.",
+      "cost": "Tourismus-Referenz CHF 40–110 pro Person/Nacht ohne Frühstück, kein Checkout 2027.",
+      "caution": "Für 3/4 Personen Bettenzahl, Gemeinschaftsbad und Frühstück einzeln bestätigen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.appenzell.ch/de/unterkunft/bed-breakfast/boutique-pension-hostel-alte-metzg.html",
+      "sourceLabel": "alte"
+    },
+    {
+      "key": "appenzell-ebenalp",
+      "cities": [
+        "appenzell",
+        "wasserauen"
+      ],
+      "kind": "activity",
+      "match": [
+        "ebenalp",
+        "wildkirchli"
+      ],
+      "summary": "Seilbahn zur Ebenalp und kurze Wanderung durch die Wildkirchlihöhlen zum Äscher.",
+      "access": "Talstation Wasserauen; nach dem Höhlenabschnitt nicht automatisch über steilen Abstieg zum Seealpsee weiterlaufen.",
+      "duration": "Seilbahn plus Rundgang; Tagesprogramm abhängig von Höhenweg und Umkehrpunkt.",
+      "cost": "2026 Erwachsene retour CHF 36, Einzelfahrt CHF 24; 2027 offen.",
+      "caution": "2027 Saison offen; 2026 spätsommerliche Talfahrt zuletzt ca. 18 Uhr; Schlechtwetter vermeiden.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://ebenalp.ch/de/sommer-info",
+      "sourceLabel": "ebenalp"
+    },
+    {
+      "key": "appenzell-seealp",
+      "cities": [
+        "appenzell",
+        "wasserauen",
+        "seealpsee"
+      ],
+      "kind": "activity",
+      "match": [
+        "seealpsee",
+        "wasserauen wanderstart",
+        "wasserauen start",
+        "seealp ufer",
+        "seealpsee aufstieg"
+      ],
+      "summary": "Seealpsee-Wanderung mit Natur- und Picknickstopps; Rundtour über Hüttentobel laut Appenzellerland T2.",
+      "access": "Start Bahnhof Wasserauen; klassische Seealpsee-Schleife nicht mit steilem Äscher-Abstieg verwechseln.",
+      "duration": "Tourismusroute Wasserauen–Seealpsee–Wasserauen: 7,34 km, 377 Höhenmeter auf/ab, etwa 2 h 30 min.",
+      "cost": "Wanderung ohne Eintritt; Berggasthäuser und Anfahrt separat.",
+      "caution": "T2-Bergweg trotz offizieller Einordnung leicht: trittsichere Schuhe und Wetterreserve.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.appenzell.ch/de/service/tour-pdf.html?tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Bcontroller%5D=Tour&tx_wstourismus_tourismus%5Btour%5D=39",
+      "sourceLabel": "wasser"
+    },
+    {
+      "key": "appenzell-aescher",
+      "cities": [
+        "appenzell",
+        "wasserauen"
+      ],
+      "kind": "activity",
+      "match": [
+        "ascher",
+        "aescher",
+        "berggasthaus"
+      ],
+      "summary": "Berühmtes Felsgasthaus am Wildkirchli; Foto- und Einkehrstopp, kein flaches Ortszentrum.",
+      "access": "Ebenalp-Seilbahn und Wildkirchli-Weg; ausgeschilderten Rückweg zur Bergstation wählen.",
+      "duration": "Mehr Zeit einplanen, falls Einkehr und Höhlenbesuch kombiniert werden.",
+      "cost": "Gasthausbesuch separat von Seilbahnticket, keine bestätigten 2027-Menüpreise.",
+      "caution": "Steile Bergwege und Wind/Nässe; Restaurant wetter- und saisonabhängig.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.appenzell.ch/de/gastronomie/restaurants/berggasthaus-aescher.html",
+      "sourceLabel": "aescher"
+    },
+    {
+      "key": "appenzell-kasten",
+      "cities": [
+        "appenzell"
+      ],
+      "kind": "activity",
+      "match": [
+        "hoher kasten"
+      ],
+      "summary": "Aussichtsgipfel mit Europa-Rundweg und Drehrestaurant.",
+      "access": "Seilbahntalstation Brülisau, nicht im Dorfzentrum Appenzell.",
+      "duration": "Halber Tag als flexible Eigenplanung.",
+      "cost": "Seilbahnticket und Restaurantrechnung gesondert; 2027 offen.",
+      "caution": "Wetter, Sicht, Restaurantreservation und letzte Talfahrt überprüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.hoherkasten.ch/entdecken/gastronomie/",
+      "sourceLabel": "kasten"
+    },
+    {
+      "key": "appenzell-kronberg",
+      "cities": [
+        "appenzell"
+      ],
+      "kind": "activity",
+      "match": [
+        "kronberg"
+      ],
+      "summary": "Kronberg als Berg- und Ausflugsgebiet; Bobbahn liegt an der Talstation und ist wetterabhängig.",
+      "access": "Anreise über Jakobsbad, nicht Wasserauen; Bobbahn und Gipfel getrennt planen.",
+      "duration": "Je nach Bahnfahrt oder Bobbahn als Halbtag möglich.",
+      "cost": "Bahn- und Bobbahntickets getrennte Leistungen.",
+      "caution": "Bei Regen/Wind keine Rodelbahn voraussetzen; 2027 Saison prüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.appenzell.ch/",
+      "sourceLabel": "appenzell"
+    },
+    {
+      "key": "appenzell-schauk",
+      "cities": [
+        "appenzell"
+      ],
+      "kind": "activity",
+      "match": [
+        "schaukäserei",
+        "schaukaeserei"
+      ],
+      "summary": "Einblick in die Appenzeller Käseproduktion und mögliche Degustationen.",
+      "access": "Schaukäserei in Stein AR, nicht im Ortskern Appenzell.",
+      "duration": "Ca. 1–2 Stunden für Führung/Verkostung als eigene Planung.",
+      "cost": "Eintritte/Führungen und Verkostung separat prüfen.",
+      "caution": "Tagesvorführung und gewünschte Sprache rechtzeitig prüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.schaukaeserei.ch/de/",
+      "sourceLabel": "cheese"
+    },
+    {
+      "key": "appenzell-kunst",
+      "cities": [
+        "appenzell"
+      ],
+      "kind": "activity",
+      "match": [
+        "kunsthalle",
+        "ziegelhutte",
+        "ziegelhütte"
+      ],
+      "summary": "Kunsthalle Ziegelhütte als Kultur- und Schlechtwetteroption.",
+      "access": "Museumsstandort Appenzell, Öffnungszeiten an Wochentag gebunden.",
+      "duration": "45–90 Minuten als flexible Planungszeit.",
+      "cost": "2026 Quelle ca. CHF 15 regulär für Kunsthalle/Kunstmuseum-Kombination; 2027 prüfen.",
+      "caution": "2026 saisonal Mi–So; Mo/Di oft geschlossen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.appenzell.ch/de/kultur-und-braeuche/museen/kunsthalle-appenzell.html",
+      "sourceLabel": "kunsthalle"
+    },
+    {
+      "key": "appenzell-alpsigel",
+      "cities": [
+        "appenzell"
+      ],
+      "kind": "activity",
+      "match": [
+        "alp sigel",
+        "alp-sigel"
+      ],
+      "summary": "Kleine Luftseilbahn auf die Alp Sigel, Ausgangspunkt für Wanderaussichten.",
+      "access": "Talstation Pfannenstiel, nicht Wasserauen oder Brülisau.",
+      "duration": "Abhängig von gewählter Wanderung; zusätzliche Rückwegplanung nötig.",
+      "cost": "2026 Quelle Retour CHF 27 Erwachsene; GA/Halbtax laut Quelle nicht gültig.",
+      "caution": "Weg zum Start, Wetter und kleine Seilbahnkapazität vorab prüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.appenzell.ch/de/service/verkehr.html?tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Btraffic%5D=15",
+      "sourceLabel": "alpSigel"
+    },
+    {
+      "key": "appenzell-altstadt",
+      "cities": [
+        "appenzell"
+      ],
+      "kind": "activity",
+      "match": [
+        "altstadt appenzell",
+        "hauptgasse",
+        "lokale spezialitaten"
+      ],
+      "summary": "Bemalte Häuser an der Hauptgasse, Dorfzentrum und lokale Spezialitäten.",
+      "access": "Vom Bahnhof Appenzell zu Fuß erreichbar, frei kombinierbar mit Einkauf.",
+      "duration": "45–90 Minuten als flexible Planungszeit.",
+      "cost": "Stadtspaziergang kostenlos; Essen und Einkäufe separat.",
+      "caution": "Läden haben individuelle Öffnungszeiten, Sonntag nicht als Einkaufstag annehmen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.appenzell.ch/",
+      "sourceLabel": "appenzell"
+    },
+    {
+      "key": "kloental-bergweg",
+      "cities": [
+        "kloental"
+      ],
+      "kind": "activity",
+      "match": [
+        "rundweg",
+        "bergrundwanderweg",
+        "wandern"
+      ],
+      "summary": "Naturweg entlang des Klöntalersees mit Abschnitt Rhodannenberg–Vorauen und Rückweg am gegenüberliegenden Ufer.",
+      "access": "Start Postauto-Haltestelle Rhodannenberg; Vorauen ebenfalls möglicher Einstieg.",
+      "duration": "Glarnerland nennt rund 3 h 30 min für den Berg-Rundwanderweg.",
+      "cost": "Wanderweg frei, Bus und Parken extra.",
+      "caution": "Bergwanderweg statt ebenem Seespaziergang; Saison und Sperrung prüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://glarnerland.ch/de/map/poi/bergrundwanderweg-klontalersee--id--tou_s9t_fhtsjret-vvqc-efvd-qhdg-sfghdjqqbfhv.html",
+      "sourceLabel": "kloental"
+    },
+    {
+      "key": "kloental-see",
+      "cities": [
+        "kloental",
+        "glarus"
+      ],
+      "kind": "activity",
+      "match": [
+        "klöntalersee",
+        "klontalersee",
+        "kloental picknick",
+        "klontal picknick",
+        "sudliches ufer"
+      ],
+      "summary": "Bergsee mit Bade-, Picknick- und Spaziermöglichkeiten; Uferwege teilweise Bergwege.",
+      "access": "Postauto Linie 504 ab Glarus; Haltestellen Rhodannenberg oder Vorauen.",
+      "duration": "Einzelne Uferstopps flexibel, Rundweg ca. 3 h 30 min.",
+      "cost": "See frei; Parken/ÖV und Verpflegung separat.",
+      "caution": "Wenig Parkplätze und Verkehrsregulierung im Klöntal, Sommerverkehr prüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.postauto.ch/de/fahrplan-und-netz/ortsbus/glarnerland",
+      "sourceLabel": "postauto"
+    },
+    {
+      "key": "glarus-landes",
+      "cities": [
+        "glarus"
+      ],
+      "kind": "activity",
+      "match": [
+        "landesplattenberg",
+        "schieferbergwerk"
+      ],
+      "summary": "Historisches Schieferbergwerk mit öffentlichen, terminierten Führungen.",
+      "access": "Engi; offizielle Führung mit konkretem Treffpunkt statt spontaner Öffnung.",
+      "duration": "Führungsslot vorab buchen/prüfen.",
+      "cost": "2026 offizielle Referenz Erwachsene CHF 28; 2027 offen.",
+      "caution": "Nicht ohne bestätigte Führung anreisen; Innenräume kühl.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://glarnerland.ch/de/map/poi/offentliche-fuhrungen-durch-den-landesplattenberg-engi--id--civ_s9t_behsgacb-gfgj-ebsb-rada-hfdaddjugjjc.html",
+      "sourceLabel": "landes"
+    },
+    {
+      "key": "glarus-anna",
+      "cities": [
+        "glarus"
+      ],
+      "kind": "activity",
+      "match": [
+        "anna goldi",
+        "anna goeldi"
+      ],
+      "summary": "Museum zur Geschichte von Anna Göldi in Ennenda.",
+      "access": "Besucheradresse und Führungstermine auf Betreiberseite prüfen.",
+      "duration": "60–90 Minuten als eigene Zeitplanung.",
+      "cost": "2026 Betreiberreferenz CHF 10 Erwachsene; 2027 offen.",
+      "caution": "2026 Saison April–November, Mi–So; konkrete Öffnung 2027 prüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.annagoeldimuseum.ch/informationen/",
+      "sourceLabel": "anna"
+    },
+    {
+      "key": "glarus-wasserfall",
+      "cities": [
+        "glarus"
+      ],
+      "kind": "activity",
+      "match": [
+        "berglistuber",
+        "berglistueber"
+      ],
+      "summary": "Wasserfall am Klausenpass, schöner kurzer Naturabstecher.",
+      "access": "Nur bei offener Straße/Klausenpass-Zufahrt; Parkplatz und Fußweg separat planen.",
+      "duration": "Kurzer Stopp, Wegzustand abhängig von Wetter.",
+      "cost": "Kein bekanntes Eintrittsticket; Anfahrt und Parken offen.",
+      "caution": "Sprühwasser, nasse Steine und Sperrungen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://glarnerland.ch/",
+      "sourceLabel": "glarus"
+    },
+    {
+      "key": "glarus-panten",
+      "cities": [
+        "glarus"
+      ],
+      "kind": "activity",
+      "match": [
+        "pantenbrucke",
+        "pantenbrücke",
+        "limmernsee",
+        "tierfehd"
+      ],
+      "summary": "Pantenbrücke und Limmernsee sind unterschiedliche Ziele mit verschiedenen Höhenlagen und Zugängen.",
+      "access": "Tierfehd/Linthal zuerst als eigenständigen Startpunkt planen; weiterführende Seilbahn/Wanderung prüfen.",
+      "duration": "Je nach Ziel langer Halb- oder Ganztag; nicht als kurzer Orts-Spaziergang behandeln.",
+      "cost": "Transport/Bergbahn extra; 2027 offen.",
+      "caution": "Gebirgswege nicht ohne Höhenmeter- und Wetterprüfung kombinieren.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://glarnerland.ch/",
+      "sourceLabel": "glarus"
+    },
+    {
+      "key": "allmenalp",
+      "cities": [
+        "kandersteg"
+      ],
+      "kind": "activity",
+      "match": [
+        "allmenalp"
+      ],
+      "summary": "Luftseilbahn und Wandergebiet Allmenalp; Aussicht auf Kandersteg und das Gasterntal.",
+      "access": "Talstation Allmenbahnstrasse 23, vom Bahnhof Kandersteg etwa 15 Minuten zu Fuß.",
+      "duration": "Beispiel Bergstation–Kandersteg via Ueschinental rund 2 h 30 min.",
+      "cost": "2026 Erwachsene retour CHF 24, mit Halbtax/Gästekarte CHF 19; 2027 offen.",
+      "caution": "Bergwanderwege je nach Route anspruchsvoll; Klettersteig ist eine eigene Aktivität.",
+      "check2027": "Betreiber plant Saisonwiederbeginn am 6. Mai 2027, tatsächlichen Septemberbetrieb prüfen.",
+      "sourceUrl": "https://www.allmenalp.ch/de/erleben/wandern.html",
+      "sourceLabel": "allmen"
+    },
+    {
+      "key": "sunnbuel",
+      "cities": [
+        "kandersteg"
+      ],
+      "kind": "activity",
+      "match": [
+        "sunnbuel",
+        "sunnbüel",
+        "gemmipass"
+      ],
+      "summary": "Seilbahn auf Sunnbüel (rund 2.000 m) und Zugang zum historischen Gemmipassweg.",
+      "access": "Talstation außerhalb Kandersteg, Bus/Anfahrt prüfen; Seilbahn nicht mit Oeschinensee verwechseln.",
+      "duration": "Gemmipass ist deutlich längere Bergwanderung als ein kurzer Aussichtsstopp.",
+      "cost": "2026 Tarif Erwachsene retour CHF 42; Halbtax/GA CHF 21, keine garantierten 2027-Tickets.",
+      "caution": "Alpine Bedingungen und letzte Talfahrt; nur mit realistischer Gehzeit starten.",
+      "check2027": "Sommerfahrplan 2027: 26.06.–12.09. täglich 08:10–17:20; späteren September prüfen.",
+      "sourceUrl": "https://sunnbuel.ch/fahrplan-tarife/",
+      "sourceLabel": "sunn"
+    },
+    {
+      "key": "kisc",
+      "cities": [
+        "kandersteg"
+      ],
+      "kind": "lodging",
+      "match": [
+        "scout centre",
+        "scout center",
+        "kisc"
+      ],
+      "summary": "Kandersteg International Scout Centre bietet verschiedene Wohngebäude und Camping, nicht jede Kategorie für kleine Gruppen passend.",
+      "access": "Konkretes Gebäude und Check-in vorab wählen; nicht alle Zimmer haben Privatbad.",
+      "duration": "Kanderlodge laut Betreiber ab 14 Uhr Check-in, bis 10 Uhr Check-out; andere Häuser können abweichen.",
+      "cost": "Veröffentlichter Nicht-Pfadi-Kanderlodge-Tarif ab CHF 45,20 p.P./Nacht als Referenz; kein 2027-Checkout.",
+      "caution": "2–6-Bettzimmer je nach Gebäudeteil; Gruppenmindestbelegung, Küche und Bettwäsche getrennt prüfen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.kisc.ch/de/unterkunft",
+      "sourceLabel": "kisc"
+    },
+    {
+      "key": "kandersteg-dorf",
+      "cities": [
+        "kandersteg"
+      ],
+      "kind": "activity",
+      "match": [
+        "ruhiger nachmittag",
+        "kandersteg dorf",
+        "naturtag"
+      ],
+      "summary": "Ruhiger Nachmittag zwischen Berner Oberländer Holzchalets; gute Schlechtwetter-Flexibilität.",
+      "access": "Bahnhof Kandersteg als einfacher Startpunkt.",
+      "duration": "30–120 Minuten frei einteilbar.",
+      "cost": "Spaziergang kostenlos; Einkehr/Bus extra.",
+      "caution": "Bei Starkregen besser Innenangebote statt Bergtouren.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.oeschinensee.ch/tarife-fahrplan/",
+      "sourceLabel": "oesch"
+    },
+    {
+      "key": "kandersteg-station",
+      "cities": [
+        "kandersteg"
+      ],
+      "kind": "activity",
+      "match": [
+        "talstation"
+      ],
+      "summary": "Talstation als Orientierungspunkt, kein Seeufer und keine Buchungsbestätigung.",
+      "access": "Kandersteg Ortszentrum zur jeweiligen Bahn-Talstation laufen oder Bus nutzen.",
+      "duration": "Oeschinensee-Talstation vom Bahnhof 10–15 Minuten zu Fuß.",
+      "cost": "Abhängig von gewähltem Bahnticket.",
+      "caution": "Bei voller Gondel oder Wetterbedingung Puffer einplanen.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.oeschinensee.ch/tarife-fahrplan/",
+      "sourceLabel": "oesch"
+    },
+    {
+      "key": "coop-einkauf",
+      "cities": [
+        "appenzell",
+        "grindelwald",
+        "kandersteg",
+        "glarus"
+      ],
+      "kind": "activity",
+      "match": [
+        "coop supermarkt",
+        "migros supermarkt",
+        "coop"
+      ],
+      "summary": "Selbstversorgung zur Budgetkontrolle; Lebensmittelladen ist keine touristische Eintrittsaktivität.",
+      "access": "Filiale im jeweiligen Ort über Kartenlink und aktuellen Standort prüfen.",
+      "duration": "Einkauf je nach Bedarf 15–30 Minuten.",
+      "cost": "Individuelle Ladenpreise; keine pauschalen CHF-Preiszusagen.",
+      "caution": "Sonntagsöffnungszeiten nicht voraussetzen und Kühlkette bei Touren beachten.",
+      "check2027": "September 2027: Öffnung, Wetter, Saisonzeiten und aktuelle Tarife vor dem Besuch beim Betreiber prüfen.",
+      "sourceUrl": "https://www.sbb.ch/de/angebote/spartageskarte",
+      "sourceLabel": "sbb"
+    }
+  ]
+}
