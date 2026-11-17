@@ -48,11 +48,23 @@ export function applyAlternativeVenuesV80(trips,cities,uploads,archive){
   }
   if(d.status==='corner_addresses_correlated'&&d.alternatives.length)
     throw Error('V80 resolved corner cannot have substitute venues');
+  if(d.contextPhotos!=null){
+   if(!Array.isArray(d.contextPhotos)||d.contextPhotos.length>3
+     ||d.contextPhotos.some(p=>!p.file||p.file.length<10
+       ||!validHttps(p.sourceUrl)||!p.sourceUrl.includes('commons.wikimedia.org/wiki/File:')
+       ||!validHttps(p.licenseUrl)||!p.licenseUrl.includes('creativecommons.org/licenses/')
+       ||!['market_context_not_venue','city_food_context_not_venue'].includes(p.scope)
+       ||!safeText(p.description)||!p.author
+       ||!['CC BY 2.0','CC BY 3.0'].includes(p.license)
+       ||!Number.isInteger(p.picturedYear)||p.picturedYear>2026))
+      throw Error('V80 unsafe contextual photo '+d.id);
+  }
   byId.set(d.id,d);byName.set(city+'|'+fold(record.name),d);
  }
  if(alternativeIds.size!==archive.meta.alternativeCount)
    throw Error('V80 missing alternatives');
  let attached=0,choices=0,matched=new Set();
+ const contextCount=archive.dossiers.reduce((n,d)=>n+(d.contextPhotos?.length??0),0);
  for(const trip of trips){
   for(const item of trip.items){
    if(item.removed||item.duplicateOf||!item.name||item.kind==='transport')continue;
@@ -66,6 +78,14 @@ export function applyAlternativeVenuesV80(trips,cities,uploads,archive){
     evidenceLinks:[...dossier.sourceUrls],
     mapQuery:dossier.mapQuery,mapHint:dossier.mapHint,
     originalIdentityConfirmed:false,verifiedExactEntrance:false,
+    contextPhotos:(dossier.contextPhotos??[]).map(p=>({
+      url:'https://commons.wikimedia.org/wiki/Special:FilePath/'
+       +encodeURIComponent(p.file)+'?width=960',
+      sourceUrl:p.sourceUrl,licenseUrl:p.licenseUrl,
+      author:p.author,license:p.license,
+      description:p.description,scope:p.scope,
+      picturedYear:p.picturedYear,processed:p.processed
+    })),
     alternatives:dossier.alternatives.map(a=>({
      key:a.key,name:a.name,address:a.address,category:a.category,
      sourceType:a.sourceType,officialUrl:a.officialUrl,
@@ -83,6 +103,7 @@ export function applyAlternativeVenuesV80(trips,cities,uploads,archive){
  return {matchedOriginals:matched.size,variantMatches:attached,
   uniqueAlternatives:alternativeIds.size,alternativeCardsAcrossVariants:choices,
   corroboratedCorner:matched.has('new_021')?1:0,
+  licensedContextPhotos:contextCount,venuePhotosImpliedByContext:0,
   importedIdentitiesReplaced:0,originalCoordinatesChanged:0,
   selectedSubstitutions:0,bookingsCreated:0};
 }
