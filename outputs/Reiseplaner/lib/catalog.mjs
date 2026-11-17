@@ -1063,6 +1063,29 @@ export async function loadCatalog() {
     new URL('../data/research-v79/last-city-gaps.json',import.meta.url),'utf8'));
   const lastCityStatsV79=applyLastCityGapsV79(
     output,cities,uploadedResearchV50,lastCityArchiveV79);
+  // Coverage counts distinct imported identities, not repeated travel variants.
+  // A source-backed location profile is not a verified 2027 booking or pin.
+  const fourCityImportRows=uploadedResearchV50.new_entries.filter(row=>
+    ['Paris','Barcelona','Sète','Nizza'].includes(row.city));
+  const fourCityDirectSources=new Set([
+    ...cityArchiveV76.entries,...venueArchiveV77.entries,
+    ...venueArchiveV78.entries,...lastCityArchiveV79.entries].map(row=>row.id));
+  const fourCityConflicts=new Set([
+    ...venueArchiveV78.reviews,...lastCityArchiveV79.conflicts].map(row=>row.id));
+  const fourCitySourceCoverageV79={
+    checkedOn:'2026-11-17',
+    importedUnique:fourCityImportRows.length,
+    withIndividualReference:fourCityImportRows.filter(row=>
+      fourCityDirectSources.has(row.id)).length,
+    unresolved:fourCityImportRows.filter(row=>
+      !fourCityDirectSources.has(row.id)).map(row=>({
+        id:row.id,name:row.name,city:row.city,
+        identityConflictKnown:fourCityConflicts.has(row.id),
+        nextAction:'Originalanbieter und genaue Filiale anhand zusätzlicher Quelle zuordnen',
+      })),
+    conflictIds:[...fourCityConflicts].sort(),
+    label:'Einzelquellen belegen nur die jeweilige Besucherinfo; keine vollständige 2027-Öffnung, Preis- oder GPS-Verifizierung',
+  };
   for(const trip of output)trip.items=trip.items.map(item=>
     !item.researchV50?item:{
       ...item,
@@ -1143,6 +1166,7 @@ export async function loadCatalog() {
        officialVenuesV77:{meta:venueArchiveV77.meta,stats:venueGuideStatsV77},
        venueSourceReviewV78:{meta:venueArchiveV78.meta,stats:venueReviewStatsV78},
        lastCityGapsV79:{meta:lastCityArchiveV79.meta,stats:lastCityStatsV79},
+       fourCitySourceCoverageV79,
       operatorAccessV56:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V56).length},
       operatorAccessV57:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V57).length,
         publishedSeasonCandidates:Object.values(VERIFIED_PLACE_UPDATES_V57).filter(x=>x.publishedSeason2027).length},
