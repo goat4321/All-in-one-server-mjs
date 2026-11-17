@@ -123,6 +123,22 @@ export function placeProfileModel(item, ctx = {}) {
       ?'Unabhängiger POI-Gebietspunkt, kein gesicherter Eingang'
       :'Offizielle Postadresse vorhanden; individuelle GPS-Koordinate nicht bestätigt']);
   }
+  if(item.cityGuideV76){
+    const g=item.cityGuideV76;
+    if(g.scope==='object'){
+      facts.push(['Ortsrecherche · Sehenswert',g.focus]);
+      facts.push(['Ortsrecherche · Anreise',g.access]);
+      facts.push(['Veröffentlichte Öffnung / Saison',g.opening+' · 2027 erneut prüfen']);
+      facts.push(['Veröffentlichte Kostenreferenz',g.cost+' · nicht automatisch im Budget']);
+      facts.push(['Hinweise / Sicherheit',g.caution]);
+      facts.push(['Vor dem Besuch 2027',g.check2027]);
+      facts.push(['Quellenbeleg','Objektbezogene Betreiber-/Tourismusquelle vom '+g.checkedOn]);
+    }else{
+      facts.push(['Städtische Reiseorientierung',g.focus]);
+      facts.push(['Allgemeine Anreisehinweise',g.access]);
+      facts.push(['Quellenumfang','Nur Stadtinformation, kein konkreter Nachweis für diesen Anbieter oder Ort']);
+    }
+  }
   if(item.swissGuideV75){
     const g=item.swissGuideV75;
     facts.push(['Schweiz · Einordnung',g.summary]);
@@ -203,6 +219,10 @@ export function placeProfileModel(item, ctx = {}) {
     secondaryProviderUrl:item.discoveryV62?.secondarySourceUrl
       ??item.discoveryV60?.secondarySourceUrl??null,
     guideSourceUrl:item.publicPlaceGuideV68?.sourceUrl??null,
+    cityDetailsUrl:item.cityGuideV76?.sourceUrl??null,
+    cityDetailsLabel:item.cityGuideV76?.scope==='object'
+      ?'Offizielle Orts-/Betreiberinformation':'Stadtportal (nur allgemeine Orientierung)',
+    googleDetailsLinked:Boolean(item.cityGuideV76&&!isAirbnb),
     swissSourceUrl:item.swissGuideV75?.sourceUrl??null,
     swissSourceLabel:item.swissGuideV75?.sourceScope==='object'
       ?'Schweiz · Betreiber-/Ortsinformation':'Schweiz · regionale Besucherinformation (kein Angebotsnachweis)',
@@ -335,16 +355,22 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
       + (p.details.length?'<ul>'+p.details.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>'
         :'<p>Weitere Angaben nicht belegt.</p>')+'</details>')
     + '<div class="place-profile-links">'
-      +urlLink(p.maps,googleMapsSearchLabel(item))
+      +urlLink(p.maps,p.googleDetailsLinked
+        ?'Google Maps · aktuelle Zeiten, Fotos und Bewertungen':googleMapsSearchLabel(item))
       +urlLink(p.route,'ÖPNV-Anreise in Google Maps')
       +urlLink(p.providerUrl,'Originalangebot / Anbieter')
       +urlLink(p.secondaryProviderUrl,'Weitere offizielle Besucherinformationen')
       +(p.guideSourceUrl&&p.guideSourceUrl!==p.providerUrl
         ?urlLink(p.guideSourceUrl,'Zusätzliche offizielle Ortsquelle'):'')
+      +(p.cityDetailsUrl&&p.cityDetailsUrl!==p.guideSourceUrl
+        &&p.cityDetailsUrl!==p.providerUrl
+        ?urlLink(p.cityDetailsUrl,p.cityDetailsLabel):'')
       +(p.swissSourceUrl&&p.swissSourceUrl!==p.guideSourceUrl
         &&p.swissSourceUrl!==p.providerUrl
         ?urlLink(p.swissSourceUrl,p.swissSourceLabel):'')
       +'</div>'
+    + (p.googleDetailsLinked&&!compact
+      ?'<p class="muted place-profile-external-note">Google-Bewertungen, Fotos und Öffnungszeiten werden extern in Google Maps geöffnet. Kein Live-Abruf oder Speichern dieser Daten in der Website.</p>':'')
     + (compact?'':'<details class="place-profile-sources"><summary>Quellen und Aktualität</summary>'
       +'<p>'+esc(p.sourceStatus)+'</p>'
       +(p.geoSourceUrl?'<p><b>Geografische Referenz:</b> '
