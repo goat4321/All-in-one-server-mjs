@@ -37,7 +37,8 @@ export function applyAlternativeVenuesV80(trips,cities,uploads,archive){
     throw Error('V80 invalid dossier '+d?.id);
   for(const a of d.alternatives){
    if(!a.key||alternativeIds.has(a.key)
-      ||!safeText(a.name)||!safeText(a.address)||!safeText(a.summary)
+      ||typeof a.name!=='string'||a.name.trim().length<3
+      ||!safeText(a.address)||!safeText(a.summary)
       ||!safeText(a.hours)||!safeText(a.price)
       ||!validHttps(a.officialUrl)
       ||!['operator','official_tourism'].includes(a.sourceType)
