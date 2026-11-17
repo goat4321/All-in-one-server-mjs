@@ -14,17 +14,18 @@ const [html,css,views,app]=await Promise.all([
 test('The visual reference CSS precedes later targeted map overrides',()=>{
  const styles=[...html.matchAll(/<link rel="stylesheet" href="(\/[^"]+\.css)"/g)]
   .map(x=>x[1]);
- assert.equal(styles.at(-1),'/swiss-lodging-v83.css');
- assert.equal(styles.at(-2),'/swiss-interrail-focus-v82.css');
- assert.equal(styles.at(-3),'/venue-alternatives-v80.css');
- assert.equal(styles.at(-4),'/route-story-compact-v74.css');
- assert.equal(styles.at(-5),'/map-polish-v73.css');
- assert.equal(styles.at(-6),'/map-clarity-v72.css');
- assert.equal(styles.at(-7),'/route-city-arrivals-v71.css');
- assert.equal(styles.at(-8),'/route-city-story-v70.css');
- assert.equal(styles.at(-9),'/map-fullscreen-v69.css');
- assert.equal(styles.at(-10),'/map-symbols-performance-v64.css');
- assert.equal(styles.at(-11),'/reference-realignment-v63.css');
+ assert.equal(styles.at(-1),'/swiss-dated-search-v84.css');
+ assert.equal(styles.at(-2),'/swiss-lodging-v83.css');
+ assert.equal(styles.at(-3),'/swiss-interrail-focus-v82.css');
+ assert.equal(styles.at(-4),'/venue-alternatives-v80.css');
+ assert.equal(styles.at(-5),'/route-story-compact-v74.css');
+ assert.equal(styles.at(-6),'/map-polish-v73.css');
+ assert.equal(styles.at(-7),'/map-clarity-v72.css');
+ assert.equal(styles.at(-8),'/route-city-arrivals-v71.css');
+ assert.equal(styles.at(-9),'/route-city-story-v70.css');
+ assert.equal(styles.at(-10),'/map-fullscreen-v69.css');
+ assert.equal(styles.at(-11),'/map-symbols-performance-v64.css');
+ assert.equal(styles.at(-12),'/reference-realignment-v63.css');
  assert.ok(styles.indexOf('/readability-day-v50.css')<styles.length-1);
  assert.ok(styles.includes('/map-photo-v34.css'));
  assert.ok(css.length>14000);
