@@ -226,6 +226,18 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    +'<h3>'+esc(item.name)+'</h3>'
    +'<p class="hub-option-summary">'+esc(item.detail||item.note||
        (lodging?'Unterkunft mit noch offenen Angaben':'Reiseidee aus der Recherche'))+'</p>'
+   +(item.venueIdentityReviewV78
+     ?'<p class="hub-entry-access" data-closed="true"><strong>Identität/Adresse noch ungeklärt:</strong> '
+       +esc(item.venueIdentityReviewV78.issue)+'</p>':'')
+   +(item.venueSourceV78
+     ?'<details class="hub-official-nightlife"><summary>Neue geprüfte Besuchs- und Unterkunftsinfos</summary><div>'
+       +'<p><strong>Öffnung/Check-in:</strong> '+esc(item.venueSourceV78.hours)+'</p>'
+       +'<p><strong>Preise:</strong> '+esc(item.venueSourceV78.price)+'</p>'
+       +'<p><strong>Zu beachten:</strong> '+esc(item.venueSourceV78.caution)+'</p>'
+       +'<p>Kein bestätigter Preis oder Checkout für den Reisetag 2027.</p>'
+       +urlLink(item.venueSourceV78.sourceUrl,item.venueSourceV78.sourceType==='operator'
+         ?'Originalanbieter':'Tourismus- / Quellenprofil')
+       +'</div></details>':'')
    +(item.officialVenueV77?.status==='closed_reopening_unknown'
      ?'<p class="hub-entry-access" data-closed="true"><strong>Derzeit geschlossen: </strong>'
        +esc(item.officialVenueV77.conditions)
