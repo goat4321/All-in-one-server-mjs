@@ -2,6 +2,14 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // V78: Specific Palais Princier picture for one STOP of the combined Monaco
+ // trip. Not evidence for the full route or for 2027 opening.
+ {city:'nice',name:/^tagesausflug monaco & monte[- ]carlo/i,
+  file:'Palais Princier de Monaco.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Palais_Princier_de_Monaco.jpg',
+  credit:'Jorge Franganillo · CC BY 4.0 · Palais Princier (2025), NUR TEILZIEL des Monaco-Tagesausflugs · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by/4.0/'},
+
  // V77: venue-specific licensed historical images; does not imply that
  // pictured exhibition/program or previous building use exists in 2027.
  {city:'paris',name:/^atelier des lumi[eè]res$/i,
