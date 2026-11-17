@@ -7,6 +7,7 @@ import {explorerCategory,explorerData,EXPLORER_GROUPS} from './map-explorer.mjs'
 import {voteSnippet} from './group-vote.mjs';
 import {lodgingPriceMeter} from './price-insights.mjs';
 import {googleMapsSearchUrl,googleMapsSearchLabel} from './google-maps.mjs';
+import {venueAlternativesHtml} from './venue-alternatives-v80.mjs';
 import {quickDayTargetDates} from './day-quick-edits-v50.mjs';
 import {nightlifeVenueNote} from './nightlife-v50.mjs';
 
@@ -226,13 +227,14 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    +'<h3>'+esc(item.name)+'</h3>'
    +'<p class="hub-option-summary">'+esc(item.detail||item.note||
        (lodging?'Unterkunft mit noch offenen Angaben':'Reiseidee aus der Recherche'))+'</p>'
-   +(item.venueIdentityReviewV78
+   +(item.venueIdentityReviewV78&&item.alternativeVenueReviewV80?.status!=='corner_addresses_correlated'
      ?'<p class="hub-entry-access" data-closed="true"><strong>Identität/Adresse noch ungeklärt:</strong> '
        +esc(item.venueIdentityReviewV78.issue)+'</p>':'')
-   +(item.sourceConflictV79
+   +(item.sourceConflictV79&&item.alternativeVenueReviewV80?.status!=='corner_addresses_correlated'
      ?'<p class="hub-entry-access" data-closed="true"><strong>Quellenkonflikt:</strong> '
        +esc(item.sourceConflictV79.issue)
        +'<small> · Vor dem Einplanen prüfen</small></p>':'')
+   +venueAlternativesHtml(item,{compact:true})
    +(item.lastCityGuideV79
      ?'<details class="hub-official-nightlife"><summary>Neu: geprüfte Orts-/Unterkunftshinweise</summary><div>'
        +'<p><strong>Quelle / Zugang:</strong> '+esc(item.lastCityGuideV79.address)+'</p>'
