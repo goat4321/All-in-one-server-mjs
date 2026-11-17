@@ -28,6 +28,8 @@ const areaOnly = item => item?.provider === 'Airbnb' || String(item?.id ?? '').s
 
 export function googleMapsLocationStatus(item) {
   if (areaOnly(item)) return 'Nur Umgebung bekannt (kein exakter Unterkunfts-Pin)';
+  if(item?.alternativeVenueReviewV80?.status==='corner_addresses_correlated')
+    return 'Mehrfach belegte Ecklage Fusteria/Mercè · Eingang und Einzelkoordinate weiterhin ungeprüft';
   if(item?.sourceConflictV79&&['address_conflict','branch_identity_mismatch','venue_identity_conflict'].includes(item.sourceConflictV79.type))
     return 'Ortsidentität oder Adresse widersprüchlich – markierter Pin NICHT als bestätigter Eingang verwenden';
   if (pointOk(item?.point)) {
@@ -57,6 +59,10 @@ export function googleMapsPlaceQuery(item,cities={}) {
   const visitorAddress=item.officialAccessV58?.visitorAddress??item.officialAccessV57?.visitorAddress
     ??item.officialAccessV56?.visitorAddress??item.officialAccessV53?.visitorAddress;
   if(text(visitorAddress))return text(visitorAddress);
+  // The two Bo de B address aliases denote the same street corner in several
+  // independent listings. This improves SEARCH, not the precision of the pin.
+  if(item.alternativeVenueReviewV80?.status==='corner_addresses_correlated')
+    return text(item.alternativeVenueReviewV80.mapQuery);
   // For disputed venue identity, search only a broad NAME. Never pass
   // the user's disputed house number or unconfirmed map coordinate to Google.
   const disputedSearch=item.mapsSearchV79?.query;
@@ -91,6 +97,8 @@ export function googleMapsDirectionsUrl(from,to,cities={},travelmode='transit') 
 
 export function googleMapsSearchLabel(item) {
   if(areaOnly(item))return 'Umgebung in Google Maps';
+  if(item?.alternativeVenueReviewV80?.status==='corner_addresses_correlated')
+    return 'Google Maps · Ecklage und Eingang überprüfen';
   if(item?.sourceConflictV79&&['address_conflict','branch_identity_mismatch','venue_identity_conflict'].includes(item.sourceConflictV79.type))
     return 'Google Maps · Adresse / Anbieter verifizieren';
   if(item?.officialAccessV58?.visitorAddress||item?.officialAccessV57?.visitorAddress
