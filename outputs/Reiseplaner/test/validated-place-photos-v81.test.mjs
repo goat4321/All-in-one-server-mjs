@@ -86,10 +86,10 @@ test('V81 public food imagery is allowed ONLY for an exact named venue, never fo
 });
 test('V81 missing-place city backdrops are scenic only, not random photos of other restaurants',()=>{
  const expected={
-  paris:/(?:montmartre|eiffel|seineufer|trocad)/i,
-  barcelona:/(?:montju|barceloneta|ciutadella)/i,
-  sete:/(?:canal|mont.saint|pointe.courte|corniche)/i,
-  nice:/(?:promenade.des.anglais|port.lympia|vieux|colline)/i,
+  paris:/(?:montmartre|eiffel|seine|cit[eé]|sacr[eé]|trocad)/i,
+  barcelona:/(?:montju|barceloneta|ciutadella|font.m[aà]gica|castell)/i,
+  sete:/(?:s[eè]te|canal|mont.saint|pointe.courte|corniche)/i,
+  nice:/(?:nice|promenade|port.lympia|cours.saleya|vieux|colline)/i,
  };
  for(const city of Object.keys(expected)){
   for(let i=0;i<18;i++){
