@@ -47,6 +47,10 @@ export function googleMapsPlaceQuery(item,cities={}) {
   if (!item) return null;
   const city = placeContext(item,cities);
   if (areaOnly(item)) return text([item.locality, city].filter(Boolean).join(', ')) || null;
+  // A curated VENUE SEARCH string is explicitly only a Google search query.
+  // It does not verify a stored coordinate, a Place ID or the visitor entrance.
+  const curatedSearch=item.mapsSearchV77?.query;
+  if (typeof curatedSearch==='string'&&curatedSearch.trim())return text(curatedSearch);
   // A separately sourced, public visitor/valley-station address has precedence
   // over broad multi-stop names ('Sunnbüel & Gemmipass', 'Hoher Kasten & ...').
   // This improves the lookup but never turns that address into a verified pin.
@@ -55,8 +59,11 @@ export function googleMapsPlaceQuery(item,cities={}) {
   if(text(visitorAddress))return text(visitorAddress);
   const address = text(item.address);
   if (address) return text([item.name,address,city].filter(Boolean).join(', '));
+  // A venue name + city is more likely to open its Google place card
+  // than a user-submitted/unverified coordinate which can land on bare land.
+  if(text(item?.name))return text([item.name,city].filter(Boolean).join(', '));
   if (pointOk(item.point)) return item.point.join(',');
-  return text([item.name,city].filter(Boolean).join(', ')) || null;
+  return text(city)||null;
 }
 
 export function googleMapsSearchUrl(item,cities={}) {
@@ -78,6 +85,10 @@ export function googleMapsDirectionsUrl(from,to,cities={},travelmode='transit') 
 
 export function googleMapsSearchLabel(item) {
   if(areaOnly(item))return 'Umgebung in Google Maps';
+  if(item?.mapsSearchV77?.query)
+    return /^(Nur |Langer |Küstenweg|Wegsuche)/.test(item.mapsSearchV77.hint??'')
+      ?'Google Maps · Ausgangspunkt prüfen'
+      :'Google Maps · Ort, Fotos und Zeiten';
   if(item?.officialAccessV58?.visitorAddress||item?.officialAccessV57?.visitorAddress
     ||item?.officialAccessV56?.visitorAddress||item?.officialAccessV53?.visitorAddress)
     return 'Google Maps · öffentliche Betreiberadresse';
