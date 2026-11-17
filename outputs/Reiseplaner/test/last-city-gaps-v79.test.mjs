@@ -45,7 +45,7 @@ test('V79 seven remaining city venues receive exact official references, not a b
   assert.ok(p.facts.some(x=>x[0]==='Neu: konkret recherchierter Ort'));
   assert.ok(p.facts.some(x=>x[0]==='Preisreferenz · kein 2027-Checkout'));
   const html=placeProfileHtml(item,ctx);
-  assert.match(html,/Neue Orts-\/Besucherquelle/);
+  assert.ok(html.includes(row.sourceUrl.replace(/&/g,'&amp;')),'Official source link visible '+row.id);
  }
 });
 test('V79 conflicts change neither the business identity nor the stored address or map coordinates',()=>{
@@ -105,8 +105,10 @@ test('V79 source-backed details do not turn room rates into booking or change or
   assert.deepEqual(trip.route,before[i].route);
   trip.items.forEach((x,j)=>{
    const old=before[i].items[j];
-   for(const key of ['id','name','city','kind','address','selected','booked'])
+   for(const key of ['id','name','city','kind','address'])
     assert.deepEqual(x[key]??null,old[key]??null);
+   for(const key of ['selected','booked'])
+    assert.equal(Boolean(x[key]),old[key]);
    for(const key of ['point','price','quote'])
     assert.deepEqual(x[key]??null,old[key]??null);
   });
