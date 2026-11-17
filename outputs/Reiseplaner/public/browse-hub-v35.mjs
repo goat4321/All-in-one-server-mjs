@@ -229,6 +229,18 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    +(item.venueIdentityReviewV78
      ?'<p class="hub-entry-access" data-closed="true"><strong>Identität/Adresse noch ungeklärt:</strong> '
        +esc(item.venueIdentityReviewV78.issue)+'</p>':'')
+   +(item.sourceConflictV79
+     ?'<p class="hub-entry-access" data-closed="true"><strong>Quellenkonflikt:</strong> '
+       +esc(item.sourceConflictV79.issue)
+       +'<small> · Vor dem Einplanen prüfen</small></p>':'')
+   +(item.lastCityGuideV79
+     ?'<details class="hub-official-nightlife"><summary>Neu: geprüfte Orts-/Unterkunftshinweise</summary><div>'
+       +'<p><strong>Quelle / Zugang:</strong> '+esc(item.lastCityGuideV79.address)+'</p>'
+       +'<p><strong>Zeiten:</strong> '+esc(item.lastCityGuideV79.opening)+'</p>'
+       +'<p><strong>Kosten:</strong> '+esc(item.lastCityGuideV79.price)+'</p>'
+       +'<p>Preis und Verfügbarkeit September 2027 nicht bestätigt.</p>'
+       +urlLink(item.lastCityGuideV79.sourceUrl,'Originalquelle öffnen')
+       +'</div></details>':'')
    +(item.venueSourceV78
      ?'<details class="hub-official-nightlife"><summary>Neue geprüfte Besuchs- und Unterkunftsinfos</summary><div>'
        +'<p><strong>Öffnung/Check-in:</strong> '+esc(item.venueSourceV78.hours)+'</p>'
