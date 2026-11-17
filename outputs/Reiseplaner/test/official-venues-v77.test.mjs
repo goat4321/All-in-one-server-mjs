@@ -59,11 +59,18 @@ test('V77 Google Maps queries use a named POI or disclosed route stop instead of
  for(const ov of archive.mapOverrides){
   const item=all.find(x=>x.mapsSearchV77?.query===ov.query);
   assert.ok(item,'Missing query for '+ov.id);
-  assert.equal(googleMapsPlaceQuery(item,catalog.cities),ov.query);
+  // Higher-trust public operator visitor address remains authoritative,
+  // even when a V77 search alias exists (e.g. Base Náutica Barcelona).
+  const officialAddress=item.officialAccessV58?.visitorAddress
+    ??item.officialAccessV57?.visitorAddress
+    ??item.officialAccessV56?.visitorAddress
+    ??item.officialAccessV53?.visitorAddress;
+  const expected=officialAddress??ov.query;
+  assert.equal(googleMapsPlaceQuery(item,catalog.cities),expected);
   assert.equal(item.mapsSearchV77.sourceScope,'place_search_not_verified_pin');
   assert.equal(item.mapsSearchV77.verifiedPlaceId,null);
   const url=new URL(googleMapsSearchUrl(item,catalog.cities));
-  assert.equal(url.searchParams.get('query'),ov.query);
+  assert.equal(url.searchParams.get('query'),expected);
  }
  const monte=all.find(x=>x.mapsSearchV77?.query==='Palais Princier, Monaco');
  assert.ok(monte);
