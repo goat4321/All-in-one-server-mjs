@@ -226,6 +226,14 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
    +'<h3>'+esc(item.name)+'</h3>'
    +'<p class="hub-option-summary">'+esc(item.detail||item.note||
        (lodging?'Unterkunft mit noch offenen Angaben':'Reiseidee aus der Recherche'))+'</p>'
+   +(item.officialVenueV77?.status==='closed_reopening_unknown'
+     ?'<p class="hub-entry-access" data-closed="true"><strong>Derzeit geschlossen: </strong>'
+       +esc(item.officialVenueV77.conditions)
+       +' · Wiedereröffnung für September 2027 nicht bestätigt.</p>'
+     :item.officialVenueV77?.status==='event_date_unconfirmed'
+       ?'<p class="hub-entry-access"><strong>Eventtermin offen: </strong>'
+         +esc(item.officialVenueV77.conditions)+'</p>'
+       :'')
    +((item.officialAccessV58??item.officialAccessV57??item.officialAccessV56??item.officialAccessV53)?'<p class="hub-entry-access"'
       +((item.officialAccessV58??item.officialAccessV57??item.officialAccessV56??item.officialAccessV53).status.startsWith('closed')?' data-closed="true"':'')
       +'><strong>'+((item.officialAccessV58??item.officialAccessV57??item.officialAccessV56??item.officialAccessV53).status.startsWith('closed')
