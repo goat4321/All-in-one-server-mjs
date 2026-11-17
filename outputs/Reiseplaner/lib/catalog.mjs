@@ -1068,6 +1068,36 @@ export async function loadCatalog() {
     new URL('../data/research-v80/alternative-venues.json',import.meta.url),'utf8'));
   const alternativeStatsV80=applyAlternativeVenuesV80(
     output,cities,uploadedResearchV50,alternativesArchiveV80);
+  const photoArchiveV81=JSON.parse(await readFile(
+    new URL('../data/research-v81/licensed-place-photos.json',import.meta.url),'utf8'));
+  const photoScopesV81=new Set(['exact_historic_external',
+    'at_venue_historic_food','exact_historic_beach','venue_site_not_event']);
+  const v50PhotoSubjects=new Map(uploadedResearchV50.new_entries.map(row=>[row.id,row]));
+  if(photoArchiveV81?.meta?.package!=='research-v81-licensed-site-photos'
+    ||photoArchiveV81.meta.checkedOn!=='2026-11-17'
+    ||photoArchiveV81.meta.count!==4
+    ||photoArchiveV81.images?.length!==photoArchiveV81.meta.count
+    ||new Set(photoArchiveV81.images.map(p=>p.id)).size!==4
+    ||photoArchiveV81.images.some(p=>
+      !v50PhotoSubjects.has(p.id)||!photoScopesV81.has(p.scope)
+      ||!p.sourceUrl.startsWith('https://commons.wikimedia.org/wiki/File:')
+      ||!p.licenseUrl.startsWith('https://creativecommons.org/licenses/')
+      ||!p.author||!p.photographed||p.confirmedAs2027Opening!==false))
+    throw Error('V81 invalid licensed photo provenance archive');
+  const photoQualityV81={
+    checkedOn:photoArchiveV81.meta.checkedOn,
+    addedImages:photoArchiveV81.images.length,
+    individuallyMatched:photoArchiveV81.images.filter(p=>
+      p.scope!=='venue_site_not_event').length,
+    historicVenueOnly:photoArchiveV81.images.filter(p=>
+      p.scope==='venue_site_not_event').length,
+    current2027ConditionsVerified:0,
+    imageEntries:photoArchiveV81.images.map(p=>({
+      id:p.id,city:p.city,name:p.name,scope:p.scope,
+      photographed:p.photographed,author:p.author,license:p.license,
+      sourceUrl:p.sourceUrl
+    })),
+  };
   // Coverage counts distinct imported identities, not repeated travel variants.
   // A source-backed location profile is not a verified 2027 booking or pin.
   const fourCityImportRows=uploadedResearchV50.new_entries.filter(row=>
@@ -1186,6 +1216,7 @@ export async function loadCatalog() {
        fourCitySourceCoverageV79,
        alternativeVenuesV80:{meta:alternativesArchiveV80.meta,stats:alternativeStatsV80},
        fourCityIdentityResolutionV80,
+       licensedPlacePhotosV81:{meta:photoArchiveV81.meta,stats:photoQualityV81},
       operatorAccessV56:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V56).length},
       operatorAccessV57:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V57).length,
         publishedSeasonCandidates:Object.values(VERIFIED_PLACE_UPDATES_V57).filter(x=>x.publishedSeason2027).length},
@@ -1332,6 +1363,12 @@ export async function loadCatalog() {
          publisher:'Regionale Schweiz Besucherinformation · '+city,
          url:place.sourceUrl,accessed_on:swissArchiveV75.meta.checkedOn,
          validity:'Regionalinfo, keine objektbezogene Leistungs-/Buchungsquelle',
+       })),
+       ...photoArchiveV81.images.map(photo=>({
+         id:'photo-v81:'+photo.id,
+         publisher:'Wikimedia Commons, '+photo.author+' · '+photo.license+' · '+photo.scope,
+         url:photo.sourceUrl,accessed_on:photoArchiveV81.meta.checkedOn,
+         validity:'Historisches Bild mit spezifischer Motivbeschreibung; keine 2027er Öffnung, Veranstaltung oder Produktpreis-Zusage',
        })),
        ...alternativesArchiveV80.dossiers.flatMap(d=>d.alternatives.map(a=>({
          id:'alt-v80:'+a.key,
