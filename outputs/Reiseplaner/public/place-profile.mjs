@@ -123,6 +123,23 @@ export function placeProfileModel(item, ctx = {}) {
       ?'Unabhängiger POI-Gebietspunkt, kein gesicherter Eingang'
       :'Offizielle Postadresse vorhanden; individuelle GPS-Koordinate nicht bestätigt']);
   }
+  if(item.officialVenueV77){
+    const g=item.officialVenueV77;
+    if(g.status==='closed_reopening_unknown')
+      facts.push(['Wichtiger Zugangsstatus','Derzeit laut Quelle geschlossen – Wiedereröffnung bis September 2027 NICHT bestätigt']);
+    if(g.status==='event_date_unconfirmed')
+      facts.push(['Veranstaltungsstatus','Keine bestätigte Veranstaltung an eurem konkreten Reisetag']);
+    facts.push(['Betreiber-/Tourismusangabe · Ort',g.summary]);
+    facts.push(['Veröffentlichte Besucheradresse (kein GPS-Beleg)',g.address]);
+    facts.push(['Betreiberzeiten / Veranstaltungszeiten',g.opening]);
+    facts.push(['Eintritt / historische Preise',g.price+' · kein bestätigter Gruppenpreis September 2027']);
+    facts.push(['Hinweise und offene Fragen',g.conditions]);
+    facts.push(['Geprüfter Quellenstand',g.checkedOn+' · kein Live-Checkout']);
+  }
+  if(item.mapsSearchV77?.hint){
+    facts.push(['Google Maps · Suchziel',item.mapsSearchV77.hint
+      +' · Ortskarte in Google öffnen, kein verifizierter Google Place ID']);
+  }
   if(item.cityGuideV76){
     const g=item.cityGuideV76;
     if(g.scope==='object'){
@@ -219,6 +236,11 @@ export function placeProfileModel(item, ctx = {}) {
     secondaryProviderUrl:item.discoveryV62?.secondarySourceUrl
       ??item.discoveryV60?.secondarySourceUrl??null,
     guideSourceUrl:item.publicPlaceGuideV68?.sourceUrl??null,
+    venueSourceUrl:item.officialVenueV77?.sourceUrl??null,
+    operationalNotice:item.officialVenueV77?.status==='closed_reopening_unknown'
+      ?'Derzeit geschlossen · Wiedereröffnung für September 2027 nicht bestätigt.'
+      :item.officialVenueV77?.status==='event_date_unconfirmed'
+        ?'Veranstaltung für den konkreten Reisetag 2027 noch nicht bestätigt.':null,
     cityDetailsUrl:item.cityGuideV76?.sourceUrl??null,
     cityDetailsLabel:item.cityGuideV76?.scope==='object'
       ?'Offizielle Orts-/Betreiberinformation':'Stadtportal (nur allgemeine Orientierung)',
@@ -341,6 +363,8 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
     + (compact?'':placeGalleryHtml(item,ctx))
     + '<div class="place-profile-top"><div><span class="place-profile-eyebrow">'+esc(p.facts[0][1])
     + '</span><h3>'+esc(p.name)+'</h3><p>'+esc(p.description)+'</p></div></div>'
+    + (p.operationalNotice?'<p class="place-profile-access-warning"><strong>Planungshinweis:</strong> '
+      +esc(p.operationalNotice)+'</p>':'')
     + '<dl class="place-profile-facts">'+visible.map(([label,value])=>'<div><dt>'
       +esc(label)+'</dt><dd>'+esc(value)+'</dd></div>').join('')+'</dl>'
     + (compact?'':'<details class="place-profile-coverage"><summary>Was fehlt noch? · '
@@ -359,6 +383,8 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
         ?'Google Maps · aktuelle Zeiten, Fotos und Bewertungen':googleMapsSearchLabel(item))
       +urlLink(p.route,'ÖPNV-Anreise in Google Maps')
       +urlLink(p.providerUrl,'Originalangebot / Anbieter')
+      +(p.venueSourceUrl&&p.venueSourceUrl!==p.providerUrl
+        ?urlLink(p.venueSourceUrl,'Veröffentlichte Betreiber-/Tourismusangaben'):'')
       +urlLink(p.secondaryProviderUrl,'Weitere offizielle Besucherinformationen')
       +(p.guideSourceUrl&&p.guideSourceUrl!==p.providerUrl
         ?urlLink(p.guideSourceUrl,'Zusätzliche offizielle Ortsquelle'):'')
