@@ -1,0 +1,85 @@
+/* V82 — Interrail Switzerland finale ONLY. Scope all selectors, no global overrides. */
+.swiss-focus-overview,.swiss-focus-rail{
+ --swiss-border:var(--line,#d6dcd5);
+ --swiss-muted:var(--muted,#53615e);
+ border:1px solid var(--swiss-border);
+ border-radius:20px;
+ padding:clamp(14px,2.5vw,24px);
+ min-width:0;
+ background:var(--paper,#fff);
+ box-shadow:0 8px 28px rgba(10,44,48,.035);
+}
+.swiss-focus-head{display:flex;align-items:center;justify-content:space-between;gap:22px}
+.swiss-focus-head>div{min-width:0}
+.swiss-focus-kicker{display:block;letter-spacing:.095em;font-size:.66rem;font-weight:800;color:var(--green,#176d58);margin-bottom:7px}
+.swiss-focus-overview h2,.swiss-focus-rail h2{font-size:clamp(1.05rem,2vw,1.55rem);line-height:1.25;margin:0 0 7px;color:var(--text)}
+.swiss-focus-head p,.swiss-focus-rail>header p{font-size:.81rem;line-height:1.55;max-width:72ch;color:var(--swiss-muted);margin:0}
+.swiss-focus-count{flex:0 0 auto;display:block;text-align:center;font-size:1.48rem;font-weight:850;line-height:1.07;color:var(--text);
+ border-radius:14px;border:1px solid var(--swiss-border);padding:12px 16px;background:var(--light,#f3f6f4)}
+.swiss-focus-count small{display:block;margin-top:6px;font-size:.66rem;color:var(--swiss-muted);font-weight:650}
+.swiss-focus-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+.swiss-focus-stats>div{border-radius:12px;padding:10px 12px;background:var(--light,#f5f7f6);min-width:0}
+.swiss-focus-stats strong{display:block;font-size:.94rem;line-height:1.25;color:var(--text)}
+.swiss-focus-stats small{display:block;margin-top:4px;font-size:.73rem;line-height:1.4;color:var(--swiss-muted)}
+.swiss-focus-task-grid,.swiss-focus-corridor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.swiss-focus-task,.swiss-focus-corridor{border:1px solid var(--swiss-border);border-radius:13px;padding:13px 14px;min-width:0;background:var(--paper,#fff)}
+.swiss-focus-task-high{border-left:3px solid #bd7741}
+.swiss-focus-task-medium{border-left:3px solid #8d9896}
+.swiss-focus-task-head{display:grid;gap:4px}
+.swiss-focus-task-head>span{font-size:.7rem;font-weight:700;color:var(--swiss-muted)}
+.swiss-focus-task-head>strong,.swiss-focus-corridor header strong{font-size:.86rem;color:var(--text);line-height:1.36}
+.swiss-focus-task p,.swiss-focus-corridor p{font-size:.77rem;line-height:1.5;color:var(--swiss-muted);margin:9px 0 0;overflow-wrap:anywhere}
+.swiss-focus-next{padding-top:7px;border-top:1px solid var(--swiss-border)}
+.swiss-focus-next b{color:var(--text)}
+.swiss-focus-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}
+.swiss-focus-links a{font-size:.7rem;font-weight:650;text-decoration:none;color:var(--text);border:1px solid var(--swiss-border);
+ border-radius:8px;padding:7px 9px;line-height:1.3;background:var(--light,#f7f8f7)}
+.swiss-focus-links a:hover{text-decoration:underline}
+.swiss-focus-links a:focus-visible,.swiss-focus-day-shortcuts button:focus-visible{outline:2px solid var(--green,#176d58);outline-offset:2px}
+.swiss-focus-pass{margin-top:14px;border:1px solid var(--swiss-border);border-radius:13px;padding:10px 13px;min-width:0}
+.swiss-focus-pass summary{cursor:pointer;font-size:.81rem;line-height:1.5;color:var(--text)}
+.swiss-focus-pass summary span{display:block;color:var(--swiss-muted);font-size:.72rem}
+.swiss-focus-pass ol{margin:12px 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.swiss-focus-pass li{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding:8px;border-radius:9px;background:var(--light,#f6f8f7)}
+.swiss-focus-pass li .swiss-focus-pass-date{font-size:.72rem;white-space:nowrap;color:var(--swiss-muted)}
+.swiss-focus-pass li strong{font-size:.75rem;font-weight:650}
+.swiss-focus-pass li small{width:100%;color:var(--swiss-muted);font-size:.68rem}
+.swiss-focus-pass>p,.swiss-focus-caveat,.swiss-focus-rail-foot{font-size:.73rem;line-height:1.5;color:var(--swiss-muted);margin:12px 0 0}
+.swiss-focus-day-shortcuts{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:14px 0 0}
+.swiss-focus-day-shortcuts>span{font-size:.75rem;color:var(--swiss-muted)}
+.swiss-focus-day-shortcuts button{border:1px solid var(--swiss-border);border-radius:9px;background:var(--light,#f6f8f7);
+ padding:8px 10px;font-size:.75rem;font-weight:650;color:var(--text);cursor:pointer}
+.swiss-focus-day-shortcuts button:hover{border-color:var(--green,#176d58)}
+.swiss-focus-day{border:1px solid var(--line,#d6dcd5);border-left:3px solid var(--green,#176d58);border-radius:12px;
+ padding:11px 13px;margin:12px 0;background:var(--paper,#fff);min-width:0}
+.swiss-focus-day-critical{border-left-color:#bd7741}
+.swiss-focus-day-booking{border-left-color:#568eaa}
+.swiss-focus-day-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:5px 10px}
+.swiss-focus-day-head strong{font-size:.83rem;color:var(--text)}
+.swiss-focus-day-head span{font-size:.73rem;color:var(--swiss-muted)}
+.swiss-focus-day-plan,.swiss-focus-day p{font-size:.77rem;line-height:1.55;color:var(--text);margin:8px 0}
+.swiss-focus-day details{padding:8px 0 0;border-top:1px solid var(--line,#d6dcd5)}
+.swiss-focus-day summary{cursor:pointer;font-weight:650;font-size:.75rem;color:var(--text)}
+.swiss-focus-day li{font-size:.74rem;line-height:1.5;margin:4px 0}
+.swiss-focus-day>small{display:block;font-size:.68rem;color:var(--swiss-muted);line-height:1.4;margin-top:10px}
+.swiss-focus-rail{margin:16px 0}
+.swiss-focus-corridor-grid{margin-top:14px}
+.swiss-focus-corridor header{display:grid;gap:5px}
+.swiss-focus-corridor header small{color:var(--swiss-muted);font-size:.71rem}
+.swiss-focus-target{font-style:italic}
+@media(max-width:760px){
+ .swiss-focus-task-grid,.swiss-focus-corridor-grid{grid-template-columns:1fr}
+ .swiss-focus-overview,.swiss-focus-rail{padding:14px}
+ .swiss-focus-pass ol{grid-template-columns:1fr}
+}
+@media(max-width:510px){
+ .swiss-focus-head{align-items:flex-start;gap:8px}
+ .swiss-focus-count{padding:9px 10px;font-size:1.1rem}
+ .swiss-focus-stats{grid-template-columns:1fr}
+ .swiss-focus-stats>div{display:flex;align-items:baseline;gap:12px}
+ .swiss-focus-stats small{margin:0}
+ .swiss-focus-day-shortcuts button{flex:1 1 110px;min-height:36px}
+}
+@media(prefers-reduced-motion:reduce){
+ .swiss-focus-overview *,.swiss-focus-rail *{transition:none!important}
+}
