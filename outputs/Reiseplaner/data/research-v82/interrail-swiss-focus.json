@@ -1,0 +1,280 @@
+{
+  "meta": {
+    "package": "research-v82-interrail-swiss-practical",
+    "checkedOn": "2026-11-17",
+    "tripId": "interrail_swiss",
+    "dates": [
+      "2027-09-01",
+      "2027-09-14"
+    ],
+    "partySize": 3,
+    "expectedPassTravelDays": 7,
+    "selectedBookings": 0,
+    "train2027TimetableConfirmed": false,
+    "comparativeRoutesValidatedFor2027": false,
+    "otherTripsModified": false,
+    "notes": "Focused operational guide for 14-day Tripsy Swiss ending variant, not the 7-day swiss_lakes car trip. No 2027 train timings, ticket prices or reservations asserted."
+  },
+  "route": [
+    "munich",
+    "paris",
+    "barcelona",
+    "sete",
+    "nice",
+    "kandersteg",
+    "appenzell",
+    "munich"
+  ],
+  "passDays": [
+    {
+      "date": "2027-09-01",
+      "transportId": "interrail_swiss-t01",
+      "from": "München",
+      "to": "Paris",
+      "critical": false
+    },
+    {
+      "date": "2027-09-03",
+      "transportId": "interrail_swiss-t02",
+      "from": "Paris",
+      "to": "Barcelona",
+      "critical": true
+    },
+    {
+      "date": "2027-09-06",
+      "transportId": "interrail_swiss-t03",
+      "from": "Barcelona",
+      "to": "Sète",
+      "critical": false
+    },
+    {
+      "date": "2027-09-08",
+      "transportId": "interrail_swiss-t04",
+      "from": "Sète",
+      "to": "Nizza",
+      "critical": false
+    },
+    {
+      "date": "2027-09-10",
+      "transportId": "interrail_swiss-t05",
+      "from": "Nizza",
+      "to": "Kandersteg",
+      "critical": true
+    },
+    {
+      "date": "2027-09-12",
+      "transportId": "interrail_swiss-t06",
+      "from": "Kandersteg",
+      "to": "Appenzell",
+      "critical": false
+    },
+    {
+      "date": "2027-09-14",
+      "transportId": "interrail_swiss-t07",
+      "from": "Appenzell",
+      "to": "München",
+      "critical": false
+    }
+  ],
+  "priority": [
+    {
+      "key": "cross-border",
+      "date": "2027-09-10",
+      "severity": "high",
+      "title": "Nizza → Kandersteg: realistische Tagesverbindung finden",
+      "detail": "Die importierten 07:20–19:30 sind nur ein nicht bestätigtes Tripsy-Zeitfenster (12 Std. 10 Min.). Vor der Wahl einer Unterkunft mindestens eine vollständig durchgehende Verbindung mit Umstiegen, Reservierung und spätem Check-in prüfen.",
+      "action": "Beide Bahnkorridore und Ankunft nach 19 Uhr prüfen",
+      "sourceUrls": [
+        "https://www.sbb.ch/de",
+        "https://www.sncf-connect.com/train/trajet/nice/geneve"
+      ]
+    },
+    {
+      "key": "local-pass",
+      "date": "2027-09-13",
+      "severity": "high",
+      "title": "7 Pass-Tage bereits ausgeschöpft – Wasserauen lokal buchen",
+      "detail": "Alle 7 Fernreisetage sind bereits belegt. Appenzell → Wasserauen → Appenzell am 13. September benötigt separate Nahverkehrstickets, wenn kein 8. Pass-Tag verwendet wird. Kein Zugpreis 2027 ermittelt.",
+      "action": "Hin- und Rückfahrt für 3 Reisende bei Appenzeller Bahnen/SBB prüfen",
+      "sourceUrls": [
+        "https://appenzellerbahnen.ch/de/reiseinformationen/fahrplan.html",
+        "https://www.interrail.com/en/support/interested-in-interrailing/what-is-a-travel-day"
+      ]
+    },
+    {
+      "key": "gondola",
+      "date": "2027-09-11",
+      "severity": "high",
+      "title": "Oeschinensee: Gondel + Zeitfenster prüfen",
+      "detail": "Betreiber veröffentlicht Sommerbetrieb 24.04.–19.09.2027 täglich 08:30–18:00. Ticket und Zeitfenster-Reservierungsregel für 11.09.2027 separat prüfen; 2026 gab es insbesondere bei ÖV-Anreise Reservierungspflicht. Nicht als vom Interrail-Pass gedeckt verbuchen.",
+      "action": "Tickets, Zeitslot und tatsächlichen Live-Wegstatus prüfen",
+      "sourceUrls": [
+        "https://www.oeschinensee.ch/tarife-fahrplan/",
+        "https://www.oeschinensee.ch/faq/",
+        "https://www.oeschinensee.ch/live/"
+      ]
+    },
+    {
+      "key": "hiking",
+      "date": "2027-09-13",
+      "severity": "medium",
+      "title": "Seealpsee: Wanderweg statt Ebenalp-Abstieg planen",
+      "detail": "Standardroute ab Wasserauen über Hüttentobel/Seealpsee/Chobel ist ein Bergweg. Ein steiler Abstieg vom Äscher ist keine gleichwertige leichte Alternative. Bei Nässe, Gewitter oder fehlender Trittsicherheit keine anspruchsvollere Bergtour ergänzen.",
+      "action": "Tourenkategorie, Sperrungen und Wetter am Vortag kontrollieren",
+      "sourceUrls": [
+        "https://www.appenzell.ch/de/service/touren.html?tx_wstourismus_tourismus%5Btour%5D=39",
+        "https://ebenalp.ch/de/sommer-info"
+      ]
+    }
+  ],
+  "corridors": [
+    {
+      "key": "simplon",
+      "date": "2027-09-10",
+      "title": "Nizza → Ventimiglia → Mailand → Brig → Spiez → Kandersteg",
+      "kind": "Prüfhypothese über Italien und Simplon",
+      "note": "Grenz-/Bahnhofswechsel, EuroCity/InterCity-Passgültigkeit, Reservierungspflicht, letzte Verbindung Spiez–Kandersteg und Anschlussreserven kontrollieren. Keine bestätigte 2027-Fahrzeit.",
+      "preferredFor": "Mögliche Alternative, wenn die Verbindung über Genf zu lang oder ungünstig ist",
+      "sourceUrls": [
+        "https://www.trenitalia.com/",
+        "https://www.sbb.ch/de",
+        "https://www.interrail.com/en/plan-your-trip/tips-and-tricks/trains-europe/railway-companies"
+      ]
+    },
+    {
+      "key": "geneva",
+      "date": "2027-09-10",
+      "title": "Nizza → Lyon → Genf → Bern → Spiez → Kandersteg",
+      "kind": "Prüfhypothese über Frankreich und die Westschweiz",
+      "note": "TGV-/TER-/SBB-Umstiege und TGV-Reservierungen je Zug prüfen. Eine erfolgreiche Verbindung Nizza–Genf ist noch KEINE Ankunft in Kandersteg am selben Tag.",
+      "preferredFor": "Vergleich zu Italienkorridor, wenn auf SNCF/SBB gut angebunden",
+      "sourceUrls": [
+        "https://www.sncf-connect.com/en-ch/train/timetables/nice/geneva",
+        "https://www.sbb.ch/de",
+        "https://www.interrail.com/en/plan-your-trip/reservations/reservations-france"
+      ]
+    },
+    {
+      "key": "kandersteg-appenzell",
+      "date": "2027-09-12",
+      "title": "Kandersteg → Spiez → Bern → Zürich/Gossau → Appenzell",
+      "kind": "Schweizer Anschlusskette, Zwischenhalte nur Orientierung",
+      "note": "Verbindung und Bahnhofsumstieg mit dem gewählten Zugdatum auf SBB prüfen. Die bisherige Tripsy-Fahrt 09:30–15:30 ist nicht verbindlich.",
+      "preferredFor": "Ankunft und Check-in vor Abendrunde absichern",
+      "sourceUrls": [
+        "https://www.sbb.ch/de",
+        "https://appenzellerbahnen.ch/de/reiseinformationen/fahrplan.html"
+      ]
+    },
+    {
+      "key": "return",
+      "date": "2027-09-14",
+      "title": "Appenzell → St. Gallen → Bregenz/Lindau → München",
+      "kind": "Prüfkorridor, nicht bestätigte durchgehende Zugkette",
+      "note": "ÖBB/DB/SBB-Betriebstag, Anschlussreserven und Inbound-Interrail-Regel Deutschland prüfen. Nicht von pauschaler 10:00–16:30-Verbindung ausgehen.",
+      "preferredFor": "Heimreise, 7. Pass-Reisetag",
+      "sourceUrls": [
+        "https://www.sbb.ch/de",
+        "https://www.oebb.at/",
+        "https://int.bahn.de/de"
+      ]
+    }
+  ],
+  "days": [
+    {
+      "date": "2027-09-10",
+      "city": "kandersteg",
+      "label": "Freitag · Fahrt von Nizza",
+      "level": "critical",
+      "lead": "Bewusster ganzer Reisetag",
+      "plan": "Morgens ab Nizza; Gepäck und Verpflegung mitnehmen. Nach der spätmöglichen Ankunft nur Unterkunft, Essen und Ruhe vorsehen.",
+      "alternatives": "Wenn eine zuverlässige Ankunft am 10. September nicht möglich ist: Reiseroute neu bewerten, bevor Tickets oder Kandersteg-Nächte gekauft werden. Keine spontane zusätzliche Übernachtung als bereits geplant darstellen.",
+      "mustCheck": [
+        "Komplette SBB/SNCF/Trenitalia-Verbindung und Umstiege",
+        "Reservierungs- und Passregeln je Zug",
+        "Unterkunft-Check-in nach geplanter Ankunft"
+      ],
+      "sourceUrls": [
+        "https://www.sbb.ch/de",
+        "https://www.sncf-connect.com/train/trajet/nice/geneve"
+      ]
+    },
+    {
+      "date": "2027-09-11",
+      "city": "kandersteg",
+      "label": "Samstag · Oeschinensee",
+      "level": "booking",
+      "lead": "Priorität der Schweizer Naturtage",
+      "plan": "Kandersteg Bahnhof → Talstation zu Fuß → Gondel zum Oeschinensee → Fußweg zum See → Ufer/Picknick. Genug Zeit für den Rückweg und die letzte Gondel einplanen.",
+      "alternatives": "Bei schlechtem Wetter oder geschlossenen Bergwegen: Dorf Kandersteg, Café und leichte ausgewiesene Talspaziergänge. Keine spontane Hochgebirgs-Rundtour.",
+      "mustCheck": [
+        "Gondel-Saison 2027 publiziert: 24.04.–19.09., 08:30–18:00 Uhr",
+        "Tickets und Zeitfenster-Regel für drei Reisende",
+        "Live-Status des direkten Bergstation–See-Wegs",
+        "Interrail deckt Gondel nicht automatisch ab"
+      ],
+      "sourceUrls": [
+        "https://www.oeschinensee.ch/tarife-fahrplan/",
+        "https://www.oeschinensee.ch/faq/",
+        "https://www.oeschinensee.ch/live/"
+      ]
+    },
+    {
+      "date": "2027-09-12",
+      "city": "appenzell",
+      "label": "Sonntag · Transfer und Appenzell",
+      "level": "transfer",
+      "lead": "Reise ohne sportliche Zusatzaufgaben",
+      "plan": "Kandersteg → Appenzell, Unterkunft erreichen, Abendspaziergang über die Hauptgasse. Seilbahnausflug nicht auf den Transfer-Nachmittag legen.",
+      "alternatives": "Bei verspätetem Zug: direkt zur Unterkunft; Altstadtbesuch verkürzen oder auslassen.",
+      "mustCheck": [
+        "Vollständige Verbindung und Umstiege",
+        "Check-in/Schlüsselübergabe Sonntag",
+        "Bahnhof–Unterkunft-Gehweg"
+      ],
+      "sourceUrls": [
+        "https://www.sbb.ch/de",
+        "https://www.appenzell.ch/"
+      ]
+    },
+    {
+      "date": "2027-09-13",
+      "city": "appenzell",
+      "label": "Montag · Wasserauen und Seealpsee",
+      "level": "hiking",
+      "lead": "Mit Nahverkehrsticket und Wegprüfung",
+      "plan": "Separates Regionalbahnticket Appenzell ↔ Wasserauen für drei Personen; zu Fuß über die ausgeschilderte offizielle Seealpsee-Route. Uferpause nur bei passenden Wetter- und Wegbedingungen.",
+      "alternatives": "Ebenalp/Äscher nur als separat geprüfter Ausflug bei geöffnetem Seilbahnbetrieb. Den steilen Äscher–Seealpsee-Abstieg nicht als leichte Verbindung betrachten. Bei Gewitter: Dorf/Schlechtwetterprogramm.",
+      "mustCheck": [
+        "Regionalzug Appenzell–Wasserauen getrennt vom 7-Tage-Pass",
+        "SAC-Wegkategorie und tatsächliche Route",
+        "Wettersituation und Tageslicht",
+        "Ebenalp-Seilbahn nur als separate Alternative, 2027 noch ungeprüft"
+      ],
+      "sourceUrls": [
+        "https://appenzellerbahnen.ch/de/reiseinformationen/fahrplan.html",
+        "https://www.appenzell.ch/de/service/touren.html?tx_wstourismus_tourismus%5Btour%5D=39",
+        "https://ebenalp.ch/de/sommer-info"
+      ]
+    },
+    {
+      "date": "2027-09-14",
+      "city": "appenzell",
+      "label": "Dienstag · Rückfahrt München",
+      "level": "return",
+      "lead": "7. Interrail-Reisetag",
+      "plan": "Frühstück, Check-out und Fahrt Appenzell → München. Puffer für die Rückreise lassen und keine letzte Bergtour verbindlich planen.",
+      "alternatives": "Bei Störungen den offiziellen DB-/SBB-/ÖBB-Verbindungen folgen; Pass-Gültigkeit für die Inbound-Fahrt und ggf. Reservierungen prüfen.",
+      "mustCheck": [
+        "Zugverbindung am Reisetag",
+        "Anschlussreserve",
+        "Pass-Inbound-Regel und ggf. separate Zuschläge"
+      ],
+      "sourceUrls": [
+        "https://www.sbb.ch/de",
+        "https://int.bahn.de/de",
+        "https://www.interrail.com/en/support/interested-in-interrailing/what-is-a-travel-day"
+      ]
+    }
+  ]
+}
