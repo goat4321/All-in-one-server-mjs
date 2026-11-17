@@ -127,3 +127,16 @@ test('V79 existing independently licensed attraction photos remain exact, hotel 
  assert.equal(curatedPlacePhoto(generator),null,'No third-party hostel room photos masquerading as reusable');
  assert.equal(entryCompleteness(generator,ctx).hasPhoto,false);
 });
+
+test('V79 distinct source coverage separates 62 cited identities from 3 unresolved business matches',()=>{
+ const report=catalog.research.fourCitySourceCoverageV79;
+ assert.equal(report.importedUnique,65);
+ assert.equal(report.withIndividualReference,62);
+ assert.equal(report.unresolved.length,3);
+ assert.deepEqual(new Set(report.unresolved.map(x=>x.id)),
+   new Set(['new_021','new_047','new_049']));
+ assert.ok(report.unresolved.every(x=>x.identityConflictKnown));
+ assert.deepEqual(new Set(report.conflictIds),
+   new Set(['new_021','new_047','new_048','new_049']));
+ assert.match(report.label,/keine vollständige 2027-Öffnung/);
+});
