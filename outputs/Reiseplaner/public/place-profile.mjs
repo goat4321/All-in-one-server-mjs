@@ -123,6 +123,18 @@ export function placeProfileModel(item, ctx = {}) {
       ?'Unabhängiger POI-Gebietspunkt, kein gesicherter Eingang'
       :'Offizielle Postadresse vorhanden; individuelle GPS-Koordinate nicht bestätigt']);
   }
+  if(item.swissGuideV75){
+    const g=item.swissGuideV75;
+    facts.push(['Schweiz · Einordnung',g.summary]);
+    facts.push(['Schweiz · Anreise / Einstieg',g.access]);
+    if(g.duration)facts.push(['Schweiz · Besuchszeit / Weg',g.duration]);
+    facts.push(['Schweiz · Kosten',g.cost]);
+    facts.push(['Schweiz · Wetter / Sicherheit',g.caution]);
+    facts.push(['Schweiz · Vorbereitung für 2027',g.check2027]);
+    facts.push(['Quellenumfang Schweiz',g.sourceScope==='object'
+      ?'Konkrete Betreiber-/Ortsreferenz vom '+g.checkedOn+'; für 2027 erneut prüfen'
+      :'Nur regionale Orientierung vom '+g.checkedOn+'; KEIN Nachweis für dieses Hotel, Restaurant oder Angebot']);
+  }
   if(item.publicPlaceGuideV68){
     const g=item.publicPlaceGuideV68.visitorGuide;
     if(![item.discoveryV54,item.discoveryV55,item.discoveryV60,
@@ -191,6 +203,9 @@ export function placeProfileModel(item, ctx = {}) {
     secondaryProviderUrl:item.discoveryV62?.secondarySourceUrl
       ??item.discoveryV60?.secondarySourceUrl??null,
     guideSourceUrl:item.publicPlaceGuideV68?.sourceUrl??null,
+    swissSourceUrl:item.swissGuideV75?.sourceUrl??null,
+    swissSourceLabel:item.swissGuideV75?.sourceScope==='object'
+      ?'Schweiz · Betreiber-/Ortsinformation':'Schweiz · regionale Besucherinformation (kein Angebotsnachweis)',
     photo:photos[0]??null,photos,ownPhotoCount:ownPhotos.length,
   };
 }
@@ -326,6 +341,9 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
       +urlLink(p.secondaryProviderUrl,'Weitere offizielle Besucherinformationen')
       +(p.guideSourceUrl&&p.guideSourceUrl!==p.providerUrl
         ?urlLink(p.guideSourceUrl,'Zusätzliche offizielle Ortsquelle'):'')
+      +(p.swissSourceUrl&&p.swissSourceUrl!==p.guideSourceUrl
+        &&p.swissSourceUrl!==p.providerUrl
+        ?urlLink(p.swissSourceUrl,p.swissSourceLabel):'')
       +'</div>'
     + (compact?'':'<details class="place-profile-sources"><summary>Quellen und Aktualität</summary>'
       +'<p>'+esc(p.sourceStatus)+'</p>'
