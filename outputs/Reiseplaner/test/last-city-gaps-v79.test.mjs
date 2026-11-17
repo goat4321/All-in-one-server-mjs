@@ -62,14 +62,21 @@ test('V79 conflicts change neither the business identity nor the stored address 
     ??item.officialAccessV57?.visitorAddress
     ??item.officialAccessV56?.visitorAddress
     ??item.officialAccessV53?.visitorAddress;
-  assert.equal(q,independent??row.mapsQuery);
+  const corner=item.alternativeVenueReviewV80?.status==='corner_addresses_correlated';
+  assert.equal(q,independent??(corner?item.alternativeVenueReviewV80.mapQuery:row.mapsQuery));
   const html=placeProfileHtml(item,ctx);
-  assert.match(html,/Quellenabgleich erforderlich/);
-  assert.match(html,/Abweichende Quelle/);
-  if(row.type!=='published_hours_disagreement'){
-   assert.match(googleMapsSearchLabel(item),/Adresse \/ Anbieter verifizieren/);
-   assert.match(googleMapsLocationStatus(item),/Ortsidentität oder Adresse widersprüchlich/);
+  if(corner){
+   assert.match(html,/Adressprüfung · vermutlich derselbe Eckstandort/);
+   assert.match(googleMapsSearchLabel(item),/Ecklage/);
+   assert.match(googleMapsLocationStatus(item),/Ecklage Fusteria\/Mercè/);
+  }else{
+   assert.match(html,/Quellenabgleich erforderlich/);
+   if(row.type!=='published_hours_disagreement'){
+    assert.match(googleMapsSearchLabel(item),/Adresse \/ Anbieter verifizieren/);
+    assert.match(googleMapsLocationStatus(item),/Ortsidentität oder Adresse widersprüchlich/);
+   }
   }
+  assert.match(html,/Abweichende Quelle/);
  }
 });
 test('V79 published September 2027 municipal park opening does not certify other times',()=>{
