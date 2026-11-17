@@ -43,7 +43,13 @@ export function entryCompleteness(item,ctx={}){
   const kind=item.kind??'unknown';
   const photos=ownPhotos(item,ctx.state);
   const curated=curatedPlacePhoto(item);
-  const hasPhoto=Boolean(photos.length||curated);
+  // A photo of the Palo Alto COURTYARD is not a photo of an actual
+  // Palo Market FESTIVAL session. Show the image, but keep the event-photo
+  // task open in the audit. City backdrops never satisfy hasPhoto.
+  const venueOnlyPhoto=curated?.photoScope==='venue_site_not_event';
+  const hasPhoto=Boolean(photos.length||(curated&&!venueOnlyPhoto));
+  const photoEvidenceScope=photos.length?'user_source_reviewed'
+    :curated?.photoScope??'missing';
   const hasStory=Math.max(safeLen(item.detail),safeLen(item.note),safeLen(item.guideV22?.summary))>=50
     ||safeLen(item.researchV20?.condition)>=50;
   const references=Array.isArray(item.source)?item.source:[];
@@ -73,8 +79,12 @@ export function entryCompleteness(item,ctx={}){
     ||item.pointPrecision==='unverified_or_not_single_location'
     ||/unbestimmt|konzept|idee/i.test(item.verification??''));
   const gaps=[];
-  if(!hasPhoto)gaps.push({key:'photo',label:'Individuelles Foto fehlt',
-    next:'Lizenzierte Commons-Fotos für den genauen Ort suchen, Motiv prüfen und mit Urheber/Lizenz übernehmen; Anbieterzimmer nur mit ausdrücklicher Bildfreigabe.'});
+  if(!hasPhoto)gaps.push({key:'photo',
+    label:venueOnlyPhoto?'Festivalfoto fehlt (historisches Geländefoto vorhanden)'
+      :'Individuelles Foto fehlt',
+    next:venueOnlyPhoto
+      ?'Das lizenzierte Bild zeigt nur das Veranstaltungsareal. Ein geeignetes Eventfoto mit eigener Urheber-/Lizenzprüfung suchen; den Termin September 2027 gesondert verifizieren.'
+      :'Lizenzierte Commons-Fotos für den genauen Ort suchen, Motiv prüfen und mit Urheber/Lizenz übernehmen; Anbieterzimmer nur mit ausdrücklicher Bildfreigabe.'});
   if(!hasStory)gaps.push({key:'description',label:'Ausführliche Beschreibung fehlt',
     next:'Einen objektbezogenen Beschreibungstext aus einer offiziellen/touristischen Quelle ergänzen.'});
   if(!hasPrice)gaps.push({key:'price',label:price.currency==='CHF'?'EUR-Vergleich offen':'Vergleichbarer Preis offen',
@@ -91,7 +101,9 @@ export function entryCompleteness(item,ctx={}){
     next:'Exakte Gruppe, Bettenaufteilung, inklusive Gebühren, Storno und Endpreis des konkreten Zimmers beim Anbieter prüfen.'});
   if(!railTimetable)gaps.push({key:'timetable',label:'Reale datierte Zugverbindung nicht belegt',
     next:'Nach Verkaufsstart Zugnummer, Lokalzeiten, reservierbare Plätze und Passinhabertarif beim Betreiber prüfen.'});
-  return {id:item.id,name:item.name,city:item.city,kind,hasPhoto,photoCount:photos.length+Number(Boolean(curated)),
+  return {id:item.id,name:item.name,city:item.city,kind,hasPhoto,
+    photoCount:photos.length+Number(Boolean(curated)),
+    photoEvidenceScope,photoContextOnly:venueOnlyPhoto&&!photos.length,
     hasSource,hasStory,hasPrice,hasPoint,sourcePoint,publishedHours,hasGuide:!!item.guideV22,
     hotelDetails,railTimetable,gaps:gaps.map(g=>explainMissingField(item,g)),complete:gaps.length===0,priceMarker:price.tier};
 }
