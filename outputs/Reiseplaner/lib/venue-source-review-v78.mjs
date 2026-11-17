@@ -26,6 +26,8 @@ export function applyVenueSourceReviewV78(trips,cities,uploads,archive){
   const x=original.get(e.id),city=x?uploadedPlaceCity(x.city):null;
   if(!x||city!==e.city||byId.has(e.id)||!sourceTypes.has(e.sourceType)
     ||!https(e.sourceUrl)||e.validForSept2027!==false||e.bookable2027!==false
+    ||typeof e.publishedOpeningReference!=='boolean'
+    ||(e.publishedOpeningReference&&e.sourceType!=='operator')
     ||fields.some(field=>typeof e[field]!=='string'||e[field].length<12))
    throw Error('V78 invalid venue row '+e?.id);
   byId.set(e.id,e);byName.set(city+'|'+fold(x.name),e);
@@ -55,7 +57,8 @@ export function applyVenueSourceReviewV78(trips,cities,uploads,archive){
      title:data.title,arrival:data.arrival,hours:data.hours,
      price:data.price,caution:data.caution,notes:data.notes,
      individualTrip2027Offer:false,confirmedCheckout:false,
-     publishedReferenceOnly:true
+     publishedReferenceOnly:true,
+     publishedOpeningReference:data.publishedOpeningReference
     };
     if(!Array.isArray(item.source))item.source=[];
     if(!item.source.includes('venue-v78:'+data.id))item.source.push('venue-v78:'+data.id);
