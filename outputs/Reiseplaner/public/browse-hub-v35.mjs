@@ -293,7 +293,9 @@ export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighte
      active?'Im Plan bearbeiten':lodging?'Unterkunft prüfen':'Zum Tag hinzufügen',
      active?'edit':'plus',!active&&meal?meal.id:item.id,'primary'):'')
    +(point?btn('browse-map-item','Karte','pin',item.id):'')
-   +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
+   +(urlLink(googleMapsSearchUrl(item,ctx.cities),
+     item.cityGuideV76&&item.provider!=='Airbnb'
+       ?'Google Maps · aktuelle Details':googleMapsSearchLabel(item))||'')
    +((item.officialAccessV58??item.officialAccessV57??item.officialAccessV56)?.sourceUrl
      ?urlLink((item.officialAccessV58??item.officialAccessV57??item.officialAccessV56).sourceUrl,'Betreiberquelle'):'')
    +btn('details','Details','folder',item.id)
