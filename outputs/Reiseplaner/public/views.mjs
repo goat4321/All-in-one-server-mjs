@@ -31,6 +31,7 @@ import {mapUnlocatedReview,mapUnverifiedPointsReview} from './map-unlocated-v39.
 import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
   mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview,dayPlanQuickBar} from './day-plans-ui.mjs';
+import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
 import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
 import { dayPeriod,planCostSignal } from './visual-experience.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
@@ -630,6 +631,7 @@ function overview(ctx) {
       +icon('arrow')+'</button>').join('')+'</div></section>';
   return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
     + quickStartHtml
+    + swissInterrailOverviewV82(ctx)
     + dayPlanOverview(ctx)
     + '<div class="cockpit-layout">'
     + '<section class="cockpit-welcome" aria-label="Reise auf einen Blick">'
@@ -1046,6 +1048,7 @@ function rail(ctx) {
     + stat('Pass + bekannte Reservierungen', state.pass.cost == null && !state.pass.purchased ? 'Passpreis offen' : money((state.pass.purchased ? 0 : state.pass.cost * people.length) + reservations), 'Zwischensumme')
     + stat('Einzeltickets', ticketUnknown ? 'Teilpreis ' + money(knownSingles) : money(knownSingles), ticketUnknown + ' Fahrten mit offenem Preis') + '</div>'
     + railReviewTimeline(ctx)
+    + swissInterrailRailV82(ctx)
     + '<section class="section panel panel-pad"><h2>Pass-Reisetage und Tarifprüfung</h2>'
     + '<p>Die Passrechnung verwendet Abfahrtstage, nicht die Anzahl der Züge. Bei Nachtzügen ist entscheidend, ob am nächsten Tag ein weiterer Zug benutzt wird. Keine Annahme über 2027er Sitzplätze.</p>'
     + (passRows.length ? table(['Abfahrtstag','Züge','Abschnitte','Nachtzug-Regel','2027er Quelle'],passRows) : '<p>Keine Zugfahrten im Pass-Entwurf.</p>')
