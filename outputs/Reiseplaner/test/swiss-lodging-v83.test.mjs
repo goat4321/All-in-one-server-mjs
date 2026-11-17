@@ -1,0 +1,148 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {loadCatalog} from '../lib/catalog.mjs';
+import {validateSwissLodgingV83} from '../lib/swiss-lodging-v83.mjs';
+import {swissLodgingSummaryV83,swissLodgingCompareV83,swissLodgingRailNoteV83} from '../public/swiss-lodging-v83.mjs';
+
+const read=async path=>JSON.parse(await readFile(new URL('../data/'+path,import.meta.url),'utf8'));
+const archive=await read('research-v83/swiss-lodging-three-guests.json');
+const original=await read('accommodations.json');
+const catalog=await loadCatalog();
+const trip=catalog.trips.find(t=>t.id==='interrail_swiss');
+const context=t=>({trip:t,catalog,people:Array.from({length:t.travellers},(_,i)=>({id:i+1})),cities:catalog.cities});
+const main=context(trip);
+
+test('V83 preserves two exact three-person Tripsy historic stays, distinct from 2027 real bookings',()=>{
+ assert.equal(archive.meta.tripId,'interrail_swiss');
+ assert.equal(archive.meta.partySize,3);
+ assert.equal(archive.originals.length,2);
+ const stats=catalog.research.interrailSwissLodgingV83.stats;
+ assert.equal(stats.tripId,'interrail_swiss');
+ assert.equal(stats.partySize,3);
+ assert.equal(stats.sourceCandidates,8);
+ assert.equal(stats.bookingsCreated,0);
+ assert.equal(stats.checkoutConfirmed,false);
+ assert.equal(stats.originalTripsChanged,false);
+ assert.equal(stats.swissLakesChanged,false);
+ assert.equal(stats.roomPhotosImported,0);
+ assert.equal(stats.publishedPricesAre2027Quotes,false);
+ const k=archive.originals.find(x=>x.city==='kandersteg');
+ const a=archive.originals.find(x=>x.city==='appenzell');
+ assert.equal(k.name,'Alpina Appartment 2');
+ assert.equal(k.historicEuroTotal,417.95);
+ assert.match(k.identityWarning,/nicht zweifelsfrei|NICHT zweifelsfrei/);
+ assert.equal(a.name,'Alte Metzg Hostel');
+ assert.equal(a.historicEuroTotal,408.15);
+ assert.deepEqual(stats.historicalOriginals.map(x=>x.historicEuroTotal),[417.95,408.15]);
+ assert.ok(stats.historicalOriginals.every(x=>x.threeGuestCheckoutConfirmed===false
+   &&x.liveEuroTotal===null&&x.nights===2));
+});
+test('V83 independently sourced room identities are not conflated with imported apartment or competing hotel',()=>{
+ const stats=catalog.research.interrailSwissLodgingV83.stats;
+ assert.equal(stats.stayCities.kandersteg,4);
+ assert.equal(stats.stayCities.appenzell,4);
+ assert.equal(new Set(archive.candidates.map(x=>x.id)).size,8);
+ assert.ok(stats.publishedReferenceSources>=5);
+ for(const room of archive.candidates){
+  assert.equal(room.threeGuestsVerifiedForRoomType,true);
+  assert.equal(room.confirmed2027Availability,false);
+  assert.equal(room.confirmed2027Rate,false);
+  assert.equal(room.checkoutFeesFullyVerified,false);
+  assert.equal(room.exactMapPinVerified,false);
+  assert.equal(room.roomPhotoLicenseVerified,false);
+  assert.equal(room.booked,false);
+  assert.equal(catalog.sources['swiss-stay-v83:'+room.id]?.url,room.sourceUrl);
+ }
+ const alpina=archive.candidates.find(x=>x.id==='alpina-triple');
+ assert.match(alpina.bedConfiguration,/Triple Room/);
+ assert.match(alpina.practical,/Alpina Appartment 2/);
+ assert.match(alpina.practical,/NICHT zweifelsfrei/);
+ const kisc=archive.candidates.find(x=>x.id==='kisc-new-chalet');
+ assert.match(kisc.risk,/10.09.2027/);
+ assert.match(kisc.risk,/1. Juni bis 10. September/);
+ assert.match(kisc.checkin,/14:00/);
+ const adler=archive.candidates.find(x=>x.id==='adler-apartments');
+ assert.match(adler.kitchen,/Eigene Küche/);
+ assert.match(adler.risk,/Mindestnächte/);
+});
+test('V83 Alte Metzg contradiction, room alternatives and short holiday-card stay stay visible',()=>{
+ const room8=archive.candidates.find(x=>x.id==='altemetzg-hostel8');
+ const room9=archive.candidates.find(x=>x.id==='altemetzg-hostel9');
+ const room5=archive.candidates.find(x=>x.id==='altemetzg-room5');
+ assert.match(room8.price,/CHF 170/);
+ assert.match(room8.price,/CHF 165/);
+ assert.equal(room8.secondaryUrls.length,1);
+ assert.match(room9.price,/CHF 180/);
+ assert.match(room5.price,/CHF 190/);
+ assert.match(room5.bedConfiguration,/Doppelbett plus Einzelbett/);
+ assert.ok(archive.checks.some(x=>x.id==='ferienscard'&&x.text.includes('drei zusammenhängenden Nächten')));
+ assert.ok(archive.checks.some(x=>x.id==='late-arrival'&&x.text.includes('19:30 Uhr')));
+ assert.equal(archive.checks.length,5);
+ const html=swissLodgingCompareV83(main);
+ assert.match(html,/CHF 170/);
+ assert.match(html,/CHF 165/);
+ assert.match(html,/Ferienkarte/);
+ assert.match(html,/nicht zweifelsfrei|NICHT zweifelsfrei/);
+ assert.match(html,/10.09.2027/);
+ assert.match(html,/kein bestätigter Endpreis/);
+});
+test('V83 visual 3-person comparison has 8 source-backed cards and both historical EUR totals without a fake quote',()=>{
+ const html=swissLodgingCompareV83(main);
+ assert.match(html,/Unterkunftsvergleich 3 Personen/);
+ assert.equal((html.match(/class="swiss-stay-candidate"/g)||[]).length,8);
+ assert.equal((html.match(/class="swiss-stay-original"/g)||[]).length,2);
+ assert.match(html,/417,95/);
+ assert.match(html,/408,15/);
+ assert.match(html,/historischer Entwurf in EUR/);
+ assert.match(html,/kein bestätigter Endpreis/);
+ assert.match(html,/CHF 250–380/);
+ assert.match(html,/Alpina Appartment 2/);
+ assert.match(html,/Hotel Alpina · Dreibettzimmer/);
+ assert.match(html,/Originalanbieter/);
+ assert.match(html,/Zimmer beim Originalanbieter prüfen/);
+ assert.match(html,/Standort in Google Maps suchen/);
+ const preview=swissLodgingSummaryV83(main);
+ assert.match(preview,/Unterkünfte vergleichen/);
+ assert.match(preview,/data-action="page" data-value="lodging"/);
+ const rail=swissLodgingRailNoteV83(main);
+ assert.match(rail,/Wichtige Anschlussprüfung/);
+ assert.match(rail,/KISC/);
+ assert.match(rail,/data-action="page" data-value="lodging"/);
+ assert.equal((rail.match(/<p><b>/g)||[]).length,2);
+});
+test('V83 comparison is restricted to Interrail Swiss; independent four-person Swiss lakes remains untouched',()=>{
+ assert.ok(catalog.trips.some(x=>x.id==='swiss_lakes'));
+ for(const other of catalog.trips.filter(x=>x.id!=='interrail_swiss')){
+  const ctx=context(other);
+  assert.equal(swissLodgingCompareV83(ctx),'');
+  assert.equal(swissLodgingSummaryV83(ctx),'');
+  assert.equal(swissLodgingRailNoteV83(ctx),'');
+ }
+ const trips=structuredClone(catalog.trips);
+ const rail=structuredClone(original);
+ const result=validateSwissLodgingV83(trips,rail,archive);
+ assert.equal(result.sourceCandidates,8);
+ assert.deepEqual(trips,catalog.trips);
+ assert.deepEqual(rail,original);
+ const fake=structuredClone(archive);
+ fake.candidates[0].confirmed2027Availability=true;
+ assert.throws(()=>validateSwissLodgingV83(trips,original,fake),/V83 unsafe 2027 room candidate/);
+ const mismatch=structuredClone(archive);
+ mismatch.originals[0].name='Hotel Alpina';
+ assert.throws(()=>validateSwissLodgingV83(trips,original,mismatch),/V83 original Tripsy lodging mismatch/);
+ const malicious=structuredClone(archive);
+ malicious.candidates[0].sourceUrl='javascript:alert(1)';
+ assert.throws(()=>validateSwissLodgingV83(trips,original,malicious),/V83 unsafe 2027 room candidate/);
+});
+test('V83 CSS responsive and no images claimed without licenses',async()=>{
+ const html=await readFile(new URL('../public/index.html',import.meta.url),'utf8');
+ const css=await readFile(new URL('../public/swiss-lodging-v83.css',import.meta.url),'utf8');
+ assert.match(html,/swiss-lodging-v83\.css/);
+ assert.match(css,/@media\(max-width:830px\)/);
+ assert.match(css,/@media\(max-width:550px\)/);
+ assert.match(css,/focus-visible/);
+ assert.equal(archive.meta.availability2027Checked,false);
+ assert.equal(archive.meta.bookingsCreated,0);
+ assert.ok(archive.candidates.every(x=>x.roomPhotoLicenseVerified===false));
+});
