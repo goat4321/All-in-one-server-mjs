@@ -59,7 +59,14 @@ export function placeProfileModel(item, ctx = {}) {
       +(item.point&&!hasIndependentPointEvidence(item)?' · unabhängige Prüfung offen':'')],
     ['Öffnung / Ankunft',detail.hours],
   ];
-  if(item.address) facts.push(['Öffentliche Adresse',item.address]);
+  if(item.address){
+    const addressDisputed=Boolean(item.sourceConflictV79
+      &&['branch_identity_mismatch','address_conflict','venue_identity_conflict']
+        .includes(item.sourceConflictV79.type));
+    facts.push([addressDisputed
+      ?'Importierte Adresse · widersprüchlich, noch nicht bestätigt'
+      :'Öffentliche Adresse',item.address]);
+  }
   if(item.kind==='lodging') facts.push(
     ['Zimmer / Belegung',item.room || 'Zimmerart nicht bestätigt'],
     ['Betten',item.bedsDisplayed != null ? item.bedsDisplayed+' angezeigt · Belegung für Gruppe nicht bestätigt' : 'Nicht bestätigt'],
