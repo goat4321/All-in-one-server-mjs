@@ -727,12 +727,26 @@ export const curatedPhotoCount=images.length;
 
 // Context-only city imagery for entries lacking their own licensed photo.
 // Never treat a different landmark as proof of the venue or lodging.
+// Missing-venue fallbacks must be a recognizable CITY motif, not a random
+// photo of an unrelated café, hotel, market, or food item. For the four current
+// focus cities, use only scenic public landmarks when selecting background.
+const scenicBackdrops={
+ paris:/seineufer|trocad|montmartre|eiffelturm/i,
+ barcelona:/montju|barceloneta|ciutadella/i,
+ sete:/canal royal|mont saint|pointe courte|plage de la corniche/i,
+ nice:/promenade des anglais|port lympia|vieux|colline du/i,
+};
 export function curatedCityBackdrop(item){
- const options=images.filter(x=>x.city===item?.city);
+ const pool=images.filter(x=>x.city===item?.city);
+ const scenic=scenicBackdrops[item?.city];
+ const options=scenic?pool.filter(x=>scenic.test(x.name.source)):pool;
+ // A neutral placeholder is better than pretending an unrelated restaurant
+ // photo is an image of a different venue.
  if(!options.length)return null;
  let hash=0;
  for(const c of String(item.id??item.name??''))hash=(Math.imul(hash,31)+c.codePointAt(0))>>>0;
  const x=options[hash%options.length];
  return {url:'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(x.file)+'?width=960',
-  sourceUrl:x.sourceUrl,credit:x.credit,contextualOnly:true};
+  sourceUrl:x.sourceUrl,credit:x.credit,contextualOnly:true,
+  photoScope:'city_backdrop',subjectDisclaimer:'Nur Stadtmotiv, kein Foto dieses Eintrags'};
 }
