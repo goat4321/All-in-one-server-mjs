@@ -3,6 +3,7 @@ import {dayPlanCandidates} from './day-plans-logic.mjs';
 import {placeThumbnailHtml} from './place-profile.mjs';
 import {localParts} from './model.mjs';
 import {googleMapsSearchUrl} from './google-maps.mjs';
+import {swissInterrailDayV82} from './swiss-interrail-focus-v82.mjs';
 const mapsForFixedPlace=(item,cities)=>item?.name&&item.kind==='activity'
  &&item.pointPrecision!=='unverified_or_not_single_location'
  &&!item.researchV20?.reviewStatus?.includes('concept')
@@ -115,6 +116,7 @@ export function dayPlanPanel(ctx,{compact=false}={}){
       :'<p class="day-plan-today-empty">Noch keine zusätzlichen Aktivitäten übernommen.</p>')
     +'</section>'
     +progress
+    +swissInterrailDayV82(ctx)
     +(rides||arrivals?'<div class="day-plan-block"><h4>'+icon('train')+' Anreise / Transfers (vorläufig)</h4>'
     +'<ul class="day-plan-ride-list">'+arrivals+rides+'</ul></div>':'')
     +(slots?'<div class="day-plan-block"><h4>'+icon('calendar')+' Ideen nach Tagesabschnitt</h4>'
