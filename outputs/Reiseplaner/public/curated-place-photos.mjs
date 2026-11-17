@@ -2,6 +2,19 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // V76: exact Wikimedia Commons files and license pages reviewed 17 Nov 2026.
+ // Historic imagery is NOT proof of present-day shoreline conditions.
+ {city:'sete',name:/^plage du lazaret$/i,
+  file:'Dike - Lazaret 01.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Dike_-_Lazaret_01.jpg',
+  credit:'Christian Ferrer · CC BY 4.0 · Molenabschnitt am Strand Lazaret 2022, nicht der gesamte Strand · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by/4.0/'},
+ {city:'nice',name:/^plage de la r[eé]serve/i,
+  file:'Nice la Réserve.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Nice_la_R%C3%A9serve.jpg',
+  credit:'CHRIS BONTEMPS · CC BY-SA 2.0 · Historische Sprungplattform La Réserve 2007, kein Nachweis sicheren oder erlaubten Springens · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/2.0/'},
+
  // Phase 75: verified Commons pages for exact Swiss outdoor subjects.
  // Photos show historic landscapes, not up-to-date access or route conditions.
  {city:'oeschinensee',name:/oeschinen|[öo]schinen/i,
