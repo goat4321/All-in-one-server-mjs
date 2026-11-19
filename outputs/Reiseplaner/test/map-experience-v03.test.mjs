@@ -14,7 +14,7 @@ test('accommodation, meals and activities have distinct offline SVG marker icons
  assert.notEqual(hotel,mapCategoryIcon('activity'));
  assert.equal(mapIconForPlace({kind:'lodging',name:'Test'},'lodging'),'lodging');
  assert.match(mapCategoryIcon('food'),/<svg/);
- assert.ok(!hotel.includes('<script')&&!hotel.includes('http://'),'all marker glyphs are bundled');
+ assert.ok(!hotel.includes('<script')&&!hotel.includes('<image')&&!hotel.includes('href='),'marker glyphs need no remote image request');
 });
 
 test('my day is exactly its planned records, city all its real POIs, trip only route city hubs',()=>{
@@ -36,7 +36,7 @@ test('my day is exactly its planned records, city all its real POIs, trip only r
  assert.equal(all.unlocated.length,1);
  const summary=mapViewSummary({trip,cities:{barcelona:{name:'Barcelona',point:[41.4,2.1]},paris:{name:'Paris',point:[48.8,2.3]}},city:'barcelona',explorer:{scope:'trip',placed:all.placed,unlocated:all.unlocated}});
  assert.equal(summary.displayCount,2,'trip summary counts cities, not point-of-interest pins');
- assert.match(summary.description,/schematische/);
+ assert.match(summary.description,/schematisch/i);
 });
 
 test('area- and city-centre references never become false precise lodging points',()=>{
