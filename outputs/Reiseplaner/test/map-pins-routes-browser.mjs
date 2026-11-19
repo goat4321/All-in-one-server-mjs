@@ -62,6 +62,27 @@ try{
  await cdp('Page.navigate',{url:address});await until(()=>js('Boolean(document.querySelector("#variant"))'),'Anwendung');
  await click('.sidebar [data-action=page][data-value=plan]');
  await click('.days [data-action=day][data-value="2027-09-04"]');await toMap();
+ // Real Chrome: city-to-city is marked schematic, with native keyboard
+ // buttons to seek, pause, skip and cancel. Playback never writes trip data.
+ const stateBeforeStory=JSON.stringify(store.current('interrail_swiss').state);
+ await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
+ await click('.map-panel [data-action=route-story-play]');
+ await until(()=>js('document.querySelector("#route-story-player")?.dataset.status==="playing"'),'City story started');
+ assert.match(await js('document.querySelector(".route-story-disclaimer").textContent'),/Schematische Städtefolge/);
+ assert.ok(await js('document.querySelectorAll(".route-story-rail-dot[data-action=route-story-jump]").length>=2'));
+ await click('.route-story-rail-dot[data-value="1"]');
+ assert.match(await js('document.querySelector("#route-story-count").textContent'),/^2 \/ /);
+ await click('[data-action=route-story-pause]');
+ assert.equal(await js('document.querySelector("#route-story-player").dataset.status'),'paused');
+ await click('[data-action=route-story-next]');
+ assert.ok(await js('Number(document.querySelector("#route-story-count").textContent.split(" / ")[0])>=2'));
+ await screenshot('karte-story-sprung-und-pause-1440.png');
+ await click('[data-action=route-story-stop]');
+ await until(()=>js('document.querySelector("#route-story-player").hidden'),'City story stopped');
+ assert.equal(JSON.stringify(store.current('interrail_swiss').state),stateBeforeStory,
+   'City playback must not persist any costs, itinerary changes or pins');
+ await click('[data-action=explorer-scope][data-value=city]');
+ await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
  const original=JSON.stringify(store.current('interrail_swiss').state.edits);
  const otherVariants=Object.fromEntries(['interrail_classic','interrail_august','swiss_lakes'].map(id=>[id,JSON.stringify(store.current(id).state)]));
  await js('document.querySelector(".reference-places-drawer").open=true');
@@ -77,7 +98,9 @@ try{
  assert.ok(afterFilter.lodgingPressed,'Map category buttons remain synchronized after in-place filter update');
  report.filterProfiling={before:beforeFilter,after:afterFilter,elapsedMs:Math.round((afterFilter.time-beforeFilter.time)*100)/100};
  // Real map click and Escape return preserve the typed form draft.
- await openPin();await set('dialog [name=name]','Kartenklick-Testpunkt');await click('dialog [data-action=map-pin-pick]');
+ await openPin();await set('dialog [name=name]','Kartenklick-Testpunkt');
+ await set('dialog [name=pinCategory]','food');
+ await click('dialog [data-action=map-pin-pick]');
  await until(()=>js('document.querySelector("#map").classList.contains("is-placing-pin")'),'Pin-Klickmodus');
  await cdp('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
  await cdp('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
@@ -90,11 +113,26 @@ try{
  assert.equal(await js('document.querySelector("dialog [name=name]").value'),'Kartenklick-Testpunkt');
  assert.ok(await js('Number.isFinite(Number(document.querySelector("dialog [name=lat]").value))&&document.querySelector("dialog [name=lat]").value!==""'));
  await save();const pin=findPin('Kartenklick-Testpunkt');assert.ok(pin?.userPin);assert.equal(pin.selected,false);assert.equal(pin.verification,'ungeprüft');
+ assert.equal(pin.pinCategory,'food','Map-picked pin preserves its selected category');
+ await click('.map-own-pins [data-action=explorer-save][data-value="'+pin.id+'"]');
+ assert.ok(await js('localStorage.getItem("reiseplan-map-shortlist:interrail_swiss")?.includes('+JSON.stringify(pin.id)+')'),
+   'Own pin can be bookmarked locally per variant');
+ await set('#own-pins-search','unfindable123');
+ await js('document.querySelector("#own-pins-search").dispatchEvent(new Event("input",{bubbles:true}))');
+ assert.equal(await js('document.querySelector("[data-own-pin]")?.hidden'),true,
+   'Filtering own pins does not rebuild the map');
+ await set('#own-pins-search','');
+ await js('document.querySelector("#own-pins-search").dispatchEvent(new Event("input",{bubbles:true}))');
+ assert.equal(await js('document.querySelector("[data-own-pin]")?.hidden'),false);
  assert.equal(await js('document.querySelector(\'[data-action=explorer-group][data-value=all]\')?.getAttribute("aria-pressed")'),'true','Saving a pin clears an incompatible category filter');
  assert.equal(JSON.stringify(store.current('interrail_swiss').state.edits),original,'Adding an optional pin does not change existing itinerary');
  await click('.map-own-pins [data-action=edit][data-value="'+pin.id+'"]');
- await set('dialog [name=name]','Umbenannter Pin');await set('dialog [name=lat]',fixture.stops[0].point[0]);await set('dialog [name=lon]',fixture.stops[0].point[1]);await save();
+ await set('dialog [name=name]','Umbenannter Pin');
+ await set('dialog [name=pinCategory]','lodging');
+ await set('dialog [name=lat]',fixture.stops[0].point[0]);await set('dialog [name=lon]',fixture.stops[0].point[1]);await save();
  assert.deepEqual(findPin('Umbenannter Pin').point,fixture.stops[0].point);
+ assert.equal(findPin('Umbenannter Pin').pinCategory,'lodging');
+ assert.equal(findPin('Umbenannter Pin').kind,'activity','Pin symbol never changes the booking/activity model');
  await js('document.querySelector(".reference-places-drawer").open=true');
  await click('[data-action=explorer-group][data-value=shop]');
  await click('.map-own-pins [data-action=map-pin-focus][data-value="'+pin.id+'"]');
@@ -121,7 +159,23 @@ try{
  await until(()=>js('Boolean(document.querySelector("[data-action=day-route-commit]"))'),'Zwei echte Fußstopps');
  assert.equal(await js('document.querySelector(".day-route-builder").checkVisibility()'),true,'Route controls must be visible, not just present in DOM');
  assert.ok(await js('document.querySelectorAll("#map .route-studio-map-line:not(.schematic)").length>=1'));
+ await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
+ await click('[data-action=route-studio-play]');
+ await until(()=>js('document.querySelector("#route-story-player")?.dataset.status==="playing"'),'Route Studio animation');
+ assert.match(await js('document.querySelector(".route-story-disclaimer").textContent'),
+   /berechneter Fußweg/i,'Verified stop geometry drives the travel indicator');
+ await screenshot('karte-route-studio-animation-1440.png');
+ await click('.route-story-rail-dot[data-value="1"]');
+ assert.equal(await js('document.querySelector("#route-story-count").textContent'),'2 / 2');
+ await click('[data-action=route-story-play]');
+ await until(()=>js('document.querySelector("#route-story-player")?.dataset.status==="playing" && document.querySelector("#route-story-count")?.textContent?.startsWith("1 /")'),
+   'Restart repeats the actual Route Studio tour');
+ assert.match(await js('document.querySelector(".route-story-disclaimer").textContent'),
+   /berechneter Fußweg/i,'Restart must not silently switch to schematic city-to-city');
+ await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
  await click('.map-own-pins [data-action=remove][data-value="'+pins[1].id+'"]');
+ assert.equal(await js('document.querySelector("#route-story-player").hidden'),true,
+   'Deleting a source pin cancels the active animation immediately');
  await until(()=>js('document.querySelectorAll(".route-studio-stop").length===1'),'Gelöschten Pin aus Entwurf entfernen');
  assert.equal(await js('Boolean(document.querySelector("[data-action=day-route-commit]"))'),false,'Deleted pin cannot be resurrected by adoption');
  await click('.top-actions [data-action=undo]');

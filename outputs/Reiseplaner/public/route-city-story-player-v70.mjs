@@ -1,4 +1,4 @@
-import {storyPointBetween,storyProgress} from './route-city-story-v70.mjs';
+import {storyLegProgress,storyProgress} from './route-city-story-v70.mjs';
 
 // Deliberate pause in each city so the arrival and successive symbols can
 // be perceived before the route continues. Durations are animations, not ETAs.
@@ -55,9 +55,9 @@ export class RouteCityStoryPlayer{
  constructor(map,onChange=()=>{}){
   this.map=map;this.onChange=onChange;
   this.layer=L.layerGroup().addTo(map);
-  this.stops=[];this.status='idle';this.index=0;this.part=0;
+  this.stops=[];this.legs=[];this.mode='city';this.status='idle';this.index=0;this.part=0;
   this.speed=1;this.phase='dwell';this.elapsed=0;this.lastTime=null;
-  this.frame=null;this.dot=null;this.trail=null;
+  this.frame=null;this.dot=null;this.trail=null;this.lastEmitted=0;
   this.burst=null;this.cityMarkers=[];
   this.revealed=new Set();
   this.tick=this.tick.bind(this);
@@ -71,7 +71,9 @@ export class RouteCityStoryPlayer{
    progress:storyProgress(this.index,this.part,this.stops),speed:this.speed,
    ideas:stop?.ideas??[],plannedCount:stop?.plannedCount??0,
    placesKnown:stop?.placesKnown??0,ideaCount:stop?.ideaCount??0,
-   routeOverview:this.routeOverview??[],schematic:true};
+   routeOverview:this.routeOverview??[],mode:this.mode,
+   schematic:!Boolean(this.legs[this.index]?.verified),
+   verifiedLegs:this.legs.filter(leg=>leg?.verified).length};
  }
  emit(){this.onChange(this.state());}
  reveal(index){
@@ -109,21 +111,32 @@ export class RouteCityStoryPlayer{
  draw(){
   const a=this.stops[this.index],b=this.stops[this.index+1];
   if(!a)return;
-  const last=b?storyPointBetween(a.point,b.point,this.part):a.point;
-  const points=[...this.stops.slice(0,this.index+1).map(stop=>stop.point),last];
-  this.trail?.setLatLngs(points);
-  this.dot?.setLatLng(last);
+  if(!b){this.dot?.setLatLng(a.point);return;}
+  const progress=storyLegProgress(a.point,b.point,this.legs[this.index],this.part);
+  if(!progress)return;
+  this.trail?.setLatLngs(progress.path);
+  this.trail?.setStyle(progress.verified
+    ?{color:'#0d9770',dashArray:null,weight:6}
+    :{color:'#7559a3',dashArray:'6 9',weight:4});
+  this.dot?.setLatLng(progress.point);
  }
- play(stops=[]){
+ play(stops=[],legs=[],mode='city'){
   this.stop(true);
   if(!Array.isArray(stops)||!stops.length){this.emit();return false;}
   this.stops=stops.map(stop=>({...stop,point:[...stop.point],
    ideas:Array.isArray(stop.ideas)?stop.ideas.map(idea=>({...idea})):[]}));
+  // Copy validated source geometry: queue edits cannot mutate the playback.
+  this.legs=this.stops.slice(1).map((_,i)=>{
+   const leg=Array.isArray(legs)?legs[i]:null;
+   return leg?.verified&&Array.isArray(leg.points)
+     ?{verified:true,points:leg.points.map(p=>[...p])}:{verified:false,points:null};
+  });
+  this.mode=mode==='studio'?'studio':'city';
   this.routeOverview=this.stops.map(stop=>({id:stop.id,name:stop.name}));
   this.status='playing';this.index=0;this.part=0;this.phase='dwell';
   this.elapsed=0;this.lastTime=null;
   this.trail=L.polyline([this.stops[0].point],{
-    color:'#12a77b',weight:6,opacity:.95,interactive:false,
+    color:'#7559a3',weight:4,opacity:.95,interactive:false,dashArray:'6 9',
     className:'story-travelled-track',
   }).addTo(this.layer);
   this.dot=L.marker(this.stops[0].point,{
@@ -161,7 +174,8 @@ export class RouteCityStoryPlayer{
     this.arrive(this.index);this.draw();
    }
   }
-  this.emit();
+  // Paint the moving marker every frame, but update text and ARIA at ~10Hz.
+  if(now-this.lastEmitted>=90){this.lastEmitted=now;this.emit();}
   this.frame=requestAnimationFrame(this.tick);
  }
  finish(){
@@ -189,6 +203,28 @@ export class RouteCityStoryPlayer{
   this.status='playing';this.lastTime=null;this.emit();
   this.frame=requestAnimationFrame(this.tick);return true;
  }
+ /** Jump to an existing city or Route Studio stop with no persistence. */
+ jump(index){
+  if(this.status==='idle'||!Number.isInteger(index)
+    ||index<0||index>=this.stops.length)return false;
+  if(this.frame!=null)cancelAnimationFrame(this.frame);
+  this.frame=null;this.lastTime=null;this.lastEmitted=0;
+  this.clearArrival();this.index=index;this.part=0;
+  this.phase='dwell';this.elapsed=0;
+  if(this.status==='complete')this.status='paused';
+  this.arrive(index);this.draw();this.emit();
+  if(this.status==='playing'&&!reducedMotion())
+    this.frame=requestAnimationFrame(this.tick);
+  else if(this.status==='playing'&&reducedMotion()){
+    this.status='paused';this.emit();
+  }
+  return true;
+ }
+ skip(){
+  if(this.status==='idle')return false;
+  if(this.index>=this.stops.length-1){this.finish();return true;}
+  return this.jump(this.index+1);
+ }
  setSpeed(speed){
   if(![1,1.5,2].includes(speed))return false;
   this.speed=speed;this.emit();return true;
@@ -197,7 +233,7 @@ export class RouteCityStoryPlayer{
   if(this.frame!=null)cancelAnimationFrame(this.frame);
   this.frame=null;this.lastTime=null;
   this.layer.clearLayers();this.revealed.clear();
-  this.stops=[];this.status='idle';this.index=0;this.part=0;
+  this.stops=[];this.legs=[];this.mode='city';this.status='idle';this.index=0;this.part=0;
   this.phase='dwell';this.elapsed=0;
   this.dot=null;this.trail=null;this.burst=null;this.cityMarkers=[];
   this.routeOverview=[];

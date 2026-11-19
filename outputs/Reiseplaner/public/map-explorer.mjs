@@ -1,4 +1,5 @@
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
+import {MAP_ICON_CATEGORIES} from './map-marker-icons-v64.mjs';
 // Shared explorer selectors for every variant and city. Only place-level
 // coordinates provided by source records are plotted: no city-centre guesses.
 export const EXPLORER_GROUPS = Object.freeze({
@@ -10,6 +11,10 @@ export const EXPLORER_GROUPS = Object.freeze({
 });
 
 export function explorerCategory(item) {
+  // User-created categories color a pin only. It remains an unbooked,
+  // manually recorded activity for scheduling and budget purposes.
+  if(item?.userPin && MAP_ICON_CATEGORIES.includes(item.pinCategory))
+    return item.pinCategory;
   if (item.kind === 'lodging') return 'lodging';
   if (item.kind === 'transport') return 'transport';
   const words = [item.name, item.category, ...(item.tags ?? [])].join(' ').toLocaleLowerCase('de');

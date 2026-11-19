@@ -2,6 +2,7 @@
 // The floating emoji ring is illustrative, NEVER a position of any venue.
 export const ARRIVAL_TYPES=Object.freeze({
  activity:{label:'Aktivität',symbol:'🎟️'},
+ transport:{label:'Bahnhof & Verkehr',symbol:'🚉'},
  food:{label:'Essen & Trinken',symbol:'🍽️'},
  nature:{label:'Natur & Aussicht',symbol:'🌿'},
  nightlife:{label:'Abends ausgehen',symbol:'🎶'},
@@ -16,12 +17,13 @@ const usable=item=>item&&typeof item==='object'
  &&typeof item.city==='string'&&item.city.length>0
  &&!item.removed&&!item.duplicateOf&&!item.readOnlyExternal
  &&!item.explorerParent&&!item.isCityReference
- &&!['transport','placeholder'].includes(item.kind)
+ &&item.kind!=='placeholder'
  &&!item.isSynthetic&&item.kind!=='transit'
  &&!item.kind?.includes('reference');
 export function arrivalType(item){
  const full=canonical([item.name,item.category,...(Array.isArray(item.tags)?item.tags:[])].join(' '));
  if(item.kind==='lodging')return 'lodging';
+ if(item.kind==='transport')return 'transport';
  if(item.kind==='shop'||/supermarkt|grocery|supermerc|einkauf|boutique|market hall/.test(full))return 'shop';
  if(/nachtclub|nightclub|nightlife|discoteca|disco |clubabend|party|festival|cocktailbar|rooftop bar/.test(full))return 'nightlife';
  if(item.category==='food'||item.kind==='food'
@@ -59,7 +61,9 @@ export function buildCityArrivalScenes(stops,items=[],activeIds=new Set(),limit=
    if(seenIds.has(item.id)||seenNames.has(nameKey))return false;
    seenIds.add(item.id);seenNames.add(nameKey);return true;
   });
-  const categoryOrder=['activity','food','nature','nightlife','lodging','shop'];
+  // Give the user's requested practical four categories visual priority.
+  // Each chip uses the original record only; no business location is guessed.
+  const categoryOrder=['lodging','food','activity','transport','nature','nightlife','shop'];
   const order=(a,b)=>Number(b.planned)-Number(a.planned)
    ||a.name.localeCompare(b.name,'de');
   const categories=new Map(categoryOrder.map(cat=>[cat,unique.filter(x=>x.type===cat).sort(order)]));

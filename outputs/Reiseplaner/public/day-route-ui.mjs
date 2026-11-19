@@ -47,6 +47,11 @@ export function dayRouteView(ctx) {
     + '</strong><small>Stopps</small></span><span><strong>'
     + studio.verifiedCount + '/' + studio.legs.length
     + '</strong><small>echte Wege</small></span></div></div>'
+    + (studio.stops.length>=2
+      ? '<div class="route-studio-story-action">'+btn('route-studio-play',
+        'Tour animiert abspielen','play','','subtle')
+        +'<small>Nur Vorschau · grün = berechneter Fußweg · gestrichelt = schematisch. Keine Übernahme in den Tagesplan.</small></div>'
+      : '')
     + (studio.staleGeometryCount
       ? '<div class="route-studio-geowarning" role="alert"><strong>'
         +studio.staleGeometryCount+' bisherige Wegberechnung(en) passen nicht mehr zu den gewählten Stopps.</strong>'

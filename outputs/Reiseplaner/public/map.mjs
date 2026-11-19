@@ -196,7 +196,11 @@ export class TripMap {
   }
 
   paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null, profileCtx = null, dayPreview = null, hikeRoute = null }) {
-    if(!total&&this.cityStory.state().status!=='idle')this.cityStory.stop();
+    // City story belongs to the trip overview; footpath story belongs to the
+    // city's draft Route Studio. Never retain the wrong playback across scope.
+    if(this.cityStory.state().status!=='idle'
+      &&((!total&&this.cityStory.mode==='city')
+        ||(total&&this.cityStory.mode==='studio')))this.cityStory.stop();
     this.city = city;
     this.features.clearLayers();
     this.poiLayer.clearLayers();
@@ -668,7 +672,30 @@ export class TripMap {
       paddingTopLeft:[48,142],paddingBottomRight:[48,162],
       maxZoom:8,animate:false,
     });
-    return this.cityStory.play(stops);
+    return this.cityStory.play(stops,[],'city');
+  }
+
+  /** Visualise a Route Studio draft only, using verified footpath geometry.
+   * Preview does not alter activity selection, dates, tickets or finances.
+   * Other legs are explicitly schematic, not quietly mapped as real roads. */
+  playStudioStory(dayRoute,cities){
+    const items=dayRoute?.items??[];
+    const model=routeStudioModel(items,dayRoute?.routes??[],dayRoute?.focusIndex??0);
+    if(model.stops.length<2 || model.stops.length>8
+      ||model.stops.some(stop=>!validMapCoordinate(stop.point)
+        ||stop.city!==model.stops[0].city))return false;
+    const stops=model.stops.map((item,index)=>({
+      id:item.id,name:item.name,point:[...item.point],symbol:item.userPin?'📌':'📍',
+      description:(index+1)+'. Stopp · '+(cities[item.city]?.name??item.city)
+        +' · '+(item.userPin?'Manuell gesetzter, ungeprüfter Pin':'Geplanter Routenentwurf'),
+      ideas:[],placesKnown:0,plannedCount:0,ideaCount:0
+    }));
+    this.map.invalidateSize({pan:false});
+    const points=[...stops.map(stop=>stop.point),
+      ...model.legs.filter(leg=>leg.verified).flatMap(leg=>leg.points)];
+    this.map.fitBounds(points,{paddingTopLeft:[40,140],paddingBottomRight:[40,155],
+      maxZoom:15,animate:false});
+    return this.cityStory.play(stops,model.legs,'studio');
   }
 
   pauseCityStory(){return this.cityStory.pause();}
@@ -676,6 +703,8 @@ export class TripMap {
   stopCityStory(){this.cityStory.stop();}
   storyState(){return this.cityStory.state();}
   storySpeed(speed){return this.cityStory.setSpeed(speed);}
+  storyJump(index){return this.cityStory.jump(index);}
+  storySkip(){return this.cityStory.skip();}
 
   fit() {
     this.map.invalidateSize({ pan: false });

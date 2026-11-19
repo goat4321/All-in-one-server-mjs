@@ -145,6 +145,9 @@ export function validateState(state, trip, imported) {
         || (i.duration != null && (!Number.isInteger(i.duration) || i.duration < 1 || i.duration > 2880))
         || (i.buffer != null && (!Number.isInteger(i.buffer) || i.buffer < 0 || i.buffer > 1440))) error('Ungültiger Planeintrag.');
     if (i.end && i.start && Date.parse(i.end) <= Date.parse(i.start)) error('Das Ende muss nach dem Beginn liegen.');
+    if (i.pinCategory != null && (!i.userPin ||
+        !['activity','food','lodging','shop','transport'].includes(i.pinCategory)))
+      error('Eine manuelle Kartenkategorie darf nur einem eigenen Pin zugeordnet werden.');
     if (i.kind === 'transport' && i.toCity && !trip.route.includes(i.toCity)) error('Der Zielort gehört nicht zur ursprünglichen Route.');
     if (i.basketProducts != null
       && (!i.mealSlot || !Array.isArray(i.basketProducts) || i.basketProducts.length > 30

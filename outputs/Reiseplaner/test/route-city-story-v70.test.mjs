@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {storyCityMotif,storyCityStops,storyPointBetween,storyProgress}
+import {storyCityMotif,storyCityStops,storyPointBetween,storyProgress,storyLegProgress}
   from '../public/route-city-story-v70.mjs';
 
 const read=name=>readFile(new URL('../public/'+name,import.meta.url),'utf8');
@@ -70,5 +70,33 @@ test('V70 motion, map schema and access to source details remain separate',async
  assert.match(css,/storyPlacePop/);
  assert.match(css,/prefers-reduced-motion:reduce/);
  assert.match(html,/route-city-story-v70\.css/);
+ assert.doesNotMatch(player,/fetch\(|\/api\//);
+});
+
+test('route playback moves along existing validated foot geometry, not its straight chord',()=>{
+ const a=[41.38,2.18],b=[41.382,2.182];
+ const pivot=[41.382,2.18];
+ const points=[a,pivot,b];
+ const leg={verified:true,walkOnly:true,points};
+ const part=storyLegProgress(a,b,leg,.5);
+ assert.equal(part.verified,true);
+ assert.ok(part.path.length>=2&&part.path.length<=3);
+ assert.notDeepEqual(part.point,storyPointBetween(a,b,.5),'actual route bends via the source vertex');
+ assert.deepEqual(storyLegProgress(a,b,leg,1).path,points);
+ const bad=storyLegProgress(a,b,{verified:true,points:[[40,0],[40.1,.1]]},.5);
+ assert.equal(bad.verified,false,'geometry not meeting saved source endpoints is never presented as verified');
+ assert.deepEqual(bad.point,storyPointBetween(a,b,.5));
+ assert.equal(storyLegProgress(a,b,null,.5).verified,false);
+ assert.equal(storyLegProgress([91,10],b,leg,.5),null);
+ assert.deepEqual(points,[a,pivot,b],'never edit source geometry');
+});
+test('player exposes seek, skip, verified status and cancels animation on stop',async()=>{
+ const player=await read('route-city-story-player-v70.mjs');
+ assert.match(player,/jump\(index\)/);
+ assert.match(player,/skip\(\)/);
+ assert.match(player,/cancelAnimationFrame\(this\.frame\)/);
+ assert.match(player,/storyLegProgress\(a\.point,b\.point/);
+ assert.match(player,/this\.legs=this\.stops\.slice\(1\)/);
+ assert.match(player,/this\.mode=mode==='studio'/);
  assert.doesNotMatch(player,/fetch\(|\/api\//);
 });

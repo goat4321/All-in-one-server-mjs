@@ -452,8 +452,8 @@ function mapPanel(ctx, full = false) {
           ${icon('search')}<span>Alle Orte dieser Stadt ansehen</span>${icon('arrow-right')}
         </button>
       </div>
-      <div class="route-story-stoprail" id="route-story-stoprail"
-        aria-label="Übersicht aller Städte der Reiseroute"></div>
+      <nav class="route-story-stoprail" id="route-story-stoprail"
+        aria-label="Zu Stadt oder Tourstopp springen"></nav>
       <div class="route-story-progress" role="progressbar" aria-label="Abgespielte Reiseetappen"
         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <span id="route-story-progress-fill"></span></div>
@@ -465,10 +465,11 @@ function mapPanel(ctx, full = false) {
         <button type="button" class="route-story-pause" data-action="route-story-pause"
           aria-label="Animation pausieren">${icon('pause')}<span>Pause</span></button>
         <button type="button" data-action="route-story-speed" title="Abspielgeschwindigkeit" aria-label="Abspielgeschwindigkeit ändern">1×</button>
-        <button type="button" data-action="route-story-play" title="Vom Anfang starten" aria-label="Reise erneut abspielen">${icon('reset')}</button>
+        <button type="button" class="route-story-next" data-action="route-story-next" aria-label="Zum nächsten Halt springen" title="Nächsten Halt anzeigen">${icon('arrow-right')}<span>Skip</span></button>
+        <button type="button" data-action="route-story-play" title="Vorschau vom Anfang starten" aria-label="Aktuelle Vorschau erneut abspielen">${icon('reset')}</button>
         <button type="button" data-action="route-story-stop" title="Animation beenden" aria-label="Animation beenden">${icon('close')}</button>
       </div>
-      <small class="route-story-disclaimer">Verlauf nur schematisch · keine reale Zugstrecke oder Fahrplanbestätigung</small>
+      <small class="route-story-disclaimer" role="status">Verlauf nur schematisch · keine reale Zugstrecke oder Fahrplanbestätigung</small>
     </section>`:''}
     <div class="map-source-indicator" id="map-source-indicator" data-state="loading" role="status" aria-live="polite">
       <span id="map-source-label">Kostenlose Karte wird geladen …</span>

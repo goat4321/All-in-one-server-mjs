@@ -97,3 +97,29 @@ test('recorded public foot response has seven real walking legs joining eight st
  assert.equal(preview.rows.length,8);assert.equal(preview.end,'23:20');
  assert.equal(preview.knownWalkMinutes,140);
 });
+
+test('pin categories are exclusively a visual label, validated by state and preserved when moving',async()=>{
+ const {mapPinPatch,PIN_CATEGORIES}=await import('../public/map-pins.mjs');
+ const {explorerCategory}=await import('../public/map-explorer.mjs');
+ const ctx=context();
+ const values={name:'Cafe Punkt',lat:41.38,lon:2.18,detail:'eigene Idee',
+   duration:30,pinCategory:'food'};
+ const state=mapPinPatch(ctx,null,values,'manual:typed');
+ validateState(state,trip,[]);
+ assert.deepEqual(Object.keys(PIN_CATEGORIES),['activity','food','lodging','shop','transport']);
+ assert.equal(state.manual[0].kind,'activity','a transport/bed icon never becomes an actual journey or booking');
+ assert.equal(state.manual[0].pinCategory,'food');
+ assert.equal(state.manual[0].selected,false);
+ assert.equal(state.manual[0].price,null);
+ assert.equal(explorerCategory(state.manual[0]),'food');
+ const nextCtx={...ctx,state,all:[state.manual[0]]};
+ const moved=mapPinPatch(nextCtx,state.manual[0],{...values,
+   lon:2.19,pinCategory:'lodging'});
+ validateState(moved,trip,[]);
+ assert.equal(explorerCategory(moved.manual[0]),'lodging');
+ assert.deepEqual(moved.manual[0].point,[41.38,2.19]);
+ assert.equal(moved.manual[0].booked,false);
+ assert.equal(activeItems(trip,moved).length,0);
+ assert.throws(()=>mapPinPatch(ctx,null,{...values,pinCategory:'imaginary'},'manual:bad'));
+ assert.throws(()=>validateState({...state,manual:[{...state.manual[0],pinCategory:'unknown'}]},trip,[]));
+});
