@@ -51,7 +51,7 @@ export function dayRouteView(ctx) {
       ? '<div class="route-studio-story-action">'+btn('route-studio-play',
         'Tour animiert abspielen','play','','subtle')
         +'<small>Nur Vorschau · grün = berechneter Fußweg · gestrichelt = schematisch. Keine Übernahme in den Tagesplan.</small></div>'
-      : '');
+      : '')
     + (studio.staleGeometryCount
       ? '<div class="route-studio-geowarning" role="alert"><strong>'
         +studio.staleGeometryCount+' bisherige Wegberechnung(en) passen nicht mehr zu den gewählten Stopps.</strong>'
