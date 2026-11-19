@@ -83,6 +83,16 @@ try{
    'City playback must not persist any costs, itinerary changes or pins');
  await click('[data-action=explorer-scope][data-value=city]');
  await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+ // All transport modes are real, selectable controls in the same browser.
+ await js('document.querySelector(".explorer-route-settings").open=true');
+ await click('[data-action=explorer-mode][data-value=bike]');
+ assert.equal(await js('document.querySelector("[data-action=explorer-mode][data-value=bike]").getAttribute("aria-pressed")'),'true');
+ assert.match(await js('document.querySelector(".explorer-route-settings").textContent'),/Fahrrad/);
+ assert.match(await js('document.querySelector(".explorer-route-settings").textContent'),/FOSSGIS/);
+ await screenshot('karte-routenmodi-rad-1440.png');
+ await click('[data-action=explorer-mode][data-value=transit]');
+ assert.equal(await js('document.querySelector("[data-action=explorer-mode][data-value=transit]").getAttribute("aria-pressed")'),'true');
+ await click('[data-action=explorer-mode][data-value=walk]');
  const original=JSON.stringify(store.current('interrail_swiss').state.edits);
  const otherVariants=Object.fromEntries(['interrail_classic','interrail_august','swiss_lakes'].map(id=>[id,JSON.stringify(store.current(id).state)]));
  await js('document.querySelector(".reference-places-drawer").open=true');
