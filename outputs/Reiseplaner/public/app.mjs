@@ -1697,6 +1697,14 @@ async function action(name, value = '') {
       if(app.querySelector('#route-story-player')){
         app.querySelector('#route-story-player').dataset.expanded='false';
       }
+      // "Neu starten" must repeat the SAME route source. Do not silently
+      // replace a verified walking tour with the schematic city journey.
+      if(currentMap?.storyState()?.mode==='studio'
+        &&view.mapScope!=='trip'&&view.dayQueueIds.length>=2){
+        if(!currentMap.playStudioStory(context.dayRoute,context.cities))
+          say('Die frühere Tour ist nicht mehr gültig. Bitte die Stopps prüfen.');
+        break;
+      }
       if(!view.total||view.mapScope!=='trip'){
         view.mapScope='trip';view.total=true;view.mapSavedOnly=false;
         view.mapGroup='all';view.mapSearch='';view.mapNearPointId=null;
