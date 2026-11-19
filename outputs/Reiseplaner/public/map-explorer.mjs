@@ -226,7 +226,7 @@ export function explorerRouteInput(from, to) {
   const dLon = rad(to.point[1] - from.point[1]);
   const a = Math.sin(dLat/2)**2 + Math.cos(rad(from.point[0])) * Math.cos(rad(to.point[0])) * Math.sin(dLon/2)**2;
   const km = earth * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return { points: [from.point, to.point], km, canWalk: km <= 25, sameCity: from.city === to.city };
+  return { points: [from.point, to.point], km, canWalk: km <= 25, canBike: km <= 80, sameCity: from.city === to.city };
 }
 
 export function externalTransitUrl(from, to, cities={}) {
