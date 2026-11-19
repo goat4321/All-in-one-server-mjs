@@ -85,6 +85,7 @@ export class TripMap {
     this.vectorGL=null;
     this.vectorGLOnError=null;
     this.offlineMap=new URLSearchParams(location.search).has('offlineMap');
+    this.basemapState='loading';
     // Avoid fetching tiles for the temporary Europe-wide bootstrap view.
     // Raster is added after the first actual fit; vector upgrade is optional.
     this.basemapBooted=false;
@@ -102,6 +103,10 @@ export class TripMap {
 
   setBasemapStatus(state){
     if(this.destroyed)return;
+    // DOM-based status badges are recreated by ordinary view updates, but the
+    // Leaflet map and its actual online/offline state are retained. Keep the
+    // state on the persistent map and reapply to each new badge.
+    this.basemapState=state;
     const region=this.element.parentElement?.querySelector('#map-source-indicator');
     if(!region)return;
     region.dataset.state=state;
