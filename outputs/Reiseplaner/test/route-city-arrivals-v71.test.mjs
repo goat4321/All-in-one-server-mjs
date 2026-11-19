@@ -35,23 +35,26 @@ test('V71 categorizes documented activities, restaurants, nature, clubs and lodg
  assert.equal(arrivalType(sample[3]),'nightlife');
  assert.equal(arrivalType(sample[4]),'lodging');
  assert.equal(arrivalType(sample[5]),'shop');
- assert.equal(new Set(Object.values(ARRIVAL_TYPES).map(x=>x.symbol)).size,6);
+ assert.equal(arrivalType(sample[8]),'transport');
+ assert.equal(new Set(Object.values(ARRIVAL_TYPES).map(x=>x.symbol)).size,7);
 });
 test('V71 arrives with five different authentic venue symbols, copied real names and status',()=>{
  const orig=structuredClone(sample);
  const scenes=buildCityArrivalScenes(stops,sample,new Set(['2','7']),5);
  assert.deepEqual(scenes.map(x=>x.id),stops.map(x=>x.id));
  const first=scenes[0];
- assert.equal(first.placesKnown,7,'deduplicated and excluded unsafe/draft records');
+ assert.equal(first.placesKnown,8,'real transport items are now retained, with duplicates excluded');
  assert.equal(first.plannedCount,2);
- assert.equal(first.ideaCount,5);
+ assert.equal(first.ideaCount,6);
  assert.equal(first.ideas.length,5);
  assert.deepEqual(first.ideas.map(x=>x.type),
-  ['activity','food','nature','nightlife','lodging']);
- assert.equal(first.ideas[0].id,'7','selected duplicate takes precedence');
+  ['lodging','food','activity','transport','nature']);
+ assert.equal(first.ideas[0].id,'5','lodging has its own identifiable symbol');
  assert.equal(first.ideas[1].id,'2');
- assert.equal(first.ideas[0].note,'Im Plan');
- assert.equal(first.ideas[2].note,'Idee · prüfen');
+ assert.equal(first.ideas[2].id,'7','selected museum remains in the scene');
+ assert.equal(first.ideas[3].id,'9','transport is a sourced real record, not a made-up station');
+ assert.equal(first.ideas[2].note,'Im Plan');
+ assert.equal(first.ideas[4].note,'Idee · prüfen');
  assert.equal(first.ideas[1].symbol,'🍽️');
  assert.deepEqual(scenes[1].ideas.map(x=>x.name),['Gondola museum']);
  assert.deepEqual(scenes[2].ideas,[]);
