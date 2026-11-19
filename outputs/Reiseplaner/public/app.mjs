@@ -85,6 +85,8 @@ const pendingWalks = new Map();
 const dayRouteGate=createDayRouteGate();
 let dayRouteRequest=null;
 function invalidateDayRoute(){
+  // Never keep playing geometry from a no-longer-current draft.
+  if(currentMap?.storyState()?.mode==='studio')currentMap.stopCityStory();
   dayRouteGate.invalidate();
   if(view.dayQueueLoading){view.dayQueueLoading=false;view.dayQueueStatus='Route geändert. Bitte Fußwege erneut berechnen.';}
 }
@@ -315,11 +317,14 @@ function updateRouteStoryUi(state){
   if(rail&&panel.dataset.routeKey!==route.map(x=>x.id).join('|')){
     const fragment=document.createDocumentFragment();
     for(const [i,stop] of route.entries()){
-      const dot=document.createElement('span');
+      const dot=document.createElement('button');
+      dot.type='button';
       dot.className='route-story-rail-dot';
-      dot.title=(i+1)+'. '+stop.name;
-      dot.setAttribute('aria-label',(i+1)+'. '+stop.name);
+      dot.title='Zu '+(i+1)+'. '+stop.name+' springen';
+      dot.setAttribute('aria-label','Zu '+(i+1)+'. '+stop.name+' springen');
       dot.dataset.stageIndex=String(i);
+      dot.dataset.action='route-story-jump';
+      dot.dataset.value=String(i);
       fragment.append(dot);
     }
     rail.replaceChildren(fragment);
@@ -331,13 +336,17 @@ function updateRouteStoryUi(state){
     for(const [i,node] of [...rail.children].entries()){
       node.classList.toggle('complete',i<state.index);
       node.classList.toggle('current',i===state.index);
+      node.setAttribute('aria-current',i===state.index?'step':'false');
     }
     panel.dataset.railIndex=railKey;
   }
   panel.dataset.phase=String(state.phase??'dwell');
-  const stageText=state.status==='complete'?'Ziel der Reisevorschau erreicht'
-    :state.phase==='travel'?'Unterwegs nach '+(state.nextName||'der nächsten Stadt')
-    :'Angekommen in '+state.name;
+  const studio=state.mode==='studio';
+  const stageText=state.status==='complete'?'Ende der '+(studio?'Tourvorschau':'Reisevorschau')+' erreicht'
+    :state.phase==='travel'
+      ?(state.schematic?'Schematischer Übergang':'Berechneter Fußweg')
+        +' nach '+(state.nextName||'dem nächsten Stopp')
+      :(studio?'Stopp ':'Angekommen in ')+state.name;
   write('#route-story-stage',stageText);
   write('#route-story-symbol',state.symbol);
   write('#route-story-city',state.name);
@@ -359,6 +368,14 @@ function updateRouteStoryUi(state){
     }
   }
   write('[data-action="route-story-speed"]',state.speed+'×');
+  const skip=panel.querySelector('[data-action="route-story-next"]');
+  if(skip)skip.disabled=state.status==='complete'||state.index>=state.total-1;
+  const source=panel.querySelector('.route-story-disclaimer');
+  if(source)source.textContent=studio
+    ?(state.schematic
+      ?'Gestrichelt: nur schematische Punktverbindung. Keine berechnete Wegführung, Zeit oder Buchung.'
+      :'Grün: vorhandener berechneter Fußweg zwischen gespeicherten Punkten. Eingänge separat prüfen.')
+    :'Schematische Städtefolge über Stadtbezugspunkte – keine belegte Bahnstrecke oder Fahrplandaten.';
   const announcement=panel.querySelector('#route-story-announcement');
   const key=status+':'+state.index;
   if(announcement&&panel.dataset.lastAnnouncement!==key){
@@ -1700,6 +1717,19 @@ async function action(name, value = '') {
       trigger.setAttribute('aria-label',expanded?'Ortsideen ausblenden':'Ortsideen anzeigen');
       const details=player.querySelector('#route-story-ideas');
       if(details)details.hidden=!expanded||player.dataset.ideasAvailable!=='true';
+      break;
+    }
+    case 'route-studio-play': {
+      if(view.page!=='map'||view.mapScope==='trip'||view.dayQueueIds.length<2)break;
+      if(!currentMap?.playStudioStory(ctx.dayRoute,ctx.cities))
+        say('Tourvorschau erfordert zwei bis acht Stopps derselben Stadt mit gespeicherten Koordinaten.');
+      break;
+    }
+    case 'route-story-next':
+      currentMap?.storySkip();break;
+    case 'route-story-jump': {
+      const index=Number(value);
+      if(Number.isInteger(index))currentMap?.storyJump(index);
       break;
     }
     case 'route-story-pause':
