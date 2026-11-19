@@ -971,3 +971,40 @@
   transition:none!important;
   transform:none!important;
 }
+
+/* Shared bottom navigation: all six destinations stay reachable at 390px.
+ * Short visible captions are paired with descriptive button aria-labels. */
+@media(max-width:650px){
+  .reference-travel-shell .mobile-dock{
+    grid-template-columns:repeat(6,minmax(0,1fr));
+    gap:2px;
+    padding:5px 7px max(6px,env(safe-area-inset-bottom));
+  }
+  .reference-travel-shell .mobile-dock button{
+    min-width:0;
+    min-height:54px;
+    width:100%;
+    overflow:hidden;
+    gap:3px;
+    padding:6px 2px;
+    font-size:.68rem;
+    line-height:1.2;
+    letter-spacing:-.01em;
+  }
+  .reference-travel-shell .mobile-dock button span{
+    display:block;
+    max-width:100%;
+    text-overflow:clip;
+    white-space:nowrap;
+    font-size:inherit;
+    line-height:inherit;
+  }
+  .reference-travel-shell .mobile-dock .ui-icon{
+    width:19px;
+    height:19px;
+  }
+}
+:root[data-theme=dark] .reference-travel-shell .mobile-dock{
+  background:#1d2923!important;
+  border-top-color:#3b5044!important;
+}
