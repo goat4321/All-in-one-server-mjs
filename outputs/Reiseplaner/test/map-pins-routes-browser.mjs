@@ -168,8 +168,7 @@ try{
  await click('.route-story-rail-dot[data-value="1"]');
  assert.equal(await js('document.querySelector("#route-story-count").textContent'),'2 / 2');
  await click('[data-action=route-story-play]');
- await until(()=>js('document.querySelector("#route-story-player")?.dataset.status==="playing"
-   &&document.querySelector("#route-story-count")?.textContent?.startsWith("1 /")'),
+ await until(()=>js('document.querySelector("#route-story-player")?.dataset.status==="playing" && document.querySelector("#route-story-count")?.textContent?.startsWith("1 /")'),
    'Restart repeats the actual Route Studio tour');
  assert.match(await js('document.querySelector(".route-story-disclaimer").textContent'),
    /berechneter Fußweg/i,'Restart must not silently switch to schematic city-to-city');
