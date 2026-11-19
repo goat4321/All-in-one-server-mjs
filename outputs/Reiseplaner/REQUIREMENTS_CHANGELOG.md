@@ -2,6 +2,9 @@
 
 | Datum | Priorität | Anforderung | Module | Stand |
 |---|---|---|---|---|
+| 19.11.2026 | P0–P7 | Vollständige Nutzer-Checkliste V2 vom 18.11.2026 zum Master-Prompt abarbeiten | Gesamtes Projekt | Alle 61 Punkte in CHECKLIST_V2.md mit eigenem Nachweis, Lücken und nächstem Schritt erfasst. Bestehende Funktionen vor Änderungen geprüft. |
+| 19.11.2026 | P5 | Vorräte, Zusatzartikel, Entfernen, Abhaken und manuelle Preisstände | Verpflegung, Budget, Persistenz | Erweitert und mit Modell-/Browserfällen geprüft. Einkaufstag und Preisstichtag sind getrennte Werte. |
+| 19.11.2026 | P2/P7 | Messbare Ladezeiten und seitenweise Vorher-/Nachher-Abnahme | Server, Browserprüfer | 66 Aufnahmen, Startantwort komprimiert, lokale Messwerte dokumentiert. Vollständige visuelle und Kontrastabnahme bleibt offen. |
 | 12.11.2026 | Kern | Master-Prompt V7 als Ausgangsspezifikation | Gesamtes Projekt | Abnahme in STATUS.md |
 | 12.11.2026 | Kern | Nachgereichtes Rechercheverzeichnis als primäre Datenquelle bestätigen | Import und Herkunft | 22 Dateien per SHA-256 identisch mit dem bereits eingelesenen Archiv. Ein Quelldatensatz. |
 | 12.11.2026 | Kritisch | GitHub-Checkout muss trotz bewusst fehlender privater Tripsy-Snapshots starten | Datenmodell, Backend, Herkunftsstatus | Implementiert und im Node-24-GitHub-Actions-Starttest bestanden; reduzierte Quellen explizit gekennzeichnet. |

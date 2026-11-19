@@ -13,6 +13,17 @@ try{
   const bootstrap=await fetch(base+'/api/bootstrap');
   assert.equal(bootstrap.status,200,'Bootstrap-API erreichbar');
   const data=await bootstrap.json();
+  const plain = await fetch(base + '/api/bootstrap', { headers: { 'Accept-Encoding': 'identity' } });
+  const plainText = await plain.text();
+  const zipped = await fetch(base + '/api/bootstrap', { headers: { 'Accept-Encoding': 'gzip' } });
+  assert.equal(zipped.headers.get('Content-Encoding'), 'gzip');
+  assert.equal(zipped.headers.get('Cache-Control'), 'no-store');
+  assert.equal(zipped.headers.get('Vary'), 'Accept-Encoding');
+  assert.equal(await zipped.text(), plainText, 'Kompression erhält alle Katalog- und Variantenfelder');
+  assert.ok(Number(zipped.headers.get('Content-Length')) < Buffer.byteLength(plainText) / 3,
+    'Die komprimierte Startantwort reduziert die übertragenen Bytes wesentlich');
+  const declined = await fetch(base + '/api/bootstrap', { headers: { 'Accept-Encoding': 'gzip;q=0, *;q=1' } });
+  assert.equal(declined.headers.get('Content-Encoding'), null, 'Explizit abgelehntes gzip bleibt ausgeschaltet');
   assert.equal(data.trips.length,4,'Vier Reisevarianten');
   assert.equal(data.variants.length>=4,true,'Mindestens vier lokale Varianten');
   const page=await fetch(base+'/');

@@ -1,5 +1,16 @@
 # Entscheidungen
 
+## 19.11.2026 – Checkliste V2, Einkaufszustand und messbare Abnahme
+
+- Die neue Checkliste wird mit allen 61 Punkten am aktuellen PR-HEAD geprüft. Die frühere lokale Projektkopie enthält einen älteren Funktionsstand. Der lokale Arbeitsbranch geht deshalb vom verifizierten HEAD von PR #5 aus.
+- Der vorhandene Rezept-Warenkorb erhält einen optionalen, variantenspezifischen Einkaufszustand. Ältere gespeicherte Varianten funktionieren mit leeren Vorräten und Zusatzlisten weiter. Vorräte haben die Mengeneinheit der jeweiligen Zutat und werden einmal vor der Packungsrundung abgezogen.
+- Zusatzartikel gelten für eine ausdrücklich erfasste Gruppenmenge. Einkaufstag und Preisstichtag sind eigene Angaben. EUR und CHF behalten eigene Summen. Ein fehlender Preis oder ausgelassener Rezeptbedarf wird als offene Budgetposition geführt. Bekannte Zutaten bleiben in der bekannten Summe enthalten.
+- Abhaken beschreibt den Einkaufsstatus. Zahlungen werden über die vorhandene Ausgabenerfassung abgerechnet. Entfernte Zusatzartikel räumen zugehörige Vorrats- und Preisänderungen auf. Für erforderliche Rezeptzutaten bleibt die Auslassung sichtbar und rücknehmbar.
+- Der UI-Audit erzeugt Vorher-Aufnahmen des unveränderten PR-HEADs und Nachher-Aufnahmen des Arbeitsbranches in drei Größen. Die Messung blockiert externe Medien und dokumentiert diese Einschränkung. Die Gesamtantwort des Startkatalogs wird bei akzeptierter gzip-Kodierung komprimiert. Inhalt, Variantenbindung und Cacheverbot werden im API-Test verglichen.
+- Die konkrete Apple-SKILL.md und ursprüngliche Referenzbilder sind im zugänglichen Bestand bisher nicht auffindbar. Die offiziellen Richtlinien Foundations, Accessibility und Motion sind als geprüfte Primärquellen dokumentiert. Die vollständige Originalreferenz-Abnahme bleibt als offener Punkt erhalten.
+
+[Apple Foundations](https://developer.apple.com/design/human-interface-guidelines/foundations) · [Apple Accessibility](https://developer.apple.com/design/human-interface-guidelines/accessibility) · [Apple Motion](https://developer.apple.com/design/human-interface-guidelines/motion)
+
 ## 12.11.2026 – UX-Referenzen vor dem Entwurf
 
 | Beobachtung | Nutzen | Umsetzung |

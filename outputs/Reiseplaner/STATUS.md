@@ -1,3 +1,32 @@
+## 19.11.2026 – Ziel-Checkliste V2 auf dem aktuellen PR-HEAD
+
+Die vollständige neue Nutzerliste mit 61 einzeln bewerteten Anforderungen steht in [CHECKLIST_V2.md](CHECKLIST_V2.md). Der V7-Gesamtumfang und die neue Checkliste sind weiterhin in Arbeit. Die älteren Phasenberichte darunter beschreiben frühere Zwischenstände.
+
+Ausgangsbasis ist PR #5 mit HEAD `160572eeccb6ce7329af24e463b118425b65193d`. Die beiden CI-Jobs dieses HEADs sind erfolgreich. Lokal wurden vor Änderungen alle 453 portablen Tests und der HTTP-Smoke-Test bestanden. Die Arbeit erfolgt im eigenen lokalen Branch `codex/checklist-v2-audit`.
+
+### Umgesetzt und gezielt geprüft
+
+- Der gemeinsame Einkaufswarenkorb berücksichtigt gespeicherte Vorräte in der Einheit der Zutat. Vorhandene Mengen werden bei der Packungsrechnung abgezogen. Eine Änderung der Reisegruppe berechnet den zusätzlichen Bedarf neu.
+- Eigene Zusatzartikel haben Menge, Packungsgröße, EUR oder CHF, geplanten Einkaufstag und optional einen gesonderten Preisstichtag mit Quellenlink. Ein Preis kann geleert werden. Offene Preise und ausgelassene benötigte Zutaten führen zu einem offenen Budgetposten.
+- Artikel lassen sich abhaken, entfernen und wieder aufnehmen. Das Abhaken speichert den Einkaufsstatus. Ausgaben und Zahlungen werden im Budget erfasst. Eigene Artikel, Vorräte und Änderungen sind an die jeweilige lokale Reisevariante gebunden.
+- Gemessener Ladeumfang der Startantwort vor Änderung rund 6,74 MB, nach gzip-Kompression rund 0,835 MB. Die API-Prüfung vergleicht den vollständigen unkomprimierten und dekodierten Inhalt. Ein explizites `gzip;q=0` wird berücksichtigt. Die Antwort bleibt `no-store`.
+- Ein neuer reproduzierbarer UI-Audit erfasst alle elf Hauptseiten bei 1440, 820 und 390 Pixeln. 33 Vorher- und 33 Nachher-Aufnahmen mit der Schweizer Hauptvariante liegen vor. In diesem isolierten Lauf gab es keine JavaScript-Ausnahmen, keine unbeschrifteten sichtbaren Buttons und keinen horizontalen Seitenüberlauf.
+- Die Windows-Bereinigung des Chrome-Testprofils wartet nun auf das Prozessende und versucht das Entfernen bei einer vorübergehenden Dateisperre erneut.
+
+### Nachweise und Grenzen dieser Runde
+
+Die erweiterte portable Reihe enthält 456 Tests. Die zehn Warenkorbtests prüfen unter anderem Packungsaggregation, Vorräte, Änderungen der Gruppengröße, ausgelassene Zutaten, offene Preise, Fremdwährungen, Persistenz und konkurrierende Revisionen. Der reale Chrome-Flow prüft Zusatzartikel, Preisänderung und Preisleeren, Abhaken, Wiederladen und Variantentrennung. Beide Python-Datenvalidatoren wurden mit der vorhandenen LibreOffice-Python-Laufzeit ausgeführt. Der erste besteht mit 16 Datensätzen, der zweite mit 56/56 Einzelprüfungen.
+
+Die seitenweisen Aufnahmen verwenden isolierte Seed-Daten, reduzierte Bewegung und blockierte externe Medien. Sie belegen damit Layout und lokale Interaktion. Die vollständige Originalregression mit den privaten Tripsy-Rohkopien, eine Kontrastprüfung aller Seiten, originale Referenzbildvergleiche, Höhenprofile aus tatsächlichen Höhenpunkten und die inhaltliche Einzelabnahme aller 14 Schweizer Haupttage stehen weiter aus. Die benannte Apple-SKILL.md und die ursprünglichen Referenzbilder waren im gesuchten lokalen Bestand nicht vorhanden. Foundations, Accessibility und Motion wurden direkt bei Apple gelesen.
+
+Der Messlauf identifiziert außerdem bis zu 24.826 DOM-Knoten in Daten & Fristen. Die Interaktionszeiten schwanken bei parallelen Browserprüfungen. Daraus wird keine allgemeine Geschwindigkeitsgarantie abgeleitet.
+
+### Nächster konkreter Einstieg
+
+Die Hauptvariante `interrail_swiss` an allen 14 Tagen einzeln gegen P4 prüfen. Insbesondere die nördliche Heuberg-Panoramatour und eine leichte Oeschinensee-Alternative für den 11.09. sowie die Seealpsee-/Äscher-/Ebenalp-Optionen für den 13.09. mit tatsächlicher Tourgeometrie, Höhenwerten und Betreiberstatus verbinden. Anschließend P5 um Frühstück/Mittag und offizielle Vergleichskörbe der Kernstädte ergänzen. Die Einzelstände und Dateieinstiege stehen in CHECKLIST_V2.md.
+
+---
+
 ## 14.11.2026 – Phase 27: Drei echte Kartenansichten, synchronisierter Tagesplan, Fotofavoriten und Planungswarnungen
 
 Auf Basis der zuletzt überprüften Barcelona-/Interrail-/Wanderlog-Referenzen wurden Layout und Interaktionen nochmals direkt im bestehenden Entwicklungsbranch überarbeitet.

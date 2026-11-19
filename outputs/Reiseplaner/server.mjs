@@ -3,7 +3,7 @@ import { readFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 import { promisify } from 'node:util';
-import { gunzip } from 'node:zlib';
+import { gunzip, gzip } from 'node:zlib';
 import { loadCatalog, distanceKm } from './lib/catalog.mjs';
 import {fetchSupermarkets} from './lib/supermarket-source.mjs';
 import { InputError, openStore } from './lib/store.mjs';
@@ -18,6 +18,7 @@ const types = {
 };
 const maxBody = 2_000_000;
 const decompress = promisify(gunzip);
+const compress = promisify(gzip);
 const json = (res, value, status = 200) => {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
   res.end(JSON.stringify(value));
@@ -236,7 +237,19 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
         if(!/^[a-z_-]{2,30}$/.test(cityId))throw new InputError('Ungültiger Stadtparameter.');
         return json(res,await supermarkets(cityId));
       }
-      if (pathname === '/api/bootstrap' && req.method === 'GET') return json(res, { ...catalog, transitSchedules, variants: store.list() });
+      if (pathname === '/api/bootstrap' && req.method === 'GET') {
+        const content = Buffer.from(JSON.stringify({ ...catalog, transitSchedules, variants: store.list() }));
+        const encodings = String(req.headers['accept-encoding'] ?? '').split(',').map(value => value.trim().split(';').map(part => part.trim()));
+        const requested = encodings.find(([name]) => name.toLowerCase() === 'gzip')
+          ?? encodings.find(([name]) => name === '*');
+        const quality = requested?.find(part => /^q=/i.test(part));
+        const compressed = Boolean(requested && (quality == null || Number(quality.slice(2)) > 0));
+        const payload = compressed ? await compress(content) : content;
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store',
+          Vary: 'Accept-Encoding', 'Content-Length': payload.length, ...(compressed ? { 'Content-Encoding': 'gzip' } : {}) });
+        res.end(payload);
+        return;
+      }
       if (pathname === '/api/geocode' && req.method === 'POST') return json(res, await geocode(await readJson(req)));
       if (pathname === '/api/transit' && req.method === 'POST') return json(res, await transit(await readJson(req)));
       if (pathname === '/api/walk' && req.method === 'POST') {
