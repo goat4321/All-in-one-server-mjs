@@ -81,9 +81,17 @@
   outline:2px solid var(--audit-focus);
   outline-offset:2px;
 }
+/* Show confirmed entry-specific photos at editorial size; keep clearly labeled
+ * city-wide/missing-photo placeholders short so they don't dominate the card. */
 .reference-travel-shell .hub-option-media .place-photo,
 .reference-travel-shell .hub-food-card>.place-photo{
   height:clamp(184px,17vw,232px)!important;
+}
+.reference-travel-shell .hub-option-media .place-photo[data-photo-scope="city_backdrop"],
+.reference-travel-shell .hub-option-media .place-photo[data-photo-scope="missing"],
+.reference-travel-shell .hub-food-card>.place-photo[data-photo-scope="city_backdrop"],
+.reference-travel-shell .hub-food-card>.place-photo[data-photo-scope="missing"]{
+  height:148px!important;
 }
 .reference-travel-shell .hub-option-pricing,
 .reference-travel-shell .hub-fact-grid>span{
@@ -213,6 +221,12 @@
   .reference-travel-shell .hub-option-media .place-photo,
   .reference-travel-shell .hub-food-card>.place-photo{
     height:200px!important;
+  }
+  .reference-travel-shell .hub-option-media .place-photo[data-photo-scope="city_backdrop"],
+  .reference-travel-shell .hub-option-media .place-photo[data-photo-scope="missing"],
+  .reference-travel-shell .hub-food-card>.place-photo[data-photo-scope="city_backdrop"],
+  .reference-travel-shell .hub-food-card>.place-photo[data-photo-scope="missing"]{
+    height:138px!important;
   }
   .reference-travel-shell .overview-quick-card{padding:12px}
   .reference-travel-shell .grocery-section .grocery-scroll-hint{display:block}
