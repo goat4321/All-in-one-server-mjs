@@ -167,9 +167,16 @@ try{
  await screenshot('karte-route-studio-animation-1440.png');
  await click('.route-story-rail-dot[data-value="1"]');
  assert.equal(await js('document.querySelector("#route-story-count").textContent'),'2 / 2');
- await click('[data-action=route-story-stop]');
+ await click('[data-action=route-story-play]');
+ await until(()=>js('document.querySelector("#route-story-player")?.dataset.status==="playing"
+   &&document.querySelector("#route-story-count")?.textContent?.startsWith("1 /")'),
+   'Restart repeats the actual Route Studio tour');
+ assert.match(await js('document.querySelector(".route-story-disclaimer").textContent'),
+   /berechneter Fußweg/i,'Restart must not silently switch to schematic city-to-city');
  await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
  await click('.map-own-pins [data-action=remove][data-value="'+pins[1].id+'"]');
+ assert.equal(await js('document.querySelector("#route-story-player").hidden'),true,
+   'Deleting a source pin cancels the active animation immediately');
  await until(()=>js('document.querySelectorAll(".route-studio-stop").length===1'),'Gelöschten Pin aus Entwurf entfernen');
  assert.equal(await js('Boolean(document.querySelector("[data-action=day-route-commit]"))'),false,'Deleted pin cannot be resurrected by adoption');
  await click('.top-actions [data-action=undo]');
