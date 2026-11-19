@@ -5,7 +5,7 @@ import { placeProfileHtml } from './place-profile.mjs';
 import { placeInspectorHtml } from './place-inspector.mjs';
 import { VERIFICATION_FIELDS, reviewProgress } from './verification.mjs';
 import {mealSlotLabels,mealSlotTimes,plansForSlot,currentMeals,mealAccommodation,mealSelectionPatch,shoppingCandidates,shoppingStopDraft} from './meal-planner.mjs';
-import {mapPinPatch} from './map-pins.mjs';
+import {mapPinPatch,PIN_CATEGORIES} from './map-pins.mjs';
 
 const dialog = document.querySelector('#dialog');
 const field = (label, control, wide = false) => '<label class="field' + (wide ? ' wide' : '') + '"><span>' + esc(label) + '</span>' + control + '</label>';
@@ -39,11 +39,14 @@ export const closeDialog = () => dialog.close();
 export function mapPinForm(ctx,item,save,after,seed={}){
  const city=item?.city??ctx.city;
  const values={name:item?.name??'',detail:item?.detail??'',duration:item?.duration??30,
+  pinCategory:item?.pinCategory??'activity',
   lat:item?.point?.[0]??'',lon:item?.point?.[1]??'',...seed};
  const body='<p>Dein eigener Punkt in '+esc(ctx.cities[city]?.name??city)
   +'. Manuell / ungeprüft; kein bestätigter Eingang. Neue Pins werden erst durch deine spätere Auswahl eingeplant.</p>'
   +controls([
    field('Name',input('name',values.name,'text','maxlength="240" required'),true),
+   field('Kategorie auf der Karte (nur Symbol, keine Buchung)',
+      select('pinCategory',Object.entries(PIN_CATEGORIES),values.pinCategory),true),
    field('Breitengrad',input('lat',values.lat,'number','step="any" min="-90" max="90" required')),
    field('Längengrad',input('lon',values.lon,'number','step="any" min="-180" max="180" required')),
    field('Angenommene Besuchsdauer (Minuten)',input('duration',values.duration,'number','min="1" max="300" required')),
