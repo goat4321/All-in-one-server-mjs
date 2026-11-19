@@ -20,8 +20,8 @@ test('new design layer loads once, after legacy styles', () => {
 });
 
 test('travel map keeps an accessible fullscreen action without duplicate local button', () => {
-  assert.match(views, /class=\\"map-fullscreen-launch\\"/);
-  assert.match(views, /data-action=\\"map-fullscreen\\"/);
+  assert.match(views, /class="map-fullscreen-launch"/);
+  assert.match(views, /data-action="map-fullscreen"/);
   assert.doesNotMatch(views, /btn\('map-fullscreen','Vollbild'/);
   assert.match(css, /\.map-fullscreen-mode \.map-fullscreen-ui/);
 });
