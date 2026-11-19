@@ -89,7 +89,7 @@ export function planReadiness(trip, selectedItems, budget) {
   };
 }
 
-export function groceryBasket(meals, peopleCount, overrides = {}) {
+export function groceryBasket(meals, peopleCount, overrides = {}, shopping = {}) {
   if (!Number.isInteger(peopleCount) || peopleCount < 1 || peopleCount > 20) throw new Error('Ungültige Gruppengröße für den Warenkorb.');
   const rows = new Map();
   for (const meal of meals) {
@@ -104,28 +104,38 @@ export function groceryBasket(meals, peopleCount, overrides = {}) {
       const key = [meal.city, product.source, product.pack, product.cents].join(':');
       if (!rows.has(key)) rows.set(key, {
         key, city: meal.city, source: product.source, name: product.name,
-        pack: product.pack, referenceCents: product.cents, required: 0,
+        pack: product.pack, referenceCents: product.cents, required: 0, currency: 'EUR', unit: 'g',
       });
       rows.get(key).required += product.need * peopleCount;
     }
   }
+  for (const extra of shopping.extras ?? []) rows.set(extra.id, {
+    key: extra.id, city: extra.city, name: extra.name, source: null, sourceUrl: extra.sourceUrl,
+    pack: extra.pack, required: extra.quantity, referenceCents: extra.unitCents, currency: extra.currency,
+    unit: extra.unit, date: extra.date, priceDate: extra.priceDate, extra: true,
+  });
   return [...rows.values()].map(row => {
-    const minPacks = Math.ceil(row.required / row.pack);
+    const stock = shopping.pantry?.[row.key] ?? 0;
+    if (!Number.isSafeInteger(stock) || stock < 0 || stock > 1_000_000) throw new Error('Ungültiger Vorrat.');
+    const minPacks = Math.ceil(Math.max(0, row.required - stock) / row.pack);
     const override = overrides?.[row.key];
     if (override && (!Number.isSafeInteger(override.packs) || override.packs < 1
-      || override.packs > 100 || !Number.isSafeInteger(override.unitCents)
-      || override.unitCents < 0 || override.unitCents > 100000)) {
+      || override.packs > 100 || (override.unitCents != null && (!Number.isSafeInteger(override.unitCents)
+      || override.unitCents < 0 || override.unitCents > 100000)))) {
       throw new Error('Ungültige Mengen- oder Preisänderung im Warenkorb.');
     }
     // A group-size increase can require more packs than an earlier manual override.
     // Preserve the user's price but never budget insufficient package quantities.
-    const packs = override?.packs == null ? minPacks : Math.max(minPacks, override.packs);
-    const unitCents = override?.unitCents ?? row.referenceCents;
+    const packs = minPacks === 0 ? 0 : Math.max(minPacks, override?.packs ?? 0);
+    const unitCents = override && Object.hasOwn(override, 'unitCents') ? override.unitCents : row.referenceCents;
     if (!Number.isSafeInteger(packs) || packs < minPacks || packs > 100
-      || !Number.isSafeInteger(unitCents) || unitCents < 0 || unitCents > 100000) {
+      || (unitCents != null && (!Number.isSafeInteger(unitCents) || unitCents < 0 || unitCents > 100000))) {
       throw new Error('Ungültige Mengen- oder Preisänderung im Warenkorb.');
     }
-    return { ...row, minPacks, packs, unitCents, total: packs * unitCents,
+    const excluded = shopping.excluded?.[row.key] === true;
+    const total = packs === 0 ? 0 : excluded || unitCents == null ? null : packs * unitCents;
+    return { ...row, minPacks, packs, unitCents, total, stock, excluded, checked: shopping.checked?.[row.key] === true,
+      priceDate: override?.date ?? row.priceDate, priceSourceUrl: override?.sourceUrl ?? row.sourceUrl,
       modified: Boolean(override), adjustedForGroup: Boolean(override && packs > override.packs) };
   });
 }
@@ -150,23 +160,31 @@ export function calculateBudget(items, state) {
   const plannedCooking = items.filter(i => i.requiresKitchen && i.mealSlot && Array.isArray(i.basketProducts)
     && !replacedMealCosts.has(i.id));
   const pooledIds = new Set(plannedCooking.map(i => i.id));
-  const baskets = groceryBasket(plannedCooking, count, state.groceryOverrides ?? {});
+  const baskets = groceryBasket(plannedCooking, count, state.groceryOverrides ?? {}, state.shopping);
   const railCosts = items.flatMap(i => {
     if (i.kind === 'note' || replacedMealCosts.has(i.id) || pooledIds.has(i.id)) return [];
     if (!passMode || i.kind !== 'transport' || i.mode !== 'train' || i.passUse === false) return [i];
     return [{ ...i, id: 'reservation:' + i.id, name: 'Reservierung · ' + i.name, category: 'reservation',
       price: state.pass.includeReferences ? i.reservation : null, payment: 'open' }];
   });
-  for (const city of new Set(baskets.map(row => row.city))) {
-    const basketTotal = baskets.filter(row => row.city === city).reduce((sum, row) => sum + row.total, 0);
+  for (const group of Map.groupBy(baskets, row => row.city + ':' + row.currency).values()) {
+    const { city, currency } = group[0];
+    const basketTotal = group.reduce((sum, row) => sum + (row.total ?? 0), 0);
+    const unknown = group.filter(row => row.total == null);
     const firstMeal = plannedCooking.filter(item => item.city === city)
       .toSorted((a, b) => (mealDate(a) ?? '').localeCompare(mealDate(b) ?? ''))[0];
     railCosts.push({
-      id: 'grocery-budget:' + city, name: 'Gruppeneinkauf · ' + city, city,
-      date: firstMeal ? mealDate(firstMeal) : null, category: 'food',
-      price: { cents: basketTotal, currency: 'EUR', scope: 'group',
-        label: 'Gemeinsame Packungen aus mehreren Koch-Mahlzeiten · Referenz- oder manuell angepasste Preise' },
-      payment: 'open', source: baskets.filter(row => row.city === city).map(row => row.source),
+      id: 'grocery-budget:' + city + (currency === 'EUR' ? '' : ':' + currency), name: 'Gruppeneinkauf · ' + city, city,
+      date: firstMeal ? mealDate(firstMeal) : group.find(row => row.date)?.date ?? null, category: 'food',
+      price: { cents: basketTotal, currency, scope: 'group',
+        label: 'Gemeinsamer Einkaufsplan · Vorräte berücksichtigt · Preise mit Quellenstand' },
+      payment: 'open', source: group.map(row => row.source).filter(Boolean),
+    });
+    if (unknown.length) railCosts.push({
+      id: 'grocery-budget:' + city + ':' + currency + ':unknown',
+      name: 'Einkaufspreise offen · ' + unknown.map(row => row.name).join(', '), city,
+      date: firstMeal ? mealDate(firstMeal) : unknown.find(row => row.date)?.date ?? null,
+      category: 'food', price: null, payment: 'open', source: unknown.map(row => row.source).filter(Boolean),
     });
   }
   if (passMode) {

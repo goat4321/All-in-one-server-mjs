@@ -29,7 +29,7 @@ export function initialState(trip) {
     edits: {}, manual: [], expenses: [], favorites: [], deadlines: [], localRoutes: {},
     placePhotos: {}, votes: {},
     pass: { from: trip.from, to: trip.to, days: 7, cost: null, rides: 0, purchased: false, budgetMode: 'tickets', includeReferences: false },
-    mobility: {}, groceryOverrides: {}, verifications: {},
+    mobility: {}, groceryOverrides: {}, shopping: { pantry: {}, checked: {}, excluded: {}, extras: [] }, verifications: {},
     budgetLimit: null, title: null,
   };
 }
@@ -50,10 +50,31 @@ export function validateState(state, trip, imported) {
   if (state.groceryOverrides != null
     && (!object(state.groceryOverrides) || Object.keys(state.groceryOverrides).length > 200
       || Object.entries(state.groceryOverrides).some(([key, value]) =>
-        !/^[a-z0-9_-]{1,50}:[a-z0-9_-]{1,120}:[0-9]{1,7}:[0-9]{1,8}$/i.test(key)
+        !/^(?:[a-z0-9_-]{1,50}:[a-z0-9_-]{1,120}:[0-9]{1,7}:[0-9]{1,8}|extra:[a-z0-9-]{1,80})$/i.test(key)
         || !object(value) || !Number.isSafeInteger(value.packs) || value.packs < 1 || value.packs > 100
-        || !Number.isSafeInteger(value.unitCents) || value.unitCents < 0 || value.unitCents > 100000))) {
+        || (value.unitCents != null && (!Number.isSafeInteger(value.unitCents) || value.unitCents < 0 || value.unitCents > 100000))
+        || (value.date != null && !validDay(value.date))
+        || (value.sourceUrl != null && (!goodText(value.sourceUrl, 500) || !/^https:\/\//i.test(value.sourceUrl)))))) {
     error('Ungültiger gemeinsamer Einkaufswarenkorb.');
+  }
+  if (state.shopping != null) {
+    const shopping = state.shopping;
+    const keyValid = key => /^(?:[a-z0-9_-]{1,50}:[a-z0-9_-]{1,120}:[0-9]{1,7}:[0-9]{1,8}|extra:[a-z0-9-]{1,80})$/i.test(key);
+    if (!object(shopping) || !Array.isArray(shopping.extras) || shopping.extras.length > 100
+      || !['pantry', 'checked', 'excluded'].every(key => object(shopping[key]) && Object.keys(shopping[key]).length <= 300)
+      || Object.entries(shopping.pantry).some(([key, amount]) => !keyValid(key) || !Number.isSafeInteger(amount) || amount < 0 || amount > 1_000_000)
+      || ['checked', 'excluded'].some(field => Object.entries(shopping[field]).some(([key, value]) => !keyValid(key) || typeof value !== 'boolean'))
+      || shopping.extras.some(extra => !object(extra) || !/^extra:[a-z0-9-]{1,80}$/i.test(extra.id)
+        || !trip.route.includes(extra.city) || !goodText(extra.name, 160) || !extra.name.trim()
+        || !['g', 'ml', 'Stück'].includes(extra.unit) || !['EUR', 'CHF'].includes(extra.currency)
+        || !Number.isSafeInteger(extra.quantity) || extra.quantity < 1 || extra.quantity > 1_000_000
+        || !Number.isSafeInteger(extra.pack) || extra.pack < 1 || extra.pack > 100_000
+        || Math.ceil(extra.quantity / extra.pack) > 100
+        || (extra.unitCents != null && (!Number.isSafeInteger(extra.unitCents) || extra.unitCents < 0 || extra.unitCents > 100000))
+        || !validDay(extra.date) || extra.date < trip.from || extra.date > trip.to
+        || (extra.priceDate != null && !validDay(extra.priceDate))
+        || (extra.sourceUrl != null && (!goodText(extra.sourceUrl, 500) || !/^https:\/\//i.test(extra.sourceUrl))))
+      || new Set(shopping.extras.map(extra => extra.id)).size !== shopping.extras.length) error('Ungültige Einkaufsliste oder Vorräte.');
   }
   if (state.title != null && !goodText(state.title, 160)) error('Ungültiger Variantentitel.');
   if (state.budgetLimit != null && (!Number.isSafeInteger(state.budgetLimit) || state.budgetLimit < 0 || state.budgetLimit > 100_000_000)) error('Ungültiges Budgetlimit.');

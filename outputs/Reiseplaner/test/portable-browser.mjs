@@ -17,7 +17,7 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const address = 'http://127.0.0.1:' + server.address().port + '/?offlineMap';
 const child = spawn(browser, ['--headless=new', '--no-sandbox', '--remote-debugging-port=0',
   '--disable-background-networking', '--disable-extensions', '--no-first-run', '--disable-gpu',
-  '--user-data-dir=' + profile, '--window-size=1280,900', 'about:blank'], { stdio: ['ignore', 'ignore', 'pipe'] });
+  '--user-data-dir=' + profile, '--window-size=1280,900', 'about:blank'], { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] });
 let stderr = '';
 child.stderr.on('data', chunk => { stderr += chunk.toString().slice(-600); stderr = stderr.slice(-1400); });
 const waitMs = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -987,6 +987,72 @@ try {
   assert.equal(store.current('interrail_classic').state.manual.filter(i => i.mealPlanId === 'pasta').length, 2);
   await click('.sidebar [data-action=page][data-value=budget]');
   await text('#main', '6,50');
+  await click('.sidebar [data-action=page][data-value=food]');
+  await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
+  await click('.grocery-section [data-action=grocery-edit]');
+  await set('dialog [name=stock]', '1000');
+  await set('dialog [name=packs]', '0');
+  await save();
+  await text('.grocery-section', '1000 g Vorrat');
+  await text('.grocery-section', '4,00');
+  const stockState = store.current('interrail_classic').state;
+  const [stockKey] = Object.keys(stockState.shopping.pantry);
+  assert.equal(stockState.shopping.pantry[stockKey], 1000);
+  await click('.grocery-section [data-action=grocery-check]');
+  await until(() => js('document.querySelector(".grocery-section [data-action=grocery-check]")?.getAttribute("aria-pressed")==="true"'),
+    'Einkaufsartikel ist abgehakt');
+  assert.equal(store.current('interrail_classic').state.shopping.checked[stockKey], true);
+  await click('.grocery-section [data-action=grocery-extra][data-value=""]');
+  await set('dialog [name=name]', 'Einkaufstest Äpfel');
+  await set('dialog [name=quantity]', '3');
+  await set('dialog [name=price]', '0,60');
+  await save();
+  await text('.grocery-section', '5,80');
+  await text('.grocery-section', 'Einkaufstest Äpfel');
+  const extra = store.current('interrail_classic').state.shopping.extras[0];
+  assert.equal(extra.unitCents, 60);
+  await click('.grocery-section [data-action=grocery-extra][data-value="' + extra.id + '"]');
+  await set('dialog [name=price]', '');
+  await save();
+  await text('.grocery-section', 'offene Beträge');
+  await click('.grocery-section [data-action=grocery-remove][data-value="' + extra.id + '"]');
+  await text('.grocery-section', '4,00');
+  assert.equal(store.current('interrail_classic').state.shopping.extras.length, 0);
+  await js('document.querySelector(".grocery-section").scrollIntoView({block:"start"})');
+  await screenshot('85-warenkorb-vorraete-desktop.png');
+  await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+  await js('document.querySelector(".grocery-section").scrollIntoView({block:"start"})');
+  assert.ok(await js('document.documentElement.scrollWidth <= innerWidth + 5'), 'Warenkorb ohne mobilen Seitenüberlauf');
+  await screenshot('85-warenkorb-vorraete-mobil.png');
+  await cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1000, deviceScaleFactor: 1, mobile: false });
+  // Crossing the responsive breakpoint re-renders the page. Wait for that
+  // browser event before focusing a control in the recreated disclosure.
+  await js('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+  await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
+  await js(`document.querySelector(${JSON.stringify('.grocery-section [data-action=grocery-extra][data-value=""]')}).focus()`);
+  assert.equal(await js('document.activeElement.dataset.action'), 'grocery-extra');
+  await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13, text: '\r', unmodifiedText: '\r' });
+  await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
+  await text('dialog', 'Einkaufsartikel ergänzen');
+  assert.ok(await js('document.querySelector("dialog").contains(document.activeElement)'), 'Dialog übernimmt den Tastaturfokus');
+  await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+  await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+  assert.equal(await js('document.querySelector("dialog").open'), false);
+  assert.equal(await js('document.activeElement.dataset.action'), 'grocery-extra');
+  await cdp('Page.navigate', { url: address });
+  await text('h1', 'Reiseübersicht');
+  await click('.sidebar [data-action=page][data-value=food]');
+  await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
+  await text('.grocery-section', '1000 g Vorrat');
+  assert.equal(await js('document.querySelector(".grocery-section [data-action=grocery-check]").getAttribute("aria-pressed")'), 'true');
+  assert.deepEqual(store.current('interrail_swiss').state.shopping.extras, []);
+  assert.deepEqual(store.current('interrail_swiss').state.shopping.pantry, {});
+  await click('.grocery-section [data-action=grocery-edit]');
+  await set('dialog [name=stock]', '0');
+  await set('dialog [name=packs]', '2');
+  await save();
+  await text('.grocery-section', '6,50');
+  console.log('PASS: Vorräte, Zusatzartikel, offene Preise, Abhaken und Wiederladen');
   // An explicit hotel candidate selection is local, unbooked and confined
   // to the matching 3-person September classic variant.
   await click('.sidebar [data-action=page][data-value=lodging]');
@@ -1168,8 +1234,10 @@ try {
   console.log('PASS: echter Chrome-Flow · Mahlzeit, gemeinsamer Warenkorb, Preisänderung, Persistenz, Budget und mobile Karte');
 } finally {
   socket?.close();
+  const exited = child.exitCode == null && child.signalCode == null ? once(child, 'exit') : Promise.resolve();
   child.kill();
+  await Promise.race([exited, waitMs(5000)]);
   // The server closes the SQLite store itself in its 'close' listener.
   await new Promise(resolve => server.close(resolve));
-  await rm(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+  await rm(profile, { recursive: true, force: true, maxRetries: 12, retryDelay: 250 });
 }

@@ -21,7 +21,7 @@ import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
 import {footpathMatchesStops} from './route-studio.mjs';
 import { btn, empty, esc, icon, urlLink } from './ui.mjs';
-import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
+import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, groceryExtraForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
 const app = document.querySelector('#app');
 const toast = document.querySelector('#toast');
@@ -1950,8 +1950,37 @@ async function action(name, value = '') {
       break;
     case 'grocery-edit': {
       const row = groceryBasket(ctx.active.filter(item => !ctx.state.expenses.some(e => e.forItem === item.id)),
-        ctx.people.length, ctx.state.groceryOverrides ?? {}).find(entry => entry.key === value && entry.city === ctx.city);
+        ctx.people.length, ctx.state.groceryOverrides ?? {}, ctx.state.shopping).find(entry => entry.key === value && entry.city === ctx.city);
       if (row) groceryEditForm(ctx, row, save);
+      break;
+    }
+    case 'grocery-extra': {
+      const extra = ctx.state.shopping?.extras?.find(row => row.id === value && row.city === ctx.city);
+      if (!value || extra) groceryExtraForm(ctx, extra, save);
+      break;
+    }
+    case 'grocery-check':
+    case 'grocery-remove':
+    case 'grocery-restore': {
+      const shopping = ctx.state.shopping ?? { pantry: {}, checked: {}, excluded: {}, extras: [] };
+      const row = groceryBasket(ctx.active.filter(item => !ctx.state.expenses.some(e => e.forItem === item.id)),
+        ctx.people.length, ctx.state.groceryOverrides ?? {}, shopping).find(entry => entry.key === value && entry.city === ctx.city);
+      if (!row) break;
+      if (name === 'grocery-check') {
+        await save({ ...ctx.state, shopping: { ...shopping, checked: { ...shopping.checked, [value]: !row.checked } } }, 'Einkaufsstatus gespeichert');
+      } else if (row.extra) {
+        const next = { ...shopping, extras: shopping.extras.filter(extra => extra.id !== value) };
+        for (const field of ['pantry', 'checked', 'excluded']) {
+          next[field] = { ...shopping[field] };
+          delete next[field][value];
+        }
+        const overrides = { ...ctx.state.groceryOverrides };
+        delete overrides[value];
+        await save({ ...ctx.state, groceryOverrides: overrides, shopping: next }, 'Zusatzartikel entfernt');
+      } else {
+        await save({ ...ctx.state, shopping: { ...shopping, excluded: { ...shopping.excluded, [value]: name === 'grocery-remove' } } },
+          name === 'grocery-remove' ? 'Zutat aus dem Einkauf genommen' : 'Zutat wieder im Einkauf');
+      }
       break;
     }
     case 'grocery-reset': {

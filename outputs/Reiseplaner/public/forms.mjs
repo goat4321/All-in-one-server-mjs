@@ -355,24 +355,58 @@ export function mealForm(ctx, option, save, after) {
 export function groceryEditForm(ctx, row, save) {
   openDialog('Gruppenwarenkorb bearbeiten', '<h3>' + esc(row.name) + '</h3>'
     + '<p class="muted">Für alle geplanten Koch-Mahlzeiten in ' + esc(ctx.cities[row.city]?.name ?? row.city)
-    + ': ' + row.required + ' g benötigt · mindestens ' + row.minPacks + ' Packung(en) à ' + row.pack + ' g.</p>'
+    + ': ' + row.required + ' ' + row.unit + ' benötigt · Packungsgröße ' + row.pack + ' ' + row.unit + '.</p>'
     + '<p class="muted">Der eingetragene Packungspreis ist eine Planannahme, kein bestätigter Regalpreis. '
     + 'Für bereits bezahlte Einkäufe muss ein separater Beleg als Ausgabe erfasst werden.</p>'
     + controls([
-      field('Packungen', input('packs', row.packs, 'number', 'min="' + row.minPacks + '" max="100" step="1" required'), true),
-      field('Preis je Packung · EUR', input('unitPrice', (row.unitCents / 100).toFixed(2), 'text',
-        'inputmode="decimal" required'), true),
+      field('Schon vorhanden · ' + row.unit, input('stock', row.stock, 'number', 'min="0" max="1000000" step="1" required')),
+      field('Packungen zusätzlich kaufen', input('packs', row.packs, 'number', 'min="0" max="100" step="1" required')),
+      field('Preis je Packung · ' + row.currency, input('unitPrice', row.unitCents == null ? '' : (row.unitCents / 100).toFixed(2), 'text',
+        'inputmode="decimal"'), true),
+      field('Preisstand', input('priceDate', row.priceDate ?? '', 'date')),
+      field('Preisquelle · HTTPS-Link', input('sourceUrl', row.priceSourceUrl ?? '', 'url', 'maxlength="500"')),
     ], 'Warenkorb aktualisieren'), async data => {
       const packs = n(data, 'packs');
       const unitCents = minor(text(data, 'unitPrice'));
-      if (!Number.isSafeInteger(packs) || packs < row.minPacks || packs > 100
-        || unitCents == null || unitCents < 0 || unitCents > 100000) {
+      const stock = n(data, 'stock');
+      const needed = Math.ceil(Math.max(0, row.required - stock) / row.pack);
+      if (!Number.isSafeInteger(stock) || stock < 0 || stock > 1_000_000
+        || !Number.isSafeInteger(packs) || packs < needed || packs > 100
+        || (unitCents != null && (unitCents < 0 || unitCents > 100000))) {
         throw new Error('Mindestens die erforderliche Anzahl Packungen und einen gültigen Preis eingeben.');
       }
+      const shopping = ctx.state.shopping ?? { pantry: {}, checked: {}, excluded: {}, extras: [] };
       await save({ ...ctx.state, groceryOverrides: {
-        ...ctx.state.groceryOverrides, [row.key]: { packs, unitCents },
-      } }, 'Gemeinsamen Einkauf aktualisiert');
+        ...ctx.state.groceryOverrides, [row.key]: { packs: Math.max(1, packs), unitCents,
+          date: text(data, 'priceDate') || null, sourceUrl: text(data, 'sourceUrl') || null },
+      }, shopping: { ...shopping, pantry: { ...shopping.pantry, [row.key]: stock } } }, 'Gemeinsamen Einkauf aktualisiert');
     });
+}
+
+export function groceryExtraForm(ctx, extra, save) {
+  openDialog(extra ? 'Einkaufsartikel bearbeiten' : 'Einkaufsartikel ergänzen', controls([
+    field('Artikel', input('name', extra?.name, 'text', 'maxlength="160" required'), true),
+    field('Benötigte Menge für die Gruppe', input('quantity', extra?.quantity ?? 1, 'number', 'min="1" max="1000000" step="1" required')),
+    field('Einheit', select('unit', ['Stück', 'g', 'ml'].map(unit => [unit, unit]), extra?.unit ?? 'Stück')),
+    field('Menge pro Packung', input('pack', extra?.pack ?? 1, 'number', 'min="1" max="100000" step="1" required')),
+    field('Packungspreis · leer für offen', input('price', extra?.unitCents == null ? '' : (extra.unitCents / 100).toFixed(2), 'text', 'inputmode="decimal"')),
+    field('Währung', select('currency', [['EUR', 'EUR'], ['CHF', 'CHF']], extra?.currency ?? 'EUR')),
+    field('Einkaufstag', inputDate('date', extra?.date ?? ctx.date, ctx)),
+    field('Preisstand · falls bekannt', input('priceDate', extra?.priceDate, 'date')),
+    field('Preisquelle · HTTPS-Link', input('sourceUrl', extra?.sourceUrl, 'url', 'maxlength="500"'), true),
+  ], extra ? 'Änderungen übernehmen' : 'Zum Einkaufsplan hinzufügen'), async data => {
+    const unitCents = minor(text(data, 'price'));
+    if (unitCents != null && unitCents < 0) throw new Error('Einen Preis ab 0 eingeben oder das Feld offen lassen.');
+    const shopping = ctx.state.shopping ?? { pantry: {}, checked: {}, excluded: {}, extras: [] };
+    const item = { id: extra?.id ?? uid('extra'), city: ctx.city, name: text(data, 'name'),
+      quantity: n(data, 'quantity'), unit: text(data, 'unit'), pack: n(data, 'pack'), unitCents,
+      currency: text(data, 'currency'), date: text(data, 'date'), priceDate: text(data, 'priceDate') || null,
+      sourceUrl: text(data, 'sourceUrl') || null };
+    const overrides = { ...ctx.state.groceryOverrides };
+    if (extra) delete overrides[extra.id];
+    await save({ ...ctx.state, groceryOverrides: overrides, shopping: { ...shopping,
+      extras: extra ? shopping.extras.map(row => row.id === extra.id ? item : row) : [...shopping.extras, item] } }, 'Einkaufsliste gespeichert');
+  });
 }
 
 export function editPeople(ctx, save) {

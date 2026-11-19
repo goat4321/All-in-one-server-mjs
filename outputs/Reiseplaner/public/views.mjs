@@ -806,17 +806,25 @@ function food(ctx) {
   const planDate = '<label class="field meal-day"><span>Reisetag</span><select id="meal-date">' + dates.map(d =>
     '<option value="' + d + '"' + (d === date ? ' selected' : '') + '>' + esc(longDay(d)) + '</option>').join('') + '</select></label>';
   const plannedCooking = ctx.active.filter(item => !state.expenses.some(expense => expense.forItem === item.id));
-  const basket = groceryBasket(plannedCooking, count, state.groceryOverrides ?? {}).filter(row => row.city === city);
-  const basketTotal = basket.reduce((sum, row) => sum + row.total, 0);
+  const basket = groceryBasket(plannedCooking, count, state.groceryOverrides ?? {}, state.shopping).filter(row => row.city === city);
+  const basketTotals = [...Map.groupBy(basket, row => row.currency)].map(([currency, rows]) =>
+    money(rows.reduce((sum, row) => sum + (row.total ?? 0), 0), currency) + (rows.some(row => row.total == null) ? ' + offene Beträge' : '')).join(' · ');
   const basketTable = basket.length ? table(['Zutat', 'Benötigte Menge', 'Packungen', 'Packungspreis', 'Gruppe', ''],
     basket.map(row => [
-      esc(row.name) + '<br><small>' + esc(row.adjustedForGroup ? 'Packungen an den gesamten Bedarf angepasst'
-        : row.modified ? 'Preis/Menge selbst angepasst' : 'Preisreferenz, kein Filialangebot') + '</small>',
-      esc(row.required + ' g'), esc(row.packs + ' × ' + row.pack + ' g'),
-      money(row.unitCents), money(row.total),
-      btn('grocery-edit', 'Anpassen', 'edit', row.key)
+      '<span class="grocery-name">' + esc(row.name) + '</span><br><small>' + esc(row.excluded ? 'Aus Einkauf genommen · Rezeptbedarf offen'
+        : row.adjustedForGroup ? 'Packungen an den gesamten Bedarf angepasst'
+        : row.extra ? 'Eigener Artikel' : row.modified ? 'Preis/Menge selbst angepasst' : 'Preisreferenz, kein Filialangebot') + '</small>',
+      esc(row.required + ' ' + row.unit) + (row.stock ? '<br><small>' + esc(row.stock + ' ' + row.unit + ' Vorrat') + '</small>' : ''),
+      esc(row.packs + ' × ' + row.pack + ' ' + row.unit),
+      money(row.unitCents, row.currency) + (row.priceDate ? '<br><small>' + esc(dateText(row.priceDate)) + '</small>' : ''),
+      money(row.total, row.currency),
+      '<button class="button" type="button" data-action="grocery-check" data-value="' + esc(row.key) + '" aria-pressed="' + row.checked + '">'
+        + icon(row.checked ? 'check' : 'bookmark') + (row.checked ? 'Erledigt' : 'Abhaken') + '</button>'
+        + btn(row.extra ? 'grocery-extra' : 'grocery-edit', 'Anpassen', 'edit', row.key)
+        + (row.extra ? btn('grocery-edit', 'Vorrat', 'edit', row.key) : '')
         + (row.modified ? btn('grocery-reset', 'Zurücksetzen', 'reset', row.key) : '')
-        + urlLink(catalog.sources[row.source]?.url, 'Quelle'),
+        + btn(row.excluded ? 'grocery-restore' : 'grocery-remove', row.excluded ? 'Wieder aufnehmen' : 'Entfernen', row.excluded ? 'plus' : 'close', row.key)
+        + urlLink(row.priceSourceUrl ?? catalog.sources[row.source]?.url, 'Quelle'),
     ])) : '';
   const planCards = plans.map(plan => {
     const estimate = mealEstimate(plan, count);
@@ -942,11 +950,12 @@ function food(ctx) {
     }).join(' ') : 'Für den Tag ist noch kein Abendessen ausgewählt.')
     + '</p><p class="muted">' + (mealHotel ? esc(mealHotel.name + ' · ' + (mealHotel.kitchen ?? 'Küchenzugang offen'))
       : 'Unterkunft für diese Nacht offen. Küchenzugang und Ausstattung bei der Auswahl prüfen.') + '</p></section>'
-    + (basket.length ? '<section class="section"><h2>Gemeinsamer Einkaufswarenkorb · ' + money(basketTotal)
-      + '</h2><p class="muted">Für alle aktiven Koch-Mahlzeiten in dieser Stadt zusammengefasst. '
-      + 'Packungen werden nur einmal im aktiven Budget gezählt, nicht pro Mahlzeit. '
-      + 'Die Preise sind Planreferenzen oder von dir geänderte Annahmen; sie sind keine Kassenzettel. '
-      + 'Bereits als echte Ausgabe erfasste Mahlzeiten sind aus dieser Planung ausgenommen.</p>' + basketTable + '</section>' : '')
+    + '<section class="section grocery-section" aria-label="Gemeinsamer Einkaufswarenkorb"><div class="inline"><h2>Gemeinsamer Einkaufswarenkorb'
+      + (basket.length ? ' · ' + esc(basketTotals) : '') + '</h2>' + btn('grocery-extra', 'Artikel ergänzen', 'plus') + '</div>'
+      + '<p class="muted">Mengen gelten für alle geplanten Kochmahlzeiten in ' + esc(ctx.cities[city].name)
+      + '. Vorräte reduzieren den Einkauf. Abhaken speichert den Einkaufsstatus. Zahlungen erfasst du im Budget.</p>'
+      + (basketTable || empty('Einkaufsliste ist leer', 'Plane eine Kochmahlzeit oder ergänze einen eigenen Artikel.'))
+      + '</section>'
     + (planCards ? '<section class="section"><h2>Selbst kochen oder auswärts essen</h2><div class="grid-cards">' + planCards + '</div></section>' : '')
     + (scenarios.length ? '<section class="section"><h2>Unterkunft und ein Abendessen</h2><p class="muted">Szenarien mit den vorhandenen Unterkunftspreisen für den gesamten Aufenthalt.</p>'
       + table(['Unterkunft', 'Küche', 'Aufenthalt', 'Mit Kochen', 'Mit Restaurant innen'], scenarios) + '</section>' : '')
