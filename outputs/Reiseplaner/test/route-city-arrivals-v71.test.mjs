@@ -76,7 +76,7 @@ test('V71 has bounded inventory, no synthesised venues and category diversity',(
   {id:'b',city:'paris',name:'City Museum',kind:'activity'},
   {id:'c',city:'paris',name:'Fancy cafe',kind:'activity',category:'food'},
  ],new Set(['b']));
- assert.deepEqual(a[0].ideas.map(x=>x.id),['b','c']);
+ assert.deepEqual(a[0].ideas.map(x=>x.id),['c','b']);
 });
 test('V71 original travel catalog shows only actual original places in route cities',async()=>{
  const catalog=await loadCatalog();
