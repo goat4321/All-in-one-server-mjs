@@ -2415,6 +2415,21 @@ document.addEventListener('keydown',event=>{
   }
 });
 app.addEventListener('input',event=>{
+  if(event.target.id==='own-pins-search'&&!event.isComposing){
+    const query=event.target.value.trim().normalize('NFD')
+      .replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('de');
+    const panel=event.target.closest('.map-own-pins');
+    let visible=0;
+    for(const row of panel?.querySelectorAll('[data-own-pin]')??[]){
+      const text=(row.dataset.pinSearch??'').normalize('NFD')
+        .replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('de');
+      row.hidden=!text.includes(query);
+      if(!row.hidden)visible++;
+    }
+    const status=panel?.querySelector('#own-pins-search-status');
+    if(status)status.textContent=visible+' eigene Pins sichtbar';
+    return;
+  }
   // Search the already-loaded catalog without another explicit submit.
   // A short debounce avoids rebuilding every card after each keystroke;
   // preserve the input focus and caret after rendering.
