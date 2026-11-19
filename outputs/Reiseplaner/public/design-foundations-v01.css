@@ -1008,3 +1008,215 @@
   background:#1d2923!important;
   border-top-color:#3b5044!important;
 }
+
+
+/* Prompt 03 · Map experience. Keep these rules in the existing final
+ * foundations layer: don't create another competing stylesheet. */
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel,
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.explorer-right,
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.reference-stage-days{
+  box-shadow:none!important;
+  border-color:var(--ui-hairline)!important;
+}
+.reference-travel-shell .reference-map-workspace .map-panel>.panel-head .button,
+.reference-travel-shell .reference-map-workspace .map-panel>.panel-head .icon-btn{
+  min-height:40px;
+}
+.reference-travel-shell .reference-map-workspace .map-context-summary{
+  background:var(--paper);
+  border-color:var(--ui-hairline);
+}
+.reference-travel-shell .reference-map-workspace .explorer-right .explorer-place{
+  border-color:var(--ui-hairline);
+  box-shadow:none;
+}
+.reference-travel-shell .reference-map-workspace .explorer-right .explorer-place[data-selected=true]{
+  border-color:#398a63;
+  background:var(--ui-soft-panel);
+}
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.explorer-right{
+  min-width:0!important;
+  scrollbar-width:thin;
+}
+.reference-travel-shell .map-category-bubble.group-lodging,
+.reference-travel-shell .map-photo-bubble.group-lodging .map-photo-disc{
+  color:#185a94;
+  background:#e1effe;
+}
+.reference-travel-shell .map-category-bubble.group-food,
+.reference-travel-shell .map-photo-bubble.group-food .map-photo-disc{
+  color:#ac561f;
+  background:#fff0df;
+}
+.reference-travel-shell .map-category-bubble.group-activity,
+.reference-travel-shell .map-photo-bubble.group-activity .map-photo-disc{
+  color:#176f4c;
+  background:#e3f2e8;
+}
+.reference-travel-shell .photo-marker-container.provenance-area{
+  z-index:1;
+}
+.reference-travel-shell .photo-marker-container.provenance-area .map-category-bubble,
+.reference-travel-shell .photo-marker-container.provenance-area .map-photo-disc{
+  border-style:dashed!important;
+}
+.reference-travel-shell .map-area-flag{
+  position:absolute;
+  pointer-events:none;
+  left:50%;
+  bottom:-17px;
+  transform:translateX(-50%);
+  padding:2px 5px;
+  border:1px dashed #697d75;
+  border-radius:5px;
+  color:#233d2f;
+  background:#fff;
+  font-size:10px;
+  font-weight:800;
+  line-height:1.2;
+  white-space:nowrap;
+  box-shadow:0 1px 6px #233b2b24;
+}
+.reference-travel-shell .city-reference-count{
+  min-width:68px;
+  border-style:dashed;
+  border-color:#758378;
+  border-radius:11px;
+  box-shadow:0 2px 6px rgba(0,0,0,.07);
+}
+.reference-travel-shell .city-reference-count::after{
+  content:"Stadtbezug";
+  font-size:.57rem;
+  letter-spacing:.02em;
+}
+.reference-travel-shell .photo-marker-container.is-map-focused .map-category-bubble,
+.reference-travel-shell .photo-marker-container.is-map-focused .map-photo-disc{
+  outline:3px solid #174d3a;
+  outline-offset:3px;
+}
+:root[data-theme=dark] .reference-travel-shell .map-area-flag{
+  color:#edf5ed;background:#23382d;border-color:#93aa98;
+}
+@media(min-width:1180px){
+  /* Existing grid positions in v63 remain authoritative (left = daily/list;
+   * right = map); change proportions, not grid DOM structure. */
+  .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode){
+    grid-template-columns:minmax(285px,28%) minmax(0,1fr)!important;
+    column-gap:14px!important;
+  }
+  .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) #map{
+    height:clamp(520px,67dvh,745px)!important;
+    min-height:520px!important;
+    max-height:745px!important;
+  }
+  .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.explorer-right{
+    max-height:805px!important;
+  }
+}
+@media(min-width:651px) and (max-width:1179px){
+  .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) #map{
+    height:clamp(450px,57dvh,660px)!important;
+    min-height:450px!important;
+    max-height:660px!important;
+  }
+}
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-toolbar,
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-categories{
+  border-color:var(--ui-hairline);
+  box-shadow:var(--ui-shadow-control);
+}
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-categories button,
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-scope button{
+  min-height:40px;
+}
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-categories button[aria-pressed=true],
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-scope button[aria-pressed=true]{
+  box-shadow:none;
+  outline:1px solid var(--ui-hairline);
+}
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-drawer-heading{
+  gap:7px;
+  border-color:var(--ui-hairline);
+}
+.reference-travel-shell .map-sheet-handle{display:none}
+@media(max-width:650px){
+  .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) #map{
+    height:clamp(445px,57dvh,600px)!important;
+    min-height:445px!important;
+    max-height:600px!important;
+  }
+  .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel>.panel-head{
+    gap:7px!important;
+  }
+  /* A bounded bottom sheet, not the previous full-height right-side drawer.
+   * The map remains visible behind it and continues to accept pin gestures
+   * when the sheet is closed. Its list scrolls internally when open. */
+  .reference-travel-shell .reference-map-workspace.map-fullscreen-mode>.explorer-right{
+    position:absolute!important;
+    top:auto!important;
+    left:0!important;right:0!important;
+    bottom:0!important;
+    width:100vw!important;max-width:100vw!important;
+    height:min(65dvh,580px)!important;
+    max-height:min(65dvh,580px)!important;
+    border-radius:19px 19px 0 0!important;
+    border-bottom:0!important;
+    box-shadow:0 -8px 28px rgba(9,36,26,.22)!important;
+    padding:0!important;
+    transform:translateY(calc(100% + 8px))!important;
+    overscroll-behavior:contain;
+    transition:transform .20s ease,opacity .16s ease,visibility .16s;
+  }
+  .reference-travel-shell .reference-map-workspace.map-fullscreen-mode.fullscreen-drawer-open>.explorer-right{
+    transform:translateY(0)!important;
+  }
+  .reference-travel-shell .map-fullscreen-mode .map-sheet-handle{
+    display:block;
+    position:absolute;
+    top:7px;left:50%;
+    transform:translateX(-50%);
+    width:40px;height:4px;
+    border-radius:99px;
+    background:#9caea3;
+    pointer-events:none;
+  }
+  .reference-travel-shell .map-fullscreen-mode .map-fullscreen-drawer-heading{
+    position:sticky;
+    top:0;
+    min-height:63px;
+    padding:18px 15px 10px;
+    background:var(--paper);
+    border-radius:19px 19px 0 0;
+  }
+  .reference-travel-shell .map-fullscreen-mode .map-fullscreen-drawer-heading button{
+    min-width:44px;
+    min-height:44px;
+  }
+  .reference-travel-shell .map-fullscreen-mode .map-fullscreen-ui>.map-fullscreen-toolbar{
+    gap:5px;
+  }
+  .reference-travel-shell .map-fullscreen-mode .map-fullscreen-categories{
+    max-width:calc(100vw - 16px)!important;
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+  }
+  .reference-travel-shell .map-fullscreen-mode .map-fullscreen-categories button{
+    min-height:44px;
+  }
+  .reference-travel-shell .map-fullscreen-mode .map-selection-preview{
+    max-height:28dvh!important;
+  }
+  .reference-travel-shell .map-fullscreen-mode .map-source-indicator{
+    bottom:calc(16px + env(safe-area-inset-bottom))!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .reference-travel-shell .reference-map-workspace.map-fullscreen-mode>.explorer-right,
+  .reference-travel-shell .photo-marker-container{
+    transition:none!important;
+    animation:none!important;
+  }
+}
+:root[data-motion=off] .reference-travel-shell .reference-map-workspace.map-fullscreen-mode>.explorer-right{
+  transition:none!important;
+}
