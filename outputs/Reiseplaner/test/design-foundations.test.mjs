@@ -35,3 +35,27 @@ test('shopping table retains all columns in a labeled keyboard-scroll region', (
   assert.match(css, /\.grocery-section \.table-wrap>table\s*\{\s*min-width:780px/);
   assert.match(css, /data-photo-scope="missing"/);
 });
+
+test('home prioritizes an existing trip, licensed imagery and a real day action', () => {
+  assert.match(views, /const heroHtml=/);
+  assert.match(views, /journey-home-hero/);
+  assert.match(views, /curatedPlacePhoto\(item\)/);
+  assert.match(views, /coverMatch\.photo\.sourceUrl/);
+  assert.match(views, /destinationIllustration\(coverCity\)/);
+  assert.match(views, /class="button journey-home-primary" data-action="day-plan-go"/);
+  assert.match(views, /class="journey-home-stage" data-action="trip-city"/);
+  assert.match(views, /class="journey-home-task" data-action="page"/);
+  assert.match(views, /swissInterrailOverviewV82\(ctx\)/);
+  assert.match(views, /dayPlanOverview\(ctx\)/);
+});
+
+test('single home CSS layer includes responsive, contrast, dark and motion controls', () => {
+  assert.match(css, /\.journey-home-hero\{/);
+  assert.match(css, /\.journey-home-route-layout\.cockpit-layout\{/);
+  assert.match(css, /@media\(max-width:760px\)/);
+  assert.match(css, /@media\(max-width:650px\)/);
+  assert.match(css, /--ui-hairline:/);
+  assert.match(css, /:root\[data-theme=dark\]/);
+  assert.match(css, /prefers-reduced-motion:reduce/);
+  assert.match(css, /prefers-reduced-transparency:reduce/);
+});

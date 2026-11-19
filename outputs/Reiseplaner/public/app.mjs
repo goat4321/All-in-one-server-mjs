@@ -2252,7 +2252,7 @@ app.addEventListener('toggle',event=>{
 app.addEventListener('error',event=>{
   const image=event.target;
   if(!(image instanceof HTMLImageElement))return;
-  const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo,.reference-intro-photo,.reference-discovery-image,.reference-hero-thumb');
+  const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo,.reference-intro-photo,.reference-discovery-image,.reference-hero-thumb,.journey-home-media');
   if(!frame||image.dataset.fallbackApplied)return;
   // The decorative backup failing must not hide a separately sourced
   // and successfully loaded individual photo.
@@ -2265,6 +2265,12 @@ app.addEventListener('error',event=>{
   image.dataset.fallbackApplied='true';
   image.style.display='none';
   frame.dataset.imageUnavailable='true';
+  if(frame.classList.contains('journey-home-media')){
+    // The source-backed hero image was blocked or unavailable. Never leave
+    // browser broken-alt text on top of the designed local fallback.
+    const caption=frame.querySelector('.journey-home-media-credit');
+    if(caption) caption.textContent='Symbolische Illustration · Motivfoto derzeit nicht verfügbar';
+  }
   if(frame.matches('.reference-intro-photo,.reference-discovery-image')){
     const label=document.createElement('span');
     label.className='reference-photo-fallback';
