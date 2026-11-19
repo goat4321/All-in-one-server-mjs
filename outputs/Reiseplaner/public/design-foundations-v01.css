@@ -1,0 +1,259 @@
+/*
+ * Shared design foundations · 19 Nov 2026
+ * Based on verified GitHub HEAD 44dbec1 and CI screenshots.
+ * Last-loaded, scoped changes: 1) hierarchy/surfaces, 2) controls/accessibility,
+ * 3) map toolbar and mobile shopping table. No booking/data/model changes.
+ */
+:root{
+  --audit-surface:#fffefa;
+  --audit-soft:#f1f6f1;
+  --audit-stroke:#dce7dd;
+  --audit-ink:#213a2d;
+  --audit-secondary:#526b59;
+  --audit-primary:#176344;
+  --audit-focus:#116942;
+  --audit-radius:16px;
+  --audit-space:clamp(14px,1.8vw,26px);
+}
+:root[data-theme=dark]{
+  --audit-surface:#1d2923;
+  --audit-soft:#25382d;
+  --audit-stroke:#3c5145;
+  --audit-ink:#f0f6ef;
+  --audit-secondary:#bdcec1;
+  --audit-primary:#a2e5bc;
+  --audit-focus:#a2e5bc;
+}
+/* Cause 1: a quiet shared content hierarchy instead of stacked elevations. */
+.reference-travel-shell>.main-column>.workspace{
+  width:100%;
+  max-width:1660px;
+  min-width:0;
+  padding-inline:clamp(14px,2.5vw,36px);
+}
+.reference-travel-shell .page-head,
+.reference-travel-shell .subheading{
+  min-width:0;
+  row-gap:12px;
+}
+.reference-travel-shell .page-head h1{
+  font-size:clamp(1.85rem,2.5vw,2.5rem);
+  letter-spacing:-.035em;
+  line-height:1.12;
+}
+.reference-travel-shell .page-head p,
+.reference-travel-shell .hub-option-summary,
+.reference-travel-shell .hub-food-card-body>p,
+.reference-travel-shell .subheading>p{
+  font-size:max(.84rem,12.8px);
+  line-height:1.52;
+}
+.reference-travel-shell :is(
+  .panel,.overview-start,.overview-quick-card,.hub-toolbar,
+  .hub-option-card,.hub-food-card,.activity-filter-panel,
+  .day-plan-panel,.day-plan-quick-bar,.meal-day-slot
+){
+  box-shadow:none;
+  border-color:var(--audit-stroke);
+}
+.reference-travel-shell :is(.overview-start,.hub-toolbar,.activity-filter-panel){
+  border-radius:var(--audit-radius);
+}
+.reference-travel-shell .overview-quick-grid{gap:8px}
+.reference-travel-shell .overview-quick-card{
+  background:var(--audit-soft);
+  border-color:transparent;
+  border-radius:12px;
+  padding:14px;
+}
+.reference-travel-shell .overview-quick-card:hover{
+  background:var(--audit-surface);
+  border-color:var(--audit-stroke);
+}
+.reference-travel-shell .hub-option-card,
+.reference-travel-shell .hub-food-card{
+  overflow:hidden;
+  border-radius:var(--audit-radius);
+}
+.reference-travel-shell .hub-option-card:focus-within,
+.reference-travel-shell .hub-food-card:focus-within,
+.reference-travel-shell .overview-quick-card:focus-visible{
+  outline:2px solid var(--audit-focus);
+  outline-offset:2px;
+}
+/* Show confirmed entry-specific photos at editorial size; keep clearly labeled
+ * city-wide/missing-photo placeholders short so they don't dominate the card. */
+.reference-travel-shell .hub-option-media .place-photo,
+.reference-travel-shell .hub-food-card>.place-photo{
+  height:clamp(184px,17vw,232px)!important;
+}
+.reference-travel-shell .hub-option-media .place-photo[data-photo-scope="city_backdrop"],
+.reference-travel-shell .hub-option-media .place-photo[data-photo-scope="missing"],
+.reference-travel-shell .hub-food-card>.place-photo[data-photo-scope="city_backdrop"],
+.reference-travel-shell .hub-food-card>.place-photo[data-photo-scope="missing"]{
+  height:148px!important;
+}
+.reference-travel-shell .hub-option-pricing,
+.reference-travel-shell .hub-fact-grid>span{
+  background:var(--audit-soft);
+}
+.reference-travel-shell .hub-option-content{gap:12px}
+.reference-travel-shell .hub-option-content h3,
+.reference-travel-shell .hub-food-card h3{
+  font-size:clamp(1.04rem,1.1vw,1.18rem);
+  line-height:1.3;
+}
+/* Cause 2: consistent keyboard focus, calmer secondary actions and mobile targets. */
+.reference-travel-shell :is(button,a,input,select,textarea,summary):focus-visible{
+  outline:3px solid var(--audit-focus)!important;
+  outline-offset:3px;
+}
+.reference-travel-shell :is(.button,.chip-button,.icon-btn){
+  transition:background-color .15s ease,border-color .15s ease,color .15s ease;
+}
+.reference-travel-shell .button:not(.primary):not(.danger):hover{
+  border-color:var(--audit-primary);
+}
+.reference-travel-shell .button.primary{
+  background:#176344;
+  border-color:#176344;
+  color:#fff;
+  font-weight:740;
+}
+:root[data-theme=dark] .reference-travel-shell .button.primary{
+  background:#a2e5bc;
+  border-color:#a2e5bc;
+  color:#183226;
+}
+.reference-travel-shell :is(.hub-quick-filters,.hub-food-tabs,.activity-filter-chips){
+  scrollbar-width:thin;
+  scroll-padding-inline:12px;
+}
+.reference-travel-shell .hub-option-secondary-actions .button,
+.reference-travel-shell .hub-option-external .button{
+  background:transparent;
+  box-shadow:none;
+}
+.reference-travel-shell .table-wrap{
+  max-width:100%;
+  overflow-x:auto;
+  overscroll-behavior-inline:contain;
+  scrollbar-width:thin;
+}
+/* Cause 3: preserve map content area and expose secondary controls on demand. */
+.reference-travel-shell .map-panel>.panel-head{
+  column-gap:14px;
+  row-gap:8px;
+}
+.reference-travel-shell .map-panel>.panel-head>.inline{
+  flex-wrap:wrap;
+  gap:7px;
+}
+.reference-travel-shell .map-local-actions{gap:7px}
+/* Retain the test-proven, mobile-visible local fullscreen entry. Hide only
+ * its redundant header twin; the full-screen Exit button remains unchanged. */
+.reference-travel-shell .map-panel>.panel-head .map-fullscreen-launch{
+  display:none;
+}
+.reference-travel-shell .reference-map-workspace>.explorer-right{
+  min-width:0;
+  scrollbar-width:thin;
+}
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-ui>.map-fullscreen-toolbar{
+  box-shadow:0 2px 12px rgba(22,58,40,.1);
+  border:1px solid var(--audit-stroke);
+}
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-ui>.map-fullscreen-categories{
+  overflow-x:auto;
+  max-width:100%;
+  overscroll-behavior-x:contain;
+  scrollbar-width:thin;
+}
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-ui>.map-fullscreen-categories>*{
+  flex-shrink:0;
+}
+/* The existing grocery table contains six functional columns; never truncate them. */
+.reference-travel-shell .grocery-section{
+  min-width:0;
+}
+.reference-travel-shell .grocery-section .table-wrap{
+  width:100%;
+  max-width:100%;
+  overflow-x:auto;
+  overflow-y:hidden;
+  border:1px solid var(--audit-stroke);
+  -webkit-overflow-scrolling:touch;
+}
+.reference-travel-shell .grocery-section .table-wrap>table{
+  min-width:780px;
+}
+.reference-travel-shell .grocery-section .grocery-scroll-hint{
+  display:none;
+  color:var(--audit-secondary);
+  font-size:.86rem;
+  line-height:1.5;
+  margin:10px 0;
+}
+@media(max-width:910px){
+  .reference-travel-shell .overview-quick-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .reference-travel-shell .hub-option-grid,
+  .reference-travel-shell .hub-food-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  .reference-travel-shell>.main-column>.workspace{
+    padding-inline:14px;
+  }
+  .reference-travel-shell .page-head h1{
+    font-size:clamp(1.75rem,7vw,2.15rem);
+  }
+  .reference-travel-shell :is(
+    .button,.chip-button,.icon-btn,.activity-category-chip,.activity-evidence-chip
+  ){
+    min-height:44px;
+  }
+  .reference-travel-shell .mobile-dock button{
+    min-height:54px;
+    font-size:max(.70rem,10.5px);
+  }
+  .reference-travel-shell .hub-option-grid,
+  .reference-travel-shell .hub-food-grid{
+    grid-template-columns:minmax(0,1fr);
+  }
+  .reference-travel-shell .hub-option-media .place-photo,
+  .reference-travel-shell .hub-food-card>.place-photo{
+    height:200px!important;
+  }
+  .reference-travel-shell .hub-option-media .place-photo[data-photo-scope="city_backdrop"],
+  .reference-travel-shell .hub-option-media .place-photo[data-photo-scope="missing"],
+  .reference-travel-shell .hub-food-card>.place-photo[data-photo-scope="city_backdrop"],
+  .reference-travel-shell .hub-food-card>.place-photo[data-photo-scope="missing"]{
+    height:138px!important;
+  }
+  .reference-travel-shell .overview-quick-card{padding:12px}
+  .reference-travel-shell .grocery-section .grocery-scroll-hint{display:block}
+  .reference-travel-shell .map-panel>.panel-head>.inline{gap:6px}
+  .reference-travel-shell .map-fullscreen-mode .map-fullscreen-ui>.map-fullscreen-toolbar{
+    gap:5px;
+    padding:6px;
+  }
+  .reference-travel-shell .map-fullscreen-mode .map-fullscreen-ui>.map-fullscreen-categories{
+    border-radius:11px;
+  }
+}
+@media(max-width:360px){
+  .reference-travel-shell .overview-quick-grid{
+    grid-template-columns:1fr;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .reference-travel-shell :is(.button,.chip-button,.icon-btn,.overview-quick-card){
+    transition:none!important;
+  }
+}
+:root[data-motion=off] .reference-travel-shell :is(.button,.chip-button,.icon-btn,.overview-quick-card){
+  transition:none!important;
+}

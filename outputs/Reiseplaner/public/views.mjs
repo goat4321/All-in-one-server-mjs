@@ -964,7 +964,11 @@ function food(ctx) {
       + (basket.length ? ' · ' + esc(basketTotals) : '') + '</h2>' + btn('grocery-extra', 'Artikel ergänzen', 'plus') + shoppingStopButton(ctx) + '</div>'
       + '<p class="muted">Mengen gelten für alle geplanten Rezeptmahlzeiten in ' + esc(ctx.cities[city].name)
       + '. Vorräte reduzieren den Einkauf. Abhaken speichert den Einkaufsstatus. Zahlungen erfasst du im Budget.</p>'
-      + (basketTable || empty('Einkaufsliste ist leer', 'Plane eine Kochmahlzeit oder ergänze einen eigenen Artikel.'))
+      + (basketTable
+        ? '<p class="grocery-scroll-hint">Die Einkaufstabelle hat sechs Spalten. Auf dem Smartphone seitlich wischen oder per Tastatur darin scrollen.</p>'
+          + basketTable.replace('<div class="table-wrap panel">',
+            '<div class="table-wrap panel" role="region" aria-label="Einkaufstabelle, seitlich scrollbar" tabindex="0">')
+        : empty('Einkaufsliste ist leer', 'Plane eine Kochmahlzeit oder ergänze einen eigenen Artikel.'))
       + '</section>'
     + stapleComparison(ctx)
     + (planCards ? '<section class="section"><h2>Selbst kochen oder auswärts essen</h2><div class="grid-cards">' + planCards + '</div></section>' : '')
