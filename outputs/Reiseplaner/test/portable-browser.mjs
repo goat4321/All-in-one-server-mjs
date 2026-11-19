@@ -90,8 +90,14 @@ try {
   await cdp('Page.enable');
   await cdp('Page.navigate', { url: address });
   await text('h1', 'Reiseübersicht');
-  assert.ok(await js('(() => {const quick=document.querySelector(".overview-start")?.getBoundingClientRect(),other=document.querySelector(".cockpit-layout")?.getBoundingClientRect();return quick&&other&&quick.top<other.top&&quick.height>=70})()'),
-    'The home screen shows the large quick-start actions before technical dashboards');
+  assert.ok(await js('(() => {const hero=document.querySelector(".journey-home-hero")?.getBoundingClientRect(),quick=document.querySelector(".overview-start")?.getBoundingClientRect(),route=document.querySelector(".journey-home-route-layout")?.getBoundingClientRect();return hero&&quick&&route&&hero.height>=275&&hero.top<quick.top&&quick.top<route.top})()'),
+    'The active trip and day action lead; compact navigation precedes the geographic overview');
+  assert.ok(await js('Boolean(document.querySelector(".journey-home-primary[data-action=day-plan-go]"))'),
+    'The primary daily itinerary action is an explicit real navigation control');
+  assert.ok(await js('document.querySelectorAll(".journey-home-stage[data-action=trip-city]").length>=4'),
+    'Journey stages are visible, ordered, and linked to existing trip cities');
+  assert.ok(await js('document.querySelectorAll(".journey-home-task[data-action=page]").length>=1'),
+    'The next steps derive from the current variant, not decorative KPI cards');
   assert.equal(await js('document.querySelectorAll(".overview-quick-card").length'),4,
     'Four clearly named home choices are present');
   assert.ok(await js('document.querySelector(".day-plan-overview")?.querySelectorAll("[data-action=day-plan-go]").length===14'),
@@ -274,6 +280,27 @@ try {
   await until(() => js('document.querySelectorAll(".cockpit-progress-item").length===4'),'Vier nachvollziehbare Fortschrittsanzeigen');
   assert.equal(await js('document.querySelector(".cockpit-disclaimer")?.textContent.includes("keine bestätigten Buchungen")'),true);
   await screenshot('01-uebersicht-desktop.png');
+  // Dedicated before/after evidence for the home redesign at real Chrome widths.
+  for (const width of [1440, 820, 390]) {
+    await cdp('Emulation.setDeviceMetricsOverride', {
+      width, height: width===390?844:950, deviceScaleFactor:1, mobile:width===390,
+    });
+    await js('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+    const metrics=await js('(() => {const hero=document.querySelector(".journey-home-hero").getBoundingClientRect();const button=document.querySelector(".journey-home-primary").getBoundingClientRect();return {viewport:innerWidth,scroll:document.documentElement.scrollWidth,heroLeft:hero.left,heroRight:hero.right,heroHeight:hero.height,buttonWidth:button.width,buttonHeight:button.height,contrastText: getComputedStyle(document.querySelector(".journey-home-hero h2")).color}})()');
+    assert.ok(metrics.scroll<=metrics.viewport+5,'Home redesign must not cause horizontal page overflow at '+width+'px: '+JSON.stringify(metrics));
+    assert.ok(metrics.heroLeft>=-2&&metrics.heroRight<=metrics.viewport+2&&metrics.heroHeight>=275,
+      'Trip hero must fit viewport at '+width+'px: '+JSON.stringify(metrics));
+    assert.ok(metrics.buttonHeight>=44&&metrics.buttonWidth>=170,
+      'Primary day action must remain touch-sized at '+width+'px: '+JSON.stringify(metrics));
+    await js('window.scrollTo(0,0)');
+    await screenshot('90-start-redesign-'+width+'.png');
+  }
+  await cdp('Emulation.clearDeviceMetricsOverride');
+  await js('window.scrollTo(0,0)');
+  await click('.journey-home-primary');
+  await text('h1','Barcelona');
+  await click('.sidebar [data-action=page][data-value=overview]');
+  await text('h1','Reiseübersicht');
   const imageStatus=await js('(() => { const img=document.querySelector(".destination-cover img"); if(!img)return "no-photo"; img.dispatchEvent(new Event("error")); return img.style.display; })()');
   assert.ok(['none','no-photo'].includes(imageStatus),'Ein fehlendes Wikimedia-Bild darf keine defekte Bildanzeige hinterlassen');
   if(await js('Boolean(document.querySelector(".cockpit-progress"))')){
