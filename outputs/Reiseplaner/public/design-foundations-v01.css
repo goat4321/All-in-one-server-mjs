@@ -1220,3 +1220,17 @@
 :root[data-motion=off] .reference-travel-shell .reference-map-workspace.map-fullscreen-mode>.explorer-right{
   transition:none!important;
 }
+
+/* Planned-day empty state never silently promotes research suggestions. */
+.reference-travel-shell .reference-preview-map-note{
+  display:flex;align-items:center;flex-wrap:wrap;gap:7px;
+  max-width:min(420px,calc(100% - 16px));
+  line-height:1.4;
+}
+.reference-travel-shell .reference-preview-map-note button{
+  min-height:36px;padding:6px 10px;
+  border:1px solid #a2c8b2;border-radius:8px;
+  background:var(--paper);color:var(--text);
+  font-weight:750;font-size:.76rem;cursor:pointer;
+}
+.reference-travel-shell .reference-preview-map-note button:hover{background:var(--light)}
