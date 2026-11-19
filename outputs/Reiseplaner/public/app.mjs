@@ -385,10 +385,10 @@ function paintMap(fit = false) {
       :context.selected, timetablePreview: context.timetablePreview,
     explorer: context.explorer, dayRoute: context.dayRoute,
     hikeRoute:hikingMapPreview(context),
-    dayPreview:context.page==='map'&&view.mapSimple
-      &&context.explorer?.scope==='day'&&!context.day.some(x=>x.kind==='activity')
-      &&context.dayPlan?.slots.length
-      ?{slots:context.dayPlan.slots,sourceItems:context.all}:null,
+    // "Mein Tag" contains only truly planned entries. Optional suggestions
+    // remain browsable in the existing day notes / city discovery area and
+    // are NEVER drawn as if they were planned numbered markers.
+    dayPreview:null,
     profileCtx: {people:context.people,cities:context.cities,state:context.state} });
   if (fit) currentMap.fit();
 }
@@ -476,7 +476,9 @@ function updateMapResultsInPlace() {
   if(sidebar)sidebar.scrollTop=scrolled;
   const count=drawer.querySelector(':scope > summary small');
   if(count)count.textContent=(fresh.explorer.placed.length+fresh.explorer.unlocated.length)+' passende Einträge';
-  app.querySelectorAll('.map-fullscreen-categories [data-action=explorer-group]').forEach(button=>{
+  // Category controls also exist in the lower browse panel and in the
+  // fullscreen toolbar. All copies must reflect the same selected filter.
+  app.querySelectorAll('[data-action=explorer-group]').forEach(button=>{
     button.setAttribute('aria-pressed',String(button.dataset.value===view.mapGroup));
   });
   app.querySelectorAll('[data-action=explorer-saved-only]').forEach(button=>{
