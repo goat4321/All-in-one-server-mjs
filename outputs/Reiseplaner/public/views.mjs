@@ -148,7 +148,8 @@ function content(ctx, city) {
       + '<div class="reference-stage-days">'+mapBrowseModes(ctx)
       +(ctx.explorer?.scope==='day'?explorerDayStrip(ctx):'')+'</div>'
       + mapPanel(ctx, true) + '<div class="explorer-right" id="map-fullscreen-drawer" aria-label="Kategorien, Orte und Tagesplanung">'
-       +'<div class="map-fullscreen-drawer-heading"><strong>Orte & Filter</strong>'
+       +'<div class="map-fullscreen-drawer-heading"><span class="map-sheet-handle" aria-hidden="true"></span><strong>'
+       +(ctx.explorer?.scope==='day'?'Meine geplanten Stopps':ctx.explorer?.scope==='trip'?'Alle Reiseorte':'Orte in '+esc(ctx.cities[ctx.city]?.name??ctx.city))+'</strong>'
        +'<button type="button" data-action="map-fullscreen-drawer" aria-label="Orte und Filter schließen">'
        +icon('close')+'</button></div>'
       +hikingMapPanel(ctx)
@@ -329,7 +330,7 @@ export function mapSelectionPreview(ctx) {
 
 /** Map information hierarchy: one compact truthfully scoped status line,
  * plus one explicit next action. Does not reinterpret unverified points. */
-function mapContextSummary(ctx){
+export function mapContextSummary(ctx){
  const summary=mapViewSummary(ctx);
  const tags=summary.filters.map(f=>'<button type="button" class="map-active-filter"'
    +' data-action="map-remove-filter" data-value="'+esc(f.key)+'"'
@@ -493,10 +494,11 @@ function mapPanel(ctx, full = false) {
           +ctx.dayRoute.items.length+' Stopps · '
           +(ctx.dayRoute.routes.filter(r=>r?.walkOnly).length)+' Fußwege berechnet</span></div>' : ''}
       <div class="map-hint" id="map-hint" hidden></div>
-      ${ctx.page==='map'&&ctx.mapSimple&&!ctx.total&&ctx.dayPlan?.slots.length
-       &&!ctx.day.some(item=>item.kind==='activity')
-        ?'<div class="reference-preview-map-note">'+icon('pin')
-          +' Tagesideen · nur belegte Pins, Wege noch nicht berechnet</div>'
+      ${ctx.page==='map'&&ctx.explorer?.scope==='day'
+        &&!ctx.explorer?.placed.length
+        ?'<div class="reference-preview-map-note" role="status">'+icon('pin')
+          +'<span>Keine eingeplanten Stopps mit Einzelpunkt. Tagesideen sind noch nicht geplant.</span>'
+          +'<button type="button" data-action="explorer-scope" data-value="city">Stadt entdecken</button></div>'
         :''}
     </div>
     ${full && !ctx.total && outside ? '<details class="reference-map-schedule-notice"><summary>'+icon('alert')+'<span>Fahrplan 2027 offen</span></summary>'

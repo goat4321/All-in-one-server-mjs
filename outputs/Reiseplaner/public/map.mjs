@@ -69,6 +69,7 @@ export class TripMap {
     // A separately stoppable schematic itinerary animation; never persisted.
     this.cityStory=new RouteCityStoryPlayer(this.map,state=>this.handlers.storyState?.(state));
     this.poiItems = []; this.poiKeys = new Set(); this.poiProfileCtx = null;
+    this.poiRenderSignature=null;this.poiBuildCount=0;this.poiReuseCount=0;
     // Rebuild only markers entering the viewport after a completed pan/zoom.
     this.map.on('moveend', () => this.paintExplorerPins());
     this.transit = L.layerGroup().addTo(this.map);
@@ -84,6 +85,7 @@ export class TripMap {
     this.vectorGL=null;
     this.vectorGLOnError=null;
     this.offlineMap=new URLSearchParams(location.search).has('offlineMap');
+    this.basemapState='loading';
     // Avoid fetching tiles for the temporary Europe-wide bootstrap view.
     // Raster is added after the first actual fit; vector upgrade is optional.
     this.basemapBooted=false;
@@ -101,6 +103,10 @@ export class TripMap {
 
   setBasemapStatus(state){
     if(this.destroyed)return;
+    // DOM-based status badges are recreated by ordinary view updates, but the
+    // Leaflet map and its actual online/offline state are retained. Keep the
+    // state on the persistent map and reapply to each new badge.
+    this.basemapState=state;
     const region=this.element.parentElement?.querySelector('#map-source-indicator');
     if(!region)return;
     region.dataset.state=state;
@@ -195,6 +201,7 @@ export class TripMap {
     this.features.clearLayers();
     this.poiLayer.clearLayers();
     this.markers.clear(); this.poiKeys.clear(); this.poiItems = [];
+    this.poiRenderSignature=null;
     this.poiProfileCtx = profileCtx; this.poiFocused = focused; this.nearbyCircle = null;
     this.poiDensity=explorer?.density==='detail'?'detail':'calm';
     this.poiSaved=explorer?.saved??new Set();
@@ -463,20 +470,26 @@ export class TripMap {
   // is a visual aggregate, never a geocoded building, address or route stop.
   paintExplorerPins() {
     if (!this.poiLayer) return;
+    const zoom=this.map.getZoom();
+    // In-place Leaflet panning moves existing icons for free. Only rebuild when
+    // the visible SOURCE item set, zoom or presentation state actually changes.
+    // Screen-space buckets use global projected coordinates, so a pan with
+    // identical visible points does not change their clustering.
+    const visible=this.map.getBounds?.().pad(.22);
+    const onScreen=this.poiItems?.length
+      ?visible?this.poiItems.filter(item=>visible.contains(item.point)):this.poiItems:[];
+    const signature=[zoom,this.poiDensity,this.poiFocused,
+      ...onScreen.map(item=>(item.explorerId??item.id)
+        +(this.poiSaved?.has(item.id)?':saved':''))].join('|');
+    if(signature===this.poiRenderSignature){this.poiReuseCount++;return;}
+    this.poiRenderSignature=signature;this.poiBuildCount++;
     this.poiLayer.clearLayers();
     for (const id of this.poiKeys ?? []) this.markers.delete(id);
     this.poiKeys = new Set();
-    if (!this.poiItems?.length) return;
-    const zoom=this.map.getZoom();
+    if (!onScreen.length) return;
     const policy=poiDensityPolicy(zoom,this.poiDensity);
     let photoBubbleCount=0;
     const shownPhotoCells=new Set();
-    // Group only existing source-record points by screen-space density.
-    // The focused POI stays selectable; no cluster is written to trip data.
-    // Marker DOM is the expensive layer: render only currently visible POIs.
-    // Keep all source records in poiItems for search, selection and fit bounds.
-    const visible=this.map.getBounds?.().pad(.22);
-    const onScreen=visible?this.poiItems.filter(item=>visible.contains(item.point)):this.poiItems;
     const buckets=groupPoiForDisplay(onScreen,zoom,
       point=>this.map.project(point,zoom),{
         mode:this.poiDensity,focusedId:this.poiFocused
@@ -536,7 +549,8 @@ export class TripMap {
         const height=tier==='photo'?132:tier==='dot'?19:40;
         const offset=(i-(items.length-1)/2)*Math.min(width,22);
         const icon=L.divIcon({className:'photo-marker-container tier-'+tier+' provenance-'+provenance.kind,
-          html:content,iconSize:[width,height],
+          html:content+(provenance.kind==='area'&&tier!=='dot'
+            ?'<span class="map-area-flag" aria-hidden="true">Gebiet</span>':''),iconSize:[width,height],
           iconAnchor:[width/2-offset,tier==='photo'?112:height/2]});
         const marker=L.marker(item.point,{icon,keyboard:true,
           title:item.name+' · '+provenance.label,
