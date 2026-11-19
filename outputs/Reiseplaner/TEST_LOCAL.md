@@ -4,7 +4,7 @@
 
 ## Ein-Klick-Prüfung
 
-1. In VS Code oder GitHub Desktop diesen Branch `feature/v7-verification-sources-2027` im Projektordner verwenden. Den alten Projektordner vorher sichern, damit lokale SQLite-Reisen nicht überschrieben werden.
+1. In VS Code oder GitHub Desktop den aktuellen Entwicklungsbranch `feature/v7-data-day-accommodation-rail` (vorher lokale Git-Änderungen sichern und HEAD abgleichen; siehe `../../PROJECT_HANDOFF_CHAT.md`) im Projektordner verwenden. Den alten Projektordner vorher sichern, damit lokale SQLite-Reisen nicht überschrieben werden.
 2. Stelle sicher, dass **Node.js 24** sowie Chrome oder Edge installiert sind.
 3. Die vier Originaldateien aus dem bisherigen lokalen Projekt nach `data/` kopieren:
    - `tripsy-1297194.json`
