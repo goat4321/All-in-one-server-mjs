@@ -632,36 +632,110 @@ function overview(ctx) {
       :'<div class="cockpit-route-empty">Für diese Variante sind noch keine zwei Stadt-Anker hinterlegt.</div>')
     +'</div><div class="cockpit-route-foot"><span>'+icon('map')+' Schematische Übersicht</span>'
     +'<span>'+esc(dateLabel(trip.from,trip.to))+'</span></div></section>';
-  const quickStartHtml='<section class="overview-start" aria-label="Schnell zum nächsten Planungsschritt">'
-    + '<div class="overview-start-copy"><strong>Wo möchtest du weiterplanen?</strong><span>Direkter Zugang zu den wichtigsten Aufgaben</span></div>'
-    + '<div class="overview-quick-grid">'+shortcuts.map(([id,label,note,symbol])=>
-      '<button type="button" class="overview-quick-card" data-action="page" data-value="'+id+'">'
-      +'<span class="overview-quick-icon">'+icon(symbol)+'</span><span><strong>'+esc(label)+'</strong><small>'+esc(note)+'</small></span>'
+  // A real, licensed place image from THIS trip only; a clearly symbolic city
+  // illustration stays visible when there is no suitable image or it fails.
+  const journeyCities=[...new Set(trip.route)];
+  const coverCity=journeyCities.find(id=>ctx.cities[id])??ctx.city;
+  const coverMatch=journeyCities.map(id=>{
+    const place=ctx.all.find(item=>item.city===id&&item.kind==='activity'&&curatedPlacePhoto(item));
+    return place?{place,photo:curatedPlacePhoto(place)}:null;
+  }).find(Boolean);
+  const coverLabel=coverMatch
+    ?'<span class="journey-home-media-credit"><strong>'+esc(coverMatch.place.name)+'</strong>'
+      +'<a href="'+esc(coverMatch.photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">'
+      +'Bild: '+esc(coverMatch.photo.credit)+'</a></span>'
+    :'<span class="journey-home-media-credit">Illustration · kein Ortsfoto</span>';
+  const heroMedia='<div class="journey-home-media" aria-label="Reisezielmotiv">'
+    +'<span class="journey-home-media-fallback" aria-hidden="true">'+destinationIllustration(coverCity)+'</span>'
+    +(coverMatch?'<img class="journey-home-photo" src="'+esc(coverMatch.photo.url)+'"'
+      +' fetchpriority="high" decoding="async" referrerpolicy="no-referrer"'
+      +' alt="Aufnahme: '+esc(coverMatch.place.name)+'">':'')
+    +coverLabel+'</div>';
+  const travelDates=dateLabel(trip.from,trip.to);
+  const selectedDay=ctx.date??trip.from;
+  const heroHtml='<section class="journey-home-hero" aria-labelledby="journey-home-trip-title">'
+    +'<div class="journey-home-hero-copy">'
+    +'<p class="journey-home-eyebrow">'+icon('compass')+' DEINE AKTIVE REISE</p>'
+    +'<h2 id="journey-home-trip-title">'+esc(ctx.variant.state.title??trip.title)+'</h2>'
+    +'<p class="journey-home-description">'+esc(journeyCities.map(id=>ctx.cities[id]?.name??id).join(' → '))+'</p>'
+    +'<div class="journey-home-meta"><span>'+icon('calendar')+esc(travelDates)+'</span>'
+    +'<span>'+icon('pin')+journeyCities.length+' Orte</span>'
+    +'<span>'+icon('people')+ctx.people.length+' Reisende</span></div>'
+    +'<div class="journey-home-hero-action">'
+    +'<div class="journey-home-day-label"><strong>Dein ausgewählter Tag</strong>'
+    +'<span>'+esc(ctx.cities[ctx.city]?.name??ctx.city)+' · '+esc(selectedDay?longDay(selectedDay):'Datum offen')+'</span></div>'
+    +'<button type="button" class="button journey-home-primary" data-action="day-plan-go"'
+    +' data-value="'+esc(selectedDay)+'">'+icon('calendar')+' Tagesplan öffnen '+icon('arrow')+'</button>'
+    +'</div>'
+    +'<p class="journey-home-plan-note">Bekannte Plankosten: '+esc(money(ctx.budget.total))
+    +' · '+ctx.budget.unknown+' Preise offen. Keine bestätigten Buchungen.</p>'
+    +'</div>'+heroMedia+'</section>';
+  // This is secondary navigation, no longer four equal-weight dashboard cards.
+  const quickStartHtml='<nav class="overview-start journey-home-shortcuts" aria-label="Weitere Planungsbereiche">'
+    +'<span class="journey-home-shortcuts-label">Weiterplanen</span>'
+    +'<div class="overview-quick-grid">'+shortcuts.map(([id,label,note,symbol])=>
+      '<button type="button" class="overview-quick-card" data-action="page" data-value="'+id+'"'
+      +' aria-label="'+esc(label)+': '+esc(note)+'">'
+      +icon(symbol)+'<span><strong>'+esc(label)+'</strong><small>'+esc(note)+'</small></span>'
+      +icon('arrow')+'</button>').join('')+'</div></nav>';
+  const stages='<ol class="journey-home-stages" aria-label="Reiseabschnitte in Reihenfolge">'
+    +journeyCities.map((id,index)=>{
+      const stay=trip.stayByCity?.[id];
+      const dates=stay?.from?dateLabel(stay.from,stay.to):'Aufenthaltsdaten offen';
+      return '<li><button type="button" class="journey-home-stage" data-action="trip-city"'
+        +' data-value="'+esc(id)+'" aria-label="Reiseziel '+(index+1)+': '
+        +esc(ctx.cities[id]?.name??id)+', '+esc(dates)+' öffnen">'
+        +'<span class="journey-home-stage-number">'+String(index+1).padStart(2,'0')+'</span>'
+        +'<span><strong>'+esc(ctx.cities[id]?.name??id)+'</strong><small>'+esc(dates)+'</small></span>'
+        +icon('chevron')+'</button></li>';
+    }).join('')+'</ol>';
+  const nextSteps=[];
+  if(readiness.missingStays.length)nextSteps.push(['lodging','Unterkünfte festlegen',
+    readiness.missingStays.length+' Aufenthaltsorte ohne vollständig ausgewählte Unterkunft','bed']);
+  if(railUnchecked.length)nextSteps.push(['rail','Bahnfahrten prüfen',
+    railUnchecked.length+' Bahnabschnitte noch ohne vollständigen eigenen Nachweis','train']);
+  if(readiness.unknownPrices)nextSteps.push(['budget','Offene Kosten prüfen',
+    readiness.unknownPrices+' aktive Positionen ohne umrechenbaren Gruppenpreis','wallet']);
+  if(readiness.missingOriginalSources)nextSteps.push(['data','Reisequellen vervollständigen',
+    'Original-Snapshots fehlen in dieser Arbeitskopie','folder']);
+  if(!nextSteps.length)nextSteps.push(['data','Reisedaten und Fristen prüfen',
+    'Gespeicherte Planstände und Quellen vor der Buchung selbst prüfen','folder']);
+  const nextStepsHtml='<section class="journey-home-tasks" aria-labelledby="journey-home-tasks-title">'
+    +'<header class="journey-home-section-head"><div><span class="journey-home-kicker">ALS NÄCHSTES</span>'
+    +'<h2 id="journey-home-tasks-title">Was jetzt wichtig ist</h2>'
+    +'<p>Konkrete offene Punkte deiner aktuellen Reisevariante – keine Buchungsbestätigungen.</p></div>'
+    +btn('page','Alle Fristen','arrow','data')+'</header>'
+    +'<div class="journey-home-task-list">'+nextSteps.slice(0,3).map(([page,title,detail,symbol],index)=>
+      '<button type="button" class="journey-home-task" data-action="page" data-value="'+page+'">'
+      +'<span class="journey-home-task-symbol">'+icon(symbol)+'</span>'
+      +'<span class="journey-home-task-copy"><strong>'+esc(title)+'</strong><small>'+esc(detail)+'</small></span>'
       +icon('arrow')+'</button>').join('')+'</div></section>';
-  return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
-    + quickStartHtml
-    + swissInterrailOverviewV82(ctx)
-    + swissLodgingSummaryV83(ctx)
-    + dayPlanOverview(ctx)
-    + '<div class="cockpit-layout">'
-    + '<section class="cockpit-welcome" aria-label="Reise auf einen Blick">'
-    + '<div class="cockpit-intro"><span class="cockpit-eyebrow">'+icon('compass')+' DEIN REISE-COCKPIT</span>'
-    +'<h2>'+esc(ctx.variant.state.title??trip.title)+'</h2>'
-    +'<p>'+esc(trip.route.slice(0,5).map(id=>ctx.cities[id]?.name??id).join(' → '))
-      +(trip.route.length>5?' → …':'')+'</p>'
-    +'<div class="cockpit-facts">'
-    +'<span>'+icon('calendar')+esc(dateLabel(trip.from,trip.to))+'</span>'
-    +'<span>'+icon('pin')+new Set(trip.route).size+' Orte</span>'
-    +'<span>'+icon('people')+ctx.people.length+' Reisende</span>'
-    +'<span title="Bekannte Plankosten – kein endgültiger Buchungspreis">'+icon('wallet')+'Bekannte Plankosten: '+esc(money(ctx.budget.total))+'</span>'
-    +'</div><p class="cockpit-disclaimer">'+ctx.budget.unknown+' Preisposten offen · Planwerte, keine bestätigten Buchungen</p></div>'
-    +'<div class="cockpit-journey"><div class="cockpit-section-head"><div><strong>Reiseorte entdecken</strong>'
-    +'<small>Fotos nur bei belegter Bildquelle</small></div>'
-    +btn('show-route','Route öffnen','arrow')+'</div>'
-    +'<div class="destination-filmstrip" aria-label="Reiseorte mit Quellenfotos">'+destinationCards+'</div></div></section>'
-    +overviewRoute+'</div>'
-    + '<section class="cockpit-progress" aria-label="Vorbereitung nachprüfen">'
-    +'<div class="cockpit-section-head"><div><strong>Was ist schon vorbereitet?</strong>'
+  const swissExtra=swissInterrailOverviewV82(ctx)+swissLodgingSummaryV83(ctx);
+  return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title,
+      btn('copy', 'Variante duplizieren', 'plus'))
+    +'<div class="journey-home">'
+    +heroHtml
+    +quickStartHtml
+    +'<section class="journey-home-route-section" aria-labelledby="journey-home-route-title">'
+    +'<header class="journey-home-section-head"><div><span class="journey-home-kicker">DEINE REISESTRECKE</span>'
+    +'<h2 id="journey-home-route-title">Deine Reise auf einen Blick</h2>'
+    +'<p>Städtefolge und Reiseorte aus deinem Plan. Die Linien sind schematisch, keine geprüften Bahntrassen.</p>'
+    +'</div></header>'
+    +'<div class="cockpit-layout journey-home-route-layout">'
+    +overviewRoute
+    +'<section class="cockpit-welcome journey-home-places" aria-label="Orte und Reiseabschnitte">'
+    +'<div class="cockpit-journey"><div class="cockpit-section-head"><div><strong>Orte entdecken</strong>'
+    +'<small>Fotos nur mit Bildquelle, sonst Illustration</small></div>'
+    +btn('show-route','Auf der Karte','arrow')+'</div>'
+    +'<div class="destination-filmstrip" aria-label="Reiseorte mit Bildquellen">'+destinationCards+'</div></div>'
+    +'<div class="journey-home-stages-block"><div class="journey-home-stages-title">'
+    +'<h3>Reiseabschnitte</h3><small>Zum Ort wechseln</small></div>'+stages+'</div>'
+    +'</section></div></section>'
+    +nextStepsHtml
+    +dayPlanOverview(ctx)
+    +(swissExtra?'<section class="journey-home-focus" aria-label="Weitere reisespezifische Hinweise">'+swissExtra+'</section>':'')
+    +'<section class="cockpit-progress journey-home-progress" aria-label="Planungsfortschritt">'
+    +'<div class="cockpit-section-head"><div><strong>Planungsstand</strong>'
     +'<small>Nur in deinem Plan dokumentiert, nicht extern bestätigt</small></div>'
     +btn('page','Details & Fristen','arrow','data')+'</div>'
     +'<div class="cockpit-progress-track">'+progress.map(r=>{
@@ -671,19 +745,22 @@ function overview(ctx) {
       +'<span class="cockpit-progress-label"><strong>'+esc(r.title)+'</strong>'
       +'<small>'+r.done+' / '+r.total+'</small></span>'
       +'<span class="cockpit-progress-line" role="progressbar" aria-label="'+esc(r.title)
-      +'" aria-valuemin="0" aria-valuemax="'+r.total+'" aria-valuenow="'+r.done+'"><i style="width:'+pct+'%"></i></span></button>';
+      +'" aria-valuemin="0" aria-valuemax="'+r.total+'" aria-valuenow="'+r.done+'">'
+      +'<i style="width:'+pct+'%"></i></span></button>';
     }).join('')+'</div></section>'
-    + '<details class="cockpit-reference section"><summary><strong>Planungs-Check</strong>'
+    +'<details class="cockpit-reference section"><summary><strong>Planungs-Check</strong>'
     +'<small>Alle Prüfungen und offenen Aufgaben anzeigen</small>'+icon('chevron')+'</summary>'
     +'<div class="cockpit-reference-body"><p class="muted">Direkt aus den ausgewählten Einträgen berechnet. Fehlende Angaben sind keine bestätigten Buchungen.</p>'
-    +table(['Prüffeld', 'Aktueller Stand', 'Nächster Schritt'], readinessRows)+'</div></details>'
-    + (ruleRows.length ? '<details class="cockpit-reference section"><summary><strong>Offizielle Reiseregeln für 2027</strong>'
+    +table(['Prüffeld', 'Aktueller Stand', 'Nächster Schritt'],readinessRows)+'</div></details>'
+    +(ruleRows.length?'<details class="cockpit-reference section"><summary><strong>Offizielle Reiseregeln für 2027</strong>'
       +'<small>Saisonale Hinweise und Quellen aufklappen</small>'+icon('chevron')+'</summary><div class="cockpit-reference-body">'
       +'<p class="muted">Nur belegte Saison- und Zugangsregeln, keine Garantie für Buchungen und Gültigkeit am Reisetag.</p>'
-      +table(['Ort / Thema', 'Bekannte Regel und offene Punkte', 'Quellenstand', 'Prüfen'], ruleRows)+'</div></details>' : '')
-    + '<details class="cockpit-reference section"><summary><strong>Varianten im Vergleich</strong>'
+      +table(['Ort / Thema','Bekannte Regel und offene Punkte','Quellenstand','Prüfen'],ruleRows)+'</div></details>':'')
+    +'<details class="cockpit-reference section"><summary><strong>Varianten im Vergleich</strong>'
     +'<small>Kosten, Gruppen, Reisedauer und Pass-Tage vergleichen</small>'+icon('chevron')+'</summary>'
-    +'<div class="cockpit-reference-body">'+table(['Variante', 'Zeitraum', 'Originalroute', 'Bekannte Plankosten', 'Personenanteile', 'Preise offen', 'Pass-Tage', 'Gruppe'], variants)+'</div></details>';
+    +'<div class="cockpit-reference-body">'+table(['Variante','Zeitraum','Originalroute','Bekannte Plankosten','Personenanteile','Preise offen','Pass-Tage','Gruppe'],variants)
+    +'</div></details>'
+    +'</div>';
 }
 
 function options(ctx, lodging) {
