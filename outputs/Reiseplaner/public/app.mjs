@@ -818,12 +818,18 @@ async function calculateExplorerRoute() {
       if (!route?.legs?.length ||!Number.isFinite(route.minutes)||route.minutes<=0)
         throw new Error('Im vorhandenen Fahrplanpaket keine passende Verbindung gefunden. Betreiberplaner verwenden.');
     } else throw new Error('Unbekannte Verkehrsart');
+    // A sourced external POI can live in the explorer list rather than
+    // ctx.all; compare the actual current map records for BOTH endpoints.
+    const latest=[...context.all,...(context.explorer?.placed??[]),
+      ...(context.explorer?.unlocated??[])];
+    const currentFrom=latest.find(x=>x.id===fromId);
+    const currentTo=latest.find(x=>x.id===toId);
     if (generation!==mapRouteRequestGeneration
       ||variant.id !== selectedVariant||variant.revision!==ctx.variant.revision
       || view.mapFrom !== fromId || view.mapTo !== toId
       || view.mapRouteMode !== mode || view.mapRouteTime !== when || context.date !== date
-      ||pointKey(context.all.find(x=>x.id===fromId)?.point)!==pointKey(from.point)
-      ||pointKey(context.all.find(x=>x.id===toId)?.point)!==pointKey(to.point)) return;
+      ||pointKey(currentFrom?.point)!==pointKey(from.point)
+      ||pointKey(currentTo?.point)!==pointKey(to.point)) return;
     view.mapRouteResult = { status: mode==='bike'
       ?'FOSSGIS-Fahrradroute geladen. Verkehrsregeln, Oberfläche und Wegfreigabe vor Ort prüfen.'
       :'Routenquelle wurde geladen; Öffnungs- und Tarifbedingungen am Reisetag prüfen.', route };
