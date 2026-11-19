@@ -1,5 +1,5 @@
 import {explorerCategory} from './map-explorer.mjs';
-import {browseItems} from './browse-hub-v35.mjs';
+import {browseItems,isSelfCatering} from './browse-hub-v35.mjs';
 
 /** Single directory for researched food places plus explicitly loaded OSM shops.
  * Keep open-geodata results separate from editable itinerary/budget entries.
@@ -10,7 +10,7 @@ export function foodDirectory(ctx,loadedMarkets=[]){
   const dedup=new Map();
   for(const item of entries){
     const kind=explorerCategory(item);
-    if(kind==='food'||kind==='shop'||item.requiresKitchen){
+    if(kind==='food'||kind==='shop'||isSelfCatering(item)){
       if(!dedup.has(item.id))dedup.set(item.id,item);
     }
   }
@@ -18,9 +18,9 @@ export function foodDirectory(ctx,loadedMarkets=[]){
   const key=ctx.browseFoodType??'all';
   const favorites=ctx.browseSavedIds??new Set(ctx.state?.favorites??[]);
   const categoryMatches=item=>key==='all'
-    ||key==='restaurants'&&explorerCategory(item)==='food'
+    ||key==='restaurants'&&explorerCategory(item)==='food'&&!isSelfCatering(item)
     ||key==='markets'&&explorerCategory(item)==='shop'
-    ||key==='cook'&&Boolean(item.requiresKitchen);
+    ||key==='cook'&&isSelfCatering(item);
   const shown=candidates.filter(item=>categoryMatches(item)
     &&(!ctx.browseFoodSavedOnly||favorites.has(item.id)));
   // Clicking "Supermärkte laden" should expose the newly fetched places
@@ -31,16 +31,16 @@ export function foodDirectory(ctx,loadedMarkets=[]){
   }
   const available={
     all:candidates.length,
-    restaurants:candidates.filter(item=>explorerCategory(item)==='food').length,
+    restaurants:candidates.filter(item=>explorerCategory(item)==='food'&&!isSelfCatering(item)).length,
     markets:candidates.filter(item=>explorerCategory(item)==='shop').length,
-    cook:candidates.filter(item=>Boolean(item.requiresKitchen)).length,
+    cook:candidates.filter(isSelfCatering).length,
     saved:candidates.filter(item=>favorites.has(item.id)).length,
   };
   // All before search: source coverage, not the count of visible cards.
   const original=browseItems([...(ctx.all??[]),...loadedMarkets],
     {...ctx,browseSearch:''},{kind:'activity'}).filter(item=>{
       const group=explorerCategory(item);
-      return group==='food'||group==='shop'||Boolean(item.requiresKitchen);
+      return group==='food'||group==='shop'||isSelfCatering(item);
     });
   return {candidates,shown,available,total:new Set(original.map(i=>i.id)).size};
 }

@@ -4,6 +4,7 @@ import { transitNetworks } from './transit.mjs';
 import { placeProfileHtml } from './place-profile.mjs';
 import { placeInspectorHtml } from './place-inspector.mjs';
 import { VERIFICATION_FIELDS, reviewProgress } from './verification.mjs';
+import {mealSlotLabels,mealSlotTimes,plansForSlot,currentMeals,mealAccommodation,mealSelectionPatch,shoppingCandidates,shoppingStopDraft} from './meal-planner.mjs';
 
 const dialog = document.querySelector('#dialog');
 const field = (label, control, wide = false) => '<label class="field' + (wide ? ' wide' : '') + '"><span>' + esc(label) + '</span>' + control + '</label>';
@@ -19,6 +20,8 @@ export function openDialog(title, body, submit) {
   dialog.innerHTML = '<div class="dialog-head"><h2 id="dialog-title">' + esc(title) + '</h2>' + iconBtn('close', 'Dialog schließen', 'close')
     + '</div><div class="dialog-body">' + body + '</div>';
   dialog.setAttribute('aria-labelledby', 'dialog-title');
+  dialog.dataset.variantId=document.querySelector('#app').dataset.variantId??'';
+  dialog.dataset.revision=document.querySelector('#app').dataset.revision??'';
   dialog.showModal();
   const form = dialog.querySelector('#modal-form');
   if (form && submit) form.addEventListener('submit', async event => {
@@ -313,42 +316,40 @@ export function mealForm(ctx, option, save, after) {
   const { date, people, city } = ctx;
   const zone = ctx.cities[city].timezone;
   const estimate = mealEstimate(option, people.length);
-  const current = ctx.active.filter(item => item.mealSlot === option.slot && mealDate(item) === date);
+  const slot=plansForSlot([option],ctx.mealSlot??'dinner').length?(ctx.mealSlot??'dinner'):option.slot;
+  const current = currentMeals(ctx,slot);
   const existing = current.find(item => item.mealPlanId === option.id);
-  const destination = ctx.all.find(item => item.id === option.venue);
-  const localTime = localParts((existing ?? current[0])?.start, zone).time ?? '19:00';
-  const comparison = 'Gruppe ' + money(estimate.base) + (estimate.terrace != null ? ' innen · Terrasse ' + money(estimate.terrace) : '');
-  const warn = option.type === 'cook' && !['shared', 'private'].includes(ctx.mealHotel?.kitchenMode)
-    ? alert('Für die Zubereitung sind Herd, Topf und Küchenzugang einzuplanen.') : '';
-  openDialog('Abendessen einplanen', '<h3>' + esc(option.name) + '</h3><p>' + esc(dateText(date) + ' · ' + comparison) + '</p>'
+  const localTime = existing&&!existing.start?'':localParts((existing ?? current[0])?.start, zone).time ?? mealSlotTimes[slot];
+  const comparison = 'Gruppe ' + money(estimate.base,estimate.currency) + (estimate.terrace != null ? ' innen · Terrasse ' + money(estimate.terrace,estimate.currency) : '');
+  const accommodation=mealAccommodation(ctx,slot,localTime,existing?.duration??option.prep);
+  const warn = option.type === 'cook' && (option.requiresKitchen??true) && !accommodation.kitchenReady
+    ? alert(accommodation.notice) : '';
+  openDialog(mealSlotLabels[slot]+' einplanen', '<h3>' + esc(option.name) + '</h3><p>' + esc(dateText(date) + ' · ' + comparison) + '</p>'
     + '<p class="muted">' + esc(option.priceNote) + '</p>'
+    +(option.requiresColdStorage?'<p class="muted">Kühlmöglichkeit und Lagerhinweise der Milch prüfen; kein Herd nötig.</p>':'')
     + (current.length ? '<p>Ersetzt im Tagesplan ' + esc(current.map(i => i.name).join(', ')) + '.</p>' : '') + warn
     + controls([
-      field('Startzeit · Ortszeit', input('start', localTime, 'time', 'required')),
+      field('Startzeit · Ortszeit, leer = flexibel', input('start', localTime, 'time')),
       field('Dauer · Min.', input('duration', existing?.duration ?? option.prep, 'number', 'min="1" max="360" required')),
       ...(estimate.terrace == null ? [] : [field('Sitzplatz', select('seating', [['inside', 'Innen'], ['terrace', 'Terrasse']], existing?.seating ?? 'inside'))]),
     ], 'In Plan übernehmen'), async data => {
-    if (current.some(i => i.locked || i.booked)) throw new Error('Eine Mahlzeit im Plan ist gesperrt.');
-    if (current.some(i => ctx.state.expenses.some(expense => expense.forItem === i.id))) {
-      throw new Error('Für diese Mahlzeit ist schon eine Ausgabe erfasst. Passe den Betrag im Budget an.');
-    }
-    const seating = text(data, 'seating');
-    const cents = seating === 'terrace' && estimate.terrace != null ? estimate.terrace : estimate.base;
-    const requiresKitchen = option.type === 'cook';
-    const item = { id: uid('manual'), trip: ctx.trip.id, city, kind: 'activity', category: 'food', selected: true,
-      name: option.name + (seating === 'terrace' ? ' · Terrasse' : ''), zone, date, mealSlot: option.slot,
-      mealPlanId: option.id, seating, start: utcFromLocal(date, text(data, 'start'), zone, existing?.start),
-      duration: n(data, 'duration'), point: destination?.point ?? null, address: destination?.address,
-      requiresKitchen, ...(requiresKitchen ? { basketProducts: option.products.map(product => ({
-        name: product.name, pack: product.pack, need: product.need, cents: product.cents, source: product.source,
-      })) } : {}),
-      tags: ['Abendessen', requiresKitchen ? 'Selbst kochen' : 'Restaurant'],
-      price: { cents, currency: 'EUR', scope: 'group', party: people.length, label: option.priceNote },
-      source: option.source, detail: option.note, origin: 'manuell', verification: 'Preisreferenz' };
-    const edits = { ...ctx.state.edits };
-    for (const previous of current) edits[previous.id] = { ...edits[previous.id], selected: false };
-    await save({ ...ctx.state, edits, manual: [...ctx.state.manual, item] }, 'Abendessen eingeplant');
-    after(item.id);
+    const id=uid('manual');
+    const next=mealSelectionPatch(ctx,option,{slot,time:text(data,'start'),duration:n(data,'duration'),seating:text(data,'seating')||'inside'},id);
+    await save(next,mealSlotLabels[slot]+' eingeplant');
+    after(id);
+  });
+}
+
+export function shoppingStopForm(ctx,save,after){
+ const choices=shoppingCandidates(ctx);
+ if(!choices.length){openDialog('Einkaufsort noch offen','<p>Erfasse oder lade zuerst einen Einkaufsort für diese Stadt. Es wird keine Position erfunden.</p>');return}
+ openDialog('Einkaufsstopp einplanen','<p>Die Warenkosten bleiben im gemeinsamen Warenkorb. Hier planst du nur Ort und Besuchszeit; Öffnung und Produktbestand sind gesondert zu prüfen.</p>'
+  +controls([field('Einkaufsort',select('store',choices.map(i=>[i.id,i.name]),choices[0].id),true),
+   field('Startzeit · leer = flexibel',input('start','','time')),
+   field('Einkaufsdauer · Min.',input('duration',20,'number','min="5" max="180" required'))], 'Stopp übernehmen'),async data=>{
+   const store=choices.find(i=>i.id===text(data,'store'));
+   const stop=shoppingStopDraft(ctx,store,{time:text(data,'start'),duration:n(data,'duration')},uid('manual'));
+   await save({...ctx.state,manual:[...ctx.state.manual,stop]},'Einkaufsstopp eingeplant');after(stop.id);
   });
 }
 

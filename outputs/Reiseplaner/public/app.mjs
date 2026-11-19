@@ -22,6 +22,8 @@ import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
 import {footpathMatchesStops} from './route-studio.mjs';
 import { btn, empty, esc, icon, urlLink } from './ui.mjs';
 import {hikingPreview,hikingMapPreview} from './hiking.mjs';
+import {mealAccommodation,mealSlotLabels} from './meal-planner.mjs';
+import {shoppingStopForm} from './forms.mjs';
 import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, groceryExtraForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
 const app = document.querySelector('#app');
@@ -51,7 +53,7 @@ const view = {
   activityCategory:'all',activitySavedOnly:false,activityOrder:'source',activityEvidenceFilter:'all',
   browseFoodSavedOnly:false,browseMarketLoadingCity:null,browseMarketError:null,
   browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
-  dayPlanOpen:false,hikePreviewId:null,
+  dayPlanOpen:false,hikePreviewId:null,mealSlot:'dinner',
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
@@ -115,9 +117,10 @@ function buildContext() {
   const mealHotel = overnight.find(item => item.city === city);
   const mapKitchen = item => {
     if (!item.requiresKitchen) return item;
-    const kitchen = overnight.find(hotel => hotel.city === item.city);
+    const place=mealAccommodation({active,date,city:item.city},item.mealSlot??'dinner',localParts(item.start,item.zone).time,item.duration??0);
+    const kitchen = place.hotel;
     return { ...item, point: kitchen?.point ?? null, address: kitchen?.address,
-      kitchenReady: ['shared', 'private'].includes(kitchen?.kitchenMode) };
+      kitchenReady: place.kitchenReady };
   };
   const fullDay = dayEntries(active, date).map(mapKitchen);
   const dayCities = [...new Set(fullDay.map(i => i.placeCity).filter(Boolean))];
@@ -441,6 +444,8 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   // discarded the entire map, forcing another network/WebGL initialization.
   const oldMap=currentMap;
   context = buildContext();
+  app.dataset.variantId=variant.id;
+  app.dataset.revision=String(variant.revision);
   const reuse=Boolean(oldMap?.element?.isConnected&&mapVisible(context)&&window.L);
   const mapNode=reuse?oldMap.element:null;
   if(reuse)mapNode.remove();
@@ -545,6 +550,9 @@ function say(message, reversible = false) {
 
 async function save(next, message, recordUndo = true) {
   if (saving || loading) throw new Error('Eine Änderung wird bereits verarbeitet.');
+  const dialog=document.querySelector('#dialog');
+  if(dialog.open&&(dialog.dataset.variantId!==variant.id||Number(dialog.dataset.revision)!==variant.revision))
+    throw new Error('Der Plan wurde inzwischen geändert. Bitte den Dialog schließen und erneut öffnen.');
   const before = variant.state;
   const id = variant.id;
   saving = true;
@@ -2002,6 +2010,10 @@ async function action(name, value = '') {
       await save({ ...ctx.state, groceryOverrides: overrides }, 'Warenkorb-Referenz wiederhergestellt');
       break;
     }
+    case 'meal-slot':
+      if(mealSlotLabels[value]){view.mealSlot=value;view.browseMealsOpen=true;render({restoreView:true,fetchRoutes:false});}break;
+    case 'shopping-stop':
+      shoppingStopForm(ctx,save,()=>{view.page='plan';showCity(ctx.city,ctx.date);});break;
     case 'meal-choose': {
       const match=Object.entries(catalog.mealPlans??{}).find(([,plans])=>
         plans.some(plan=>plan.id===value));

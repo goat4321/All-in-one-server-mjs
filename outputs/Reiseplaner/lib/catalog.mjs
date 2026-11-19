@@ -26,7 +26,8 @@ import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsLocationStatus 
 import { localParts, minor, utcFromLocal } from '../public/model.mjs';
 import { italyLodgings, italyPlaces, italySources, italyStations } from './italy.mjs';
 import { rivieraAlpsLodgings, rivieraAlpsPlaces, rivieraAlpsSources, rivieraAlpsStations } from './riviera-alps.mjs';
-import { barcelonaFoodPlaces, mealPlans, mealSources } from './barcelona-meals.mjs';
+import { barcelonaFoodPlaces } from './barcelona-meals.mjs';
+import {mealPlans,mealSources,mealResearch} from './meal-catalog.mjs';
 import { seedSnapshot } from './seed-fallback.mjs';
 import { loadResearchV02, scopedQuote, quoteCandidate } from './research-v02.mjs';
 import { loadSurveyFirstV19, applySurveyFirstV19 } from './research-v19.mjs';
@@ -1224,6 +1225,7 @@ export async function loadCatalog() {
       researchV22,
        fieldNotesV28,
       dayPlansV32,
+      mealResearch,
       hikingEvidence:{...hikingArchive,stats:hikingStats},
       uploadedResearchV50:{meta:uploadedResearchV50.meta,stats:uploadedStatsV50},
       nightlifeOfficialV51:nightlifeOfficialStatsV51,

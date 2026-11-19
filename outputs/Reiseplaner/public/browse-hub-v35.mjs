@@ -23,6 +23,7 @@ export const browseMatch=(item,query,cities={})=>{
  return normalize([item.name,item.address,item.detail,item.note,
    cities[item.city]?.name,...(item.tags??[])].join(' ')).includes(needle);
 };
+export const isSelfCatering=item=>Boolean(item.requiresKitchen)||Array.isArray(item.basketProducts);
 export function browseItems(items,ctx,{kind=null,foodType='all'}={}){
  const route=new Set(ctx.trip?.route??[]);
  return (items??[]).filter(item=>
@@ -30,9 +31,9 @@ export function browseItems(items,ctx,{kind=null,foodType='all'}={}){
   &&(ctx.browseScope==='trip'||item.city===ctx.city)
   &&browseMatch(item,ctx.browseSearch,ctx.cities)
   &&(kind===null||item.kind===kind)
-  &&(foodType==='all'||foodType==='restaurants'&&explorerCategory(item)==='food'
+  &&(foodType==='all'||foodType==='restaurants'&&explorerCategory(item)==='food'&&!isSelfCatering(item)
     ||foodType==='markets'&&explorerCategory(item)==='shop'
-    ||foodType==='cook'&&Boolean(item.requiresKitchen))
+    ||foodType==='cook'&&isSelfCatering(item))
  );
 }
 const cityLabel=ctx=>ctx.cities?.[ctx.city]?.name??ctx.city;
@@ -153,7 +154,7 @@ export function foodBrowseCards(ctx,items){
     +placeImageHtml(item,ctx,{small:true})
     +'<div class="hub-food-card-body">'
     +'<small class="hub-food-card-type">'+icon(group==='food'?'food':'wallet')+' '
-    +esc(group==='food'?'Restaurant / Café':group==='shop'?'Lebensmittel & Einkauf':'Selbstversorgung')+'</small>'
+    +esc(isSelfCatering(item)?'Selbstversorgung':group==='food'?'Restaurant / Café':group==='shop'?'Lebensmittel & Einkauf':'Selbstversorgung')+'</small>'
     +'<h3>'+esc(item.name)+'</h3><p>'+esc(ctx.cities[item.city]?.name??item.city)
       +(item.address?' · '+esc(item.address):' · Adresse nicht geprüft')+'</p>'
     +'<div class="hub-food-card-tags">'

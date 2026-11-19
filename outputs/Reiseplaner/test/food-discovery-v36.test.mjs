@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {loadCatalog} from '../lib/catalog.mjs';
 import {foodDirectory,marketCoverage} from '../public/food-discovery-v36.mjs';
-import {foodBrowseCards,browseOptionCard} from '../public/browse-hub-v35.mjs';
+import {foodBrowseCards,browseOptionCard,browseItems} from '../public/browse-hub-v35.mjs';
 import {optionMatchesFilter} from '../public/smart-filters.mjs';
 import {normalizeSupermarkets} from '../lib/supermarket-source.mjs';
 
@@ -22,6 +22,22 @@ const markets=normalizeSupermarkets([
  {type:'way',id:2026002,center:{lat:41.40,lon:2.18},
   tags:{shop:'supermarket',name:'Test Polygon Store'}},
 ],ctx.city);
+
+test('cold and hot recipes stay in self-catering rather than restaurant search',()=>{
+ const cold={id:'saved-salad',kind:'activity',city:'barcelona',category:'food',
+  name:'Kalter Salat',requiresKitchen:false,basketProducts:[],tags:[]};
+ const hot={...cold,id:'saved-pasta',name:'Pasta',requiresKitchen:true};
+ const restaurant={id:'restaurant',kind:'activity',city:'barcelona',category:'food',name:'Café'};
+ const local={...ctx,all:[cold,hot,restaurant]};
+ const cook=foodDirectory({...local,browseFoodType:'cook'});
+ assert.deepEqual(cook.shown.map(i=>i.id),[cold.id,hot.id]);
+ assert.equal(cook.available.cook,2);assert.equal(cook.available.restaurants,1);
+ assert.deepEqual(foodDirectory({...local,browseFoodType:'restaurants'}).shown.map(i=>i.id),[restaurant.id]);
+ assert.deepEqual(browseItems(local.all,local,{foodType:'cook'}).map(i=>i.id),[cold.id,hot.id]);
+ assert.deepEqual(browseItems(local.all,local,{foodType:'restaurants'}).map(i=>i.id),[restaurant.id]);
+ const html=foodBrowseCards(local,[cold,hot]);
+ assert.match(html,/Selbstversorgung/);assert.doesNotMatch(html,/Restaurant \/ Café/);
+});
 
 test('Only the explicitly loaded market dataset augments the directory',()=>{
  const before=foodDirectory(ctx,[]);

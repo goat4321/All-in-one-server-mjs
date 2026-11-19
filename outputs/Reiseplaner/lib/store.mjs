@@ -5,6 +5,7 @@ import { VERIFICATION_FIELDS } from '../public/verification.mjs';
 
 const object = v => v !== null && typeof v === 'object' && !Array.isArray(v);
 const goodText = (v, limit = 600) => typeof v === 'string' && v.length <= limit;
+const validGroceryKey=key=>/^(?:[a-z0-9_-]{1,50}:[a-z0-9_-]{1,120}:[0-9]{1,7}:(?:[0-9]{1,8}|open)(?::(?:EUR|CHF):(?:g|ml|Stück))?|extra:[a-z0-9-]{1,80})$/i.test(key);
 const dayPattern = /^\d{4}-\d{2}-\d{2}$/;
 const validDay = v => goodText(v, 10) && dayPattern.test(v) && !Number.isNaN(Date.parse(v))
   && new Date(v).toISOString().startsWith(v);
@@ -50,7 +51,7 @@ export function validateState(state, trip, imported) {
   if (state.groceryOverrides != null
     && (!object(state.groceryOverrides) || Object.keys(state.groceryOverrides).length > 200
       || Object.entries(state.groceryOverrides).some(([key, value]) =>
-        !/^(?:[a-z0-9_-]{1,50}:[a-z0-9_-]{1,120}:[0-9]{1,7}:[0-9]{1,8}|extra:[a-z0-9-]{1,80})$/i.test(key)
+        !validGroceryKey(key)
         || !object(value) || !Number.isSafeInteger(value.packs) || value.packs < 0 || value.packs > 100
         || (value.packs === 0 && value.explicitPacks !== true)
         || (value.explicitPacks != null && typeof value.explicitPacks !== 'boolean')
@@ -61,7 +62,7 @@ export function validateState(state, trip, imported) {
   }
   if (state.shopping != null) {
     const shopping = state.shopping;
-    const keyValid = key => /^(?:[a-z0-9_-]{1,50}:[a-z0-9_-]{1,120}:[0-9]{1,7}:[0-9]{1,8}|extra:[a-z0-9-]{1,80})$/i.test(key);
+    const keyValid = validGroceryKey;
     if (!object(shopping) || !Array.isArray(shopping.extras) || shopping.extras.length > 100
       || !['pantry', 'checked', 'excluded'].every(key => object(shopping[key]) && Object.keys(shopping[key]).length <= 300)
       || Object.entries(shopping.pantry).some(([key, amount]) => !keyValid(key) || !Number.isSafeInteger(amount) || amount < 0 || amount > 1_000_000)
@@ -146,12 +147,14 @@ export function validateState(state, trip, imported) {
     if (i.end && i.start && Date.parse(i.end) <= Date.parse(i.start)) error('Das Ende muss nach dem Beginn liegen.');
     if (i.kind === 'transport' && i.toCity && !trip.route.includes(i.toCity)) error('Der Zielort gehört nicht zur ursprünglichen Route.');
     if (i.basketProducts != null
-      && (!i.requiresKitchen || !Array.isArray(i.basketProducts) || i.basketProducts.length > 30
+      && (!i.mealSlot || !Array.isArray(i.basketProducts) || i.basketProducts.length > 30
         || i.basketProducts.some(product => !goodText(product?.name, 160)
           || !goodText(product?.source, 120) || !/^[a-z0-9_-]+$/i.test(product.source)
           || !Number.isSafeInteger(product.pack) || product.pack < 1 || product.pack > 100000
           || !Number.isSafeInteger(product.need) || product.need < 1 || product.need > 100000
-          || !Number.isSafeInteger(product.cents) || product.cents < 0 || product.cents > 100000))) {
+          || (product.cents!==null&&(!Number.isSafeInteger(product.cents)||product.cents<0||product.cents>100000))
+          || !['g','ml','Stück'].includes(product.unit??'g') || !['EUR','CHF'].includes(product.currency??'EUR')
+          || (product.checkedOn!=null&&!validDay(product.checkedOn))))) {
       error('Ungültiger Zutatenplan.');
     }
     if (i.mealSlot != null && (i.kind !== 'activity' || !['breakfast', 'lunch', 'dinner'].includes(i.mealSlot)

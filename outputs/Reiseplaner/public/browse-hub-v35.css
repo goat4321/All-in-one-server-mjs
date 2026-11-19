@@ -457,3 +457,18 @@
 .hub-entry-access strong{font-weight:750}
 .hub-food-card-actions a,.hub-option-primary-actions a{display:inline-flex;align-items:center;min-height:36px;padding:8px 10px;border-radius:10px;font-size:.82rem;line-height:1.25;text-decoration:underline;text-underline-offset:3px}
 .hub-food-card-actions a:focus-visible,.hub-option-primary-actions a:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.meal-slot-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.meal-day-overview{scroll-margin-top:85px}
+.meal-slot-tabs .button,.meal-day-slot .button{min-height:44px;white-space:normal}
+.meal-day-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.meal-day-slot{min-width:0;border-top:2px solid var(--line);padding-top:12px}
+.meal-day-slot h3{font-size:1rem;margin:0 0 10px}
+.meal-day-slot p{font-size:.85rem;line-height:1.55;overflow-wrap:anywhere}
+.meal-day-slot small{display:block;color:var(--muted);margin-top:5px}
+.meal-day-slot>div{margin-top:10px}
+.meal-accommodation{font-size:.83rem;line-height:1.6;margin-top:20px}
+.meal-staple-comparison{margin:18px 0;padding:12px 0;border-block:1px solid var(--line)}
+.meal-staple-comparison summary{font-weight:700;cursor:pointer;min-height:36px}
+.meal-staple-comparison p,.meal-staple-comparison small{font-size:.79rem;line-height:1.55}
+.meal-staple-comparison small{display:block}
+@media(max-width:760px){.meal-day-grid{grid-template-columns:1fr}.meal-slot-tabs .button{flex:1}.grocery-section>.inline{flex-wrap:wrap}}

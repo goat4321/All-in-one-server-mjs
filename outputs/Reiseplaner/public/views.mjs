@@ -24,6 +24,9 @@ import { EXPLORER_GROUPS, explorerDetail, explorerCategory } from './map-explore
 import {markerProvenance} from './poi-location-provenance.mjs';
 import {mapViewSummary} from './map-view-summary-v72.mjs';
 import {hikingMapPanel} from './hiking.mjs';
+import {plansForSlot,currentMeals} from './meal-planner.mjs';
+import {mealDayOverview,stapleComparison,shoppingStopButton} from './meal-planner-ui.mjs';
+import {table} from './ui.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import {foodDirectory,marketCoverage} from './food-discovery-v36.mjs';
@@ -57,8 +60,6 @@ const tabs = [
   ['budget', 'Budget', 'wallet'], ['group', 'Reisegruppe', 'people'], ['data', 'Daten & Fristen', 'folder'],
 ];
 const heading = (title, note, actions = '') => '<header class="page-head"><div><h1>' + esc(title) + '</h1><p>' + esc(note) + '</p></div><div class="section-actions">' + actions + '</div></header>';
-const table = (labels, rows) => '<div class="table-wrap panel"><table><thead><tr>' + labels.map(l => '<th scope="col">' + esc(l) + '</th>').join('')
-  + '</tr></thead><tbody>' + rows.map(cells => '<tr>' + cells.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>';
 const stat = (label, value, note = '') => '<div class="panel stat"><small>' + esc(label) + '</small><strong>' + esc(value) + '</strong>' + (note ? '<p>' + esc(note) + '</p>' : '') + '</div>';
 
 export function renderShell(ctx) {
@@ -801,8 +802,8 @@ function options(ctx, lodging) {
 function food(ctx) {
   const { city, date, people, mealHotel, state, budget, catalog } = ctx;
   const count = people.length;
-  const plans = catalog.mealPlans?.[city] ?? [];
-  const planned = ctx.active.filter(i => i.city === city && i.mealSlot === 'dinner' && mealDate(i) === date);
+  const plans = plansForSlot(catalog.mealPlans?.[city] ?? [],ctx.mealSlot??'dinner');
+  const planned = currentMeals(ctx,ctx.mealSlot??'dinner');
   const stay = ctx.trip.stayByCity[city];
   const dates = ctx.dates.filter(d => d === date || (stay ? stay.from <= d && d <= stay.to : ctx.cityForDay(d) === city));
   const planDate = '<label class="field meal-day"><span>Reisetag</span><select id="meal-date">' + dates.map(d =>
@@ -815,7 +816,8 @@ function food(ctx) {
     basket.map(row => [
       '<span class="grocery-name">' + esc(row.name) + '</span><br><small>' + esc(row.excluded ? 'Aus Einkauf genommen · Rezeptbedarf offen'
         : row.adjustedForGroup ? 'Packungen an den gesamten Bedarf angepasst'
-        : row.extra ? 'Eigener Artikel' : row.modified ? 'Preis/Menge selbst angepasst' : 'Preisreferenz, kein Filialangebot') + '</small>',
+        : row.extra ? 'Eigener Artikel' : row.modified ? 'Preis/Menge selbst angepasst' : row.unitCents==null?'Preis offen – manuell ergänzen':'Preisreferenz, kein Filialangebot') + '</small>'
+        +(row.packAssumption?'<br><small>Planpackung · konkretes Produkt/Abtropfgewicht prüfen</small>':''),
       esc(row.required + ' ' + row.unit) + (row.stock ? '<br><small>' + esc(row.stock + ' ' + row.unit + ' Vorrat') + '</small>' : ''),
       esc(row.packs + ' × ' + row.pack + ' ' + row.unit),
       money(row.unitCents, row.currency) + (row.priceDate ? '<br><small>' + esc(dateText(row.priceDate)) + '</small>' : ''),
@@ -826,7 +828,8 @@ function food(ctx) {
         + (row.extra ? btn('grocery-edit', 'Vorrat', 'edit', row.key) : '')
         + (row.modified ? btn('grocery-reset', 'Zurücksetzen', 'reset', row.key) : '')
         + btn(row.excluded ? 'grocery-restore' : 'grocery-remove', row.excluded ? 'Wieder aufnehmen' : 'Entfernen', row.excluded ? 'plus' : 'close', row.key)
-        + urlLink(row.priceSourceUrl ?? catalog.sources[row.source]?.url, 'Quelle'),
+        + urlLink(row.priceSourceUrl ?? catalog.sources[row.source]?.url,
+          row.priceSourceUrl?'Eigene Preisquelle':catalog.sources[row.source]?.publisher?.startsWith('Produktsuche')?'Produktsuche':'Quelle'),
     ])) : '';
   const planCards = plans.map(plan => {
     const estimate = mealEstimate(plan, count);
@@ -834,24 +837,29 @@ function food(ctx) {
     const route = ctx.foodWalks[venue?.id];
     const plannedHere = planned.some(i => i.mealPlanId === plan.id);
     const rows = estimate.products.map(product => {
-      const amount = product.quantity + (product.pack ? ' × ' + product.pack + ' g' : ' Portion(en)');
-      return [esc(product.name), esc(amount), money(product.total),
-        urlLink(catalog.sources[product.source ?? plan.source[0]]?.url, 'Quelle')];
+      const amount = product.quantity + (product.pack ? ' × ' + product.pack + ' '+(product.unit??'g')+' · Bedarf '+product.need*count+' '+(product.unit??'g') : ' Portion(en)');
+      return [esc(product.name)+(product.packAssumption?'<br><small>Planpackung, Produkt offen</small>':''), esc(amount), money(product.total,estimate.currency),
+        urlLink(catalog.sources[product.source ?? plan.source[0]]?.url, product.cents===null?'Produktsuche':'Quelle')];
     });
-    const subtitle = plan.type === 'cook' ? plan.shopMinutes + ' Min. Einkauf · ' + plan.prep + ' Min. Kochen und Aufräumen'
+    const subtitle = plan.type === 'cook' ? plan.shopMinutes + ' Min. Einkauf · ' + plan.prep + (plan.requiresKitchen===false?' Min. Vorbereiten ohne Herd':' Min. Kochen und Aufräumen')
       : plan.prep + ' Min. für das Essen eingeplant';
     return '<article class="panel option-card meal-card"><div class="card-top"><span class="category-icon food">' + icon('food') + '</span>'
       + (plannedHere ? status('Im Plan', 'green') : '') + '</div><h3>' + esc(plan.name) + '</h3>'
-      + '<div class="price-line"><div><strong>' + money(estimate.base) + '</strong> für die Gruppe<br><small>Ø '
-      + money(Math.round(estimate.base / count)) + ' p. P.</small></div>'
-      + (estimate.terrace == null ? '' : '<small>Terrasse ' + money(estimate.terrace) + '</small>') + '</div>'
+      + '<div class="price-line"><div><strong>' + money(estimate.base,estimate.currency) + '</strong> für die Gruppe<br><small>Ø '
+      + money(estimate.base===null?null:Math.round(estimate.base / count),estimate.currency) + ' p. P.</small></div>'
+      + (estimate.terrace == null ? '' : '<small>Terrasse ' + money(estimate.terrace,estimate.currency) + '</small>') + '</div>'
+      +(estimate.base===null&&estimate.knownBase?'<p>Bekannte Packungen: '+money(estimate.knownBase,estimate.currency)+' + offene Zutatenpreise</p>':'')
+      +(plan.type==='cook'&&estimate.portionCents!==null?'<p class="muted">Verwendete Zutaten rechnerisch '+money(estimate.portionCents,estimate.currency)
+        +' für die Gruppe. Der Einkauf bezahlt ganze Packungen; vorhandene Vorräte berücksichtigt der gemeinsame Korb.</p>':'')
       + '<p>' + esc(plan.priceNote) + '</p><p class="muted">' + esc(subtitle) + '</p>'
       + (venue ? '<p>' + esc(venue.name + ' · ' + (route ? route.minutes + ' Min. zu Fuß ab Unterkunft' : venue.address)) + '</p>' : '')
       + '<details><summary>' + (plan.type === 'cook' ? 'Warenkorb und Mengen' : 'Bestellung und Preise') + '</summary><p>' + esc(plan.note) + '</p>'
+      +(plan.equipment?'<p>'+esc(plan.equipment)+'</p>':'')
+      +(plan.steps?'<ol>'+plan.steps.map(step=>'<li>'+esc(step)+'</li>').join('')+'</ol>':'')
       + table(['Position', 'Menge', 'Betrag', ''], rows) + '</details>'
       + '<div class="row-actions">' + btn('meal-choose', plannedHere ? 'Auswahl prüfen' : 'Einplanen', 'plus', plan.id, 'subtle') + '</div></article>';
   }).join('');
-  const cook = plans.find(plan => plan.type === 'cook');
+  const cook = plans.find(plan => plan.type === 'cook'&&plan.requiresKitchen!==false);
   const restaurant = plans.find(plan => plan.type === 'restaurant');
   const lodgings = ctx.all.filter(i => i.kind === 'lodging' && i.city === city && !i.duplicateOf && !i.removed
     && i.stayFrom <= date && date < i.stayTo);
@@ -860,7 +868,7 @@ function food(ctx) {
     const cooking = ['shared', 'private'].includes(i.kitchenMode);
     return [esc(i.name), esc(i.kitchen ?? 'Küche offen'),
       price == null ? 'Offen' : money(price) + '<br><small>' + esc(i.price.label ?? 'Planpreis') + '</small>',
-      cooking && price != null ? money(price + mealEstimate(cook, count).base) : 'Offen',
+      cooking && price != null && mealEstimate(cook,count).base!==null ? money(price + mealEstimate(cook, count).base) : 'Offen',
       price == null ? 'Offen' : money(price + mealEstimate(restaurant, count).base)];
   }) : [];
   const places = ctx.foodPlaces.filter(i => !i.requiresKitchen).map(i => {
@@ -944,20 +952,14 @@ function food(ctx) {
     +icon('chevron')+'</summary><div class="hub-food-planning-content">'
     +heading('Mahlzeiten am Reisetag',ctx.cities[city].name+' · '+count+' Reisende',planDate)
     + menuSection
-    + '<section class="section panel panel-pad"><h2>Abendessen am ' + dateText(date) + '</h2><p>'
-    + (planned.length ? planned.map(i => {
-      const actual = budget.rows.find(row => row.forItem === i.id);
-      return esc(i.name) + ' · ' + esc(cost(i, count)) + ' ' + (actual ? 'erfasst' : i.requiresKitchen && i.basketProducts ? 'Einzelschätzung, gemeinsamer Einkauf unten' : 'geplant') + ' '
-        + btn('meal-cost', actual ? 'Ausgabe bearbeiten' : 'Ausgabe erfassen', 'wallet', i.id);
-    }).join(' ') : 'Für den Tag ist noch kein Abendessen ausgewählt.')
-    + '</p><p class="muted">' + (mealHotel ? esc(mealHotel.name + ' · ' + (mealHotel.kitchen ?? 'Küchenzugang offen'))
-      : 'Unterkunft für diese Nacht offen. Küchenzugang und Ausstattung bei der Auswahl prüfen.') + '</p></section>'
+    + mealDayOverview(ctx)
     + '<section class="section grocery-section" aria-label="Gemeinsamer Einkaufswarenkorb"><div class="inline"><h2>Gemeinsamer Einkaufswarenkorb'
-      + (basket.length ? ' · ' + esc(basketTotals) : '') + '</h2>' + btn('grocery-extra', 'Artikel ergänzen', 'plus') + '</div>'
-      + '<p class="muted">Mengen gelten für alle geplanten Kochmahlzeiten in ' + esc(ctx.cities[city].name)
+      + (basket.length ? ' · ' + esc(basketTotals) : '') + '</h2>' + btn('grocery-extra', 'Artikel ergänzen', 'plus') + shoppingStopButton(ctx) + '</div>'
+      + '<p class="muted">Mengen gelten für alle geplanten Rezeptmahlzeiten in ' + esc(ctx.cities[city].name)
       + '. Vorräte reduzieren den Einkauf. Abhaken speichert den Einkaufsstatus. Zahlungen erfasst du im Budget.</p>'
       + (basketTable || empty('Einkaufsliste ist leer', 'Plane eine Kochmahlzeit oder ergänze einen eigenen Artikel.'))
       + '</section>'
+    + stapleComparison(ctx)
     + (planCards ? '<section class="section"><h2>Selbst kochen oder auswärts essen</h2><div class="grid-cards">' + planCards + '</div></section>' : '')
     + (scenarios.length ? '<section class="section"><h2>Unterkunft und ein Abendessen</h2><p class="muted">Szenarien mit den vorhandenen Unterkunftspreisen für den gesamten Aufenthalt.</p>'
       + table(['Unterkunft', 'Küche', 'Aufenthalt', 'Mit Kochen', 'Mit Restaurant innen'], scenarios) + '</section>' : '')

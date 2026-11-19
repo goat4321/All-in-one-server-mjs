@@ -60,13 +60,17 @@ export function priceForParty(item, people) {
 }
 
 export function mealEstimate(option, count) {
+  const currency=option.currency??option.products.find(p=>p.currency)?.currency??'EUR';
   const products = option.products.map(product => {
+    if((product.currency??currency)!==currency)throw Error('Zutaten einer Mahlzeit haben unterschiedliche Währungen.');
     const quantity = product.pack ? Math.ceil(product.need * count / product.pack) : Math.ceil(product.forThree * count / 3);
-    return { ...product, quantity, total: product.cents * quantity };
+    return { ...product, quantity, total: product.cents==null?null:product.cents * quantity };
   });
-  const base = products.reduce((sum, product) => sum + product.total, 0);
-  const terrace = option.terracePercent == null ? null : Math.round(base * (100 + option.terracePercent) / 100);
-  return { products, base, terrace };
+  const knownBase = products.reduce((sum, product) => sum + (product.total??0), 0);
+  const base=products.some(p=>p.total===null)?null:knownBase;
+  const terrace = option.terracePercent == null||base===null ? null : Math.round(base * (100 + option.terracePercent) / 100);
+  const portionCents=base===null?null:Math.round(products.reduce((sum,p)=>sum+(p.pack?p.need*count/p.pack*p.cents:p.total),0));
+  return { products, base, knownBase, terrace, currency, portionCents };
 }
 
 
@@ -93,18 +97,23 @@ export function groceryBasket(meals, peopleCount, overrides = {}, shopping = {})
   if (!Number.isInteger(peopleCount) || peopleCount < 1 || peopleCount > 20) throw new Error('Ungültige Gruppengröße für den Warenkorb.');
   const rows = new Map();
   for (const meal of meals) {
-    if (!meal.requiresKitchen || !Array.isArray(meal.basketProducts)) continue;
+    if (!Array.isArray(meal.basketProducts)) continue;
     for (const product of meal.basketProducts) {
       if (!Number.isSafeInteger(product.pack) || product.pack < 1
         || !Number.isSafeInteger(product.need) || product.need < 1
-        || !Number.isSafeInteger(product.cents) || product.cents < 0
+        || (product.cents!==null&&(!Number.isSafeInteger(product.cents)||product.cents<0))
+        || !['g','ml','Stück'].includes(product.unit??'g')||!['EUR','CHF'].includes(product.currency??'EUR')
         || !/^[a-z0-9_-]{1,120}$/i.test(product.source ?? '')) {
         throw new Error('Ungültige Zutatenreferenz im geplanten Warenkorb.');
       }
-      const key = [meal.city, product.source, product.pack, product.cents].join(':');
+      const currency=product.currency??'EUR',unit=product.unit??'g';
+      const key = [meal.city, product.source, product.pack, product.cents??'open',
+        ...(currency==='EUR'&&unit==='g'?[]:[currency,unit])].join(':');
       if (!rows.has(key)) rows.set(key, {
         key, city: meal.city, source: product.source, name: product.name,
-        pack: product.pack, referenceCents: product.cents, required: 0, currency: 'EUR', unit: 'g',
+        pack: product.pack, referenceCents: product.cents, required: 0, currency, unit,
+        priceDate:product.checkedOn??null,
+        packAssumption:Boolean(product.packAssumption),
       });
       rows.get(key).required += product.need * peopleCount;
     }
@@ -159,7 +168,7 @@ export function calculateBudget(items, state) {
   const balances = Array.from({ length: count }, () => ({ share: 0, paidShare: 0, paid: 0 }));
   const passMode = state.pass?.budgetMode === 'interrail';
   const replacedMealCosts = new Set(state.expenses.map(expense => expense.forItem).filter(Boolean));
-  const plannedCooking = items.filter(i => i.requiresKitchen && i.mealSlot && Array.isArray(i.basketProducts)
+  const plannedCooking = items.filter(i => i.mealSlot && Array.isArray(i.basketProducts)
     && !replacedMealCosts.has(i.id));
   const pooledIds = new Set(plannedCooking.map(i => i.id));
   const baskets = groceryBasket(plannedCooking, count, state.groceryOverrides ?? {}, state.shopping);
@@ -185,6 +194,7 @@ export function calculateBudget(items, state) {
     if (unknown.length) railCosts.push({
       id: 'grocery-budget:' + city + ':' + currency + ':unknown',
       name: 'Einkaufspreise offen · ' + unknown.map(row => row.name).join(', '), city,
+      currencyHint:currency,
       date: firstMeal ? mealDate(firstMeal) : unknown.find(row => row.date)?.date ?? null,
       category: 'food', price: null, payment: 'open', source: unknown.map(row => row.source).filter(Boolean),
     });
@@ -197,7 +207,7 @@ export function calculateBudget(items, state) {
   const rows = [...railCosts, ...state.expenses].map(item => {
     const price = priceForParty(item, state.people);
     const original = groupPrice(price, count);
-    const currency = price?.currency ?? 'EUR';
+    const currency = price?.currency ?? item.currencyHint ?? 'EUR';
     const euros = original == null ? null : currency === 'EUR' ? original : fxAmount(original, item.fx);
     let split = null;
     if (euros != null) {

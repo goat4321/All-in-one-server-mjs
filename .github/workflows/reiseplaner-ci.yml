@@ -58,6 +58,8 @@ jobs:
         env:
           REISEPLAN_SCREENSHOT_DIR: ${{ runner.temp }}/reiseplaner-ui-review
         run: node test/portable-browser.mjs
+      - name: Veraltete Mahlzeitendialoge dürfen neue Änderungen nicht überschreiben
+        run: npm run test:meal-race
       - name: Desktop-, Tablet- und Smartphone-Vergleichsbilder sichern
         if: always()
         uses: actions/upload-artifact@v4

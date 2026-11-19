@@ -2,6 +2,9 @@
 
 | Datum | Priorität | Anforderung | Module | Stand |
 |---|---|---|---|---|
+| 19.11.2026 | P5 | Drei Tagesmahlzeiten mit tatsächlicher Übernachtung, Kaltrezepten, Mengen und optionalem Einkauf | Verpflegung, Tagesplan, Gruppenbudget | Vier Rezeptfamilien für sechs Hauptorte, 25 Optionen, drei Slots, Check-out-Schutz und gemeinsamer Warenkorb. Auswahl/Beleg/Undo/Neuladen/Varianten im Chrome geprüft; MEALS_ACCEPTANCE.md führt Umfang und Grenzen. |
+| 19.11.2026 | P5/P6 | Datierte nationale Basiskörbe und ehrliche unbekannte Zutatenpreise | Quellen, Verpflegung | Neun offizielle Online-Referenzen, getrennte Einheiten/EUR/CHF; neun unbelegte Produkte bleiben offen. Keine lokalen Filial- oder 2027-Angebote behauptet. |
+| 19.11.2026 | P7 | Dialog aus altem Zustand darf neu gespeicherte Daten nicht überschreiben | Speicherung, Formulare, CI | Variante/Revision am Öffnen festhalten, bei Änderung erneutes Öffnen verlangen. Echter Chrome-PUT-Rennfall reproduziert und abgesichert; unabhängige Codeprüfung ohne verbleibenden Befund. |
 | 19.11.2026 | P2/P4 | Heuberg, Seealpsee/Hüttentobel und eigene Ebenalp–Äscher-Option mit tatsächlicher Weggeometrie und Höhenpunkten | Tagesplan, Karte, Quellen | Drei Original-GPX-Tracks, zwei verwendbare Höhenprofile und getrennte Betreiberwerte, explizite Quellenabweichungen; neun Browser-Vorschauen und Auswahl/Persistenz/Undo geprüft. |
 | 19.11.2026 | P4/P7 | Alle 14 Schweizer Haupttage einzeln inventarisieren; vollständige Originaldaten-Regression | Katalog, Tests, Dokumentation | 14-Tage-Datums-/Stadtabfolge getestet, Tagesinventar mit Bildlücken in SWISS_14_DAY_AUDIT.md, 488 vollständige Tests bestanden. Detailabnahme bleibt offen. |
 | 19.11.2026 | P6 | Alte Seed-Adressquelle bei echter Tripsy-Unterkunfts-ID bewahren | Import, Quellenqualität | Konservativer Alias bei eindeutiger Stadt und exakt nachvollziehbarem Originalnamen; keine Zusammenführung ähnlich benannter Objekte. |

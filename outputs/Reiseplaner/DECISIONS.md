@@ -1,5 +1,17 @@
 # Entscheidungen
 
+## 19.11.2026 – Drei Mahlzeiten, Quellen und sichere Speicherung
+
+- Die bestehende Mahlzeitenspeicherung erhält drei explizite Tages-Slots; Standard bleibt Abendessen. Datums- und Slotwechsel ersetzen ausschließlich die konkret gewählte Mahlzeit. Ausgaben, Buchungen und Sperren schützen vorhandene Einträge. Flexible Mahlzeiten behalten `start=null` und einen eigenen Planungstag.
+- Rezeptmengen, Zubereitungs- und Einkaufszeiten sind Planungsannahmen, keine Betreiberangaben. Vier einfache Rezeptfamilien werden für die sechs Hauptstädte passend zum Land bereitgestellt. Bestehende Barcelona-IDs, Reihenfolge und bekannte Preise werden aus Kompatibilitätsgründen bewahrt.
+- National beobachtete Online-Produktpreise sind keine überprüften Filialangebote. Neun Referenzen tragen Datum, Packungsgröße, Mengeneinheit, Währung und offiziellen Produktlink. Milch und Reis sind nur ähnlich vergleichbar; Unterschiede in Sorte, Fettgehalt, UHT/Kühlung und Währung werden gezeigt. Die neun unbelegten Produkte behalten `cents=null`, Grund und nächste Recherchequelle. Generische Produktsuchen heißen nicht Preisbelege.
+- `requiresKitchen` beschreibt den Herd-/Küchenbedarf. Das Vorhandensein von `basketProducts` bestimmt unabhängig davon die Zutatenaggregation und Selbstversorgungs-Kategorie. Dadurch gehen kalte Mahlzeiten weder im Budget verloren noch werden sie als Restaurant angeboten.
+- Zutatenmengen werden vor der Packungsrundung über Mahlzeiten gebündelt. Unbekannte Preise behalten die Originalwährung auch im offenen Budgetposten. Gramm, Milliliter und Stück sowie EUR und CHF werden nicht zusammengerechnet oder still umgerechnet. Vorhandene Schlüssel für alte EUR/Gramm-Warenkörbe bleiben kompatibel.
+- Küchenzugang folgt der gewählten Übernachtung: Frühstück nutzt die vorige Nacht; Mittag/Abend den aktuellen Aufenthalt. Anreise vor oder ohne bestätigten Check-in, fehlende Abreisezeit und eine Zubereitung nach Check-out geben keinen bestätigten Zugang. Kalte Rezepte brauchen keinen Herd; Kühlbedarf bleibt ausdrücklich ein eigenes Kriterium.
+- Ein Einkaufsstopp ist ein optionaler Zeit-/Ortsbesuch. Lebensmittel bleiben im Warenkorb. Die Angabe null Euro betrifft allein eine zusätzliche Besuchsgebühr und wird so erklärt. Es wird kein Ladeneingang geschätzt und keine externe Bestellung ausgelöst. Bereits eingeplante Original- und abgeleitete Ladenbesuche werden auf Dopplung geprüft.
+- Dialoge merken sich beim Öffnen Variante und Revision der sichtbaren Ansicht. Nach einer zwischenzeitlichen erfolgreichen Speicherung muss ein alter Dialog neu geöffnet werden. Die vorhandene Server-Revisionsprüfung allein genügte nicht, weil das Formular auf älteren Daten beruhen konnte. Ein gezielt verzögerter echter PUT-Ablauf ist der Regressionstest.
+- Die unabhängige lesende Codeprüfung führte zu strengeren Check-out-Zeitfenstern, dem Schutz alter Dialoge und der Prüfung doppelter Ladenstopps. Fachtests reproduzierten die jeweiligen Fehler zuerst. Browserprüfungen verwenden eigene SQLite-Dateien und ändern keine Originaldaten. CI erhält zusätzlich den isolierten Speicherrennfall; eine erfolgreiche Remote-CI dieses noch lokalen Commits wird nicht behauptet.
+
 ## 19.11.2026 – Konkrete Wanderrouten und Originalimport-Abnahme
 
 - Die neuen Touren ergänzen ausschließlich `interrail_swiss`. Ursprüngliche Tage, Routen, aktive Auswahlen und die Vier-Personen-Variante bleiben getrennt. Heuberg und die beiden Appenzeller Touren werden als optionale Vorschläge angehängt; eine Sammelübernahme wählt diese Alternativen nicht automatisch.

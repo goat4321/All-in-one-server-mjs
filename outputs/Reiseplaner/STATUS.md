@@ -1,4 +1,22 @@
-## 19.11.2026 – Ziel-Checkliste V2 auf dem aktuellen PR-HEAD
+## 19.11.2026 – Drei Mahlzeiten und gemeinsamer Einkauf
+
+Die nächste P5-Erweiterung ist lokal umgesetzt. Die Gesamtwebsite und die 61-Punkte-Abnahme bleiben in Arbeit; der Einzelstand steht in [CHECKLIST_V2.md](CHECKLIST_V2.md). Die vorhandenen vier Routen und ihre unabhängigen Zustände werden bewahrt.
+
+- Frühstück, Mittagessen und Abendessen lassen sich getrennt auswählen, mit eigener Zeit oder flexibel ohne Uhrzeit speichern und als Tagesübersicht anzeigen. Ein Wechsel eines Slots bewahrt die anderen Mahlzeiten. Bezahlte, gebuchte oder gesperrte Mahlzeiten werden nicht still ersetzt.
+- Für Paris, Barcelona, Sète, Nizza, Kandersteg und Appenzell stehen vier einfache Rezeptfamilien zur Verfügung: Haferflocken mit Milch, kalter Kichererbsen-Mais-Salat, Reis und Pasta. Insgesamt sind es 25 stadtspezifische Rezept-/Restaurantoptionen. Mengen pro Person, Beispiele für drei Personen, Zubereitung, Ausstattung und Zeitannahmen werden ausdrücklich genannt. Die bisherigen Barcelona-IDs und Preisreferenzen bleiben erhalten.
+- Der Küchenhinweis verwendet die tatsächlich ausgewählte Unterkunft. Frühstück wird der vorherigen Nacht zugeordnet. Am Abreisetag gelten unbekannte Check-out-/Essenszeiten oder eine über den Check-out hinausreichende Zubereitung nicht als bestätigter Küchenzugang. Kühlbedarf ist separat gekennzeichnet.
+- Auch kalte Rezepte teilen Zutaten im Gruppenwarenkorb. Gramm, Milliliter und Stück sowie EUR/CHF werden erhalten. Fehlende Preise bleiben offen; die bekannte Teilsumme ist sichtbar. Portionsverbrauch und volle Einkaufspackungen sind getrennt. Eigene Preisänderung, Vorrat, Beleg, Wiederladen und Variantenwechsel sind abgedeckt.
+- Neun datierte offizielle Online-Produktreferenzen bilden einen ähnlichen Dreier-Basiskorb für Frankreich, Spanien und die Schweiz. Sie sind nationale Referenzen vom 19.11.2026, keine bestätigten Angebote der einzelnen Städte oder für September 2027. Milchvarianten, Kühlung und Reissorten unterscheiden sich sichtbar. Neun weitere Produkte haben weiterhin keinen belegten Preis; Grund, Packungsannahme und nächste Quelle sind hinterlegt.
+- Aus dem Einkauf lässt sich nach Auswahl eines vorhandenen Ladeneintrags ein optionaler Tagesstopp erstellen. Er übernimmt nur dessen belegten Standort/Quellenstand, plant Zeit ein und berechnet Lebensmittel nicht erneut. Ein zweiter Besuch desselben Ladens am selben Tag wird abgefangen. Undo entfernt den Stopp wieder.
+- Ein während einer laufenden Speicherung geöffnetes altes Dialogformular kann neuere Daten nicht überschreiben. Der Schutz vergleicht Reisevariante und Revision vor dem Speichern. Ein echter Chrome-Test hält die PUT-Antwort gezielt zurück und reproduziert diesen Fall. Kalte und warme Rezepte werden in der Essenssuche als Selbstversorgung geführt.
+
+Die abschließenden Nachweise dieser Erweiterung stehen in [MEALS_ACCEPTANCE.md](MEALS_ACCEPTANCE.md): **499/499 vollständige Tests**, **478/478 portable Tests**, Kartenbericht, HTTP-Smoke-Test, vollständiger Chrome-Flow und separater PUT-Rennfall bestanden. Hauptprüfung und Nachprüfung durch einen unabhängig lesenden Agenten melden keine verbleibenden Befunde im Paket. Die vorherigen 488/467-Teststände und die 66 Hauptseiten-Aufnahmen weiter unten gehören zum vorangegangenen Wander-/Warenkorb-Paket. Die sechs neuen Mahlzeitenbilder ergänzen diesen Bestand; sie ersetzen keine vollständige erneute 61-Punkte-Abnahme.
+
+Lokale Vorschau: [Reiseplaner öffnen](http://127.0.0.1:4175/?variant=interrail_swiss), anschließend „Essen & Einkaufen“ und „Mahlzeiten & Einkauf planen“. Arbeitsbranch: `codex/checklist-v2-audit`, lokale Datenbank `private/checklist-v2-preview.sqlite`. Kein Merge, Deployment, Kauf oder Eingriff in externe Originaldaten.
+
+Weiter offen sind unter anderem lokale Ketten-/Standortbelege und vollständige Städtekörbe, zusätzliche 14-Tage-Details, der originale Referenzbildvergleich und die seitenweite Kontrast-/Tastaturabnahme. Das Gesamtziel bleibt aktiv.
+
+## Vorangegangener Stand am 19.11.2026 – Ziel-Checkliste V2 auf dem aktuellen PR-HEAD
 
 Die vollständige neue Nutzerliste mit 61 einzeln bewerteten Anforderungen steht in [CHECKLIST_V2.md](CHECKLIST_V2.md). Der V7-Gesamtumfang und die neue Checkliste sind weiterhin in Arbeit. Die älteren Phasenberichte darunter beschreiben frühere Zwischenstände.
 
@@ -31,7 +49,7 @@ Eine Kontrastprüfung aller Seiten, originale Referenzbildvergleiche, aktuelle e
 
 Der Messlauf identifiziert außerdem bis zu 27.419 DOM-Knoten in Daten & Fristen. Die Interaktionszeiten schwanken bei parallelen Browserprüfungen. Daraus wird keine allgemeine Geschwindigkeitsgarantie abgeleitet.
 
-### Nächster konkreter Einstieg
+### Damaliger Einstieg – durch das Mahlzeitenpaket oben fortgeschrieben
 
 P5 um Frühstück/Mittag und offizielle, datierte Vergleichskörbe der Kernstädte ergänzen. Parallel die offenen Detailfelder aus dem 14-Tage-Inventar und die Kontrast-/Tastaturabnahme der übrigen Hauptseiten bearbeiten. Die Einzelstände stehen in CHECKLIST_V2.md. Die fehlenden Originalreferenzen bleiben als konkreter externer Nachweisbedarf stehen; unabhängige Arbeit kann fortgesetzt werden.
 

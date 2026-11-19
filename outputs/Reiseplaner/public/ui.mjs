@@ -123,3 +123,6 @@ export function timeText(item) {
   const end = localParts(item.end, item.endZone ?? item.zone);
   return (start.time ?? 'offen') + ' → ' + (end.time ?? 'offen') + (end.date && end.date !== start.date ? ' · ' + dateText(end.date) : '');
 }
+
+export const table = (labels, rows) => '<div class="table-wrap panel"><table><thead><tr>' + labels.map(l => '<th scope="col">' + esc(l) + '</th>').join('')
+  + '</tr></thead><tbody>' + rows.map(cells => '<tr>' + cells.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>';

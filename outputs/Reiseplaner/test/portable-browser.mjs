@@ -1240,6 +1240,108 @@ try {
     'Tablet uses readable stacked atlas layout');
   assert.ok(await js('document.documentElement.scrollWidth <= window.innerWidth + 5'),'Tablet-Layout without horizontal overflow');
   await screenshot('05-atlas-tablet-820.png');
+  // Three meal slots use the same persistent Swiss variant and pooled basket.
+  await cdp('Page.navigate',{url:address+'&variant=interrail_swiss'});
+  await text('h1','Reiseübersicht');
+  const openMeals=async()=>{
+    await click('.sidebar [data-action=page][data-value=food]');
+    await js('document.querySelector(".hub-food-planning:not([open]) > summary")?.click()');
+    await text('.meal-day-overview','Frühstück');
+  };
+  await openMeals();
+  for(const [slot,recipe] of [['breakfast','barcelona-oats'],['lunch','barcelona-salad'],['dinner','pasta']]){
+    await click('.meal-slot-tabs [data-action=meal-slot][data-value='+slot+']');
+    await click('.meal-card [data-action=meal-choose][data-value='+recipe+']');
+    await set('dialog [name=start]','');
+    await save();
+    await openMeals();
+  }
+  const swissMeals=store.current('interrail_swiss').state.manual.filter(i=>i.mealSlot);
+  assert.equal(swissMeals.length,3);
+  assert.ok(swissMeals.every(i=>i.start===null));
+  assert.equal(swissMeals.find(i=>i.mealSlot==='breakfast').requiresKitchen,false);
+  await click('[data-action=browse-food-type][data-value=cook]');
+  await text('.hub-food-grid','Kichererbsen-Mais-Salat');
+  assert.equal(await js('[...document.querySelectorAll(".hub-food-card-type")].every(n=>n.textContent.includes("Selbstversorgung"))'),true);
+  await click('[data-action=browse-food-type][data-value=restaurants]');
+  assert.equal(await js('[...document.querySelectorAll(".hub-food-card h3")].some(n=>n.textContent.includes("Kichererbsen-Mais-Salat"))'),false);
+  await click('[data-action=browse-food-type][data-value=all]');
+  await openMeals();
+  await text('.grocery-section','6,07');await text('.grocery-section','offene Beträge');
+  const cornKey='barcelona:meal-es-corn:285:open';
+  await click('.grocery-section [data-action=grocery-edit][data-value="'+cornKey+'"]');
+  await set('dialog [name=unitPrice]','0,95');await save();
+  await text('.grocery-section','7,97');
+  assert.equal(store.current('interrail_swiss').state.groceryOverrides[cornKey].unitCents,95);
+  const milkKey='barcelona:meal-es-milk:1000:83:EUR:ml';
+  await click('.grocery-section [data-action=grocery-edit][data-value="'+milkKey+'"]');
+  await set('dialog [name=stock]','200');await save();
+  await text('.grocery-section','200 ml Vorrat');
+  assert.equal(store.current('interrail_swiss').state.shopping.pantry[milkKey],200);
+  const breakfast=swissMeals.find(i=>i.mealSlot==='breakfast');
+  await click('.meal-day-slot [data-action=meal-cost][data-value="'+breakfast.id+'"]');
+  await set('dialog [name=price]','2,00');await save();
+  await text('.grocery-section','6,30');
+  await click('.meal-slot-tabs [data-action=meal-slot][data-value=breakfast]');
+  await click('.meal-card [data-action=meal-choose][data-value=barcelona-oats]');
+  await click('dialog [type=submit]');
+  await text('dialog .form-error','Ausgabe');await click('dialog [data-action=close]');
+  await click('[data-action=shopping-stop]');
+  await set('dialog [name=store]','local:carrefour-gran-via');
+  await set('dialog [name=start]','18:00');await save();
+  const shopping=store.current('interrail_swiss').state.manual.find(i=>i.shoppingSourceId==='local:carrefour-gran-via');
+  assert.equal(shopping.price.cents,0);assert.equal(shopping.duration,20);
+  await openMeals();await text('.grocery-section','6,30');
+  await click('.top-actions [data-action=undo]');
+  await until(()=>js('document.querySelector("#toast").textContent.includes("Änderung rückgängig")'),'Einkaufsstopp rückgängig');
+  assert.equal(store.current('interrail_swiss').state.manual.some(i=>i.shoppingSourceId==='local:carrefour-gran-via'),false);
+  await click('[data-action=shopping-stop]');await set('dialog [name=store]','local:carrefour-gran-via');await save();
+  await openMeals();await click('[data-action=shopping-stop]');
+  assert.equal(await js('Boolean(document.querySelector(\'dialog [name=store] option[value="'+shopping.id+'"]\'))'),false,'Ein Besuch wird nicht erneut als Laden angeboten');
+  await set('dialog [name=store]','local:carrefour-gran-via');await click('dialog [type=submit]');
+  await text('dialog .form-error','bereits');await click('dialog [data-action=close]');
+  await cdp('Page.navigate',{url:address+'&variant=interrail_swiss'});
+  await text('h1','Reiseübersicht');await openMeals();
+  await text('.meal-day-slot[data-meal-slot=breakfast]','Haferflocken mit Milch');
+  await text('.meal-day-slot[data-meal-slot=lunch]','Kichererbsen-Mais-Salat');
+  await text('.meal-day-slot[data-meal-slot=dinner]','Pasta');
+  await set('#meal-date','2027-09-05');
+  await js('document.querySelector("#meal-date").dispatchEvent(new Event("change",{bubbles:true}))');
+  await text('.meal-day-slot[data-meal-slot=breakfast]','Noch keine Mahlzeit');
+  await set('#meal-date','2027-09-04');
+  await js('document.querySelector("#meal-date").dispatchEvent(new Event("change",{bubbles:true}))');
+  for(const width of [1440,820,390]){
+    await cdp('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:width===390});
+    await js('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+    await openMeals();
+    await js('document.querySelector(".meal-day-overview").scrollIntoView({block:"start"})');
+    assert.ok(await js('document.documentElement.scrollWidth<=innerWidth+5'),'Drei Mahlzeiten ohne Seitenüberlauf');
+    await screenshot('86-drei-mahlzeiten-'+width+'.png');
+    if(width===1440){
+      await js('document.querySelector(".meal-slot-tabs [data-value=breakfast]").focus()');
+      await cdp('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13,text:'\r',unmodifiedText:'\r'});
+      await cdp('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+      await text('.meal-day-overview h2','Frühstück am');
+      assert.equal(await js('document.activeElement.dataset.value'),'breakfast','Mahlzeitentaste behält Tastaturfokus');
+      await click('.meal-slot-tabs [data-value=dinner]');
+    }
+    await click('.meal-staple-comparison>summary');
+    await js('document.querySelector(".meal-staple-comparison").scrollIntoView({block:"center"})');
+    await screenshot('87-basiskorb-'+width+'.png');
+  }
+  await click('.sidebar [data-action=page][data-value=overview]');
+  await click('.swiss-focus-day-shortcuts [data-action=day-plan-go][data-value="2027-09-11"]');
+  await openMeals();await click('.meal-slot-tabs [data-value=breakfast]');
+  await click('.meal-card [data-action=meal-choose][data-value=kandersteg-oats]');
+  await text('dialog','CHF');await set('dialog [name=start]','');await save();
+  await openMeals();await text('.grocery-section','2,10');await text('.grocery-section','CHF');
+  assert.equal(store.current('interrail_swiss').state.manual.find(i=>i.mealPlanId==='kandersteg-oats').price.currency,'CHF');
+  await cdp('Page.navigate',{url:address+'&variant=interrail_classic'});
+  await text('h1','Reiseübersicht');await openMeals();
+  await text('.meal-day-slot[data-meal-slot=breakfast]','Noch keine Mahlzeit');
+  assert.equal(store.current('interrail_classic').state.manual.some(i=>i.mealSlot==='breakfast'),false);
+  assert.deepEqual(pageErrors,[],'Keine Browser-JavaScript-Ausnahmen im gesamten Ablauf');
+  console.log('PASS: drei Mahlzeiten, kalte Zutaten, offene Preise, Belegschutz, Einkaufsstopp, Datum/Varianten und drei Bildschirmgrößen');
   console.log('PASS: echter Chrome-Flow · Mahlzeit, gemeinsamer Warenkorb, Preisänderung, Persistenz, Budget und mobile Karte');
 } finally {
   socket?.close();
