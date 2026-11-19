@@ -89,11 +89,15 @@ export function renderShell(ctx) {
     +'</nav><label class="reference-global-search"><span class="sr-only">Reiseorte durchsuchen</span>'
     +icon('search')+'<input id="reference-top-search" type="search" maxlength="100" autocomplete="off"'
     +' value="'+esc(ctx.mapSearch??'')+'" placeholder="Ziele, Orte, Aktivitäten suchen …"></label>';
+  // Six routes remain available on phones; their short visible captions are
+  // distinct from the full accessible names. Long captions overlapped at 390px.
+  const mobileNames={overview:'Start',plan:'Tag',map:'Karte',activities:'Orte',lodging:'Schlafen',food:'Essen'};
   const mobileDock='<nav class="mobile-dock" aria-label="Schnellnavigation">'
     +mobileTabs.map(id=>{
       const tab=tabs.find(t=>t[0]===id);
       return '<button type="button" data-action="page" data-value="'+id
-        +'" aria-current="'+(page===id?'page':'false')+'">'+icon(tab[2])+'<span>'+esc(tab[1])+'</span></button>';
+        +'" aria-label="'+esc(tab[1])+'" aria-current="'+(page===id?'page':'false')+'">'
+        +icon(tab[2])+'<span aria-hidden="true">'+esc(mobileNames[id]??tab[1])+'</span></button>';
     }).join('')+'</nav>';
   return `<div class="shell reference-travel-shell ${page==='map'&&ctx.mapSimple?'simple-map-mode':''} ${page==='map'?'is-map-page':'is-content-page'}"><aside class="sidebar ${menu ? 'open' : ''}" aria-label="Reisenavigation">
     <div class="brand"><span class="brandmark">${icon('train')}</span> Reiseplaner</div>
