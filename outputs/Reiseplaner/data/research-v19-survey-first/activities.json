@@ -1,0 +1,2367 @@
+{
+  "version": "2026-11-13-survey-first-v1",
+  "items": [
+    {
+      "id": "act-001",
+      "destination_id": "paris",
+      "name": "Trocadéro – Blick auf den Eiffelturm",
+      "tags": [
+        "view",
+        "walk",
+        "architecture"
+      ],
+      "duration_plan_minutes": 50,
+      "group_score_0_100": 77.6,
+      "per_person_score_0_5": {
+        "naol": 3.333,
+        "k": 4.0,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "paris_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Öffentlicher Außenraum, Wettersicht beachten",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-002",
+      "destination_id": "paris",
+      "name": "Seineufer zwischen Île de la Cité und Louvre",
+      "tags": [
+        "walk",
+        "view",
+        "quiet"
+      ],
+      "duration_plan_minutes": 80,
+      "group_score_0_100": 86.2,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 4.0,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "paris_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Öffentlicher Spazierweg; am Ufer auf Sperrungen achten",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "indoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-003",
+      "destination_id": "paris",
+      "name": "Montmartre und Sacré-Cœur Außenbereich",
+      "tags": [
+        "view",
+        "walk",
+        "architecture"
+      ],
+      "duration_plan_minutes": 110,
+      "group_score_0_100": 77.6,
+      "per_person_score_0_5": {
+        "naol": 3.333,
+        "k": 4.0,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "paris_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Kein Kirchen-Ticket modelliert; Innenzugang nicht geprüft",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-004",
+      "destination_id": "paris",
+      "name": "Canal Saint-Martin mit Bäckerei-Picknick",
+      "tags": [
+        "walk",
+        "quiet",
+        "streetfood"
+      ],
+      "duration_plan_minutes": 90,
+      "group_score_0_100": 73.6,
+      "per_person_score_0_5": {
+        "naol": 5.0,
+        "k": 2.667,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "paris_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Lebensmittel kosten extra; draußen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-005",
+      "destination_id": "paris",
+      "name": "Louvre – Kurzbesuch falls Interesse",
+      "tags": [
+        "museum",
+        "history"
+      ],
+      "duration_plan_minutes": 120,
+      "group_score_0_100": 43.3,
+      "per_person_score_0_5": {
+        "naol": 1.0,
+        "k": 3.0,
+        "c": 4.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "louvre"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "0 EUR nur bei nachgewiesener EEA-Berechtigung unter 26; Reservierung prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "indoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-006",
+      "destination_id": "paris",
+      "name": "Eiffelturm – Treppen bis Etage 2",
+      "tags": [
+        "view",
+        "architecture",
+        "fitness"
+      ],
+      "duration_plan_minutes": 100,
+      "group_score_0_100": 69.8,
+      "per_person_score_0_5": {
+        "naol": 3.333,
+        "k": 3.333,
+        "c": 4.0
+      },
+      "cost": {
+        "amount_minor": 740,
+        "currency": "EUR",
+        "kind": "admission_reference",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "eiffel"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "7,40 EUR Jugendtarif auf aktueller Preistabelle; 2027 Zeitslot/Preis erneut prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-007",
+      "destination_id": "paris",
+      "name": "Quartier Latin – Streetfood und Abendrunde",
+      "tags": [
+        "walk",
+        "streetfood",
+        "regionalfood"
+      ],
+      "duration_plan_minutes": 100,
+      "group_score_0_100": 75.6,
+      "per_person_score_0_5": {
+        "naol": 4.333,
+        "k": 3.0,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "paris_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Essen frei wählbar; keine feste Restaurantbuchung",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-008",
+      "destination_id": "barcelona",
+      "name": "Bogatell Beach – Strand und lockerer Sport",
+      "tags": [
+        "beach",
+        "swim",
+        "fitness"
+      ],
+      "duration_plan_minutes": 150,
+      "group_score_0_100": 81.1,
+      "per_person_score_0_5": {
+        "naol": 5.0,
+        "k": 4.0,
+        "c": 3.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "barcelona_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Freie Strandnutzung, Wasserqualität/Wetter prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-009",
+      "destination_id": "barcelona",
+      "name": "Barceloneta – schwimmen und Sonnenuntergang",
+      "tags": [
+        "beach",
+        "swim",
+        "view"
+      ],
+      "duration_plan_minutes": 150,
+      "group_score_0_100": 94.9,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 5.0,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "barcelona_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Taschen sichern, Rettungsschwimmerzeiten prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-010",
+      "destination_id": "barcelona",
+      "name": "Parc de la Ciutadella – Picknick",
+      "tags": [
+        "park",
+        "nature",
+        "quiet"
+      ],
+      "duration_plan_minutes": 75,
+      "group_score_0_100": 77.6,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 3.333,
+        "c": 4.333
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "barcelona_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Öffnungszeiten Parktore ggf. saisonal",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-011",
+      "destination_id": "barcelona",
+      "name": "Bunkers del Carmel / Turó de la Rovira – Aussicht",
+      "tags": [
+        "view",
+        "walk",
+        "history"
+      ],
+      "duration_plan_minutes": 100,
+      "group_score_0_100": 79.6,
+      "per_person_score_0_5": {
+        "naol": 3.667,
+        "k": 4.0,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "barcelona_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Schließzeit vor Reise unbedingt prüfen; kein garantierter Sonnenuntergang im Gelände",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-012",
+      "destination_id": "barcelona",
+      "name": "Sagrada Família – Innenbesuch als Option",
+      "tags": [
+        "architecture",
+        "history"
+      ],
+      "duration_plan_minutes": 95,
+      "group_score_0_100": 51.0,
+      "per_person_score_0_5": {
+        "naol": 1.5,
+        "k": 3.0,
+        "c": 4.5
+      },
+      "cost": {
+        "amount_minor": 2400,
+        "currency": "EUR",
+        "kind": "admission_reference",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "sagrada"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Unter-30-Tarif 24 EUR, Datum und Zutrittszeit 2027 offen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-013",
+      "destination_id": "barcelona",
+      "name": "Park Güell – regulärer Ticketbereich",
+      "tags": [
+        "nature",
+        "view",
+        "architecture"
+      ],
+      "duration_plan_minutes": 105,
+      "group_score_0_100": 79.1,
+      "per_person_score_0_5": {
+        "naol": 3.333,
+        "k": 4.333,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": 1800,
+        "currency": "EUR",
+        "kind": "admission_reference",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "parkguell"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Aktueller allgemeiner 18-EUR-Preis; 2027 neu prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-014",
+      "destination_id": "barcelona",
+      "name": "Montjuïc – Aussicht und Grünanlagen",
+      "tags": [
+        "view",
+        "nature",
+        "park",
+        "walk"
+      ],
+      "duration_plan_minutes": 130,
+      "group_score_0_100": 85.8,
+      "per_person_score_0_5": {
+        "naol": 4.5,
+        "k": 4.0,
+        "c": 4.75
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "barcelona_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Gondel nicht eingerechnet; Kosten für einzelne Anlagen unbekannt",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-015",
+      "destination_id": "barcelona",
+      "name": "Poblenou – Cafés und Straßen erkunden",
+      "tags": [
+        "walk",
+        "streetfood",
+        "quiet"
+      ],
+      "duration_plan_minutes": 90,
+      "group_score_0_100": 73.6,
+      "per_person_score_0_5": {
+        "naol": 5.0,
+        "k": 2.667,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "barcelona_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Günstige lokale Food-Optionen suchen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-016",
+      "destination_id": "barcelona",
+      "name": "Optionaler Clubabend Barcelona",
+      "tags": [
+        "club",
+        "event"
+      ],
+      "duration_plan_minutes": 180,
+      "group_score_0_100": 67.0,
+      "per_person_score_0_5": {
+        "naol": 4.0,
+        "k": 3.5,
+        "c": 3.0
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "barcelona_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Veranstaltung, Einlass ab 18, Tickets, Dresscode und sichere Rückfahrt prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-017",
+      "destination_id": "sete",
+      "name": "Plage de la Corniche – langer Strandtag",
+      "tags": [
+        "beach",
+        "swim",
+        "quiet"
+      ],
+      "duration_plan_minutes": 180,
+      "group_score_0_100": 89.8,
+      "per_person_score_0_5": {
+        "naol": 5.0,
+        "k": 4.333,
+        "c": 4.333
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "sette_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Badebedingungen und Rettungsdienststatus prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-018",
+      "destination_id": "sete",
+      "name": "Mont Saint-Clair – Aussicht und Wanderung",
+      "tags": [
+        "hike",
+        "view",
+        "nature"
+      ],
+      "duration_plan_minutes": 130,
+      "group_score_0_100": 94.9,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 4.667,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "sette_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Steigungen, Hitze und ÖPNV prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-019",
+      "destination_id": "sete",
+      "name": "Canal Royal – Hafenrunde",
+      "tags": [
+        "walk",
+        "view",
+        "quiet"
+      ],
+      "duration_plan_minutes": 80,
+      "group_score_0_100": 86.2,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 4.0,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "sette_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Außenbereich ohne Eintritt",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-020",
+      "destination_id": "sete",
+      "name": "Pointe Courte – ruhiges Fischerviertel",
+      "tags": [
+        "walk",
+        "quiet",
+        "architecture"
+      ],
+      "duration_plan_minutes": 85,
+      "group_score_0_100": 74.4,
+      "per_person_score_0_5": {
+        "naol": 3.667,
+        "k": 3.333,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "sette_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Wohngebiet respektieren",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-021",
+      "destination_id": "sete",
+      "name": "Stand-up-Paddling oder Kajak als Wahloption",
+      "tags": [
+        "kayak",
+        "swim",
+        "nature"
+      ],
+      "duration_plan_minutes": 100,
+      "group_score_0_100": 74.4,
+      "per_person_score_0_5": {
+        "naol": 3.333,
+        "k": 4.667,
+        "c": 3.667
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "sette_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Anbieter, Preis und Gruppenvorteil unbestätigt; kein SUP-Bedarf für alle",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-022",
+      "destination_id": "sete",
+      "name": "Strandpicknick mit regionalen Spezialitäten",
+      "tags": [
+        "beach",
+        "regionalfood",
+        "quiet"
+      ],
+      "duration_plan_minutes": 90,
+      "group_score_0_100": 84.7,
+      "per_person_score_0_5": {
+        "naol": 4.333,
+        "k": 4.0,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "sette_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Lebensmittelpreise offen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-023",
+      "destination_id": "nice",
+      "name": "Promenade des Anglais und Stadtstrand",
+      "tags": [
+        "beach",
+        "walk",
+        "view"
+      ],
+      "duration_plan_minutes": 125,
+      "group_score_0_100": 94.9,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 4.667,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "nice_castle"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Kiesstrand, Wasserqualität und Wetter prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-024",
+      "destination_id": "nice",
+      "name": "Colline du Château – Aussicht",
+      "tags": [
+        "view",
+        "park",
+        "nature"
+      ],
+      "duration_plan_minutes": 90,
+      "group_score_0_100": 84.7,
+      "per_person_score_0_5": {
+        "naol": 4.333,
+        "k": 4.0,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "nice_castle"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": "08:30–20:00",
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "01.04.–30.09.2027 offiziell 08:30–20:00",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-025",
+      "destination_id": "nice",
+      "name": "Vieux-Nice – Markt und kleine Gassen",
+      "tags": [
+        "walk",
+        "regionalfood",
+        "streetfood"
+      ],
+      "duration_plan_minutes": 120,
+      "group_score_0_100": 75.6,
+      "per_person_score_0_5": {
+        "naol": 4.333,
+        "k": 3.0,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "nice_castle"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Marktzeiten und Verpflegung offen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-026",
+      "destination_id": "nice",
+      "name": "Villefranche-sur-Mer – Plage des Marinières",
+      "tags": [
+        "beach",
+        "swim",
+        "view"
+      ],
+      "duration_plan_minutes": 160,
+      "group_score_0_100": 94.9,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 5.0,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "villefranche_beach"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Zug/ÖPNV zusätzlich; Wasserqualität checken",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-027",
+      "destination_id": "nice",
+      "name": "Èze – Dorf und Aussicht als Halbtag",
+      "tags": [
+        "view",
+        "hike",
+        "architecture"
+      ],
+      "duration_plan_minutes": 170,
+      "group_score_0_100": 77.6,
+      "per_person_score_0_5": {
+        "naol": 3.333,
+        "k": 4.0,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "nice_castle"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Transfer und mögliche Garten-Tickets separat prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-028",
+      "destination_id": "nice",
+      "name": "Port Lympia – Abendrunde",
+      "tags": [
+        "walk",
+        "quiet",
+        "view"
+      ],
+      "duration_plan_minutes": 75,
+      "group_score_0_100": 86.2,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 4.0,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "nice_castle"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Keine feste Clubnacht, falls Gruppe ruhigen Abend bevorzugt",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-029",
+      "destination_id": "nice",
+      "name": "Indoor-Schwimmbad oder Kletterhalle bei Regen",
+      "tags": [
+        "swim",
+        "fitness"
+      ],
+      "duration_plan_minutes": 90,
+      "group_score_0_100": 71.7,
+      "per_person_score_0_5": {
+        "naol": 5.0,
+        "k": 3.5,
+        "c": 3.0
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "nice_castle"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Nur Aktivitätskategorie; kein konkreter Anbieter/Preis belegt",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "indoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-swiss",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-030",
+      "destination_id": "genoa",
+      "name": "Boccadasse und kleiner Strand",
+      "tags": [
+        "beach",
+        "view",
+        "walk"
+      ],
+      "duration_plan_minutes": 130,
+      "group_score_0_100": 94.9,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 4.667,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "genoa_coast"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Strand klein und kiesig, in der Hochsaison voll",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-031",
+      "destination_id": "genoa",
+      "name": "Corso Italia – 2,5 km Spaziergang",
+      "tags": [
+        "walk",
+        "view",
+        "beach"
+      ],
+      "duration_plan_minutes": 100,
+      "group_score_0_100": 94.9,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 4.667,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "genoa_coast"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Spaziergang kostenfrei",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-032",
+      "destination_id": "genoa",
+      "name": "Parchi di Nervi und Promenade Anita Garibaldi",
+      "tags": [
+        "nature",
+        "view",
+        "walk",
+        "park"
+      ],
+      "duration_plan_minutes": 180,
+      "group_score_0_100": 85.8,
+      "per_person_score_0_5": {
+        "naol": 4.5,
+        "k": 4.0,
+        "c": 4.75
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "genoa_nervi"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Parks können temporär gesperrt sein; 2027 prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-033",
+      "destination_id": "genoa",
+      "name": "Spianata Castelletto – Hafenpanorama",
+      "tags": [
+        "view",
+        "walk"
+      ],
+      "duration_plan_minutes": 70,
+      "group_score_0_100": 92.3,
+      "per_person_score_0_5": {
+        "naol": 4.5,
+        "k": 4.5,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "genoa_walks"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Außenbereich; Aufzugkosten nicht eingerechnet",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-034",
+      "destination_id": "genoa",
+      "name": "Porto Antico – Wasserkante und Abend",
+      "tags": [
+        "walk",
+        "view",
+        "quiet"
+      ],
+      "duration_plan_minutes": 110,
+      "group_score_0_100": 86.2,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 4.0,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "genoa_walks"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Kein Aquarium-Ticket eingerechnet",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-035",
+      "destination_id": "genoa",
+      "name": "Altstadt und Focaccia-Verkostung",
+      "tags": [
+        "walk",
+        "regionalfood",
+        "streetfood"
+      ],
+      "duration_plan_minutes": 115,
+      "group_score_0_100": 75.6,
+      "per_person_score_0_5": {
+        "naol": 4.333,
+        "k": 3.0,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "genoa_coast"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Essensbudget statt Eintrittticket",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-036",
+      "destination_id": "genoa",
+      "name": "Nervi-Küste – ruhiger Sportspaziergang",
+      "tags": [
+        "walk",
+        "fitness",
+        "beach"
+      ],
+      "duration_plan_minutes": 100,
+      "group_score_0_100": 81.1,
+      "per_person_score_0_5": {
+        "naol": 5.0,
+        "k": 3.667,
+        "c": 4.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "genoa_nervi"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Kein gesicherter Schwimmspot",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-037",
+      "destination_id": "venice",
+      "name": "Rialtobrücke und Canal Grande zu Fuß",
+      "tags": [
+        "walk",
+        "view",
+        "architecture"
+      ],
+      "duration_plan_minutes": 130,
+      "group_score_0_100": 77.6,
+      "per_person_score_0_5": {
+        "naol": 3.333,
+        "k": 4.0,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "venice_actv"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Öffentliche Wege; touristischer Andrang",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-038",
+      "destination_id": "venice",
+      "name": "Cannaregio – ruhigere Abendroute",
+      "tags": [
+        "walk",
+        "quiet",
+        "architecture"
+      ],
+      "duration_plan_minutes": 110,
+      "group_score_0_100": 74.4,
+      "per_person_score_0_5": {
+        "naol": 3.667,
+        "k": 3.333,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "venice_actv"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Keine Veranstaltung gebucht",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-039",
+      "destination_id": "venice",
+      "name": "Fondamenta delle Zattere – Wasserblick",
+      "tags": [
+        "view",
+        "quiet",
+        "walk"
+      ],
+      "duration_plan_minutes": 100,
+      "group_score_0_100": 86.2,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 4.0,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "venice_actv"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Spaziergang; ggf. ÖPNV",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-040",
+      "destination_id": "venice",
+      "name": "Lido di Venezia – Strandpause",
+      "tags": [
+        "beach",
+        "swim",
+        "quiet"
+      ],
+      "duration_plan_minutes": 160,
+      "group_score_0_100": 89.8,
+      "per_person_score_0_5": {
+        "naol": 5.0,
+        "k": 4.333,
+        "c": 4.333
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "venice_actv"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Fähr-/Vaporetto-Ticket ggf. nötig; freie Strandbereiche prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-041",
+      "destination_id": "venice",
+      "name": "Murano/Burano – Inselrunde",
+      "tags": [
+        "boat",
+        "view",
+        "walk"
+      ],
+      "duration_plan_minutes": 240,
+      "group_score_0_100": 70.9,
+      "per_person_score_0_5": {
+        "naol": 3.0,
+        "k": 4.0,
+        "c": 4.333
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "venice_actv"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Vaporetto-Kosten statt erfundener Inseltour",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-042",
+      "destination_id": "venice",
+      "name": "Stadt mit Rolling Venice Jugendticket erkunden",
+      "tags": [
+        "walk",
+        "boat"
+      ],
+      "duration_plan_minutes": 160,
+      "group_score_0_100": 61.7,
+      "per_person_score_0_5": {
+        "naol": 2.5,
+        "k": 3.5,
+        "c": 4.0
+      },
+      "cost": {
+        "amount_minor": 3300,
+        "currency": "EUR",
+        "kind": "bundle_price_not_activity",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "venice_rolling"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "33 EUR nur in Kombination Karte + ACTV 72h, nicht Einzel-Attraktion! Budget als Transportpaket führen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-043",
+      "destination_id": "venice",
+      "name": "Lagunenrunde ohne Eintritt – Sonnenuntergang",
+      "tags": [
+        "view",
+        "quiet",
+        "walk"
+      ],
+      "duration_plan_minutes": 100,
+      "group_score_0_100": 86.2,
+      "per_person_score_0_5": {
+        "naol": 4.667,
+        "k": 4.0,
+        "c": 4.667
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "venice_actv"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Keine teure Gondel als Pflichtaktivität",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-classic",
+        "ir-august"
+      ]
+    },
+    {
+      "id": "act-044",
+      "destination_id": "appenzell",
+      "name": "Altstadt Appenzell mit lokalen Läden",
+      "tags": [
+        "walk",
+        "regionalfood",
+        "architecture"
+      ],
+      "duration_plan_minutes": 100,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "appenzell_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Essen separat; kein fixes Programm",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-045",
+      "destination_id": "appenzell",
+      "name": "Wasserauen–Seealpsee leichte Fahrstraßenwanderung",
+      "tags": [
+        "hike",
+        "lake",
+        "nature"
+      ],
+      "duration_plan_minutes": 185,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "appenzell_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Strecke und Wetter prüfen, nicht via ausgesetzte Wanderroute",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-046",
+      "destination_id": "appenzell",
+      "name": "Seealpsee – Picknick am Wasser",
+      "tags": [
+        "lake",
+        "nature",
+        "quiet",
+        "view"
+      ],
+      "duration_plan_minutes": 90,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "appenzell_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Baden nur wenn erlaubt, sicher und Wetter geeignet",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-047",
+      "destination_id": "glarus",
+      "name": "Klöntalersee – Uferroute",
+      "tags": [
+        "lake",
+        "hike",
+        "nature",
+        "view"
+      ],
+      "duration_plan_minutes": 190,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "swiss_mobility"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Keine gesicherte komplette Seeumrundung, Wegstatus prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-048",
+      "destination_id": "glarus",
+      "name": "Rhodannenberg – Picknick",
+      "tags": [
+        "lake",
+        "view",
+        "quiet"
+      ],
+      "duration_plan_minutes": 90,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "swiss_mobility"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Parkplätze/Gebühren nicht verifiziert",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-049",
+      "destination_id": "grindelwald",
+      "name": "First – Cliff Walk und Panorama",
+      "tags": [
+        "view",
+        "nature",
+        "hike"
+      ],
+      "duration_plan_minutes": 130,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "first"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Nur als Gondel-abhängige Option; 2027 Wetter/Preis prüfen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-050",
+      "destination_id": "grindelwald",
+      "name": "Bachalpsee – Wanderung ab First",
+      "tags": [
+        "hike",
+        "lake",
+        "nature",
+        "view"
+      ],
+      "duration_plan_minutes": 170,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "first"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Wanderung ohne eigenen Eintritt; Gondel separat",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-051",
+      "destination_id": "grindelwald",
+      "name": "Grindelwald Dorf – Eigerblick und Snack",
+      "tags": [
+        "view",
+        "walk",
+        "regionalfood"
+      ],
+      "duration_plan_minutes": 85,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "first"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Essen/ÖPNV separat",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-052",
+      "destination_id": "grindelwald",
+      "name": "First Flyer – optional und nur bei Wunsch",
+      "tags": [
+        "view",
+        "nature",
+        "event"
+      ],
+      "duration_plan_minutes": 65,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": 3500,
+        "currency": "CHF",
+        "kind": "operator_reference",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "first_flyer"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "CHF 35 adultes laut Betreiber im Abruf; nicht EUR; Wetter und Gewicht 35–125kg!",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-053",
+      "destination_id": "kandersteg",
+      "name": "Oeschinensee – Gondel und leichte Seeuferroute",
+      "tags": [
+        "lake",
+        "hike",
+        "nature",
+        "view"
+      ],
+      "duration_plan_minutes": 210,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": null,
+        "currency": "EUR",
+        "kind": "unknown_or_activity_cost_not_included",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "oeschi"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": "08:30–18:00",
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Sommer 2027 Gondel 08:30–18:00; Gondelpreis variabel",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-054",
+      "destination_id": "kandersteg",
+      "name": "Oeschinensee – Pause am See",
+      "tags": [
+        "lake",
+        "quiet",
+        "view"
+      ],
+      "duration_plan_minutes": 95,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "oeschi"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Seeufer-Sperrungen beachten",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-055",
+      "destination_id": "kandersteg",
+      "name": "Kandersteg – ruhiger Dorfnachmittag",
+      "tags": [
+        "walk",
+        "quiet",
+        "view"
+      ],
+      "duration_plan_minutes": 80,
+      "group_score_0_100": null,
+      "per_person_score_0_5": {
+        "naol": null,
+        "k": null,
+        "c": null
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "oeschi"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Resttag zur Erholung",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "no_verified_Swiss_group_survey",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "swiss-week",
+        "ir-swiss"
+      ]
+    },
+    {
+      "id": "act-056",
+      "destination_id": "montpellier",
+      "name": "Altstadt Montpellier – nur falls Alternativstopp gewählt",
+      "tags": [
+        "walk",
+        "architecture"
+      ],
+      "duration_plan_minutes": 100,
+      "group_score_0_100": 71.7,
+      "per_person_score_0_5": {
+        "naol": 3.0,
+        "k": 3.5,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "sette_tourism"
+      ],
+      "verification_status": "concept_reverify",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Nicht aktiv zur Sète-Route hinzufügen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": []
+    },
+    {
+      "id": "act-057",
+      "destination_id": "toulouse",
+      "name": "Toulouse – kurze Innenstadt bei Nachtzug-Anschluss",
+      "tags": [
+        "walk",
+        "view",
+        "architecture"
+      ],
+      "duration_plan_minutes": 100,
+      "group_score_0_100": 77.6,
+      "per_person_score_0_5": {
+        "naol": 3.333,
+        "k": 4.0,
+        "c": 5.0
+      },
+      "cost": {
+        "amount_minor": 0,
+        "currency": "EUR",
+        "kind": "free_public_space_or_walk_without_paid_services",
+        "valid_for_2027": false
+      },
+      "source_ids": [
+        "sncf_sales"
+      ],
+      "verification_status": "operator_supported",
+      "selected": false,
+      "booking_status": "not_booked",
+      "opening_hours_trip_date": null,
+      "latitude": null,
+      "longitude": null,
+      "coordinate_precision": "unverified_no_exact_pin",
+      "note": "Nur optional bei passendem Anschluss; Nachtzugfahrplan offen",
+      "is_idea_not_existing_tripsy_appointment": true,
+      "score_scope": "Interrail_three_person_survey_only",
+      "rain_suitability": "outdoor",
+      "trip_applicability": [
+        "ir-august"
+      ]
+    }
+  ],
+  "scoring_note": "Score is an interpretable survey-based preference signal, NOT operator quality or site verification; options are unselected and do not affect active day plans."
+}

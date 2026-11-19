@@ -1,0 +1,106 @@
+name: Reiseplaner · Branch-Qualitätsprüfung
+
+on:
+  # Entwicklungsbranches besitzen bereits offene PRs. Ein Push + PR-Trigger
+  # gleichzeitig erzeugte bisher zwei nahezu identische Checks pro Commit.
+  pull_request:
+    paths:
+      - "outputs/Reiseplaner/**"
+      - ".github/workflows/reiseplaner-ci.yml"
+      - "Start-Reiseplaner.cmd"
+      - "Pruefen-Reiseplaner.cmd"
+      - "Daten-sichern.cmd"
+      - "README-STARTEN.md"
+  # Nach dem spaeteren Merge weiterhin den Hauptbranch pruefen.
+  push:
+    branches: [main]
+    paths:
+      - "outputs/Reiseplaner/**"
+      - ".github/workflows/reiseplaner-ci.yml"
+      - "Start-Reiseplaner.cmd"
+      - "Pruefen-Reiseplaner.cmd"
+      - "Daten-sichern.cmd"
+      - "README-STARTEN.md"
+  workflow_dispatch:
+
+concurrency:
+  group: reiseplaner-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  portable:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: outputs/Reiseplaner
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Syntaxprüfungen aller JavaScript-Module
+        run: find . -name '*.mjs' -not -path './node_modules/*' -print0 | xargs -0 -n1 node --check
+      - name: Alle 16 kanonischen Research-v0.2-Datensätze prüfen
+        run: python3 data/research-v02/validate_subset.py
+      - name: Importpaket 20 Dateien mit Original-Validator prüfen
+        run: python3 data/research-v19-survey-first/validate.py
+      - name: Isolierte Seed- und Readiness-Tests
+        run: npm run test:portable
+      - name: Lokaler API-Smoke-Test mit Origin- und URL-Eingabepruefung
+        run: npm run test:smoke
+      - name: Karten-Datenabdeckung für alle Reisen und Städte
+        run: npm run report:map
+      - name: Echter Chrome-Browsertest mit Atlas- und Responsive-Abnahme
+        env:
+          REISEPLAN_SCREENSHOT_DIR: ${{ runner.temp }}/reiseplaner-ui-review
+        run: node test/portable-browser.mjs
+      - name: Veraltete Mahlzeitendialoge dürfen neue Änderungen nicht überschreiben
+        run: npm run test:meal-race
+      - name: Datenbereiche, vollständige Exporte und Tastaturbedienung
+        env:
+          REISEPLAN_DATA_AUDIT_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/data
+        run: npm run test:data-browser
+      - name: Eigene Pins und echte gespeicherte Mehrstopp-Geometrie
+        env:
+          REISEPLAN_MAP_AUDIT_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/map
+        run: npm run test:map-browser
+      - name: Verspätete Routenantworten nach Entwurfsänderung verwerfen
+        run: npm run test:map-race
+      - name: Unterkunftsfilter und zwei bis vier Angebote vergleichen
+        env:
+          REISEPLAN_STAY_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/stays
+        run: npm run test:stay-browser
+      - name: Desktop-, Tablet- und Smartphone-Vergleichsbilder sichern
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reiseplaner-ui-review
+          path: ${{ runner.temp }}/reiseplaner-ui-review/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Server-Smoke-Test ohne private Tripsy-Dateien
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { createApp } from './server.mjs';
+          const { server } = await createApp({ database: ':memory:', upstream: false });
+          await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+          try {
+            const base = 'http://127.0.0.1:' + server.address().port;
+            const res = await fetch(base + '/api/bootstrap');
+            assert.equal(res.status, 200);
+            const data = await res.json();
+            assert.equal(data.trips.length, 4);
+            assert.ok(data.trips.every(trip => trip.dataMode === 'research_seed_fallback'));
+            const page = await fetch(base + '/');
+            assert.equal(page.status, 200);
+            assert.match(await page.text(), /<html/i);
+            console.log('PASS: four separate trips, offline fallback, HTML');
+          } finally {
+            await new Promise(resolve => server.close(resolve));
+          }
+          NODE

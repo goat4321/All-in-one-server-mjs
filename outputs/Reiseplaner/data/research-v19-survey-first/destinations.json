@@ -1,0 +1,356 @@
+{
+  "as_of": "2026-11-13",
+  "destinations": [
+    {
+      "id": "munich",
+      "name": "München",
+      "country": "DE",
+      "timezone": "Europe/Berlin",
+      "approx_center": {
+        "latitude": 48.1374,
+        "longitude": 11.5755
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "city",
+      "selected_as_main_stop": true,
+      "tags": [
+        "city"
+      ]
+    },
+    {
+      "id": "paris",
+      "name": "Paris",
+      "country": "FR",
+      "timezone": "Europe/Paris",
+      "approx_center": {
+        "latitude": 48.8566,
+        "longitude": 2.3522
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "city",
+      "selected_as_main_stop": true,
+      "tags": [
+        "city"
+      ]
+    },
+    {
+      "id": "barcelona",
+      "name": "Barcelona",
+      "country": "ES",
+      "timezone": "Europe/Madrid",
+      "approx_center": {
+        "latitude": 41.3874,
+        "longitude": 2.1686
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "city",
+      "selected_as_main_stop": true,
+      "tags": [
+        "coast",
+        "beaches",
+        "swimming"
+      ]
+    },
+    {
+      "id": "sete",
+      "name": "Sète",
+      "country": "FR",
+      "timezone": "Europe/Paris",
+      "approx_center": {
+        "latitude": 43.4075,
+        "longitude": 3.699
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "city",
+      "selected_as_main_stop": true,
+      "tags": [
+        "coast",
+        "beaches",
+        "swimming"
+      ]
+    },
+    {
+      "id": "nice",
+      "name": "Nizza",
+      "country": "FR",
+      "timezone": "Europe/Paris",
+      "approx_center": {
+        "latitude": 43.7034,
+        "longitude": 7.2663
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "city",
+      "selected_as_main_stop": true,
+      "tags": [
+        "coast",
+        "beaches",
+        "swimming"
+      ]
+    },
+    {
+      "id": "genoa",
+      "name": "Genua",
+      "country": "IT",
+      "timezone": "Europe/Rome",
+      "approx_center": {
+        "latitude": 44.4056,
+        "longitude": 8.9463
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "city",
+      "selected_as_main_stop": true,
+      "tags": [
+        "coast",
+        "beaches",
+        "swimming"
+      ]
+    },
+    {
+      "id": "venice",
+      "name": "Venedig",
+      "country": "IT",
+      "timezone": "Europe/Rome",
+      "approx_center": {
+        "latitude": 45.4408,
+        "longitude": 12.3155
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "city",
+      "selected_as_main_stop": true,
+      "tags": [
+        "coast",
+        "beaches",
+        "swimming"
+      ]
+    },
+    {
+      "id": "toulouse",
+      "name": "Toulouse",
+      "country": "FR",
+      "timezone": "Europe/Paris",
+      "approx_center": {
+        "latitude": 43.6047,
+        "longitude": 1.4442
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "city",
+      "selected_as_main_stop": true,
+      "tags": [
+        "city"
+      ]
+    },
+    {
+      "id": "narbonne",
+      "name": "Narbonne",
+      "country": "FR",
+      "timezone": "Europe/Paris",
+      "approx_center": {
+        "latitude": 43.1843,
+        "longitude": 3.0031
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "city",
+      "selected_as_main_stop": true,
+      "tags": [
+        "city"
+      ]
+    },
+    {
+      "id": "appenzell",
+      "name": "Appenzell",
+      "country": "CH",
+      "timezone": "Europe/Zurich",
+      "approx_center": {
+        "latitude": 47.3313,
+        "longitude": 9.4087
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "town",
+      "selected_as_main_stop": true,
+      "tags": [
+        "mountain",
+        "lake",
+        "hiking"
+      ]
+    },
+    {
+      "id": "wasserauen",
+      "name": "Wasserauen",
+      "country": "CH",
+      "timezone": "Europe/Zurich",
+      "approx_center": {
+        "latitude": 47.2849,
+        "longitude": 9.4285
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "town",
+      "selected_as_main_stop": true,
+      "tags": [
+        "mountain",
+        "lake",
+        "hiking"
+      ]
+    },
+    {
+      "id": "seealpsee",
+      "name": "Seealpsee",
+      "country": "CH",
+      "timezone": "Europe/Zurich",
+      "approx_center": {
+        "latitude": 47.2679,
+        "longitude": 9.4018
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "lake",
+      "selected_as_main_stop": true,
+      "tags": [
+        "mountain",
+        "lake",
+        "hiking"
+      ]
+    },
+    {
+      "id": "glarus",
+      "name": "Glarus",
+      "country": "CH",
+      "timezone": "Europe/Zurich",
+      "approx_center": {
+        "latitude": 47.039,
+        "longitude": 9.0718
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "town",
+      "selected_as_main_stop": true,
+      "tags": [
+        "mountain",
+        "lake",
+        "hiking"
+      ]
+    },
+    {
+      "id": "kloental",
+      "name": "Klöntalersee",
+      "country": "CH",
+      "timezone": "Europe/Zurich",
+      "approx_center": {
+        "latitude": 47.0245,
+        "longitude": 8.9743
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "lake",
+      "selected_as_main_stop": true,
+      "tags": [
+        "mountain",
+        "lake",
+        "hiking"
+      ]
+    },
+    {
+      "id": "grindelwald",
+      "name": "Grindelwald",
+      "country": "CH",
+      "timezone": "Europe/Zurich",
+      "approx_center": {
+        "latitude": 46.6242,
+        "longitude": 8.0419
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "town",
+      "selected_as_main_stop": true,
+      "tags": [
+        "mountain",
+        "lake",
+        "hiking"
+      ]
+    },
+    {
+      "id": "bachalpsee",
+      "name": "Bachalpsee",
+      "country": "CH",
+      "timezone": "Europe/Zurich",
+      "approx_center": {
+        "latitude": 46.6695,
+        "longitude": 8.0214
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "lake",
+      "selected_as_main_stop": true,
+      "tags": [
+        "mountain",
+        "lake",
+        "hiking"
+      ]
+    },
+    {
+      "id": "kandersteg",
+      "name": "Kandersteg",
+      "country": "CH",
+      "timezone": "Europe/Zurich",
+      "approx_center": {
+        "latitude": 46.4954,
+        "longitude": 7.6751
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "town",
+      "selected_as_main_stop": true,
+      "tags": [
+        "mountain",
+        "lake",
+        "hiking"
+      ]
+    },
+    {
+      "id": "oeschinensee",
+      "name": "Oeschinensee",
+      "country": "CH",
+      "timezone": "Europe/Zurich",
+      "approx_center": {
+        "latitude": 46.4985,
+        "longitude": 7.7254
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "lake",
+      "selected_as_main_stop": true,
+      "tags": [
+        "mountain",
+        "lake",
+        "hiking"
+      ]
+    },
+    {
+      "id": "montpellier",
+      "name": "Montpellier",
+      "country": "FR",
+      "timezone": "Europe/Paris",
+      "approx_center": {
+        "latitude": 43.6108,
+        "longitude": 3.8767
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "alternative_only",
+      "selected_as_main_stop": false,
+      "tags": [
+        "city"
+      ]
+    },
+    {
+      "id": "villefranche",
+      "name": "Villefranche-sur-Mer",
+      "country": "FR",
+      "timezone": "Europe/Paris",
+      "approx_center": {
+        "latitude": 43.7042,
+        "longitude": 7.3111
+      },
+      "coordinate_accuracy": "approximate_city_or_area_center_NOT_POI_pin",
+      "kind": "nearby_trip",
+      "selected_as_main_stop": false,
+      "tags": [
+        "coast",
+        "beaches",
+        "swimming"
+      ]
+    }
+  ],
+  "note": "These approximate centers must never be used as exact accommodation or POI map pins."
+}

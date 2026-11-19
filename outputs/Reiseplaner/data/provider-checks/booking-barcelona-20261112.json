@@ -1,0 +1,76 @@
+{
+  "dataset": "booking_search_recheck_barcelona_20261112",
+  "observed_on": "2026-11-12",
+  "source_system": "booking_com_connector",
+  "search_scope": {
+    "city": "Barcelona",
+    "country": "Spain",
+    "from": "2027-09-03",
+    "to": "2027-09-06",
+    "adults": 3,
+    "rooms": 1
+  },
+  "claim_limit": "Provider search display price and general property information only. No exact quoted bed layout, final taxes/fees, cancellation terms, checkout price, or booking verified.",
+  "items": [
+    {
+      "id": "275242",
+      "name": "Hostal Portugal",
+      "url": "https://www.booking.com/hotel/es/pension-portugal.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-63fd2fa32d095c21",
+      "total_eur_cents": 47430,
+      "district": "Barri Gòtic",
+      "coordinates_provider": [
+        41.378012,
+        2.178233
+      ],
+      "rating_out_of_10": 7.7,
+      "general_room_information": "Property has an option with three single beds; no room-level match to the search price was returned.",
+      "checkout_confirmed": false,
+      "all_fees_included_confirmed": false,
+      "exact_bed_configuration_confirmed": false,
+      "cancellation_confirmed": false,
+      "booking_status": "unbooked",
+      "selected": false,
+      "scope": "group"
+    },
+    {
+      "id": "97543",
+      "name": "Roma Reial",
+      "url": "https://www.booking.com/hotel/es/roma-reial.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-63fd2fa32d095c21",
+      "total_eur_cents": 51930,
+      "district": "Barri Gòtic",
+      "coordinates_provider": [
+        41.380003,
+        2.17577
+      ],
+      "rating_out_of_10": 7.3,
+      "general_room_information": "Property has triple rooms; no room-level match to the search price was returned.",
+      "checkout_confirmed": false,
+      "all_fees_included_confirmed": false,
+      "exact_bed_configuration_confirmed": false,
+      "cancellation_confirmed": false,
+      "booking_status": "unbooked",
+      "selected": false,
+      "scope": "group"
+    },
+    {
+      "id": "361230",
+      "name": "Hostal Fina",
+      "url": "https://www.booking.com/hotel/es/hostal-fina.html?aid=2438770&checkin=2027-09-03&checkout=2027-09-06&no_rooms=1&group_adults=3&selected_currency=EUR&label=mcp_rid-63fd2fa32d095c21",
+      "total_eur_cents": 53430,
+      "district": "Barri Gòtic",
+      "coordinates_provider": [
+        41.383421,
+        2.172505
+      ],
+      "rating_out_of_10": 8.1,
+      "general_room_information": "Property has private rooms for up to three with bathroom; exact room-level checkout for this price not verified.",
+      "checkout_confirmed": false,
+      "all_fees_included_confirmed": false,
+      "exact_bed_configuration_confirmed": false,
+      "cancellation_confirmed": false,
+      "booking_status": "unbooked",
+      "selected": false,
+      "scope": "group"
+    }
+  ]
+}

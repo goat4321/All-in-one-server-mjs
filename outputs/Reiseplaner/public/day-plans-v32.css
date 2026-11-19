@@ -1,0 +1,177 @@
+/* Phase 32 – source-backed planning timeline, presented as editable drafts */
+.day-plan-overview,.day-plan-panel{
+ color:var(--text);background:var(--paper);border:1px solid var(--atlas-line,var(--line));
+ border-radius:19px;box-shadow:0 6px 23px #143a2510;overflow:hidden}
+.day-plan-overview{margin:0 0 16px}
+.day-plan-overview>summary{display:flex;align-items:center;gap:13px;padding:16px 18px;
+ list-style:none;cursor:pointer;min-height:74px}
+.day-plan-overview>summary::-webkit-details-marker,
+.day-plan-compact>summary::-webkit-details-marker{display:none}
+.day-plan-overview>summary>span:nth-child(2){display:grid;gap:4px;flex:1}
+.day-plan-overview>summary strong{font-size:.97rem;letter-spacing:-.025em}
+.day-plan-overview>summary small{font-size:.72rem;color:var(--muted)}
+.day-plan-overview-head-icon{display:grid;place-items:center;width:43px;height:43px;
+ flex-shrink:0;border-radius:13px;background:var(--accent);color:var(--green)}
+.day-plan-overview>summary>.ui-icon{width:17px;height:17px;transition:transform .22s ease}
+.day-plan-overview[open]>summary>.ui-icon{transform:rotate(90deg)}
+.day-plan-overview-list{list-style:none;margin:0;padding:8px 12px 13px;
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;
+ max-height:418px;overflow:auto;scrollbar-width:thin;border-top:1px solid var(--atlas-line,var(--line))}
+.day-plan-overview-row{width:100%;min-height:63px;display:flex;align-items:center;
+ text-align:left;gap:11px;padding:9px 12px;border:1px solid transparent;
+ border-radius:13px;background:var(--paper);cursor:pointer;
+ transition:background .17s,transform .17s,border-color .17s}
+.day-plan-overview-row:hover{background:var(--light);
+ border-color:var(--atlas-line,var(--line));transform:translateX(2px)}
+.day-plan-overview-number{width:30px;height:30px;flex:0 0 30px;display:grid;
+ place-items:center;background:var(--accent);color:var(--green);
+ border-radius:50%;font-size:.74rem;font-weight:800}
+.day-plan-overview-title{min-width:0;flex:1;display:grid;gap:4px}
+.day-plan-overview-title strong{font-size:.79rem;line-height:1.3}
+.day-plan-overview-title small{font-size:.68rem;line-height:1.35;color:var(--muted)}
+.day-plan-overview-row>.ui-icon{width:15px;height:15px;color:var(--muted)}
+.day-plan-panel{margin:14px 0 16px;isolation:isolate}
+.day-plan-heading,.day-plan-compact>summary{
+ display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+ padding:16px 19px;background:linear-gradient(110deg,var(--paper),var(--atlas-soft,var(--light)))}
+.day-plan-heading>strong,.day-plan-compact>summary>strong{
+ font-size:1.2rem;letter-spacing:-.043em;line-height:1.2}
+.day-plan-heading>small,.day-plan-compact>summary>small{
+ font-size:.72rem;color:var(--muted)}
+.day-plan-eyebrow{display:flex;align-items:center;gap:7px;
+ font-size:.69rem;font-weight:770;letter-spacing:.065em;text-transform:uppercase;color:var(--green)}
+.day-plan-eyebrow>.ui-icon{width:16px;height:16px}
+.day-plan-inner{display:grid;gap:13px;padding:15px 18px}
+.day-plan-block h4{display:flex;align-items:center;gap:7px;margin:0 0 8px;
+ font-size:.77rem;font-weight:820;color:var(--green)}
+.day-plan-block h4>.ui-icon{width:16px;height:16px}
+.day-plan-ride-list,.day-plan-stop-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.day-plan-transport{display:flex;gap:12px;align-items:center;padding:10px 13px;
+ background:var(--light);border:1px solid var(--atlas-line,var(--line));border-radius:12px}
+.day-plan-rail-icon{display:grid;place-items:center;flex:0 0 33px;width:33px;height:33px;
+ border-radius:10px;background:var(--accent);color:var(--green)}
+.day-plan-transport>span:last-child{display:grid;gap:3px}
+.day-plan-transport strong{font-size:.8rem;line-height:1.35}
+.day-plan-transport small{font-size:.71rem;color:var(--muted)}
+.day-plan-stop{position:relative;display:grid;
+ grid-template-columns:31px minmax(0,1fr) auto;gap:11px;align-items:center;
+ padding:11px 12px;background:var(--paper);border:1px solid var(--atlas-line,var(--line));
+ border-radius:13px;transition:box-shadow .23s ease,border-color .2s ease,transform .18s ease}
+.day-plan-stop:not(:last-child):before{content:"";position:absolute;
+ left:26px;top:calc(100% - 1px);height:9px;
+ border-left:2px dashed color-mix(in srgb,var(--green) 29%,transparent)}
+.day-plan-index{display:grid;place-items:center;width:29px;height:29px;
+ border-radius:50%;background:var(--accent);color:var(--green);font-size:.77rem;font-weight:850}
+.day-plan-stop-copy{display:grid;gap:3px;min-width:0}
+.day-plan-stop-copy>strong{font-size:.82rem;line-height:1.35;overflow-wrap:anywhere}
+.day-plan-stop-copy>small{font-size:.71rem;color:var(--muted);line-height:1.3}
+.day-plan-item-actions{display:flex;gap:6px;justify-content:flex-end;
+ align-items:center;flex-wrap:wrap}
+.day-plan-item-actions .button{min-height:40px;border-radius:11px;
+ padding:8px 11px;font-size:.72rem}
+.day-plan-added{display:flex;align-items:center;gap:5px;color:var(--green);
+ font-size:.73rem;font-weight:770}
+.day-plan-added>.ui-icon{width:15px;height:15px}
+.day-plan-no-stops{font-size:.78rem;line-height:1.55;color:var(--muted)}
+.day-plan-notes{display:flex;gap:10px;align-items:flex-start;
+ padding:12px 13px;background:var(--atlas-soft,var(--light));border-radius:12px;color:var(--muted)}
+.day-plan-notes>.ui-icon{width:15px;height:15px;flex-shrink:0;color:var(--green)}
+.day-plan-notes p{font-size:.75rem;line-height:1.5}
+.day-plan-official{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.73rem}
+.day-plan-official small{font-size:.72rem;color:var(--muted)}
+.day-plan-foot{display:flex;gap:11px;justify-content:space-between;align-items:center;
+ flex-wrap:wrap;border-top:1px solid var(--atlas-line,var(--line));padding-top:12px}
+.day-plan-foot>span{display:flex;gap:6px;align-items:center;
+ font-size:.72rem;color:var(--muted)}
+.day-plan-foot>span>.ui-icon{width:15px;height:15px}
+.day-plan-foot>.button{min-height:46px;border-radius:12px;font-size:.78rem;padding:9px 15px}
+.day-plan-compact{margin:11px 9px;box-shadow:none;border-radius:14px}
+.day-plan-compact>summary{position:relative;cursor:pointer;padding:11px 13px}
+.day-plan-compact>summary>strong{font-size:1rem;padding-right:16px}
+.day-plan-compact>summary>.ui-icon{position:absolute;right:10px;top:17px;width:16px;height:16px;
+ transition:transform .21s ease}
+.day-plan-compact[open]>summary>.ui-icon{transform:rotate(90deg)}
+.day-plan-compact .day-plan-inner{padding:11px;gap:10px}
+.day-plan-compact .day-plan-stop{grid-template-columns:25px minmax(0,1fr);gap:7px}
+.day-plan-compact .day-plan-index{width:24px;height:24px;font-size:.7rem}
+.day-plan-compact .day-plan-item-actions{grid-column:2;justify-content:flex-start}
+.day-plan-compact .day-plan-item-actions .button{min-height:37px}
+.day-plan-compact .day-plan-stop-copy>strong{font-size:.78rem}
+.day-plan-compact .day-plan-foot>.button{min-height:42px}
+@media(hover:hover) and (pointer:fine){
+ .day-plan-stop:hover{transform:translateY(-2px);box-shadow:0 8px 20px #133b2518;
+ border-color:color-mix(in srgb,var(--green) 42%,var(--atlas-line))}
+ .day-plan-item-actions .button:hover{transform:translateY(-1px)}
+}
+@keyframes dayPlanEnter{from{opacity:.55;transform:translateY(8px)}
+ to{opacity:1;transform:translateY(0)}}
+.day-plan-overview[open] .day-plan-overview-row,
+.day-plan-panel .day-plan-stop{animation:dayPlanEnter .32s cubic-bezier(.2,.82,.22,1) backwards}
+.day-plan-overview-row:nth-child(2n),.day-plan-stop:nth-child(2n){animation-delay:40ms}
+.day-plan-overview-row:nth-child(3n),.day-plan-stop:nth-child(3n){animation-delay:80ms}
+@media(max-width:790px){
+ .day-plan-overview-list{grid-template-columns:1fr}
+ .day-plan-stop{grid-template-columns:30px minmax(0,1fr)}
+ .day-plan-item-actions{grid-column:2;justify-content:flex-start}
+ .day-plan-inner{padding:12px}
+ .day-plan-heading{padding:13px 15px}
+}
+@media(max-width:650px){
+ .day-plan-panel{margin:10px 0 13px}
+ .day-plan-heading>strong{font-size:1.06rem}
+ .day-plan-compact{margin:9px 5px}
+ .day-plan-foot>.button{width:100%}
+ .day-plan-overview{margin-bottom:11px}
+ .day-plan-overview>summary{padding:13px;min-height:68px}
+ .day-plan-overview-head-icon{width:38px;height:38px}
+ .day-plan-overview-list{max-height:350px;padding:5px 8px 8px}
+}
+@media(prefers-reduced-motion:reduce){
+ .day-plan-panel .day-plan-stop,.day-plan-overview[open] .day-plan-overview-row{animation:none!important}
+}
+:root[data-motion=off] .day-plan-panel .day-plan-stop,
+:root[data-motion=off] .day-plan-overview[open] .day-plan-overview-row{animation:none!important}
+
+/* The compact map panel starts closed to keep location search prominent.
+ * It remains manually expandable, remembers its state across map rerenders. */
+.simple-map-mode .day-plan-compact{box-shadow:none}
+.day-plan-compact>summary:hover{background:var(--atlas-soft,var(--light))}
+.day-plan-compact>summary:focus-visible{
+ outline:3px solid var(--green);outline-offset:-3px}
+
+/* Data-bound image-or-icon thumbnails, never guessed commercial photography. */
+.day-plan-stop{grid-template-columns:31px 47px minmax(0,1fr) auto}
+.day-plan-photo{display:block;width:47px;height:47px;border-radius:12px;overflow:hidden;
+ background:var(--atlas-soft,var(--light));flex-shrink:0}
+.day-plan-photo>.place-thumbnail{width:47px!important;height:47px!important;
+ border-radius:12px!important;display:grid;place-items:center}
+.day-plan-photo img{height:100%;width:100%;object-fit:cover;
+ transition:transform .32s cubic-bezier(.2,.8,.2,1)}
+.day-plan-photo .place-thumbnail-fallback{display:grid;place-items:center}
+.day-plan-photo .place-thumbnail-fallback>.ui-icon{width:20px;height:20px}
+.day-plan-stop:hover .day-plan-photo img{transform:scale(1.075)}
+.day-plan-compact .day-plan-stop{grid-template-columns:25px 39px minmax(0,1fr)}
+.day-plan-compact .day-plan-photo,.day-plan-compact .day-plan-photo>.place-thumbnail{
+ width:39px!important;height:39px!important}
+.day-plan-compact .day-plan-item-actions{grid-column:3}
+@media(max-width:790px){
+ .day-plan-stop{grid-template-columns:30px 45px minmax(0,1fr)}
+ .day-plan-photo,.day-plan-photo>.place-thumbnail{width:45px!important;height:45px!important}
+ .day-plan-item-actions{grid-column:3}
+}
+
+/* Real progress derived from selected per-date activity IDs, never booked status. */
+.day-plan-progress{display:grid;gap:6px;padding:3px 1px 2px}
+.day-plan-progress>span{font-size:.73rem;color:var(--muted);font-weight:710}
+.day-plan-progress>[role=progressbar]{height:7px;border-radius:9px;
+ background:var(--line);overflow:hidden;position:relative}
+.day-plan-progress>[role=progressbar]>i{display:block;height:100%;border-radius:9px;
+ background:linear-gradient(90deg,var(--green),#56b78e);
+ transform-origin:left center;transition:width .4s cubic-bezier(.2,.82,.23,1);
+ animation:dayPlanBar .42s cubic-bezier(.2,.82,.23,1) backwards}
+@keyframes dayPlanBar{from{transform:scaleX(.03);opacity:.3}
+ to{transform:scaleX(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){
+ .day-plan-progress>[role=progressbar]>i{animation:none!important;transition:none!important}}
+:root[data-motion=off] .day-plan-progress>[role=progressbar]>i{
+ animation:none!important;transition:none!important}

@@ -1,0 +1,325 @@
+{
+  "schema": "public_lodging_provider_location_leads_v13",
+  "observedOn": "2026-11-13",
+  "policy": "Research leads from Booking.com for named public listings only; not independently verified OSM geometry, not map pins, no private Airbnb, no room/checkout guarantees.",
+  "counts": {
+    "previouslyMissingPublicPoints": 17,
+    "withProviderLeads": 13,
+    "identityConflicts": 1,
+    "noProviderLead": 4,
+    "independentlyConfirmedNewPoints": 0
+  },
+  "items": [
+    {
+      "id": "research:bcom_4032998",
+      "name": "Le Pouffre maison de pêcheur",
+      "city": "sete",
+      "publishedAddress": "85 Grande Rue Haute, 34200 Sète, France",
+      "publishedAddressSource": "https://www.lepouffre.com/contact/",
+      "providerName": "Le Pouffre, maison de pêcheur au quartier des artistes, clim, WiFi",
+      "providerAddress": "85 Grande Rue Haute",
+      "providerUrl": "https://www.booking.com/hotel/fr/le-pouffre.html?checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        43.398464,
+        3.694474
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "local:food-v03-015",
+      "name": "Cavour modo21",
+      "city": "genoa",
+      "publishedAddress": "Piazza Cavour 21r, 16128 Genova, Italy",
+      "publishedAddressSource": "https://modo21.it/ristorazione/come-prenotare-da-cavour-modo21/",
+      "providerName": null,
+      "providerAddress": null,
+      "providerUrl": null,
+      "providerPoint": null,
+      "reviewStatus": "no_provider_candidate_in_search",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Keep published street address but do not invent property coordinates."
+    },
+    {
+      "id": "local:food-v03-019",
+      "name": "Bacarino",
+      "city": "venice",
+      "publishedAddress": "Salizada San Giovanni Grisostomo 5755, 30121 Venezia, Italy",
+      "publishedAddressSource": "https://www.tripadvisor.it/Restaurant_Review-g187870-d33473744-Reviews-Bacarino_Venezia-Venice_Veneto.html",
+      "providerName": null,
+      "providerAddress": null,
+      "providerUrl": null,
+      "providerPoint": null,
+      "reviewStatus": "no_provider_candidate_in_search",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Keep published street address but do not invent property coordinates."
+    },
+    {
+      "id": "research:bcom_16054934",
+      "name": "Angela's Rooms - 10 minutes from VENICE",
+      "city": "venice",
+      "publishedAddress": "Quartiere S. Teodoro 41/1, 30173 Venezia, Italy",
+      "publishedAddressSource": "https://www.booking.com/hotel/it/angelas-rooms.html",
+      "providerName": null,
+      "providerAddress": null,
+      "providerUrl": null,
+      "providerPoint": null,
+      "reviewStatus": "no_provider_candidate_in_search",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Keep published street address but do not invent property coordinates."
+    },
+    {
+      "id": "research:bcom_16827286",
+      "name": "Ca' du Pitta Old Town Genoa apartment",
+      "city": "genoa",
+      "publishedAddress": "Vico delle Cinque Lampadi 1/5A, 16123 Genova, Italy",
+      "publishedAddressSource": "https://www.booking.com/hotel/it/ca-du-pitta-a-stay-in-the-heart-of-genoa.html",
+      "providerName": "Ca' du Pitta- Old Town Genoa apartment",
+      "providerAddress": "Vico delle Cinque Lampadi 1/5A",
+      "providerUrl": "https://www.booking.com/hotel/it/ca-du-pitta-a-stay-in-the-heart-of-genoa.html?checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        44.40851,
+        8.93013
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "research:bcom_12257788",
+      "name": "A due passi dalla Lanterna",
+      "city": "genoa",
+      "publishedAddress": "Via Giuseppe Ratti 4, 16126 Genova, Italy",
+      "publishedAddressSource": "https://www.booking.com/hotel/it/paolo-apartment-genova.html",
+      "providerName": "A due passi dalla Lanterna",
+      "providerAddress": "Via Venezia 50a/6",
+      "providerUrl": "https://www.booking.com/hotel/it/a-due-passi-dalla-lanterna.html?checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        44.417374,
+        8.910259
+      ],
+      "reviewStatus": "provider_identity_address_conflict",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Stored address Via Giuseppe Ratti 4 and booking listing path paolo-apartment disagree with the provider-returned Via Venezia 50a/6 and listing a-due-passi-dalla-lanterna; do not merge."
+    },
+    {
+      "id": "research:bcom_6592678",
+      "name": "CASA MODERNA A DUE PASSI DA RIALTO",
+      "city": "venice",
+      "publishedAddress": "Calle Varisco 5461, Cannaregio, 30121 Venezia, Italy",
+      "publishedAddressSource": "https://www.booking.com/hotel/it/casa-moderna-a-due-passi-da-rialto.html",
+      "providerName": "CASA MODERNA A DUE PASSI DA RIALTO",
+      "providerAddress": "5461 Calle Varisco",
+      "providerUrl": "https://www.booking.com/hotel/it/casa-moderna-a-due-passi-da-rialto.html?checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        45.441167,
+        12.339227
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "research:bcom_13963152",
+      "name": "Cittadella 3",
+      "city": "genoa",
+      "publishedAddress": "Scalinata della Cittadella 2, 16126 Genova, Italy",
+      "publishedAddressSource": "https://www.booking.com/hotel/it/cittadella-3.html",
+      "providerName": "Cittadella 3",
+      "providerAddress": "Scalinata della Cittadella 2",
+      "providerUrl": "https://www.booking.com/hotel/it/cittadella-3.html?checkin=2027-09-10&checkout=2027-09-12&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        44.415472,
+        8.925638
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "research:bcom_16062567",
+      "name": "Ca' Parco",
+      "city": "venice",
+      "publishedAddress": "Cannaregio 440/A, 30121 Venezia, Italy",
+      "publishedAddressSource": "https://www.booking.com/hotel/it/ca-parco-venezia.de.html",
+      "providerName": "Ca' Parco",
+      "providerAddress": "Cannaregio 440/A",
+      "providerUrl": "https://www.booking.com/hotel/it/ca-parco-venezia.html?checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        45.443231,
+        12.322632
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "research:bcom_6206017",
+      "name": "beautiful house in Venice",
+      "city": "venice",
+      "publishedAddress": "Calle Zancani 2423, Cannaregio, 30121 Venezia, Italy",
+      "publishedAddressSource": "https://www.booking.com/hotel/it/beautiful-house-in-venice.html",
+      "providerName": "beautiful house in Venice",
+      "providerAddress": "2423 Calle Zancani",
+      "providerUrl": "https://www.booking.com/hotel/it/beautiful-house-in-venice.html?checkin=2027-09-12&checkout=2027-09-14&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        45.443405,
+        12.332284
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "research:bcom_16577964",
+      "name": "Charmant T2 avec terrasse au coeur de Sète",
+      "city": "sete",
+      "publishedAddress": "Rue de la Liberté 21, 34200 Sète, France",
+      "publishedAddressSource": "https://www.booking.com/hotel/fr/charming-two-rooms-appartment-with-terrace-and-view.fr.html",
+      "providerName": "Charmant T2 avec terrasse et belle vue au coeur de Sète",
+      "providerAddress": "21 Rue de la Liberté",
+      "providerUrl": "https://www.booking.com/hotel/fr/charming-two-rooms-appartment-with-terrace-and-view.html?checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        43.406748,
+        3.691504
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "research:bcom_4231096",
+      "name": "L'Eternel Estivant",
+      "city": "sete",
+      "publishedAddress": "Promenade Jean-Baptiste Marty 26, 34200 Sète, France",
+      "publishedAddressSource": "https://www.booking.com/hotel/fr/l-39-eternel-estivant.fr.html",
+      "providerName": "L'Eternel Estivant",
+      "providerAddress": "26 Promenade Jean-Baptiste Marty",
+      "providerUrl": "https://www.booking.com/hotel/fr/l-39-eternel-estivant.html?checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        43.396066,
+        3.695215
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "research:bcom_4664508",
+      "name": "LOFT COCON EN PLEIN CENTRE DE SETE",
+      "city": "sete",
+      "publishedAddress": "Rue Pierre Semard 42bis, 34200 Sète, France",
+      "publishedAddressSource": "https://www.booking.com/hotel/fr/loft-cocon-en-plein-centre-de-sete.fr.html",
+      "providerName": "LOFT COCON EN PLEIN CENTRE DE SETE",
+      "providerAddress": "42bis Rue Pierre Semard",
+      "providerUrl": "https://www.booking.com/hotel/fr/loft-cocon-en-plein-centre-de-sete.html?checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        43.406051,
+        3.699402
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "research:bcom_12902044",
+      "name": "Appartement au cœur de la Marina",
+      "city": "sete",
+      "publishedAddress": "Rue du Grand Large 8, 34200 Sète, France",
+      "publishedAddressSource": "https://www.booking.com/apartments/city/fr/sete.fr.html",
+      "providerName": "Appartement au cœur de la Marina",
+      "providerAddress": "8 Rue du Grand Large",
+      "providerUrl": "https://www.booking.com/hotel/fr/appartement-au-coeur-de-la-marina-sete.html?checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        43.394909,
+        3.661926
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "research:bcom_9923338",
+      "name": "Jolie maison de pêcheur - La Pointe Courte",
+      "city": "sete",
+      "publishedAddress": "Rue de la Pétanque 11, 34200 Sète, France",
+      "publishedAddressSource": "https://www.booking.com/hotel/fr/jolie-maison-de-pecheur-la-pointe-courte.de.html",
+      "providerName": "Jolie maison de pêcheur - La Pointe Courte",
+      "providerAddress": "11 Rue de la Pétanque",
+      "providerUrl": "https://www.booking.com/hotel/fr/jolie-maison-de-pecheur-la-pointe-courte.html?checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        43.413023,
+        3.692292
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "research:bcom_10404998",
+      "name": "Maison quartier pointe-courte à Sète",
+      "city": "sete",
+      "publishedAddress": "Traverse des Rameurs 19, 34200 Sète, France",
+      "publishedAddressSource": "https://www.booking.com/hotel/fr/maison-quartier-pointe-courte-a-sete.de.html",
+      "providerName": "Maison quartier pointe-courte à Sète",
+      "providerAddress": "19 Traverse des Rameurs",
+      "providerUrl": "https://www.booking.com/hotel/fr/maison-quartier-pointe-courte-a-sete.html?checkin=2027-09-06&checkout=2027-09-08&no_rooms=1&group_adults=3&selected_currency=EUR",
+      "providerPoint": [
+        43.413908,
+        3.691153
+      ],
+      "reviewStatus": "provider_only_candidate_not_independently_verified",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Operator point is a research lead only; check a second independent map/source and property entrance before pinning."
+    },
+    {
+      "id": "research:bcom_17205591",
+      "name": "4 Venice rooms Hotel Piazza Ferretto",
+      "city": "venice",
+      "publishedAddress": "Corte Marin Sanudo 15, 30174 Venezia Mestre, Italy",
+      "publishedAddressSource": "https://www.booking.com/hotel/it/4-venice-rooms-piazza-ferretto-m9-museum-duomo-teatro-toniolo-airport-wi-fi-cent.de.html",
+      "providerName": null,
+      "providerAddress": null,
+      "providerUrl": null,
+      "providerPoint": null,
+      "reviewStatus": "no_provider_candidate_in_search",
+      "independentGpsVerified": false,
+      "bookingConfirmed": false,
+      "source": "Booking.com accommodation search dated 2026-11-13",
+      "note": "Keep published street address but do not invent property coordinates."
+    }
+  ]
+}

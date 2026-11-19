@@ -1,0 +1,92 @@
+/* Phase 44 · Denser but calmer Route Studio.
+ * Keep warnings legible; reduce repeated boxes and avoid pushing map offscreen. */
+.route-studio{
+  padding:15px 17px;gap:11px;border-radius:17px;
+  box-shadow:0 8px 24px #0e3d281b;
+}
+.route-studio-header h3{
+  font-size:clamp(1.2rem,2.1vw,1.45rem);margin:4px 0;
+}
+.route-studio-header p{
+  max-width:80ch;font-size:.76rem;line-height:1.38;margin:0;
+}
+.route-studio-kpis>span{
+  min-width:66px;padding:7px 10px;border-radius:11px;
+}
+.route-studio-kpis strong{font-size:1.07rem}
+.route-studio-geowarning{
+  margin:0;padding:9px 11px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:4px 9px;line-height:1.36;
+  border-color:#e5c38b;background:#fff3dc;
+}
+.route-studio-geowarning strong{font-size:.75rem}
+.route-studio-geowarning p{margin:0;font-size:.72rem}
+.route-studio-track{padding-bottom:4px}
+.route-studio-stop{
+  flex-basis:166px;min-width:166px;max-width:298px;
+  padding:9px 10px;gap:8px;
+  border-radius:11px;
+}
+.route-studio-stop-copy{gap:3px}
+.route-studio-stop-copy strong{font-size:.77rem}
+.route-studio-stop-copy small{font-size:.65rem}
+.route-studio-number{flex-basis:31px;height:31px;border-radius:10px}
+.route-studio-spotlight{
+  padding:10px 12px;gap:10px;border-radius:11px;
+}
+.route-studio-spotlight strong{font-size:.92rem}
+.route-studio-navigation .button{min-height:34px;padding:7px 10px}
+.route-studio-settings{gap:6px}
+.route-studio-settings small{font-size:.7rem}
+@media(max-width:760px){
+  .route-studio{padding:12px;gap:10px}
+  .route-studio-header{gap:9px}
+  .route-studio-header p{font-size:.74rem}
+  .route-studio-geowarning{display:grid;gap:3px;padding:9px 10px}
+  .route-studio-track{gap:7px}
+  .route-studio-stop{flex-basis:168px;min-width:168px}
+  .route-studio-spotlight{padding:9px 11px}
+  .route-studio-navigation{gap:5px}
+}
+@media(prefers-reduced-motion:reduce){
+ .route-studio-stop:hover{transform:none}
+}
+
+/* Phase 45: route geometry and origin/destination evidence are distinct. */
+.explorer-route-point-warning,
+.explorer-route-point-note{
+  display:flex;align-items:flex-start;gap:7px;margin:7px 0 10px;
+  border-left:3px solid #c48a35;padding:7px 10px;
+  background:#fff7e8;color:#72501e;border-radius:0 9px 9px 0;
+  font-size:.72rem;line-height:1.5;
+}
+.explorer-route-point-note{
+  border-color:#6b9b85;background:#edf7f0;color:#33624e;
+}
+:root[data-theme=dark] .explorer-route-point-warning{
+  background:#433522;color:#f5d7a1;border-color:#d6a65b;
+}
+:root[data-theme=dark] .explorer-route-point-note{
+  background:#1f382d;color:#b5dec8;border-color:#7fbba0;
+}
+@media(max-width:650px){
+ .explorer-route-point-warning,.explorer-route-point-note{
+  font-size:.7rem;margin:6px 0 9px;padding:8px 9px;
+ }
+}
+.map-own-pins{margin:22px 0;border-block:1px solid var(--line);padding:12px 0;scroll-margin-top:85px}
+.map-own-pins>summary{cursor:pointer;font-weight:700;min-height:44px;padding:10px 0}
+.map-own-pins>p{font-size:.85rem;color:var(--muted);max-width:80ch}
+.map-own-pins ul{list-style:none;padding:0;margin:14px 0}
+.map-own-pins li{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.map-own-pins li small{display:block;color:var(--muted)}
+.explorer-right>.map-own-pins{margin:0;padding:8px 12px;border-top:0}
+.explorer-right>.map-own-pins li{align-items:flex-start;flex-direction:column}
+.explorer-right>.map-own-pins .row-actions{flex-wrap:wrap}
+.map-pin-picking{padding:12px;background:var(--paper);border:2px solid var(--green);border-radius:10px}
+#map.is-placing-pin{cursor:crosshair;outline:3px solid var(--green);outline-offset:2px}
+@media(max-width:650px){.map-own-pins li{align-items:flex-start;flex-direction:column}.map-own-pins .row-actions{flex-wrap:wrap}}
+.day-route-builder{scroll-margin-top:85px}
+.reference-travel-shell.simple-map-mode .day-route-builder.has-stops{display:grid!important}
+.map-local-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:650px){.map-local-actions{max-width:65%;gap:4px}.map-local-actions>.button{padding:7px 9px;font-size:.74rem;min-height:38px}}

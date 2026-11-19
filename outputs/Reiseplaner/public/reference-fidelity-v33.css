@@ -1,0 +1,499 @@
+/* Phase 33: visual fidelity pass against the ACTUAL supplied Barcelona-Reise
+   1672×941 PNG and the actual InterrailPlan image-gen-1(4).png.
+   The user-visible planning data remain unbooked drafts. */
+.reference-travel-shell{
+ --ref-green:#24673f;
+ --ref-line:#e4ebe4;
+ --ref-cream:#fffefb;
+ --ref-shadow:0 8px 28px rgba(20,53,32,.10);
+}
+.reference-travel-shell .reference-topbar{
+ height:60px;min-height:60px;background:#fffdfa;
+ border-bottom:1px solid #e7eee6;padding:0 clamp(17px,2.4vw,42px);
+ gap:clamp(12px,2vw,28px);
+}
+.reference-travel-shell .reference-nav-brand{gap:10px}
+.reference-travel-shell .reference-nav-brand>strong{
+ font-size:1.36rem;font-weight:830;letter-spacing:-.05em;color:#145635}
+.reference-travel-shell .reference-brand-menu{
+ position:relative;width:44px;height:38px;min-width:44px;border-radius:9px;
+ background:transparent;color:#155c3b;box-shadow:none
+}
+.reference-travel-shell .reference-brand-menu:before{
+ content:"";position:absolute;top:4px;left:3px;width:37px;height:25px;
+ background:linear-gradient(140deg,#155b38,#519c75);
+ clip-path:polygon(0 100%,35% 15%,49% 47%,65% 0,100% 100%,71% 100%,64% 70%,49% 98%,37% 65%,20% 100%);
+}
+.reference-travel-shell .reference-brand-menu:after{
+ content:"";position:absolute;left:11px;bottom:4px;width:27px;height:8px;
+ background:#d2a64f;clip-path:polygon(0 100%,38% 0,68% 100%);
+}
+.reference-travel-shell .reference-brand-menu .ui-icon{
+ width:12px;height:12px;position:absolute;right:0;bottom:1px;
+ stroke-width:2.7;z-index:1
+}
+.reference-travel-shell>.main-column>.workspace{
+ padding-top:7px;padding-bottom:32px;background:#f6f8f4;
+}
+.reference-travel-shell .reference-map-intro{
+ min-height:99px;height:99px;border-radius:18px;
+ padding:11px 18px;box-shadow:0 4px 16px #17452d12;
+ background:linear-gradient(103deg,#fffefc 35%,#f1f7ef 70%,#d6e9dc 100%);
+}
+.reference-travel-shell .reference-map-intro .reference-hero-thumb{
+ width:116px;height:77px;flex:0 0 116px;border-radius:15px;
+ box-shadow:0 3px 12px #09371c18;border:1px solid #ffffff70
+}
+.reference-travel-shell .reference-map-intro .reference-intro-photo{
+ width:59%;opacity:.72
+}
+.reference-travel-shell .reference-map-intro .reference-intro-photo:after{
+ background:linear-gradient(90deg,#fffefc 3%,#fffefcc9 30%,transparent 87%)
+}
+.reference-travel-shell .reference-map-intro h1{
+ font-size:clamp(1.38rem,2vw,1.87rem);font-weight:850}
+.reference-travel-shell .reference-map-eyebrow{
+ letter-spacing:.055em;font-size:.68rem}
+.reference-travel-shell .reference-map-intro .reference-map-intro-actions{
+ flex:0 1 auto;max-width:61%;
+}
+.reference-travel-shell .simple-main-button{border-radius:999px}
+.reference-travel-shell .simple-main-button:first-child{
+ box-shadow:0 4px 12px #225c3626
+}
+.reference-travel-shell .simple-mode-switch{
+ white-space:nowrap;text-decoration:none;font-weight:720;
+ color:#4a785d;border-radius:9px;padding:7px
+}
+.reference-travel-shell .simple-mode-switch:hover{background:#ffffffcc}
+.reference-travel-shell .reference-map-workspace{
+ margin-top:8px;column-gap:11px;row-gap:0;align-items:start
+}
+.reference-travel-shell .reference-stage-days{
+ background:#fffefa;border:1px solid var(--ref-line);
+ box-shadow:var(--ref-shadow)
+}
+.reference-travel-shell .reference-stage-days .explorer-day .days{
+ gap:6px;justify-content:center;margin-top:5px;padding-bottom:8px
+}
+.reference-travel-shell .reference-stage-days .explorer-day .day{
+ border-radius:22px;min-width:90px;min-height:55px;
+ background:#fafbf7;padding:9px 10px
+}
+.reference-travel-shell .reference-stage-days .explorer-day .day[aria-pressed=true]{
+ background:linear-gradient(140deg,#3e9361,#1a673e);
+ box-shadow:0 6px 17px #206d3c39
+}
+.reference-travel-shell .reference-map-workspace>.explorer-right{
+ background:#fffefa;box-shadow:var(--ref-shadow);
+ border:1px solid var(--ref-line);scrollbar-width:thin
+}
+.reference-travel-shell .reference-map-workspace>.explorer-right>.reference-agenda{
+ padding:15px 17px;background:#fffefa
+}
+.reference-travel-shell .reference-agenda-head h2{
+ font-size:1.02rem;letter-spacing:-.027em
+}
+.reference-travel-shell .reference-agenda-head>div>small{
+ letter-spacing:.07em;color:var(--ref-green)
+}
+.reference-travel-shell .reference-agenda-head p{line-height:1.45}
+.reference-travel-shell .reference-agenda-select{
+ border-radius:14px;min-height:66px
+}
+.reference-travel-shell .reference-agenda-index{
+ background:#e8f5ec;color:#286a42;border:1px solid #90b99b
+}
+.reference-travel-shell .reference-map-workspace>.map-panel{
+ box-shadow:0 7px 27px #15412a16;
+ border-color:var(--ref-line)!important;background:#fffefa
+}
+.reference-travel-shell .reference-map-workspace>.map-panel>.panel-head{
+ top:13px;left:13px;z-index:800;background:#fffefaf5;border-radius:18px;
+ box-shadow:0 7px 19px #1e4c3121;border:1px solid #fff
+}
+.reference-travel-shell .map-panel>.panel-head h2{
+ font-size:1.17rem;font-weight:850}
+.reference-travel-shell .map-panel>.panel-head p{font-size:.73rem}
+.reference-travel-shell .reference-map-floating{
+ background:#fffefaed!important
+}
+.reference-travel-shell .reference-map-floating>button[aria-pressed=true]{
+ background:var(--ref-green)!important
+}
+.reference-travel-shell .reference-map-workspace>.map-panel>.map-legend{
+ border-color:var(--ref-line);background:#fffefa
+}
+.reference-travel-shell .reference-discovery{
+ background:#fffefa;margin:0;padding:12px 14px 13px;gap:10px;
+ border:1px solid var(--ref-line);box-shadow:0 8px 20px #17452d12;
+ min-width:0;overflow:hidden
+}
+.reference-travel-shell .reference-discovery-head{
+ align-items:center;gap:10px;flex-wrap:wrap
+}
+.reference-travel-shell .reference-discovery-head small{
+ display:none
+}
+.reference-travel-shell .reference-discovery-head h2{
+ font-size:1.14rem;line-height:1.2;color:#26332b
+}
+.reference-travel-shell .reference-discovery-head p{
+ font-size:.68rem;max-width:55ch;line-height:1.35
+}
+.reference-travel-shell .reference-discovery-head .button{
+ min-height:33px;font-size:.72rem
+}
+.reference-travel-shell .reference-discovery-filmstrip{
+ display:flex;gap:10px;padding:1px 2px 10px
+}
+.reference-travel-shell .reference-discovery-card{
+ flex:0 0 clamp(185px,17.2vw,270px);background:#fffdfa;
+ border:1px solid var(--ref-line);border-radius:18px;
+ box-shadow:0 5px 17px #17452d11;overflow:hidden
+}
+.reference-travel-shell .reference-discovery-image{
+ height:119px;border-radius:0;position:relative
+}
+.reference-travel-shell .reference-discovery-image>img{
+ object-position:center center
+}
+.reference-travel-shell .reference-discovery-body{
+ padding:9px 11px 10px;gap:4px
+}
+.reference-travel-shell .reference-discovery-title strong{
+ font-size:.81rem;line-height:1.25
+}
+.reference-travel-shell .reference-discovery-body p{font-size:.69rem}
+.reference-travel-shell .reference-discovery-actions{
+ gap:5px;flex-wrap:wrap
+}
+.reference-travel-shell .reference-discovery-actions .button{
+ min-height:31px;border-radius:11px
+}
+/* The researched 2027 daily itinerary becomes a clear timeline rather than
+   a second, hidden technical list. Never claim precise 2027 appointment times. */
+.reference-agenda-list:empty{display:none}
+.reference-agenda-preview{
+ margin:7px 0 6px;border-top:1px solid var(--ref-line);
+ padding:11px 1px 3px
+}
+.reference-agenda-preview-head{
+ display:grid;gap:3px;margin:0 0 13px
+}
+.reference-agenda-preview-head strong{
+ font-size:.84rem;font-weight:820;letter-spacing:-.02em
+}
+.reference-agenda-preview-head small{
+ font-size:.69rem;color:var(--muted);line-height:1.45
+}
+.reference-agenda-preview-list{list-style:none;margin:0;padding:0 1px 0 16px;
+ border-left:2px solid #d4e6d6;display:grid;gap:6px}
+.reference-agenda-period{
+ position:relative;display:flex;align-items:center;gap:7px;
+ padding:5px 0 4px 9px;margin:6px 0 2px;
+ font-size:.8rem;font-weight:800;color:#26704b
+}
+.reference-agenda-period:first-child{margin-top:0}
+.reference-agenda-period>.ui-icon{
+ width:28px;height:28px;padding:6px;box-sizing:border-box;
+ border-radius:50%;background:#e9f5e9;position:absolute;
+ left:-30px;top:0;border:2px solid #fff
+}
+.reference-agenda-period>strong{
+ display:inline-flex;padding:5px 12px;border-radius:99px;
+ background:#e9f5e9;color:#276b45;font-size:.77rem
+}
+.reference-agenda-period.reference-period-noon>strong,
+.reference-agenda-period.reference-period-noon>.ui-icon{
+ background:#fff0e1;color:#a66231
+}
+.reference-agenda-period.reference-period-evening>strong,
+.reference-agenda-period.reference-period-evening>.ui-icon{
+ background:#ecebf9;color:#504da0
+}
+.reference-agenda-preview-item{
+ position:relative;display:grid;
+ grid-template-columns:0 47px minmax(0,1fr) auto;
+ align-items:center;gap:9px;
+ padding:8px 9px;margin:0 0 1px 6px;
+ min-height:68px;border:1px solid var(--ref-line);
+ border-radius:15px;background:#fffefa;
+ box-shadow:0 3px 10px #173c2910;
+ transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease
+}
+.reference-preview-dot{
+ position:absolute;left:-24px;top:22px;display:grid;place-items:center;
+ width:19px;height:19px;border-radius:50%;
+ background:#2f8c54;color:white;font-size:.65rem;font-weight:820;
+ box-shadow:0 0 0 3px #fff
+}
+.reference-preview-photo{width:47px;height:47px;grid-column:2;
+ border-radius:11px;overflow:hidden;background:#e8f0e8}
+.reference-preview-photo>.place-thumbnail{
+ width:47px!important;height:47px!important;border-radius:11px!important;
+ display:grid;place-items:center}
+.reference-preview-photo img{width:100%;height:100%;object-fit:cover}
+.reference-preview-copy{grid-column:3;display:grid;gap:3px;min-width:0}
+.reference-preview-copy strong{
+ font-size:.79rem;line-height:1.34;font-weight:820;overflow-wrap:anywhere
+}
+.reference-preview-copy small{font-size:.67rem;line-height:1.38;color:var(--muted)}
+.reference-preview-actions{grid-column:4;display:flex;align-items:center}
+.reference-preview-actions .button{
+ display:inline-flex;gap:3px;align-items:center;min-height:39px;
+ padding:7px 9px;border-radius:12px;font-size:.68rem;
+ font-weight:800;white-space:nowrap
+}
+.reference-preview-actions .ui-icon{width:13px;height:13px}
+.reference-preview-done{color:var(--ref-green)}
+.reference-preview-done .ui-icon{width:20px;height:20px}
+.reference-preview-footer{
+ display:flex;justify-content:space-between;align-items:center;gap:9px;
+ margin:12px 0 0;flex-wrap:wrap
+}
+.reference-preview-footer .button{
+ flex:1 1 auto;border-radius:12px;min-height:46px;
+ background:var(--ref-green);color:white;border-color:transparent;
+ padding:10px 13px;font-size:.75rem;font-weight:800
+}
+.reference-preview-footer small{
+ color:var(--muted);font-size:.68rem;line-height:1.35
+}
+.reference-travel-shell .reference-map-workspace .day-plan-compact{
+ border-radius:14px
+}
+/* Prefer the visible Barcelona-like timeline to a duplicate second proposal
+   panel, but keep detailed controls under "Alle Funktionen". */
+.simple-map-mode .explorer-right:has(.reference-agenda-preview)>.day-plan-compact{
+ display:none!important
+}
+@media(hover:hover) and (pointer:fine){
+ .reference-agenda-preview-item:hover{
+  transform:translateX(3px);box-shadow:0 7px 18px #173b291a;
+  border-color:#9ec4ac
+ }
+ .reference-preview-actions .button:hover{transform:translateY(-1px)}
+}
+@keyframes referenceStepEnter{
+ from{opacity:.68;transform:translateX(-7px)}
+ to{opacity:1;transform:translateX(0)}
+}
+.reference-agenda-preview-item{
+ animation:referenceStepEnter .3s cubic-bezier(.2,.83,.24,1) backwards
+}
+.reference-agenda-preview-item:nth-child(3n){animation-delay:30ms}
+.reference-agenda-preview-item:nth-child(4n){animation-delay:60ms}
+/* Desktop: same visual hierarchy as the reference: calendar strip+timeline
+   LEFT, rounded map+photo row RIGHT. Preserve direct map-panel selector
+   for Leaflet and all existing controls. */
+@media(min-width:1180px){
+ .reference-travel-shell .reference-map-workspace{
+  display:grid!important;
+  grid-template-columns:minmax(325px,30.5%) minmax(0,1fr)!important;
+  grid-template-rows:101px minmax(0,370px) auto!important;
+  column-gap:12px;row-gap:0;align-items:stretch
+ }
+ .reference-travel-shell .reference-map-workspace>.reference-stage-days{
+  grid-column:1;grid-row:1;height:101px!important;
+  min-height:101px!important;border-radius:22px 22px 0 0;
+  overflow:hidden;padding:9px 14px 4px
+ }
+ .reference-travel-shell .reference-map-workspace>.explorer-right{
+  grid-column:1;grid-row:2 / span 2;min-height:0!important;
+  height:100%;max-height:705px!important;align-self:stretch;
+  overflow-y:auto;border-top:0;border-radius:0 0 22px 22px!important
+ }
+ .reference-travel-shell .reference-map-workspace>.map-panel{
+  grid-column:2;grid-row:1 / span 2;min-width:0;
+  align-self:start;position:relative;top:0!important;
+  border-radius:22px 22px 0 0!important;border-bottom:0;
+  box-shadow:0 6px 25px #15412a13
+ }
+ .reference-travel-shell .reference-map-workspace #map{
+  height:418px!important;min-height:418px!important;max-height:418px!important
+ }
+ .reference-travel-shell .reference-map-workspace>.reference-discovery{
+  grid-column:2;grid-row:3;order:3;align-self:start;
+  border-top:0;border-radius:0 0 22px 22px;
+  margin:0;position:relative;z-index:2
+ }
+ .reference-travel-shell .reference-map-workspace>.map-panel>.map-legend{
+  min-height:30px;padding:4px 12px!important
+ }
+ /* In easy mode the map is the primary canvas, not a row of legend chips. */
+ .simple-map-mode .reference-map-workspace>.map-panel>.map-legend{
+  display:none!important
+ }
+ .reference-travel-shell .reference-map-workspace>.explorer-right>.reference-agenda{
+  padding:12px 15px
+ }
+ .reference-travel-shell .reference-map-workspace>.map-panel>.panel-head{
+  max-width:min(355px,calc(100% - 220px))
+ }
+ .simple-map-mode .reference-map-workspace>.explorer-right>.explorer-toolbar{
+  border-radius:0
+ }
+}
+@media(min-width:651px) and (max-width:1179px){
+ .reference-travel-shell .reference-map-workspace{
+  grid-template-columns:1fr!important;grid-template-rows:auto!important;gap:0!important
+ }
+ .reference-travel-shell .reference-map-workspace>.reference-discovery{
+  grid-column:1;grid-row:4;border-radius:18px;margin:10px 0
+ }
+ .reference-travel-shell .reference-map-workspace>.explorer-right{
+  max-height:none!important
+ }
+ .reference-travel-shell .reference-map-workspace #map{
+  height:420px!important;min-height:420px!important;max-height:420px!important
+ }
+}
+@media(max-width:800px){
+ .reference-travel-shell .reference-map-intro{
+  height:auto!important;min-height:104px;gap:12px
+ }
+ .reference-travel-shell .reference-map-intro .reference-hero-thumb{
+  width:80px;height:69px;flex-basis:80px
+ }
+ .reference-travel-shell .reference-map-intro-actions{
+  margin-left:0;max-width:100%
+ }
+}
+@media(max-width:650px){
+ .reference-travel-shell .reference-topbar{height:54px;min-height:54px;padding:0 10px}
+ .reference-travel-shell .reference-map-intro .reference-hero-thumb{
+  width:68px;height:65px;flex-basis:68px
+ }
+ .reference-travel-shell .reference-map-intro{padding:12px 11px}
+ .reference-travel-shell .reference-map-intro h1{font-size:1.26rem}
+ .reference-travel-shell .reference-map-workspace>.reference-discovery{
+  grid-column:1;grid-row:4;margin:10px 0 0;
+  border-radius:17px;padding:11px
+ }
+ .reference-travel-shell .reference-map-workspace #map{
+  height:370px!important;min-height:370px!important;max-height:370px!important
+ }
+ .reference-travel-shell .reference-discovery-image{height:120px}
+ .reference-travel-shell .reference-discovery-card{flex-basis:min(68vw,238px)}
+ .reference-travel-shell .reference-agenda-preview{margin-top:7px}
+ .reference-agenda-preview-list{padding-left:14px}
+ .reference-agenda-preview-item{
+  grid-template-columns:0 41px minmax(0,1fr);
+  gap:6px;padding:7px;min-height:64px
+ }
+ .reference-preview-photo,.reference-preview-photo>.place-thumbnail{
+  width:41px!important;height:41px!important
+ }
+ .reference-preview-actions{grid-column:3;justify-content:flex-start}
+ .reference-preview-actions .button{min-height:42px}
+ .reference-travel-shell .reference-discovery-head p{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-agenda-preview-item{animation:none!important;transition:none!important}
+}
+:root[data-motion=off] .reference-agenda-preview-item{
+ animation:none!important;transition:none!important
+}
+
+/* Desktop top search is the only map search in the easy mode. This matches
+   the supplied Barcelona header and eliminates the duplicate left search. */
+@media(min-width:1180px){
+ .simple-map-mode .reference-topbar .reference-global-search{
+  display:flex!important;max-width:365px;flex:1 1 260px;
+  margin-left:auto;background:#fffefa
+ }
+ .simple-map-mode .reference-map-workspace>.explorer-right
+   .explorer-toolbar .explorer-search{display:none!important}
+ .simple-map-mode .reference-map-workspace>.explorer-right
+   .explorer-toolbar{padding:9px 12px}
+ .simple-map-mode .reference-map-workspace>.explorer-right
+   .explorer-categories{padding:3px 1px}
+}
+
+/* Iteration 2: real numbered POIs are highlighted; unverified addresses and
+   city-centre estimates remain excluded. Duration is NEVER inferred from a line. */
+@media(min-width:1180px){
+ .reference-travel-shell .reference-map-workspace{
+  grid-template-rows:101px minmax(0,354px) auto!important
+ }
+ .simple-map-mode .reference-map-workspace #map{
+  height:455px!important;min-height:455px!important;max-height:455px!important
+ }
+ .reference-travel-shell:not(.simple-map-mode) .reference-map-workspace #map{
+  height:422px!important;min-height:422px!important;max-height:422px!important
+ }
+}
+.reference-travel-shell .day-schematic-halo,
+.reference-travel-shell .day-schematic-route{
+ stroke-linecap:round;stroke-linejoin:round
+}
+.reference-travel-shell .day-schematic-route{
+ filter:drop-shadow(0 2px 4px #26754566)
+}
+.reference-travel-shell .day-schematic-flow{
+ stroke-linecap:round;pointer-events:none;
+ animation:simpleRouteTravel 2.8s linear infinite
+}
+.reference-travel-shell .pin.draft{
+ color:#fff;background:#22854d;border:3px solid #fff;
+ box-shadow:0 0 0 4px #2ea76249,0 5px 16px #145e3f55;
+ font-weight:850;transform-origin:center bottom
+}
+.reference-travel-shell .pin.draft:hover{
+ box-shadow:0 0 0 7px #2ea76243,0 8px 19px #145e3f66
+}
+.reference-travel-shell .reference-preview-map-note{
+ position:absolute;z-index:680;left:12px;bottom:13px;
+ display:inline-flex;align-items:center;gap:6px;
+ max-width:min(355px,calc(100% - 30px));padding:7px 10px;
+ border-radius:999px;color:#285e42;font-size:.66rem;font-weight:730;
+ background:#fffef9ed;border:1px solid #ffffffcf;
+ box-shadow:0 3px 13px #1640261b;backdrop-filter:blur(12px);
+ pointer-events:none
+}
+.reference-travel-shell .reference-preview-map-note>.ui-icon{height:14px;width:14px}
+@media(max-width:650px){
+ .reference-travel-shell .reference-preview-map-note{
+  left:8px;bottom:11px;max-width:calc(100% - 20px);font-size:.61rem
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .day-schematic-flow{animation:none!important}
+}
+:root[data-motion=off] .reference-travel-shell .day-schematic-flow{
+ animation:none!important
+}
+
+/* Iteration 3: full controls keep their footer inside the map row; easy mode
+   uses a single uninterrupted map canvas exactly above photo cards. */
+@media(min-width:1180px){
+ .reference-travel-shell:not(.simple-map-mode) .reference-map-workspace{
+  grid-template-rows:101px minmax(0,391px) auto!important
+ }
+ .reference-travel-shell:not(.simple-map-mode) .reference-map-workspace>.explorer-right{
+  max-height:735px!important
+ }
+}
+@keyframes referenceDayPick{
+ 0%{transform:translateY(3px) scale(.965)}
+ 60%{transform:translateY(-2px) scale(1.025)}
+ 100%{transform:translateY(0) scale(1)}
+}
+.reference-travel-shell .reference-stage-days .day[aria-pressed=true]{
+ animation:referenceDayPick .35s cubic-bezier(.18,.8,.27,1) both
+}
+.reference-travel-shell .reference-map-intro-copy p{
+ font-size:.76rem;line-height:1.4
+}
+.reference-travel-shell .reference-map-intro-copy p>span{
+ font-weight:690;color:var(--text)
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .reference-stage-days .day[aria-pressed=true]{
+  animation:none!important
+ }
+}
+:root[data-motion=off] .reference-travel-shell .reference-stage-days .day[aria-pressed=true]{
+ animation:none!important
+}

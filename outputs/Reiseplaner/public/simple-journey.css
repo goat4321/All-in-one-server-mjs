@@ -1,0 +1,217 @@
+
+/* Phase 30 – progressive disclosure. Simple mode is the DEFAULT; switch back
+ * for route studio, geodata, operators and fine filters. No functionality deleted. */
+.reference-travel-shell .reference-map-intro .reference-map-intro-actions{
+ display:flex!important;align-items:center;gap:11px;flex:0 0 auto}
+.simple-main-actions{display:flex;gap:7px;align-items:center}
+.simple-main-button{display:flex;align-items:center;justify-content:center;gap:8px;
+ min-width:116px;min-height:46px;padding:9px 14px;white-space:nowrap;
+ border:1px solid color-mix(in srgb,var(--green) 24%,var(--atlas-line));
+ background:color-mix(in srgb,var(--paper) 96%,transparent);
+ color:var(--green);border-radius:14px;font:740 .81rem/1.15 inherit;
+ font-family:inherit;box-shadow:0 4px 11px #17432e10;cursor:pointer;
+ transition:transform .18s ease,background .18s ease,box-shadow .18s ease}
+.simple-main-button .ui-icon{width:19px;height:19px;flex:none}
+.simple-main-button:hover{background:var(--atlas-soft);transform:translateY(-2px)}
+.simple-main-button[aria-pressed=true],.simple-main-button:first-child{
+ background:var(--green);color:white;border-color:var(--green)}
+.simple-main-button:focus-visible,.simple-mode-switch:focus-visible{
+ outline:3px solid color-mix(in srgb,var(--green) 55%,transparent);outline-offset:3px}
+.simple-mode-switch{border:0;background:transparent;font-family:inherit;
+ color:var(--green);font-size:.71rem;font-weight:760;cursor:pointer;text-decoration:underline;
+ text-underline-offset:3px;white-space:nowrap;padding:9px 3px;min-height:40px}
+/* On the simple map screen only, stop showing the same map scope twice and
+ * progressively disclose technical material behind a single switch. */
+.simple-map-mode .reference-map-workspace .explorer-scope,
+.simple-map-mode .reference-map-workspace .explorer-view-advanced,
+.simple-map-mode .reference-map-workspace .explorer-route-settings,
+.simple-map-mode .reference-map-workspace .explorer-data-note,
+.simple-map-mode .reference-map-workspace .field-note-strip,
+.simple-map-mode .reference-map-workspace .map-design-details,
+.simple-map-mode .reference-map-workspace .travel-map-hud,
+.simple-map-mode .reference-map-workspace .route-map-hud,
+.simple-map-mode .day-route-builder{display:none!important}
+.simple-map-mode .reference-map-workspace .explorer-toolbar{padding:13px 13px 10px;
+ margin:0;gap:9px;border-bottom:1px solid var(--atlas-line)}
+.simple-map-mode .reference-map-workspace .explorer-search label{
+ font-size:.79rem;font-weight:800;color:var(--text)}
+.simple-map-mode .reference-map-workspace .explorer-search input{
+ min-height:46px;font-size:.83rem;padding:8px 11px;border-radius:12px}
+.simple-map-mode .reference-map-workspace .explorer-search .button{
+ min-height:46px;min-width:46px;border-radius:12px}
+.simple-map-mode .reference-map-workspace .explorer-categories{
+ gap:7px;padding:5px 1px 7px;overflow-x:auto}
+.simple-map-mode .reference-map-workspace .explorer-categories .explorer-chip,
+.simple-map-mode .reference-map-workspace .explorer-categories .chip-button{
+ min-height:39px;border-radius:999px;padding:8px 12px;font-size:.73rem}
+.simple-map-mode .reference-map-workspace .explorer-list{padding:10px 13px 13px}
+.simple-map-mode .reference-map-workspace .explorer-list .subheading h2{
+ font-size:.98rem;letter-spacing:-.03em}
+.simple-map-mode .reference-map-workspace .explorer-list .subheading p{font-size:.69rem}
+.simple-map-mode .reference-map-workspace .explorer-place{
+ border:1px solid var(--atlas-line);border-radius:14px;
+ padding:11px;box-shadow:0 4px 12px #12402b0b;
+ margin-bottom:8px;background:var(--paper)}
+.simple-map-mode .reference-map-workspace .explorer-place .explorer-facts,
+.simple-map-mode .reference-map-workspace .explorer-place>p.muted,
+.simple-map-mode .reference-map-workspace .explorer-place .explorer-description{
+ display:none!important}
+.simple-map-mode .reference-map-workspace .explorer-place-title h3{
+ font-size:.89rem;font-weight:790}
+.simple-map-mode .reference-map-workspace .explorer-place-actions{
+ display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.simple-map-mode .reference-map-workspace .explorer-place-actions>.button{
+ min-height:43px;border-radius:11px;padding:9px 10px;
+ font-size:.73rem;font-weight:760}
+.simple-map-mode .reference-map-workspace .explorer-place-actions>.button:first-child{
+ background:var(--green);border-color:var(--green);color:white}
+.simple-map-mode .reference-map-workspace .explorer-more-actions{
+ flex:1 0 100%}
+.simple-map-mode .reference-map-workspace .explorer-more-actions>summary{
+ padding:7px 0;font-size:.69rem;color:var(--muted);min-height:32px}
+.simple-map-mode .reference-map-workspace .explorer-place[data-bookmarked=true]{
+ border-color:color-mix(in srgb,var(--green) 40%,var(--atlas-line))}
+.simple-map-mode .reference-map-workspace .reference-agenda{
+ padding:15px 14px 12px}
+.simple-map-mode .reference-agenda-empty{padding:10px 12px;line-height:1.55}
+.simple-map-mode .reference-map-workspace .reference-map-floating{
+ box-shadow:0 6px 20px #1f43321c}
+.simple-map-mode .reference-map-workspace .reference-map-floating>button{
+ min-height:42px;font-size:.75rem;font-weight:760}
+.simple-map-mode .reference-map-workspace .map-legend{opacity:.76}
+/* Route animations represent order and direction. Lines without walking geometry
+ * remain purple schematics and are never labeled with a fabricated duration. */
+.reference-travel-shell .trip-schematic-route{stroke-linecap:round;stroke-linejoin:round}
+.reference-travel-shell .trip-schematic-flow{
+ stroke-linecap:round;pointer-events:none;
+ filter:drop-shadow(0 0 3px #ebbc5c7f);
+ animation:simpleRouteTravel 2.2s linear infinite}
+.reference-travel-shell .route-studio-map-flow{
+ stroke-linecap:round;
+ filter:drop-shadow(0 0 3px #65eac188);
+ animation-duration:1.65s}
+@keyframes simpleRouteTravel{from{stroke-dashoffset:0}to{stroke-dashoffset:-92}}
+@media(min-width:1180px){
+ .simple-map-mode .reference-map-workspace>.explorer-right{max-height:480px}
+}
+@media(max-width:1240px){
+ .reference-travel-shell .reference-map-intro{height:auto;min-height:100px}
+ .reference-travel-shell .reference-map-intro .reference-map-intro-actions{
+  flex-wrap:wrap;justify-content:flex-end;max-width:60%}
+ .simple-main-button{min-width:100px;min-height:44px;padding:8px 11px;font-size:.75rem}
+}
+@media(max-width:800px){
+ .reference-travel-shell .reference-map-intro{flex-wrap:wrap}
+ .reference-travel-shell .reference-map-intro .reference-map-intro-actions{
+  order:3;width:100%;max-width:100%;justify-content:space-between;gap:5px}
+ .simple-main-actions{flex:1;width:100%;gap:5px}
+ .simple-main-button{flex:1;min-width:0;min-height:46px;padding:7px 5px;
+  gap:4px;font-size:.72rem}
+ .simple-main-button .ui-icon{width:16px;height:16px}
+ .simple-mode-switch{min-height:34px;font-size:.67rem}
+}
+@media(max-width:650px){
+ .simple-map-mode .reference-map-intro{height:auto;min-height:112px}
+ .simple-map-mode .reference-map-intro .reference-map-intro-actions{
+  display:grid!important;grid-template-columns:1fr;gap:2px}
+ .simple-map-mode .simple-main-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+ .simple-map-mode .simple-main-button{white-space:normal;min-height:48px;padding:7px 5px;
+  border-radius:12px;line-height:1.3}
+ .simple-map-mode .simple-mode-switch{justify-self:end}
+ .simple-map-mode .reference-map-workspace .explorer-list{padding:10px}
+ .simple-map-mode .reference-map-workspace .explorer-place-actions>.button{
+  flex:1 1 auto;min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){
+ .simple-main-button,.reference-travel-shell .trip-schematic-flow,
+ .reference-travel-shell .route-studio-map-flow{animation:none!important;transition:none!important}
+}
+:root[data-motion=off] .reference-travel-shell .trip-schematic-flow,
+:root[data-motion=off] .reference-travel-shell .route-studio-map-flow{animation:none!important}
+:root[data-motion=off] .simple-main-button{transition:none!important}
+
+/* Targeted secondary motion – only first 8 cards, no infinite animations except
+ * the route direction marker. Do not move users' focus or alter map data. */
+.simple-map-mode .simple-hero-hint{display:block;font-size:.68rem;
+ color:var(--green);font-weight:700;line-height:1.4;margin-top:4px}
+.simple-map-mode .reference-map-intro .reference-map-intro-copy{
+ align-self:center;gap:1px}
+.simple-map-mode .reference-map-workspace .explorer-place:nth-child(-n+8){
+ animation:journeyListArrive .26s ease both}
+.simple-map-mode .reference-map-workspace .explorer-place:nth-child(2){animation-delay:.025s}
+.simple-map-mode .reference-map-workspace .explorer-place:nth-child(3){animation-delay:.05s}
+.simple-map-mode .reference-map-workspace .explorer-place:nth-child(4){animation-delay:.075s}
+@keyframes journeyListArrive{from{opacity:.55;transform:translateY(5px)}
+ to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){
+ .simple-map-mode .reference-map-workspace .explorer-place:nth-child(-n+8){
+  animation:none!important}}
+:root[data-motion=off] .simple-map-mode .reference-map-workspace .explorer-place:nth-child(-n+8){
+ animation:none!important}
+
+/* Third pass: remove truly redundant navigational chrome in simple mode. */
+.simple-map-mode .reference-topbar>.top-actions,
+.simple-map-mode .reference-topbar .reference-global-search,
+.simple-map-mode .reference-map-workspace .reference-map-floating,
+.simple-map-mode .reference-map-workspace>.map-panel>.panel-head>.inline{
+ display:none!important}
+.simple-map-mode .reference-topbar{justify-content:flex-start}
+.simple-map-mode .reference-main-nav{margin-left:clamp(8px,2vw,30px);gap:10px}
+.simple-map-mode .reference-main-nav button{
+ min-height:43px;font-size:.85rem;gap:8px}
+.simple-map-mode .reference-map-intro .reference-map-intro-copy{min-width:0}
+.simple-map-mode .reference-map-workspace>.map-panel>.panel-head{
+ max-width:min(210px,calc(100% - 30px));padding:11px 14px}
+@media(max-width:650px){
+ .simple-map-mode .reference-main-nav{gap:1px;margin-left:0}
+ .simple-map-mode .reference-main-nav button{gap:4px;padding:7px 7px;min-height:38px}
+ .simple-map-mode .reference-main-nav button span{
+  display:inline!important;font-size:.68rem}
+ .simple-map-mode .reference-main-nav button .ui-icon{width:15px;height:15px}
+}
+
+/* The same 4 big entry points now appear ABOVE dense dashboard material,
+ * not after progress charts. Other dashboard data is still there below. */
+.workspace:has(.cockpit-layout)>.overview-start{
+ margin:0 0 16px;padding:14px 16px;border-radius:18px;
+ border:1px solid var(--atlas-line);background:var(--paper);
+ box-shadow:0 4px 18px #1538250d}
+.workspace:has(.cockpit-layout)>.overview-start .overview-start-copy strong{
+ font-size:1.06rem;letter-spacing:-.025em}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-grid{gap:10px}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-card{
+ min-height:76px;border-radius:14px;gap:12px;padding:12px 14px;
+ border:1px solid var(--atlas-line);box-shadow:none;
+ transition:transform .18s ease,box-shadow .18s ease}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-card:first-child{
+ background:color-mix(in srgb,var(--green) 5%,var(--paper));
+ border-color:color-mix(in srgb,var(--green) 22%,var(--atlas-line))}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-icon{
+ flex:0 0 40px;width:40px;height:40px;border-radius:12px}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-card strong{font-size:.86rem}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-card small{
+ font-size:.72rem;line-height:1.4}
+.workspace:has(.cockpit-layout)>.overview-start .overview-quick-card:focus-visible{
+ outline:3px solid var(--green);outline-offset:3px}
+@media(max-width:650px){
+ .workspace:has(.cockpit-layout)>.overview-start{padding:12px}
+ .workspace:has(.cockpit-layout)>.overview-start .overview-quick-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .workspace:has(.cockpit-layout)>.overview-start .overview-quick-card{
+  min-height:84px;padding:11px 8px;gap:7px;align-items:start}
+ .workspace:has(.cockpit-layout)>.overview-start .overview-quick-icon{
+  flex-basis:33px;width:33px;height:33px}
+}
+
+/* Decision-first location cards: a short description and exactly three
+ * obvious actions, with specialist map tools behind the existing disclosure. */
+.simple-map-mode .reference-map-workspace .explorer-place .explorer-description{
+ display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+ line-clamp:2;overflow:hidden;max-width:100%;font-size:.72rem;
+ line-height:1.45;color:var(--muted);margin:5px 0}
+.simple-map-mode .reference-map-workspace .explorer-place-actions>.button:first-child{
+ background:var(--paper);color:var(--green);border-color:var(--atlas-line)}
+.simple-map-mode .reference-map-workspace .explorer-place-actions>.button[data-action=choose]{
+ background:var(--green);border-color:var(--green);color:white;flex-grow:1}
+.simple-map-mode .reference-map-workspace .explorer-place-actions>.button[data-action=explorer-save][data-value]{
+ min-width:85px}

@@ -60,13 +60,95 @@ export function priceForParty(item, people) {
 }
 
 export function mealEstimate(option, count) {
+  const currency=option.currency??option.products.find(p=>p.currency)?.currency??'EUR';
   const products = option.products.map(product => {
+    if((product.currency??currency)!==currency)throw Error('Zutaten einer Mahlzeit haben unterschiedliche Währungen.');
     const quantity = product.pack ? Math.ceil(product.need * count / product.pack) : Math.ceil(product.forThree * count / 3);
-    return { ...product, quantity, total: product.cents * quantity };
+    return { ...product, quantity, total: product.cents==null?null:product.cents * quantity };
   });
-  const base = products.reduce((sum, product) => sum + product.total, 0);
-  const terrace = option.terracePercent == null ? null : Math.round(base * (100 + option.terracePercent) / 100);
-  return { products, base, terrace };
+  const knownBase = products.reduce((sum, product) => sum + (product.total??0), 0);
+  const base=products.some(p=>p.total===null)?null:knownBase;
+  const terrace = option.terracePercent == null||base===null ? null : Math.round(base * (100 + option.terracePercent) / 100);
+  const portionCents=base===null?null:Math.round(products.reduce((sum,p)=>sum+(p.pack?p.need*count/p.pack*p.cents:p.total),0));
+  return { products, base, knownBase, terrace, currency, portionCents };
+}
+
+
+// Informational only: a missing check never implies a real booking or fare was confirmed.
+export function planReadiness(trip, selectedItems, budget) {
+  const overnightStays = Object.entries(trip.stayByCity ?? {});
+  const missingStays = overnightStays.filter(([city, required]) =>
+    !selectedItems.some(item => item.kind === 'lodging' && item.city === city
+      && item.stayFrom <= required.from && item.stayTo >= required.to)
+  ).map(([city]) => city);
+  const trainLegs = selectedItems.filter(item => item.kind === 'transport' && item.mode === 'train');
+  const uncheckedTrains = trainLegs.filter(item =>
+    !['Fahrplan bestätigt', 'Fahrplan geprüft'].includes(item.verification)
+  ).length;
+  return {
+    missingStays,
+    uncheckedTrains,
+    unknownPrices: budget.unknown,
+    missingOriginalSources: trip.dataMode === 'research_seed_fallback',
+  };
+}
+
+export function groceryBasket(meals, peopleCount, overrides = {}, shopping = {}) {
+  if (!Number.isInteger(peopleCount) || peopleCount < 1 || peopleCount > 20) throw new Error('Ungültige Gruppengröße für den Warenkorb.');
+  const rows = new Map();
+  for (const meal of meals) {
+    if (!Array.isArray(meal.basketProducts)) continue;
+    for (const product of meal.basketProducts) {
+      if (!Number.isSafeInteger(product.pack) || product.pack < 1
+        || !Number.isSafeInteger(product.need) || product.need < 1
+        || (product.cents!==null&&(!Number.isSafeInteger(product.cents)||product.cents<0))
+        || !['g','ml','Stück'].includes(product.unit??'g')||!['EUR','CHF'].includes(product.currency??'EUR')
+        || !/^[a-z0-9_-]{1,120}$/i.test(product.source ?? '')) {
+        throw new Error('Ungültige Zutatenreferenz im geplanten Warenkorb.');
+      }
+      const currency=product.currency??'EUR',unit=product.unit??'g';
+      const key = [meal.city, product.source, product.pack, product.cents??'open',
+        ...(currency==='EUR'&&unit==='g'?[]:[currency,unit])].join(':');
+      if (!rows.has(key)) rows.set(key, {
+        key, city: meal.city, source: product.source, name: product.name,
+        pack: product.pack, referenceCents: product.cents, required: 0, currency, unit,
+        priceDate:product.checkedOn??null,
+        packAssumption:Boolean(product.packAssumption),
+      });
+      rows.get(key).required += product.need * peopleCount;
+    }
+  }
+  for (const extra of shopping.extras ?? []) rows.set(extra.id, {
+    key: extra.id, city: extra.city, name: extra.name, source: null, sourceUrl: extra.sourceUrl,
+    pack: extra.pack, required: extra.quantity, referenceCents: extra.unitCents, currency: extra.currency,
+    unit: extra.unit, date: extra.date, priceDate: extra.priceDate, extra: true,
+  });
+  return [...rows.values()].map(row => {
+    const stock = shopping.pantry?.[row.key] ?? 0;
+    if (!Number.isSafeInteger(stock) || stock < 0 || stock > 1_000_000) throw new Error('Ungültiger Vorrat.');
+    const minPacks = Math.ceil(Math.max(0, row.required - stock) / row.pack);
+    const override = overrides?.[row.key];
+    if (override && (!Number.isSafeInteger(override.packs) || override.packs < 0
+      || (override.packs === 0 && override.explicitPacks !== true)
+      || (override.explicitPacks != null && typeof override.explicitPacks !== 'boolean')
+      || override.packs > 100 || (override.unitCents != null && (!Number.isSafeInteger(override.unitCents)
+      || override.unitCents < 0 || override.unitCents > 100000)))) {
+      throw new Error('Ungültige Mengen- oder Preisänderung im Warenkorb.');
+    }
+    // A group-size increase can require more packs than an earlier manual override.
+    // Preserve the user's price but never budget insufficient package quantities.
+    const packs = minPacks === 0 && override?.explicitPacks !== true ? 0 : Math.max(minPacks, override?.packs ?? 0);
+    const unitCents = override && Object.hasOwn(override, 'unitCents') ? override.unitCents : row.referenceCents;
+    if (!Number.isSafeInteger(packs) || packs < minPacks || packs > 100
+      || (unitCents != null && (!Number.isSafeInteger(unitCents) || unitCents < 0 || unitCents > 100000))) {
+      throw new Error('Ungültige Mengen- oder Preisänderung im Warenkorb.');
+    }
+    const excluded = shopping.excluded?.[row.key] === true;
+    const total = packs === 0 ? 0 : excluded || unitCents == null ? null : packs * unitCents;
+    return { ...row, minPacks, packs, unitCents, total, stock, excluded, checked: shopping.checked?.[row.key] === true,
+      priceDate: override?.date ?? row.priceDate, priceSourceUrl: override?.sourceUrl ?? row.sourceUrl,
+      modified: Boolean(override), adjustedForGroup: Boolean(override && packs > override.packs) };
+  });
 }
 
 export const mealDate = item => localParts(item.start, item.zone).date ?? item.date;
@@ -86,12 +168,37 @@ export function calculateBudget(items, state) {
   const balances = Array.from({ length: count }, () => ({ share: 0, paidShare: 0, paid: 0 }));
   const passMode = state.pass?.budgetMode === 'interrail';
   const replacedMealCosts = new Set(state.expenses.map(expense => expense.forItem).filter(Boolean));
+  const plannedCooking = items.filter(i => i.mealSlot && Array.isArray(i.basketProducts)
+    && !replacedMealCosts.has(i.id));
+  const pooledIds = new Set(plannedCooking.map(i => i.id));
+  const baskets = groceryBasket(plannedCooking, count, state.groceryOverrides ?? {}, state.shopping);
   const railCosts = items.flatMap(i => {
-    if (i.kind === 'note' || replacedMealCosts.has(i.id)) return [];
+    if (i.kind === 'note' || replacedMealCosts.has(i.id) || pooledIds.has(i.id)) return [];
     if (!passMode || i.kind !== 'transport' || i.mode !== 'train' || i.passUse === false) return [i];
     return [{ ...i, id: 'reservation:' + i.id, name: 'Reservierung · ' + i.name, category: 'reservation',
       price: state.pass.includeReferences ? i.reservation : null, payment: 'open' }];
   });
+  for (const group of Map.groupBy(baskets, row => row.city + ':' + row.currency).values()) {
+    const { city, currency } = group[0];
+    const basketTotal = group.reduce((sum, row) => sum + (row.total ?? 0), 0);
+    const unknown = group.filter(row => row.total == null);
+    const firstMeal = plannedCooking.filter(item => item.city === city)
+      .toSorted((a, b) => (mealDate(a) ?? '').localeCompare(mealDate(b) ?? ''))[0];
+    railCosts.push({
+      id: 'grocery-budget:' + city + (currency === 'EUR' ? '' : ':' + currency), name: 'Gruppeneinkauf · ' + city, city,
+      date: firstMeal ? mealDate(firstMeal) : group.find(row => row.date)?.date ?? null, category: 'food',
+      price: { cents: basketTotal, currency, scope: 'group',
+        label: 'Gemeinsamer Einkaufsplan · Vorräte berücksichtigt · Preise mit Quellenstand' },
+      payment: 'open', source: group.map(row => row.source).filter(Boolean),
+    });
+    if (unknown.length) railCosts.push({
+      id: 'grocery-budget:' + city + ':' + currency + ':unknown',
+      name: 'Einkaufspreise offen · ' + unknown.map(row => row.name).join(', '), city,
+      currencyHint:currency,
+      date: firstMeal ? mealDate(firstMeal) : unknown.find(row => row.date)?.date ?? null,
+      category: 'food', price: null, payment: 'open', source: unknown.map(row => row.source).filter(Boolean),
+    });
+  }
   if (passMode) {
     const cents = state.pass.purchased ? 0 : state.pass.cost;
     railCosts.push({ id: 'pass:interrail', name: 'Interrail-Pass · zusätzlicher Kaufpreis', category: 'pass',
@@ -100,7 +207,7 @@ export function calculateBudget(items, state) {
   const rows = [...railCosts, ...state.expenses].map(item => {
     const price = priceForParty(item, state.people);
     const original = groupPrice(price, count);
-    const currency = price?.currency ?? 'EUR';
+    const currency = price?.currency ?? item.currencyHint ?? 'EUR';
     const euros = original == null ? null : currency === 'EUR' ? original : fxAmount(original, item.fx);
     let split = null;
     if (euros != null) {
@@ -129,6 +236,24 @@ export function calculateBudget(items, state) {
     paid: balances.reduce((sum, row) => sum + row.paid, 0),
     unknown: rows.filter(row => row.euros == null).length,
   };
+}
+
+export function budgetBreakdown(rows, dimension = 'city') {
+  if (!['city', 'date'].includes(dimension)) throw new Error('Unbekannte Budgetauswertung.');
+  const totals = new Map();
+  for (const row of rows) {
+    // A booked stay or train belongs to its posted date; nightly amortization
+    // is intentionally not assumed from an old group quote.
+    const key = dimension === 'city' ? row.city ?? 'unassigned'
+      : row.date ?? (row.start && row.zone ? localParts(row.start, row.zone).date : null) ?? (row.kind === 'lodging' ? row.stayFrom : null) ?? 'unassigned';
+    if (!totals.has(key)) totals.set(key, { key, cents: 0, unknown: 0, count: 0 });
+    const bucket = totals.get(key);
+    bucket.count++;
+    if (row.euros == null) bucket.unknown++;
+    else bucket.cents += row.euros;
+  }
+  return [...totals.values()].sort((a, b) => a.key === 'unassigned' ? 1
+    : b.key === 'unassigned' ? -1 : a.key.localeCompare(b.key));
 }
 
 export function settle(nets) {

@@ -1,6 +1,11 @@
 import { categories, groupPrice, localParts, mealDate, mealEstimate, minor, money, utcFromLocal } from './model.mjs';
 import { alert, btn, esc, iconBtn, dateLabel, dateText, sourceList, urlLink, cost, unit, timeText, transitPlanners } from './ui.mjs';
 import { transitNetworks } from './transit.mjs';
+import { placeProfileHtml } from './place-profile.mjs';
+import { placeInspectorHtml } from './place-inspector.mjs';
+import { VERIFICATION_FIELDS, reviewProgress } from './verification.mjs';
+import {mealSlotLabels,mealSlotTimes,plansForSlot,currentMeals,mealAccommodation,mealSelectionPatch,shoppingCandidates,shoppingStopDraft} from './meal-planner.mjs';
+import {mapPinPatch} from './map-pins.mjs';
 
 const dialog = document.querySelector('#dialog');
 const field = (label, control, wide = false) => '<label class="field' + (wide ? ' wide' : '') + '"><span>' + esc(label) + '</span>' + control + '</label>';
@@ -16,6 +21,8 @@ export function openDialog(title, body, submit) {
   dialog.innerHTML = '<div class="dialog-head"><h2 id="dialog-title">' + esc(title) + '</h2>' + iconBtn('close', 'Dialog schließen', 'close')
     + '</div><div class="dialog-body">' + body + '</div>';
   dialog.setAttribute('aria-labelledby', 'dialog-title');
+  dialog.dataset.variantId=document.querySelector('#app').dataset.variantId??'';
+  dialog.dataset.revision=document.querySelector('#app').dataset.revision??'';
   dialog.showModal();
   const form = dialog.querySelector('#modal-form');
   if (form && submit) form.addEventListener('submit', async event => {
@@ -29,6 +36,27 @@ export function openDialog(title, body, submit) {
   });
 }
 export const closeDialog = () => dialog.close();
+export function mapPinForm(ctx,item,save,after,seed={}){
+ const city=item?.city??ctx.city;
+ const values={name:item?.name??'',detail:item?.detail??'',duration:item?.duration??30,
+  lat:item?.point?.[0]??'',lon:item?.point?.[1]??'',...seed};
+ const body='<p>Dein eigener Punkt in '+esc(ctx.cities[city]?.name??city)
+  +'. Manuell / ungeprüft; kein bestätigter Eingang. Neue Pins werden erst durch deine spätere Auswahl eingeplant.</p>'
+  +controls([
+   field('Name',input('name',values.name,'text','maxlength="240" required'),true),
+   field('Breitengrad',input('lat',values.lat,'number','step="any" min="-90" max="90" required')),
+   field('Längengrad',input('lon',values.lon,'number','step="any" min="-180" max="180" required')),
+   field('Angenommene Besuchsdauer (Minuten)',input('duration',values.duration,'number','min="1" max="300" required')),
+   field('Notiz',input('detail',values.detail,'text','maxlength="4000"'),true),
+  ],item?'Pin speichern':'Pin anlegen',btn('map-pin-pick','Auf Karte wählen','pin'))
+  .replace('id="modal-form"','id="modal-form" data-map-pin-form="true" data-pin-id="'+esc(item?.id??'')+'"');
+ openDialog(item?'Eigenen Kartenpunkt bearbeiten':'Eigenen Kartenpunkt hinzufügen',body,async data=>{
+  const id=item?.id??uid('manual');
+  const next=mapPinPatch(ctx,item,Object.fromEntries(data),id);
+  await save(next,item?'Kartenpunkt aktualisiert':'Ungeplanten Kartenpunkt angelegt');
+  after(next.manual.find(row=>row.id===id));
+ });
+}
 const text = (data, key) => String(data.get(key) ?? '').trim();
 const n = (data, key) => text(data, key) === '' ? null : Number(data.get(key));
 const uid = type => type + ':' + crypto.randomUUID();
@@ -153,6 +181,8 @@ export function chooseItem(ctx, item, save, after) {
   const unknownAge = item.minAge && ctx.people.some(p => p.age == null);
   const warning = knownMinors.length ? alert('Für ' + knownMinors.map(p => p.name).join(', ') + ' unterschreitet das hinterlegte Alter die Einlassgrenze.')
     : unknownAge ? alert('Einlass ' + item.minAge + '+. Alter und Veranstaltung sind für die Gruppe zu prüfen.') : '';
+  const quoteWarning = item.quote ? alert('Dieser Gesamtpreis wurde nur am ' + item.quote.observedOn
+    + ' als Suchergebnis für die angezeigten Daten und Gruppengröße beobachtet. Zimmeraufteilung, komplette Steuern, Endpreis und Verfügbarkeit sind nicht bestätigt. Die Übernahme ist nur eine Planentscheidung, keine Reservierung oder Zahlung.') : '';
   const preview = isLodging
     ? 'Aufenthalt ' + dateLabel(item.stayFrom, item.stayTo) + '. ' + (current ? 'Ersetzt ' + current.name + '. ' : '')
       + (oldPrice != null && newPrice != null ? 'Budgetänderung ' + money(newPrice - oldPrice) + '.' : 'Offene oder historische Preise werden im Budget ausgewiesen.')
@@ -168,7 +198,7 @@ export function chooseItem(ctx, item, save, after) {
   openDialog(isLodging ? 'Unterkunft übernehmen' : 'Aktivität einplanen',
     '<h3>' + esc(item.name) + '</h3><p class="muted">' + esc(preview) + '</p><p><strong>' + esc(cost(item, ctx.people.length)) + '</strong> gesamt · '
     + esc(unit(item, ctx.people.length)) + '</p>' + (item.price?.label ? '<p class="muted">' + esc(item.price.label) + '</p>' : '')
-    + warning + (item.requiresKitchen && !ctx.active.some(i => i.city === item.city && i.kitchen) ? alert('Für diesen Planpunkt ist eine Küche erforderlich. Küchenzugang ist offen.') : '')
+    + warning + quoteWarning + (item.requiresKitchen && !ctx.active.some(i => i.city === item.city && i.kitchen) ? alert('Für diesen Planpunkt ist eine Küche erforderlich. Küchenzugang ist offen.') : '')
     + controls(fields, 'In Plan übernehmen'), async data => {
       if (current?.booked) throw new Error('Eine gebuchte Unterkunft ist als Fixpunkt gesperrt.');
       if (knownMinors.length) throw new Error('Diese Option passt nicht zur hinterlegten Altersgrenze der Gruppe.');
@@ -183,23 +213,91 @@ export function chooseItem(ctx, item, save, after) {
     });
 }
 
-export function itemDetails(ctx, item) {
-  const local = localParts(item.start, item.zone);
-  const details = [
-    item.address, item.kind === 'transport' && item.arrivalAddress ? 'Ziel: ' + item.arrivalAddress : null,
-    item.kind === 'transport' ? timeText(item) + ' · Ortszeiten · ' + item.verification : local.date ? local.date + ' ' + (local.time ?? '') : null,
-    item.kind === 'lodging' ? [item.kitchen, item.room, 'Gebühren: ' + (item.fees ?? 'offen'), 'Storno: ' + (item.cancellation ?? 'offen')].filter(Boolean).join(' · ') : null,
-    item.duration ? 'Dauer ' + item.duration + ' Min.' : null,
-    item.detail, item.access, item.price?.label, item.eligibility ? 'Berechtigung: ' + item.eligibility : null,
-    item.originalName && item.originalName !== item.name ? 'Originaleintrag: ' + item.originalName : null,
-    item.externalId ? 'Tripsy-ID ' + item.externalId : null,
-  ].filter(Boolean);
-  openDialog(item.name, '<p><strong>' + esc(cost(item, ctx.people.length)) + '</strong> gesamt · ' + esc(unit(item, ctx.people.length))
-    + '</p>' + details.map(value => '<p>' + esc(value) + '</p>').join('') + (item.positionIssue ? alert(item.positionIssue) : '')
+export function itemDetails(ctx, item, compareIds=[]) {
+  openDialog(item.name, placeInspectorHtml(ctx,item,compareIds)
+    + (item.positionIssue ? alert(item.positionIssue) : '')
     + (item.importConflict ? alert(item.importConflict) : '')
-    + sourceList(item, ctx.catalog.sources) + '<div class="dialog-foot">'
+    + '<div class="dialog-foot">'
     + (item.mealSlot && ctx.activeSet.has(item.id) ? btn('meal-cost', 'Ausgabe zur Mahlzeit', 'wallet', item.id) : '')
+    + btn('commons-photo-search', 'Lizenzfotos suchen', 'compass', item.id)
+    + btn('photo-edit', 'Bildlink manuell hinzufügen', 'pin', item.id)
+    + (ctx.state.placePhotos?.[item.id] ? btn('photo-remove','Alle eigenen Fotos entfernen','x',item.id) : '')
     + btn('close', 'Schließen') + '</div>');
+}
+
+const checklistLabels = {
+  room: 'Die konkrete Zimmerkategorie passt für die Reisegruppe',
+  beds: 'Alle benötigten Betten und Personen sind enthalten',
+  taxes: 'Gesamtpreis einschließlich Steuern und Pflichtgebühren abgeglichen',
+  cancellation: 'Storno- und Zahlungsbedingungen des gewählten Tarifs geprüft',
+  checkout: 'Endpreis im Checkout für exakte Reisedaten und Belegung gesehen',
+  timetable: 'Abfahrt, Ankunft und Datum beim Betreiber abgeglichen',
+  operator: 'Zugnummer/Betreiber und Umsteigepunkte geprüft',
+  passCoverage: 'Interrail-Passgültigkeit und Wohnsitzland-Regeln geprüft',
+  seatAvailability: 'Passinhaber-Reservierungsplätze für die Gruppe geprüft',
+  reservationCost: 'Reservierungsentgelt und ggf. separater Ticketpreis geprüft',
+};
+
+export function verificationForm(ctx, item, save) {
+  const current = ctx.state.verifications?.[item.id] ?? null;
+  const progress = reviewProgress(item.kind, current, ctx.people.length);
+  const fields = VERIFICATION_FIELDS[item.kind];
+  if (!fields) throw new Error('Für diesen Eintrag ist keine Anbieterprüfung vorgesehen.');
+  const checked = fields.map(key => check('check_' + key, checklistLabels[key], current?.checks?.[key]));
+  const reference = item.website || (item.kind === 'transport' ? 'https://www.interrail.com/en/book-reservations' : null);
+  openDialog('Anbieterprüfung · ' + item.name,
+    '<p class="muted">Diese Angaben dokumentierst du selbst auf diesem Gerät. Sie belegen keine erfolgte Buchung. '
+    + 'Die Website kann allein durch das Ankreuzen keine Zimmer, Sitzplätze oder Preise unabhängig bestätigen.</p>'
+    + (reference ? '<p>' + urlLink(reference, 'Anbieter-/Buchungsseite öffnen') + '</p>' : '')
+    + '<p class="muted">Prüfschritte: ' + progress.count + '/' + progress.total
+    + ' · ' + esc(progress.description) + '</p>'
+    + controls([
+      field('Prüfdatum', input('checkedAt', current?.checkedAt ?? new Date().toISOString().slice(0,10),
+        'date', 'required'), true),
+      field('Beleglink zum konkreten Angebot', input('evidenceUrl', current?.evidenceUrl ?? '',
+        'url', 'placeholder="https://..." maxlength="1200"'), true),
+      ...checked,
+      field(item.kind === 'lodging' ? 'Gesamtpreis für alle Personen · EUR (optional)' :
+        'Beobachteter Preis · EUR (optional, nicht automatisch gebucht)',
+        input('quotedTotal', current?.quotedCents == null ? '' : (current.quotedCents / 100).toFixed(2),
+          'text', 'inputmode="decimal"'), true),
+      field('Notizen zum Nachweis (keine Reservierungscodes)', '<textarea name="note" rows="3" maxlength="600">'
+        + esc(current?.note ?? '') + '</textarea>', true),
+      ...(item.kind === 'lodging' && ctx.activeSet.has(item.id) ? [
+        check('applyPrice', 'Den selbst geprüften Gesamtpreis ausdrücklich als Planpreis ins Budget übernehmen '
+          + '(keine Zahlung, keine Buchung)', false),
+      ] : []),
+    ], 'Prüfung lokal speichern'), async data => {
+      const checkedAt = text(data, 'checkedAt');
+      const evidenceUrl = text(data, 'evidenceUrl');
+      const quote = minor(text(data, 'quotedTotal'));
+      if (Number.isNaN(Date.parse(checkedAt)) || !/^\d{4}-\d{2}-\d{2}$/.test(checkedAt)
+        || (evidenceUrl && (!/^https?:\/\/[^\s]+$/i.test(evidenceUrl) || evidenceUrl.length > 1200))
+        || quote != null && (quote < 0 || quote > 100_000_000)) {
+        throw new Error('Gültiges Prüfdatum, http(s)-Beleg und nichtnegativen Gesamtpreis eingeben.');
+      }
+      const checks = Object.fromEntries(fields.map(key => [key, data.has('check_' + key)]));
+      const result = {
+        kind: item.kind, checkedAt, evidenceUrl: evidenceUrl || null,
+        checks, quotedCents: quote, groupSize: ctx.people.length,
+        note: text(data, 'note'),
+      };
+      const completed = reviewProgress(item.kind, result).complete;
+      const edits = { ...ctx.state.edits };
+      if (data.has('applyPrice')) {
+        if (item.kind !== 'lodging' || !ctx.activeSet.has(item.id)
+          || !completed || quote == null) {
+          throw new Error('Für die Preisübernahme müssen exakter Endpreis, alle Prüfungen und ein Beleglink vorliegen.');
+        }
+        edits[item.id] = { ...edits[item.id],
+          price: { cents: quote, currency: 'EUR', scope: 'group', party: ctx.people.length,
+            label: 'Manuell dokumentierter Angebotspreis vom ' + checkedAt + ' · nicht gebucht/bezahlt' },
+        };
+      }
+      await save({ ...ctx.state, edits, verifications: {
+        ...ctx.state.verifications, [item.id]: result,
+      } }, data.has('applyPrice') ? 'Eigene Prüfung und Planpreis gespeichert' : 'Eigene Anbieterprüfung gespeichert');
+    });
 }
 
 export function expenseForm(ctx, item, save, meal = null) {
@@ -240,39 +338,97 @@ export function mealForm(ctx, option, save, after) {
   const { date, people, city } = ctx;
   const zone = ctx.cities[city].timezone;
   const estimate = mealEstimate(option, people.length);
-  const current = ctx.active.filter(item => item.mealSlot === option.slot && mealDate(item) === date);
+  const slot=plansForSlot([option],ctx.mealSlot??'dinner').length?(ctx.mealSlot??'dinner'):option.slot;
+  const current = currentMeals(ctx,slot);
   const existing = current.find(item => item.mealPlanId === option.id);
-  const destination = ctx.all.find(item => item.id === option.venue);
-  const localTime = localParts((existing ?? current[0])?.start, zone).time ?? '19:00';
-  const comparison = 'Gruppe ' + money(estimate.base) + (estimate.terrace != null ? ' innen · Terrasse ' + money(estimate.terrace) : '');
-  const warn = option.type === 'cook' && !['shared', 'private'].includes(ctx.mealHotel?.kitchenMode)
-    ? alert('Für die Zubereitung sind Herd, Topf und Küchenzugang einzuplanen.') : '';
-  openDialog('Abendessen einplanen', '<h3>' + esc(option.name) + '</h3><p>' + esc(dateText(date) + ' · ' + comparison) + '</p>'
+  const localTime = existing&&!existing.start?'':localParts((existing ?? current[0])?.start, zone).time ?? mealSlotTimes[slot];
+  const comparison = 'Gruppe ' + money(estimate.base,estimate.currency) + (estimate.terrace != null ? ' innen · Terrasse ' + money(estimate.terrace,estimate.currency) : '');
+  const accommodation=mealAccommodation(ctx,slot,localTime,existing?.duration??option.prep);
+  const warn = option.type === 'cook' && (option.requiresKitchen??true) && !accommodation.kitchenReady
+    ? alert(accommodation.notice) : '';
+  openDialog(mealSlotLabels[slot]+' einplanen', '<h3>' + esc(option.name) + '</h3><p>' + esc(dateText(date) + ' · ' + comparison) + '</p>'
     + '<p class="muted">' + esc(option.priceNote) + '</p>'
+    +(option.requiresColdStorage?'<p class="muted">Kühlmöglichkeit und Lagerhinweise der Milch prüfen; kein Herd nötig.</p>':'')
     + (current.length ? '<p>Ersetzt im Tagesplan ' + esc(current.map(i => i.name).join(', ')) + '.</p>' : '') + warn
     + controls([
-      field('Startzeit · Ortszeit', input('start', localTime, 'time', 'required')),
+      field('Startzeit · Ortszeit, leer = flexibel', input('start', localTime, 'time')),
       field('Dauer · Min.', input('duration', existing?.duration ?? option.prep, 'number', 'min="1" max="360" required')),
       ...(estimate.terrace == null ? [] : [field('Sitzplatz', select('seating', [['inside', 'Innen'], ['terrace', 'Terrasse']], existing?.seating ?? 'inside'))]),
     ], 'In Plan übernehmen'), async data => {
-    if (current.some(i => i.locked || i.booked)) throw new Error('Eine Mahlzeit im Plan ist gesperrt.');
-    if (current.some(i => ctx.state.expenses.some(expense => expense.forItem === i.id))) {
-      throw new Error('Für diese Mahlzeit ist schon eine Ausgabe erfasst. Passe den Betrag im Budget an.');
-    }
-    const seating = text(data, 'seating');
-    const cents = seating === 'terrace' && estimate.terrace != null ? estimate.terrace : estimate.base;
-    const requiresKitchen = option.type === 'cook';
-    const item = { id: uid('manual'), trip: ctx.trip.id, city, kind: 'activity', category: 'food', selected: true,
-      name: option.name + (seating === 'terrace' ? ' · Terrasse' : ''), zone, date, mealSlot: option.slot,
-      mealPlanId: option.id, seating, start: utcFromLocal(date, text(data, 'start'), zone, existing?.start),
-      duration: n(data, 'duration'), point: destination?.point ?? null, address: destination?.address,
-      requiresKitchen, tags: ['Abendessen', requiresKitchen ? 'Selbst kochen' : 'Restaurant'],
-      price: { cents, currency: 'EUR', scope: 'group', party: people.length, label: option.priceNote },
-      source: option.source, detail: option.note, origin: 'manuell', verification: 'Preisreferenz' };
-    const edits = { ...ctx.state.edits };
-    for (const previous of current) edits[previous.id] = { ...edits[previous.id], selected: false };
-    await save({ ...ctx.state, edits, manual: [...ctx.state.manual, item] }, 'Abendessen eingeplant');
-    after(item.id);
+    const id=uid('manual');
+    const next=mealSelectionPatch(ctx,option,{slot,time:text(data,'start'),duration:n(data,'duration'),seating:text(data,'seating')||'inside'},id);
+    await save(next,mealSlotLabels[slot]+' eingeplant');
+    after(id);
+  });
+}
+
+export function shoppingStopForm(ctx,save,after){
+ const choices=shoppingCandidates(ctx);
+ if(!choices.length){openDialog('Einkaufsort noch offen','<p>Erfasse oder lade zuerst einen Einkaufsort für diese Stadt. Es wird keine Position erfunden.</p>');return}
+ openDialog('Einkaufsstopp einplanen','<p>Die Warenkosten bleiben im gemeinsamen Warenkorb. Hier planst du nur Ort und Besuchszeit; Öffnung und Produktbestand sind gesondert zu prüfen.</p>'
+  +controls([field('Einkaufsort',select('store',choices.map(i=>[i.id,i.name]),choices[0].id),true),
+   field('Startzeit · leer = flexibel',input('start','','time')),
+   field('Einkaufsdauer · Min.',input('duration',20,'number','min="5" max="180" required'))], 'Stopp übernehmen'),async data=>{
+   const store=choices.find(i=>i.id===text(data,'store'));
+   const stop=shoppingStopDraft(ctx,store,{time:text(data,'start'),duration:n(data,'duration')},uid('manual'));
+   await save({...ctx.state,manual:[...ctx.state.manual,stop]},'Einkaufsstopp eingeplant');after(stop.id);
+  });
+}
+
+export function groceryEditForm(ctx, row, save) {
+  openDialog('Gruppenwarenkorb bearbeiten', '<h3>' + esc(row.name) + '</h3>'
+    + '<p class="muted">Für alle geplanten Koch-Mahlzeiten in ' + esc(ctx.cities[row.city]?.name ?? row.city)
+    + ': ' + row.required + ' ' + row.unit + ' benötigt · Packungsgröße ' + row.pack + ' ' + row.unit + '.</p>'
+    + '<p class="muted">Der eingetragene Packungspreis ist eine Planannahme, kein bestätigter Regalpreis. '
+    + 'Für bereits bezahlte Einkäufe muss ein separater Beleg als Ausgabe erfasst werden.</p>'
+    + controls([
+      field('Schon vorhanden · ' + row.unit, input('stock', row.stock, 'number', 'min="0" max="1000000" step="1" required')),
+      field('Packungen zusätzlich kaufen', input('packs', row.packs, 'number', 'min="0" max="100" step="1" required')),
+      field('Preis je Packung · ' + row.currency, input('unitPrice', row.unitCents == null ? '' : (row.unitCents / 100).toFixed(2), 'text',
+        'inputmode="decimal"'), true),
+      field('Preisstand', input('priceDate', row.priceDate ?? '', 'date')),
+      field('Preisquelle · HTTPS-Link', input('sourceUrl', row.priceSourceUrl ?? '', 'url', 'maxlength="500"')),
+    ], 'Warenkorb aktualisieren'), async data => {
+      const packs = n(data, 'packs');
+      const unitCents = minor(text(data, 'unitPrice'));
+      const stock = n(data, 'stock');
+      const needed = Math.ceil(Math.max(0, row.required - stock) / row.pack);
+      if (!Number.isSafeInteger(stock) || stock < 0 || stock > 1_000_000
+        || !Number.isSafeInteger(packs) || packs < needed || packs > 100
+        || (unitCents != null && (unitCents < 0 || unitCents > 100000))) {
+        throw new Error('Mindestens die erforderliche Anzahl Packungen und einen gültigen Preis eingeben.');
+      }
+      const shopping = ctx.state.shopping ?? { pantry: {}, checked: {}, excluded: {}, extras: [] };
+      await save({ ...ctx.state, groceryOverrides: {
+        ...ctx.state.groceryOverrides, [row.key]: { packs, explicitPacks: true, unitCents,
+          date: text(data, 'priceDate') || null, sourceUrl: text(data, 'sourceUrl') || null },
+      }, shopping: { ...shopping, pantry: { ...shopping.pantry, [row.key]: stock } } }, 'Gemeinsamen Einkauf aktualisiert');
+    });
+}
+
+export function groceryExtraForm(ctx, extra, save) {
+  openDialog(extra ? 'Einkaufsartikel bearbeiten' : 'Einkaufsartikel ergänzen', controls([
+    field('Artikel', input('name', extra?.name, 'text', 'maxlength="160" required'), true),
+    field('Benötigte Menge für die Gruppe', input('quantity', extra?.quantity ?? 1, 'number', 'min="1" max="1000000" step="1" required')),
+    field('Einheit', select('unit', ['Stück', 'g', 'ml'].map(unit => [unit, unit]), extra?.unit ?? 'Stück')),
+    field('Menge pro Packung', input('pack', extra?.pack ?? 1, 'number', 'min="1" max="100000" step="1" required')),
+    field('Packungspreis · leer für offen', input('price', extra?.unitCents == null ? '' : (extra.unitCents / 100).toFixed(2), 'text', 'inputmode="decimal"')),
+    field('Währung', select('currency', [['EUR', 'EUR'], ['CHF', 'CHF']], extra?.currency ?? 'EUR')),
+    field('Einkaufstag', inputDate('date', extra?.date ?? ctx.date, ctx)),
+    field('Preisstand · falls bekannt', input('priceDate', extra?.priceDate, 'date')),
+    field('Preisquelle · HTTPS-Link', input('sourceUrl', extra?.sourceUrl, 'url', 'maxlength="500"'), true),
+  ], extra ? 'Änderungen übernehmen' : 'Zum Einkaufsplan hinzufügen'), async data => {
+    const unitCents = minor(text(data, 'price'));
+    if (unitCents != null && unitCents < 0) throw new Error('Einen Preis ab 0 eingeben oder das Feld offen lassen.');
+    const shopping = ctx.state.shopping ?? { pantry: {}, checked: {}, excluded: {}, extras: [] };
+    const item = { id: extra?.id ?? uid('extra'), city: ctx.city, name: text(data, 'name'),
+      quantity: n(data, 'quantity'), unit: text(data, 'unit'), pack: n(data, 'pack'), unitCents,
+      currency: text(data, 'currency'), date: text(data, 'date'), priceDate: text(data, 'priceDate') || null,
+      sourceUrl: text(data, 'sourceUrl') || null };
+    const overrides = { ...ctx.state.groceryOverrides };
+    if (extra) delete overrides[extra.id];
+    await save({ ...ctx.state, groceryOverrides: overrides, shopping: { ...shopping,
+      extras: extra ? shopping.extras.map(row => row.id === extra.id ? item : row) : [...shopping.extras, item] } }, 'Einkaufsliste gespeichert');
   });
 }
 
@@ -366,8 +522,9 @@ export function routeForm(ctx, index, calculate, save, state = '') {
     : '';
   const schedule = !segment.access && segment.from.point && segment.to.point
     && ctx.catalog.transitSchedules?.[segment.from.placeCity ?? ctx.city];
+  const scheduleOutdated = schedule && (ctx.date < schedule.from || ctx.date > schedule.to);
   openDialog('Wegdetails', '<h3>' + esc(routeLabel) + '</h3>' + summary + (state && state !== 'loading' ? alert(state) : '')
-    + '<div class="row-actions">' + walking + (schedule ? btn('scheduled-route', 'Fahrplan durchsuchen', 'train', index) : '') + options
+    + '<div class="row-actions">' + walking + (schedule ? btn('scheduled-route', scheduleOutdated ? 'Nur historischen Referenzfahrplan prüfen' : 'Fahrplan durchsuchen', 'train', index) : '') + options
     + '</div><div class="section"><h3>Geprüften Weg manuell hinterlegen</h3>'
     + '<p>Der Weg gilt für diesen Tag. Den Preis kannst du bei Bedarf als Ausgabe im Budget erfassen.</p></div>'
     + controls([

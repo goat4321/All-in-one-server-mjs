@@ -1,0 +1,107 @@
+{
+  "observed_on": "2026-11-13",
+  "scope": "operator_official_website_references",
+  "warning": "Normal tariffs and listed times are not proof of available tickets on trip dates. Do not set selected costs or pass status automatically.",
+  "entries": [
+    {
+      "id": "sfam",
+      "city": "barcelona",
+      "match": "sagrada",
+      "title": "Sagrada Família",
+      "description": "Besichtigung der Basilika und des Museums, farbige Glasfenster, Gaudís Säulenkonstruktionen; Audioguide-App inklusive. Türme nicht in Basisticket.",
+      "hours": "April–September Mo–Fr 09:00–20:00, Sa 09:00–18:00, So 10:30–20:00; Sondertermine möglich",
+      "generalPriceCents": 2600,
+      "under30Cents": 2400,
+      "pricePeriod": "Preisstand der offiziellen Website 13.11.2026, kein bestätigter Sept-2027-Checkout",
+      "ticketRequired": true,
+      "durationMinutes": 90,
+      "url": "https://sagradafamilia.org/en/sagrada-familia-ticket",
+      "hoursUrl": "https://sagradafamilia.org/en/schedules-how-to-get"
+    },
+    {
+      "id": "parkguell",
+      "city": "barcelona",
+      "match": "park güell|park guell",
+      "title": "Park Güell",
+      "description": "Gaudís Monumentalzone mit Mosaikbank, Terrassen und Architektur. Einlass über vorher gewähltes Zeitfenster; nach Verlassen kein Wiedereintritt.",
+      "hours": "Ticket-Zeitfenster im offiziellen Kalender; veröffentlichte Referenz 09:30–19:30, Saison 2027 gesondert prüfen",
+      "generalPriceCents": 1800,
+      "under30Cents": null,
+      "pricePeriod": "Offizielle allgemeine Preisreferenz vom 13.11.2026",
+      "ticketRequired": true,
+      "durationMinutes": 90,
+      "url": "https://parkguell.barcelona/en/planning-your-visit/prices-and-times"
+    },
+    {
+      "id": "eiffel",
+      "city": "paris",
+      "match": "eiffelturm",
+      "title": "Eiffelturm",
+      "description": "Zweite Etage zu Fuß oder per Aufzug; für die Spitze Aufzug. Unterschiede zwischen Treppen-, Aufzugs- und Gipfeltickets beachten.",
+      "hours": "Öffnungszeiten und Gipfelzugang je Tag im offiziellen Buchungskalender; 2027-Termin nicht pauschal bestätigt",
+      "generalPriceCents": null,
+      "under30Cents": null,
+      "pricePeriod": "Offizielle Webseite kündigt neue Tarife ab 11.01.2027 an",
+      "ticketRequired": true,
+      "durationMinutes": 120,
+      "url": "https://www.toureiffel.paris/en/rates-opening-times",
+      "fareVariants": [
+        {
+          "label": "Zweite Etage Treppe, 12–24 J.",
+          "cents": 740
+        },
+        {
+          "label": "Zweite Etage Aufzug, 12–24 J.",
+          "cents": 1180
+        },
+        {
+          "label": "Gipfel Aufzug, 12–24 J.",
+          "cents": 1840
+        }
+      ]
+    },
+    {
+      "id": "aquarium-genoa",
+      "city": "genoa",
+      "match": "aquarium|acquario",
+      "title": "Aquarium Genua",
+      "description": "Aquarien zu Meeresökosystemen, Fischen und Meerestieren im Porto Antico. Eintritt mit festem Besuchstag und Zeitfenster, an einzelnen Becken Wartung möglich.",
+      "hours": "Laut saisonalem Betreiberkalender typischerweise Sep/Oct 09:00–20:00, letzter Einlass 18:00; Tageskalender prüfen",
+      "generalPriceCents": 2600,
+      "under30Cents": null,
+      "pricePeriod": "Ab 26 € je Erwachsenem, flexibler Preis; kein finaler 2027-Checkout",
+      "ticketRequired": true,
+      "durationMinutes": 150,
+      "url": "https://www.acquariodigenova.it/en/tickets-and-prices",
+      "hoursUrl": "https://www.acquariodigenova.it/en/times-and-calendar"
+    },
+    {
+      "id": "orsay",
+      "city": "paris",
+      "match": "musée d'orsay|musee d'orsay|orsay",
+      "title": "Musée d’Orsay",
+      "description": "Im ehemaligen Bahnhof Gemälde und Skulpturen des 19. Jahrhunderts, insbesondere Impressionisten. Zeitfenster bei Sonderausstellungen prüfen.",
+      "hours": "Mo geschlossen; Di/Mi/Fr/Sa/So 09:30–18:00, Do 09:30–21:45 (Besondere Schließungen beachten)",
+      "generalPriceCents": 1600,
+      "under30Cents": null,
+      "pricePeriod": "Online-Tarif 16 €, EWR-Wohnsitz unter 26 J. laut offizieller Regel kostenlos nach Berechtigungsnachweis",
+      "ticketRequired": false,
+      "durationMinutes": 120,
+      "url": "https://www.musee-orsay.fr/en/visit"
+    },
+    {
+      "id": "oeschi",
+      "city": "kandersteg",
+      "match": "oeschinensee",
+      "title": "Oeschinensee",
+      "description": "Gondel von der Talstation und Spaziergang beziehungsweise Wanderung zum See; Fußweg ab Bergstation berücksichtigen.",
+      "hours": "Veröffentlichter Sommerbetrieb 2027: 24.04.–19.09. täglich 08:30–18:00; wetterbedingte Änderungen möglich",
+      "generalPriceCents": null,
+      "under30Cents": null,
+      "pricePeriod": "2027er Endtarif nicht belegt",
+      "ticketRequired": true,
+      "durationMinutes": 180,
+      "url": "https://www.oeschinensee.ch/tarife-fahrplan/"
+    }
+  ]
+}

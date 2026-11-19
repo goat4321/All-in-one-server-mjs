@@ -1,0 +1,361 @@
+[
+  {
+    "trip_id": "interrail_classic",
+    "currency": "EUR",
+    "persons": 3,
+    "estimation_date": "2026-11-09",
+    "pass_paid": false,
+    "categories": [
+      {
+        "type": "lodging",
+        "total": 1423.33,
+        "scope": "all",
+        "note": "Summe der 6 alten Tripsy-Hoteloptionen: teils falsch datiert/hochgerechnet"
+      },
+      {
+        "type": "seat_reservations",
+        "total": 420,
+        "scope": "all"
+      },
+      {
+        "type": "food",
+        "total": 900,
+        "scope": "all"
+      },
+      {
+        "type": "local_transport",
+        "total": 240,
+        "scope": "all"
+      },
+      {
+        "type": "activities",
+        "total": 270,
+        "scope": "all"
+      },
+      {
+        "type": "contingency",
+        "total": 300,
+        "scope": "all"
+      }
+    ],
+    "pass_extra_person_if_no_free_pass": 286,
+    "pass_price_reference_year": 2026,
+    "expense_status": "plan_not_paid",
+    "exclusive_alternatives": "hotel candidates not summed",
+    "calculated_category_eur": [
+      {
+        "category": "lodging",
+        "eur": 1423.33,
+        "optional": false
+      },
+      {
+        "category": "seat_reservations",
+        "eur": 420.0,
+        "optional": false
+      },
+      {
+        "category": "food",
+        "eur": 900.0,
+        "optional": false
+      },
+      {
+        "category": "local_transport",
+        "eur": 240.0,
+        "optional": false
+      },
+      {
+        "category": "activities",
+        "eur": 270.0,
+        "optional": false
+      },
+      {
+        "category": "contingency",
+        "eur": 300.0,
+        "optional": false
+      }
+    ],
+    "calculated_total_eur_with_optional": 3553.33,
+    "calculated_total_eur_without_optional": 3553.33,
+    "per_person_eur_with_optional": 1184.44,
+    "total_eur_without_pass_if_applicable": 3553.33,
+    "total_eur_with_pass_if_not_free": 4411.33,
+    "note": "Alle Werte geschätzt, keine aktuellen Verfügbarkeiten; Gruppenposten nur einmal. Alternative Optionen nicht addieren."
+  },
+  {
+    "trip_id": "interrail_swiss",
+    "currency": "EUR",
+    "persons": 3,
+    "estimation_date": "2026-11-09",
+    "pass_paid": false,
+    "categories": [
+      {
+        "type": "lodging",
+        "total": 1892.23,
+        "scope": "all"
+      },
+      {
+        "type": "seat_reservations",
+        "total": 420,
+        "scope": "all"
+      },
+      {
+        "type": "food",
+        "total": 900,
+        "scope": "all"
+      },
+      {
+        "type": "local_transport",
+        "total": 240,
+        "scope": "all"
+      },
+      {
+        "type": "activities",
+        "total": 330,
+        "scope": "all"
+      },
+      {
+        "type": "contingency",
+        "total": 360,
+        "scope": "all"
+      }
+    ],
+    "pass_extra_person_if_no_free_pass": 286,
+    "pass_price_reference_year": 2026,
+    "expense_status": "plan_not_paid",
+    "calculated_category_eur": [
+      {
+        "category": "lodging",
+        "eur": 1892.23,
+        "optional": false
+      },
+      {
+        "category": "seat_reservations",
+        "eur": 420.0,
+        "optional": false
+      },
+      {
+        "category": "food",
+        "eur": 900.0,
+        "optional": false
+      },
+      {
+        "category": "local_transport",
+        "eur": 240.0,
+        "optional": false
+      },
+      {
+        "category": "activities",
+        "eur": 330.0,
+        "optional": false
+      },
+      {
+        "category": "contingency",
+        "eur": 360.0,
+        "optional": false
+      }
+    ],
+    "calculated_total_eur_with_optional": 4142.23,
+    "calculated_total_eur_without_optional": 4142.23,
+    "per_person_eur_with_optional": 1380.74,
+    "total_eur_without_pass_if_applicable": 4142.23,
+    "total_eur_with_pass_if_not_free": 5000.23,
+    "note": "Alle Werte geschätzt, keine aktuellen Verfügbarkeiten; Gruppenposten nur einmal. Alternative Optionen nicht addieren."
+  },
+  {
+    "trip_id": "interrail_august",
+    "currency": "EUR",
+    "persons": 3,
+    "estimation_date": "2026-11-09",
+    "pass_paid": false,
+    "categories": [
+      {
+        "type": "lodging",
+        "total": 1155,
+        "scope": "all"
+      },
+      {
+        "type": "seat_reservations",
+        "total": 405,
+        "scope": "all"
+      },
+      {
+        "type": "food",
+        "total": 660,
+        "scope": "all"
+      },
+      {
+        "type": "local_transport",
+        "total": 165,
+        "scope": "all"
+      },
+      {
+        "type": "activities",
+        "total": 180,
+        "scope": "all"
+      },
+      {
+        "type": "contingency",
+        "total": 195,
+        "scope": "all"
+      }
+    ],
+    "pass_extra_person_if_no_free_pass": 286,
+    "pass_price_reference_year": 2026,
+    "expense_status": "plan_not_paid",
+    "calculated_category_eur": [
+      {
+        "category": "lodging",
+        "eur": 1155.0,
+        "optional": false
+      },
+      {
+        "category": "seat_reservations",
+        "eur": 405.0,
+        "optional": false
+      },
+      {
+        "category": "food",
+        "eur": 660.0,
+        "optional": false
+      },
+      {
+        "category": "local_transport",
+        "eur": 165.0,
+        "optional": false
+      },
+      {
+        "category": "activities",
+        "eur": 180.0,
+        "optional": false
+      },
+      {
+        "category": "contingency",
+        "eur": 195.0,
+        "optional": false
+      }
+    ],
+    "calculated_total_eur_with_optional": 2760.0,
+    "calculated_total_eur_without_optional": 2760.0,
+    "per_person_eur_with_optional": 920.0,
+    "total_eur_without_pass_if_applicable": 2760.0,
+    "total_eur_with_pass_if_not_free": 3618.0,
+    "note": "Alle Werte geschätzt, keine aktuellen Verfügbarkeiten; Gruppenposten nur einmal. Alternative Optionen nicht addieren."
+  },
+  {
+    "trip_id": "swiss_lakes",
+    "currency": "EUR",
+    "persons": 4,
+    "estimation_date": "2026-11-09",
+    "exchange_rates_assumed": {
+      "CHF_EUR": 1.06,
+      "note": "Von altem Tripsy-Budget übernommen, ausdrücklich KEIN verifizierter Spotkurs"
+    },
+    "categories": [
+      {
+        "type": "lodging",
+        "total": 1961.6799999999998,
+        "scope": "all"
+      },
+      {
+        "type": "car_rental",
+        "total": 750,
+        "scope": "all"
+      },
+      {
+        "type": "fuel",
+        "total": 166.5,
+        "scope": "all"
+      },
+      {
+        "type": "food",
+        "total": 784,
+        "scope": "all"
+      },
+      {
+        "type": "vignette",
+        "total": 40,
+        "currency_original": "CHF",
+        "scope": "all"
+      },
+      {
+        "type": "gondola_oesch",
+        "total": 160,
+        "currency_original": "CHF",
+        "scope": "all"
+      },
+      {
+        "type": "parking",
+        "total": 60,
+        "currency_original": "CHF",
+        "scope": "all"
+      },
+      {
+        "type": "gondola_first_optional",
+        "total": 304,
+        "currency_original": "CHF",
+        "scope": "all",
+        "optional": true
+      },
+      {
+        "type": "contingency",
+        "total": 426,
+        "scope": "all"
+      }
+    ],
+    "pass_extra_person_if_no_free_pass": null,
+    "expense_status": "plan_not_paid",
+    "calculated_category_eur": [
+      {
+        "category": "lodging",
+        "eur": 1961.68,
+        "optional": false
+      },
+      {
+        "category": "car_rental",
+        "eur": 750.0,
+        "optional": false
+      },
+      {
+        "category": "fuel",
+        "eur": 166.5,
+        "optional": false
+      },
+      {
+        "category": "food",
+        "eur": 784.0,
+        "optional": false
+      },
+      {
+        "category": "vignette",
+        "eur": 42.4,
+        "optional": false
+      },
+      {
+        "category": "gondola_oesch",
+        "eur": 169.6,
+        "optional": false
+      },
+      {
+        "category": "parking",
+        "eur": 63.6,
+        "optional": false
+      },
+      {
+        "category": "gondola_first_optional",
+        "eur": 322.24,
+        "optional": true
+      },
+      {
+        "category": "contingency",
+        "eur": 426.0,
+        "optional": false
+      }
+    ],
+    "calculated_total_eur_with_optional": 4686.02,
+    "calculated_total_eur_without_optional": 4363.78,
+    "per_person_eur_with_optional": 1171.51,
+    "total_eur_without_pass_if_applicable": 4686.02,
+    "total_eur_with_pass_if_not_free": 4686.02,
+    "note": "Alle Werte geschätzt, keine aktuellen Verfügbarkeiten; Gruppenposten nur einmal. Alternative Optionen nicht addieren."
+  }
+]

@@ -1,0 +1,1222 @@
+[
+  {
+    "id": "research_interrail_classic-t01",
+    "trip_id": "interrail_classic",
+    "original_segment_id": "interrail_classic-t01",
+    "route": "München Hbf → Paris Est",
+    "date_local": "2027-09-01",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "06:51",
+      "arrival": "12:35"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_classic-t02",
+    "trip_id": "interrail_classic",
+    "original_segment_id": "interrail_classic-t02",
+    "route": "Paris Gare de Lyon → Barcelona Sants",
+    "date_local": "2027-09-03",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "07:42",
+      "arrival": "14:32"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_classic-t03",
+    "trip_id": "interrail_classic",
+    "original_segment_id": "interrail_classic-t03",
+    "route": "Barcelona Sants → Gare de Sète",
+    "date_local": "2027-09-06",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "09:26",
+      "arrival": "12:35"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_classic-t04",
+    "trip_id": "interrail_classic",
+    "original_segment_id": "interrail_classic-t04",
+    "route": "Gare de Sète → Nice Ville",
+    "date_local": "2027-09-08",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "10:51",
+      "arrival": "17:05"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_classic-t05",
+    "trip_id": "interrail_classic",
+    "original_segment_id": "interrail_classic-t05",
+    "route": "Nice Ville → Genova Piazza Principe",
+    "date_local": "2027-09-10",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "09:00",
+      "arrival": "15:00"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_classic-t06",
+    "trip_id": "interrail_classic",
+    "original_segment_id": "interrail_classic-t06",
+    "route": "Genova Piazza Principe → Venezia Santa Lucia",
+    "date_local": "2027-09-12",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "09:00",
+      "arrival": "15:00"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_classic-t07",
+    "trip_id": "interrail_classic",
+    "original_segment_id": "interrail_classic-t07",
+    "route": "Venezia Santa Lucia → München Hbf",
+    "date_local": "2027-09-14",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "09:00",
+      "arrival": "16:00"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_swiss-t01",
+    "trip_id": "interrail_swiss",
+    "original_segment_id": "interrail_swiss-t01",
+    "route": "München Hbf → Paris Est",
+    "date_local": "2027-09-01",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "06:51",
+      "arrival": "12:35"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_swiss-t02",
+    "trip_id": "interrail_swiss",
+    "original_segment_id": "interrail_swiss-t02",
+    "route": "Paris Gare de Lyon → Barcelona Sants",
+    "date_local": "2027-09-03",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "07:42",
+      "arrival": "14:32"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_swiss-t03",
+    "trip_id": "interrail_swiss",
+    "original_segment_id": "interrail_swiss-t03",
+    "route": "Barcelona Sants → Gare de Sète",
+    "date_local": "2027-09-06",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "09:26",
+      "arrival": "12:35"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_swiss-t04",
+    "trip_id": "interrail_swiss",
+    "original_segment_id": "interrail_swiss-t04",
+    "route": "Gare de Sète → Nice Ville",
+    "date_local": "2027-09-08",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "10:51",
+      "arrival": "17:05"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_swiss-t05",
+    "trip_id": "interrail_swiss",
+    "original_segment_id": "interrail_swiss-t05",
+    "route": "Nice Ville → Kandersteg",
+    "date_local": "2027-09-10",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "07:20",
+      "arrival": "19:30"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_swiss-t06",
+    "trip_id": "interrail_swiss",
+    "original_segment_id": "interrail_swiss-t06",
+    "route": "Kandersteg → Appenzell",
+    "date_local": "2027-09-12",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "09:30",
+      "arrival": "15:30"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_swiss-t07",
+    "trip_id": "interrail_swiss",
+    "original_segment_id": "interrail_swiss-t07",
+    "route": "Appenzell → München Hbf",
+    "date_local": "2027-09-14",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "10:00",
+      "arrival": "16:30"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t01",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t01",
+    "route": "München Hbf → Paris Est",
+    "date_local": "2027-08-17",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "06:51",
+      "arrival": "12:35"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t02",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t02",
+    "route": "Paris Austerlitz → Toulouse Matabiau",
+    "date_local": "2027-08-17",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "22:15",
+      "arrival": "07:00 (+1)"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t03",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t03",
+    "route": "Toulouse Matabiau → Narbonne",
+    "date_local": "2027-08-18",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "10:42",
+      "arrival": "11:58"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t04",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t04",
+    "route": "Narbonne → Barcelona Sants",
+    "date_local": "2027-08-18",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "12:24",
+      "arrival": "14:32"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t05",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t05",
+    "route": "Barcelona Sants → Narbonne",
+    "date_local": "2027-08-20",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "09:26",
+      "arrival": "11:38"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t06",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t06",
+    "route": "Narbonne → Sète",
+    "date_local": "2027-08-20",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "12:01",
+      "arrival": "12:35"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t07",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t07",
+    "route": "Sète → Marseille St Charles",
+    "date_local": "2027-08-22",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "08:51",
+      "arrival": "11:14"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t08",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t08",
+    "route": "Marseille St Charles → Nice Ville",
+    "date_local": "2027-08-22",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "11:56",
+      "arrival": "14:40"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t09",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t09",
+    "route": "Nice Ville → Ventimiglia",
+    "date_local": "2027-08-24",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "09:24",
+      "arrival": "10:22"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t10",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t10",
+    "route": "Ventimiglia → Genova Piazza Principe",
+    "date_local": "2027-08-24",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "10:50",
+      "arrival": "13:17"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t11",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t11",
+    "route": "Genova Piazza Principe → Milano Centrale",
+    "date_local": "2027-08-25",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "09:00",
+      "arrival": "10:45"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t12",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t12",
+    "route": "Milano Centrale → Venezia Santa Lucia",
+    "date_local": "2027-08-25",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "11:20",
+      "arrival": "13:55"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_interrail_august-t13",
+    "trip_id": "interrail_august",
+    "original_segment_id": "interrail_august-t13",
+    "route": "Venezia Santa Lucia → München Hbf",
+    "date_local": "2027-08-27",
+    "mode": "train",
+    "booking_date": null,
+    "operator_query_status": "schedule_placeholder_2027",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "07:25",
+      "arrival": "14:30"
+    },
+    "comparison_needed": [
+      "Interrail pass + seat reservations",
+      "point-to-point ticket",
+      "regional alternative if viable"
+    ],
+    "research_providers": [
+      "https://www.interrail.com/de/book-reservations/reservation-fees/international-train-reservation-fees",
+      "https://www.sncf-connect.com/en-en/help/ticket-sales-opening"
+    ],
+    "must_check": [
+      "pass_coverage",
+      "outbound_inbound_days",
+      "connection_margin",
+      "accessibility",
+      "change_refund_terms"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_swiss_lakes-t01",
+    "trip_id": "swiss_lakes",
+    "original_segment_id": "swiss_lakes-t01",
+    "route": "München → Appenzell",
+    "date_local": "2027-09-05",
+    "mode": "rental_car",
+    "booking_date": null,
+    "operator_query_status": "roadtrip_planning_only",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "07:00",
+      "arrival": "10:30"
+    },
+    "comparison_needed": [
+      "duration, fuel and fees, age-18 rental eligibility"
+    ],
+    "research_providers": [],
+    "must_check": [
+      "rental_min_age",
+      "insurance",
+      "cross_border_permission",
+      "mileage",
+      "tolls"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_swiss_lakes-t02",
+    "trip_id": "swiss_lakes",
+    "original_segment_id": "swiss_lakes-t02",
+    "route": "Appenzell → Wasserauen",
+    "date_local": "2027-09-06",
+    "mode": "rental_car",
+    "booking_date": null,
+    "operator_query_status": "roadtrip_planning_only",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "07:30",
+      "arrival": "07:45"
+    },
+    "comparison_needed": [
+      "duration, fuel and fees, age-18 rental eligibility"
+    ],
+    "research_providers": [],
+    "must_check": [
+      "rental_min_age",
+      "insurance",
+      "cross_border_permission",
+      "mileage",
+      "tolls"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_swiss_lakes-t03",
+    "trip_id": "swiss_lakes",
+    "original_segment_id": "swiss_lakes-t03",
+    "route": "Appenzell → Klöntalersee",
+    "date_local": "2027-09-07",
+    "mode": "rental_car",
+    "booking_date": null,
+    "operator_query_status": "roadtrip_planning_only",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "08:30",
+      "arrival": "10:00"
+    },
+    "comparison_needed": [
+      "duration, fuel and fees, age-18 rental eligibility"
+    ],
+    "research_providers": [],
+    "must_check": [
+      "rental_min_age",
+      "insurance",
+      "cross_border_permission",
+      "mileage",
+      "tolls"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_swiss_lakes-t04",
+    "trip_id": "swiss_lakes",
+    "original_segment_id": "swiss_lakes-t04",
+    "route": "Klöntalersee → Glarus",
+    "date_local": "2027-09-07",
+    "mode": "rental_car",
+    "booking_date": null,
+    "operator_query_status": "roadtrip_planning_only",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "15:30",
+      "arrival": "16:00"
+    },
+    "comparison_needed": [
+      "duration, fuel and fees, age-18 rental eligibility"
+    ],
+    "research_providers": [],
+    "must_check": [
+      "rental_min_age",
+      "insurance",
+      "cross_border_permission",
+      "mileage",
+      "tolls"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_swiss_lakes-t05",
+    "trip_id": "swiss_lakes",
+    "original_segment_id": "swiss_lakes-t05",
+    "route": "Glarus → Grindelwald",
+    "date_local": "2027-09-08",
+    "mode": "rental_car",
+    "booking_date": null,
+    "operator_query_status": "roadtrip_planning_only",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "07:45",
+      "arrival": "10:30"
+    },
+    "comparison_needed": [
+      "duration, fuel and fees, age-18 rental eligibility"
+    ],
+    "research_providers": [],
+    "must_check": [
+      "rental_min_age",
+      "insurance",
+      "cross_border_permission",
+      "mileage",
+      "tolls"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_swiss_lakes-t06",
+    "trip_id": "swiss_lakes",
+    "original_segment_id": "swiss_lakes-t06",
+    "route": "Grindelwald → Kandersteg",
+    "date_local": "2027-09-09",
+    "mode": "rental_car",
+    "booking_date": null,
+    "operator_query_status": "roadtrip_planning_only",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "11:30",
+      "arrival": "12:45"
+    },
+    "comparison_needed": [
+      "duration, fuel and fees, age-18 rental eligibility"
+    ],
+    "research_providers": [],
+    "must_check": [
+      "rental_min_age",
+      "insurance",
+      "cross_border_permission",
+      "mileage",
+      "tolls"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_swiss_lakes-t07",
+    "trip_id": "swiss_lakes",
+    "original_segment_id": "swiss_lakes-t07",
+    "route": "Kandersteg → Oeschinensee Talstation",
+    "date_local": "2027-09-10",
+    "mode": "rental_car",
+    "booking_date": null,
+    "operator_query_status": "roadtrip_planning_only",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "07:40",
+      "arrival": "08:00"
+    },
+    "comparison_needed": [
+      "duration, fuel and fees, age-18 rental eligibility"
+    ],
+    "research_providers": [],
+    "must_check": [
+      "rental_min_age",
+      "insurance",
+      "cross_border_permission",
+      "mileage",
+      "tolls"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  },
+  {
+    "id": "research_swiss_lakes-t08",
+    "trip_id": "swiss_lakes",
+    "original_segment_id": "swiss_lakes-t08",
+    "route": "Kandersteg → München",
+    "date_local": "2027-09-11",
+    "mode": "rental_car",
+    "booking_date": null,
+    "operator_query_status": "roadtrip_planning_only",
+    "quote_cents": null,
+    "live_price_status": "not_searched_or_not_available",
+    "timetable_2027_confirmed": false,
+    "reference_time_from_tripsy": {
+      "departure": "08:00",
+      "arrival": "14:30"
+    },
+    "comparison_needed": [
+      "duration, fuel and fees, age-18 rental eligibility"
+    ],
+    "research_providers": [],
+    "must_check": [
+      "rental_min_age",
+      "insurance",
+      "cross_border_permission",
+      "mileage",
+      "tolls"
+    ],
+    "booking_status": "unbooked",
+    "is_selected_from_original_plan": true,
+    "notes": "Earlier Tripsy 2026-based reference timings are NOT official 2027 timetables."
+  }
+]

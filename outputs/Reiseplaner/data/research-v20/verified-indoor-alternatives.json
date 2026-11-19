@@ -1,0 +1,165 @@
+{
+  "schema": "operator_indoor_alternatives_v20",
+  "reviewedOn": "2026-11-14",
+  "purpose": "Opt-in activity alternatives in rainy-day category; no reservation and no auto cost",
+  "items": [
+    {
+      "id": "indoor-arkose-paris",
+      "city": "paris",
+      "name": "Arkose Paris – Bouldern (Filiale auswählen)",
+      "tags": [
+        "indoor",
+        "sport",
+        "bouldern",
+        "regen"
+      ],
+      "basePriceCents": 1800,
+      "currency": "EUR",
+      "priceKind": "published_2026_single_day_ticket",
+      "priceNote": "18 € Erwachseneneintritt als Betreiberreferenz. Es gibt mehrere Arkose-Standorte; konkreten in Paris auswählen, Happy Hour/Erstbesuchskonditionen separat.",
+      "sourceUrl": "https://arkose.com/tarifs",
+      "locationNote": "Arkose-Filiale und konkrete Adresse sind noch zu wählen, darum kein Gebäudepin.",
+      "durationMinutes": 100,
+      "details": "Boulderhalle bei Regen; mögliche Schuhmiete, Ermäßigung 12–25 und Happy Hour vor dem Kauf prüfen. 2027 Preise offen."
+    },
+    {
+      "id": "indoor-sharma-barcelona",
+      "city": "barcelona",
+      "name": "Sharma Climbing Barcelona – Poblenou",
+      "tags": [
+        "indoor",
+        "sport",
+        "klettern",
+        "regen"
+      ],
+      "basePriceCents": 1500,
+      "currency": "EUR",
+      "priceKind": "published_2026_day_pass",
+      "priceNote": "15 € Tagesticket regulär, 13 € ermäßigt für unter 18 bzw. Studierende unter 25 mit Nachweis, freiwillige Unfallversicherung +1 €/Tag. 2027 neu prüfen.",
+      "sourceUrl": "https://sharmaclimbing.com/en/spain/barcelona-poble-nou/schedules-and-rates/",
+      "locationNote": "Sportzentrum im Stadtteil Poblenou; keine unabhängige punktgenaue Geokodierung vorgenommen.",
+      "durationMinutes": 100,
+      "details": "Indoor-Klettern/Bouldern. Kletterschuh- oder Materialausleihe gesondert prüfen; Tageskarte nicht mit einem Kurs verwechseln."
+    },
+    {
+      "id": "indoor-fonquerne-sete",
+      "city": "sete",
+      "name": "Centre balnéaire Raoul Fonquerne – Hallenbad",
+      "tags": [
+        "indoor",
+        "sport",
+        "schwimmen",
+        "regen"
+      ],
+      "basePriceCents": 530,
+      "currency": "EUR",
+      "priceKind": "published_2025_2026_pool_ticket",
+      "priceNote": "Offizielle Tarifbroschüre Okt 2025, im März 2026 veröffentlicht: 5,30 € Erwachsene; Studierende −20 % mit Nachweis. Keine September-2027-Tarifbestätigung.",
+      "sourceUrl": "https://www.agglopole.fr/wp-content/uploads/2026/03/Centre-balneaire-Fonquerne-Horaires-et-Tarifs.pdf",
+      "address": "1 Chemin des Poules d’Eau, 34200 Sète, France",
+      "locationNote": "Betreiberadresse; exakte Gebäudekoordinate für Kartenpin noch nicht unabhängig geprüft.",
+      "durationMinutes": 100,
+      "details": "25-m-Hallenbecken, 50-m-Außenbecken und Freizeitbecken; je Saison und Schulferien andere Öffnungszeiten. Badekleidungsvorschriften beachten."
+    },
+    {
+      "id": "indoor-jean-bouin-nice",
+      "city": "nice",
+      "name": "Piscine Jean Bouin – 50-m-Hallenbad",
+      "tags": [
+        "indoor",
+        "sport",
+        "schwimmen",
+        "regen"
+      ],
+      "basePriceCents": null,
+      "currency": "EUR",
+      "priceKind": "published_standard_rate_with_nonresident_surcharge",
+      "priceNote": "Kommunaler Standardtarif 4,40 €; für Nicht-Einwohner der Métropole Nice Côte d'Azur laut Betreiber +50 %, damit 6,60 € vor möglichen weiteren Bedingungen. 2 € ermäßigt nur mit Nachweis. Deshalb nicht automatisch als 4,40-€-Ausgabe ansetzen.",
+      "sourceUrl": "https://www.nice.fr/lieux/piscine-jean-bouin/",
+      "address": "2 Rue Jean Allègre, 06000 Nice, France",
+      "locationNote": "Städtische veröffentlichte Adresse, keine unabhängig geprüfte Gebäudekoordinate.",
+      "durationMinutes": 90,
+      "details": "50-m-Schwimmbecken, zusätzlich 15-m-Becken; kurze Schwimmshorts/Bermudas laut Hausregeln verboten, Vorhängeschloss mitbringen. 2027 Öffnungszeiten/Non-Resident-Tarif prüfen.",
+      "referencePriceCents": 440
+    },
+    {
+      "id": "indoor-fpx-genoa",
+      "city": "genoa",
+      "name": "FPX Nuoto Genova – öffentliches Schwimmen",
+      "tags": [
+        "indoor",
+        "sport",
+        "schwimmen",
+        "regen"
+      ],
+      "basePriceCents": 650,
+      "currency": "EUR",
+      "priceKind": "published_current_standard_single_ticket_2026",
+      "priceNote": "Normaler Einzeleintritt 6,50 € laut Betreiber, ermäßigter Eintritt 5,50 € nur mit Nachweis; Öffnungszeiten saisonabhängig. Kein bestätigter September-2027-Tarif.",
+      "sourceUrl": "https://www.fpxnuoto.it/libera-balneazione-2/",
+      "locationNote": "Betreiberstandort/Schwimmstätte und konkrete Anreise vor Auswahl gesondert prüfen; kein exakter Pin.",
+      "durationMinutes": 80,
+      "details": "Angebot für freies Schwimmen bei Regen. Innenbecken kann während Sommerrevision zeitweise geschlossen sein; September 2027 vor Ort prüfen."
+    },
+    {
+      "id": "indoor-nuotove-mestre",
+      "city": "venice",
+      "name": "Nuoto Venezia – Piscina del Centro Mestre",
+      "tags": [
+        "indoor",
+        "sport",
+        "schwimmen",
+        "regen"
+      ],
+      "basePriceCents": 700,
+      "currency": "EUR",
+      "priceKind": "published_2025_2026_only_single_ticket",
+      "priceNote": "7,00 € Eintritt Mo–Sa, Sonntag 5,00 € laut 2025/26-Betreiber-PDF. Nicht der 2027er Tarif; Schwimmzeitfenster prüfen.",
+      "sourceUrl": "https://www.nuotovenezia.it/contenuti/1077/documenti/piscina-2025-2026-nuoto-libero.pdf",
+      "address": "Via Circonvallazione 53, Mestre, Venezia, Italy",
+      "locationNote": "Kommunal veröffentlichte Sportstättenadresse, Gebäudekoordinate nicht unabhängig geprüft.",
+      "durationMinutes": 80,
+      "details": "Hallenbad in Mestre, nicht auf der historischen Insel. Regionalverkehrszeit und Badezeiten für September 2027 offen."
+    },
+    {
+      "id": "indoor-sportzentrum-grindelwald-pool",
+      "city": "grindelwald",
+      "name": "Sportzentrum Grindelwald – Hallenbad",
+      "tags": [
+        "indoor",
+        "sport",
+        "schwimmen",
+        "regen"
+      ],
+      "basePriceCents": null,
+      "currency": "CHF",
+      "priceKind": "published_2026_chf_no_exchange",
+      "priceNote": "10 CHF regulär bzw. 5 CHF mit Grindelwald-Gästekarte und Nachweis laut Betreiber (2026). Keine automatische EUR-Umrechnung oder 2027-Preisannahme.",
+      "sourceUrl": "https://www.sportzentrum-grindelwald.ch/preise/",
+      "locationNote": "Sportzentrum Grindelwald; exakte Gebäudekoordinate hier nicht unabhängig recherchiert.",
+      "durationMinutes": 90,
+      "details": "17-m-Schwimmerbecken, zusätzliche Familienbecken und Sauna als separates Ticket. Gästekarte muss durch konkrete Unterkunft nachgewiesen werden.",
+      "referencePriceCents": 1000
+    },
+    {
+      "id": "indoor-sportzentrum-grindelwald-boulder",
+      "city": "grindelwald",
+      "name": "Sportzentrum Grindelwald – Boulderraum",
+      "tags": [
+        "indoor",
+        "sport",
+        "bouldern",
+        "regen"
+      ],
+      "basePriceCents": null,
+      "currency": "CHF",
+      "priceKind": "published_2026_chf_no_exchange",
+      "priceNote": "20 CHF regulär bzw. 10 CHF mit Gästekarte und Nachweis, Kletterschuhe optional +7 CHF, Stand Betreiber 2026. 2027 neu prüfen.",
+      "sourceUrl": "https://www.sportzentrum-grindelwald.ch/preise/",
+      "locationNote": "Sportzentrum Grindelwald; exakte Gebäudekoordinate hier nicht unabhängig recherchiert.",
+      "durationMinutes": 100,
+      "details": "Boulderraum für Regentag; keine Gewähr für Schul-/Sommeröffnungen 2027, Materialaufpreis beachten.",
+      "referencePriceCents": 2000
+    }
+  ]
+}

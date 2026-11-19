@@ -1,0 +1,30 @@
+name: Reiseplaner einmaliger Geocoder-Netztest
+# Do not re-run external provider test probes on each PR update.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prüfe 2 unterschiedliche OSM-Suchdienste
+        run: |
+          node --input-type=module <<'NODE'
+          for (const [label,url] of [
+            ['photon','https://photon.komoot.io/api/?q=Sagrada%20Familia%20Barcelona&limit=2&lang=de'],
+            ['nominatim','https://nominatim.openstreetmap.org/search?q=Sagrada%20Familia%20Barcelona&format=jsonv2&limit=2']
+          ]) {
+            const began=Date.now();
+            try {
+              const r=await fetch(url,{headers:{'user-agent':'PrivateReiseplaner2027-Geocoder-Test/1.0 (contact: github.com/goat4321/All-in-one-server-mjs; one-off user requested dataset audit)','accept':'application/json'},signal:AbortSignal.timeout(12000)});
+              const body=await r.text();
+              console.log('PROBE_RESULT',JSON.stringify({label,http:r.status,ms:Date.now()-began,chars:body.length,sample:body.slice(0,650)}));
+            } catch(e){console.log('PROBE_FAILURE',JSON.stringify({label,error:String(e),ms:Date.now()-began}));}
+            await new Promise(resolve=>setTimeout(resolve,1300));
+          }
+          NODE

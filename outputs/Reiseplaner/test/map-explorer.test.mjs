@@ -1,0 +1,181 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { loadCatalog } from '../lib/catalog.mjs';
+import { activeItems } from '../public/model.mjs';
+import { initialState } from '../lib/store.mjs';
+import { explorerCategory, explorerData, explorerDetail, validPoint,
+  explorerRouteInput, externalFootUrl, externalTransitUrl, explorerUnlocatedCityClusters,
+  mapDistanceKm, mapPointInBounds } from '../public/map-explorer.mjs';
+
+const catalog = await loadCatalog();
+const classic = catalog.trips.find(t => t.id === 'interrail_classic');
+
+test('All four independent travel variants expose only source-backed place coordinates and never add choices', () => {
+  assert.equal(catalog.trips.length, 4);
+  for (const trip of catalog.trips) {
+    const items = trip.items.map(x => ({ ...x }));
+    const before = activeItems(trip, initialState(trip)).map(item => item.id).sort();
+    const result = explorerData(items, trip);
+    assert.ok(result.total > 0, trip.id);
+    assert.equal(result.placed.length + result.unlocated.length, result.total);
+    assert.ok(result.placed.every(x => validPoint(x.point)));
+    assert.ok(result.unlocated.every(x => !validPoint(x.point)));
+    assert.ok(result.placed.every(x => trip.route.includes(x.city)));
+    assert.deepEqual(activeItems(trip, initialState(trip)).map(x => x.id).sort(), before);
+  }
+});
+
+test('Search covers all available trip places and uses city, category, accent and raw description', () => {
+  const all = explorerData(classic.items, classic);
+  const city = explorerData(classic.items, classic, {city:'barcelona'});
+  const food = explorerData(classic.items, classic, {city:'barcelona', group:'food'});
+  const shop = explorerData(classic.items, classic, {city:'barcelona', group:'shop'});
+  assert.ok(all.total > city.total);
+  assert.ok(city.total > food.total);
+  assert.ok(food.total > 0);
+  assert.ok(shop.total > 0);
+  assert.ok(food.placed.some(x => x.name.includes('Bormuth')));
+  assert.ok(shop.placed.some(x => /Carrefour/i.test(x.name)));
+  assert.ok(explorerData(classic.items, classic, {search:'sete'}).total > 0);
+  assert.equal(explorerData(classic.items, classic, {search:'very-unlikely-query-12345'}).total, 0);
+  assert.equal(explorerData(classic.items, classic, {city:'paris'}).placed.every(x => x.city === 'paris'), true);
+});
+
+test('Precise markers respect coordinate validation and duplicates; unknown locations remain in the list', () => {
+  const trip = {route:['barcelona']};
+  const fixture = [
+    {id:'x',name:'Restaurant A',city:'barcelona',kind:'activity',category:'food',point:[41.3,2.2]},
+    {id:'x',name:'Restaurant A duplicate',city:'barcelona',kind:'activity',category:'food',point:[41.3,2.2]},
+    {id:'missing',name:'Hotel ohne Position',city:'barcelona',kind:'lodging',point:null},
+    {id:'origin',name:'Falsche Nullkoordinate',city:'barcelona',kind:'lodging',point:[0,0]},
+    {id:'stray',name:'Nicht-Reiseort',city:'nice',kind:'lodging',point:[43.7,7.2]},
+    {id:'duplicate',name:'Duplicate',city:'barcelona',kind:'lodging',point:[41.4,2.2],duplicateOf:'x'},
+  ];
+  const result = explorerData(fixture,trip);
+  assert.equal(result.total,3);
+  assert.equal(result.placed.length,1);
+  assert.deepEqual(result.unlocated.map(x=>x.id).sort(),['missing','origin']);
+  assert.equal(validPoint([90.1,2]),false);
+});
+
+test('Restaurants, supermarkets, hotels, activities and transport get stable categories', () => {
+  assert.equal(explorerCategory({kind:'lodging',name:'Hostel'}),'lodging');
+  assert.equal(explorerCategory({kind:'transport',mode:'train'}),'transport');
+  assert.equal(explorerCategory({kind:'activity',category:'food',name:'Bormuth Tapas'}),'food');
+  assert.equal(explorerCategory({kind:'activity',category:'food',name:'Carrefour Supermarkt'}),'shop');
+  assert.equal(explorerCategory({kind:'activity',name:'Museum'}),'activity');
+});
+
+test('Map detail displays actual source-backed prices, restaurant opening hours and hotel equipment', () => {
+  const restaurant = classic.items.find(x => x.id === 'local:nardi');
+  const supermarket = classic.items.find(x => x.id === 'local:carrefour-gran-via');
+  const hotel = classic.items.find(x => x.name === 'Bird House' && x.kind === 'lodging');
+  assert.ok(restaurant && supermarket && hotel);
+  assert.match(explorerDetail(restaurant,3).hours,/13:00/);
+  assert.match(explorerDetail(supermarket,3).hours,/09:00/);
+  assert.match(explorerDetail(hotel,3).extra.join(' · '),/Küche/);
+  assert.ok(explorerDetail(restaurant,3).priceText.includes('offen'));
+  assert.ok(explorerDetail(restaurant,3).description.includes('Meeresfrüchte'));
+});
+
+test('A→B route constraints require real points; 2027 long-distance trip is not treated as a walk', () => {
+  const a = {id:'a',city:'barcelona',point:[41.385873,2.182637]};
+  const b = {id:'b',city:'barcelona',point:[41.385619,2.179640]};
+  const across = {id:'c',city:'paris',point:[48.8584,2.2945]};
+  const nearby = explorerRouteInput(a,b);
+  assert.equal(nearby.canWalk,true);
+  assert.equal(nearby.sameCity,true);
+  assert.equal(explorerRouteInput(a,across).canWalk,false);
+  assert.equal(explorerRouteInput(a,across).sameCity,false);
+  assert.equal(explorerRouteInput(a,a),null);
+  assert.equal(explorerRouteInput(a,{id:'missing',point:null}),null);
+  assert.match(externalFootUrl(a,b),/^https:\/\/www.openstreetmap.org\/directions/);
+  assert.match(externalTransitUrl(a,b),/travelmode=transit/);
+  assert.equal(externalTransitUrl(a,{point:null}),null);
+});
+
+test('Recovered original full 2026 research ZIP contributes 21 city coverage records and 14 optional planning days', () => {
+  const coverage = catalog.research.cityCoverage;
+  const days = catalog.research.daySuggestions;
+  assert.equal(Object.keys(coverage).length, 21);
+  assert.equal(days.length, 14);
+  assert.ok(days.every(day => day.isActive === false));
+  assert.equal(days[0].date,'2027-09-01');
+  assert.equal(days.at(-1).date,'2027-09-14');
+  assert.equal(days.find(day=>day.date==='2027-09-04').city,'barcelona');
+  assert.ok(days.some(day=>day.alternatives.some(x=>x.candidateId)));
+  assert.equal(coverage.barcelona.quoteCount,10);
+  assert.equal(coverage.marseille.quoteCount,0);
+  assert.equal(coverage.marseille.verified2027Timetable,false);
+  const originallyActive = activeItems(classic, initialState(classic)).map(x=>x.id);
+  assert.ok(!originallyActive.includes('research:suggest_008'));
+});
+
+test('Sourced destination station is a distinct pin without creating a second train in the active itinerary', () => {
+  const result=explorerData(classic.items,classic);
+  const arrivals=result.placed.filter(x=>x.id.startsWith('arrival:'));
+  assert.ok(arrivals.length >= 1);
+  assert.ok(arrivals.every(x=>x.kind==='transport' && x.price===null));
+  const originalTrips=activeItems(classic,initialState(classic));
+  assert.ok(originalTrips.every(x=>!x.id.startsWith('arrival:')));
+});
+
+
+test('All unlocated options can be shown as explicitly theoretical city clusters without fake individual coordinates',()=>{
+  for(const trip of catalog.trips){
+    const found=explorerData(trip.items,trip);
+    const clusters=explorerUnlocatedCityClusters({...found,showCityReferences:true},catalog.cities);
+    assert.ok(clusters.length>0,trip.id);
+    assert.equal(clusters.reduce((s,x)=>s+x.count,0),
+      found.unlocated.filter(item=>validPoint(catalog.cities[item.city]?.point)).length,
+      'Every unlocated record must be counted once in its actual city');
+    assert.equal(new Set(clusters.map(c=>c.city)).size,clusters.length);
+    assert.ok(clusters.every(c=>c.count>0&&validPoint(c.point)&&c.exampleNames.length<=3));
+    assert.deepEqual(explorerUnlocatedCityClusters({...found,showCityReferences:false},catalog.cities),[]);
+    assert.ok(found.unlocated.every(x=>!validPoint(x.point)),trip.id);
+    // City cluster coordinates must never alter an underlying precise venue pin.
+    assert.ok(found.placed.every(x=>validPoint(x.point)),trip.id);
+  }
+});
+
+
+test('Geographic nearby selection uses only actual POI positions, not approximate city references',()=>{
+ const a=[41.387,2.17],b=[41.3875,2.1705];
+ assert.ok(mapDistanceKm(a,b)<1);
+ assert.equal(mapDistanceKm(a,null),Infinity);
+ assert.equal(mapPointInBounds(a,[41.38,2.16,41.39,2.18]),true);
+ assert.equal(mapPointInBounds(a,[41.40,2.16,41.42,2.18]),false);
+ assert.equal(mapPointInBounds(null,[41.38,2.16,41.39,2.18]),false);
+ const trip={route:['barcelona']};
+ const all=[
+  {id:'near',city:'barcelona',name:'Bogatell',kind:'activity',point:a},
+  {id:'near2',city:'barcelona',name:'Parc',kind:'activity',point:b},
+  {id:'unknown',city:'barcelona',name:'Unbekannt',kind:'activity',point:null},
+  {id:'far',city:'barcelona',name:'Auswärts',kind:'activity',point:[41.7,2.9]}
+ ];
+ const result=explorerData(all,trip,{nearbyPoint:a,radiusKm:1});
+ assert.deepEqual(result.placed.map(x=>x.id),['near','near2']);
+ assert.equal(result.unlocated.length,0);
+ assert.equal(result.total,2);
+});
+
+test('Planned-day geographic scope contains only its original items and linked arrival points',()=>{
+  const transport=classic.items.find(x=>x.kind==='transport'&&x.toCity
+    &&validPoint(x.toPoint)&&classic.route.includes(x.toCity));
+  const activity=classic.items.find(x=>x.kind==='activity'&&x.city==='barcelona'
+    &&!x.duplicateOf);
+  assert.ok(transport&&activity,'A real train and a Barcelona activity must exist');
+  const dayItemIds=new Set([transport.id,activity.id]);
+  const scoped=explorerData(classic.items,classic,{dayItemIds});
+  assert.ok(scoped.total>=2);
+  assert.ok(scoped.total<explorerData(classic.items,classic).total);
+  const rows=[...scoped.placed,...scoped.unlocated];
+  assert.ok(rows.every(x=>dayItemIds.has(x.explorerParent??x.id)),
+    'An arrival may only inherit the original transport item from the selected day');
+  assert.ok(rows.some(x=>x.id===activity.id));
+  assert.ok(rows.some(x=>x.id===transport.id));
+  assert.equal(explorerData(classic.items,classic,{dayItemIds:new Set()}).total,0,
+    'An empty day displays no unplanned city suggestions as planned stops');
+  assert.ok(explorerData(classic.items,classic,{city:'barcelona'}).total>1,
+    'City discovery is independent from the planned-day scope');
+});

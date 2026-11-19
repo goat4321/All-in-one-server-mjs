@@ -497,6 +497,163 @@ try {
   await hasText('.grid-cards', '44,40');
   await hasText('.grid-cards', 'EWR');
   console.log('PASS Städtepaket · Paris-Tarife, Sète-Unterkunft und jeweilige Stadtansicht');
+  // V69: real Chrome checks both viewport layout and retained Leaflet state.
+  await navOnMobile('map');
+  // V72: one primary scope control and a direct, understandable search journey.
+  await wait('.map-context-summary');
+  await click('.map-scope-modes [data-action=explorer-scope][data-value=city]');
+  await retry(()=>js('document.querySelector(".map-context-summary")?.textContent.includes("Orte mit Pin")'),
+    'V72 map counters show individual places, not route hubs');
+  assert.equal(await js('document.querySelector(".reference-places-drawer")?.open'),true);
+  assert.equal(await js('getComputedStyle(document.querySelector(".reference-map-floating")).display'),'none',
+    'V72 redundant floating scope controls must stay out of the cartographic area');
+  const normalMobile=await js('(() => {const m=document.querySelector("#map").getBoundingClientRect(),h=document.querySelector(".map-panel>.panel-head").getBoundingClientRect();return {mapHeight:m.height,titleBottom:h.bottom,mapTop:m.top};})()');
+  assert.ok(normalMobile.mapHeight>=400,'V72 mobile map canvas stays prominent');
+  assert.ok(normalMobile.titleBottom<=normalMobile.mapTop+2,
+    'V72 header actions must sit ABOVE the map, not obscure markers');
+  await click('.map-context-summary [data-action=map-open-search]');
+  await retry(()=>js('document.activeElement?.id==="map-search"'),'V72 search receives keyboard focus');
+  await set('#map-search','Sagrada');
+  await click('.explorer-search [data-action=explorer-search]');
+  await retry(()=>js('document.querySelector(".map-active-filter")?.textContent.includes("Suche: Sagrada")'),
+    'V72 search is visibly tagged as active');
+  await click('.map-context-summary [data-action=map-clear-filters]');
+  assert.equal(await js('document.querySelectorAll(".map-active-filter").length'),0);
+  assert.equal(await js('document.querySelector("#map-search")?.value'),'');
+  await click('.map-scope-modes [data-action=explorer-scope][data-value=trip]');
+  await retry(()=>js('document.querySelector(".map-context-summary")?.textContent.includes("Städte")'),
+    'V72 trip scope counts city hubs rather than all place markers');
+  await click('.explorer-categories [data-action=explorer-group][data-value=food]');
+  await retry(()=>js('document.querySelector(".map-context-summary")?.textContent.includes("Essen & Cafés")'),
+    'V72 group filter is visible immediately');
+  assert.equal(await js('document.querySelector(".map-scope-modes [data-value=city]")?.getAttribute("aria-pressed")'),'true',
+    'V72 choosing a place category switches schematic trip to actual city POIs');
+  await click('.map-context-summary [data-action=map-clear-filters]');
+  await screenshot('karte-uebersicht-v72-mobil');
+  await wait('.map-fullscreen-launch');
+  const originalLeafletId=await js('document.querySelector("#map")._leaflet_id');
+  await click('.map-fullscreen-launch');
+  await retry(()=>js('document.body.classList.contains("map-fullscreen-active")'),'V69 mobile fullscreen active');
+  const fullMobile=await js('(() => {const r=document.querySelector("#map").getBoundingClientRect();return {w:r.width,h:r.height,vw:innerWidth,vh:innerHeight};})()');
+  assert.ok(fullMobile.w>=fullMobile.vw-2,'Mobile fullscreen map must fill viewport width');
+  assert.ok(fullMobile.h>=fullMobile.vh-2,'Mobile fullscreen map must fill viewport height');
+  assert.equal(await js('document.querySelector("#map")._leaflet_id'),originalLeafletId);
+  await click('.map-fullscreen-drawer-toggle');
+  await retry(()=>js('document.querySelector(".map-fullscreen-mode").classList.contains("fullscreen-drawer-open")'),'V69 drawer opens');
+  assert.equal(await js('getComputedStyle(document.querySelector(".map-fullscreen-mode>.explorer-right")).visibility'),'visible');
+  assert.ok(await js('Boolean(document.querySelector(".map-fullscreen-mode #map-search"))'));
+  await click('.map-fullscreen-mode .map-fullscreen-categories [data-value=activity]');
+  await retry(()=>js('document.querySelector(".map-fullscreen-categories [data-value=activity]")?.getAttribute("aria-pressed")==="true"'),'V69 activity filter');
+  assert.equal(await js('document.querySelector("#map")._leaflet_id'),originalLeafletId);
+  await js('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
+  await retry(()=>js('!document.querySelector(".map-fullscreen-mode").classList.contains("fullscreen-drawer-open")'),'V69 first Escape closes drawer');
+  await js('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
+  await retry(()=>js('!document.body.classList.contains("map-fullscreen-active")'),'V69 second Escape exits');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:960,deviceScaleFactor:1,mobile:false});
+  await js('window.dispatchEvent(new Event("resize"))');
+  await click('.map-fullscreen-launch');
+  await retry(()=>js('document.body.classList.contains("map-fullscreen-active")'),'V69 desktop fullscreen active');
+  const fullDesktop=await js('(() => {const r=document.querySelector("#map").getBoundingClientRect();return {w:r.width,h:r.height,vw:innerWidth,vh:innerHeight};})()');
+  assert.ok(fullDesktop.w>=fullDesktop.vw-2,'Desktop fullscreen map must fill viewport width');
+  assert.ok(fullDesktop.h>=fullDesktop.vh-2,'Desktop fullscreen map must fill viewport height');
+  await click('.map-fullscreen-mode .map-fullscreen-scope [data-value=trip]');
+  await retry(()=>js('document.querySelector(".map-fullscreen-scope [data-value=trip]")?.getAttribute("aria-pressed")==="true"'),'V69 trip scope');
+  await click('.map-fullscreen-exit');
+  await retry(()=>js('!document.body.classList.contains("map-fullscreen-active")'),'V69 close fullscreen');
+  assert.equal(await js('document.querySelector("#map")._leaflet_id'),originalLeafletId,
+    'Fullscreen transitions must not recreate Leaflet map');
+  await screenshot('karte-vollbild-desktop');
+  // V72 desktop also retains quick controls and genuinely larger map surface.
+  const desktopMapInfo=await js('(() => {const m=document.querySelector("#map").getBoundingClientRect(),a=document.querySelector(".map-context-summary").getBoundingClientRect();return {height:m.height,statusHeight:a.height,layoutWidth:document.querySelector(".reference-map-workspace").getBoundingClientRect().width};})()');
+  assert.ok(desktopMapInfo.height>=475,'V72 desktop map is not forced into old 375-437px card');
+  assert.ok(desktopMapInfo.statusHeight>30&&desktopMapInfo.statusHeight<200,
+    'V72 status should be a compact summary, not a second information sidebar');
+  assert.ok(await js('Boolean(document.querySelector(".map-extra-details .map-tools"))'),
+    'V72 map overlays remain available in technical details');
+  await screenshot('karte-uebersicht-v72-desktop');
+  // V70 real playback: city badges appear progressively and a traveling dot
+  // moves along the pre-existing schematic city polyline without recreating Leaflet.
+  await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
+  const storyMapId=await js('document.querySelector("#map")._leaflet_id');
+  await click('.route-story-launch');
+  await retry(()=>js('document.querySelector("#route-story-player")?.dataset.status==="playing"'),
+    'V70 story should start');
+  assert.equal(await js('document.querySelector("#map")._leaflet_id'),storyMapId);
+  assert.ok(await js('document.querySelectorAll(".story-arrived-icon").length>=1'));
+  // V71 visual choreography: the city marker wiggles and genuine catalog
+  // categories spread radially, never showing fictional venue coordinates.
+  await retry(()=>js('document.querySelectorAll(".story-arrival-bubble").length>=3'),
+    'V71 city scene should reveal multiple recorded place types');
+  await retry(()=>js('document.querySelector("#route-story-ideas")?.hidden===false'),
+    'V71 actual place recap becomes visible');
+  assert.ok(await js('document.querySelectorAll(".route-story-idea").length>=2'));
+  assert.ok(await js('document.querySelector(".route-story-ideas-top").textContent.includes("vorhandene Orte")'));
+  assert.ok(await js('document.querySelector(".story-arrived-current")!==null'));
+  const orbit=await js('[...document.querySelectorAll(".story-arrival-bubble")].map(el=>({x:parseFloat(el.style.getPropertyValue("--burst-x")),y:parseFloat(el.style.getPropertyValue("--burst-y")),delay:parseFloat(el.style.getPropertyValue("--burst-delay"))}))');
+  assert.ok(orbit.some(x=>x.x<0)&&orbit.some(x=>x.x>0),'V71 icons must fan out to both sides');
+  assert.ok(orbit.some(x=>x.y<0)&&orbit.some(x=>x.y>0),'V71 icons must appear above and below');
+  assert.ok(orbit.slice(1).every((x,i)=>x.delay>orbit[i].delay),'V71 icons must appear consecutively');
+  assert.ok(await js('document.querySelectorAll(".route-story-rail-dot").length>=2'));
+  await screenshot('stadtankunft-embleme-desktop');
+  await retry(()=>js('Number(document.querySelector(".route-story-progress").getAttribute("aria-valuenow"))>0'),
+    'V70 traveling dot should progress',5500);
+  await click('#route-story-player [data-action=route-story-pause]');
+  await retry(()=>js('document.querySelector("#route-story-player")?.dataset.status==="paused"'),
+    'V70 pause');
+  const pausedPct=await js('document.querySelector(".route-story-progress").getAttribute("aria-valuenow")');
+  await delay(280);
+  assert.equal(await js('document.querySelector(".route-story-progress").getAttribute("aria-valuenow")'),pausedPct,
+    'Travel progress must freeze while paused');
+  await click('#route-story-player [data-action=route-story-speed]');
+  await hasText('#route-story-player', '1.5×');
+  await click('#route-story-player [data-action=route-story-pause]');
+  await retry(()=>js('document.querySelectorAll(".story-arrived-icon").length>=2'),
+    'V70 second city popup',6000);
+  await retry(()=>js('document.querySelector("#route-story-count")?.textContent.startsWith("2 /")'),
+    'V71 moves on to second real city');
+  assert.ok(await js('document.querySelectorAll(".story-arrival-icon").length===1'),
+    'V71 only the current city keeps flying bubbles');
+  assert.ok(await js('document.querySelector(".route-story-player").textContent.includes("schematisch")'));
+  await screenshot('karte-route-mit-stadtsymbolen');
+  await click('#route-story-player [data-action=route-story-stop]');
+  await retry(()=>js('document.querySelector("#route-story-player")?.hidden===true'),
+    'V70 stop clears overlay');
+  assert.equal(await js('document.querySelectorAll(".story-traveler-icon").length'),0);
+  assert.equal(await js('document.querySelector("#map")._leaflet_id'),storyMapId);
+
+  // Motion preferences disable travel interpolation, while preserving all city reveals.
+  await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+  await click('.route-story-launch');
+  await retry(()=>js('document.querySelector("#route-story-player")?.dataset.status==="complete"'),
+    'V70 accessible still view');
+  const finalCount=await js('Number(document.querySelector("#route-story-count").textContent.split("/")[1].trim())');
+  assert.ok(finalCount>=2);
+  assert.equal(await js('document.querySelectorAll(".story-arrived-icon").length'),finalCount);
+  // The idea CTA opens the selected city's genuine place browser, without
+  // editing the itinerary. Verify mobile layout with real device metrics.
+  await click('#route-story-player [data-action=route-story-explore]');
+  await retry(()=>js('document.querySelector(".reference-places-drawer")?.open===true'),
+    'V71 opens city place browser');
+  assert.ok(await js('document.querySelector(".reference-map-floating [data-action=map-mode][data-value=city]")?.getAttribute("aria-pressed")==="true"'));
+  assert.equal(await js('document.querySelector("#route-story-player")?.hidden'),true);
+  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
+  await js('window.dispatchEvent(new Event("resize"))');
+  await click('.route-story-launch');
+  await retry(()=>js('document.querySelector("#route-story-player")?.dataset.status==="playing"'),
+    'V71 mobile scene playback');
+  await retry(()=>js('document.querySelectorAll(".story-arrival-bubble").length>=2'),
+    'V71 mobile orbit symbols');
+  const mobileArrival=await js('(() => {const r=document.querySelector("#route-story-player").getBoundingClientRect(),m=document.querySelector("#map").getBoundingClientRect();return {width:r.width,viewport:innerWidth,top:r.top,bottom:r.bottom,mapTop:m.top,mapBottom:m.bottom};})()');
+  assert.ok(mobileArrival.width<=mobileArrival.viewport,'V71 mobile recap cannot overflow screen');
+  assert.ok(mobileArrival.top>=mobileArrival.mapTop-1,'V71 recap must remain inside map');
+  assert.ok(mobileArrival.bottom<=mobileArrival.mapBottom+1,'V71 recap must remain inside map');
+  await screenshot('stadtankunft-embleme-mobil');
+  await click('#route-story-player [data-action=route-story-stop]');
+  assert.equal(await js('document.querySelectorAll(".story-arrival-icon").length'),0);
+  console.log('PASS V71 Stadtszene · echtes Ortsinventar, gestaffelte Symbole, Wackeln, Kategorien, Städteübersicht, Mobil und Öffnen');
+  console.log('PASS V70 Reiseanimation · beweglicher Punkt, Stadt-Popups, Pause, 1.5×, Replay-Fallback und Quellschutz');
+  console.log('PASS V69 Vollbildkarte · Desktop, Mobil, bestehende Leaflet-Karte, Drawer, Filter, Esc, Scope');
   assert.deepEqual(errors, []);
   console.log('PASS Mobil · Liste/Karte, Navigation, reduzierte Bewegung und idempotenter CSV-Import');
   }

@@ -1,0 +1,30 @@
+id;trip_id;date;from;to;mode;via;departure_local;arrival_local;price_minor;reservation_reference_minor;verified_2027;status
+tr-ir-classic-01;ir-classic;2027-09-01;munich;paris;rail;via Stuttgart or direct (verify);;;;1900;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-classic-02;ir-classic;2027-09-03;paris;barcelona;rail;direct TGV if operated;;;;3500;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-classic-03;ir-classic;2027-09-06;barcelona;sete;rail;via Narbonne;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-classic-04;ir-classic;2027-09-08;sete;nice;rail;via Marseille;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-classic-05;ir-classic;2027-09-10;nice;genoa;rail;via Ventimiglia;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-classic-06;ir-classic;2027-09-12;genoa;venice;rail;via Milano;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-classic-07;ir-classic;2027-09-14;venice;munich;rail;via Brenner/Verona or other check;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-swiss-01;ir-swiss;2027-09-01;munich;paris;rail;DB/SNCF;;;;1900;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-swiss-02;ir-swiss;2027-09-03;paris;barcelona;rail;TGV;;;;3500;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-swiss-03;ir-swiss;2027-09-06;barcelona;sete;rail;via Narbonne;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-swiss-04;ir-swiss;2027-09-08;sete;nice;rail;via Marseille;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-swiss-05;ir-swiss;2027-09-10;nice;kandersteg;rail;"long cross-border transfer; connection risk";;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-swiss-06;ir-swiss;2027-09-12;kandersteg;appenzell;rail;Swiss network;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-swiss-07;ir-swiss;2027-09-14;appenzell;munich;rail;via St. Gallen/Bregenz or other;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-august-01;ir-august;2027-08-17;munich;paris;rail;day train;;;;1900;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-august-02;ir-august;2027-08-17;paris;toulouse;rail;"night train; departs before midnight";;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-august-03;ir-august;2027-08-18;toulouse;barcelona;rail;via Narbonne;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-august-04;ir-august;2027-08-20;barcelona;sete;rail;via Narbonne;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-august-05;ir-august;2027-08-22;sete;nice;rail;via Marseille;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-august-06;ir-august;2027-08-24;nice;genoa;rail;via Ventimiglia;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-august-07;ir-august;2027-08-25;genoa;venice;rail;via Milano;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-ir-august-08;ir-august;2027-08-27;venice;munich;rail;via Brenner / Verona;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-swiss-week-01;swiss-week;2027-09-05;munich;appenzell;car;rental car unbooked;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-swiss-week-02;swiss-week;2027-09-06;appenzell;wasserauen;car;car;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-swiss-week-03;swiss-week;2027-09-07;appenzell;glarus;car;"via Klöntalersee; car";;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-swiss-week-04;swiss-week;2027-09-08;glarus;grindelwald;car;car, verify routing;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-swiss-week-05;swiss-week;2027-09-09;grindelwald;kandersteg;car;car, verify routing;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-swiss-week-06;swiss-week;2027-09-10;kandersteg;oeschinensee;car;walk + gondola not road;;;;;False;date_only_plan_NOT_a_bookable_connection
+tr-swiss-week-07;swiss-week;2027-09-11;kandersteg;munich;car;car;;;;;False;date_only_plan_NOT_a_bookable_connection

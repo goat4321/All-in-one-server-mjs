@@ -13,9 +13,11 @@ export const mealSources = [
 export const barcelonaFoodPlaces = [
   { id: 'bormuth', name: 'Bormuth · Tapas in El Born', point: [41.385873, 2.182637], address: 'Plaça Comercial 1, Barcelona',
     detail: 'Tapas zum Teilen, darunter Tortilla, Patatas bravas und Albóndigas. Die verlinkte Speisekarte nennt 10 % Terrassenzuschlag. Aktuelle Karte und Küchenzeiten für den Reiseabend prüfen.',
+    menuNote: 'Tortilla, Patatas bravas und Albóndigas laut veröffentlichter Karte. Terrasse laut Quelle +10 %; Gerichte und Preise am Reisedatum erneut prüfen.',
     source: ['pilot-bormuth', 'bcn-food-menu', 'bcn-food-geo'], tags: ['Tapas', 'El Born'] },
   { id: 'nardi', name: 'Taberna Nardi · Fisch und Meeresfrüchte', point: [41.385619, 2.179640], address: 'Carrer dels Corders 11, Barcelona',
     detail: 'Fisch, Meeresfrüchte und wechselnde Tagesgerichte zum Teilen. Der Betreiber nennt täglich 13:00–00:00 Uhr. Küchenschluss und Gruppenpreis sind offen.',
+    menuNote: 'Fisch, Meeresfrüchte und wechselnde Tagesgerichte. Einzelpreise, konkrete Speisekarte und Küchenschluss offen.',
     source: ['pilot-nardi', 'bcn-food-geo'], tags: ['Meeresfrüchte', 'El Born'], hours: ['13:00', '00:00'] },
   { id: 'carrefour-gran-via', name: 'Carrefour Express · Gran Via', point: [41.385080, 2.162053],
     address: 'Gran Via de les Corts Catalanes 573, Local 2, Barcelona',

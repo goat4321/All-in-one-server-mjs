@@ -1,0 +1,384 @@
+{
+  "meta": {
+    "package": "research-v54-operator-discoveries",
+    "checkedOn": "2026-11-16",
+    "entries": 13,
+    "prices": "Published reference only. No booking and no automatic budget entries.",
+    "coordinates": "No coordinates derived from search or guessed for buildings."
+  },
+  "entries": [
+    {
+      "id": "paris-vie-romantique",
+      "city": "paris",
+      "name": "Musée de la Vie Romantique",
+      "address": "16 rue Chaptal, 75009 Paris, Frankreich",
+      "description": "Kleines Museum im früheren Wohnhaus von Ary Scheffer mit Garten und Teesalon. Ruhige, kostenlose Dauerausstellung als Alternative zu großen Museen.",
+      "tags": [
+        "Museum",
+        "Kultur",
+        "Regenprogramm",
+        "Kostenlose Dauerausstellung"
+      ],
+      "openingReference": "Di–So 10–18 Uhr; montags geschlossen (Betreiberstand November 2026).",
+      "priceReference": "Dauerausstellung kostenlos; Sonderausstellungen kosten extra.",
+      "priceYear": "2026",
+      "durationMinutes": 60,
+      "sourceUrl": "https://museevieromantique.paris.fr/votre-visite/informations-pratiques",
+      "visitorGuide": {
+        "highlights": [
+          "Kunst und Kultur der Romantik",
+          "Ehemaliges Wohnhaus Ary Scheffers",
+          "Garten und Teesalon"
+        ],
+        "visitTip": "Die kostenlose Dauerausstellung nicht mit separaten Wechselausstellungen verwechseln; das Caféangebot vor Ort gesondert prüfen.",
+        "combineWith": "Montmartre/Pigalle als eigener Spazierabschnitt",
+        "arrivalTip": "Rue Chaptal 16; die Museumsadresse als Navigationsziel verwenden.",
+        "check2027": "Tagesöffnung, Sonderausstellungen und Verfügbarkeit des Teesalons"
+      }
+    },
+    {
+      "id": "paris-jardin-plantes",
+      "city": "paris",
+      "name": "Jardin des Plantes (Botanischer Garten)",
+      "address": "57 rue Cuvier, 75005 Paris, Frankreich",
+      "description": "Großer botanischer Garten für kostenlose Spaziergänge, Pflanzenkunde und Erholung. Gewächshäuser, Galerie und Zoo sind separate Angebote mit eigenen Eintrittspreisen.",
+      "tags": [
+        "Park",
+        "Natur",
+        "Gratis",
+        "Draußen"
+      ],
+      "openingReference": "Garten täglich geöffnet; jahreszeitliche Zeiten, wetterbedingte Schließungen möglich.",
+      "priceReference": "Außenanlagen kostenlos; Gewächshäuser und Museen separat kostenpflichtig.",
+      "priceYear": "2026",
+      "durationMinutes": 75,
+      "sourceUrl": "https://www.jardindesplantesdeparis.fr/fr/tarifs-horaires-acces",
+      "visitorGuide": {
+        "highlights": [
+          "Botanische Gartenanlagen",
+          "Pflanzensammlungen und Wege",
+          "Kostenfreie Außenbereiche"
+        ],
+        "visitTip": "Ein kostenloser Spaziergang ist möglich, Gewächshäuser, Galerien oder Zoo sind jedoch eigenständige Eintrittsziele.",
+        "combineWith": "Quartier Latin und nahegelegene Seine-Uferwege",
+        "arrivalTip": "Rue Cuvier 57 ist eine Geländeadresse mit mehreren Zugängen; gewünschten Gartenteil auf Maps prüfen.",
+        "check2027": "Gartenöffnungszeiten, Wetter-Sperrungen und separat buchbare Häuser"
+      }
+    },
+    {
+      "id": "barcelona-sant-pau",
+      "city": "barcelona",
+      "name": "Recinte Modernista de Sant Pau",
+      "address": "Carrer de Sant Antoni Maria Claret 167, 08025 Barcelona, Spanien",
+      "description": "UNESCO-geschützter Jugendstil-Komplex mit Pavillons, Keramik und Gärten; gut mit der Sagrada Família kombinierbar. Besichtigung je nach zugänglichem Gebäudeteil.",
+      "tags": [
+        "Architektur",
+        "Kultur",
+        "UNESCO",
+        "Fotospot"
+      ],
+      "openingReference": "April–Oktober täglich 9:30–18:30 Uhr; letzter Einlass 30 Minuten zuvor (laut Betreiber).",
+      "priceReference": "Ab 1. Januar 2027 online regulär 19 € vor 14 Uhr, 18 € danach; Kasse jeweils 1 € mehr. Ermäßigungen und Datum separat prüfen.",
+      "priceYear": "published_2027_reference",
+      "durationMinutes": 75,
+      "sourceUrl": "https://santpaubarcelona.org/en/prepara-la-teva-visita/",
+      "visitorGuide": {
+        "highlights": [
+          "UNESCO-Jugendstilarchitektur",
+          "Historische Pavillons",
+          "Mosaike und Gartengänge"
+        ],
+        "visitTip": "Für 2027 veröffentlichte Grundtarife sind nicht gleichbedeutend mit einem verfügbaren Platz. Ausstellungs- und Zugangszonen vorab prüfen.",
+        "combineWith": "Sagrada Família als separat buchbare Station",
+        "arrivalTip": "Carrer de Sant Antoni Maria Claret 167; Fußverbindung zur Sagrada Família recherchieren.",
+        "check2027": "Genauer 2027-Ticketpreis, Uhrzeit, Einlassfrist und offene Bereiche"
+      }
+    },
+    {
+      "id": "barcelona-caixaforum",
+      "city": "barcelona",
+      "name": "CaixaForum Barcelona",
+      "address": "Avinguda de Francesc Ferrer i Guàrdia 6–8, 08038 Barcelona, Spanien",
+      "description": "Kunst- und Kulturzentrum in einer modernistischen Textilfabrik nahe Montjuïc. Besonders für einen Regen- oder Museumstag geeignet.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Regenprogramm",
+        "Architektur"
+      ],
+      "openingReference": "Täglich 10–20 Uhr laut Betreiber; besondere Feiertage ausgenommen.",
+      "priceReference": "Regulärer Eintritt 6 € (2026); mit gültiger European Youth Card laut Betreiber kostenfrei, Berechtigung prüfen.",
+      "priceYear": "2026",
+      "durationMinutes": 75,
+      "sourceUrl": "https://caixaforum.org/es/barcelona/info-centro",
+      "visitorGuide": {
+        "highlights": [
+          "Umgenutzte Textilfabrik",
+          "Kunst- und Kulturprogramm",
+          "Architektur nahe Montjuïc"
+        ],
+        "visitTip": "Welche Ausstellung während der Reise läuft, ist entscheidend. Jugendkartenrabatte ausschließlich mit gültigem Ausweis einkalkulieren.",
+        "combineWith": "Montjuïc und Plaça d'Espanya als separate Programmpunkte",
+        "arrivalTip": "Avinguda de Francesc Ferrer i Guàrdia 6–8; ÖPNV und Eingang prüfen.",
+        "check2027": "Kulturprogramm 2027, Tagesöffnung und European-Youth-Card-Anspruch"
+      }
+    },
+    {
+      "id": "sete-brassens",
+      "city": "sete",
+      "name": "Espace Georges Brassens",
+      "address": "67 boulevard Camille Blanc, 34200 Sète, Frankreich",
+      "description": "Kleines Musikmuseum über den aus Sète stammenden Chansonnier Georges Brassens. Sinnvolles Schlechtwetterprogramm für etwa 75 Minuten.",
+      "tags": [
+        "Museum",
+        "Musik",
+        "Kultur",
+        "Regenprogramm"
+      ],
+      "openingReference": "Di–So 10–18 Uhr, Einlass bis 17 Uhr; Feiertagsausnahmen laut Betreiber.",
+      "priceReference": "6 € regulär; 2,50 € für Studierende unter 26 mit Nachweis (2026).",
+      "priceYear": "2026",
+      "durationMinutes": 75,
+      "sourceUrl": "https://espace-brassens.fr/english/horaires-espace-brassens-sete.html",
+      "visitorGuide": {
+        "highlights": [
+          "Leben und Werk von Georges Brassens",
+          "Musikgeschichte von Sète",
+          "Kompakter Museumsbesuch"
+        ],
+        "visitTip": "Bei überschaubarem Zeitfenster als Regenalternative geeignet; den letzten Einlass vor dem Tagesende beachten.",
+        "combineWith": "Weitere Sehenswürdigkeiten von Sète, nicht als automatisch besuchter Programmpunkt",
+        "arrivalTip": "Boulevard Camille Blanc 67; vom Hafen eventuell gesonderte Anreise einplanen.",
+        "check2027": "Schließtage, letzte Eintrittszeit und Ermäßigungsnachweise"
+      }
+    },
+    {
+      "id": "nice-matisse",
+      "city": "nice",
+      "name": "Musée Matisse Nice",
+      "address": "164 avenue des Arènes de Cimiez, 06000 Nice, Frankreich",
+      "description": "Kunstmuseum zu Henri Matisse im Stadtteil Cimiez. Kulturprogramm abseits von Strand und Altstadt.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Regenprogramm"
+      ],
+      "openingReference": "April–Oktober 10–18 Uhr, sonst 10–17 Uhr; dienstags geschlossen (2026).",
+      "priceReference": "Regulär 10 € (veröffentlichter Tarif 2026); mögliche Ermäßigungen separat prüfen.",
+      "priceYear": "2026",
+      "durationMinutes": 75,
+      "sourceUrl": "https://www.musee-matisse-nice.org/fr/informations-pratiques/",
+      "visitorGuide": {
+        "highlights": [
+          "Kunstwerke Henri Matisses",
+          "Museum im Stadtteil Cimiez",
+          "Historische Kulturlandschaft um Cimiez"
+        ],
+        "visitTip": "Liegt nicht direkt an Strand oder Promenade. Museumsbesuch und Rückfahrt zusätzlich einplanen; Dienstagsschließung beachten.",
+        "combineWith": "Cimiez als eigener Kulturbereich",
+        "arrivalTip": "Avenue des Arènes de Cimiez 164; Busanbindung am Reisetag prüfen.",
+        "check2027": "2027er Tarif, Wechselausstellungen und Öffnung"
+      }
+    },
+    {
+      "id": "nice-chagall",
+      "city": "nice",
+      "name": "Musée national Marc Chagall",
+      "address": "Avenue du Docteur Ménard, 06000 Nice, Frankreich",
+      "description": "Museum mit Chagalls Bilderzyklus zum biblischen Thema. Bei Regen oder als ruhige Kulturaktivität gut geeignet.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Regenprogramm"
+      ],
+      "openingReference": "Mai–Oktober 10–18 Uhr, November–April 10–17 Uhr; dienstags geschlossen; Ausnahmen möglich.",
+      "priceReference": "2026 10 € ohne Sonderausstellung bzw. 12 € während Ausstellungen. Für unter 26-jährige EU-Angehörige laut Betreiber frei; Nachweis und Voraussetzungen prüfen.",
+      "priceYear": "2026",
+      "durationMinutes": 75,
+      "sourceUrl": "https://musees-nationaux-alpesmaritimes.fr/chagall/informations-pratiques",
+      "visitorGuide": {
+        "highlights": [
+          "Marc Chagalls großformatiger Bilderzyklus",
+          "Spezialisierte Kunstsammlung",
+          "Ruhiges Museum abseits der Altstadt"
+        ],
+        "visitTip": "Freier Eintritt für unter 26-jährige EU-Angehörige ist an Nachweise und Bedingungen gebunden; nicht allgemein für alle 18-Jährigen.",
+        "combineWith": "Musée Matisse nur bei ausreichender Fahrt- und Besuchszeit",
+        "arrivalTip": "Avenue du Docteur Ménard; Anreise zur konkreten Museumsadresse planen.",
+        "check2027": "2027er Dauer-/Sonderausstellung, EU-Nachweise und Einlass"
+      }
+    },
+    {
+      "id": "genoa-galata",
+      "city": "genoa",
+      "name": "Galata Museo del Mare",
+      "address": "Calata Ansaldo De Mari 1, 16126 Genova, Italien",
+      "description": "Interaktives Schifffahrtsmuseum nahe dem Hafen mit Schiffsrekonstruktionen und besichtigbarem U-Boot Nazario Sauro. Gute Regenalternative.",
+      "tags": [
+        "Museum",
+        "Technik",
+        "Geschichte",
+        "Regenprogramm"
+      ],
+      "openingReference": "Laut Museum Winter 2026/27 Di–Fr 10–18 Uhr, Wochenende 10–19 Uhr; Sommerzeiten gesondert.",
+      "priceReference": "19 € reguläres Kombiticket Museum plus U-Boot (2026); Ermäßigungen und Saison 2027 offen.",
+      "priceYear": "2026",
+      "durationMinutes": 120,
+      "sourceUrl": "https://www.museidigenova.it/it/galata-museo-del-mare",
+      "visitorGuide": {
+        "highlights": [
+          "Schiffsrekonstruktionen",
+          "Maritime Geschichte Genuas",
+          "U-Boot Nazario Sauro als Zusatzangebot"
+        ],
+        "visitTip": "Kombiticket und tatsächlichen U-Boot-Zutritt separat prüfen, besonders bei eingeschränkter Mobilität. Mehr Zeit als für einen Kurzstopp einplanen.",
+        "combineWith": "Hafen Porto Antico als separate Innenstadtstation",
+        "arrivalTip": "Calata Ansaldo De Mari 1 nahe dem Hafen; Eingang und U-Boot-Zutritt prüfen.",
+        "check2027": "Kombiticket, U-Boot-Zeitfenster und Öffnungszeiten im September 2027"
+      }
+    },
+    {
+      "id": "genoa-castello",
+      "city": "genoa",
+      "name": "Castello d'Albertis – Museo delle Culture del Mondo",
+      "address": "Corso Dogali 18, 16136 Genova, Italien",
+      "description": "Schloss mit Museum der Weltkulturen und Aussicht auf die Stadt. Montegalletto-Aufzug als spannende Anreiseoption.",
+      "tags": [
+        "Burg",
+        "Museum",
+        "Aussicht",
+        "Kultur"
+      ],
+      "openingReference": "Betreiber zeigt Mi–So- und Dienstagstermine für 2026/Frühjahr 2027; September 2027 noch nicht veröffentlicht.",
+      "priceReference": "2026/27: 9 € regulär; 2 € für junge Menschen von 18 bis 25 Jahren nach den veröffentlichten Museumsregeln.",
+      "priceYear": "2026",
+      "durationMinutes": 90,
+      "sourceUrl": "https://www.museidigenova.it/it/castello-dalbertis-museo-delle-culture-del-mondo",
+      "visitorGuide": {
+        "highlights": [
+          "Historisches Schloss",
+          "Museum der Weltkulturen",
+          "Stadtausblick"
+        ],
+        "visitTip": "Der Montegalletto-Aufzug kann eine interessante Anreise sein, ist aber keine garantierte Fahrmöglichkeit. Bus-/Aufzugsbetrieb vorab prüfen.",
+        "combineWith": "Innenstadt Genua und Aussichtspunkte auf einem separaten Spaziergang",
+        "arrivalTip": "Corso Dogali 18 liegt oberhalb der Innenstadt; Steigung und Alternativen bedenken.",
+        "check2027": "Museumstarif, Öffnungszeiten und Zugang über den Aufzug"
+      }
+    },
+    {
+      "id": "venice-natural-history",
+      "city": "venice",
+      "name": "Museo di Storia Naturale di Venezia",
+      "address": "Santa Croce 1730, 30135 Venezia, Italien",
+      "description": "Naturkundemuseum im Fontego dei Turchi mit Fossilien und interaktiven Exponaten. Guter Zwischenstopp bei Regen nahe dem Canal Grande.",
+      "tags": [
+        "Museum",
+        "Naturkunde",
+        "Regenprogramm"
+      ],
+      "openingReference": "Juni–September Di–So 10–18 Uhr, letzter Einlass 17 Uhr; montags geschlossen (laut Betreiber).",
+      "priceReference": "Ticketpreise und Ermäßigungen für September 2027 separat beim Betreiber prüfen.",
+      "priceYear": "unknown",
+      "durationMinutes": 90,
+      "sourceUrl": "https://msn.visitmuve.it/informazioni-pratiche/",
+      "visitorGuide": {
+        "highlights": [
+          "Fossilien und naturkundliche Sammlungen",
+          "Interaktive Exponate",
+          "Fontego dei Turchi am Canal Grande"
+        ],
+        "visitTip": "Guter Indoor-Stopp bei Regen, aber Montag nach bisheriger Referenz geschlossen. Öffnung und letzte Einlassfrist überprüfen.",
+        "combineWith": "Santa Croce und Fußwege am Canal Grande",
+        "arrivalTip": "Santa Croce 1730; Vaporetto-Haltestelle und Fußweg tagesbezogen wählen.",
+        "check2027": "Tagesöffnung, Museumspreis und 2027er Sonderregelungen"
+      }
+    },
+    {
+      "id": "venice-accademia",
+      "city": "venice",
+      "name": "Gallerie dell'Accademia Venezia",
+      "address": "Campo della Carità, Dorsoduro 1050, 30123 Venezia, Italien",
+      "description": "Venezianische Gemäldesammlung in Dorsoduro. Gute Innenaktivität, kombinierbar mit dem Viertel und der Accademia-Brücke.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Regenprogramm"
+      ],
+      "openingReference": "Di–So 9–19 Uhr; Kassenschluss 18 Uhr (Betreiberstand November 2026).",
+      "priceReference": "15 € regulär; 2 € für EU-Bürger von 18 bis 25 Jahren laut 2026er Betreiberangaben; Anspruch prüfen.",
+      "priceYear": "2026",
+      "durationMinutes": 90,
+      "sourceUrl": "https://www.gallerieaccademia.it/en/visit/opening-hours-and-tickets/",
+      "visitorGuide": {
+        "highlights": [
+          "Venezianische Malerei",
+          "Galerieräume in Dorsoduro",
+          "Nähe zur Accademia-Brücke"
+        ],
+        "visitTip": "Kulturprogramm mit genügend Zeit für Sammlungen planen; 18–25-Tarife setzen die jeweilige EU-Berechtigung voraus.",
+        "combineWith": "Accademia-Brücke und Viertel Dorsoduro",
+        "arrivalTip": "Campo della Carità, Dorsoduro 1050; Zugang an der Brücke überprüfen.",
+        "check2027": "Ticketkategorien, eventuelle Sonderausstellung und 2027er Öffnung"
+      }
+    },
+    {
+      "id": "grindelwald-pfingstegg",
+      "city": "grindelwald",
+      "name": "Pfingsteggbahn und Sommerrodelbahn",
+      "address": "Talstation Pfingsteggbahn, Grindelwald, Schweiz",
+      "description": "Kurze Luftseilbahnfahrt zur Alp Pfingstegg mit Ausblick, Rodelbahn und Fly-Line. Vorher Wetter, Betriebszeiten und jeweilige Aktivitätskosten prüfen.",
+      "tags": [
+        "Bergbahn",
+        "Sport",
+        "Rodeln",
+        "Aussicht"
+      ],
+      "openingReference": "Veröffentlicht für 2026: Nebensaison 31. August–25. Oktober, Bahn ca. 9–18 Uhr; 2027er Saison offen.",
+      "priceReference": "2026 CHF 32 Hin-/Rückfahrt Erwachsene, Sommerrodelbahn 8 CHF pro Fahrt zusätzlich. Ermäßigung mit gültiger Gästekarte möglich.",
+      "priceYear": "2026",
+      "durationMinutes": 120,
+      "sourceUrl": "https://www.pfingstegg.ch/en/discover/cablecar",
+      "visitorGuide": {
+        "highlights": [
+          "Seilbahn mit Alpenblick",
+          "Sommerrodelbahn",
+          "Fly-Line als separat gebuchtes Angebot"
+        ],
+        "visitTip": "Bahnfahrt und Sommerrodelbahn sind unterschiedliche kostenpflichtige Aktivitäten. Wetter, Mindestanforderungen und letzte Abfahrt vor Ort prüfen.",
+        "combineWith": "Grindelwald als wetterabhängigen Halbtagesausflug",
+        "arrivalTip": "Talstation Pfingsteggbahn im Ort Grindelwald; die genauen ÖPNV- und Fußwege prüfen.",
+        "check2027": "Saison 2027, Betrieb bei Regen/Wind, Ticketpreise und Aktivitätsregeln"
+      }
+    },
+    {
+      "id": "kandersteg-blausee",
+      "city": "kandersteg",
+      "name": "Naturpark Blausee (Kandergrund)",
+      "address": "Blausee, 3717 Kandergrund, Schweiz",
+      "description": "Kleiner, intensiv blauer See in einem kostenpflichtigen Naturpark. Mit dem Linienbus über Haltestelle Blausee BE ab Kandersteg oder Frutigen erreichbar; kein Badesee.",
+      "tags": [
+        "See",
+        "Natur",
+        "Fotospot",
+        "Ausflug"
+      ],
+      "openingReference": "Laut Betreiber täglich ab 9 Uhr; wetter- und saisonbedingte Hinweise prüfen.",
+      "priceReference": "2026 Tages-Eintritt Erwachsene CHF 8 werktags, CHF 10 an Wochenenden/Feiertagen; ab 16 Uhr günstiger.",
+      "priceYear": "2026",
+      "durationMinutes": 90,
+      "sourceUrl": "https://www.blausee.ch/de/kontakt-anreise/",
+      "visitorGuide": {
+        "highlights": [
+          "Intensiv blauer See",
+          "Rundweg im Naturpark",
+          "Landschafts- und Fotostopp"
+        ],
+        "visitTip": "Kostenpflichtiger Naturpark, nicht als frei zugänglichen Badesee behandeln. Eintritt hängt nach früherer Referenz von Tag und Uhrzeit ab.",
+        "combineWith": "Kandersteg und Umgebung nur mit zusätzlicher Fahrzeit",
+        "arrivalTip": "Haltestelle Blausee BE beim Naturpark; von Kandersteg/Frutigen Nahverkehr am Reisetag prüfen.",
+        "check2027": "2027er Eintritt, Tagesöffnung, Badeverbot und Busverbindungen"
+      }
+    }
+  ]
+}

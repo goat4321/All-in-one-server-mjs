@@ -1,0 +1,3195 @@
+[
+  {
+    "activity_id": "a068",
+    "name": "Boccadasse Abendspaziergang",
+    "destination_id": "genoa",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "beach",
+      "free"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 100.0,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 5.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen"
+    ]
+  },
+  {
+    "activity_id": "a066",
+    "name": "Villefranche Plage des Marinières",
+    "destination_id": "nice",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "beach",
+      "free"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 100.0,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 5.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen"
+    ]
+  },
+  {
+    "activity_id": "suggest_022",
+    "name": "Plage de la Darse Badeoption",
+    "destination_id": "nice",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "nice_villefranche"
+    ],
+    "tags": [
+      "beach",
+      "swim",
+      "nature"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 96.9,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 5.0,
+      "C": 4.67
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Schwimmen",
+      "Natur und Landschaften"
+    ]
+  },
+  {
+    "activity_id": "suggest_025",
+    "name": "Passeggiata Anita Garibaldi in Nervi",
+    "destination_id": "genoa",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "genoa_nervi"
+    ],
+    "tags": [
+      "walk",
+      "view",
+      "beach",
+      "nature"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 4,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 96.6,
+    "individual_scores_0_5": {
+      "Naol": 4.75,
+      "K": 4.75,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Lange Fußwege",
+      "Aussichtspunkte",
+      "Meer und Strände besuchen",
+      "Natur und Landschaften"
+    ]
+  },
+  {
+    "activity_id": "suggest_023",
+    "name": "Cap-Ferrat Küstenspaziergang (Abschnitt optional)",
+    "destination_id": "nice",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "nice_villefranche"
+    ],
+    "tags": [
+      "walk",
+      "view",
+      "beach",
+      "nature"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 4,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 96.6,
+    "individual_scores_0_5": {
+      "Naol": 4.75,
+      "K": 4.75,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Lange Fußwege",
+      "Aussichtspunkte",
+      "Meer und Strände besuchen",
+      "Natur und Landschaften"
+    ]
+  },
+  {
+    "activity_id": "suggest_014",
+    "name": "Corniche-Küstenwanderung mit Meerblick",
+    "destination_id": "sete",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "sete_corniche"
+    ],
+    "tags": [
+      "walk",
+      "view",
+      "beach",
+      "nature"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 4,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 96.6,
+    "individual_scores_0_5": {
+      "Naol": 4.75,
+      "K": 4.75,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Lange Fußwege",
+      "Aussichtspunkte",
+      "Meer und Strände besuchen",
+      "Natur und Landschaften"
+    ]
+  },
+  {
+    "activity_id": "suggest_028",
+    "name": "Boccadasse Aussicht am Capo Santa Chiara",
+    "destination_id": "genoa",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "genoa_outdoor"
+    ],
+    "tags": [
+      "view",
+      "walk",
+      "beach"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 95.5,
+    "individual_scores_0_5": {
+      "Naol": 4.67,
+      "K": 4.67,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Lange Fußwege",
+      "Meer und Strände besuchen"
+    ]
+  },
+  {
+    "activity_id": "suggest_029",
+    "name": "Nervi Strandpause und Küstenstimmung",
+    "destination_id": "genoa",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "genoa_outdoor"
+    ],
+    "tags": [
+      "beach",
+      "swim",
+      "walk"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 95.5,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.67,
+      "C": 4.67
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Schwimmen",
+      "Lange Fußwege"
+    ]
+  },
+  {
+    "activity_id": "suggest_020",
+    "name": "Wasserfall im Parc de la Colline du Château",
+    "destination_id": "nice",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "nice_castle"
+    ],
+    "tags": [
+      "view",
+      "nature",
+      "walk"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 95.5,
+    "individual_scores_0_5": {
+      "Naol": 4.67,
+      "K": 4.67,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Natur und Landschaften",
+      "Lange Fußwege"
+    ]
+  },
+  {
+    "activity_id": "suggest_004",
+    "name": "Butte Bergeyre Aussicht und Fotostopp",
+    "destination_id": "paris",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "paris_outdoor"
+    ],
+    "tags": [
+      "view",
+      "walk",
+      "nature"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 95.5,
+    "individual_scores_0_5": {
+      "Naol": 4.67,
+      "K": 4.67,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Lange Fußwege",
+      "Natur und Landschaften"
+    ]
+  },
+  {
+    "activity_id": "suggest_017",
+    "name": "Corniche-Aussicht mit Rad oder zu Fuß",
+    "destination_id": "sete",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "sete_corniche"
+    ],
+    "tags": [
+      "walk",
+      "view",
+      "beach"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 95.5,
+    "individual_scores_0_5": {
+      "Naol": 4.67,
+      "K": 4.67,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Lange Fußwege",
+      "Aussichtspunkte",
+      "Meer und Strände besuchen"
+    ]
+  },
+  {
+    "activity_id": "suggest_007",
+    "name": "Platja del Bogatell: Strand und Schwimmen",
+    "destination_id": "barcelona",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "bcn_beach"
+    ],
+    "tags": [
+      "beach",
+      "swim"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 95.3,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 5.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Schwimmen"
+    ]
+  },
+  {
+    "activity_id": "a072",
+    "name": "Oeschinensee Bergstation Spazierroute",
+    "destination_id": "kandersteg",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "hiking",
+      "nature"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 95.3,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.5,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern",
+      "Natur und Landschaften"
+    ]
+  },
+  {
+    "activity_id": "suggest_016",
+    "name": "Plage de la Corniche: Schwimmen und Beach-Picknick",
+    "destination_id": "sete",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "sete_beach"
+    ],
+    "tags": [
+      "beach",
+      "swim"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 95.3,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 5.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Schwimmen"
+    ]
+  },
+  {
+    "activity_id": "suggest_034",
+    "name": "Lido: Strandtag als wetterabhängige Erholung",
+    "destination_id": "venice",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "venice_waterbus"
+    ],
+    "tags": [
+      "beach",
+      "swim"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 95.3,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 5.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Schwimmen"
+    ]
+  },
+  {
+    "activity_id": "suggest_012",
+    "name": "Gaudí-Park von außen statt bezahlter Monumentalzone",
+    "destination_id": "barcelona",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "bcn_parkg"
+    ],
+    "tags": [
+      "view",
+      "walk"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 93.2,
+    "individual_scores_0_5": {
+      "Naol": 4.5,
+      "K": 4.5,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Lange Fußwege"
+    ]
+  },
+  {
+    "activity_id": "a060",
+    "name": "Montjuïc Spaziergang",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "free",
+      "hiking",
+      "view"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 93.2,
+    "individual_scores_0_5": {
+      "Naol": 4.5,
+      "K": 4.5,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern",
+      "Aussichtspunkte"
+    ]
+  },
+  {
+    "activity_id": "suggest_024",
+    "name": "Nice: Aussicht auf den Hafen bei Sonnenuntergang",
+    "destination_id": "nice",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "nice_castle"
+    ],
+    "tags": [
+      "view",
+      "walk"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 93.2,
+    "individual_scores_0_5": {
+      "Naol": 4.5,
+      "K": 4.5,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Lange Fußwege"
+    ]
+  },
+  {
+    "activity_id": "suggest_015",
+    "name": "Mont Saint-Clair Treppenaufstieg vom Zentrum",
+    "destination_id": "sete",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "sete_hikes"
+    ],
+    "tags": [
+      "hike",
+      "view",
+      "walk"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 93.2,
+    "individual_scores_0_5": {
+      "Naol": 4.5,
+      "K": 4.5,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Lange Fußwege"
+    ]
+  },
+  {
+    "activity_id": "suggest_035",
+    "name": "Dorsoduro: Zattere-Ufer und Fotostopps",
+    "destination_id": "venice",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "venice_waterbus"
+    ],
+    "tags": [
+      "walk",
+      "view"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 93.2,
+    "individual_scores_0_5": {
+      "Naol": 4.5,
+      "K": 4.5,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Lange Fußwege",
+      "Aussichtspunkte"
+    ]
+  },
+  {
+    "activity_id": "a039",
+    "name": "Oeschinensee Gondel & leichter Seeweg",
+    "destination_id": "kandersteg",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "oesch"
+    ],
+    "tags": [
+      "hiking",
+      "nature",
+      "lake"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 92.3,
+    "individual_scores_0_5": {
+      "Naol": 4.33,
+      "K": 4.67,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern",
+      "Natur und Landschaften",
+      "Seen und Flüsse besuchen"
+    ]
+  },
+  {
+    "activity_id": "suggest_038",
+    "name": "Klöntalersee südliches Ufer als Regenalternative",
+    "destination_id": "kloental",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "lake",
+      "walk",
+      "nature"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 92.3,
+    "individual_scores_0_5": {
+      "Naol": 4.33,
+      "K": 4.67,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Seen und Flüsse besuchen",
+      "Lange Fußwege",
+      "Natur und Landschaften"
+    ]
+  },
+  {
+    "activity_id": "a071",
+    "name": "Äscher/Seealpsee-Abstieg NICHT als leichte Route",
+    "destination_id": "appenzell",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "hiking",
+      "warning"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern"
+    ]
+  },
+  {
+    "activity_id": "a053",
+    "name": "Bachalpsee-Wanderung",
+    "destination_id": "bachalpsee",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "hiking"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern"
+    ]
+  },
+  {
+    "activity_id": "a067",
+    "name": "Spianata Castelletto Aussicht",
+    "destination_id": "genoa",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "free",
+      "view"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 4.0,
+      "K": 5.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte"
+    ]
+  },
+  {
+    "activity_id": "suggest_040",
+    "name": "First Cliff Walk als freiwillige Aussicht",
+    "destination_id": "grindelwald",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "first_2027"
+    ],
+    "tags": [
+      "view",
+      "mountain"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 4.0,
+      "K": 5.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte"
+    ]
+  },
+  {
+    "activity_id": "a052",
+    "name": "First Cliff Walk optional",
+    "destination_id": "grindelwald",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "mountains"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern"
+    ]
+  },
+  {
+    "activity_id": "a073",
+    "name": "First View",
+    "destination_id": "grindelwald",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "free",
+      "mountains"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern"
+    ]
+  },
+  {
+    "activity_id": "a051",
+    "name": "Firstbahn optional",
+    "destination_id": "grindelwald",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "mountains"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern"
+    ]
+  },
+  {
+    "activity_id": "suggest_041",
+    "name": "Oeschinensee leichter Seeweg und Picknick",
+    "destination_id": "kandersteg",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "oesch_2027"
+    ],
+    "tags": [
+      "lake",
+      "hike",
+      "view",
+      "nature"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 4.0,
+      "K": 5.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Seen und Flüsse besuchen",
+      "Aussichtspunkte",
+      "Natur und Landschaften"
+    ]
+  },
+  {
+    "activity_id": "a049",
+    "name": "Klöntalersee Wanderung",
+    "destination_id": "kloental",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "hiking"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern"
+    ]
+  },
+  {
+    "activity_id": "a057",
+    "name": "Oeschinensee leichte Wanderung",
+    "destination_id": "oeschinensee",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "hiking"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern"
+    ]
+  },
+  {
+    "activity_id": "a034",
+    "name": "Eiffelturm zweite Etage Aufzug",
+    "destination_id": "paris",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "eiffel"
+    ],
+    "tags": [
+      "view",
+      "youth_discount"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 4.0,
+      "K": 5.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte"
+    ]
+  },
+  {
+    "activity_id": "a048",
+    "name": "Seealpsee Ufer",
+    "destination_id": "seealpsee",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "hiking"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern"
+    ]
+  },
+  {
+    "activity_id": "suggest_037",
+    "name": "Seealpsee Aufstieg klassisch via Fahrstraße",
+    "destination_id": "wasserauen",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "hike",
+      "view",
+      "nature",
+      "lake"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 4.0,
+      "K": 5.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Natur und Landschaften",
+      "Seen und Flüsse besuchen"
+    ]
+  },
+  {
+    "activity_id": "a047",
+    "name": "Wasserauen Wanderstart",
+    "destination_id": "wasserauen",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "hiking"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 90.7,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern"
+    ]
+  },
+  {
+    "activity_id": "suggest_042",
+    "name": "Kandersteg Naturtag als Schlechtwetter-Backup",
+    "destination_id": "kandersteg",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "walk",
+      "nature",
+      "relax"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 89.2,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 4.67
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Lange Fußwege",
+      "Natur und Landschaften",
+      "Ruhige Abende"
+    ]
+  },
+  {
+    "activity_id": "a041",
+    "name": "Seealpsee Wanderung ab Wasserauen",
+    "destination_id": "appenzell",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "seealp"
+    ],
+    "tags": [
+      "hiking",
+      "mountains",
+      "lake",
+      "free"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 88.5,
+    "individual_scores_0_5": {
+      "Naol": 4.0,
+      "K": 4.5,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern",
+      "Seen und Flüsse besuchen"
+    ]
+  },
+  {
+    "activity_id": "a006",
+    "name": "Barceloneta Strand",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "beach",
+      "social"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 88.5,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Ruhige Abende"
+    ]
+  },
+  {
+    "activity_id": "a008",
+    "name": "Poblenou und Bogatell Beachvolleyball",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "beach",
+      "social"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 88.5,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Ruhige Abende"
+    ]
+  },
+  {
+    "activity_id": "a025",
+    "name": "Boccadasse Strand",
+    "destination_id": "genoa",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "beach",
+      "social"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 88.5,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Ruhige Abende"
+    ]
+  },
+  {
+    "activity_id": "a040",
+    "name": "Firstbahn und Bachalpsee",
+    "destination_id": "grindelwald",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "first"
+    ],
+    "tags": [
+      "hiking",
+      "mountains",
+      "lake"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 88.5,
+    "individual_scores_0_5": {
+      "Naol": 4.0,
+      "K": 4.5,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern",
+      "Seen und Flüsse besuchen"
+    ]
+  },
+  {
+    "activity_id": "a042",
+    "name": "Klöntalersee Rundweg",
+    "destination_id": "kloental",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "hiking",
+      "lake",
+      "free"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 88.5,
+    "individual_scores_0_5": {
+      "Naol": 4.0,
+      "K": 4.5,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern",
+      "Seen und Flüsse besuchen"
+    ]
+  },
+  {
+    "activity_id": "a020",
+    "name": "Villefranche-sur-Mer Strand",
+    "destination_id": "nice",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "beach",
+      "social"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 88.5,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Ruhige Abende"
+    ]
+  },
+  {
+    "activity_id": "a030",
+    "name": "Lido Strand (Option)",
+    "destination_id": "venice",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "beach",
+      "social"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 88.5,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 4.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Ruhige Abende"
+    ]
+  },
+  {
+    "activity_id": "suggest_019",
+    "name": "Parc de la Colline du Château vor 20 Uhr",
+    "destination_id": "nice",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "nice_castle"
+    ],
+    "tags": [
+      "view",
+      "nature",
+      "park",
+      "walk"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 4,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 87.4,
+    "individual_scores_0_5": {
+      "Naol": 4.5,
+      "K": 4.0,
+      "C": 4.75
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Natur und Landschaften",
+      "Parks besuchen",
+      "Lange Fußwege"
+    ]
+  },
+  {
+    "activity_id": "suggest_001",
+    "name": "Parc des Buttes-Chaumont Aussicht und Picknick",
+    "destination_id": "paris",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "paris_outdoor"
+    ],
+    "tags": [
+      "park",
+      "nature",
+      "view",
+      "walk"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 4,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 87.4,
+    "individual_scores_0_5": {
+      "Naol": 4.5,
+      "K": 4.0,
+      "C": 4.75
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Parks besuchen",
+      "Natur und Landschaften",
+      "Aussichtspunkte",
+      "Lange Fußwege"
+    ]
+  },
+  {
+    "activity_id": "suggest_031",
+    "name": "Insel Torcello als ruhiger Natur/Kultur-Abstecher",
+    "destination_id": "venice",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "venice_waterbus"
+    ],
+    "tags": [
+      "walk",
+      "culture",
+      "nature"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 84.9,
+    "individual_scores_0_5": {
+      "Naol": 4.0,
+      "K": 4.0,
+      "C": 4.67
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Lange Fußwege",
+      "Geschichte und lokale Kultur",
+      "Natur und Landschaften"
+    ]
+  },
+  {
+    "activity_id": "suggest_026",
+    "name": "Parchi di Nervi Spaziergang (wenn geöffnet)",
+    "destination_id": "genoa",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "genoa_outdoor"
+    ],
+    "tags": [
+      "park",
+      "nature",
+      "walk"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 84.7,
+    "individual_scores_0_5": {
+      "Naol": 4.67,
+      "K": 3.67,
+      "C": 4.67
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Parks besuchen",
+      "Natur und Landschaften",
+      "Lange Fußwege"
+    ]
+  },
+  {
+    "activity_id": "suggest_002",
+    "name": "Parc de la Villette und Canal de l’Ourcq",
+    "destination_id": "paris",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "paris_outdoor"
+    ],
+    "tags": [
+      "park",
+      "walk",
+      "nature"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 84.7,
+    "individual_scores_0_5": {
+      "Naol": 4.67,
+      "K": 3.67,
+      "C": 4.67
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Parks besuchen",
+      "Lange Fußwege",
+      "Natur und Landschaften"
+    ]
+  },
+  {
+    "activity_id": "suggest_010",
+    "name": "Turó de la Rovira: Aussicht vor Schließung",
+    "destination_id": "barcelona",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "bcn_bunkers"
+    ],
+    "tags": [
+      "view",
+      "walk",
+      "history"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 81.8,
+    "individual_scores_0_5": {
+      "Naol": 3.67,
+      "K": 4.0,
+      "C": 4.67
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Lange Fußwege",
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "suggest_021",
+    "name": "Villefranche: Port de la Darse und Altstadt",
+    "destination_id": "nice",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "nice_villefranche"
+    ],
+    "tags": [
+      "view",
+      "walk",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 81.8,
+    "individual_scores_0_5": {
+      "Naol": 3.67,
+      "K": 4.0,
+      "C": 4.67
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Lange Fußwege",
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "suggest_033",
+    "name": "Burano + Inselspaziergang als aktive Halbtagestour",
+    "destination_id": "venice",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "venice_waterbus"
+    ],
+    "tags": [
+      "walk",
+      "view",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 81.8,
+    "individual_scores_0_5": {
+      "Naol": 3.67,
+      "K": 4.0,
+      "C": 4.67
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Lange Fußwege",
+      "Aussichtspunkte",
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a070",
+    "name": "Burano als Halbtag",
+    "destination_id": "venice",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "culture",
+      "coast"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 79.5,
+    "individual_scores_0_5": {
+      "Naol": 3.5,
+      "K": 4.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur",
+      "Meer und Strände besuchen"
+    ]
+  },
+  {
+    "activity_id": "a038",
+    "name": "Vaporetto-Inselfahrt Burano",
+    "destination_id": "venice",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "rolling"
+    ],
+    "tags": [
+      "culture",
+      "coast",
+      "youth_discount"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 79.5,
+    "individual_scores_0_5": {
+      "Naol": 3.5,
+      "K": 4.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur",
+      "Meer und Strände besuchen"
+    ]
+  },
+  {
+    "activity_id": "a065",
+    "name": "Èze Dorf und Aussicht",
+    "destination_id": "nice",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "hiking",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 77.3,
+    "individual_scores_0_5": {
+      "Naol": 3.5,
+      "K": 3.5,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Bergwanderungen und Wandern",
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a033",
+    "name": "Eiffelturm zweite Etage über Treppen",
+    "destination_id": "paris",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "eiffel"
+    ],
+    "tags": [
+      "view",
+      "sports",
+      "youth_discount"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 77.3,
+    "individual_scores_0_5": {
+      "Naol": 4.5,
+      "K": 3.5,
+      "C": 3.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Gym und Fitness"
+    ]
+  },
+  {
+    "activity_id": "a064",
+    "name": "Montpellier Tagesoption",
+    "destination_id": "sete",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "culture",
+      "city"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 77.3,
+    "individual_scores_0_5": {
+      "Naol": 3.5,
+      "K": 3.5,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur",
+      "Lange Fußwege"
+    ]
+  },
+  {
+    "activity_id": "suggest_039",
+    "name": "Bachalpsee als gemeinsamer Natur-Highlight-Block",
+    "destination_id": "grindelwald",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "first_2027"
+    ],
+    "tags": [
+      "lake",
+      "hike",
+      "mountain",
+      "view"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 76.0,
+    "individual_scores_0_5": {
+      "Naol": 3.5,
+      "K": 5.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Seen und Flüsse besuchen",
+      "Aussichtspunkte"
+    ]
+  },
+  {
+    "activity_id": "suggest_030",
+    "name": "Focaccia-Picknick an der Promenade",
+    "destination_id": "genoa",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "genoa_outdoor"
+    ],
+    "tags": [
+      "streetfood",
+      "food",
+      "beach"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 71.5,
+    "individual_scores_0_5": {
+      "Naol": 4.33,
+      "K": 3.33,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Streetfood",
+      "Regionale Spezialitäten probieren",
+      "Meer und Strände besuchen"
+    ]
+  },
+  {
+    "activity_id": "a037",
+    "name": "Bogatell Beachvolleyball",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "tmb"
+    ],
+    "tags": [
+      "sports",
+      "volleyball",
+      "beach",
+      "free"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 69.5,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 3.5,
+      "C": 3.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Gym und Fitness",
+      "Meer und Strände besuchen"
+    ]
+  },
+  {
+    "activity_id": "suggest_008",
+    "name": "Bogatell: Beachfootball oder Beachvolleyball spontan",
+    "destination_id": "barcelona",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "bcn_beach"
+    ],
+    "tags": [
+      "beach",
+      "sport",
+      "fitness"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 69.5,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 3.5,
+      "C": 3.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Gym und Fitness"
+    ]
+  },
+  {
+    "activity_id": "suggest_013",
+    "name": "Geführtes Beachvolleyball-Training Bogatell (Option)",
+    "destination_id": "barcelona",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "bcn_beach"
+    ],
+    "tags": [
+      "beach",
+      "sport",
+      "fitness"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 69.5,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 3.5,
+      "C": 3.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Gym und Fitness"
+    ]
+  },
+  {
+    "activity_id": "suggest_036",
+    "name": "Altstadt Appenzell: lokale Spezialitäten",
+    "destination_id": "appenzell",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "food",
+      "walk",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 67.2,
+    "individual_scores_0_5": {
+      "Naol": 3.33,
+      "K": 3.67,
+      "C": 4.67
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Regionale Spezialitäten probieren",
+      "Lange Fußwege",
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a062",
+    "name": "Mercat de Sant Antoni",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "food",
+      "budget"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 67.0,
+    "individual_scores_0_5": {
+      "Naol": 3.0,
+      "K": 4.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Regionale Spezialitäten probieren"
+    ]
+  },
+  {
+    "activity_id": "a061",
+    "name": "Parc del Fòrum Ufer",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "free",
+      "social"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 67.0,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Ruhige Abende"
+    ]
+  },
+  {
+    "activity_id": "a058",
+    "name": "Champ de Mars Picknick",
+    "destination_id": "paris",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "free",
+      "social"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 67.0,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Ruhige Abende"
+    ]
+  },
+  {
+    "activity_id": "suggest_005",
+    "name": "Streetfood und Picknick entlang Canal Saint-Martin",
+    "destination_id": "paris",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "paris_outdoor"
+    ],
+    "tags": [
+      "streetfood",
+      "walk"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 66.7,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 2.5,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Streetfood",
+      "Lange Fußwege"
+    ]
+  },
+  {
+    "activity_id": "suggest_003",
+    "name": "Paris Stadtbad als Regenprogramm",
+    "destination_id": "paris",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "paris_pool"
+    ],
+    "tags": [
+      "swim",
+      "sport"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 64.8,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 3.5,
+      "C": 3.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Schwimmen",
+      "Gym und Fitness"
+    ]
+  },
+  {
+    "activity_id": "a011",
+    "name": "Clubnacht Razzmatazz (Option)",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "nightlife",
+      "social"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 62.7,
+    "individual_scores_0_5": {
+      "Naol": 4.5,
+      "K": 3.0,
+      "C": 3.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Clubs und Partys",
+      "Ruhige Abende"
+    ]
+  },
+  {
+    "activity_id": "suggest_006",
+    "name": "Eiffelturm Spitze: Jugendticket Aufzug",
+    "destination_id": "paris",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "eiffel"
+    ],
+    "tags": [
+      "view",
+      "architecture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 62.3,
+    "individual_scores_0_5": {
+      "Naol": 2.5,
+      "K": 4.0,
+      "C": 5.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Aussichtspunkte",
+      "Historische Bauwerke und Architektur"
+    ]
+  },
+  {
+    "activity_id": "suggest_009",
+    "name": "Bogatell: Basketballkorb und Outdoor-Fitness",
+    "destination_id": "barcelona",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "bcn_beach"
+    ],
+    "tags": [
+      "basketball",
+      "fitness",
+      "beach"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 61.0,
+    "individual_scores_0_5": {
+      "Naol": 5.0,
+      "K": 2.67,
+      "C": 3.33
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Basketball",
+      "Gym und Fitness",
+      "Meer und Strände besuchen"
+    ]
+  },
+  {
+    "activity_id": "suggest_027",
+    "name": "Aquarium Genua als aktives Regenprogramm",
+    "destination_id": "genoa",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "genoa_aquarium"
+    ],
+    "tags": [
+      "nature",
+      "museum"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 60.2,
+    "individual_scores_0_5": {
+      "Naol": 2.5,
+      "K": 4.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Natur und Landschaften",
+      "Kunstmuseen"
+    ]
+  },
+  {
+    "activity_id": "suggest_011",
+    "name": "Sagrada Família: nur kostenlose Außenansicht",
+    "destination_id": "barcelona",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "sagrada"
+    ],
+    "tags": [
+      "architecture",
+      "culture",
+      "walk"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 3,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 59.6,
+    "individual_scores_0_5": {
+      "Naol": 2.67,
+      "K": 3.33,
+      "C": 4.67
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Historische Bauwerke und Architektur",
+      "Geschichte und lokale Kultur",
+      "Lange Fußwege"
+    ]
+  },
+  {
+    "activity_id": "suggest_018",
+    "name": "Wassersport am Corniche-Abschnitt (erst prüfen)",
+    "destination_id": "sete",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "sete_beach"
+    ],
+    "tags": [
+      "beach",
+      "swim",
+      "sup",
+      "kayak"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 4,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 57.1,
+    "individual_scores_0_5": {
+      "Naol": 3.0,
+      "K": 4.25,
+      "C": 2.75
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Meer und Strände besuchen",
+      "Schwimmen",
+      "SUP",
+      "Kajakfahren"
+    ]
+  },
+  {
+    "activity_id": "a036",
+    "name": "Park Güell Monumentalzone",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "parkguell"
+    ],
+    "tags": [
+      "park",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 53.7,
+    "individual_scores_0_5": {
+      "Naol": 3.0,
+      "K": 2.5,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Parks besuchen",
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a059",
+    "name": "Jardin du Luxembourg",
+    "destination_id": "paris",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "free",
+      "park"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 53.3,
+    "individual_scores_0_5": {
+      "Naol": 4.0,
+      "K": 2.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Parks besuchen"
+    ]
+  },
+  {
+    "activity_id": "a046",
+    "name": "Altstadt Appenzell",
+    "destination_id": "appenzell",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a013",
+    "name": "Bunkers del Carmel",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a007",
+    "name": "El Born & Tapas",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a010",
+    "name": "Gemeinsam kochen",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a012",
+    "name": "Gràcia Viertel",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a009",
+    "name": "Parc de la Ciutadella",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a024",
+    "name": "Caruggi Altstadt",
+    "destination_id": "genoa",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a026",
+    "name": "Corso Italia & Focaccia",
+    "destination_id": "genoa",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a023",
+    "name": "Porto Antico",
+    "destination_id": "genoa",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a022",
+    "name": "Altstadtabend",
+    "destination_id": "nice",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a021",
+    "name": "Colline du Château",
+    "destination_id": "nice",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a018",
+    "name": "Promenade des Anglais",
+    "destination_id": "nice",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a019",
+    "name": "Vieux-Nice / Cours Saleya",
+    "destination_id": "nice",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a004",
+    "name": "Canal Saint-Martin",
+    "destination_id": "paris",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a003",
+    "name": "Montmartre und Sacré-Cœur",
+    "destination_id": "paris",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a005",
+    "name": "Oberkampf Abendviertel",
+    "destination_id": "paris",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a002",
+    "name": "Quartier Latin",
+    "destination_id": "paris",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a001",
+    "name": "Seineufer und Picknick",
+    "destination_id": "paris",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a014",
+    "name": "Kanäle und Hafen",
+    "destination_id": "sete",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a017",
+    "name": "Mont Saint-Clair",
+    "destination_id": "sete",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a016",
+    "name": "Plage de la Corniche",
+    "destination_id": "sete",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a015",
+    "name": "Pointe Courte",
+    "destination_id": "sete",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a063",
+    "name": "Pointe Longue / Hafenpromenade",
+    "destination_id": "sete",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a028",
+    "name": "Cannaregio Abend",
+    "destination_id": "venice",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a069",
+    "name": "Dorsoduro Spaziergang",
+    "destination_id": "venice",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [],
+    "tags": [
+      "culture",
+      "free"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a031",
+    "name": "Letzter Kanalabend",
+    "destination_id": "venice",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a029",
+    "name": "Markusplatz und Gassen",
+    "destination_id": "venice",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a027",
+    "name": "Rialto und Kanäle",
+    "destination_id": "venice",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free",
+      "culture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 1,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 49.0,
+    "individual_scores_0_5": {
+      "Naol": 2.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": [
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a035",
+    "name": "Sagrada Família Innenbesichtigung",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "sagrada"
+    ],
+    "tags": [
+      "culture",
+      "architecture",
+      "youth_discount"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 46.5,
+    "individual_scores_0_5": {
+      "Naol": 1.5,
+      "K": 3.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": true,
+    "matched_topics": [
+      "Geschichte und lokale Kultur",
+      "Historische Bauwerke und Architektur"
+    ]
+  },
+  {
+    "activity_id": "suggest_032",
+    "name": "Murano: Glasbläser-Vorführung (nur bei Verfügbarkeit)",
+    "destination_id": "venice",
+    "is_new_option": true,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "venice_waterbus"
+    ],
+    "tags": [
+      "culture",
+      "architecture"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 46.5,
+    "individual_scores_0_5": {
+      "Naol": 1.5,
+      "K": 3.0,
+      "C": 4.5
+    },
+    "group_low_interest_disagreement": true,
+    "matched_topics": [
+      "Geschichte und lokale Kultur",
+      "Historische Bauwerke und Architektur"
+    ]
+  },
+  {
+    "activity_id": "a032",
+    "name": "Louvre (unter 26 EWR)",
+    "destination_id": "paris",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "louvre"
+    ],
+    "tags": [
+      "museum",
+      "culture",
+      "youth_discount"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 2,
+    "interest_match_confidence": "keyword_tag_approximation",
+    "group_score_0_100": 39.7,
+    "individual_scores_0_5": {
+      "Naol": 1.0,
+      "K": 3.0,
+      "C": 4.0
+    },
+    "group_low_interest_disagreement": true,
+    "matched_topics": [
+      "Kunstmuseen",
+      "Geschichte und lokale Kultur"
+    ]
+  },
+  {
+    "activity_id": "a044",
+    "name": "ÖPNV T-casual",
+    "destination_id": "barcelona",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "tmb"
+    ],
+    "tags": [
+      "transport",
+      "budget"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 0,
+    "interest_match_confidence": "no_specific_tag",
+    "group_score_0_100": null,
+    "individual_scores_0_5": {
+      "Naol": null,
+      "K": null,
+      "C": null
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": []
+  },
+  {
+    "activity_id": "a054",
+    "name": "Grindelwald Dorfspaziergang",
+    "destination_id": "grindelwald",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 0,
+    "interest_match_confidence": "no_specific_tag",
+    "group_score_0_100": null,
+    "individual_scores_0_5": {
+      "Naol": null,
+      "K": null,
+      "C": null
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": []
+  },
+  {
+    "activity_id": "a055",
+    "name": "Kandersteg ruhiger Nachmittag",
+    "destination_id": "kandersteg",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 0,
+    "interest_match_confidence": "no_specific_tag",
+    "group_score_0_100": null,
+    "individual_scores_0_5": {
+      "Naol": null,
+      "K": null,
+      "C": null
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": []
+  },
+  {
+    "activity_id": "a056",
+    "name": "Oeschinensee Talstation",
+    "destination_id": "kandersteg",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "transport"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 0,
+    "interest_match_confidence": "no_specific_tag",
+    "group_score_0_100": null,
+    "individual_scores_0_5": {
+      "Naol": null,
+      "K": null,
+      "C": null
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": []
+  },
+  {
+    "activity_id": "a050",
+    "name": "Klöntal Picknick",
+    "destination_id": "kloental",
+    "is_new_option": false,
+    "selected_in_original_plan": true,
+    "source_ids": [
+      "tripsy"
+    ],
+    "tags": [
+      "free"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 0,
+    "interest_match_confidence": "no_specific_tag",
+    "group_score_0_100": null,
+    "individual_scores_0_5": {
+      "Naol": null,
+      "K": null,
+      "C": null
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": []
+  },
+  {
+    "activity_id": "a043",
+    "name": "Nizza Tram zur Stadt",
+    "destination_id": "nice",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "nice_tram"
+    ],
+    "tags": [
+      "transport",
+      "budget"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 0,
+    "interest_match_confidence": "no_specific_tag",
+    "group_score_0_100": null,
+    "individual_scores_0_5": {
+      "Naol": null,
+      "K": null,
+      "C": null
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": []
+  },
+  {
+    "activity_id": "a045",
+    "name": "Metro Paris",
+    "destination_id": "paris",
+    "is_new_option": false,
+    "selected_in_original_plan": false,
+    "source_ids": [
+      "ratp"
+    ],
+    "tags": [
+      "transport",
+      "budget"
+    ],
+    "score_model_version": "group_consensus_v1",
+    "interest_field_count": 0,
+    "interest_match_confidence": "no_specific_tag",
+    "group_score_0_100": null,
+    "individual_scores_0_5": {
+      "Naol": null,
+      "K": null,
+      "C": null
+    },
+    "group_low_interest_disagreement": false,
+    "matched_topics": []
+  }
+]

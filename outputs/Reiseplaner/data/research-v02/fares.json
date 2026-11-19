@@ -1,0 +1,626 @@
+[
+  {
+    "id": "pass_7d",
+    "name": "Interrail Jugend-Globalpass 7 Tage in 1 Monat",
+    "amount": 286,
+    "currency": "EUR",
+    "unit": "person_pass",
+    "price_scope": "7 travel days / 1 month",
+    "tariff_year": 2026,
+    "source_ids": [
+      "interrail_pass"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": "Youth 12–27",
+    "notes": "Preis ohne Reservierungen; kostenloser DiscoverEU-Pass als separates Szenario behandeln",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "seat_munich_paris",
+    "name": "Passinhaber-Reservierung Deutschland–Frankreich ICE/TGV",
+    "amount": 19,
+    "currency": "EUR",
+    "unit": "person_segment",
+    "price_scope": "2nd class Paris–Munich",
+    "tariff_year": 2026,
+    "source_ids": [
+      "interrail_res"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "seat_paris_barcelona",
+    "name": "Passinhaber-Reservierung Paris–Barcelona TGV",
+    "amount": 35,
+    "currency": "EUR",
+    "unit": "person_segment",
+    "price_scope": "2nd class",
+    "tariff_year": 2026,
+    "source_ids": [
+      "interrail_res"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "seat_ave_fr_es",
+    "name": "Passinhaber-Reservierung AVE Frankreich–Spanien",
+    "amount": 25,
+    "currency": "EUR",
+    "unit": "person_segment",
+    "price_scope": "Elige",
+    "tariff_year": 2026,
+    "source_ids": [
+      "interrail_res"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "seat_fr_italy",
+    "name": "Passinhaber-Reservierung Frecciarossa Paris–Mailand",
+    "amount": 13,
+    "currency": "EUR",
+    "unit": "person_segment",
+    "price_scope": "2nd class international",
+    "tariff_year": 2026,
+    "source_ids": [
+      "interrail_res"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "seat_italy_freccia",
+    "name": "Frecciarossa Reservierung (Richtwert)",
+    "amount": 13,
+    "currency": "EUR",
+    "unit": "person_segment",
+    "price_scope": "2nd class",
+    "tariff_year": 2026,
+    "source_ids": [
+      "interrail_res"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "Die passende Zugkategorie prüfen",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "eiffel_stairs_youth",
+    "name": "Eiffelturm 2. Stock Treppe Jugend",
+    "amount": 7.4,
+    "currency": "EUR",
+    "unit": "person_entry",
+    "price_scope": "youth 12–24",
+    "tariff_year": 2026,
+    "source_ids": [
+      "eiffel"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": "12–24",
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "eiffel_lift_youth",
+    "name": "Eiffelturm 2. Stock Aufzug Jugend",
+    "amount": 11.8,
+    "currency": "EUR",
+    "unit": "person_entry",
+    "price_scope": "youth 12–24",
+    "tariff_year": 2026,
+    "source_ids": [
+      "eiffel"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": "12–24",
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "eiffel_summit_youth",
+    "name": "Eiffelturm Spitze Aufzug Jugend",
+    "amount": 18.4,
+    "currency": "EUR",
+    "unit": "person_entry",
+    "price_scope": "youth 12–24",
+    "tariff_year": 2026,
+    "source_ids": [
+      "eiffel"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": "12–24",
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "louvre_youth_eea",
+    "name": "Louvre unter 26 EWR",
+    "amount": 0,
+    "currency": "EUR",
+    "unit": "person_entry",
+    "price_scope": "eligible under 26",
+    "tariff_year": 2026,
+    "source_ids": [
+      "louvre"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": "EWR-Bürger oder qualifizierte EWR-Residenten unter 26; Ausweis; Zeitslot empfohlen",
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "sagrada_under30",
+    "name": "Sagrada Família ohne Türme Unter-30-Jährige",
+    "amount": 24,
+    "currency": "EUR",
+    "unit": "person_entry",
+    "price_scope": "basilica entry",
+    "tariff_year": 2026,
+    "source_ids": [
+      "sagrada"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": "under 30 / Student mit Nachweis",
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "parkguell_standard",
+    "name": "Park Güell Monumentalzone",
+    "amount": 18,
+    "currency": "EUR",
+    "unit": "person_entry",
+    "price_scope": "general standard",
+    "tariff_year": 2026,
+    "source_ids": [
+      "parkguell",
+      "bcn_parkg"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null,
+    "checked_again_on": "2026-11-12"
+  },
+  {
+    "id": "paris_metro",
+    "name": "Paris Métro-Train-RER Ticket",
+    "amount": 2.55,
+    "currency": "EUR",
+    "unit": "person_journey",
+    "price_scope": "single",
+    "tariff_year": 2026,
+    "source_ids": [
+      "ratp"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "barcelona_tcasual",
+    "name": "Barcelona T-casual 1 Zone 10 Fahrten",
+    "amount": 13,
+    "currency": "EUR",
+    "unit": "person_10trips",
+    "price_scope": "personal / non-shareable",
+    "tariff_year": 2026,
+    "source_ids": [
+      "tmb"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "barcelona_single",
+    "name": "Barcelona TMB Einzelfahrschein 1 Zone",
+    "amount": 2.9,
+    "currency": "EUR",
+    "unit": "person_journey",
+    "price_scope": "single",
+    "tariff_year": 2026,
+    "source_ids": [
+      "tmb"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "nice_single",
+    "name": "Nizza Lignes d’Azur Solo",
+    "amount": 1.7,
+    "currency": "EUR",
+    "unit": "person_journey",
+    "price_scope": "single journey",
+    "tariff_year": 2026,
+    "source_ids": [
+      "nice_tram"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "venice_vaporetto",
+    "name": "Venedig ACTV 75 Minuten inkl. Vaporetto",
+    "amount": 9.5,
+    "currency": "EUR",
+    "unit": "person_75min",
+    "price_scope": "water and urban",
+    "tariff_year": 2026,
+    "source_ids": [
+      "actv",
+      "venice_waterbus"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null,
+    "checked_again_on": "2026-11-12"
+  },
+  {
+    "id": "venice_youth_pass",
+    "name": "Venedig Rolling Venice + ACTV 72h",
+    "amount": 33,
+    "currency": "EUR",
+    "unit": "person_72h",
+    "price_scope": "6–29 youth ticket",
+    "tariff_year": 2026,
+    "source_ids": [
+      "rolling"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": "age 6–29",
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "oesch_return_peak",
+    "name": "Oeschinensee-Gondel Hin-/Rückfahrt Hochsaison",
+    "amount": 40,
+    "currency": "CHF",
+    "unit": "person_return",
+    "price_scope": "15 June–21 September 2026",
+    "tariff_year": 2026,
+    "source_ids": [
+      "oesch",
+      "oesch_2027"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "2026 CHF40 reference; for 2027 only operating hours published, not 2027 price.",
+    "valid_for_2027_dates": null,
+    "checked_again_on": "2026-11-12"
+  },
+  {
+    "id": "oesch_return_halftax",
+    "name": "Oeschinensee-Gondel Halbtax Hochsaison",
+    "amount": 22.5,
+    "currency": "CHF",
+    "unit": "person_return",
+    "price_scope": "15 June–21 September 2026",
+    "tariff_year": 2026,
+    "source_ids": [
+      "oesch"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": "Valid Swiss Half Fare Travelcard or equivalent listed",
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "grindelwald_first_from",
+    "name": "First-Gondel Ticket ab",
+    "amount": 38,
+    "currency": "CHF",
+    "unit": "unspecified_from",
+    "price_scope": "listed from price",
+    "tariff_year": 2026,
+    "source_ids": [
+      "first",
+      "first_2027"
+    ],
+    "verification_status": "published_from_price",
+    "price_type": "source_minimum",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "Advertised FROM price not necessarily return fare for any chosen 2027 date.",
+    "valid_for_2027_dates": null,
+    "checked_again_on": "2026-11-12"
+  },
+  {
+    "id": "swiss_vignette",
+    "name": "Schweizer Autobahnvignette",
+    "amount": 40,
+    "currency": "CHF",
+    "unit": "car_year",
+    "price_scope": "Swiss motorway 2026",
+    "tariff_year": 2026,
+    "source_ids": [
+      "vignette"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "swiss_halbtax_youth",
+    "name": "Schweizer Halbtax Jugend 16–24 Erstkauf",
+    "amount": 120,
+    "currency": "CHF",
+    "unit": "person_year",
+    "price_scope": "annual",
+    "tariff_year": 2026,
+    "source_ids": [
+      "sbb_half"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": "age 16–24",
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "altemetzg_min",
+    "name": "Alte Metzg Appenzell Übernachtung ab",
+    "amount": 40,
+    "currency": "CHF",
+    "unit": "person_night",
+    "price_scope": "40 to 110 per person/night excluding breakfast",
+    "tariff_year": 2026,
+    "source_ids": [
+      "altemetzg"
+    ],
+    "verification_status": "published_from_price",
+    "price_type": "source_minimum",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "georges_dorm_min",
+    "name": "Georges Hostel Sète Dorm 2026 ab",
+    "amount": 22,
+    "currency": "EUR",
+    "unit": "person_night",
+    "price_scope": "22–29 dormitory reference range",
+    "tariff_year": 2026,
+    "source_ids": [
+      "georges"
+    ],
+    "verification_status": "published_from_price",
+    "price_type": "source_minimum",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "georges_private_5_min",
+    "name": "Georges Hostel Sète Zimmer für 5",
+    "amount": 125,
+    "currency": "EUR",
+    "unit": "room_night",
+    "price_scope": "125–160/room/night",
+    "tariff_year": 2026,
+    "source_ids": [
+      "georges"
+    ],
+    "verification_status": "published_from_price",
+    "price_type": "source_minimum",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "blattenheimat_6og3_night",
+    "name": "Blattenheimat 6OG3 Appenzell pro Nacht",
+    "amount": 150,
+    "currency": "CHF",
+    "unit": "apartment_night",
+    "price_scope": "official lodging info, not 2027 live",
+    "tariff_year": 2026,
+    "source_ids": [
+      "blattenheimat"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "blattenheimat_6og3_clean",
+    "name": "Blattenheimat 6OG3 Endreinigung",
+    "amount": 260,
+    "currency": "CHF",
+    "unit": "per_stay",
+    "price_scope": "official lodging info, not 2027 live",
+    "tariff_year": 2026,
+    "source_ids": [
+      "blattenheimat"
+    ],
+    "verification_status": "verified_tariff_at_source",
+    "price_type": "published_tariff",
+    "availability_for_travel_dates": "not_checked",
+    "eligibility": null,
+    "notes": "",
+    "valid_for_2027_dates": null
+  },
+  {
+    "id": "bcn_tfamiliar",
+    "name": "T-familiar Barcelona 1-zone (8 journeys shareable)",
+    "amount": 11.5,
+    "currency": "EUR",
+    "unit": "shared_8_journeys",
+    "tariff_year": 2026,
+    "source_ids": [
+      "tmb"
+    ],
+    "verification_status": "published_tariff_verified",
+    "price_type": "published_reference",
+    "valid_for_2027_dates": null,
+    "availability_for_travel_dates": "not_confirmed",
+    "checked_again_on": "2026-11-12"
+  },
+  {
+    "id": "paris_pool_visitor",
+    "name": "Paris municipal pool normal visitor ticket",
+    "amount": 3.5,
+    "currency": "EUR",
+    "unit": "person_single_entry",
+    "tariff_year": 2026,
+    "source_ids": [
+      "paris_pool"
+    ],
+    "verification_status": "published_tariff_verified",
+    "price_type": "published_reference",
+    "valid_for_2027_dates": null,
+    "availability_for_travel_dates": "not_confirmed",
+    "checked_again_on": "2026-11-12"
+  },
+  {
+    "id": "genoa_aquarium_from",
+    "name": "Genoa Aquarium date-specific minimum published",
+    "amount": 26,
+    "currency": "EUR",
+    "unit": "person_adult_from",
+    "tariff_year": 2026,
+    "source_ids": [
+      "genoa_aquarium"
+    ],
+    "verification_status": "published_tariff_verified",
+    "price_type": "published_reference",
+    "valid_for_2027_dates": null,
+    "availability_for_travel_dates": "not_confirmed",
+    "checked_again_on": "2026-11-12"
+  },
+  {
+    "id": "venice_waterbus_24h",
+    "name": "ACTV 24-hour transport pass",
+    "amount": 25,
+    "currency": "EUR",
+    "unit": "person_24h",
+    "tariff_year": 2026,
+    "source_ids": [
+      "venice_waterbus"
+    ],
+    "verification_status": "published_tariff_verified",
+    "price_type": "published_reference",
+    "valid_for_2027_dates": null,
+    "availability_for_travel_dates": "not_confirmed",
+    "checked_again_on": "2026-11-12"
+  },
+  {
+    "id": "venice_waterbus_48h",
+    "name": "ACTV 48-hour transport pass",
+    "amount": 35,
+    "currency": "EUR",
+    "unit": "person_48h",
+    "tariff_year": 2026,
+    "source_ids": [
+      "venice_waterbus"
+    ],
+    "verification_status": "published_tariff_verified",
+    "price_type": "published_reference",
+    "valid_for_2027_dates": null,
+    "availability_for_travel_dates": "not_confirmed",
+    "checked_again_on": "2026-11-12"
+  },
+  {
+    "id": "venice_waterbus_72h",
+    "name": "ACTV 72-hour transport pass",
+    "amount": 45,
+    "currency": "EUR",
+    "unit": "person_72h",
+    "tariff_year": 2026,
+    "source_ids": [
+      "venice_waterbus"
+    ],
+    "verification_status": "published_tariff_verified",
+    "price_type": "published_reference",
+    "valid_for_2027_dates": null,
+    "availability_for_travel_dates": "not_confirmed",
+    "checked_again_on": "2026-11-12"
+  },
+  {
+    "id": "venice_youth_rolling72h",
+    "name": "Rolling Venice + 72h ACTV age 6-29",
+    "amount": 33,
+    "currency": "EUR",
+    "unit": "person_72h_bundle",
+    "tariff_year": 2026,
+    "source_ids": [
+      "venice_rolling"
+    ],
+    "verification_status": "published_tariff_verified",
+    "price_type": "published_reference",
+    "valid_for_2027_dates": null,
+    "availability_for_travel_dates": "not_confirmed",
+    "checked_again_on": "2026-11-12"
+  }
+]

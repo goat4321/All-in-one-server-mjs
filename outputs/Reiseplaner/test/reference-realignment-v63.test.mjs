@@ -1,0 +1,79 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {loadCatalog} from '../lib/catalog.mjs';
+
+const read=path=>readFile(new URL('../'+path,import.meta.url),'utf8');
+const [html,css,views,app]=await Promise.all([
+ read('public/index.html'),
+ read('public/reference-realignment-v63.css'),
+ read('public/views.mjs'),
+ read('public/app.mjs'),
+]);
+
+test('The visual reference CSS precedes later targeted map overrides',()=>{
+ const styles=[...html.matchAll(/<link rel="stylesheet" href="(\/[^"]+\.css)"/g)]
+  .map(x=>x[1]);
+ const orderedOverrides=['/reference-realignment-v63.css','/map-symbols-performance-v64.css',
+  '/map-fullscreen-v69.css','/route-city-story-v70.css','/route-city-arrivals-v71.css',
+  '/map-clarity-v72.css','/map-polish-v73.css','/route-story-compact-v74.css',
+  '/venue-alternatives-v80.css','/swiss-interrail-focus-v82.css','/swiss-lodging-v83.css','/swiss-dated-search-v84.css'];
+ for(let index=0;index<orderedOverrides.length;index++){
+  assert.ok(styles.includes(orderedOverrides[index]),'Required override is loaded');
+  if(index)assert.ok(styles.indexOf(orderedOverrides[index-1])<styles.indexOf(orderedOverrides[index]),'Targeted cascade order is preserved');
+ }
+ assert.ok(styles.indexOf('/readability-day-v50.css')<styles.length-1);
+ assert.ok(styles.includes('/map-photo-v34.css'));
+ assert.ok(css.length>14000);
+ assert.doesNotMatch(css,/display\s*:\s*none\s*!important\s*;?\s*\/\* delete/i);
+});
+test('The reference-style top navigation is shared by all pages, not only map',()=>{
+ assert.match(views,/const referenceNav='<div class="reference-nav-brand">/);
+ assert.match(views,/shell reference-travel-shell/);
+ assert.match(views,/topbar reference-topbar/);
+ assert.match(views,/data-action="nav-saved"/);
+ assert.match(views,/data-value="discover"/);
+ assert.match(views,/data-value="map"/);
+ assert.match(views,/reference-top-search/);
+ assert.match(views,/mobile-dock/);
+});
+test('Global saved and search actions navigate to real map tools',()=>{
+ assert.match(app,/case 'nav-saved':/);
+ assert.match(app,/view\.mapSavedOnly=true/);
+ assert.match(app,/if\(view\.page!=='map'\)changePage\('map'\)/);
+ assert.match(app,/event\.target\.id==='reference-top-search'&&view\.page!=='map'/);
+ assert.match(app,/view\.mapScope='city'/);
+});
+test('Day map keeps chronology visible; other modes emphasize searchable places',()=>{
+ assert.match(views,/ctx\.explorer\?\.scope==='day'\?mapDayAgenda\(ctx\)/);
+ assert.match(views,/map-day-more/);
+ assert.match(views,/map-category-discovery/);
+ assert.match(views,/reference-places-drawer/);
+ assert.match(views,/explorerToolbar\(ctx\) \+ explorerList\(ctx\)/);
+ assert.match(views,/mapPhotoDiscovery\(ctx\)/);
+ assert.match(views,/reference-stage-days/);
+ assert.match(css,/grid-template-columns:minmax\(330px,31\.5%\) minmax\(0,1fr\)/);
+ assert.match(css,/reference-discovery-image[\s\S]*?height:153px/);
+ assert.match(css,/reference-places-drawer>summary/);
+});
+test('Tablet and mobile variants preserve ordering, contrast and reduced motion',()=>{
+ assert.match(css,/@media\(min-width:651px\) and \(max-width:1179px\)/);
+ assert.match(css,/@media\(max-width:650px\)/);
+ assert.match(css,/reference-map-workspace>\.map-panel\{order:1/);
+ assert.match(css,/reference-map-workspace>\.explorer-right\{\s*order:2/);
+ assert.match(css,/reference-map-workspace>\.reference-discovery\{\s*order:3/);
+ assert.match(css,/mobile-dock/);
+ assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
+ assert.match(css,/:root\[data-motion=off\]/);
+ assert.match(css,/:root\[data-theme=dark\]/);
+});
+test('New visual layout does not rewrite plans, tickets or independently sourced map positions',async()=>{
+ const catalog=await loadCatalog();
+ assert.equal(catalog.trips.length,4);
+ assert.ok(catalog.trips.every(t=>t.items.length>0));
+ const newlySourced=catalog.trips.flatMap(t=>t.items.filter(i=>i.discoveryV61||i.discoveryV62));
+ assert.ok(newlySourced.length>0);
+ assert.ok(newlySourced.every(i=>!i.booked&&!i.selected&&i.price==null));
+ const photos=await read('public/reference-realignment-v63.css');
+ assert.doesNotMatch(photos,/https?:\/\/(?:maps\.google\.com|api\.mapbox\.com)/);
+});

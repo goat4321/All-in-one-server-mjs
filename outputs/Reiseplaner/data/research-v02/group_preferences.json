@@ -1,0 +1,723 @@
+{
+  "survey_source": "Reiseprofil – Umfrage für 3 Personen (Antworten).xlsx",
+  "imported_on": "2026-11-12",
+  "method": {
+    "scale": "0=no interest, 5=very interested; 0 is NOT a declared veto",
+    "consensus_score": "65*(average/5)+25*(min/5)+10 if spread<=1; 0..100",
+    "min>=4": "joint highlight",
+    "mean>=3.5 others": "shared interest, check individual flexibility",
+    "missing_text": "null means not answered, not a stated prohibition"
+  },
+  "travellers": [
+    {
+      "alias": "Naol",
+      "age_at_trip": 18,
+      "scores": {
+        "Spontaneität und flexible Tagesplanung": 4,
+        "Historische Bauwerke und Architektur": 1,
+        "Natur und Landschaften": 5,
+        "SUP": 2,
+        "Kunstmuseen": 0,
+        "Streetfood": 5,
+        "Aussichtspunkte": 4,
+        "Fußballspiele": 1,
+        "Viel Programm pro Tag": 3,
+        "Direkte Zugverbindungen": 3,
+        "Historische Sehenswürdigkeiten und Denkmäler": 2,
+        "Bergwanderungen und Wandern": 5,
+        "Seen und Flüsse besuchen": 3,
+        "Meer und Strände besuchen": 5,
+        "Schwimmen": 5,
+        "Kajakfahren": 0,
+        "Bootstouren": 0,
+        "Rafting": 0,
+        "Zipline und Hochseilgarten": 0,
+        "Basketball": 5,
+        "Gym und Fitness": 5,
+        "Technik- und Science-Museen": 2,
+        "Geschichte und lokale Kultur": 2,
+        "Regionale Spezialitäten probieren": 3,
+        "Restaurants besuchen": 3,
+        "Cafés besuchen": 1,
+        "Parks besuchen": 4,
+        "Shopping": 2,
+        "Konzerte und Live-Musik": 4,
+        "Bars und Pubs": 4,
+        "Clubs und Partys": 4,
+        "Events und Festivals": 4,
+        "Ruhige Abende": 5,
+        "Lange Fußwege": 5,
+        "Frühes Starten": 4,
+        "Komfort und Erholung": 1
+      },
+      "accommodation_budget_raw": "60",
+      "daily_budget_raw": null,
+      "answers": {
+        "train_tradeoff": "A) 6 Stunden, 30 €, Umstiege – günstiger, aber länger",
+        "rainy_day": "B) Aktive Indoor-Attraktion oder Sport",
+        "extra_30": "D) Auf Essen und Erlebnis aufteilen",
+        "evening": "A) Aussichtspunkt oder Fotospot bei Sonnenuntergang",
+        "interests_conflict": "C) Bei der Planung abwechselnd die Highlights jeder Person priorisieren",
+        "daily_rhythm": "D) Aktive Tage und ruhigere Tage abwechseln"
+      },
+      "free_text": {
+        "must_do": null,
+        "no_gos": null,
+        "ideal_day": null,
+        "lodging_preferences": null,
+        "other": null
+      }
+    },
+    {
+      "alias": "K",
+      "age_at_trip": 18,
+      "scores": {
+        "Spontaneität und flexible Tagesplanung": 3,
+        "Historische Bauwerke und Architektur": 3,
+        "Natur und Landschaften": 5,
+        "SUP": 3,
+        "Kunstmuseen": 3,
+        "Streetfood": 1,
+        "Aussichtspunkte": 5,
+        "Fußballspiele": 2,
+        "Viel Programm pro Tag": 3,
+        "Direkte Zugverbindungen": 2,
+        "Historische Sehenswürdigkeiten und Denkmäler": 1,
+        "Bergwanderungen und Wandern": 4,
+        "Seen und Flüsse besuchen": 5,
+        "Meer und Strände besuchen": 5,
+        "Schwimmen": 5,
+        "Kajakfahren": 4,
+        "Bootstouren": 3,
+        "Rafting": 4,
+        "Zipline und Hochseilgarten": 0,
+        "Basketball": 1,
+        "Gym und Fitness": 2,
+        "Technik- und Science-Museen": 2,
+        "Geschichte und lokale Kultur": 3,
+        "Regionale Spezialitäten probieren": 4,
+        "Restaurants besuchen": 2,
+        "Cafés besuchen": 2,
+        "Parks besuchen": 2,
+        "Shopping": 2,
+        "Konzerte und Live-Musik": 2,
+        "Bars und Pubs": 3,
+        "Clubs und Partys": 3,
+        "Events und Festivals": 4,
+        "Ruhige Abende": 3,
+        "Lange Fußwege": 4,
+        "Frühes Starten": 4,
+        "Komfort und Erholung": 2
+      },
+      "accommodation_budget_raw": "50",
+      "daily_budget_raw": "17 30-60 50",
+      "answers": {
+        "train_tradeoff": "D) Entscheide je nach Tageszeit und Anschlussrisiko",
+        "rainy_day": "B) Aktive Indoor-Attraktion oder Sport",
+        "extra_30": "B) Für ein besonderes kostenpflichtiges Erlebnis",
+        "evening": "D) Bar, Pub oder Club – abhängig vom Ort und Programm",
+        "interests_conflict": "D) No-Gos beachten und eine andere gemeinsame Option suchen",
+        "daily_rhythm": "A) Früh starten und mehrere Programmpunkte schaffen"
+      },
+      "free_text": {
+        "must_do": "Etwa spektakuläres",
+        "no_gos": null,
+        "ideal_day": "Startet früh mit city erkunden dann was essen und dann schon die erste activity ",
+        "lodging_preferences": null,
+        "other": null
+      }
+    },
+    {
+      "alias": "C",
+      "age_at_trip": 18,
+      "scores": {
+        "Spontaneität und flexible Tagesplanung": 5,
+        "Historische Bauwerke und Architektur": 5,
+        "Natur und Landschaften": 5,
+        "SUP": 0,
+        "Kunstmuseen": 4,
+        "Streetfood": 5,
+        "Aussichtspunkte": 5,
+        "Fußballspiele": 3,
+        "Viel Programm pro Tag": 5,
+        "Direkte Zugverbindungen": 4,
+        "Historische Sehenswürdigkeiten und Denkmäler": 4,
+        "Bergwanderungen und Wandern": 5,
+        "Seen und Flüsse besuchen": 5,
+        "Meer und Strände besuchen": 5,
+        "Schwimmen": 4,
+        "Kajakfahren": 2,
+        "Bootstouren": 3,
+        "Rafting": 0,
+        "Zipline und Hochseilgarten": 1,
+        "Basketball": 3,
+        "Gym und Fitness": 2,
+        "Technik- und Science-Museen": 4,
+        "Geschichte und lokale Kultur": 4,
+        "Regionale Spezialitäten probieren": 5,
+        "Restaurants besuchen": 5,
+        "Cafés besuchen": 4,
+        "Parks besuchen": 4,
+        "Shopping": 3,
+        "Konzerte und Live-Musik": 2,
+        "Bars und Pubs": 3,
+        "Clubs und Partys": 3,
+        "Events und Festivals": 3,
+        "Ruhige Abende": 4,
+        "Lange Fußwege": 5,
+        "Frühes Starten": 4,
+        "Komfort und Erholung": 5
+      },
+      "accommodation_budget_raw": "30€ plus minus",
+      "daily_budget_raw": "Essen 30€ Aktivitäten kann variieren abendgestaltung 10-20€ ",
+      "answers": {
+        "train_tradeoff": "D) Entscheide je nach Tageszeit und Anschlussrisiko",
+        "rainy_day": "B) Aktive Indoor-Attraktion oder Sport",
+        "extra_30": "B) Für ein besonderes kostenpflichtiges Erlebnis",
+        "evening": "D) Bar, Pub oder Club – abhängig vom Ort und Programm",
+        "interests_conflict": "D) No-Gos beachten und eine andere gemeinsame Option suchen",
+        "daily_rhythm": "C) Je nach Stadt, Zugankunft und Veranstaltung variieren"
+      },
+      "free_text": {
+        "must_do": null,
+        "no_gos": null,
+        "ideal_day": null,
+        "lodging_preferences": null,
+        "other": null
+      }
+    }
+  ],
+  "group_priorities": [
+    {
+      "topic": "Meer und Strände besuchen",
+      "scores": {
+        "Naol": 5,
+        "K": 5,
+        "C": 5
+      },
+      "mean": 5.0,
+      "min": 5,
+      "max": 5,
+      "spread": 0,
+      "consensus_score_0_100": 100.0,
+      "priority_class": "gemeinsames_highlight"
+    },
+    {
+      "topic": "Natur und Landschaften",
+      "scores": {
+        "Naol": 5,
+        "K": 5,
+        "C": 5
+      },
+      "mean": 5.0,
+      "min": 5,
+      "max": 5,
+      "spread": 0,
+      "consensus_score_0_100": 100.0,
+      "priority_class": "gemeinsames_highlight"
+    },
+    {
+      "topic": "Aussichtspunkte",
+      "scores": {
+        "Naol": 4,
+        "K": 5,
+        "C": 5
+      },
+      "mean": 4.67,
+      "min": 4,
+      "max": 5,
+      "spread": 1,
+      "consensus_score_0_100": 90.7,
+      "priority_class": "gemeinsames_highlight"
+    },
+    {
+      "topic": "Bergwanderungen und Wandern",
+      "scores": {
+        "Naol": 5,
+        "K": 4,
+        "C": 5
+      },
+      "mean": 4.67,
+      "min": 4,
+      "max": 5,
+      "spread": 1,
+      "consensus_score_0_100": 90.7,
+      "priority_class": "gemeinsames_highlight"
+    },
+    {
+      "topic": "Lange Fußwege",
+      "scores": {
+        "Naol": 5,
+        "K": 4,
+        "C": 5
+      },
+      "mean": 4.67,
+      "min": 4,
+      "max": 5,
+      "spread": 1,
+      "consensus_score_0_100": 90.7,
+      "priority_class": "gemeinsames_highlight"
+    },
+    {
+      "topic": "Schwimmen",
+      "scores": {
+        "Naol": 5,
+        "K": 5,
+        "C": 4
+      },
+      "mean": 4.67,
+      "min": 4,
+      "max": 5,
+      "spread": 1,
+      "consensus_score_0_100": 90.7,
+      "priority_class": "gemeinsames_highlight"
+    },
+    {
+      "topic": "Frühes Starten",
+      "scores": {
+        "Naol": 4,
+        "K": 4,
+        "C": 4
+      },
+      "mean": 4.0,
+      "min": 4,
+      "max": 4,
+      "spread": 0,
+      "consensus_score_0_100": 82.0,
+      "priority_class": "gemeinsames_highlight"
+    },
+    {
+      "topic": "Events und Festivals",
+      "scores": {
+        "Naol": 4,
+        "K": 4,
+        "C": 3
+      },
+      "mean": 3.67,
+      "min": 3,
+      "max": 4,
+      "spread": 1,
+      "consensus_score_0_100": 72.7,
+      "priority_class": "geteiltes_interesse"
+    },
+    {
+      "topic": "Seen und Flüsse besuchen",
+      "scores": {
+        "Naol": 3,
+        "K": 5,
+        "C": 5
+      },
+      "mean": 4.33,
+      "min": 3,
+      "max": 5,
+      "spread": 2,
+      "consensus_score_0_100": 71.3,
+      "priority_class": "geteiltes_interesse"
+    },
+    {
+      "topic": "Bars und Pubs",
+      "scores": {
+        "Naol": 4,
+        "K": 3,
+        "C": 3
+      },
+      "mean": 3.33,
+      "min": 3,
+      "max": 4,
+      "spread": 1,
+      "consensus_score_0_100": 68.3,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Clubs und Partys",
+      "scores": {
+        "Naol": 4,
+        "K": 3,
+        "C": 3
+      },
+      "mean": 3.33,
+      "min": 3,
+      "max": 4,
+      "spread": 1,
+      "consensus_score_0_100": 68.3,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Regionale Spezialitäten probieren",
+      "scores": {
+        "Naol": 3,
+        "K": 4,
+        "C": 5
+      },
+      "mean": 4.0,
+      "min": 3,
+      "max": 5,
+      "spread": 2,
+      "consensus_score_0_100": 67.0,
+      "priority_class": "geteiltes_interesse"
+    },
+    {
+      "topic": "Ruhige Abende",
+      "scores": {
+        "Naol": 5,
+        "K": 3,
+        "C": 4
+      },
+      "mean": 4.0,
+      "min": 3,
+      "max": 5,
+      "spread": 2,
+      "consensus_score_0_100": 67.0,
+      "priority_class": "geteiltes_interesse"
+    },
+    {
+      "topic": "Spontaneität und flexible Tagesplanung",
+      "scores": {
+        "Naol": 4,
+        "K": 3,
+        "C": 5
+      },
+      "mean": 4.0,
+      "min": 3,
+      "max": 5,
+      "spread": 2,
+      "consensus_score_0_100": 67.0,
+      "priority_class": "geteiltes_interesse"
+    },
+    {
+      "topic": "Viel Programm pro Tag",
+      "scores": {
+        "Naol": 3,
+        "K": 3,
+        "C": 5
+      },
+      "mean": 3.67,
+      "min": 3,
+      "max": 5,
+      "spread": 2,
+      "consensus_score_0_100": 62.7,
+      "priority_class": "geteiltes_interesse"
+    },
+    {
+      "topic": "Parks besuchen",
+      "scores": {
+        "Naol": 4,
+        "K": 2,
+        "C": 4
+      },
+      "mean": 3.33,
+      "min": 2,
+      "max": 4,
+      "spread": 2,
+      "consensus_score_0_100": 53.3,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Restaurants besuchen",
+      "scores": {
+        "Naol": 3,
+        "K": 2,
+        "C": 5
+      },
+      "mean": 3.33,
+      "min": 2,
+      "max": 5,
+      "spread": 3,
+      "consensus_score_0_100": 53.3,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Streetfood",
+      "scores": {
+        "Naol": 5,
+        "K": 1,
+        "C": 5
+      },
+      "mean": 3.67,
+      "min": 1,
+      "max": 5,
+      "spread": 4,
+      "consensus_score_0_100": 52.7,
+      "priority_class": "geteiltes_interesse"
+    },
+    {
+      "topic": "Shopping",
+      "scores": {
+        "Naol": 2,
+        "K": 2,
+        "C": 3
+      },
+      "mean": 2.33,
+      "min": 2,
+      "max": 3,
+      "spread": 1,
+      "consensus_score_0_100": 50.3,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Direkte Zugverbindungen",
+      "scores": {
+        "Naol": 3,
+        "K": 2,
+        "C": 4
+      },
+      "mean": 3.0,
+      "min": 2,
+      "max": 4,
+      "spread": 2,
+      "consensus_score_0_100": 49.0,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Geschichte und lokale Kultur",
+      "scores": {
+        "Naol": 2,
+        "K": 3,
+        "C": 4
+      },
+      "mean": 3.0,
+      "min": 2,
+      "max": 4,
+      "spread": 2,
+      "consensus_score_0_100": 49.0,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Gym und Fitness",
+      "scores": {
+        "Naol": 5,
+        "K": 2,
+        "C": 2
+      },
+      "mean": 3.0,
+      "min": 2,
+      "max": 5,
+      "spread": 3,
+      "consensus_score_0_100": 49.0,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Konzerte und Live-Musik",
+      "scores": {
+        "Naol": 4,
+        "K": 2,
+        "C": 2
+      },
+      "mean": 2.67,
+      "min": 2,
+      "max": 4,
+      "spread": 2,
+      "consensus_score_0_100": 44.7,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Technik- und Science-Museen",
+      "scores": {
+        "Naol": 2,
+        "K": 2,
+        "C": 4
+      },
+      "mean": 2.67,
+      "min": 2,
+      "max": 4,
+      "spread": 2,
+      "consensus_score_0_100": 44.7,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Basketball",
+      "scores": {
+        "Naol": 5,
+        "K": 1,
+        "C": 3
+      },
+      "mean": 3.0,
+      "min": 1,
+      "max": 5,
+      "spread": 4,
+      "consensus_score_0_100": 44.0,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Historische Bauwerke und Architektur",
+      "scores": {
+        "Naol": 1,
+        "K": 3,
+        "C": 5
+      },
+      "mean": 3.0,
+      "min": 1,
+      "max": 5,
+      "spread": 4,
+      "consensus_score_0_100": 44.0,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Komfort und Erholung",
+      "scores": {
+        "Naol": 1,
+        "K": 2,
+        "C": 5
+      },
+      "mean": 2.67,
+      "min": 1,
+      "max": 5,
+      "spread": 4,
+      "consensus_score_0_100": 39.7,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Cafés besuchen",
+      "scores": {
+        "Naol": 1,
+        "K": 2,
+        "C": 4
+      },
+      "mean": 2.33,
+      "min": 1,
+      "max": 4,
+      "spread": 3,
+      "consensus_score_0_100": 35.3,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Historische Sehenswürdigkeiten und Denkmäler",
+      "scores": {
+        "Naol": 2,
+        "K": 1,
+        "C": 4
+      },
+      "mean": 2.33,
+      "min": 1,
+      "max": 4,
+      "spread": 3,
+      "consensus_score_0_100": 35.3,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Fußballspiele",
+      "scores": {
+        "Naol": 1,
+        "K": 2,
+        "C": 3
+      },
+      "mean": 2.0,
+      "min": 1,
+      "max": 3,
+      "spread": 2,
+      "consensus_score_0_100": 31.0,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Kunstmuseen",
+      "scores": {
+        "Naol": 0,
+        "K": 3,
+        "C": 4
+      },
+      "mean": 2.33,
+      "min": 0,
+      "max": 4,
+      "spread": 4,
+      "consensus_score_0_100": 30.3,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Bootstouren",
+      "scores": {
+        "Naol": 0,
+        "K": 3,
+        "C": 3
+      },
+      "mean": 2.0,
+      "min": 0,
+      "max": 3,
+      "spread": 3,
+      "consensus_score_0_100": 26.0,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Kajakfahren",
+      "scores": {
+        "Naol": 0,
+        "K": 4,
+        "C": 2
+      },
+      "mean": 2.0,
+      "min": 0,
+      "max": 4,
+      "spread": 4,
+      "consensus_score_0_100": 26.0,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "SUP",
+      "scores": {
+        "Naol": 2,
+        "K": 3,
+        "C": 0
+      },
+      "mean": 1.67,
+      "min": 0,
+      "max": 3,
+      "spread": 3,
+      "consensus_score_0_100": 21.7,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Rafting",
+      "scores": {
+        "Naol": 0,
+        "K": 4,
+        "C": 0
+      },
+      "mean": 1.33,
+      "min": 0,
+      "max": 4,
+      "spread": 4,
+      "consensus_score_0_100": 17.3,
+      "priority_class": "optional_individuell"
+    },
+    {
+      "topic": "Zipline und Hochseilgarten",
+      "scores": {
+        "Naol": 0,
+        "K": 0,
+        "C": 1
+      },
+      "mean": 0.33,
+      "min": 0,
+      "max": 1,
+      "spread": 1,
+      "consensus_score_0_100": 14.3,
+      "priority_class": "optional_individuell"
+    }
+  ],
+  "nightly_accommodation_targets_eur_per_person": {
+    "Naol": {
+      "target": 60,
+      "flexible": true
+    },
+    "K": {
+      "target": 50,
+      "flexible": true
+    },
+    "C": {
+      "target": 30,
+      "flexible": true,
+      "note": "30 Euro plus/minus, no hard cap"
+    }
+  },
+  "group_decision_preferences": {
+    "rainy_day": [
+      "active_indoor_sport",
+      "active_indoor_sport",
+      "active_indoor_sport"
+    ],
+    "schedule": "early starts acceptable to all; alternate active and quiet days; account for transport days",
+    "split_activities": "option; do not force or auto-select low-interest offerings",
+    "lodging_kitchen": "unanswered by all; do not assume mandatory",
+    "no_gos": "none explicitly supplied; NOT proof that none exist",
+    "clubs": "optional, site/event dependent; original Tripsy plan has one Barcelona club night"
+  }
+}

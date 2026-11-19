@@ -1,0 +1,415 @@
+[
+  {
+    "id": "munich",
+    "name": "München",
+    "country": "DE",
+    "timezone": "Europe/Berlin",
+    "latitude_approx": 48.1402,
+    "longitude_approx": 11.5594,
+    "coordinate_reference_type": "main_station",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "transport_hub"
+    ],
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss",
+      "interrail_august",
+      "swiss_lakes"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "paris",
+    "name": "Paris",
+    "country": "FR",
+    "timezone": "Europe/Paris",
+    "latitude_approx": 48.8566,
+    "longitude_approx": 2.3522,
+    "coordinate_reference_type": "city_centre",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "city",
+      "culture",
+      "coast"
+    ],
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss",
+      "interrail_august"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "toulouse",
+    "name": "Toulouse",
+    "country": "FR",
+    "timezone": "Europe/Paris",
+    "latitude_approx": 43.6114,
+    "longitude_approx": 1.454,
+    "coordinate_reference_type": "matabiau",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "city",
+      "culture",
+      "coast"
+    ],
+    "trip_ids": [
+      "interrail_august"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "narbonne",
+    "name": "Narbonne",
+    "country": "FR",
+    "timezone": "Europe/Paris",
+    "latitude_approx": 43.1915,
+    "longitude_approx": 3.0056,
+    "coordinate_reference_type": "station",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "city",
+      "culture",
+      "coast"
+    ],
+    "trip_ids": [
+      "interrail_august"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "barcelona",
+    "name": "Barcelona",
+    "country": "ES",
+    "timezone": "Europe/Madrid",
+    "latitude_approx": 41.3793,
+    "longitude_approx": 2.1409,
+    "coordinate_reference_type": "sants",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "architecture",
+      "beach",
+      "volleyball",
+      "nightlife"
+    ],
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss",
+      "interrail_august"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "sete",
+    "name": "Sète",
+    "country": "FR",
+    "timezone": "Europe/Paris",
+    "latitude_approx": 43.4126,
+    "longitude_approx": 3.6952,
+    "coordinate_reference_type": "station",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "city",
+      "culture",
+      "coast"
+    ],
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss",
+      "interrail_august"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "marseille",
+    "name": "Marseille",
+    "country": "FR",
+    "timezone": "Europe/Paris",
+    "latitude_approx": 43.3027,
+    "longitude_approx": 5.3804,
+    "coordinate_reference_type": "st_charles",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "city",
+      "culture",
+      "coast"
+    ],
+    "trip_ids": [
+      "interrail_august"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "nice",
+    "name": "Nizza",
+    "country": "FR",
+    "timezone": "Europe/Paris",
+    "latitude_approx": 43.7038,
+    "longitude_approx": 7.2615,
+    "coordinate_reference_type": "nice_ville",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "city",
+      "culture",
+      "coast"
+    ],
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_swiss",
+      "interrail_august"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "ventimiglia",
+    "name": "Ventimiglia",
+    "country": "IT",
+    "timezone": "Europe/Rome",
+    "latitude_approx": 43.7938,
+    "longitude_approx": 7.6077,
+    "coordinate_reference_type": "station",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "culture",
+      "coast",
+      "food"
+    ],
+    "trip_ids": [
+      "interrail_august"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "genoa",
+    "name": "Genua",
+    "country": "IT",
+    "timezone": "Europe/Rome",
+    "latitude_approx": 44.4169,
+    "longitude_approx": 8.9212,
+    "coordinate_reference_type": "piazza_principe",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "culture",
+      "coast",
+      "food"
+    ],
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_august"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "milan",
+    "name": "Mailand",
+    "country": "IT",
+    "timezone": "Europe/Rome",
+    "latitude_approx": 45.485,
+    "longitude_approx": 9.204,
+    "coordinate_reference_type": "milano_centrale",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "culture",
+      "coast",
+      "food"
+    ],
+    "trip_ids": [
+      "interrail_august"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "venice",
+    "name": "Venedig",
+    "country": "IT",
+    "timezone": "Europe/Rome",
+    "latitude_approx": 45.4408,
+    "longitude_approx": 12.3155,
+    "coordinate_reference_type": "city_centre",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "culture",
+      "coast",
+      "food"
+    ],
+    "trip_ids": [
+      "interrail_classic",
+      "interrail_august"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "appenzell",
+    "name": "Appenzell",
+    "country": "CH",
+    "timezone": "Europe/Zurich",
+    "latitude_approx": 47.33,
+    "longitude_approx": 9.4099,
+    "coordinate_reference_type": "village",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "hiking",
+      "nature",
+      "mountains"
+    ],
+    "trip_ids": [
+      "interrail_swiss",
+      "swiss_lakes"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "wasserauen",
+    "name": "Wasserauen",
+    "country": "CH",
+    "timezone": "Europe/Zurich",
+    "latitude_approx": 47.28561,
+    "longitude_approx": 9.42829,
+    "coordinate_reference_type": "station",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "hiking",
+      "nature",
+      "mountains"
+    ],
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "seealpsee",
+    "name": "Seealpsee",
+    "country": "CH",
+    "timezone": "Europe/Zurich",
+    "latitude_approx": 47.26825,
+    "longitude_approx": 9.40118,
+    "coordinate_reference_type": "lake",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "hiking",
+      "nature",
+      "mountains"
+    ],
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "kloental",
+    "name": "Klöntalersee",
+    "country": "CH",
+    "timezone": "Europe/Zurich",
+    "latitude_approx": 47.02783,
+    "longitude_approx": 8.97642,
+    "coordinate_reference_type": "lake",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "hiking",
+      "nature",
+      "mountains"
+    ],
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "glarus",
+    "name": "Glarus",
+    "country": "CH",
+    "timezone": "Europe/Zurich",
+    "latitude_approx": 47.0399,
+    "longitude_approx": 9.0715,
+    "coordinate_reference_type": "city",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "hiking",
+      "nature",
+      "mountains"
+    ],
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "grindelwald",
+    "name": "Grindelwald",
+    "country": "CH",
+    "timezone": "Europe/Zurich",
+    "latitude_approx": 46.624,
+    "longitude_approx": 8.038,
+    "coordinate_reference_type": "city",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "hiking",
+      "nature",
+      "mountains"
+    ],
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "bachalpsee",
+    "name": "Bachalpsee",
+    "country": "CH",
+    "timezone": "Europe/Zurich",
+    "latitude_approx": 46.6695,
+    "longitude_approx": 8.02136,
+    "coordinate_reference_type": "lake",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "hiking",
+      "nature",
+      "mountains"
+    ],
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "kandersteg",
+    "name": "Kandersteg",
+    "country": "CH",
+    "timezone": "Europe/Zurich",
+    "latitude_approx": 46.495,
+    "longitude_approx": 7.675,
+    "coordinate_reference_type": "city",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "hiking",
+      "nature",
+      "mountains"
+    ],
+    "trip_ids": [
+      "interrail_swiss",
+      "swiss_lakes"
+    ],
+    "origin": "tripsy_plus_curated"
+  },
+  {
+    "id": "oeschinensee",
+    "name": "Oeschinensee",
+    "country": "CH",
+    "timezone": "Europe/Zurich",
+    "latitude_approx": 46.49845,
+    "longitude_approx": 7.72544,
+    "coordinate_reference_type": "lake",
+    "coordinate_precision": "approx_or_existing_tripsy_point",
+    "tags": [
+      "hiking",
+      "nature",
+      "mountains"
+    ],
+    "trip_ids": [
+      "swiss_lakes"
+    ],
+    "origin": "tripsy_plus_curated"
+  }
+]

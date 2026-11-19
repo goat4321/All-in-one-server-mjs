@@ -1,0 +1,34 @@
+name: "Reiseplaner - Gastro-Geokodierung (manueller Kandidatenbericht)"
+# The original one-off workflow was malformed/unsuitable for repeated push/PR
+# triggers and generated failed zero-job checks. Keep network geocoding opt-in.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: outputs/Reiseplaner
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Skriptsyntax und lokale Eingangsdaten
+        run: |
+          node --check scripts/food-geo-v08.mjs
+          node --test test/menu-geo-v08.test.mjs
+      - name: Nur öffentliche Gastronomie-Adressen mit Photon abgleichen
+        run: node scripts/food-geo-v08.mjs
+      - name: Ergebnis als manuellen Prüfbericht bereitstellen
+        uses: actions/upload-artifact@v4
+        with:
+          name: gastro-kandidaten-erneute-pruefung
+          path: outputs/Reiseplaner/data/research-v08/food-address-candidates.json
+          if-no-files-found: error
+          retention-days: 14

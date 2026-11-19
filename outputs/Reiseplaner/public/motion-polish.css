@@ -1,0 +1,508 @@
+/*
+ * Phase 31 – Motion System. Deliberate, brief user feedback.
+ * No animation depends on a server response or implies that a booking is made.
+ * Continuous route motion is schematic only, as documented on the map.
+ */
+:root{
+  --motion-spring:cubic-bezier(.2,.83,.25,1);
+  --motion-quick:160ms;
+  --motion-normal:260ms;
+  --motion-long:440ms;
+}
+@keyframes ux-reveal{
+  from{opacity:.64;transform:translate3d(0,11px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes ux-slide-right{
+  from{opacity:.68;transform:translate3d(-8px,0,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes ux-pop{
+  0%{transform:scale(.9);opacity:.7}
+  58%{transform:scale(1.07);opacity:1}
+  100%{transform:scale(1);opacity:1}
+}
+@keyframes ux-wiggle{
+  0%,100%{transform:rotate(0)}
+  32%{transform:rotate(-7deg)}
+  65%{transform:rotate(5deg)}
+}
+@keyframes ux-soft-bounce{
+  0%{transform:translateY(5px) scale(.98);opacity:.7}
+  62%{transform:translateY(-2px) scale(1.01);opacity:1}
+  100%{transform:translateY(0) scale(1);opacity:1}
+}
+@keyframes ux-focus-line{
+  0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--green) 30%,transparent)}
+  70%{box-shadow:0 0 0 7px color-mix(in srgb,var(--green) 0%,transparent)}
+  100%{box-shadow:0 0 0 0 transparent}
+}
+@keyframes ux-modal-in{
+  from{opacity:0;transform:translateY(11px) scale(.978)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes ux-backdrop-in{
+  from{opacity:0}
+  to{opacity:1}
+}
+@keyframes ux-toast-in{
+  0%{opacity:0;transform:translateY(15px) scale(.965)}
+  75%{opacity:1;transform:translateY(-2px) scale(1.005)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes ux-ripple{
+  from{opacity:.22;transform:scale(.03)}
+  to{opacity:0;transform:scale(1)}
+}
+@keyframes ux-image-in{
+  from{opacity:.7;filter:saturate(.75)}
+  to{opacity:1;filter:saturate(1)}
+}
+@keyframes ux-progress-in{
+  from{transform:scaleX(.03);opacity:.45}
+  to{transform:scaleX(1);opacity:1}
+}
+@keyframes ux-route-emphasis{
+  from{opacity:.37;filter:drop-shadow(0 0 0 transparent)}
+  to{opacity:.95;filter:drop-shadow(0 0 4px #58bb9e69)}
+}
+@keyframes ux-pin-ring{
+  0%{box-shadow:0 0 0 0 #2e9e7980}
+  100%{box-shadow:0 0 0 12px #2e9e7900}
+}
+@keyframes ux-bookmark-saved{
+  0%{transform:scale(.88)}
+  55%{transform:scale(1.1)}
+  100%{transform:scale(1)}
+}
+@keyframes ux-dot-reveal{
+  from{opacity:.25;transform:scale(.6)}
+  to{opacity:1;transform:scale(1)}
+}
+/* Scroll/scene reveal: content always remains visible without JS. */
+#app .motion-revealed{
+  animation:ux-reveal 370ms var(--motion-spring) backwards;
+  animation-delay:var(--motion-delay,0ms)
+}
+#app .timeline-event .event-card.motion-revealed,
+#app .reference-agenda-item.motion-revealed{
+  animation-name:ux-slide-right
+}
+#app .motion-revealed :where(.place-thumbnail,.ui-icon){backface-visibility:hidden}
+#app img.motion-photo-loaded{
+  animation:ux-image-in 370ms ease-out both
+}
+/* Native click/touch ripple: small, pointer-transparent, auto-cleaning. */
+.motion-ripple-host{position:relative;isolation:isolate;overflow:clip}
+.motion-ripple{position:absolute;z-index:1;pointer-events:none;display:block;border-radius:50%;
+ background:currentColor;opacity:0;transform:scale(0);animation:ux-ripple .49s ease-out forwards}
+.motion-key-pressed{animation:ux-focus-line 230ms ease-out!important}
+/* Buttons and icons receive consistent feedback, not constant perpetual motion. */
+:where(.workspace,.topbar,.sidebar,.mobile-dock) :where(
+ .button,.icon-btn,.chip-button,.nav-btn,.city-btn,
+ .overview-quick-card,.simple-main-button,.reference-main-nav button,
+ .reference-map-floating button,.explorer-chip,.route-city-step,
+ .day,.inspector-tab,.day-route-controls button,
+ .reference-discovery-save,.route-studio-stop
+){
+ transition:transform var(--motion-quick) var(--motion-spring),
+  box-shadow var(--motion-normal) ease,
+  border-color var(--motion-quick) ease,
+  background-color var(--motion-quick) ease,
+  color var(--motion-quick) ease;
+}
+:where(.workspace,.topbar,.sidebar,.mobile-dock)
+ :where(.button,.icon-btn,.chip-button,.nav-btn,.city-btn,
+ .overview-quick-card,.simple-main-button,.explorer-chip,.day,
+ .inspector-tab,.reference-map-floating button,.reference-discovery-save):active{
+ transform:scale(.96);
+}
+:where(.workspace,.topbar,.sidebar,.mobile-dock) button:focus-visible{
+ outline:3px solid color-mix(in srgb,var(--green) 62%,transparent);
+ outline-offset:3px
+}
+.button .ui-icon,.overview-quick-card .ui-icon,
+.reference-main-nav button .ui-icon,.mobile-dock .ui-icon,
+.reference-discovery-actions .ui-icon{
+ transition:transform var(--motion-normal) var(--motion-spring)
+}
+@media(hover:hover) and (pointer:fine){
+ .button:hover .ui-icon,.overview-quick-card:hover .ui-icon,
+ .reference-main-nav button:hover .ui-icon,.mobile-dock button:hover .ui-icon{
+  transform:translateX(2px) scale(1.07)
+ }
+ .icon-btn:hover .ui-icon{transform:rotate(12deg) scale(1.08)}
+ .overview-quick-card:hover,.destination-card:hover,
+ .reference-discovery-card:hover,.option-card:hover,
+ .stay-compare-card:hover,.rail-card:hover,
+ .reference-agenda-select:hover,.route-studio-stop:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px #123c2420
+ }
+ .reference-main-nav button:hover,.nav-btn:hover,.city-btn:hover,
+ .explorer-chip:hover,.day:hover,.chip-button:hover,
+ .simple-main-button:hover,.route-city-step:hover{
+  transform:translateY(-1px);
+ }
+ .source-notice>summary:hover,.cockpit-reference>summary:hover,
+ details.explorer-more-actions>summary:hover{
+  background-color:var(--atlas-soft)
+ }
+ .reference-discovery-card:hover img,.destination-card:hover img{
+  transform:scale(1.065)
+ }
+ .reference-agenda-select:hover .reference-agenda-thumb{
+  transform:scale(1.045)
+ }
+ .cockpit-route-point:hover span{transform:scale(1.14)}
+ .leaflet-marker-icon:hover .pin,
+ .leaflet-marker-icon:hover .route-studio-map-pin{
+  filter:drop-shadow(0 3px 5px #0c422e55)
+ }
+}
+.destination-card,.reference-discovery-card,.option-card,.stay-compare-card,
+.rail-card,.reference-agenda-select,.route-studio-stop{
+ transition:transform var(--motion-normal) var(--motion-spring),
+  box-shadow var(--motion-normal) ease,border-color var(--motion-normal) ease;
+}
+.reference-discovery-image,.destination-cover{
+ overflow:hidden
+}
+.reference-discovery-image img,.destination-cover img{
+ transition:transform var(--motion-long) var(--motion-spring),
+  filter var(--motion-long) ease
+}
+.reference-agenda-thumb,.place-thumbnail{
+ transition:transform var(--motion-normal) var(--motion-spring)
+}
+/* Navigation: active tabs, selected date and category changes feel responsive. */
+.nav-btn[aria-current=page]>.ui-icon,
+.reference-main-nav button[aria-current=page]>.ui-icon,
+.mobile-dock button[aria-current=page]>.ui-icon{
+ animation:ux-pop .29s var(--motion-spring) both
+}
+.day[aria-pressed=true]{
+ transition:background-color .21s ease,border-color .21s ease,
+  color .21s ease,box-shadow .25s ease
+}
+.reference-stage-days .day[aria-pressed=true] strong{
+ animation:ux-soft-bounce .29s var(--motion-spring)
+}
+.reference-map-floating button[aria-pressed=true]>.ui-icon,
+.explorer-chip[aria-pressed=true] .category-swatch,
+.chip-button[aria-pressed=true]>.ui-icon{
+ animation:ux-pop .25s var(--motion-spring)
+}
+.reference-agenda-select[aria-pressed=true],
+.explorer-place[data-selected=true],.timeline-event .event-card.selected{
+ border-color:color-mix(in srgb,var(--green) 52%,var(--atlas-line));
+ background-color:color-mix(in srgb,var(--green) 7%,var(--paper))
+}
+.reference-agenda-item.is-active>.reference-agenda-index{
+ animation:ux-pop 290ms var(--motion-spring);
+ border-color:var(--green);background:var(--green);color:white
+}
+.reference-agenda-select.motion-spotlight,
+.explorer-place.motion-spotlight{animation:ux-focus-line .54s ease-out}
+.explorer-place.motion-saved-success{
+ animation:ux-soft-bounce .48s var(--motion-spring)
+}
+.explorer-place.motion-saved-success .button[data-action=explorer-save] .ui-icon,
+.reference-discovery-card.motion-saved-success .reference-discovery-save .ui-icon{
+ animation:ux-bookmark-saved .5s var(--motion-spring)
+}
+.reference-discovery-save[aria-pressed=true] .ui-icon{
+ fill:currentColor;animation:ux-pop .28s var(--motion-spring)
+}
+/* Text fields: indicate the editable region, not the entire page. */
+:where(.workspace,dialog) :where(input:not([type=checkbox]):not([type=radio]),select,textarea){
+ transition:box-shadow .18s ease,border-color .18s ease,background-color .18s ease
+}
+:where(.workspace,dialog) :where(input:not([type=checkbox]):not([type=radio]),select,textarea):focus{
+ box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 17%,transparent);
+ border-color:color-mix(in srgb,var(--green) 58%,var(--atlas-line))
+}
+.reference-global-search:focus-within,.explorer-search:focus-within{
+ transition:box-shadow var(--motion-normal) ease
+}
+.reference-global-search:focus-within{
+ box-shadow:0 0 0 4px color-mix(in srgb,var(--green) 14%,transparent)
+}
+.explorer-search:focus-within input{
+ box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 17%,transparent)
+}
+/* Progressive details: clear affordance and fast content reveal. */
+:where(.sidebar-places,.explorer-more-actions,.explorer-route-settings,
+ .cockpit-reference,.inspector-all-fields,.route-city-showcase,
+ .map-design-details,.source-notice,.field-note-strip)>summary{
+ transition:background-color .18s ease,color .18s ease
+}
+:where(.sidebar-places,.explorer-more-actions,.explorer-route-settings,
+ .cockpit-reference,.inspector-all-fields,.route-city-showcase,
+ .map-design-details,.source-notice,.field-note-strip)[open]>:not(summary){
+ animation:ux-reveal .28s var(--motion-spring) both
+}
+:where(.cockpit-reference,.source-notice,.route-city-showcase,.explorer-route-settings)
+ >summary .ui-icon{
+ transition:transform var(--motion-normal) var(--motion-spring)
+}
+:where(.cockpit-reference,.source-notice,.route-city-showcase,.explorer-route-settings)[open]
+ >summary .ui-icon{
+ transform:rotate(90deg)
+}
+/* Dialogs, in-dialog tabs and results. */
+dialog[open]{animation:ux-modal-in .28s var(--motion-spring) both}
+dialog[open]::backdrop{animation:ux-backdrop-in .26s ease both}
+dialog .dialog-head,.guide-panel .guide-actions{
+ transition:background-color var(--motion-normal) ease
+}
+.inspector-tab[aria-selected=true]{
+ animation:ux-focus-line .44s ease-out
+}
+.inspector-panel:not([hidden]){
+ animation:ux-reveal .28s var(--motion-spring)
+}
+.dialog-foot .button.primary:hover{box-shadow:0 6px 18px #21654838}
+#toast:not(:empty){
+ animation:ux-toast-in .35s var(--motion-spring) both
+}
+#toast button:active{transform:scale(.94)}
+/* Route and map overlays – motion is visual only, does not imply valid tracks. */
+.cockpit-route-line,.trip-schematic-flow{
+ stroke-linecap:round;stroke-linejoin:round
+}
+.cockpit-route-canvas .cockpit-route-line{
+ animation-duration:6.5s;
+ filter:drop-shadow(0 0 2px #65bba155)
+}
+.trip-schematic-route{
+ animation:ux-route-emphasis .52s ease both
+}
+.route-studio-map-line.current.measured,
+.explorer-walk-line.current{
+ animation:ux-route-emphasis .6s ease both
+}
+.route-studio-map-pin.selected{
+ animation:ux-soft-bounce .36s var(--motion-spring) both;
+ position:relative
+}
+.route-studio-map-pin.selected::after{
+ content:"";position:absolute;inset:-3px;border:2px solid #4fce9b;
+ border-radius:inherit;pointer-events:none;
+ animation:ux-pin-ring 1.1s ease-out 2
+}
+.map-selection-preview:not(:empty),.map-selected-place{
+ animation:ux-soft-bounce .32s var(--motion-spring)
+}
+.leaflet-popup-content-wrapper,.leaflet-tooltip{
+ animation:ux-soft-bounce .24s var(--motion-spring)
+}
+.route-city-step:hover>span{animation:ux-pop .26s var(--motion-spring)}
+/* Charts and progress: progress is factual, the animation is only a reveal. */
+.cockpit-progress-line i,.journey-progress-fill,.travel-day-track>span,
+.travel-map-hud-track>span,.bar-track>span{
+ transform-origin:left center;
+ transition:width .48s var(--motion-spring),background-color .25s ease
+}
+.motion-revealed .cockpit-progress-line i,
+.motion-revealed .bar-track>span{
+ animation:ux-progress-in .44s var(--motion-spring) both
+}
+.cockpit-progress-item:hover .cockpit-progress-line,
+.cockpit-progress-item:focus-visible .cockpit-progress-line{
+ box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 9%,transparent)
+}
+.cockpit-progress-line{transition:box-shadow .24s ease}
+/* Tables, sorting and group votes: lightweight feedback. */
+.table-wrap tbody tr,.group-vote-item,.vote-snippet,
+.stay-comparison-row,.inspector-nearby-row{
+ transition:background-color .2s ease,border-color .2s ease
+}
+.table-wrap tbody tr:hover,.group-vote-item:hover,
+.inspector-nearby-row:hover{
+ background:color-mix(in srgb,var(--green) 4%,var(--paper))
+}
+.group-vote-item [aria-pressed=true],.inspector-compare-add[aria-pressed=true]{
+ animation:ux-pop .25s var(--motion-spring)
+}
+/* Tiny indicators appear once; no infinite spinning counters or fake loaders. */
+.map-day-stop[aria-pressed=true] .map-day-stop-index,
+.route-studio-stop[aria-pressed=true] .route-studio-number{
+ animation:ux-pop .28s var(--motion-spring)
+}
+.route-map-pulse,.reference-agenda-index{
+ transition:background-color .2s ease,box-shadow .25s ease
+}
+.reference-map-intro .reference-hero-thumb img{
+ transition:transform .48s var(--motion-spring)
+}
+@media(hover:hover) and (pointer:fine){
+ .reference-map-intro .reference-hero-thumb:hover img{
+  transform:scale(1.065)
+ }
+}
+/* Small screens: use translations less than 3 px, keep 44 px touch targets. */
+@media(max-width:650px){
+ .reference-discovery-card:hover,.explorer-place:hover,
+ .overview-quick-card:hover,.option-card:hover{
+  transform:none
+ }
+ .motion-revealed{animation-duration:285ms!important}
+ #toast:not(:empty){animation-duration:.28s}
+}
+/* Accessibility and the existing user-controlled motion setting take precedence.
+ * This overrides all earlier CSS animations, including third-party map motion. */
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{
+  animation-duration:.01ms!important;
+  animation-iteration-count:1!important;
+  transition-duration:.01ms!important;
+  scroll-behavior:auto!important
+ }
+}
+:root[data-motion=off] *,:root[data-motion=off] *::before,
+:root[data-motion=off] *::after{
+ animation-duration:.01ms!important;
+ animation-iteration-count:1!important;
+ transition-duration:.01ms!important;
+ scroll-behavior:auto!important
+}
+
+/* Extra surfaces: drawer, onboarding, calendar selection and interactive photos. */
+.sidebar.open{
+ animation:ux-slide-right .29s var(--motion-spring) both
+}
+.guide-panel{
+ animation:ux-modal-in .32s var(--motion-spring) both
+}
+.mobile-dock button[aria-current=page]{
+ background:color-mix(in srgb,var(--green) 7%,var(--paper));
+ transition:background-color .22s ease
+}
+.mobile-dock button[aria-current=page] .ui-icon{
+ animation:ux-pop .29s var(--motion-spring)
+}
+.explorer-place.atlas-hover{
+ box-shadow:0 7px 23px #144e2e1a;
+ border-color:color-mix(in srgb,var(--green) 35%,var(--atlas-line));
+ transition:border-color .19s ease,box-shadow .24s ease
+}
+.reference-agenda-suggestion,
+.explorer-place,.destination-card,.map-day-stop,.place-thumbnail,
+.inspector-nearby-row,.day-route-stops>li{
+ transition:transform .22s var(--motion-spring),
+  box-shadow .24s ease,background-color .18s ease,border-color .2s ease
+}
+.map-day-stop[aria-pressed=true]{
+ background:color-mix(in srgb,var(--green) 8%,var(--paper));
+ border-color:color-mix(in srgb,var(--green) 35%,var(--atlas-line))
+}
+.route-studio-spotlight{
+ animation:ux-reveal .29s var(--motion-spring)
+}
+dialog img.motion-photo-loaded{
+ animation:ux-image-in .35s ease-out both
+}
+.details-open-icon,.inspector-tab .ui-icon,
+.reference-discovery-save .ui-icon{
+ transition:transform var(--motion-quick) var(--motion-spring)
+}
+@media(hover:hover) and (pointer:fine){
+ .reference-agenda-suggestion:hover,
+ .inspector-nearby-row:hover,
+ .day-route-stops>li:hover{
+  transform:translateY(-2px)
+ }
+ .reference-agenda-suggestion:hover .place-thumbnail,
+ .inspector-nearby-row:hover .place-thumbnail{transform:scale(1.06)}
+ .reference-discovery-save:hover .ui-icon{
+  transform:rotate(-8deg) scale(1.11)
+ }
+ .reference-map-floating button:hover .ui-icon{transform:scale(1.09)}
+}
+
+/* Motion preference is available in the existing navigation drawer. */
+.sidebar-bottom{flex-wrap:wrap}
+.sidebar-bottom>.motion-preference-button{
+ display:flex;align-items:center;justify-content:center;gap:8px;
+ width:100%;min-height:42px;margin-top:7px;border:1px solid var(--line);
+ border-radius:11px;background:var(--light);color:var(--text);
+ font-family:inherit;font-weight:710;font-size:.76rem;cursor:pointer;
+ transition:background-color .2s ease,border-color .2s ease,transform .16s ease
+}
+.sidebar-bottom>.motion-preference-button:hover{
+ background:var(--accent);border-color:var(--green)
+}
+.sidebar-bottom>.motion-preference-button:active{transform:scale(.97)}
+.sidebar-bottom>.motion-preference-button .ui-icon{
+ width:16px;height:16px;color:var(--green)
+}
+.sidebar-bottom>.motion-preference-button[aria-pressed=false]{
+ color:var(--muted);background:var(--paper)
+}
+.sidebar-bottom>.motion-preference-button:focus-visible{
+ outline:3px solid var(--green);outline-offset:2px
+}
+
+
+/* Phase 44 – Real walking legs flow in the geometry's actual point order.
+ * Unlocated city chips and schematic lines remain motionless. */
+@keyframes ux-route-direction-flow{
+  to{stroke-dashoffset:-38}
+}
+.route-studio-map-flow{
+  stroke-linecap:round;
+  pointer-events:none;
+  animation:ux-route-direction-flow 2.6s linear infinite;
+}
+.route-studio-time-icon{background:transparent;border:0;pointer-events:none!important}
+.route-studio-time-pill{
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  min-height:30px;box-sizing:border-box;padding:5px 10px;
+  border-radius:999px;border:1px solid #b6e6d5;background:#f8fffc;
+  color:#105c48;white-space:nowrap;font-size:.69rem;font-weight:800;
+  box-shadow:0 3px 13px #0d463337,0 1px 0 #ffffff inset;
+  font-variant-numeric:tabular-nums;pointer-events:none
+}
+.route-studio-time-walk{font-size:.84rem;line-height:1}
+:root[data-theme=dark] .route-studio-time-pill{
+  border-color:#5c937a;background:#19362b;color:#ddf7e9;
+}
+@media(max-width:650px){
+  .route-studio-time-pill{font-size:.65rem;min-height:28px;padding:4px 8px}
+}
+@media(prefers-reduced-motion:reduce){
+ .route-studio-map-flow{animation:none!important}
+}
+:root[data-motion=off] .route-studio-map-flow{animation:none!important}
+
+
+/* V46: one north-relative navigation arrow per active, measured walking leg.
+ * It does not imply a verified property entrance; missing/schematic paths
+ * never receive direction or duration labels. */
+.route-studio-direction-icon{background:transparent;border:0;pointer-events:none!important}
+.route-studio-direction-arrow{
+ display:grid;place-items:center;width:28px;height:28px;
+ border-radius:50%;color:#fff;background:#138e6a;border:2px solid white;
+ box-sizing:border-box;box-shadow:0 3px 12px #16583e66;
+ transform:rotate(var(--route-angle,0deg));
+ pointer-events:none;
+}
+.route-studio-direction-arrow svg{
+ display:block;filter:drop-shadow(0 1px 2px #094f3966);
+}
+@keyframes ux-route-arrow-breathe{
+ 0%,100%{box-shadow:0 3px 12px #16583e66}
+ 50%{box-shadow:0 3px 15px #078f6da0,0 0 0 3px #d8f7e444}
+}
+.route-studio-direction-arrow{
+ animation:ux-route-arrow-breathe 2.6s ease-in-out infinite;
+}
+.route-studio-hit-target{cursor:pointer;stroke-linecap:round}
+:root[data-theme=dark] .route-studio-direction-arrow{
+ background:#18a889;border-color:#d8fff1;color:#0d3c30;
+}
+@media(prefers-reduced-motion:reduce){
+ .route-studio-direction-arrow{animation:none!important}
+}
+:root[data-motion=off] .route-studio-direction-arrow{animation:none!important}
