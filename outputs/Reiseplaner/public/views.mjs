@@ -466,7 +466,7 @@ function mapPanel(ctx, full = false) {
           aria-label="Animation pausieren">${icon('pause')}<span>Pause</span></button>
         <button type="button" data-action="route-story-speed" title="Abspielgeschwindigkeit" aria-label="Abspielgeschwindigkeit ändern">1×</button>
         <button type="button" class="route-story-next" data-action="route-story-next" aria-label="Zum nächsten Halt springen" title="Nächsten Halt anzeigen">${icon('arrow-right')}<span>Skip</span></button>
-        <button type="button" data-action="route-story-play" title="Vom Anfang starten" aria-label="Reise erneut abspielen">${icon('reset')}</button>
+        <button type="button" data-action="route-story-play" title="Vorschau vom Anfang starten" aria-label="Aktuelle Vorschau erneut abspielen">${icon('reset')}</button>
         <button type="button" data-action="route-story-stop" title="Animation beenden" aria-label="Animation beenden">${icon('close')}</button>
       </div>
       <small class="route-story-disclaimer" role="status">Verlauf nur schematisch · keine reale Zugstrecke oder Fahrplanbestätigung</small>
