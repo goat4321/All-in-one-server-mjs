@@ -2,7 +2,7 @@
 
 Quelle ist die neue Nutzer-Checkliste vom 18.11.2026. Alle 61 Punkte werden hier mit eigenem Nachweis geführt. Der Master-Prompt V7 bleibt die ausführliche fachliche Spezifikation.
 
-Ausgangsbasis ist PR #5, Branch feature/v7-data-day-accommodation-rail, HEAD 160572eeccb6ce7329af24e463b118425b65193d. Die Umsetzung liegt auf dem lokalen Branch codex/checklist-v2-audit.
+Historische Ausgangsbasis der V2-Checkliste war PR #5, Branch `feature/v7-data-day-accommodation-rail`, HEAD `160572eeccb6ce7329af24e463b118425b65193d`. Spätere im Dokument belegte lokale Arbeit entstand auf `codex/checklist-v2-audit`. Der am 19.11.2026 über GitHub abgefragte Entwicklungsbranch steht inzwischen auf `44dbec1f5e95054b38c37505f77f194ca2d9bcff`; die lokale Windows-Arbeitskopie wurde dabei **nicht** verglichen (siehe `../../PROJECT_HANDOFF_CHAT.md`).
 
 ## Einzelprüfung
 
