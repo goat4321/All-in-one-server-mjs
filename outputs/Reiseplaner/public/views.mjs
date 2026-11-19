@@ -390,7 +390,7 @@ function mapPanel(ctx, full = false) {
         ?(ctx.day.length?ctx.day.length+' geplante Stopps':(ctx.dayPlan?.slots.length??0)+' Tagesideen')+' · '+esc(shortDay(ctx.date))
         :ctx.explorer?.placed.length+' Kartenpunkte · '+ctx.explorer?.unlocated.length+' Ortsangaben ohne Pin'}</p></div>
     <div class="inline">${ctx.page==='map'?'<button type="button" class="route-story-launch" data-action="route-story-play" title="Deine Reise als animierte Städtefolge ansehen">'+icon('play')+' <span>Route abspielen</span></button>':''}${ctx.page==='map'?'<button type="button" class="map-fullscreen-launch" data-action="map-fullscreen" aria-pressed="'+Boolean(ctx.mapFullscreen)+'">'
-      +icon('map')+' <span>Vollbildkarte</span></button>':''}${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div>${ctx.page==='map'?'<div class="map-local-actions">'+btn('map-pin-new','Eigener Pin','plus','','subtle')+btn('map-fullscreen','Vollbild','map','','subtle')+(ctx.dayRoute?.items.length?btn('day-route-open','Route ('+ctx.dayRoute.items.length+'/8)','walk','','subtle'):'')+'</div>':''}</div>
+      +icon('map')+' <span>Vollbildkarte</span></button>':''}${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div>${ctx.page==='map'?'<div class="map-local-actions">'+btn('map-pin-new','Eigener Pin','plus','','subtle')+(ctx.dayRoute?.items.length?btn('day-route-open','Route ('+ctx.dayRoute.items.length+'/8)','walk','','subtle'):'')+'</div>':''}</div>
     ${ctx.mapPinPicking?'<p class="map-pin-picking" role="status">Punkt auf der Karte wählen. Name und Notiz bleiben erhalten. '+btn('map-pin-cancel','Zur Koordinateneingabe','edit')+'</p>':''}
     ${!full && !ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
     ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
@@ -964,7 +964,11 @@ function food(ctx) {
       + (basket.length ? ' · ' + esc(basketTotals) : '') + '</h2>' + btn('grocery-extra', 'Artikel ergänzen', 'plus') + shoppingStopButton(ctx) + '</div>'
       + '<p class="muted">Mengen gelten für alle geplanten Rezeptmahlzeiten in ' + esc(ctx.cities[city].name)
       + '. Vorräte reduzieren den Einkauf. Abhaken speichert den Einkaufsstatus. Zahlungen erfasst du im Budget.</p>'
-      + (basketTable || empty('Einkaufsliste ist leer', 'Plane eine Kochmahlzeit oder ergänze einen eigenen Artikel.'))
+      + (basketTable
+        ? '<p class="grocery-scroll-hint">Die Einkaufstabelle hat sechs Spalten. Auf dem Smartphone seitlich wischen oder per Tastatur darin scrollen.</p>'
+          + basketTable.replace('<div class="table-wrap panel">',
+            '<div class="table-wrap panel" role="region" aria-label="Einkaufstabelle, seitlich scrollbar" tabindex="0">')
+        : empty('Einkaufsliste ist leer', 'Plane eine Kochmahlzeit oder ergänze einen eigenen Artikel.'))
       + '</section>'
     + stapleComparison(ctx)
     + (planCards ? '<section class="section"><h2>Selbst kochen oder auswärts essen</h2><div class="grid-cards">' + planCards + '</div></section>' : '')
