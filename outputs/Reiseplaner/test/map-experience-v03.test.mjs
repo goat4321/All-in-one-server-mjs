@@ -61,6 +61,9 @@ test('map filter optimization is scoped; mobile sheet has native focus and reduc
  assert.match(app,/function updateMapResultsInPlace\(/);
  assert.match(app,/paintMap\(false\); \/\/ Reuse Leaflet/);
  assert.match(app,/if\(switchingCity\|\|!updateMapResultsInPlace\(\)\)/);
+ assert.match(app,/dayPreview:null/,'unselected legacy day suggestions stay off the mapped itinerary');
+ assert.match(app,/app\.querySelectorAll\('\[data-action=explorer-group\]'\)/,
+   'all duplicate category controls are synchronized after a fast filter');
  assert.match(map,/this\.poiRenderSignature===signature|signature===this\.poiRenderSignature/);
  assert.match(map,/this\.poiReuseCount\+\+/);
  assert.match(map,/class="map-area-flag"/);
@@ -69,4 +72,6 @@ test('map filter optimization is scoped; mobile sheet has native focus and reduc
  assert.match(css,/prefers-reduced-motion:reduce/);
  assert.match(views,/map-sheet-handle/);
  assert.match(views,/Meine geplanten Stopps/);
+ assert.match(views,/Keine eingeplanten Stopps mit Einzelpunkt/);
+ assert.match(views,/data-action="explorer-scope" data-value="city"/);
 });
