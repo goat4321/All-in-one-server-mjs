@@ -1,4 +1,18 @@
-## 19.11.2026 – Drei Mahlzeiten und gemeinsamer Einkauf
+## 19.11.2026 – Daten & Fristen auf Abruf
+
+Die Datenseite stellt jetzt Buchungen/Fristen und den Vorbereitungsstand vor die ausführlichen Rechercheprüfungen. Neun benannte Bereiche laden ihren Inhalt erst beim Öffnen und geben die erzeugten DOM-Elemente beim Schließen wieder frei. Auch die einzelnen Gründe fehlender Angaben werden erst auf Wunsch erzeugt. Alle bisherigen Prüfbereiche, Quellen, Filter und Exporte bleiben erreichbar. Die Datenmatrix beschreibt vorhandene Quellenstände, keine erneute Betreiberbestätigung.
+
+Die frische Ausgangsmessung am Commit `13c0f9a` enthält 27.491 DOM-Knoten beim Öffnen der Datenseite; der neue Stand enthält 387, rund 98,6 Prozent weniger. Identische lokale Tripsy-Rohkopien und drei Bildschirmbreiten wurden verwendet. Das belegt die Entlastung dieser Seite, keine allgemeine Beschleunigung aller Ansichten. Einzelmesswerte und Einschränkungen stehen in [DATA_PAGE_ACCEPTANCE.md](DATA_PAGE_ACCEPTANCE.md).
+
+Die lokale vollständige Reihe besteht mit **502/502 Tests**, die portable Teilmenge mit **481/481 Tests**, jeweils ohne übersprungene Fälle. Kartenbericht und HTTP-Smoke-Test, vollständiger bisheriger Chrome-Flow und verzögerter Mahlzeiten-PUT-Test bestehen ebenfalls. Der neue echte Chrome-Datenablauf prüft alle neun Gruppen, Freigabe beim Schließen, vollständige Quellen-/Datenmatrix, sämtliche Gründe und JSON-/CSV-Downloads, native Enter-/Space-Tasten, eine gespeicherte Frist mit Zeitzone sowie einen echten Dateiimport und dessen Wiederholung ohne Dublette. Beim Variantenwechsel werden offene Bereiche zurückgesetzt. Ursprüngliche Reisen und externe Daten werden nicht geändert.
+
+Im visuellen Korrekturdurchgang wurden die Schatten um den Vorbereitungsbereich entfernt und die Smartphone-Überschrift entlastet. Eine Messung der 47 Texte der anfänglich geschlossenen Datenseite hat zu zwei Farbkorrekturen geführt: Mindestkontrast der Stichprobe jetzt 5,74:1 bei 1440/820/390 Pixeln hell und 9,32:1 bei 1440 Pixeln dunkel. Der geprüfte helle Summary-Fokus hat 7,39:1. Diese Messung ist keine vollständige Barrierefreiheitsabnahme; geöffnete Tabellen, Dialoge und die übrigen Seiten sind davon nicht umfasst.
+
+Die unabhängige lesende Codeprüfung und Nachprüfung melden keine verbleibenden Befunde im Paket. Ein getrennter Export des geprüften Git-Index ohne private Tripsy-Dateien besteht ebenfalls mit 481/481 portablen Tests, Karten-/HTTP-Prüfung und neuem Chrome-Datenablauf. Die neue Browserprüfung ist in der lokalen CI-Konfiguration ergänzt. Ein Remote-CI-Lauf dieses lokalen Pakets wird nicht behauptet. Die Vorschau wurde mit derselben Nutzerdatenbank neu gestartet und bleibt [lokal auf Port 4175](http://127.0.0.1:4175/?variant=interrail_swiss), im Menü unter „Daten & Fristen“.
+
+Das Gesamtziel mit allen 61 Anforderungen bleibt aktiv. Als Nächstes sind die übrigen Hauptseiten visuell und per Tastatur, die konkreten Karten-/Mehrstopp-Flüsse der Schweizer Hauptvariante und die offenen Tages-/Quellendetails weiter abzuarbeiten. Der Stand darunter ist der vorherige Mahlzeiten-Checkpoint.
+
+## Vorangegangener Stand am 19.11.2026 – Drei Mahlzeiten und gemeinsamer Einkauf
 
 Die nächste P5-Erweiterung ist lokal umgesetzt. Die Gesamtwebsite und die 61-Punkte-Abnahme bleiben in Arbeit; der Einzelstand steht in [CHECKLIST_V2.md](CHECKLIST_V2.md). Die vorhandenen vier Routen und ihre unabhängigen Zustände werden bewahrt.
 

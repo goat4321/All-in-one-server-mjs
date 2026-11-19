@@ -207,6 +207,7 @@ try {
     'Bars & Pubs can be browsed separately from clubs');
   await click('.activity-category-chip[data-value=all]');
   await click('.sidebar [data-action=page][data-value=data]');
+  await click('[data-data-section=gaps]>summary');
   await until(()=>js('Boolean(document.querySelector(".coverage-export-controls [data-action=coverage-export]"))'),
     'Missing data audit offers local JSON export');
   assert.ok(await js('document.querySelectorAll(".coverage-reasons").length>0'),
@@ -870,6 +871,8 @@ try {
   assert.equal(await js('document.querySelector("#coverage-filter-gap")?.value'),'photo',
     'HUD öffnet sofort den passenden fehlende-Fotos-Filter');
   await screenshot('17-map-hud-to-evidence-workqueue.png');
+  await click('[data-data-section=archive]>summary');
+  await click('[data-data-section=quality]>summary');
   await text('#main', 'Forschungsarchiv');
   await text('#main', 'Offene Datenqualitätsbefunde');
   await text('#main', 'Einzelprüfung aller alten und neuen Datensätze');
@@ -899,7 +902,9 @@ try {
   await text('dialog','Lizenzfotos suchen');
   await text('dialog','Was fehlt noch?');
   await click('dialog [data-action=close]');
+  await click('[data-data-section=locations]>summary');
   await text('#main', 'Standortprüfung · öffentliche Adressen');
+  await click('[data-data-section=media]>summary');
   await text('#main', 'Bildabdeckung & offene Quellenfotos');
   assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("Adress-/Identitätskonflikte")'));
   assert.ok(await js('document.querySelector(".provider-location-panel")?.textContent.includes("Via Giuseppe Ratti")'));

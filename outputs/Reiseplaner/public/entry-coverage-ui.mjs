@@ -5,7 +5,14 @@ const labels={photo:'Foto',description:'Beschreibung',price:'Preis',
   hours:'Öffnung',location:'Kartenort',geo_evidence:'Koordinatenquelle',
   source:'Quelle',booking:'Betten/Checkout',timetable:'Fahrplan'};
 
-export function entryCoveragePanel(ctx){
+export function gapReasonsHtml(entry){
+ return entry.gaps.map(g=>'<article><strong>'+esc(g.label)+'</strong>'
+  +'<p><b>Warum offen:</b> '+esc(g.reason)+'</p>'
+  +'<p><b>Dein Beitrag:</b> '+esc(g.manual)+'</p>'
+  +'<p><b>Nächste Recherche:</b> '+esc(g.next)+'</p></article>').join('');
+}
+
+export function entryCoveragePanel(ctx,{deferReasons=false}={}){
   const data=entryCompletenessReport(ctx.all,ctx);
   const {counters,entries,missingByType}=data;
   const cities=new Map();
@@ -64,12 +71,8 @@ export function entryCoveragePanel(ctx){
         +'</strong><small>'+esc(e.kind==='lodging'?'Unterkunft':e.kind==='transport'?'Verkehr':'Ort / Aktivität')
         +(e.hasGuide?' · Einzelguide':'')
         +' · '+esc(e.gaps.map(g=>labels[g.key]??g.key).join(' · '))+'</small>'
-        +'<details class="coverage-reasons"><summary>Gründe und dein möglicher Beitrag ('+e.gaps.length+')</summary>'
-        +'<div class="coverage-reasons-body">'+e.gaps.map(g=>
-          '<article><strong>'+esc(g.label)+'</strong>'
-          +'<p><b>Warum offen:</b> '+esc(g.reason)+'</p>'
-          +'<p><b>Dein Beitrag:</b> '+esc(g.manual)+'</p>'
-          +'<p><b>Nächste Recherche:</b> '+esc(g.next)+'</p></article>').join('')
+        +'<details class="coverage-reasons"'+(deferReasons?' data-coverage-reasons="'+esc(e.id)+'"':'')+'><summary>Gründe und dein möglicher Beitrag ('+e.gaps.length+')</summary>'
+        +'<div class="coverage-reasons-body">'+(deferReasons?'':gapReasonsHtml(e))
         +'</div></details></div>'
         +'<div class="row-actions">'+btn('details','Details & offene Quellen','folder',e.id,'subtle')
         +(e.hasPhoto?'':btn('commons-photo-search','Bild suchen','compass',e.id,'subtle'))

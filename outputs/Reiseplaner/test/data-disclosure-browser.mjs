@@ -1,0 +1,171 @@
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {existsSync} from 'node:fs';
+import {mkdtemp,mkdir,readFile,writeFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join,resolve} from 'node:path';
+import {once} from 'node:events';
+import {createApp} from '../server.mjs';
+import {entryCompletenessReport} from '../public/entry-completeness.mjs';
+import {fieldAuditAsCsv} from '../public/field-audit-export-v39.mjs';
+import {measureFlatContrast} from './browser-flat-contrast.mjs';
+
+const browser=[process.env.REISEPLAN_BROWSER,'C:/Program Files/Google/Chrome/Application/chrome.exe',
+ 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','/usr/bin/google-chrome','/usr/bin/chromium'].filter(Boolean).find(existsSync);
+assert.ok(browser,'Chrome/Edge fehlt.');
+const folder=await mkdtemp(join(tmpdir(),'reise-data-'));
+const downloads=join(folder,'downloads');await mkdir(downloads);
+const output=process.env.REISEPLAN_DATA_AUDIT_OUTPUT?resolve(process.env.REISEPLAN_DATA_AUDIT_OUTPUT):null;
+if(output)await mkdir(output,{recursive:true});
+const {server,store,catalog}=await createApp({database:join(folder,'app.sqlite'),upstream:false});
+await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+const address='http://127.0.0.1:'+server.address().port+'/?offlineMap&variant=interrail_swiss';
+const child=spawn(browser,['--headless=new','--no-sandbox','--disable-gpu','--disable-background-networking','--no-first-run',
+ '--remote-debugging-port=0','--user-data-dir='+folder,'about:blank'],{windowsHide:true,stdio:'ignore'});
+const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+async function until(fn,label){const end=Date.now()+20000;while(Date.now()<end){try{const value=await fn();if(value)return value;}catch{}await delay(70);}throw Error('Timeout: '+label);}
+const report={pages:[],groups:[],contrast:[],errors:[]};let socket;
+try{
+ const port=await until(async()=>(await readFile(join(folder,'DevToolsActivePort'),'utf8')).split('\n')[0],'Chrome');
+ const targets=await(await fetch('http://127.0.0.1:'+port+'/json/list')).json();
+ socket=new WebSocket(targets.find(t=>t.type==='page').webSocketDebuggerUrl);await once(socket,'open');
+ let sequence=0;const pending=new Map();
+ socket.addEventListener('message',event=>{
+  const message=JSON.parse(event.data);
+  if(message.method==='Runtime.exceptionThrown')report.errors.push(message.params.exceptionDetails.exception?.description??message.params.exceptionDetails.text);
+  if(!pending.has(message.id))return;
+  const item=pending.get(message.id);pending.delete(message.id);
+  if(message.error)item.reject(Error(message.error.message));else item.resolve(message.result);
+ });
+ const cdp=(method,params={})=>new Promise((resolve,reject)=>{const id=++sequence;pending.set(id,{resolve,reject});socket.send(JSON.stringify({id,method,params}));});
+ const js=async expression=>{const result=await cdp('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(result.exceptionDetails)throw Error(result.exceptionDetails.text);return result.result.value;};
+ const click=async selector=>{await until(()=>js('Boolean(document.querySelector('+JSON.stringify(selector)+'))'),selector);await js('document.querySelector('+JSON.stringify(selector)+').click()');};
+ const set=async(selector,value)=>js('document.querySelector('+JSON.stringify(selector)+').value='+JSON.stringify(value));
+ const dataPage=async()=>{await click('.sidebar [data-action=page][data-value=data]');await until(()=>js('Boolean(document.querySelector(".data-page"))'),'Datenseite');};
+ const snapshot=()=>JSON.stringify(store.current('interrail_swiss').state);
+ const open=async key=>{await click('[data-data-section='+key+']>summary');await until(()=>js('document.querySelector(\'[data-data-section='+key+']>.data-disclosure-body\')?.dataset.loaded==="true"'),'Details '+key);};
+ const close=async key=>{await click('[data-data-section='+key+']>summary');await until(()=>js('document.querySelector(\'[data-data-section='+key+']>.data-disclosure-body\')?.childElementCount===0'),'Details freigegeben '+key);};
+ const screenshot=async name=>{if(output){const shot=await cdp('Page.captureScreenshot',{format:'png'});await writeFile(join(output,name),Buffer.from(shot.data,'base64'));}};
+ const key=async(name,code=name,windowsVirtualKeyCode=13)=>{
+  await cdp('Input.dispatchKeyEvent',{type:'keyDown',key:name,code,windowsVirtualKeyCode,text:name==='Enter'?'\r':name,unmodifiedText:name==='Enter'?'\r':name});
+  await cdp('Input.dispatchKeyEvent',{type:'keyUp',key:name,code,windowsVirtualKeyCode});
+ };
+ await cdp('Runtime.enable');await cdp('Page.enable');await cdp('Network.enable');
+ await cdp('Network.setBlockedURLs',{urls:['https://*']});
+ await cdp('Browser.setDownloadBehavior',{behavior:'allow',downloadPath:downloads});
+ await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+ await cdp('Page.navigate',{url:address});
+ await until(()=>js('Boolean(document.querySelector("#variant"))'),'Anwendung');
+ const before=snapshot();
+ await dataPage();
+ const initialNodes=await js('document.querySelectorAll("*").length');
+ assert.ok(initialNodes<1000,'Initial data page must not eagerly build audits');
+ assert.equal(await js('document.querySelectorAll("[data-data-section]").length'),9);
+ for(const width of [1440,820,390]){
+  await cdp('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:width===390});
+  await js('window.scrollTo(0,0);new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+  const metrics=await js('({nodes:document.querySelectorAll("*").length,overflow:document.documentElement.scrollWidth-innerWidth,reducedMotion:matchMedia("(prefers-reduced-motion: reduce)").matches})');
+  assert.ok(metrics.overflow<=5);assert.equal(metrics.reducedMotion,true);
+  const contrast=await js('('+measureFlatContrast.toString()+')(".data-page,.data-page-heading")');
+  report.contrast.push({theme:'light',width,...contrast});
+  assert.ok(contrast.checked>30);assert.deepEqual(contrast.failures,[],'Initial flat-background text contrast at '+width);
+  report.pages.push({width,...metrics});await screenshot('data-start-'+width+'.png');
+ }
+ await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+ await click('[data-action=theme]');
+ assert.equal(await js('document.documentElement.dataset.theme'),'dark');
+ const darkContrast=await js('('+measureFlatContrast.toString()+')(".data-page,.data-page-heading")');
+ report.contrast.push({theme:'dark',width:1440,...darkContrast});
+ assert.deepEqual(darkContrast.failures,[],'Initial flat-background text contrast in dark mode');
+ await screenshot('data-start-dark-1440.png');
+ await click('[data-action=theme]');
+ const keys=await js('[...document.querySelectorAll("[data-data-section]")].map(e=>e.dataset.dataSection)');
+ for(const group of keys){
+  await open(group);
+  report.groups.push({id:group,nodes:await js('document.querySelectorAll("*").length')});
+  if(group==='sources')assert.equal(await js('document.querySelectorAll("[data-data-section=sources] li").length'),Object.values(catalog.sources).length,'All source records remain accessible');
+  if(group==='coverage')assert.equal(await js('document.querySelectorAll("[data-data-section=coverage] tbody tr").length'),catalog.research.coverageV07.find(r=>r.variant==='interrail_swiss').total);
+  if(group==='imports')assert.equal(await js('Boolean(document.querySelector("#import-form input[type=file]"))'),true);
+  await close(group);
+  assert.equal(await js('document.querySelectorAll("*").length'),initialNodes,'Closing releases the generated DOM');
+ }
+ assert.equal(snapshot(),before,'Reading and closing audits never edits the trip');
+ // Enter and Space exercise native disclosure behavior; focus stays on summary.
+ await js('document.querySelector("[data-data-section=gaps]>summary").focus()');await key('Enter');
+ await until(()=>js('Boolean(document.querySelector(".entry-coverage"))'),'Tastatur öffnet Datenlücken');
+ assert.equal(await js('document.activeElement.parentElement.dataset.dataSection'),'gaps');
+ const focusStyle=await js('getComputedStyle(document.activeElement).outlineColor');
+ assert.notEqual(focusStyle,'rgb(223, 241, 230)','Keyboard focus must not use the pale accent');
+ const focused=await js('('+measureFlatContrast.toString()+')("[data-data-section=gaps]>summary")');
+ assert.ok(focused.focus.ratio>=3&&focused.focus.width>=2,'Keyboard focus has measurable contrast and width');
+ report.contrast.push({theme:'light-focus',...focused});
+ const trip=catalog.trips.find(t=>t.id==='interrail_swiss');
+ const expected=entryCompletenessReport(trip.items,{catalog,cities:catalog.cities,people:store.current(trip.id).state.people,state:store.current(trip.id).state});
+ assert.equal(await js('document.querySelectorAll(".coverage-row").length'),expected.incomplete.length);
+ assert.equal(await js('document.querySelectorAll(".coverage-reasons-body article").length'),0);
+ await set('#coverage-filter-query','this-query-has-no-match');
+ await js('document.querySelector("#coverage-filter-query").dispatchEvent(new Event("input",{bubbles:true}))');
+ assert.equal(await js('document.querySelectorAll(".coverage-row:not([hidden])").length'),0);
+ await click('[data-action=coverage-filter-clear]');
+ await click('.coverage-city>summary');await click('.coverage-city[open] .coverage-reasons>summary');
+ await until(()=>js('document.querySelectorAll(".coverage-reasons[open] article").length>0'),'Individuelle Gründe');
+ const reasonId=await js('document.querySelector(".coverage-reasons[open]").dataset.coverageReasons');
+ assert.equal(await js('document.querySelectorAll(".coverage-reasons[open] article").length'),expected.entries.find(row=>row.id===reasonId).gaps.length);
+ await js('document.querySelector(".coverage-reasons[open]").scrollIntoView({block:"center"})');
+ await screenshot('data-gruende-1440.png');
+ await click('[data-action=coverage-export]');await click('[data-action=coverage-export-csv]');
+ const jsonPath=join(downloads,'reiseplaner-offene-daten-interrail_swiss.json');
+ const csvPath=join(downloads,'reiseplaner-offene-daten-interrail_swiss.csv');
+ const audit=await until(async()=>JSON.parse(await readFile(jsonPath,'utf8')),'JSON-Export');
+ assert.equal(audit.variantId,trip.id);assert.equal(audit.entries.length,expected.incomplete.length);
+ assert.equal(audit.entries.reduce((sum,row)=>sum+row.gaps.length,0),expected.incomplete.reduce((sum,row)=>sum+row.gaps.length,0));
+ assert.equal(await until(()=>readFile(csvPath,'utf8'),'CSV-Export'),fieldAuditAsCsv(audit,catalog.cities),'CSV download contains the complete report, independent of visible rows');
+ await js('document.querySelector("[data-data-section=gaps]>summary").focus()');await key(' ','Space',32);
+ await until(()=>js('document.querySelector("[data-data-section=gaps]>.data-disclosure-body").childElementCount===0'),'Leert nach Space');
+ assert.equal(await js('document.activeElement.parentElement.dataset.dataSection'),'gaps');
+ await open('sources');
+ await click('[data-action=deadline][data-value=""]');
+ await set('dialog [name=title]','Datenbereich Frist Test');await set('dialog [name=date]','2027-08-30');
+ await set('dialog [name=time]','18:00');await set('dialog [name=zone]','Europe/Berlin');
+ await click('dialog [type=submit]');await until(()=>js('!document.querySelector("dialog").open'),'Frist gespeichert');
+ assert.equal(store.current(trip.id).state.deadlines.find(d=>d.title==='Datenbereich Frist Test').when,'2027-08-30T16:00:00.000Z');
+ assert.equal(await js('document.querySelector("[data-data-section=sources]").open'),true,'Same-variant rerender preserves disclosure');
+ await open('imports');
+ const importPath=join(folder,'isolierter-testimport.json');
+ await writeFile(importPath,JSON.stringify([{id:'data-flow-fixture',name:'Isolierter Importtest',city:'paris',kind:'activity',origin:'manuell',verification:'ungeprüft'}]));
+ const importedBefore=store.current(trip.id).imported.length;
+ for(let attempt=0;attempt<2;attempt++){
+  const documentRoot=await cdp('DOM.getDocument');
+  const input=await cdp('DOM.querySelector',{nodeId:documentRoot.root.nodeId,selector:'#import-form input[type=file]'});
+  await cdp('DOM.setFileInputFiles',{nodeId:input.nodeId,files:[importPath]});
+  const logCount=store.logs(trip.id).length;
+  const visibleRows=await js('document.querySelectorAll("[data-data-section=imports] tbody tr").length');
+  await click('#import-form [type=submit]');
+  await until(()=>store.logs(trip.id).length>logCount,'Datei importiert');
+  await until(()=>js('document.querySelectorAll("[data-data-section=imports] tbody tr").length>'+visibleRows),'Importprotokoll im Browser bestätigt');
+  assert.equal(store.current(trip.id).imported.length,importedBefore+1,'Repeat import creates no duplicate');
+ }
+ const importedItem=store.current(trip.id).imported.find(item=>item.name==='Isolierter Importtest');
+ assert.equal(importedItem.selected,false);assert.equal(importedItem.verification,'ungeprüft');
+ assert.equal(importedItem.origin,'manuell');
+ await set('#variant','swiss_lakes');await js('document.querySelector("#variant").dispatchEvent(new Event("change",{bubbles:true}))');
+ await until(()=>js('document.querySelector("#app").dataset.variantId==="swiss_lakes"'),'Andere Variante');
+ assert.equal(await js('document.querySelectorAll("[data-data-section][open]").length'),0);
+ assert.equal(await js('document.querySelector(".data-page").textContent.includes("Datenbereich Frist Test")'),false);
+ assert.equal(store.current('swiss_lakes').imported.some(item=>item.name==='Isolierter Importtest'),false);
+ await open('gaps');
+ const lakeRoute=catalog.trips.find(t=>t.id==='swiss_lakes').route;
+ assert.ok(await js('[...document.querySelectorAll(".coverage-row")].every(row=>'+JSON.stringify(lakeRoute)+'.includes(row.dataset.coverageCity))'),'Open rows belong only to the actual selected route');
+ await cdp('Page.navigate',{url:address});await until(()=>js('document.querySelector("#app")?.dataset.variantId==="interrail_swiss"'),'Reload');
+ await dataPage();
+ assert.equal(await js('document.querySelectorAll("[data-data-section][open]").length'),0);
+ assert.equal(await js('document.querySelector(".data-page").textContent.includes("Datenbereich Frist Test")'),true);
+ assert.deepEqual(report.errors,[]);
+ if(output)await writeFile(join(output,'data-flows.json'),JSON.stringify(report,null,2));
+ console.log('PASS: on-demand data groups, full sources/matrix, native keyboard, all reasons/exports, deadline persistence and variant isolation');
+ console.log(JSON.stringify({initialNodes,groups:report.groups,pages:report.pages},null,2));
+}finally{
+ socket?.close();const exited=child.exitCode==null&&child.signalCode==null?once(child,'exit'):Promise.resolve();
+ child.kill();await Promise.race([exited,delay(5000)]);await new Promise(resolve=>server.close(resolve));
+ await rm(folder,{recursive:true,force:true,maxRetries:12,retryDelay:250});
+}

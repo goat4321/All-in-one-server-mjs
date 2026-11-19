@@ -60,6 +60,10 @@ jobs:
         run: node test/portable-browser.mjs
       - name: Veraltete Mahlzeitendialoge dürfen neue Änderungen nicht überschreiben
         run: npm run test:meal-race
+      - name: Datenbereiche, vollständige Exporte und Tastaturbedienung
+        env:
+          REISEPLAN_DATA_AUDIT_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/data
+        run: npm run test:data-browser
       - name: Desktop-, Tablet- und Smartphone-Vergleichsbilder sichern
         if: always()
         uses: actions/upload-artifact@v4

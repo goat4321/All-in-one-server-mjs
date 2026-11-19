@@ -2,6 +2,8 @@
 
 | Datum | Priorität | Anforderung | Module | Stand |
 |---|---|---|---|---|
+| 19.11.2026 | P1/P2 | Datenseite vereinfachen und belegten DOM-Engpass beseitigen | Daten & Fristen, Quellen, UI | Fristen zuerst; neun native Details auf Abruf und einzelne Feldgründe verzögert. 27.491 auf 387 initiale DOM-Knoten. Vollständige Quellen, Matrix, Filter und Exporte im echten Chrome erhalten. |
+| 19.11.2026 | P7 | Datenbereich mit Tastatur, Kontrast, Dateiimport und Downloads abnehmen | Browserprüfung, CI, Dokumentation | Enter/Space/Fokus, 47 Textstellen hell/dunkel, Frist mit Zeitzone, echter Dateiimport und idempotente Wiederholung geprüft. Keine vollständige seitenweite Barrierefreiheitsbehauptung; DATA_PAGE_ACCEPTANCE.md führt die Grenzen. |
 | 19.11.2026 | P5 | Drei Tagesmahlzeiten mit tatsächlicher Übernachtung, Kaltrezepten, Mengen und optionalem Einkauf | Verpflegung, Tagesplan, Gruppenbudget | Vier Rezeptfamilien für sechs Hauptorte, 25 Optionen, drei Slots, Check-out-Schutz und gemeinsamer Warenkorb. Auswahl/Beleg/Undo/Neuladen/Varianten im Chrome geprüft; MEALS_ACCEPTANCE.md führt Umfang und Grenzen. |
 | 19.11.2026 | P5/P6 | Datierte nationale Basiskörbe und ehrliche unbekannte Zutatenpreise | Quellen, Verpflegung | Neun offizielle Online-Referenzen, getrennte Einheiten/EUR/CHF; neun unbelegte Produkte bleiben offen. Keine lokalen Filial- oder 2027-Angebote behauptet. |
 | 19.11.2026 | P7 | Dialog aus altem Zustand darf neu gespeicherte Daten nicht überschreiben | Speicherung, Formulare, CI | Variante/Revision am Öffnen festhalten, bei Änderung erneutes Öffnen verlangen. Echter Chrome-PUT-Rennfall reproduziert und abgesichert; unabhängige Codeprüfung ohne verbleibenden Befund. |

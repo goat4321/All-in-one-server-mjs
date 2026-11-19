@@ -472,3 +472,25 @@
 .meal-staple-comparison p,.meal-staple-comparison small{font-size:.79rem;line-height:1.55}
 .meal-staple-comparison small{display:block}
 @media(max-width:760px){.meal-day-grid{grid-template-columns:1fr}.meal-slot-tabs .button{flex:1}.grocery-section>.inline{flex-wrap:wrap}}
+.data-page{max-width:1160px;margin-inline:auto}
+.data-page,.data-page-heading{--muted:#52675d}
+:root[data-theme=dark] .data-page,:root[data-theme=dark] .data-page-heading{--text:#edf4ec;--muted:#b5c4bb;color:var(--text)}
+.data-page>.section{margin-block:24px 36px}
+.reference-travel-shell .data-page>.readiness-panel{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.data-page .readiness-card{border:0;border-radius:0;background:transparent;padding:12px 16px 12px 0;box-shadow:none}
+.data-page .readiness-grid{border-block:1px solid var(--line);gap:16px}
+.data-checks{margin-top:36px}
+.data-checks>p{color:var(--muted);font-size:.88rem;max-width:80ch;margin-block:8px 24px}
+.data-disclosure{border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;box-shadow:none;scroll-margin-top:85px}
+.data-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;padding:18px 0;list-style:none;cursor:pointer}
+.data-disclosure>summary::-webkit-details-marker{display:none}
+.data-disclosure>summary strong{display:block;font-size:1rem;font-weight:650}
+.data-disclosure>summary small{display:block;font-size:.82rem;line-height:1.5;color:var(--muted);margin-top:4px;max-width:85ch}
+.data-disclosure>summary>.icon{flex:none;transition:transform .15s}
+.data-disclosure[open]>summary>.icon{transform:rotate(90deg)}
+.data-disclosure>summary:focus-visible{outline:3px solid var(--green);outline-offset:3px;border-radius:4px}
+.data-disclosure-body{padding:0 0 20px}
+.data-disclosure:not([open])>.data-disclosure-body{padding:0}
+.data-disclosure-body>.section{margin-top:0;box-shadow:none}
+@media(max-width:600px){.data-page-heading{flex-direction:column;align-items:stretch}.data-page-heading .section-actions{justify-content:flex-start;flex-wrap:wrap}.data-disclosure>summary{padding:16px 0}.data-disclosure>summary small{font-size:.8rem}.data-page .readiness-grid{gap:4px;grid-template-columns:1fr}.data-page .readiness-card{padding:12px 0}}
+@media(prefers-reduced-motion:reduce){.data-disclosure>summary>.icon{transition:none}}

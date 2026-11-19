@@ -23,6 +23,7 @@ import {footpathMatchesStops} from './route-studio.mjs';
 import { btn, empty, esc, icon, urlLink } from './ui.mjs';
 import {hikingPreview,hikingMapPreview} from './hiking.mjs';
 import {mealAccommodation,mealSlotLabels} from './meal-planner.mjs';
+import {renderDataSection,renderCoverageReasons} from './data-page.mjs';
 import {shoppingStopForm} from './forms.mjs';
 import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, groceryExtraForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
@@ -53,7 +54,7 @@ const view = {
   activityCategory:'all',activitySavedOnly:false,activityOrder:'source',activityEvidenceFilter:'all',
   browseFoodSavedOnly:false,browseMarketLoadingCity:null,browseMarketError:null,
   browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
-  dayPlanOpen:false,hikePreviewId:null,mealSlot:'dinner',
+  dayPlanOpen:false,hikePreviewId:null,mealSlot:'dinner',dataOpenSections:[],
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
@@ -584,6 +585,7 @@ async function switchVariant(id) {
     view.total = view.menu = false;
     view.compareIds.clear();view.inspectorCompareIds=[];
     view.dailyBudgetDate=null; view.showAllVotes=false;
+    view.dataOpenSections=[];
     render();
   } finally { loading = false; }
 }
@@ -1719,6 +1721,7 @@ async function action(name, value = '') {
     case 'hud-audit': {
       if(!['photo','location','geo_evidence','price','source','hours'].includes(value))break;
       const city=ctx.page==='map'&&ctx.total?'all':ctx.city;
+      view.dataOpenSections=[...new Set([...view.dataOpenSections,'gaps'])];
       changePage('data');
       const panel=app.querySelector('.entry-coverage');
       if(panel){
@@ -2118,6 +2121,22 @@ const hoverAtlasCard=(event,on)=>{
 app.addEventListener('pointerover',event=>hoverAtlasCard(event,true));
 app.addEventListener('pointerout',event=>hoverAtlasCard(event,false));
 app.addEventListener('toggle',event=>{
+  const detail=event.target;
+  if(!detail.isConnected)return;
+  if(context?.page==='data'&&detail.matches('[data-data-section]')){
+    const key=detail.dataset.dataSection;
+    view.dataOpenSections=detail.open?[...new Set([...view.dataOpenSections,key])]
+      :view.dataOpenSections.filter(value=>value!==key);
+    const body=detail.querySelector(':scope > .data-disclosure-body');
+    if(detail.open&&!body.dataset.loaded){
+      body.innerHTML=renderDataSection(context,key);body.dataset.loaded='true';
+    }else if(!detail.open){body.replaceChildren();delete body.dataset.loaded;}
+  }
+  if(context?.page==='data'&&detail.matches('[data-coverage-reasons]')){
+    const body=detail.querySelector('.coverage-reasons-body');
+    if(detail.open)body.innerHTML=renderCoverageReasons(context,detail.dataset.coverageReasons);
+    else body.replaceChildren();
+  }
   if(event.target.matches('.sidebar-places'))view.cityNavOpen=event.target.open;
   if(event.target.matches('.map-design-details'))view.mapDesignOpen=event.target.open;
   if(event.target.matches('.reference-places-drawer'))view.mapListOpen=event.target.open;

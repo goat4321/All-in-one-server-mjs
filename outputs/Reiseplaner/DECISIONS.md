@@ -1,5 +1,17 @@
 # Entscheidungen
 
+## 19.11.2026 – Datenseite, bedarfsgeladene Details und Kontrast
+
+- Fristen und Vorbereitungsstand bleiben beim Öffnen sofort sichtbar. Neun native Aufklappbereiche ordnen die bisherigen Prüfungen, Quellen und Importwerkzeuge. Öffnen erzeugt nur den gewählten Inhalt; Schließen entfernt dessen DOM. Aufgeklappte Bereiche bleiben bei einer normalen Neudarstellung derselben Variante offen, werden beim Variantenwechsel zurückgesetzt und sind keine gespeicherten Reiseänderungen.
+- Der bestehende Datenrenderer wird in `public/data-page.mjs` ausgelagert. Seine Quellen-/Preis-/Öffnungslogik bleibt erhalten. Geschlossene Prüfbereiche erzeugen keine umfangreichen Tabellen mehr. Einzelne fehlende Feldgründe werden getrennt auf Abruf erzeugt. Die vorhandenen Filter behalten alle Zeilenmetadaten, die Exporte weiterhin sämtliche offenen Felder der aktuellen Variante.
+- Die Alternativen CSS-Containment und eine reine Paginierung wurden verworfen: erstere würde den großen DOM erhalten; letztere würde Filter und vollständige Quellenreichweite unnötig verändern. Ganze Prüfbereiche auf Abruf plus einzelne Feldgründe liefern die gemessene Entlastung mit den bestehenden Bedienmustern.
+- Der Karten-HUD öffnet den Datenlückenbereich vor dem Filtern und Fokussieren. Entfernte DOM-Elemente werden im Toggle-Handler ignoriert; Inhalte werden synchron aus dem aktuellen Kontext gerendert. Lesen erzeugt keine lokalen Reiseänderungen oder externen Abrufe.
+- Die unabhängige Quellenliste bleibt bewusst das vollständige gemeinsame Verzeichnis und wird entsprechend benannt. Die Datenmatrix gilt weiterhin für die ausgewählte Reise. „Vorhandener Quellenstand“ ersetzt die missverständliche Formulierung einer erneuten Prüfung jedes Eintrags.
+- Kontrast wird mit berechneten Browserfarben gemessen, nicht anhand geglätteter Screenshot-Pixel. 47 Textstellen der Startansicht, drei helle Breiten und eine dunkle Ansicht sind erfasst. Der helle Tastaturfokus wird separat gemessen. Verläufe, Opazität, geöffnete Tabellen und Dialoge werden aus dieser begrenzten Aussage ausdrücklich ausgeschlossen. Die Farbkorrektur bleibt auf den Datenbereich begrenzt.
+- Ein Import verändert das eigene Importprotokoll und den Bestand importierter Optionen, nicht die Revision des manuellen Reisestatus. Der echte Dateitest wartet auf dieses Protokoll und die sichtbare Aktualisierung. Die Wiederholung derselben Datei erzeugt keine zusätzliche Option. Exporte und Browserprüfungen arbeiten ausschließlich mit isolierten Testdatenbanken.
+
+Prüfmaßstab für die begrenzte Farbmessung: [W3C Textkontrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) und [W3C Kontrast von Bedienelementen](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html). Daraus wird keine allgemeine WCAG-Konformität der Website abgeleitet.
+
 ## 19.11.2026 – Drei Mahlzeiten, Quellen und sichere Speicherung
 
 - Die bestehende Mahlzeitenspeicherung erhält drei explizite Tages-Slots; Standard bleibt Abendessen. Datums- und Slotwechsel ersetzen ausschließlich die konkret gewählte Mahlzeit. Ausgaben, Buchungen und Sperren schützen vorhandene Einträge. Flexible Mahlzeiten behalten `start=null` und einen eigenen Planungstag.
