@@ -1234,3 +1234,122 @@
   font-weight:750;font-size:.76rem;cursor:pointer;
 }
 .reference-travel-shell .reference-preview-map-note button:hover{background:var(--light)}
+
+/* Prompt 04: accessible replay stepper, real footpath overlay and own pins.
+ * Extend the existing final foundations file, not another cascade layer. */
+.reference-travel-shell .route-studio-story-action{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:9px 0 13px;border-bottom:1px solid var(--ui-hairline);
+}
+.reference-travel-shell .route-studio-story-action .button{
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:44px;border:1px solid #93c7a5;border-radius:11px;
+  background:#e5f4e8;color:#19583b;font-weight:770;
+}
+.reference-travel-shell .route-studio-story-action small{
+  flex:1 1 250px;line-height:1.4;color:var(--ui-subtext);
+}
+.reference-travel-shell .route-story-stoprail{
+  display:flex;align-items:center;gap:3px;
+  overflow-x:auto;scrollbar-width:thin;
+  padding:1px 0 7px;
+}
+.reference-travel-shell button.route-story-rail-dot{
+  appearance:none;
+  position:relative;flex:0 0 35px;
+  display:grid;place-items:center;
+  width:35px;min-width:35px;height:38px;min-height:38px;
+  border:1px solid transparent;border-radius:9px;
+  background:transparent;box-shadow:none;
+  padding:0;margin:0;cursor:pointer;
+  color:inherit;transition:background-color .14s ease;
+}
+.reference-travel-shell button.route-story-rail-dot::before{
+  content:"";display:block;
+  width:10px;height:10px;
+  border:2px solid #c0d3c7;border-radius:50%;
+  background:#264c3c;
+}
+.reference-travel-shell button.route-story-rail-dot.complete::before{
+  background:#74d7a9;border-color:#74d7a9;
+}
+.reference-travel-shell button.route-story-rail-dot.current{
+  background:#ebffe521;border-color:#bcf6dc70;
+}
+.reference-travel-shell button.route-story-rail-dot.current::before{
+  width:14px;height:14px;
+  background:#f0fff1;border:3px solid #48bf89;
+}
+.reference-travel-shell button.route-story-rail-dot:hover{
+  background:#efffed2e;
+}
+.reference-travel-shell button.route-story-rail-dot:focus-visible{
+  outline:3px solid #f5e2a5;outline-offset:1px;
+}
+.reference-travel-shell .route-story-actions .route-story-next{
+  display:inline-flex;gap:6px;align-items:center;
+  min-height:44px;padding:8px 12px;
+}
+.reference-travel-shell .route-story-actions .route-story-next:disabled{
+  opacity:.48;pointer-events:none;
+}
+.reference-travel-shell .route-story-disclaimer{
+  display:block;margin-top:4px;
+  line-height:1.45;
+}
+.reference-travel-shell .map-own-pins-search{
+  display:grid;gap:5px;
+  margin:10px 0;
+  font-size:.79rem;
+  font-weight:720;
+}
+.reference-travel-shell .map-own-pins-search input{
+  min-height:44px;width:100%;
+  padding:9px 12px;
+  border:1px solid var(--ui-hairline);border-radius:11px;
+  background:var(--paper);color:var(--text);font:inherit;
+}
+.reference-travel-shell .map-own-pins [data-own-pin][hidden]{display:none!important}
+.reference-travel-shell .map-own-pins .map-pin-entry{
+  min-width:0;
+  display:flex;align-items:center;gap:9px;
+}
+.reference-travel-shell .map-own-pin-category{
+  display:grid;place-items:center;
+  flex:0 0 36px;width:36px;height:36px;
+  border-radius:11px;background:var(--ui-soft-panel);
+  color:#276247;
+}
+.reference-travel-shell .map-own-pin-category .map-category-icon{width:20px;height:20px}
+.reference-travel-shell .map-own-pins .map-pin-entry>span:last-child{
+  display:grid;gap:2px;min-width:0;
+}
+.reference-travel-shell .map-own-pins .row-actions button{
+  min-height:40px;
+}
+:root[data-theme=dark] .reference-travel-shell .map-own-pin-category{color:#b7eecb}
+:root[data-theme=dark] .reference-travel-shell .route-studio-story-action .button{
+  background:#244737;color:#def6e6;border-color:#588e6d;
+}
+@media(max-width:650px){
+  .reference-travel-shell .route-story-stoprail{
+    padding-bottom:9px;
+  }
+  .reference-travel-shell button.route-story-rail-dot{
+    flex-basis:40px;width:40px;height:44px;min-height:44px;
+  }
+  .reference-travel-shell .route-story-actions .route-story-next{
+    min-width:48px;min-height:44px;
+  }
+  .reference-travel-shell .map-own-pins .row-actions{
+    flex-wrap:wrap;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .reference-travel-shell button.route-story-rail-dot{
+    transition:none!important;
+  }
+}
+:root[data-motion=off] .reference-travel-shell button.route-story-rail-dot{
+  transition:none!important;
+}
