@@ -5,13 +5,13 @@ import {createMotionController} from './motion-ux.mjs';
 import {dayPlanDraftEdits} from './day-plans-logic.mjs';
 import {quickDayEdit} from './day-quick-edits-v50.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
-import { renderShell, mapDetail, mapSelectionPreview } from './views.mjs';
+import { renderShell, mapDetail, mapSelectionPreview, mapContextSummary } from './views.mjs';
 import { TripMap } from './map.mjs';
 import {explorerCategory} from './map-explorer.mjs';
 import { transitFares } from './transit.mjs';
 import { railSalesStatus } from './verification.mjs';
 import { explorerData, explorerRouteInput, validPoint, mapPointInBounds } from './map-explorer.mjs';
-import { explorerList } from './explorer-ui.mjs';
+import { explorerList, explorerToolbar } from './explorer-ui.mjs';
 import { readMapBookmarks, toggleMapBookmark } from './map-shortlist.mjs';
 import { inspectorComparisonHtml } from './inspector-comparison.mjs';
 import { applyCoverageFilters,resetCoverageFilters } from './coverage-filter.mjs';
@@ -445,6 +445,49 @@ function visibleBounds(map) {
   const bounds=map.getBounds();
   return [bounds.getSouth(),bounds.getWest(),bounds.getNorth(),bounds.getEast()];
 }
+/**
+ * Fast filter path. The large app shell, active Leaflet canvas/WebGL instance,
+ * viewport and unrelated page controls are kept byte-for-byte in the DOM.
+ * Recompute the exact current variant's explorer data, then update only map
+ * marker layers, the scoped summary and its list/filters. If a route, day,
+ * variant or scope changed, the ordinary full render remains authoritative.
+ */
+function updateMapResultsInPlace() {
+  if(view.page!=='map'||!currentMap||context?.page!=='map'
+     ||context.variant.id!==variant.id||!currentMap.element?.isConnected)return false;
+  const previous=context;
+  const fresh=buildContext();
+  if(fresh.variant.id!==previous.variant.id||fresh.city!==previous.city
+    ||fresh.date!==previous.date||fresh.mapScope!==previous.mapScope
+    ||fresh.total!==previous.total)return false;
+  const summary=app.querySelector('.map-context-summary');
+  const drawer=app.querySelector('.reference-places-drawer');
+  if(!summary||!drawer)return false;
+  const sidebar=app.querySelector('.explorer-right');
+  const scrolled=sidebar?.scrollTop??0;
+  const list=drawer.querySelector('.explorer-list');
+  const tools=drawer.querySelector('.explorer-toolbar');
+  if(!list||!tools)return false;
+  context=fresh;
+  paintMap(false); // Reuse Leaflet, basemap, camera and all its event listeners.
+  summary.outerHTML=mapContextSummary(fresh);
+  tools.outerHTML=explorerToolbar(fresh);
+  list.outerHTML=explorerList(fresh);
+  if(sidebar)sidebar.scrollTop=scrolled;
+  const count=drawer.querySelector(':scope > summary small');
+  if(count)count.textContent=(fresh.explorer.placed.length+fresh.explorer.unlocated.length)+' passende Einträge';
+  app.querySelectorAll('.map-fullscreen-categories [data-action=explorer-group]').forEach(button=>{
+    button.setAttribute('aria-pressed',String(button.dataset.value===view.mapGroup));
+  });
+  app.querySelectorAll('[data-action=explorer-saved-only]').forEach(button=>{
+    button.setAttribute('aria-pressed',String(view.mapSavedOnly));
+  });
+  app.querySelectorAll('.map-local-filter-status').forEach(node=>{
+    node.textContent=fresh.explorer.placed.length+' Orte mit Pin';
+  });
+  return true;
+}
+
 // Only update the HTML results when the map is moved. Do not recreate Leaflet
 // from its own moveend listener, which would erase pan/zoom state.
 function refreshViewportList() {
@@ -1302,7 +1345,7 @@ async function action(name, value = '') {
         view.mapViewportOnly=false;view.mapViewportBounds=null;
       }
       view.mapGroup=value;view.mapListOpen=true;view.mapListLimit=60;
-      render({restoreView:!switchingCity,fetchRoutes:false});break;
+      if(switchingCity||!updateMapResultsInPlace())render({restoreView:!switchingCity,fetchRoutes:false});break;
     case 'explorer-search':
       view.mapSearch = document.querySelector('#map-search')?.value?.trim().slice(0, 100) ?? '';
       view.mapListOpen=true;
@@ -1351,7 +1394,7 @@ async function action(name, value = '') {
       const switching=view.mapScope==='trip'&&!view.mapSavedOnly;
       view.mapSavedOnly=!view.mapSavedOnly;view.mapListLimit=60;view.mapListOpen=true;
       if(switching){view.mapScope='city';view.total=false;}
-      render({restoreView:!switching,fetchRoutes:false});break;
+      if(switching||!updateMapResultsInPlace())render({restoreView:!switching,fetchRoutes:false});break;
     }
     case 'explorer-list-focus': {
       if(view.page!=='map'||!item)break;
@@ -1594,7 +1637,7 @@ async function action(name, value = '') {
       if(value==='viewport'){view.mapViewportOnly=false;view.mapViewportBounds=null;}
       if(value==='nearby')view.mapNearPointId=null;
       view.mapListLimit=60;
-      render({restoreView:true,fetchRoutes:false});
+      if(!updateMapResultsInPlace())render({restoreView:true,fetchRoutes:false});
       app.querySelector('.map-active-filter, .map-find-button')?.focus({preventScroll:true});
       break;
     }
@@ -1602,7 +1645,7 @@ async function action(name, value = '') {
       view.mapGroup='all';view.mapSearch='';view.mapSavedOnly=false;
       view.mapViewportOnly=false;view.mapViewportBounds=null;
       view.mapNearPointId=null;view.mapListLimit=60;view.mapListOpen=true;
-      render({restoreView:true,fetchRoutes:false});
+      if(!updateMapResultsInPlace())render({restoreView:true,fetchRoutes:false});
       break;
     case 'map-clear-selection':
       view.selected=null;
