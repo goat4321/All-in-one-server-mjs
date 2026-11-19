@@ -599,6 +599,9 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
         },
       });
     }
+    // The map was retained, but its former status badge was replaced with
+    // the page HTML. Restore the actual offline/vector/raster/error label.
+    currentMap.setBasemapStatus(currentMap.basemapState??(currentMap.offlineMap?'offline':'loading'));
     // The layout has already settled by the time the map is reattached.
     currentMap.map.invalidateSize({pan:false});
     currentMap.element.classList.toggle('is-placing-pin',view.mapPinPicking);
