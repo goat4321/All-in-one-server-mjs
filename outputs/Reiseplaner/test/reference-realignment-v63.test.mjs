@@ -14,18 +14,14 @@ const [html,css,views,app]=await Promise.all([
 test('The visual reference CSS precedes later targeted map overrides',()=>{
  const styles=[...html.matchAll(/<link rel="stylesheet" href="(\/[^"]+\.css)"/g)]
   .map(x=>x[1]);
- assert.equal(styles.at(-1),'/swiss-dated-search-v84.css');
- assert.equal(styles.at(-2),'/swiss-lodging-v83.css');
- assert.equal(styles.at(-3),'/swiss-interrail-focus-v82.css');
- assert.equal(styles.at(-4),'/venue-alternatives-v80.css');
- assert.equal(styles.at(-5),'/route-story-compact-v74.css');
- assert.equal(styles.at(-6),'/map-polish-v73.css');
- assert.equal(styles.at(-7),'/map-clarity-v72.css');
- assert.equal(styles.at(-8),'/route-city-arrivals-v71.css');
- assert.equal(styles.at(-9),'/route-city-story-v70.css');
- assert.equal(styles.at(-10),'/map-fullscreen-v69.css');
- assert.equal(styles.at(-11),'/map-symbols-performance-v64.css');
- assert.equal(styles.at(-12),'/reference-realignment-v63.css');
+ const orderedOverrides=['/reference-realignment-v63.css','/map-symbols-performance-v64.css',
+  '/map-fullscreen-v69.css','/route-city-story-v70.css','/route-city-arrivals-v71.css',
+  '/map-clarity-v72.css','/map-polish-v73.css','/route-story-compact-v74.css',
+  '/venue-alternatives-v80.css','/swiss-interrail-focus-v82.css','/swiss-lodging-v83.css','/swiss-dated-search-v84.css'];
+ for(let index=0;index<orderedOverrides.length;index++){
+  assert.ok(styles.includes(orderedOverrides[index]),'Required override is loaded');
+  if(index)assert.ok(styles.indexOf(orderedOverrides[index-1])<styles.indexOf(orderedOverrides[index]),'Targeted cascade order is preserved');
+ }
  assert.ok(styles.indexOf('/readability-day-v50.css')<styles.length-1);
  assert.ok(styles.includes('/map-photo-v34.css'));
  assert.ok(css.length>14000);

@@ -42,6 +42,7 @@ import { dayPeriod,planCostSignal } from './visual-experience.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
 import { stayComparisonBoard } from './stay-compare-ui.mjs';
+import {stayFacetControls,stayMatchesFacets,stayCancellationLabel} from './stay-facets.mjs';
 import { voteSnippet, groupVoteBoard } from './group-vote.mjs';
 import { assessStay, sortStayOptions, kitchenAccess } from './stay-analysis.mjs';
 import { auditInterrailRoute, railAlternativeStatus } from './rail-analysis.mjs';
@@ -690,8 +691,9 @@ function options(ctx, lodging) {
   const found=browseItems(all,{...ctx,browseSearch:''},
     {kind:lodging?'lodging':'activity'});
   const list=found.filter(item=>browseMatch(item,ctx.browseSearch,cities)
-    &&optionMatchesFilter(item,optionFilter,ctx,lodging));
-  if (sort === 'price') list.sort((a, b) => (groupPrice(a.price, people.length) ?? Infinity) - (groupPrice(b.price, people.length) ?? Infinity));
+    &&optionMatchesFilter(item,optionFilter,ctx,lodging)
+    &&(!lodging||stayMatchesFacets(item,ctx.stayFacets,ctx)));
+  if (sort === 'price'&&!lodging) list.sort((a, b) => (groupPrice(a.price, people.length) ?? Infinity) - (groupPrice(b.price, people.length) ?? Infinity));
   if (sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'de'));
   if (sort === 'score' && !lodging) list.sort((a, b) =>
     (b.preference?.score ?? -1) - (a.preference?.score ?? -1) || a.name.localeCompare(b.name, 'de'));
@@ -699,7 +701,7 @@ function options(ctx, lodging) {
     (lodgingPriceInsight(a,people.length,ctx.nightlyTargetEuro)?.personNightCents??Infinity)
      -(lodgingPriceInsight(b,people.length,ctx.nightlyTargetEuro)?.personNightCents??Infinity)
      || a.name.localeCompare(b.name,'de'));
-  if (lodging && ['total','station','documentation'].includes(sort)) {
+  if (lodging && ['price','total','station','documentation'].includes(sort)) {
     const resorted = sortStayOptions(list,people,ctx.hotelWalks,state.verifications ?? {},sort);
     list.splice(0,list.length,...resorted);
   }
@@ -718,7 +720,7 @@ function options(ctx, lodging) {
     esc(lodging ? [ctx.hotelWalks[item.id]?.minutes != null
       ? (item.localStation ? 'Ab ' + item.localStation.name + ' · ' : '') + ctx.hotelWalks[item.id].minutes + ' Min. zu Fuß' : '',
       item.access].filter(Boolean).join(' · ') || 'Weg offen' : item.access || 'Weg im Tagesplan'),
-    esc(lodging ? item.cancellation ?? 'Tarifbedingungen offen' : item.minAge ? item.minAge + '+' : 'Offen'),
+    esc(lodging ? stayCancellationLabel(item) : item.minAge ? item.minAge + '+' : 'Offen'),
     ...(lodging ? [esc((() => { const a=assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]); return a.personNightEuroCents==null ? 'Preis offen' : money(a.personNightEuroCents) + ' p. P./Nacht'; })()),
       esc(assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]).risk.slice(0,3).join(' · ')||'Eigenprüfung dokumentiert')] : [])]);
   const filters = [['all', 'Alle Optionen'], ['saved', 'Merkliste'], ['known', 'Mit Preisreferenz'],
@@ -744,8 +746,7 @@ function options(ctx, lodging) {
     chip('option-filter',label,optionFilter===id,id)).join('');
   const advanced=filters.slice(3).map(([id,label])=>
     chip('option-filter',label,optionFilter===id,id)).join('');
-  return (lodging?swissDatedSearchBoardV84(ctx)+swissLodgingCompareV83(ctx):'')
-    +browseHero(ctx,lodging?'lodging':'discover',list.length)
+  return browseHero(ctx,lodging?'lodging':'discover',list.length)
     +browseToolbar(ctx,{kind:lodging?'lodging':'discover',total:found.length,
        filtered:list.length})
     +'<div class="hub-result-settings"><div class="hub-quick-filters">'+quick
@@ -757,21 +758,21 @@ function options(ctx, lodging) {
       +' min="5" max="1000" value="'+esc(ctx.nightlyTargetEuro)
       +'" aria-label="Budget pro Person und Nacht in Euro"> €</label>':'')
     +'<label>Sortieren <select id="sort">'
-    +[['source','Quelle'],['price','Preis'],['name','Name'],
+    +[['source','Quelle'],['price',lodging?'Preisreferenz (EUR)':'Preis'],['name','Name'],
       ...(lodging?[['total','Gruppensumme'],['person-night','Pro Person/Nacht'],
          ['station','Bahnhof-Fußweg'],['documentation','Datenvollständigkeit']]
         :[['score','Gruppeninteresse']])]
       .map(([id,label])=>'<option value="'+id+'"'
        +(sort===id?' selected':'')+'>'+label+'</option>').join('')
     +'</select></label></div></div>'
+    +(lodging?stayFacetControls(ctx):'')
     +'<p class="hub-results-title"><strong>'+list.length+' '+cardLabel+'</strong>'
     +'<span>'+esc(ctx.browseScope==='trip'?'In allen Reiseorten':cities[city].name)
     +' · '+esc(smartFilterHelp[optionFilter]??'Einträge aus deiner Recherche')
     +'</span></p>'
     +(compared.length?'<section class="hub-compare-summary">'
-      +'<h2>'+compared.length+' Optionen im Vergleich</h2>'
-      +btn('compare-clear','Auswahl leeren','close')
-      +(lodging?stayComparisonBoard(compared,ctx):'')
+      +(lodging?stayComparisonBoard(compared,ctx)
+        :'<h2>'+compared.length+' Optionen im Vergleich</h2>'+btn('compare-clear','Auswahl leeren','close'))
       +'</section>':'')
     +(cards?'<div class="hub-option-grid">'+cards+'</div>'
       :'<div class="hub-empty"><strong>Keine passenden Optionen</strong>'
@@ -782,6 +783,9 @@ function options(ctx, lodging) {
       ?'<div class="hub-more-button">'
         +btn('browse-more','Weitere '+Math.min(24,list.length-(ctx.browseLimit??24))
           +' Optionen anzeigen','plus','','primary')+'</div>':'')
+    +(lodging&&ctx.trip.id==='interrail_swiss'?'<details class="stay-swiss-research"'
+      +(ctx.staySwissResearchOpen?' open':'')+'><summary>Schweizer Unterkunftsrecherche · datierte Suchwerte und Ausstattung</summary>'
+      +swissDatedSearchBoardV84(ctx)+swissLodgingCompareV83(ctx)+'</details>':'')
     +'<details class="hub-technical-details"'+(ctx.browseResearchOpen?' open':'')
      +'><summary>'+icon('chevron')
      +'<span><strong>Detaillierter Preis- und Quellenvergleich</strong>'

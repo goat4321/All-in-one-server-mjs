@@ -1,5 +1,17 @@
 # Entscheidungen
 
+## 19.11.2026 – Unterkunftsentscheidungen, Quellenfilter und Eingabeerhaltung
+
+- Bestehende Kandidaten und Suchstände bleiben die Grundlage. Die Schweizer Sonderrecherche wird aufklappbar nach der gewöhnlichen Suche/Liste angeboten, ohne ihre 20 Suchanzeigen oder acht Zimmerkategorien zu löschen. Keine neue Anbieterrecherche oder Verfügbarkeitsbehauptung war für diese Bedienkorrektur nötig.
+- Neue Unterkunftskriterien werden mit UND kombiniert, zusätzlich zu Suche/Schnellfiltern. Preisgrenze und Preissortierung verwenden passende EUR-Referenzen, Gruppengröße und Nächte. Native CHF-Summen bleiben als CHF sichtbar, ohne erfundene Umrechnung. Ein Pro-Personen-Import mit festgelegter abweichender Belegung wird in Bewertung und Vergleich abgewiesen.
+- Quelle bedeutet hier einen tatsächlich gespeicherten Linktyp bzw. eine getrennt gekennzeichnete Betreiberreferenz. Provider-Hostnamen werden geparst, keine beliebigen URL-Teilstrings als Booking/Airbnb erkannt. Eine allgemeine Betreiberseite bestätigt weder einen konkreten Tarif noch eine Zimmerbuchung.
+- Das importierte Feld cancellation kommt aus free_cancellation. false schließt kostenloses Storno aus, nicht jede mögliche Stornierung. Tariftexte bleiben erhalten, unbekannte Bedingungen offen. Diese Semantik und der Belegungsschutz wurden durch unabhängigen Review korrigiert und mit reproduzierten Fehlerfällen abgesichert.
+- Der Vergleich zeigt Gruppensumme, ungefähren Personenanteil, Zeitraum und Buchungs-/Planstatus ausdrücklich. Nicht gewählte Alternativen bleiben ohne zusätzliche Plankosten. Fehlende Objektbilder werden im Direktvergleich mit Text bezeichnet; andere Stadtmotive sind dort kein Ersatz für Hausfotos. Vorhandene tatsächlich zugeordnete Bilder behalten den vorhandenen Lizenzrenderer.
+- Eine verspätete Bahnhof-Wegeantwort darf den aktiven Filter oder dessen unfertige Zahleneingabe nicht verwerfen. Der aktuelle native Eingabeknoten bleibt nur bei gleicher Variante/Seite und unverändertem bestätigtem Preiswert erhalten. Explizite Änderungen/Reset benutzen den neuen Wert. Der native Aufklappzustand wird vor Neudarstellung direkt gelesen, damit ein noch wartendes toggle-Ereignis keine Bedienung schließt.
+- Der Race-Browsertest nutzt vorhandene Stationskoordinaten und gespeicherte Wege in Nizza/Appenzell. Fehlende Barcelona-/Paris-Ankunftspunkte bzw. fehlende Kandersteg-Wege im Seed-Fallback werden nicht mit erfundenen Testquellen verdeckt. Vergleich und Filter werden anschließend an den vorhandenen Barcelona-Suchangeboten geprüft.
+- Die neue CSS-Schicht bleibt auf Unterkunftsfilter/-vergleich begrenzt. Gemessene helle Hinweise und nahezu schwarze dunkle Texte wurden gezielt korrigiert. Die historische CSS-Reihenfolgeprüfung verlangt weiter alle bisherigen Overrides in derselben relativen Reihenfolge und verbietet keine spätere unabhängige Seiten-CSS-Datei.
+- CI sammelt auch die erzeugten Unterordner mit Vergleichs-/Daten-/Kartenbildern und Berichten. Lokale Originaldaten- und saubere Fallback-Abnahmen bleiben getrennt; ein Remote-CI-Erfolg wird nicht aus den lokalen Prüfungen abgeleitet.
+
 ## 19.11.2026 – Eigene Pins, Entwurfsantworten und belegte Gehzeiten
 
 - Eigene Pins sind ungeplante Alternativen mit Herkunft „manuell“ und Prüfstatus „ungeprüft“. Die bestehende Aktivitätserfassung behält ihr bisheriges Verhalten. Für die Karte gibt es einen kleinen eigenen Patch-/Formularweg; das vermeidet versehentliche Tagesauswahl und Gebührenannahmen. Entfernen ist wie bisher eine rücknehmbare lokale Ausblendung mit erhaltener Historie.

@@ -1134,6 +1134,9 @@ try {
     'Four independently sourced BLS/Interrail/local fare notes in the rail view');
   await text('.swiss-stay-rail-note','Kandersteg');
   await click('.swiss-stay-rail-note [data-action=page][data-value=lodging]');
+  await click('.stay-swiss-research > summary');
+  assert.equal(await js('document.querySelector(".stay-swiss-research").open'),true,
+    'Archived Swiss room and price research is explicitly opened after primary lodging controls');
   await until(()=>js('Boolean(document.querySelector(".swiss-stay-board"))'),
     '3-person Swiss lodging comparison visible after rail-page button');
   await text('.swiss-stay-board','Alte Metzg');

@@ -70,12 +70,16 @@ jobs:
         run: npm run test:map-browser
       - name: Verspätete Routenantworten nach Entwurfsänderung verwerfen
         run: npm run test:map-race
+      - name: Unterkunftsfilter und zwei bis vier Angebote vergleichen
+        env:
+          REISEPLAN_STAY_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/stays
+        run: npm run test:stay-browser
       - name: Desktop-, Tablet- und Smartphone-Vergleichsbilder sichern
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: reiseplaner-ui-review
-          path: ${{ runner.temp }}/reiseplaner-ui-review/*.png
+          path: ${{ runner.temp }}/reiseplaner-ui-review/
           if-no-files-found: warn
           retention-days: 14
       - name: Server-Smoke-Test ohne private Tripsy-Dateien

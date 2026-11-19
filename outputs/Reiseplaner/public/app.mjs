@@ -43,6 +43,7 @@ const view = {
   theme: localStorage.getItem('reiseplan-theme') ?? 'light',
   filters: { walk: true, options: false, hotels: true, stations: true, activities: true, hiking: false, transit: {} },
   optionFilter: 'all', sort: 'source', compareIds: new Set(), inspectorCompareIds: [],
+  stayFacets:{},stayFacetsOpen:false,staySwissResearchOpen:false,
   mapScope: 'city', mapGroup: 'all', mapSearch: '', mapListLimit: 60,
   mapShowCityReferences: localStorage.getItem('reiseplan-map-city-references')==='on',
   mapUnlocatedOpen:false,mapUnlocatedFilter:'all',mapUnlocatedSearch:'',mapUnlocatedLimit:12,
@@ -466,6 +467,16 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   const active = document.activeElement;
   const focusAction = app.contains(active) ? active.dataset?.action : null;
   const focusValue = active?.dataset?.value;
+  const sameStayContext=context?.page==='lodging'&&view.page==='lodging'&&context.variant.id===variant.id;
+  const focusStayFacet=sameStayContext&&app.contains(active)&&active.matches('[data-stay-facet]')?active.id:null;
+  const retainStayCap=focusStayFacet&&active.dataset.stayFacet==='maxNight'
+    &&String(context.stayFacets?.maxNight??'')===String(view.stayFacets.maxNight??'')?active:null;
+  if(context?.page==='lodging'&&view.page==='lodging'&&context.variant.id===variant.id){
+    const facets=app.querySelector('.stay-facets');
+    if(facets)view.stayFacetsOpen=facets.open;
+    const research=app.querySelector('.stay-swiss-research');
+    if(research)view.staySwissResearchOpen=research.open;
+  }
   const sideScroll = app.querySelector('.sidebar-inner')?.scrollTop;
   const dateScroll = app.querySelector('.days')?.scrollLeft;
   // Retain the actual Leaflet DOM (tiles, vector canvas and all listeners)
@@ -513,6 +524,11 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   if (focusAction) {
     const replacement = [...app.querySelectorAll('[data-action]')].find(b => b.dataset.action === focusAction && b.dataset.value === focusValue && b.offsetParent);
     replacement?.focus({ preventScroll: true });
+  }
+  if(focusStayFacet){
+    const replacement=app.querySelector('#'+CSS.escape(focusStayFacet));
+    if(retainStayCap&&replacement)replacement.replaceWith(retainStayCap);
+    (retainStayCap??replacement)?.focus({preventScroll:true});
   }
   const element=app.querySelector('#map');
   if(element&&mapVisible(context)&&window.L){
@@ -623,6 +639,7 @@ async function switchVariant(id) {
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0; view.geocodeReview=null;
     view.total = view.menu = false;
     view.compareIds.clear();view.inspectorCompareIds=[];
+    view.stayFacets={};view.stayFacetsOpen=false;view.staySwissResearchOpen=false;
     view.dailyBudgetDate=null; view.showAllVotes=false;
     view.dataOpenSections=[];
     render();
@@ -802,6 +819,7 @@ function closeGuide(completed = false) {
 function changePage(page) {
   if (!['overview', 'plan', 'map', 'rail', 'lodging', 'discover', 'activities', 'food', 'budget', 'group', 'data'].includes(page)) return;
   if(view.page!==page){
+    if(view.page==='lodging'||page==='lodging')view.compareIds.clear();
     view.mapPinPicking=false;view.mapPinDraft=null;view.mapPinEditingId=null;
     view.browseFilterOpen=false;view.browseResearchOpen=false;
     view.browseMealsOpen=false;view.browseFoodResearchOpen=false;
@@ -1031,7 +1049,10 @@ async function action(name, value = '') {
       clearTimeout(browseSearchTimer);browseSearchTimer=null;
       view.browseSearch='';view.browseFoodType='all';
       view.browseFoodSavedOnly=false;view.optionFilter='all';
+      if(ctx.page==='lodging')view.stayFacets={};
       view.browseLimit=24;render({fetchRoutes:false});break;
+    case 'stay-facets-reset':
+      view.stayFacets={};view.browseLimit=24;render({restoreView:true,fetchRoutes:false});break;
     case 'browse-market-load':{
       if(ctx.page!=='food')break;
       const cityId=ctx.city;
@@ -2219,6 +2240,8 @@ app.addEventListener('toggle',event=>{
   if(event.target.matches('.explorer-day-notes'))view.mapDayNotesOpen=event.target.open;
   if(event.target.matches('.day-plan-compact'))view.dayPlanOpen=event.target.open;
   if(event.target.matches('.hub-filter-more'))view.browseFilterOpen=event.target.open;
+  if(event.target.matches('.stay-facets'))view.stayFacetsOpen=event.target.open;
+  if(event.target.matches('.stay-swiss-research'))view.staySwissResearchOpen=event.target.open;
   if(event.target.matches('.hub-food-planning'))view.browseMealsOpen=event.target.open;
   if(event.target.matches('.hub-food-research'))view.browseFoodResearchOpen=event.target.open;
   if(event.target.matches('.hub-technical-details:not(.hub-food-research)'))
@@ -2333,6 +2356,13 @@ app.addEventListener('input',event=>{
   }
 });
 app.addEventListener('change', event => {
+  if(event.target.matches('[data-stay-facet]')&&context?.page==='lodging'){
+    if(!event.target.checkValidity()){event.target.reportValidity();return;}
+    const key=event.target.dataset.stayFacet;
+    if(!['kitchen','beds','cancellation','source','walk','maxNight'].includes(key))return;
+    view.stayFacets={...view.stayFacets,[key]:event.target.value};view.browseLimit=24;
+    render({restoreView:true,fetchRoutes:false});return;
+  }
   if(event.target.id==='browse-city'&&context?.trip?.route.includes(event.target.value)){
     view.browseScope='city';view.browseLimit=24;view.optionFilter='all';
     view.browseMarketError=null;showCity(event.target.value);return;

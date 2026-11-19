@@ -19,7 +19,8 @@ export function assessStay(item, people, stationWalk, selfReview = null) {
   if (item?.kind !== 'lodging' || !Array.isArray(people) || !people.length)
     throw new Error('Ungültiger Unterkunftsvergleich.');
   const price = item.effectivePrice ?? item.price;
-  const total = price?.currency === 'EUR' ? groupPrice(price, people.length) : null;
+  const total = price?.currency === 'EUR' && (price.party==null||price.party===people.length)
+    ? groupPrice(price, people.length) : null;
   const from = item.stayFrom, to = item.stayTo;
   const days = from && to && /^\d{4}-\d{2}-\d{2}$/.test(from) && /^\d{4}-\d{2}-\d{2}$/.test(to)
     ? Math.round((Date.parse(to+'T12:00:00Z') - Date.parse(from+'T12:00:00Z'))/86400000):null;
@@ -50,7 +51,7 @@ export function assessStay(item, people, stationWalk, selfReview = null) {
 
 export function sortStayOptions(items, people, walks, reviews, mode = 'source') {
   const copy=[...items];
-  if(mode==='total') copy.sort((a,b)=>
+  if(['total','price'].includes(mode)) copy.sort((a,b)=>
     (assessStay(a,people,walks[a.id],reviews[a.id]).totalEuroCents??Infinity)
     - (assessStay(b,people,walks[b.id],reviews[b.id]).totalEuroCents??Infinity)
     || a.name.localeCompare(b.name,'de'));

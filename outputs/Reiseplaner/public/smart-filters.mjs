@@ -3,6 +3,7 @@ import { lodgingPriceInsight } from './price-insights.mjs';
 import { kitchenAccess } from './stay-analysis.mjs';
 import { reviewProgress } from './verification.mjs';
 import { voteSummary } from './group-vote.mjs';
+export {stayMatchesFacets} from './stay-facets.mjs';
 
 const textFor=(item)=>[item.name,item.detail,item.note,...(item.tags??[])]
   .filter(x=>typeof x==='string').join(' ').toLocaleLowerCase('de');

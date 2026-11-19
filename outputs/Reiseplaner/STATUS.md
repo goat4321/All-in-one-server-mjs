@@ -1,4 +1,20 @@
-## 19.11.2026 – Eigene Kartenpunkte und belastbare Mehrstopprouten
+## 19.11.2026 – Kombinierbare Unterkunftsfilter und vollständiger Direktvergleich
+
+Die Unterkunftsseite beginnt jetzt mit Reiseort und Suche. Die vorhandene Schweizer Recherche mit 20 datierten Suchanzeigen und acht Zimmerkategorien bleibt in einem benannten Aufklappbereich erreichbar. Sie verdeckt den Einstieg nicht mehr mit mehreren Bildschirmhöhen Recherchetext.
+
+Küche, Bettenprüfung für die aktuelle Gruppe, Storno, Quellenart, berechneter Bahnhof-Fußweg und EUR-Nachtpreisgrenze lassen sich als UND-Kriterien kombinieren. Unbekannte Preise, fehlende Nächte, fremde Währungen und unpassende Belegung erfüllen die EUR-Grenze nicht. Leere Ergebnisse und Zurücksetzen sind geprüft. Die EUR-Preissortierung behandelt CHF nicht mehr als gleichartige Eurobeträge. Der importierte Ausschluss kostenloser Stornierung wird nicht als generelles Stornoverbot ausgegeben.
+
+Zwei bis vier bestehende Barcelona-Angebote zeigen jetzt Gruppensumme, ungefähren Personenanteil, Nachtpreis, genaue Aufenthaltsdaten, Buchungs-/Planstatus, Zimmer, Ausstattung und offene Nachweise nebeneinander. Die fünfte Auswahl wird abgewiesen. Suche, Filter und Sortierung erhalten die Kandidaten; Variante/Stadt/Umfang räumen ihre Auswahl nachvollziehbar auf. Vier Desktop-Spalten haben ausgerichtete Faktenzeilen; Tablet und Smartphone stapeln auf zwei beziehungsweise eine Spalte. Fehlende Objektfotos werden ausdrücklich benannt, vorhandene echte Fotos behalten Quelle und Lizenz. Die vier Barcelona-Suchwerte vom 12.11.2026 sind keine neuen Angebote oder bestätigten Endpreise.
+
+Die echte Chrome-Prüfung hält zwei Gruppen tatsächlicher Cache-Anfragen in Nizza und Appenzell an. Nach den Antworten bleiben sowohl Fokus eines bestätigten Filters als auch ein noch nicht bestätigter Zahlenentwurf erhalten. Eine zuvor reproduzierte Aufklapp-/Neudarstellungs-Race ist korrigiert. Native Enter-/Tab-Eingaben und ein tatsächlicher Maus-Reset mit unbestätigtem Entwurf bestehen. Alle vier gespeicherten Reisestände bleiben bytegleich; Filtern/Vergleichen verändert weder Tagesplan noch Budget.
+
+**526/526 vollständige Tests** bestehen. Die **505/505 portable Teilmenge**, Kartenbericht und HTTP-Prüfung bestehen auch im separat exportierten Checkout ohne private Tripsy-Dateien; dessen echter Chrome-Unterkunftsablauf besteht ebenfalls. Die portable Reihe wird nicht zur Gesamtzahl hinzuaddiert. Die bisherige vollständige Chrome-Regression einschließlich lokaler Unterkunftsauswahl, Prüfung und Budget besteht. Der unabhängige lesende Review und die letzte Nachprüfung melden nach den Korrekturen keine verbleibenden konkreten Befunde.
+
+Je 33 frische Vorher-/Nachheransichten umfassen elf Seiten bei drei Größen, ohne berichtete JavaScript-Ausnahme oder positiven horizontalen Seitenüberlauf. Im neuen Vergleich wurden 142 Textstellen je heller Ansicht gemessen: mindestens 5,95:1 bei 1440/820/390; dunkel am Desktop 6,61:1. Das ist eine begrenzte Textstichprobe, keine vollständige Kontrast-/Barrierefreiheitsabnahme. Konkrete Unterkunftsfotos, vollständige Preisbestandteile und 2027-Buchbarkeit bleiben offen.
+
+Nachweise: [STAY_COMPARISON_ACCEPTANCE.md](STAY_COMPARISON_ACCEPTANCE.md). Die [lokale Vorschau](http://127.0.0.1:4175/?variant=interrail_swiss) liefert die neuen Module aus; Menü „Unterkünfte“. Die Nutzerdatenbank wurde für diese Prüfungen nicht verändert. Der V7-/61-Punkte-Gesamtauftrag bleibt aktiv, keine externe Änderung, Buchung, Zahlung, Veröffentlichung oder Zusammenführung.
+
+## Vorangegangener Stand am 19.11.2026 – Eigene Kartenpunkte und belastbare Mehrstopprouten
 
 Eigene Pins sind im Kartenkopf direkt anlegbar: über Koordinaten oder einen echten Kartenklick, mit erhaltenem Namen beim Zurückkehren per Escape. Sie bleiben zunächst ungeplante, manuelle und ungeprüfte Alternativen. Umbenennen, Verschieben, Entfernen und Undo sind geprüft. Das Verschieben löscht alte Koordinatenbelege; Bearbeiten eines bereits gewählten Pins erhält die gespeicherte Startzeit. Die Verwaltung liegt im Ortsbereich der Karte. Explizites Anzeigen eines Pins hebt entgegenstehende Filter auf.
 
