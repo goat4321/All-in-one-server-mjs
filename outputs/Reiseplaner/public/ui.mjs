@@ -21,6 +21,7 @@ const paths = {
   edit:'<path d="m13 6 5 5M5 19l4-.7L20 7l-4-4L5 14l0 5z"/>',
   clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   walk:'<circle cx="13" cy="4" r="2"/><path d="m7 21 4-8 2-4m-7 4 3-4 4 0 3 4h3m-9 3 5 1 2 4"/>',
+  bike:'<circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="m9 6 2 4 4 7.5h3.5M5.5 17.5 10 10h4m-4 0 2 7.5m-3-11.5h3"/>',
   spark:'<path d="M12 2l1.7 6.3L20 10l-6.3 1.7L12 18l-1.7-6.3L4 10l6.3-1.7L12 2zm6 13 1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z"/>',
   tree:'<path d="m12 3 6 7h-3l5 6H4l5-6H6l6-7zm0 13v5"/>',
   food:'<path d="M5 3v7a3 3 0 0 0 6 0V3M8 3v18m10 0V3l-3 5v4h3"/>',
