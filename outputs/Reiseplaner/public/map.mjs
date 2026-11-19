@@ -55,13 +55,14 @@ function dataFile(file) {
 }
 
 export class TripMap {
-  constructor(element, { focus, select, leg, visitCity, report, routeStop, hover, storyState }) {
-    this.handlers = { focus, select, leg, visitCity, report, routeStop, hover, storyState };
+  constructor(element, { focus, select, leg, visitCity, report, routeStop, hover, storyState,placePin }) {
+    this.handlers = { focus, select, leg, visitCity, report, routeStop, hover, storyState,placePin };
     this.map = L.map(element, {zoomControl:true,scrollWheelZoom:true,
       preferCanvas:false,fadeAnimation:true,zoomAnimation:true,
       markerZoomAnimation:true,minZoom:3,maxZoom:19,zoomSnap:.5,
       maxBounds:[[-85,-180],[85,180]],maxBoundsViscosity:.85});
     this.map.zoomControl.setPosition('bottomright');
+    this.map.on('click',event=>this.handlers.placePin?.([event.latlng.lat,event.latlng.lng]));
     this.map.attributionControl.setPrefix(false);
     this.features = L.layerGroup().addTo(this.map);
     this.poiLayer = L.layerGroup().addTo(this.map);

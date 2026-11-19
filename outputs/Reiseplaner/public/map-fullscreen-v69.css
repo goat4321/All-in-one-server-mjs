@@ -280,3 +280,14 @@ body.map-fullscreen-active .mobile-dock{visibility:hidden;pointer-events:none}
  }
  .reference-travel-shell .reference-map-floating>.reference-map-fullscreen-launch{flex-shrink:0}
 }
+.map-fullscreen-ui{display:none}
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-ui{display:grid;gap:8px;position:absolute;z-index:1100;top:calc(12px + env(safe-area-inset-top));left:calc(12px + env(safe-area-inset-left));right:calc(12px + env(safe-area-inset-right));pointer-events:none;min-width:0}
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-ui>.map-fullscreen-toolbar{position:static;inset:auto;min-width:0;flex-wrap:wrap;pointer-events:auto}
+.reference-travel-shell .map-fullscreen-mode .map-fullscreen-ui>.map-fullscreen-categories{position:static;inset:auto;max-width:100%;pointer-events:auto;justify-self:start}
+@media(max-width:650px){
+ .reference-travel-shell .map-fullscreen-mode .map-fullscreen-ui{top:calc(6px + env(safe-area-inset-top));left:8px;right:8px;gap:6px}
+ .map-fullscreen-ui .map-fullscreen-scope{order:-2;flex:1 1 calc(100% - 52px);min-width:0;margin:0}
+ .map-fullscreen-ui .map-fullscreen-scope button{flex:1;min-height:44px}
+ .map-fullscreen-ui .map-fullscreen-exit{order:-1;min-width:44px;min-height:44px}
+ .map-fullscreen-ui .map-fullscreen-toolbar>button,.map-fullscreen-ui .map-fullscreen-city-picker>summary{min-height:44px}
+}

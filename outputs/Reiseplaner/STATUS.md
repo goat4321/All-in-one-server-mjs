@@ -1,4 +1,22 @@
-## 19.11.2026 – Daten & Fristen auf Abruf
+## 19.11.2026 – Eigene Kartenpunkte und belastbare Mehrstopprouten
+
+Eigene Pins sind im Kartenkopf direkt anlegbar: über Koordinaten oder einen echten Kartenklick, mit erhaltenem Namen beim Zurückkehren per Escape. Sie bleiben zunächst ungeplante, manuelle und ungeprüfte Alternativen. Umbenennen, Verschieben, Entfernen und Undo sind geprüft. Das Verschieben löscht alte Koordinatenbelege; Bearbeiten eines bereits gewählten Pins erhält die gespeicherte Startzeit. Die Verwaltung liegt im Ortsbereich der Karte. Explizites Anzeigen eines Pins hebt entgegenstehende Filter auf.
+
+Die bisher im einfachen Kartenmodus vollständig ausgeblendete Mehrstopp-Bedienung erscheint jetzt für gewählte Stopps. Der Kartenkopf bietet einen direkten Routen-Einstieg. Zwei bis acht eindeutige Stopps, Grenze/Dubletten, Umordnen, Fokus, echte Wegberechnung, Übernahme, Undo und Neuladen sind im echten Chrome geprüft. Der ausgewählte Ort bleibt auch bei 820→390 Pixeln im horizontalen Streifen sichtbar. Eine reine Uhrzeitänderung erhält die berechnete Fußgeometrie.
+
+Jede Berechnung ist einem Entwurf und Revisionsstand zugeordnet. Die zuerst reproduzierte späte Antwort nach „Liste leeren“ wird verworfen. Dasselbe gilt nach Umordnen, einer neueren Berechnung, Varianten- und Datumswechsel. Gelöschte Pins verlassen auch den Entwurf und können nicht durch alte Wege erneut eingeplant werden. Bekannte Aktivitäten-/Bahnzeitfenster einschließlich Übernacht-Terminen und eingehender Gehintervalle werden bei der Übernahme geschützt. Bei fehlenden Zeiten bleibt vollständige Konfliktfreiheit ausdrücklich unbelegt.
+
+Eine einzelne öffentliche FOSSGIS-Fußroute vom 19.11.2026 mit acht vorhandenen Barcelona-Punkten und sieben Wegsegmenten liefert die gespeicherte echte Testgeometrie. Quell-URL, Datum, SHA-256 und ODbL-Hinweis sind erhalten. Wiederholungstests benutzen diese Aufnahme; daraus folgt keine 2027-Öffnungs- oder Zugänglichkeitsbestätigung. Neue Pins und die kurzen Besuchsdauern des Browserfalls gehören ausschließlich zur Testdatenbank. Alle drei anderen Varianten bleiben unverändert.
+
+Die Vollbildleiste hat einen sichtbaren Einstieg, bleibt bei 1440/820/390 Pixeln innerhalb des Fensters und legt Kategorien unter die umbrochenen Aktionen. Auf dem Smartphone ist „Schließen“ in der ersten Zeile. Der bisherige Quellenprüfbereich bleibt direkt unter der Karte; es wurde keine lange Prüfliste in das klebende Kartenpanel verschoben.
+
+Die vollständige Originaldatenreihe besteht mit **515/515 Tests**, die portable Teilmenge mit **494/494 Tests**, Kartenbericht und HTTP-Smoke-Test. Pin-/Routen-Chrome, fünf Routing-Race-Fälle, der vollständige bisherige Chrome-Flow, Daten-/Import-/Download-Flow und Mahlzeiten-PUT-Rennfall bestehen ebenfalls. Nachweise und Grenzen stehen in [MAP_INTERACTION_ACCEPTANCE.md](MAP_INTERACTION_ACCEPTANCE.md). Unabhängige Codeprüfungen haben die Wiederbelebung gelöschter Pins, verdeckte Pins unter Kategorien und Kollisionen innerhalb von Gehintervallen aufgedeckt; diese Fälle sind reproduziert, korrigiert und erneut geprüft. Der vollständige V7-/61-Punkte-Auftrag bleibt aktiv. Rad-Routing, vollständige Drawer-/Animations-/Kontrastabnahme, weitere Tagesdetails und lokale Preisbelege sind weiter offen.
+
+Auch der saubere Export ohne private Tripsy-Rohdateien besteht mit 494/494 portablen Tests, Karten-/HTTP-Prüfung, dem Chrome-Pin-/Mehrstoppablauf und allen fünf verzögerten Routingfällen. Je 33 Vorher-/Nachheransichten zeigen im automatisierten Bericht keine JavaScript-Ausnahme und keinen positiven horizontalen Seitenüberlauf. Die unabhängige Nachprüfung meldet keine verbleibenden konkreten Befunde in diesem Paket; das ersetzt keine vollständige Abnahme aller Zustände.
+
+Lokale Vorschau: [Reiseplaner](http://127.0.0.1:4175/?variant=interrail_swiss), dann „Karte“. HTTP 200 für Hauptseite, neue Pin- und App-Module sowie Bootstrap mit vier Varianten sind geprüft; die vorhandene Nutzerdatenbank wurde für diese Tests nicht verändert. Dieses Paket verändert keine externen Quelldaten, Buchungen oder Zahlungen. Der Arbeitsstand wird ausschließlich lokal gesichert.
+
+## Vorangegangener Stand am 19.11.2026 – Daten & Fristen auf Abruf
 
 Die Datenseite stellt jetzt Buchungen/Fristen und den Vorbereitungsstand vor die ausführlichen Rechercheprüfungen. Neun benannte Bereiche laden ihren Inhalt erst beim Öffnen und geben die erzeugten DOM-Elemente beim Schließen wieder frei. Auch die einzelnen Gründe fehlender Angaben werden erst auf Wunsch erzeugt. Alle bisherigen Prüfbereiche, Quellen, Filter und Exporte bleiben erreichbar. Die Datenmatrix beschreibt vorhandene Quellenstände, keine erneute Betreiberbestätigung.
 

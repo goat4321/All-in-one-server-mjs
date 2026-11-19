@@ -2,6 +2,7 @@ import { railReviewTimeline } from './rail-review-timeline.mjs';
 import { surveyV19DayPanel, surveyV19RailPanel, surveyV19FoodPanel, surveyV19BudgetPanel } from './survey-v19-ui.mjs';
 import {v20RailStatus,v20FoodResearch} from './research-v20-ui.mjs';
 import {renderDataPage} from './data-page.mjs';
+import {mapPinsPanel} from './map-pins.mjs';
 import {renderHeaderHud,renderDayHud,renderMapHud,mapSelectionEvidence} from './travel-hud.mjs';
 import {mapDayAgenda,mapImageIntro,mapFloatingControls,mapPhotoDiscovery} from './reference-map-scene.mjs';
 import {fieldNoteStrip} from './field-notes-ui.mjs';
@@ -146,6 +147,7 @@ function content(ctx, city) {
        +'<button type="button" data-action="map-fullscreen-drawer" aria-label="Orte und Filter schließen">'
        +icon('close')+'</button></div>'
       +hikingMapPanel(ctx)
+      +mapPinsPanel(ctx)
       +(ctx.explorer?.scope==='day'?mapDayAgenda(ctx):'')
       +(ctx.explorer?.scope==='day'
         ?'<details class="map-day-more"><summary>'+icon('calendar')
@@ -387,13 +389,14 @@ function mapPanel(ctx, full = false) {
         ?(ctx.day.length?ctx.day.length+' geplante Stopps':(ctx.dayPlan?.slots.length??0)+' Tagesideen')+' · '+esc(shortDay(ctx.date))
         :ctx.explorer?.placed.length+' Kartenpunkte · '+ctx.explorer?.unlocated.length+' Ortsangaben ohne Pin'}</p></div>
     <div class="inline">${ctx.page==='map'?'<button type="button" class="route-story-launch" data-action="route-story-play" title="Deine Reise als animierte Städtefolge ansehen">'+icon('play')+' <span>Route abspielen</span></button>':''}${ctx.page==='map'?'<button type="button" class="map-fullscreen-launch" data-action="map-fullscreen" aria-pressed="'+Boolean(ctx.mapFullscreen)+'">'
-      +icon('map')+' <span>Vollbildkarte</span></button>':''}${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div></div>
+      +icon('map')+' <span>Vollbildkarte</span></button>':''}${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div>${ctx.page==='map'?'<div class="map-local-actions">'+btn('map-pin-new','Eigener Pin','plus','','subtle')+btn('map-fullscreen','Vollbild','map','','subtle')+(ctx.dayRoute?.items.length?btn('day-route-open','Route ('+ctx.dayRoute.items.length+'/8)','walk','','subtle'):'')+'</div>':''}</div>
+    ${ctx.mapPinPicking?'<p class="map-pin-picking" role="status">Punkt auf der Karte wählen. Name und Notiz bleiben erhalten. '+btn('map-pin-cancel','Zur Koordinateneingabe','edit')+'</p>':''}
     ${!full && !ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
     ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
     <div class="map-wrap" data-map-tone="${esc(ctx.mapTone)}"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div>
-    ${ctx.page==='map'?`<div class="map-fullscreen-toolbar" role="toolbar" aria-label="Vollbildkarte steuern">
+    ${ctx.page==='map'?`<div class="map-fullscreen-ui"><div class="map-fullscreen-toolbar" role="toolbar" aria-label="Vollbildkarte steuern">
       <div class="map-fullscreen-brand"><small>REISEATLAS</small><strong>${esc(ctx.cities[ctx.city]?.name??ctx.city)}</strong></div>
       <div class="map-fullscreen-scope" role="group" aria-label="Kartenumfang">
         ${[['day','Mein Tag'],['city','Stadt'],['trip','Gesamtroute']].map(([id,label])=>
@@ -401,6 +404,8 @@ function mapPanel(ctx, full = false) {
           +(ctx.explorer?.scope===id)+'">'+label+'</button>').join('')}
       </div>
       <button type="button" class="map-story-toolbar-play" data-action="route-story-play" title="Reiseroute abspielen" aria-label="Reiseroute abspielen">${icon('play')}<span>Route abspielen</span></button>
+      ${btn('map-pin-new','Eigener Pin','plus','','subtle')}
+      ${ctx.dayRoute?.items.length?btn('day-route-open','Route ('+ctx.dayRoute.items.length+'/8)','walk','','subtle'):''}
       <details class="map-fullscreen-city-picker"><summary>${icon('pin')}<span>Ort wechseln</span></summary>
         <div class="map-fullscreen-city-options" role="group" aria-label="Reiseort auswählen">
         ${[...new Set(ctx.trip.route)].map(id=>'<button type="button" data-action="city" data-value="'
@@ -418,7 +423,7 @@ function mapPanel(ctx, full = false) {
         +'" aria-pressed="'+(ctx.explorer?.group===id)+'">'+esc(label)+'</button>').join('')}
       <button type="button" class="map-fullscreen-bookmarks" data-action="explorer-saved-only"
         aria-pressed="${Boolean(ctx.explorer?.savedOnly)}">${icon('bookmark')}<span>Merkliste</span></button>
-    </nav>`:''}
+    </nav></div>`:''}
     ${ctx.page==='map'?`<section id="route-story-player" class="route-story-player" hidden
       aria-label="Animierte Reisevorschau" data-status="idle">
       <div class="route-story-leading">

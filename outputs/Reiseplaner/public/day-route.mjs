@@ -3,6 +3,7 @@
 // never a travel-time estimate or a fabricated street route.
 import { explorerRouteInput, validPoint } from './map-explorer.mjs';
 import {footpathMatchesStops} from './route-studio.mjs';
+import {utcFromLocal} from './model.mjs';
 
 const toMinutes = time => {
   if (!/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(time ?? '')) return null;
@@ -31,6 +32,9 @@ export function buildMultiStopDay(items, routes, startTime = '09:00', defaultDur
     throw new Error('Plane 2–8 Stopps mit plausibler Besuchsdauer.');
   const start = toMinutes(startTime);
   if (start == null) throw new Error('Ungültige Startzeit.');
+  if(items.some(item=>item.removed)||new Set(items.map(item=>item.id)).size!==items.length
+    ||Array.isArray(routes)&&routes.length>items.length-1)
+    return{complete:false,rows:[],status:'Stopps müssen verfügbar und eindeutig sein; jede Verbindung darf nur einmal vorkommen. Route erneut berechnen.'};
   if (items.some(i => i.kind !== 'activity' || !validPoint(i.point) || i.city !== items[0].city))
     throw new Error('Für den Tagesplan sind 2–8 Aktivitäten in einer Stadt mit genauen Punkten nötig.');
   let elapsed = start, estimated = false;
@@ -67,4 +71,33 @@ export function buildMultiStopDay(items, routes, startTime = '09:00', defaultDur
     estimatedDuration:estimated,
     status:estimated?'Alle Wege berechnet; fehlende Besuchsdauern als editierbare Planannahme markiert.'
       :'Alle Fußwege tatsächlich berechnet. Öffnungszeiten und Tickets bleiben separat zu prüfen.' };
+}
+export function dayRouteSelection(ctx,items,routes,time){
+  const preview = buildMultiStopDay(items,routes,time);
+  if (!preview.complete || !items.every(i=>i && !i.removed && i.city === ctx.city && !i.locked && !i.booked
+      && !ctx.activeSet.has(i.id))) throw new Error('Nur freie, noch nicht eingeplante Aktivitäten mit vollständig berechneten Fußwegen übernehmen.');
+  const edits = {...ctx.state.edits};
+  const newWindows = preview.rows.map(r=>{
+    const item=items.find(x=>x.id===r.id);
+    const start=utcFromLocal(ctx.date,r.at,item.zone,item.start);
+    const end=Date.parse(start) + r.duration * 60000;
+    return {item,r,start:Date.parse(start),busyStart:Date.parse(start)-Math.ceil(r.walkMinutes??0)*60000,end};
+  });
+  const existing=ctx.active.filter(item=>['activity','transport'].includes(item.kind)
+    && item.start && !items.some(i=>i.id===item.id));
+  if(newWindows.some(({busyStart,end})=>existing.some(item=>{
+    const from=Date.parse(item.start);
+    const until=item.end?Date.parse(item.end)
+      :Number.isFinite(item.duration)?from+item.duration*60000
+      :item.kind==='activity'?from+60*60000:null;
+    return Number.isFinite(from)&&Number.isFinite(until)&&busyStart<until&&end>from;
+  })))throw new Error('Deine Tagesroute überschneidet sich mit bestehenden Aktivitäten oder Bahnzeiten. Bearbeite erst den bisherigen Tagesplan.');
+  for(const {item,r} of newWindows) {
+    if (item.minAge && ctx.people.some(p=>p.age!=null && p.age<item.minAge))
+      throw new Error(item.name + ': Altersgrenze nicht für alle erfüllt.');
+    if (item.requiresKitchen) throw new Error('Für ' + item.name + ' bitte Kochmöglichkeit separat prüfen.');
+    edits[item.id]={...edits[item.id],selected:true,removed:false,date:ctx.date,
+      start:utcFromLocal(ctx.date,r.at,item.zone,item.start),end:null,duration:r.duration};
+  }
+  return {edits,rows:preview.rows};
 }

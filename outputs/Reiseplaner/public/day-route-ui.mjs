@@ -1,5 +1,5 @@
 import { buildMultiStopDay } from './day-route.mjs';
-import { esc, btn, chip, status, urlLink } from './ui.mjs';
+import { esc, btn, chip, status, urlLink,dateText } from './ui.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel } from './google-maps.mjs';
 import { groupPrice } from './model.mjs';
 import { routeStudioModel, routeStudioSummary } from './route-studio.mjs';
@@ -77,11 +77,11 @@ export function dayRouteView(ctx) {
         : 'Gestrichelt = schematische Verbindung, keine tatsächliche Wegführung.') + '</small></div>'
       : '')
     + '</section>';
-  return '<section class="panel panel-pad day-route-builder" aria-label="Mehrstopp-Tagesroute">'
+  return '<section class="panel panel-pad day-route-builder'+(items.length?' has-stops':'')+'" aria-label="Mehrstopp-Tagesroute">'
     + '<div class="subheading compact"><div><h2>Mehrstopp-Tagesroute</h2>'
     + '<p>2–8 Stopps aus der Ortsliste sammeln und als zusammenhängenden Tag prüfen</p></div>'
     + '<span class="muted">' + items.length + '/8 gewählt · ' + esc(ctx.cities[ctx.city]?.name ?? ctx.city)
-      + ' · ' + esc(ctx.date) + '</span></div>'
+      + ' · ' + esc(dateText(ctx.date)) + '</span></div>'
     + '<div class="day-route-controls"><label>Start um <input id="day-route-start" type="time" value="'
       + esc(route.time) + '"></label>'
       + btn('day-route-optimize','Reihenfolge vorschlagen','shuffle')

@@ -64,6 +64,12 @@ jobs:
         env:
           REISEPLAN_DATA_AUDIT_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/data
         run: npm run test:data-browser
+      - name: Eigene Pins und echte gespeicherte Mehrstopp-Geometrie
+        env:
+          REISEPLAN_MAP_AUDIT_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/map
+        run: npm run test:map-browser
+      - name: Verspätete Routenantworten nach Entwurfsänderung verwerfen
+        run: npm run test:map-race
       - name: Desktop-, Tablet- und Smartphone-Vergleichsbilder sichern
         if: always()
         uses: actions/upload-artifact@v4

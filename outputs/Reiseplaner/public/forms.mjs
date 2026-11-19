@@ -5,6 +5,7 @@ import { placeProfileHtml } from './place-profile.mjs';
 import { placeInspectorHtml } from './place-inspector.mjs';
 import { VERIFICATION_FIELDS, reviewProgress } from './verification.mjs';
 import {mealSlotLabels,mealSlotTimes,plansForSlot,currentMeals,mealAccommodation,mealSelectionPatch,shoppingCandidates,shoppingStopDraft} from './meal-planner.mjs';
+import {mapPinPatch} from './map-pins.mjs';
 
 const dialog = document.querySelector('#dialog');
 const field = (label, control, wide = false) => '<label class="field' + (wide ? ' wide' : '') + '"><span>' + esc(label) + '</span>' + control + '</label>';
@@ -35,6 +36,27 @@ export function openDialog(title, body, submit) {
   });
 }
 export const closeDialog = () => dialog.close();
+export function mapPinForm(ctx,item,save,after,seed={}){
+ const city=item?.city??ctx.city;
+ const values={name:item?.name??'',detail:item?.detail??'',duration:item?.duration??30,
+  lat:item?.point?.[0]??'',lon:item?.point?.[1]??'',...seed};
+ const body='<p>Dein eigener Punkt in '+esc(ctx.cities[city]?.name??city)
+  +'. Manuell / ungeprüft; kein bestätigter Eingang. Neue Pins werden erst durch deine spätere Auswahl eingeplant.</p>'
+  +controls([
+   field('Name',input('name',values.name,'text','maxlength="240" required'),true),
+   field('Breitengrad',input('lat',values.lat,'number','step="any" min="-90" max="90" required')),
+   field('Längengrad',input('lon',values.lon,'number','step="any" min="-180" max="180" required')),
+   field('Angenommene Besuchsdauer (Minuten)',input('duration',values.duration,'number','min="1" max="300" required')),
+   field('Notiz',input('detail',values.detail,'text','maxlength="4000"'),true),
+  ],item?'Pin speichern':'Pin anlegen',btn('map-pin-pick','Auf Karte wählen','pin'))
+  .replace('id="modal-form"','id="modal-form" data-map-pin-form="true" data-pin-id="'+esc(item?.id??'')+'"');
+ openDialog(item?'Eigenen Kartenpunkt bearbeiten':'Eigenen Kartenpunkt hinzufügen',body,async data=>{
+  const id=item?.id??uid('manual');
+  const next=mapPinPatch(ctx,item,Object.fromEntries(data),id);
+  await save(next,item?'Kartenpunkt aktualisiert':'Ungeplanten Kartenpunkt angelegt');
+  after(next.manual.find(row=>row.id===id));
+ });
+}
 const text = (data, key) => String(data.get(key) ?? '').trim();
 const n = (data, key) => text(data, key) === '' ? null : Number(data.get(key));
 const uid = type => type + ':' + crypto.randomUUID();
