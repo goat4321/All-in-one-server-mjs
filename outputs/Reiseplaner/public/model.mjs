@@ -119,14 +119,16 @@ export function groceryBasket(meals, peopleCount, overrides = {}, shopping = {})
     if (!Number.isSafeInteger(stock) || stock < 0 || stock > 1_000_000) throw new Error('Ungültiger Vorrat.');
     const minPacks = Math.ceil(Math.max(0, row.required - stock) / row.pack);
     const override = overrides?.[row.key];
-    if (override && (!Number.isSafeInteger(override.packs) || override.packs < 1
+    if (override && (!Number.isSafeInteger(override.packs) || override.packs < 0
+      || (override.packs === 0 && override.explicitPacks !== true)
+      || (override.explicitPacks != null && typeof override.explicitPacks !== 'boolean')
       || override.packs > 100 || (override.unitCents != null && (!Number.isSafeInteger(override.unitCents)
       || override.unitCents < 0 || override.unitCents > 100000)))) {
       throw new Error('Ungültige Mengen- oder Preisänderung im Warenkorb.');
     }
     // A group-size increase can require more packs than an earlier manual override.
     // Preserve the user's price but never budget insufficient package quantities.
-    const packs = minPacks === 0 ? 0 : Math.max(minPacks, override?.packs ?? 0);
+    const packs = minPacks === 0 && override?.explicitPacks !== true ? 0 : Math.max(minPacks, override?.packs ?? 0);
     const unitCents = override && Object.hasOwn(override, 'unitCents') ? override.unitCents : row.referenceCents;
     if (!Number.isSafeInteger(packs) || packs < minPacks || packs > 100
       || (unitCents != null && (!Number.isSafeInteger(unitCents) || unitCents < 0 || unitCents > 100000))) {

@@ -130,6 +130,18 @@ test('Saved stock reduces pooled purchases across meals and scales to a changed 
   assert.equal(groceryBasket(meals, 3)[0].packs, 2);
 });
 
+test('Explicit surplus buying is budgeted even with sufficient stock, while legacy overrides remain compatible', () => {
+  const [row]=groceryBasket([first,second],3);
+  const shopping={pantry:{[row.key]:1000},checked:{},excluded:{},extras:[]};
+  const get=override=>groceryBasket([first,second],3,{[row.key]:override},shopping)[0];
+  assert.equal(get({packs:2,unitCents:125}).packs,0,'Old pre-stock overrides do not force extra purchases');
+  assert.equal(get({packs:2,unitCents:125,explicitPacks:true}).total,250);
+  assert.equal(get({packs:0,unitCents:125,explicitPacks:true}).total,0);
+  const state={...initialState(trip),shopping,groceryOverrides:{[row.key]:{packs:0,unitCents:125,explicitPacks:true}}};
+  assert.doesNotThrow(()=>validateState(state,trip,[]));
+  assert.throws(()=>validateState({...state,groceryOverrides:{[row.key]:{packs:0,unitCents:125}}},trip,[]),/Einkaufswarenkorb/);
+});
+
 test('Omitted ingredients and cleared prices keep an incomplete grocery budget visible', () => {
   const meals = [first, second];
   const [row] = groceryBasket(meals, 3);

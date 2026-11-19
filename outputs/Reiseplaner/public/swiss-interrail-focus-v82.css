@@ -67,7 +67,28 @@
 .swiss-focus-corridor header{display:grid;gap:5px}
 .swiss-focus-corridor header small{color:var(--swiss-muted);font-size:.71rem}
 .swiss-focus-target{font-style:italic}
+.hiking-options{margin:18px 0;color:var(--text)}
+.hiking-options h3{margin:0 0 6px;font-size:1rem}
+.hiking-options>header p{font-size:.78rem;line-height:1.5;color:var(--swiss-muted);max-width:75ch}
+.hiking-options-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.hike-option{min-width:0;border-top:2px solid var(--line,#d6dcd5);padding-top:12px;scroll-margin-top:85px}
+.hike-option h4{margin:0 0 9px;font-size:.9rem;line-height:1.4}
+.hike-option p,.hiking-map-preview p{font-size:.77rem;line-height:1.55;overflow-wrap:anywhere}
+.hike-facts{font-weight:700}
+.hike-profile{margin:14px 0;color:var(--text)}
+.hike-profile svg{display:block;width:100%;height:auto;color:var(--green,#176d58)}
+.hike-profile svg text{font:13px system-ui;fill:var(--text)}
+.hike-profile figcaption{font-size:.72rem;line-height:1.5}
+.hike-profile figcaption small{display:block;margin-top:5px;color:var(--swiss-muted)}
+.hike-option details{font-size:.77rem;padding:8px 0}
+.hike-option summary{cursor:pointer;font-weight:650;line-height:1.5}
+.hike-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.hike-actions .button{min-height:44px;white-space:normal;text-align:left}
+.hike-actions>span{font-size:.78rem;color:var(--green,#176d58)}
+.hiking-map-preview{padding:14px 0;border-bottom:1px solid var(--line,#d6dcd5);margin-bottom:14px;min-width:0}
+.hiking-map-preview>strong{font-size:.87rem}
 @media(max-width:760px){
+ .hiking-options-grid{grid-template-columns:1fr}
  .swiss-focus-task-grid,.swiss-focus-corridor-grid{grid-template-columns:1fr}
  .swiss-focus-overview,.swiss-focus-rail{padding:14px}
  .swiss-focus-pass ol{grid-template-columns:1fr}

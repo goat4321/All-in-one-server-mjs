@@ -1,5 +1,6 @@
 import {esc,icon,btn,shortDay,urlLink} from './ui.mjs';
 import {dayPlanCandidates} from './day-plans-logic.mjs';
+import {hikingPanel} from './hiking.mjs';
 import {placeThumbnailHtml} from './place-profile.mjs';
 import {localParts} from './model.mjs';
 import {googleMapsSearchUrl} from './google-maps.mjs';
@@ -117,6 +118,7 @@ export function dayPlanPanel(ctx,{compact=false}={}){
     +'</section>'
     +progress
     +swissInterrailDayV82(ctx)
+    +hikingPanel(ctx)
     +(rides||arrivals?'<div class="day-plan-block"><h4>'+icon('train')+' Anreise / Transfers (vorläufig)</h4>'
     +'<ul class="day-plan-ride-list">'+arrivals+rides+'</ul></div>':'')
     +(slots?'<div class="day-plan-block"><h4>'+icon('calendar')+' Ideen nach Tagesabschnitt</h4>'

@@ -1,5 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import {loadDayPlansV32} from './day-plans-v32.mjs';
+import {attachHikingEvidence} from './hiking.mjs';
+import {resolvePublicAddressIdentity} from './public-address-identity.mjs';
 import {applyUploadedPlacesV50} from './uploaded-places-v50.mjs';
 import {attachNightlifeReferencesV51} from './nightlife-official-v51.mjs';
 import {applyOperatorDiscoveriesV54} from './operator-discoveries-v54.mjs';
@@ -746,7 +748,8 @@ export async function loadCatalog() {
   const addressV09ById=new Map(publicAddressesV09.entries.map(row=>[row.id+'|'+row.city,row]));
   let addressAppliedV09=0;
   for(const trip of output)trip.items=trip.items.map(item=>{
-    const record=addressV09ById.get(item.id+'|'+item.city);
+    const record=addressV09ById.get(item.id+'|'+item.city)
+      ??resolvePublicAddressIdentity(item,publicAddressesV09.entries,cities);
     if(!record||item.provider==='Airbnb'||String(item.id).startsWith('wishlist:airbnb:'))return item;
     addressAppliedV09++;
     // A booking string such as '2 piano' may describe a floor rather than
@@ -815,6 +818,8 @@ export async function loadCatalog() {
     const aligned={
       ...item,...addressPoint,address:addr,
       addressEvidenceV09:{
+        sourceRecordId:record.id,
+        identityMatch:record.id===item.id?'original_id':'same_city_exact_original_lodging_name',
         status:known?'sourced_coordinate_and_published_address':'official_address_without_verified_coordinates',
         sourceUrl:record.sourceUrl,
         publishedAddress:record.address,
@@ -943,6 +948,9 @@ export async function loadCatalog() {
   const researchV22 = applyResearchV22(output,researchV22Archive,surveyFirstV19Archive.activities.items);
   const fieldNotesV28Archive=await loadFieldNotesV28();
   const fieldNotesV28=applyFieldNotesV28(output,fieldNotesV28Archive,surveyFirstV19Archive.activities.items);
+  const dayPlansV32=await loadDayPlansV32(output,transport);
+  const hikingArchive=JSON.parse(await readFile(new URL('../data/hiking-evidence.json',import.meta.url),'utf8'));
+  const hikingStats=attachHikingEvidence(output,hikingArchive,cities);
   const mappedFareRowsV07 = Object.fromEntries(destinations.map(city => [
     city.id, operatorFares.filter(ref => ref.city === city.id),
   ]));
@@ -1160,7 +1168,7 @@ export async function loadCatalog() {
         || ref.startsWith('operator-v07-') || ref.startsWith('official-v03:')
         || ref.startsWith('food-v03-') || ref.startsWith('survey-v19:') || ref.startsWith('survey-v20:') || ref.startsWith('survey-v20-indoor:') || ref.startsWith('wishlist-v04:')
         || ref.startsWith('address-v09:') || ref.startsWith('food-v08-menu:')
-        || ref.startsWith('operator-v54:')||ref.startsWith('operator-v55:')
+        || ref.startsWith('operator-v54:')||ref.startsWith('operator-v55:')||ref.startsWith('hiking:')
         || ref.startsWith('operator-v60:')||ref.startsWith('operator-v61:')||ref.startsWith('operator-v62:')||ref.startsWith('guide-v68:')||ref.startsWith('city-v76:')||ref.startsWith('venue-v77:')||ref.startsWith('venue-v78:')||ref.startsWith('city-v79:'));
       return {
         id:item.id,city:item.city,name:item.name,category:categoryOf(item),
@@ -1194,7 +1202,6 @@ export async function loadCatalog() {
       entries:rows,
     };
   });
-  const dayPlansV32=await loadDayPlansV32(output,transport);
   const swissInterrailArchiveV82=JSON.parse(await readFile(
     new URL('../data/research-v82/interrail-swiss-focus.json',import.meta.url),'utf8'));
   const swissInterrailStatsV82=validateInterrailSwissFocusV82(
@@ -1217,6 +1224,7 @@ export async function loadCatalog() {
       researchV22,
        fieldNotesV28,
       dayPlansV32,
+      hikingEvidence:{...hikingArchive,stats:hikingStats},
       uploadedResearchV50:{meta:uploadedResearchV50.meta,stats:uploadedStatsV50},
       nightlifeOfficialV51:nightlifeOfficialStatsV51,
       operatorDiscoveryV54:{meta:operatorDiscoveryV54.meta,stats:operatorDiscoveryStatsV54},
@@ -1408,6 +1416,10 @@ export async function loadCatalog() {
          url:check.sourceUrls[0],accessed_on:swissLodgingArchiveV83.meta.observedOn,
          validity:'Recherche zu Mindestnächten, Zimmern und regionalen Vorteilskarten; kein Checkout',
        })),
+       ...hikingArchive.trails.map(trail=>({id:'hiking:'+trail.id,
+         publisher:'Offizielle Wanderroute · '+trail.title,url:trail.sourceUrl,
+         accessed_on:hikingArchive.checkedOn,
+         validity:'Tourbeschreibung und GPX-Höhenpunkte; keine bestätigte Wegöffnung oder Fahrt 2027'})),
        ...swissInterrailArchiveV82.priority.map(task=>({
          id:'swiss-v82:'+task.key,
          publisher:'Interrail Schweiz · gezielte Betreiberprüfung · '+task.title,

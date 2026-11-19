@@ -23,7 +23,7 @@ test('Exactly 46 complete, unique, source-backed days are provided across four v
    assert.equal(new Set(day.slots.map(s=>s.id)).size,day.slots.length);
    for(const slot of day.slots){
     const item=trip.items.find(i=>i.id===slot.id);
-    assert.ok(item&&item.surveyV19?.rawId===slot.activityId);
+    assert.ok(item&&(item.hikingEvidence||item.surveyV19?.rawId===slot.activityId));
     assert.equal(item.city,slot.city);
     assert.equal(slot.minutes,item.duration);
     assert.equal(slot.optional===true||slot.optional===false,true);
@@ -31,7 +31,8 @@ test('Exactly 46 complete, unique, source-backed days are provided across four v
    days++;ideas+=day.slots.length;rides+=day.rides.length;
   }
  }
- assert.equal(days,46);assert.equal(ideas,97);assert.equal(rides,35);
+ assert.equal(days,46);assert.equal(ideas,100);assert.equal(rides,35);
+ assert.equal(trips.flatMap(t=>t.dayPlansV32.flatMap(d=>d.slots)).filter(s=>s.id.startsWith('hiking:')).length,3);
 });
 test('Long transfer days stay deliberately free and optional tickets stay optional',()=>{
  const classic=trips.find(t=>t.id==='interrail_classic');

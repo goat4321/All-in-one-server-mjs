@@ -1,5 +1,18 @@
 # Entscheidungen
 
+## 19.11.2026 – Konkrete Wanderrouten und Originalimport-Abnahme
+
+- Die neuen Touren ergänzen ausschließlich `interrail_swiss`. Ursprüngliche Tage, Routen, aktive Auswahlen und die Vier-Personen-Variante bleiben getrennt. Heuberg und die beiden Appenzeller Touren werden als optionale Vorschläge angehängt; eine Sammelübernahme wählt diese Alternativen nicht automatisch.
+- Die Kartenlinie und das Höhenprofil verwenden dieselben Original-GPX-Punkte. Segmentlücken werden nicht verbunden. Sobald Höhenpunkte fehlen, wird kein Höhenprofil und kein Auf-/Abstieg erfunden. Berechnete Höhenmeter sind ungeglättete Summen der vorhandenen Quelldaten, keine unabhängig gemessenen Geländewerte.
+- Die unabhängige Codeprüfung hat die 212 Nullmeter-Werte der Ebenalp-Datei als unbrauchbare Platzhalter erkannt. Sie bleiben im Archiv erhalten und werden über `elevationsUsable=false` ausdrücklich von Profil und vertikalen Summen ausgeschlossen. Echte flache Tracks mit gültigen Nullmeter-Höhen bleiben im allgemeinen Rechenmodell möglich. Die konkrete Bergquelle wird separat abgelehnt.
+- Der Reviewbefund zu ausdrücklich zusätzlich gekauften Packungen trotz ausreichender Vorräte wird ebenfalls behoben. Neue manuelle Mengen tragen `explicitPacks=true` und dürfen tatsächlich null sein. Alte Preis-/Packungsänderungen ohne dieses Merkmal behalten ihr bisheriges Verhalten. Positive bewusste Zusatzkäufe erscheinen wieder in der Menge und im Budget.
+- Veröffentlichte Tourwerte und GPX-Rechenwerte sind getrennte Angaben. Abweichungen über fünf Prozent der Länge oder zehn Prozent des Aufstiegs werden sichtbar benannt. Bei Heuberg weichen beide Quellen ab. Eine genaue SAC-Stufe wird nur beim konkret belegten Seealpsee-T2-Weg genannt.
+- Der kurze Seezugang und die höhere Heuberg-Runde sowie die Fahrstraßenwanderung und Hüttentobel-Runde sind unterschiedliche Optionen. Die Ebenalp–Äscher-Runde beinhaltet keinen steilen Abstieg zum Seealpsee. Keine Tour wird wegen unbekannter 2027-Bedingungen als geöffnet oder gebucht ausgegeben.
+- GPX-Downloads werden mit Quell-URL, Abrufdatum und SHA-256 nachvollziehbar. Die öffentlichen Downloadlinks allein begründen keine offene Weiterveröffentlichungslizenz. Diese Runde bleibt lokal.
+- Vorher und Nachher verwenden nach dem Finden der privaten Rohkopien dieselben vier Snapshot-Dateien. Die Testdatenbanken bleiben isoliert. Eine alte Quellen-ID kann einem eindeutig identischen Tripsy-Unterkunftseintrag zugeordnet werden; die Zuordnungsart und Original-Quellen-ID sind am Eintrag gespeichert. Unscharfe Namenssuche ist ausgeschlossen.
+- Die Tourbeschriftung erhält ihre tatsächlich benötigte Buttonbreite. Der Browser-Audit misst den Textüberlauf und dokumentiert den Fehler am unveränderten HEAD sowie die Korrektur. Bei Tests asynchroner Speicherung wird die bestätigte Browseransicht abgewartet, bevor Undo oder eine weitere Auswahl ausgelöst wird.
+- Die vorhandene Node-/SQLite-Anwendung läuft lokal auf Port 4175 mit einer eigenen Datenbank. Es wurde weder gemergt noch veröffentlicht. Die Prüfung aller 61 Punkte bleibt im Ziel aktiv; grüne Regressionen ersetzen keine vollständige visuelle oder inhaltliche Abnahme.
+
 ## 19.11.2026 – Checkliste V2, Einkaufszustand und messbare Abnahme
 
 - Die neue Checkliste wird mit allen 61 Punkten am aktuellen PR-HEAD geprüft. Die frühere lokale Projektkopie enthält einen älteren Funktionsstand. Der lokale Arbeitsbranch geht deshalb vom verifizierten HEAD von PR #5 aus.

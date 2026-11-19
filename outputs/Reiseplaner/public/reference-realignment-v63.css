@@ -72,6 +72,7 @@ body{background:var(--ref63-bg)}
   width:39px;height:39px;min-width:39px;min-height:39px;
   border-radius:999px;background:#fffefa;
 }
+.reference-travel-shell .reference-topbar>.top-actions .guide-launch{width:auto;padding-inline:11px}
 .reference-travel-shell>.main-column>.workspace{
   max-width:1720px;margin:0 auto;padding:10px clamp(14px,2.8vw,46px) 42px;
   background:var(--ref63-bg);min-width:0;

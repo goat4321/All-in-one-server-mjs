@@ -23,6 +23,7 @@ import { official2027Notices } from './official-rules-2027.mjs';
 import { EXPLORER_GROUPS, explorerDetail, explorerCategory } from './map-explorer.mjs';
 import {markerProvenance} from './poi-location-provenance.mjs';
 import {mapViewSummary} from './map-view-summary-v72.mjs';
+import {hikingMapPanel} from './hiking.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import {foodDirectory,marketCoverage} from './food-discovery-v36.mjs';
@@ -145,6 +146,7 @@ function content(ctx, city) {
        +'<div class="map-fullscreen-drawer-heading"><strong>Orte & Filter</strong>'
        +'<button type="button" data-action="map-fullscreen-drawer" aria-label="Orte und Filter schließen">'
        +icon('close')+'</button></div>'
+      +hikingMapPanel(ctx)
       +(ctx.explorer?.scope==='day'?mapDayAgenda(ctx):'')
       +(ctx.explorer?.scope==='day'
         ?'<details class="map-day-more"><summary>'+icon('calendar')

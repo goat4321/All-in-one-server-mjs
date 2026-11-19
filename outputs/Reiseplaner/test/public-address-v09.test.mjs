@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadCatalog } from '../lib/catalog.mjs';
 import { explorerData, validPoint } from '../public/map-explorer.mjs';
+import {resolvePublicAddressIdentity} from '../lib/public-address-identity.mjs';
 
 const catalog=await loadCatalog();
 const published=catalog.research.publicAddressesV09;
@@ -22,11 +23,16 @@ test('50 public hotel/business addresses are individually sourced and keep exact
   assert.equal(record.confirmedFor2027Checkout,false);
   assert.ok(!record.id.startsWith('wishlist:airbnb:'));
   assert.equal(catalog.sources['address-v09:'+record.id].url,record.sourceUrl);
-  const occurrences=catalog.trips.flatMap(trip=>trip.items.filter(x=>x.id===record.id&&x.city===record.city));
+  const occurrences=catalog.trips.flatMap(trip=>trip.items.filter(x=>
+    (x.id===record.id||x.addressEvidenceV09?.sourceRecordId===record.id)&&x.city===record.city));
   assert.ok(occurrences.length>0,record.id);
   for(const item of occurrences){
    assert.ok(item.address?.length);
    assert.equal(item.addressEvidenceV09.sourceUrl,record.sourceUrl);
+   if(item.id!==record.id){
+    assert.equal(item.addressEvidenceV09.identityMatch,'same_city_exact_original_lodging_name');
+    assert.equal(resolvePublicAddressIdentity(item,[record],catalog.cities),record);
+   }
    assert.equal(item.addressEvidenceV09.notABooking,true);
    assert.ok(item.googleMapsUrl.startsWith('https://www.google.com/maps/'));
    if(!validPoint(item.point)) assert.ok(item.googleMapsUrl.includes('query='));

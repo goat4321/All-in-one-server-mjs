@@ -188,7 +188,7 @@ export class TripMap {
     return marker;
   }
 
-  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null, profileCtx = null, dayPreview = null }) {
+  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null, profileCtx = null, dayPreview = null, hikeRoute = null }) {
     if(!total&&this.cityStory.state().status!=='idle')this.cityStory.stop();
     this.city = city;
     this.features.clearLayers();
@@ -440,6 +440,20 @@ export class TripMap {
     this.paintTransit(city, total ? {} : filters.transit);
     if(previewPoints.length>=2&&!explorer?.nearby)
       area.splice(0,area.length,...previewPoints.map(point=>point.point));
+    if(!total&&hikeRoute?.segments?.length){
+      const trailPoints=[];
+      for(const segment of hikeRoute.segments){
+        const points=segment.map(p=>p.slice(0,2));
+        L.polyline(points,{color:'#ffffff',weight:9,opacity:.9,interactive:false}).addTo(this.features);
+        L.polyline(points,{color:'#166749',weight:5,opacity:1,className:'hiking-source-track'})
+          .addTo(this.features).bindTooltip(labelNode(hikeRoute.title+' · Original-GPX · Wegstatus separat prüfen'));
+        trailPoints.push(...points);
+      }
+      for(const [point,label] of [[trailPoints[0],'Tourstart'],[trailPoints.at(-1),'Tourende']])
+        L.circleMarker(point,{radius:7,color:'#ffffff',weight:2,fillColor:'#166749',fillOpacity:1})
+          .addTo(this.features).bindTooltip(labelNode(label+' · GPX-Quellpunkt, Zugang separat prüfen'));
+      area.splice(0,area.length,...trailPoints);
+    }
     if (!area.length && cities[city]?.point) area.push(cities[city].point);
     this.bounds = area;
   }

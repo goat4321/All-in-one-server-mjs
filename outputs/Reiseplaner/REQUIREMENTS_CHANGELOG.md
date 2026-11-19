@@ -2,6 +2,9 @@
 
 | Datum | Priorität | Anforderung | Module | Stand |
 |---|---|---|---|---|
+| 19.11.2026 | P2/P4 | Heuberg, Seealpsee/Hüttentobel und eigene Ebenalp–Äscher-Option mit tatsächlicher Weggeometrie und Höhenpunkten | Tagesplan, Karte, Quellen | Drei Original-GPX-Tracks, zwei verwendbare Höhenprofile und getrennte Betreiberwerte, explizite Quellenabweichungen; neun Browser-Vorschauen und Auswahl/Persistenz/Undo geprüft. |
+| 19.11.2026 | P4/P7 | Alle 14 Schweizer Haupttage einzeln inventarisieren; vollständige Originaldaten-Regression | Katalog, Tests, Dokumentation | 14-Tage-Datums-/Stadtabfolge getestet, Tagesinventar mit Bildlücken in SWISS_14_DAY_AUDIT.md, 488 vollständige Tests bestanden. Detailabnahme bleibt offen. |
+| 19.11.2026 | P6 | Alte Seed-Adressquelle bei echter Tripsy-Unterkunfts-ID bewahren | Import, Quellenqualität | Konservativer Alias bei eindeutiger Stadt und exakt nachvollziehbarem Originalnamen; keine Zusammenführung ähnlich benannter Objekte. |
 | 19.11.2026 | P0–P7 | Vollständige Nutzer-Checkliste V2 vom 18.11.2026 zum Master-Prompt abarbeiten | Gesamtes Projekt | Alle 61 Punkte in CHECKLIST_V2.md mit eigenem Nachweis, Lücken und nächstem Schritt erfasst. Bestehende Funktionen vor Änderungen geprüft. |
 | 19.11.2026 | P5 | Vorräte, Zusatzartikel, Entfernen, Abhaken und manuelle Preisstände | Verpflegung, Budget, Persistenz | Erweitert und mit Modell-/Browserfällen geprüft. Einkaufstag und Preisstichtag sind getrennte Werte. |
 | 19.11.2026 | P2/P7 | Messbare Ladezeiten und seitenweise Vorher-/Nachher-Abnahme | Server, Browserprüfer | 66 Aufnahmen, Startantwort komprimiert, lokale Messwerte dokumentiert. Vollständige visuelle und Kontrastabnahme bleibt offen. |

@@ -377,7 +377,7 @@ export function groceryEditForm(ctx, row, save) {
       }
       const shopping = ctx.state.shopping ?? { pantry: {}, checked: {}, excluded: {}, extras: [] };
       await save({ ...ctx.state, groceryOverrides: {
-        ...ctx.state.groceryOverrides, [row.key]: { packs: Math.max(1, packs), unitCents,
+        ...ctx.state.groceryOverrides, [row.key]: { packs, explicitPacks: true, unitCents,
           date: text(data, 'priceDate') || null, sourceUrl: text(data, 'sourceUrl') || null },
       }, shopping: { ...shopping, pantry: { ...shopping.pantry, [row.key]: stock } } }, 'Gemeinsamen Einkauf aktualisiert');
     });

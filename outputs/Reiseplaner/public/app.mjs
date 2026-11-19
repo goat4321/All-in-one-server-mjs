@@ -21,6 +21,7 @@ import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, buildMultiStopDay } from './day-route.mjs';
 import {footpathMatchesStops} from './route-studio.mjs';
 import { btn, empty, esc, icon, urlLink } from './ui.mjs';
+import {hikingPreview,hikingMapPreview} from './hiking.mjs';
 import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, groceryExtraForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
 const app = document.querySelector('#app');
@@ -50,7 +51,7 @@ const view = {
   activityCategory:'all',activitySavedOnly:false,activityOrder:'source',activityEvidenceFilter:'all',
   browseFoodSavedOnly:false,browseMarketLoadingCity:null,browseMarketError:null,
   browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
-  dayPlanOpen:false,
+  dayPlanOpen:false,hikePreviewId:null,
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
@@ -350,6 +351,7 @@ function paintMap(fit = false) {
       ?(context.day.find(i=>i.entryKey===context.selected)?.id??context.selected)
       :context.selected, timetablePreview: context.timetablePreview,
     explorer: context.explorer, dayRoute: context.dayRoute,
+    hikeRoute:hikingMapPreview(context),
     dayPreview:context.page==='map'&&view.mapSimple
       &&context.explorer?.scope==='day'&&!context.day.some(x=>x.kind==='activity')
       &&context.dayPlan?.slots.length
@@ -1073,6 +1075,16 @@ async function action(name, value = '') {
       view.page='plan';view.total=false;
       showCity(value);break;
     case 'day': showCity(ctx.cityForDay(value), value, view.wholeDay === true || ctx.trip.id === 'swiss_lakes'); break;
+    case 'hike-preview': {
+      const trail=hikingPreview(ctx,value);if(!trail)break;
+      view.hikePreviewId=trail.id;view.page='map';view.city=trail.city;view.selected=null;
+      view.total=false;view.mapScope='day';view.mapSearch='';view.mapGroup='all';
+      view.mapSavedOnly=false;view.mapNearPointId=null;
+      render({focusMap:true,fetchRoutes:false});
+      break;
+    }
+    case 'hike-preview-close':
+      view.hikePreviewId=null;render({focusMap:true,fetchRoutes:false});break;
     case 'day-plan-go':
       if(!ctx.trip.dayPlansV32?.some(row=>row.date===value))break;
       view.page='plan';view.mobile='plan';

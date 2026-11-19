@@ -15,7 +15,7 @@ const browser = [process.env.REISEPLAN_BROWSER, 'C:/Program Files/Google/Chrome/
 assert.ok(browser, 'Chromium-Browser fehlt.');
 const profile = await mkdtemp(join(tmpdir(), 'reise-checklist-'));
 const start = performance.now();
-const { server } = await createApp({ database: ':memory:', upstream: false });
+const { server, store } = await createApp({ database: ':memory:', upstream: false });
 const bootstrapMs = performance.now() - start;
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const address = 'http://127.0.0.1:' + server.address().port;
@@ -25,7 +25,7 @@ const child = spawn(browser, ['--headless=new', '--remote-debugging-port=0', '--
   { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] });
 const delay = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 const report = { capturedAt: new Date().toISOString(), project, bootstrapMs, mode: 'isolierte Daten, externe Medien blockiert, reduzierte Bewegung',
-  pages: [], errors: [] };
+  pages: [], hiking: [], errors: [] };
 let socket;
 async function until(read, label) {
   const deadline = Date.now() + 15000;
@@ -87,7 +87,9 @@ try {
         return {heading:main.querySelector('h1')?.textContent, overflow:document.documentElement.scrollWidth-innerWidth,
           nodes:document.querySelectorAll('*').length, visibleControls:controls.length,
           unnamedButtons:controls.filter(element=>element.tagName==='BUTTON'&&!element.textContent.trim()&&!element.getAttribute('aria-label')).length,
-          reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches};
+          reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,
+          guideOverflow:(()=>{const b=document.querySelector('.guide-launch'),s=b?.querySelector('span');
+            return s?.getBoundingClientRect().width>0?s.getBoundingClientRect().right-b.getBoundingClientRect().right:0})()};
       })()`);
       const screenshot = await cdp('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false });
       const file = page + '-' + width + '.png';
@@ -95,10 +97,67 @@ try {
       report.pages.push({ page, width, interactionMs, screenshot: file, ...metrics });
     }
   }
+  // Real UI flows on each viewport: previewing source geometry is read-only;
+  // adopting a specific hike uses the existing persistent, undoable day action.
+  if(process.env.REISEPLAN_AUDIT_HIKES==='1')for(const width of [1440,820,390]){
+    await cdp('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:width===390});
+    await evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+    for(const [id,date] of [['heuberg','2027-09-11'],['seealpsee','2027-09-13'],['ebenalp','2027-09-13']]){
+      await evaluate('document.querySelector(\'.sidebar [data-action="page"][data-value="overview"]\').click()');
+      await evaluate(`document.querySelector('.swiss-focus-day-shortcuts [data-action="day-plan-go"][data-value="${date}"]').click()`);
+      await until(()=>evaluate(`Boolean(document.querySelector('.hike-option[data-hike-id="${id}"]'))`),'Tour '+id);
+      await evaluate(`document.querySelector('.hike-option[data-hike-id="${id}"]').scrollIntoView({block:'start'})`);
+      await delay(160);
+      const card=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+      await writeFile(join(output,'tour-'+id+'-'+width+'.png'),Buffer.from(card.data,'base64'));
+      const before=JSON.stringify(store.current('interrail_swiss').state);
+      await evaluate(`document.querySelector('.hike-option [data-action="hike-preview"][data-value="${id}"]').click()`);
+      await until(()=>evaluate('Boolean(document.querySelector(".hiking-source-track"))'),'GPX-Linie');
+      assert.equal(JSON.stringify(store.current('interrail_swiss').state),before,'Kartenvorschau verändert keine Auswahlen oder Kosten');
+      const geometry=await evaluate('document.querySelector(".hiking-source-track").getAttribute("d")');
+      assert.ok(geometry.length>300,'Originalroute enthält viele reale Wegpunkte');
+      await evaluate('document.querySelector("#map").scrollIntoView({block:"center"})');
+      await delay(160);
+      const map=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+      await writeFile(join(output,'weg-'+id+'-'+width+'.png'),Buffer.from(map.data,'base64'));
+      assert.ok(await evaluate('document.documentElement.scrollWidth<=innerWidth+5'),'Tour und Karte ohne Seitenüberlauf');
+      if(id==='heuberg'){
+        for(const scope of ['city','trip']){
+          await evaluate(`document.querySelector('[data-action="explorer-scope"][data-value="${scope}"]').click()`);
+          assert.equal(await evaluate('document.querySelectorAll(".hiking-source-track,.hiking-map-preview").length'),0,'Tourvorschau ist im anderen Kartenmodus verborgen');
+        }
+        await evaluate('document.querySelector(\'[data-action="explorer-scope"][data-value="day"]\').click()');
+        assert.ok(await evaluate('Boolean(document.querySelector(".hiking-source-track"))'),'Tagesvorschau erscheint wieder im richtigen Modus');
+      }
+      await evaluate('document.querySelector("[data-action=hike-preview-close]").click()');
+      assert.equal(await evaluate('document.querySelectorAll(".hiking-source-track").length'),0,'Vorschau vollständig entfernt');
+      report.hiking.push({id,date,width,geometryCharacters:geometry.length,previewReadOnly:true});
+    }
+  }
+  if(process.env.REISEPLAN_AUDIT_HIKES==='1'){
+    await evaluate('document.querySelector(\'.sidebar [data-action="page"][data-value="overview"]\').click()');
+    await evaluate('document.querySelector(\'.swiss-focus-day-shortcuts [data-action="day-plan-go"][data-value="2027-09-11"]\').click()');
+    await evaluate('document.querySelector(\'.hike-option [data-action="day-plan-add"][data-value="hiking:heuberg"]\').click()');
+    await until(async()=>store.current('interrail_swiss').state.edits['hiking:heuberg']?.selected,'Wandertour gespeichert');
+    await until(()=>evaluate('document.querySelector(\'.hike-option[data-hike-id="heuberg"]\')?.textContent.includes("Im Tagesplan")'),'Tourwahl im Browser bestätigt');
+    assert.equal(store.current('interrail_swiss').state.edits['hiking:heuberg'].start,null);
+    await evaluate('document.querySelector(\'.top-actions [data-action="undo"]\').click()');
+    await until(async()=>!store.current('interrail_swiss').state.edits['hiking:heuberg']?.selected,'Tour rückgängig');
+    await until(()=>evaluate('Boolean(document.querySelector(\'.hike-option [data-action="day-plan-add"][data-value="hiking:heuberg"]\'))'),'Undo im Browser bestätigt');
+    await evaluate('document.querySelector(\'.hike-option [data-action="day-plan-add"][data-value="hiking:heuberg"]\').click()');
+    await until(async()=>store.current('interrail_swiss').state.edits['hiking:heuberg']?.selected,'Erneute Tourwahl gespeichert');
+    await until(()=>evaluate('document.querySelector(\'.hike-option[data-hike-id="heuberg"]\')?.textContent.includes("Im Tagesplan")'),'Erneute Tourwahl im Browser bestätigt');
+    await cdp('Page.navigate',{url:address+'/?offlineMap&variant=interrail_swiss'});
+    await until(()=>evaluate('Boolean(document.querySelector("#variant"))'),'Neu geladen');
+    await evaluate('document.querySelector(\'.swiss-focus-day-shortcuts [data-action="day-plan-go"][data-value="2027-09-11"]\').click()');
+    assert.ok(await evaluate('document.querySelector(\'.hike-option[data-hike-id="heuberg"]\').textContent.includes("Im Tagesplan")'),'Auswahl überlebt Neuladen');
+    assert.equal(store.current('interrail_classic').state.edits['hiking:heuberg'],undefined);
+  }
   await writeFile(join(output, 'metrics.json'), JSON.stringify(report, null, 2));
   assert.deepEqual(report.errors, [], 'Keine JavaScript-Ausnahmen');
   assert.ok(report.pages.every(page => page.overflow <= 5), 'Seiten ohne horizontalen Überlauf');
   assert.ok(report.pages.every(page => page.unnamedButtons === 0), 'Sichtbare Buttons brauchen eine Beschriftung');
+  assert.ok(report.pages.every(page => page.guideOverflow <= 1), 'Tour-Beschriftung passt in den Kopfbutton');
   console.log(JSON.stringify({ pages: report.pages.length, bootstrapMs, maxInteractionMs: Math.max(...report.pages.map(page => page.interactionMs)),
     errors: report.errors, overflow: report.pages.filter(page => page.overflow > 5), output }, null, 2));
 } finally {

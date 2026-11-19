@@ -51,7 +51,9 @@ export function validateState(state, trip, imported) {
     && (!object(state.groceryOverrides) || Object.keys(state.groceryOverrides).length > 200
       || Object.entries(state.groceryOverrides).some(([key, value]) =>
         !/^(?:[a-z0-9_-]{1,50}:[a-z0-9_-]{1,120}:[0-9]{1,7}:[0-9]{1,8}|extra:[a-z0-9-]{1,80})$/i.test(key)
-        || !object(value) || !Number.isSafeInteger(value.packs) || value.packs < 1 || value.packs > 100
+        || !object(value) || !Number.isSafeInteger(value.packs) || value.packs < 0 || value.packs > 100
+        || (value.packs === 0 && value.explicitPacks !== true)
+        || (value.explicitPacks != null && typeof value.explicitPacks !== 'boolean')
         || (value.unitCents != null && (!Number.isSafeInteger(value.unitCents) || value.unitCents < 0 || value.unitCents > 100000))
         || (value.date != null && !validDay(value.date))
         || (value.sourceUrl != null && (!goodText(value.sourceUrl, 500) || !/^https:\/\//i.test(value.sourceUrl)))))) {

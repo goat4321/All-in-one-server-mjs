@@ -998,6 +998,15 @@ try {
   const stockState = store.current('interrail_classic').state;
   const [stockKey] = Object.keys(stockState.shopping.pantry);
   assert.equal(stockState.shopping.pantry[stockKey], 1000);
+  await click('.grocery-section [data-action=grocery-edit]');
+  await set('dialog [name=packs]', '2');
+  await save();
+  await text('.grocery-section', '6,50');
+  assert.equal(store.current('interrail_classic').state.groceryOverrides[stockKey].explicitPacks,true);
+  await click('.grocery-section [data-action=grocery-edit]');
+  await set('dialog [name=packs]', '0');
+  await save();
+  await text('.grocery-section', '4,00');
   await click('.grocery-section [data-action=grocery-check]');
   await until(() => js('document.querySelector(".grocery-section [data-action=grocery-check]")?.getAttribute("aria-pressed")==="true"'),
     'Einkaufsartikel ist abgehakt');
