@@ -2295,7 +2295,7 @@ app.addEventListener('toggle',event=>{
 app.addEventListener('error',event=>{
   const image=event.target;
   if(!(image instanceof HTMLImageElement))return;
-  const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo,.reference-intro-photo,.reference-discovery-image,.reference-hero-thumb,.journey-home-media');
+  const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo,.reference-intro-photo,.reference-discovery-image,.reference-hero-thumb,.journey-home-media,.map-photo-disc');
   if(!frame||image.dataset.fallbackApplied)return;
   // The decorative backup failing must not hide a separately sourced
   // and successfully loaded individual photo.
@@ -2308,6 +2308,12 @@ app.addEventListener('error',event=>{
   image.dataset.fallbackApplied='true';
   image.style.display='none';
   frame.dataset.imageUnavailable='true';
+  if(frame.classList.contains('map-photo-disc')){
+    // Leave the built-in category pictogram visible instead of a broken
+    // Wikimedia thumbnail when the phone is offline or a photo is blocked.
+    frame.classList.add('map-photo-failed');
+    return;
+  }
   if(frame.classList.contains('journey-home-media')){
     // The source-backed hero image was blocked or unavailable. Never leave
     // browser broken-alt text on top of the designed local fallback.
