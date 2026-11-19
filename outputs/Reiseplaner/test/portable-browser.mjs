@@ -292,9 +292,22 @@ try {
       'Trip hero must fit viewport at '+width+'px: '+JSON.stringify(metrics));
     assert.ok(metrics.buttonHeight>=44&&metrics.buttonWidth>=170,
       'Primary day action must remain touch-sized at '+width+'px: '+JSON.stringify(metrics));
+    if(width===390){
+      const tabs=await js('([...document.querySelectorAll(".mobile-dock button")].map(button=>{const r=button.getBoundingClientRect(),label=button.querySelector("span").getBoundingClientRect();return {name:button.textContent.trim(),accessible:button.getAttribute("aria-label"),left:r.left,right:r.right,height:r.height,labelLeft:label.left,labelRight:label.right}}))');
+      assert.deepEqual(tabs.map(tab=>tab.name),['Start','Tag','Karte','Orte','Schlafen','Essen'],
+        'All six mobile destinations remain separately labeled');
+      assert.ok(tabs.every((tab,index)=>tab.accessible&&tab.height>=44&&tab.left>=-1
+        &&tab.right<=391&&tab.labelLeft>=tab.left-1&&tab.labelRight<=tab.right+1
+        &&(!index||tab.left>=tabs[index-1].right-1)),
+        'Mobile dock labels must not overlap or leave their touch targets: '+JSON.stringify(tabs));
+    }
     await js('window.scrollTo(0,0)');
     await screenshot('90-start-redesign-'+width+'.png');
   }
+  // The same responsive homepage must remain readable in dark appearance.
+  await js('document.documentElement.dataset.theme="dark"');
+  await screenshot('91-start-redesign-dark-390.png');
+  await js('document.documentElement.dataset.theme="light"');
   await cdp('Emulation.clearDeviceMetricsOverride');
   await js('window.scrollTo(0,0)');
   await click('.journey-home-primary');
