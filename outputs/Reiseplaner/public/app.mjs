@@ -19,7 +19,7 @@ import {buildFieldAudit,fieldAuditAsCsv} from './field-audit-export-v39.mjs';
 import {commonsDefaultQuery,commonsSearchUrl,commonsWebSearchUrl,commonsResults} from './commons-photo-search.mjs';
 import { googleMapsDirectionsUrl } from './google-maps.mjs';
 import { arrangeDayStops, dayRouteSelection } from './day-route.mjs';
-import {footpathMatchesStops} from './route-studio.mjs';
+import {footpathMatchesStops,routeEndpointMatchesStops} from './route-studio.mjs';
 import {createDayRouteGate,queueFocusIndex} from './day-route-request.mjs';
 import { btn, empty, esc, icon, urlLink } from './ui.mjs';
 import {hikingPreview,hikingMapPreview} from './hiking.mjs';
@@ -33,6 +33,7 @@ const toast = document.querySelector('#toast');
 const motion = createMotionController(document);
 let catalog, variant, currentMap, context, toastTimer, undo, revisionToken = 0, dragged, timetableSearch;
 let saving = false, loading = false;
+let mapRouteRequestGeneration=0;
 let commonsPhotoPick = null;
 let browseSearchTimer=null;
 const supermarketByCity=new Map();
@@ -767,13 +768,14 @@ function showTimetable(ctx, search) {
 
 async function calculateExplorerRoute() {
   if (!context || context.page !== 'map') return;
+  const generation=++mapRouteRequestGeneration;
   const ctx = context;
   const pooled = [...ctx.all, ...(ctx.explorer?.placed ?? []), ...(ctx.explorer?.unlocated ?? [])];
   const from = pooled.find(item => item.id === view.mapFrom);
   const to = pooled.find(item => item.id === view.mapTo);
   const input = explorerRouteInput(from, to);
   if (!input) {
-    const external = from?.id !== to?.id && googleMapsDirectionsUrl(from, to, ctx.cities, view.mapRouteMode === 'walk' ? 'walking' : 'transit');
+    const external = from?.id !== to?.id && googleMapsDirectionsUrl(from, to, ctx.cities, view.mapRouteMode === 'walk' ? 'walking' : view.mapRouteMode === 'bike' ? 'bicycling' : 'transit');
     view.mapRouteResult = { status: external
       ? 'Keine genaue lokale Routenberechnung möglich. Google Maps kann mit Name bzw. Adresse eine Verbindung suchen; Ergebnis dort prüfen.'
       : 'Bitte zuerst zwei verschiedene Reiseorte auswählen.', route: null };
@@ -786,7 +788,8 @@ async function calculateExplorerRoute() {
   render({ restoreView: true, fetchRoutes: false });
   try {
     if (!input.sameCity) throw new Error('Orte liegen in unterschiedlichen Städten. Nutze die externe ÖPNV-Routenansicht oder das Bahnmodul. Eine lokale Stadtverbindung wird nicht erfunden.');
-    if (!input.canWalk) throw new Error('Für diese Entfernung liegt keine belastbare lokale Wegberechnung vor. Eine externe Verkehrsplanung ist erforderlich.');
+    if (mode === 'walk'&&!input.canWalk) throw new Error('Für diese Entfernung liegt keine belastbare lokale Fußwegroute vor. Externen Planer verwenden.');
+    if (mode === 'bike'&&!input.canBike) throw new Error('Fahrrad-Routing nur bis 80 km zwischen vorhandenen, belegten Kartenpunkten. Externen Planer verwenden.');
     let route;
     if (mode === 'walk') {
       route = await api('/api/walk', 'POST', { points: input.points });
@@ -796,7 +799,15 @@ async function calculateExplorerRoute() {
       // and the day-plan saver. Valid road geometry alone proves neither stop.
       if (!footpathMatchesStops(from,to,route))
         throw new Error('Der Fußweg endet nicht ausreichend nah an den gewählten Orten (maximal 75 m Abweichung). Gehzeit und Weg werden nicht übernommen.');
-    } else {
+    } else if (mode === 'bike') {
+      route=await api('/api/bike','POST',{points:input.points});
+      if(!route?.cycleOnly||route.walkOnly||route.mode!=='Radweg'
+        ||!Array.isArray(route.points)||route.points.length<2
+        ||!Number.isFinite(route.metres)||route.metres<=0
+        ||!Number.isFinite(route.minutes)||route.minutes<=0
+        ||!routeEndpointMatchesStops(from,to,route.points))
+        throw Error('Fahrradprofil: keine sichere und belegte Routerantwort zwischen den Zielpunkten. Keine Kilometer oder Minuten übernehmen.');
+    } else if(mode==='transit'){
       const meta = catalog.transitSchedules?.[from.city];
       if (!meta || date < meta.from || date > meta.to)
         throw new Error('Kein gültiges ÖPNV-Fahrplanpaket für ' + date + ' verfügbar. Bitte die externe ÖPNV-Verbindung beim Anbieter prüfen.');
@@ -804,16 +815,24 @@ async function calculateExplorerRoute() {
         city: from.city, points: input.points, date, time: when, excluded: [],
       });
       route = results.routes?.[0];
-      if (!route?.legs?.length)
+      if (!route?.legs?.length ||!Number.isFinite(route.minutes)||route.minutes<=0)
         throw new Error('Im vorhandenen Fahrplanpaket keine passende Verbindung gefunden. Betreiberplaner verwenden.');
-    }
-    if (variant.id !== selectedVariant || view.mapFrom !== fromId || view.mapTo !== toId
-      || view.mapRouteMode !== mode || view.mapRouteTime !== when || context.date !== date) return;
-    view.mapRouteResult = { status: 'Routenquelle wurde geladen; Öffnungs- und Tarifbedingungen am Reisetag prüfen.', route };
+    } else throw new Error('Unbekannte Verkehrsart');
+    if (generation!==mapRouteRequestGeneration
+      ||variant.id !== selectedVariant||variant.revision!==ctx.variant.revision
+      || view.mapFrom !== fromId || view.mapTo !== toId
+      || view.mapRouteMode !== mode || view.mapRouteTime !== when || context.date !== date
+      ||pointKey(context.all.find(x=>x.id===fromId)?.point)!==pointKey(from.point)
+      ||pointKey(context.all.find(x=>x.id===toId)?.point)!==pointKey(to.point)) return;
+    view.mapRouteResult = { status: mode==='bike'
+      ?'FOSSGIS-Fahrradroute geladen. Verkehrsregeln, Oberfläche und Wegfreigabe vor Ort prüfen.'
+      :'Routenquelle wurde geladen; Öffnungs- und Tarifbedingungen am Reisetag prüfen.', route };
     render({ restoreView: true, fetchRoutes: false });
     currentMap?.focusConnection(from.point, to.point);
   } catch (error) {
-    if (variant.id !== selectedVariant || view.mapFrom !== fromId || view.mapTo !== toId) return;
+    if (generation!==mapRouteRequestGeneration||variant.id!==selectedVariant
+      ||view.mapFrom!==fromId||view.mapTo!==toId||view.mapRouteMode!==mode
+      ||context.date!==date) return;
     view.mapRouteResult = { status: error.message, route: null };
     render({ restoreView: true, fetchRoutes: false });
   }
@@ -1454,7 +1473,7 @@ async function action(name, value = '') {
       if (view.mapFrom && view.mapTo) await calculateExplorerRoute();
       else render({ restoreView: true }); break;
     case 'explorer-mode':
-      view.mapRouteMode = value === 'transit' ? 'transit' : 'walk';
+      view.mapRouteMode = ['walk','bike','transit'].includes(value) ? value : 'walk';
       view.mapRouteResult = null;
       if (view.mapFrom && view.mapTo) await calculateExplorerRoute();
       else render({ restoreView: true }); break;
@@ -1614,6 +1633,7 @@ async function action(name, value = '') {
       break;
     }
     case 'explorer-clear-route':
+      mapRouteRequestGeneration++;
       view.mapFrom = view.mapTo = view.mapRouteResult = null;
       render({ restoreView: true }); break;
     case 'map-basemap-retry':
