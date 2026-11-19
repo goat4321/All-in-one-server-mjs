@@ -150,6 +150,11 @@
   gap:7px;
 }
 .reference-travel-shell .map-local-actions{gap:7px}
+/* Retain the test-proven, mobile-visible local fullscreen entry. Hide only
+ * its redundant header twin; the full-screen Exit button remains unchanged. */
+.reference-travel-shell .map-panel>.panel-head .map-fullscreen-launch{
+  display:none;
+}
 .reference-travel-shell .reference-map-workspace>.explorer-right{
   min-width:0;
   scrollbar-width:thin;
