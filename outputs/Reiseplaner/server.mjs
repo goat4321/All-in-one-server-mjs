@@ -8,6 +8,7 @@ import { loadCatalog, distanceKm } from './lib/catalog.mjs';
 import {fetchSupermarkets} from './lib/supermarket-source.mjs';
 import { InputError, openStore } from './lib/store.mjs';
 import { routeTransit } from './lib/transit-route.mjs';
+import {bikeRequestUrl,checkedBikeResponse,bikeRouteKey,BIKE_CACHE_MS} from './lib/bike-route.mjs';
 import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './public/public-geocode-eligibility.mjs';
 
 const publicDir = new URL('./public/', import.meta.url);
@@ -135,6 +136,43 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
   }
 
 
+  // Bicycle and pedestrian requests share the existing one-per-second queue.
+  // Bike routes remain an isolated, bounded memory cache; they MUST NOT enter
+  // the persistent footpath table keyed only by location.
+  const bikeCache=new Map();
+  async function bike(points,cachedOnly=false){
+    let url;
+    try {url=bikeRequestUrl(points);}
+    catch(e){throw new InputError(e.message);}
+    const key=bikeRouteKey(points),now=Date.now(),stored=bikeCache.get(key);
+    if(stored&&stored.until>now)return stored.value;
+    if(stored)bikeCache.delete(key);
+    if(cachedOnly)return null;
+    if(!upstream)throw new InputError('Kein gespeicherter Fahrradweg; Online-Router deaktiviert.',503);
+    const task=routeQueue.then(async()=>{
+      const again=bikeCache.get(key);
+      if(again&&again.until>Date.now())return again.value;
+      await new Promise(resolve=>setTimeout(resolve,Math.max(0,1100-(Date.now()-previousRequest))));
+      previousRequest=Date.now();
+      let response,route;
+      try{
+        response=await fetcher(url,{signal:AbortSignal.timeout(7000),headers:{
+          'User-Agent':'Naol-Reiseplaner/1.0 (https://github.com/goat4321/All-in-one-server-mjs)',
+          Accept:'application/json',
+        }});
+        if(!response.ok)throw Error('Provider '+response.status);
+        route=checkedBikeResponse(await response.json(),points[0],points[1]);
+      }catch(e){throw new InputError('Fahrrad-Router nicht erreichbar oder ungeeignete Route: '
+        +String(e?.message??'unbekannter Fehler'),503);}
+      if(bikeCache.size>=100)bikeCache.delete(bikeCache.keys().next().value);
+      bikeCache.set(key,{value:route,until:Date.now()+BIKE_CACHE_MS});
+      return route;
+    });
+    routeQueue=task.catch(()=>{});
+    return task;
+  }
+
+
   // Single user-initiated search only: no autocomplete, background bulk
   // geocoding or map-centre substitution. Nominatim 1 request/second and cache.
   const geocodeCache=new Map();
@@ -255,6 +293,10 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
       if (pathname === '/api/walk' && req.method === 'POST') {
         const { points, cachedOnly } = await readJson(req);
         return json(res, await walk(points, cachedOnly === true));
+      }
+      if(pathname==='/api/bike'&&req.method==='POST'){
+        const {points,cachedOnly}=await readJson(req);
+        return json(res,await bike(points,cachedOnly===true));
       }
       const match = pathname.match(/^\/api\/variant\/([\w:%-]+)(?:\/(import|copy))?$/);
       if (match) {
