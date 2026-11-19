@@ -69,7 +69,9 @@ try{
  // A full app render would replace the original shell node and fail this test.
  const beforeFilter=await js('(()=>{const shell=document.querySelector(".reference-travel-shell"),map=document.querySelector("#map");shell.dataset.mapProbe="retained";map.dataset.mapProbe="retained";return{nodes:document.querySelectorAll("*").length,markers:document.querySelectorAll("#map .leaflet-marker-icon").length,time:performance.now(),source:document.querySelector("#map-source-indicator")?.dataset.state}})()');
  await click('[data-action=explorer-group][data-value=lodging]');
- const afterFilter=await js('(()=>({shellRetained:document.querySelector(".reference-travel-shell")?.dataset.mapProbe==="retained",mapRetained:document.querySelector("#map")?.dataset.mapProbe==="retained",nodes:document.querySelectorAll("*").length,markers:document.querySelectorAll("#map .leaflet-marker-icon").length,time:performance.now(),lodgingPressed:[...document.querySelectorAll("[data-action=explorer-group][data-value=lodging]")].every(el=>el.getAttribute("aria-pressed")==="true")}))()');
+ const afterFilter=await js('(()=>({shellRetained:document.querySelector(".reference-travel-shell")?.dataset.mapProbe==="retained",mapRetained:document.querySelector("#map")?.dataset.mapProbe==="retained",nodes:document.querySelectorAll("*").length,markers:document.querySelectorAll("#map .leaflet-marker-icon").length,time:performance.now(),lodgingPressed:[...document.querySelectorAll("[data-action=explorer-group][data-value=lodging]")].every(el=>el.getAttribute("aria-pressed")==="true"),basemap:document.querySelector("#map-source-indicator")?.dataset.state}))()');
+ assert.equal(beforeFilter.source,'offline','The offline badge must survive ordinary retained-map rerenders');
+ assert.equal(afterFilter.basemap,'offline','Fast filtering must never regress to a fake loading state');
  assert.ok(afterFilter.shellRetained&&afterFilter.mapRetained,
    'A category filter must preserve the entire app shell and live Leaflet element');
  assert.ok(afterFilter.lodgingPressed,'Map category buttons remain synchronized after in-place filter update');
