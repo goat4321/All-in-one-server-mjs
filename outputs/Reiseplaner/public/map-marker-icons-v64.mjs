@@ -5,7 +5,7 @@
  */
 export const MAP_ICON_CATEGORIES=Object.freeze(['lodging','food','shop','activity','transport']);
 const paths=Object.freeze({
- lodging:'<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10Z"/><path d="M9 21v-8h6v8"/>',
+ lodging:'<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10Z"/><path d="M7 18v-4m10 4v-4M7 16h10v2H7zM8 14h3a2 2 0 0 1 2 2"/>',
  food:'<path d="M4 3v7a3 3 0 0 0 6 0V3"/><path d="M7 3v18"/><path d="M20 3c-3 2-4 6-4 10h4v8"/><path d="M20 3v10"/>',
  shop:'<path d="M4 8h16l-1 13H5L4 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/>',
  activity:'<circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.5 4.7-4.7 2.5 2.5-4.7 4.7-2.5Z"/>',
