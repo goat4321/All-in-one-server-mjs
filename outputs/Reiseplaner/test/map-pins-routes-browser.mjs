@@ -65,7 +65,15 @@ try{
  const original=JSON.stringify(store.current('interrail_swiss').state.edits);
  const otherVariants=Object.fromEntries(['interrail_classic','interrail_august','swiss_lakes'].map(id=>[id,JSON.stringify(store.current(id).state)]));
  await js('document.querySelector(".reference-places-drawer").open=true');
+ // Record a real Chrome measurement before and after a filter transition.
+ // A full app render would replace the original shell node and fail this test.
+ const beforeFilter=await js('(()=>{const shell=document.querySelector(".reference-travel-shell"),map=document.querySelector("#map");shell.dataset.mapProbe="retained";map.dataset.mapProbe="retained";return{nodes:document.querySelectorAll("*").length,markers:document.querySelectorAll("#map .leaflet-marker-icon").length,time:performance.now(),source:document.querySelector("#map-source-indicator")?.dataset.state}})()');
  await click('[data-action=explorer-group][data-value=lodging]');
+ const afterFilter=await js('(()=>({shellRetained:document.querySelector(".reference-travel-shell")?.dataset.mapProbe==="retained",mapRetained:document.querySelector("#map")?.dataset.mapProbe==="retained",nodes:document.querySelectorAll("*").length,markers:document.querySelectorAll("#map .leaflet-marker-icon").length,time:performance.now(),lodgingPressed:[...document.querySelectorAll("[data-action=explorer-group][data-value=lodging]")].every(el=>el.getAttribute("aria-pressed")==="true")}))()');
+ assert.ok(afterFilter.shellRetained&&afterFilter.mapRetained,
+   'A category filter must preserve the entire app shell and live Leaflet element');
+ assert.ok(afterFilter.lodgingPressed,'Map category buttons remain synchronized after in-place filter update');
+ report.filterProfiling={before:beforeFilter,after:afterFilter,elapsedMs:Math.round((afterFilter.time-beforeFilter.time)*100)/100};
  // Real map click and Escape return preserve the typed form draft.
  await openPin();await set('dialog [name=name]','Kartenklick-Testpunkt');await click('dialog [data-action=map-pin-pick]');
  await until(()=>js('document.querySelector("#map").classList.contains("is-placing-pin")'),'Pin-Klickmodus');
@@ -175,6 +183,7 @@ try{
  for(const width of [1440,820,390]){
   await cdp('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:width===390});
   await js('new Promise(resolve=>setTimeout(resolve,120))');
+  await screenshot('karte-normal-'+width+'.png');
   assert.equal(await js('document.querySelector(".map-local-actions [data-action=map-fullscreen]").checkVisibility()'),true,'Fullscreen has a visible normal-mode entry');
   await click('.map-local-actions [data-action=map-fullscreen]');
   await until(()=>js('Boolean(document.querySelector(".map-fullscreen-mode"))'),'Vollbild');
@@ -184,6 +193,19 @@ try{
   const bounds=await js('(()=>{const r=document.querySelector("#map").getBoundingClientRect();return{left:r.left,right:r.right,top:r.top,bottom:r.bottom}})()');
   assert.ok(bounds.left>=-1&&bounds.right<=width+1&&bounds.top>=0&&bounds.bottom<=1001,'Actual map surface fits fullscreen');
   await screenshot('karte-vollbild-'+width+'.png');
+  if(width===390){
+    await click('.map-fullscreen-drawer-toggle');
+    await until(()=>js('Boolean(document.querySelector(".fullscreen-drawer-open"))'),'Mobile bottom sheet opens');
+    const sheet=await js('(()=>{const r=document.querySelector(".map-fullscreen-mode>.explorer-right").getBoundingClientRect();return{top:r.top,bottom:r.bottom,height:r.height,width:r.width,viewportHeight:innerHeight,viewportWidth:innerWidth,title:document.querySelector(".map-fullscreen-drawer-heading strong")?.textContent,expanded:document.querySelector(".map-fullscreen-drawer-toggle")?.getAttribute("aria-expanded")}})()');
+    assert.ok(sheet.top>=sheet.viewportHeight*.24&&sheet.bottom<=sheet.viewportHeight+2
+      &&sheet.height<sheet.viewportHeight*.7&&sheet.width<=sheet.viewportWidth+2,
+      'Fullscreen bottom sheet leaves actual map visible: '+JSON.stringify(sheet));
+    assert.equal(sheet.expanded,'true','Bottom sheet announces expanded state');
+    assert.ok(sheet.title?.length>4,'Bottom sheet says what scope its contents represent');
+    await screenshot('karte-bottom-sheet-390.png');
+    await click('.map-fullscreen-drawer-heading [data-action=map-fullscreen-drawer]');
+    await until(()=>js('!document.querySelector(".fullscreen-drawer-open")'),'Bottom sheet closes');
+  }
   await click('.map-fullscreen-toolbar [data-action=map-pin-new]');
   await until(()=>js('document.querySelector("dialog").open'),'Pinformular im Vollbild');
   await click('dialog [data-action=close]');
