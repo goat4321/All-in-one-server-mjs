@@ -667,8 +667,8 @@ function overview(ctx) {
     +'<button type="button" class="button journey-home-primary" data-action="day-plan-go"'
     +' data-value="'+esc(selectedDay)+'">'+icon('calendar')+' Tagesplan öffnen '+icon('arrow')+'</button>'
     +'</div>'
-    +'<p class="journey-home-plan-note">Bekannte Plankosten: '+esc(money(ctx.budget.total))
-    +' · '+ctx.budget.unknown+' Preise offen. Keine bestätigten Buchungen.</p>'
+    +'<p class="journey-home-plan-note cockpit-disclaimer">Bekannte Plankosten: '+esc(money(ctx.budget.total))
+    +' · '+ctx.budget.unknown+' Preise offen · keine bestätigten Buchungen.</p>'
     +'</div>'+heroMedia+'</section>';
   // This is secondary navigation, no longer four equal-weight dashboard cards.
   const quickStartHtml='<nav class="overview-start journey-home-shortcuts" aria-label="Weitere Planungsbereiche">'
