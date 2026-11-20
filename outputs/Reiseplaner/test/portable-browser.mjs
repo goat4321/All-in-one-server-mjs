@@ -1257,7 +1257,30 @@ try {
     await text('.meal-day-overview','Frühstück');
   };
   await openMeals();
-  for(const [slot,recipe] of [['breakfast','barcelona-oats'],['lunch','barcelona-salad'],['dinner','pasta']]){
+  // V86: the new city-chain comparison is visible independently of cookbook
+  // state and manual quotes survive reload without changing purchases/budget.
+  await text('.market-baskets-v86','Mercadona');
+  await text('.market-baskets-v86','Lidl');
+  await text('.market-baskets-v86','Aldi');
+  assert.equal(await js('document.querySelectorAll(".market-chain-card").length'),3);
+  assert.equal(await js('document.querySelector(".market-chain-card table tbody")?.rows.length'),10);
+  const marketKey='barcelona:mercadona:spaghetti';
+  const beforeMarketExpenses=JSON.stringify(store.current('interrail_swiss').state.expenses);
+  await click('.market-baskets-v86 [data-action=market-quote][data-value="'+marketKey+'"]');
+  await text('dialog','Supermarkt-Produktpreis');
+  await set('dialog [name=price]','1,15');
+  await save();
+  await text('.market-baskets-v86','Eigene Angabe');
+  assert.equal(store.current('interrail_swiss').state.marketQuotes[marketKey].priceCents,115);
+  assert.equal(JSON.stringify(store.current('interrail_swiss').state.expenses),beforeMarketExpenses);
+  await cdp('Page.navigate',{url:address+'&variant=interrail_swiss'});
+  await text('h1','Reiseübersicht');await openMeals();
+  await text('.market-baskets-v86','Eigene Angabe');
+  await click('.market-baskets-v86 [data-action=market-quote-reset][data-value="'+marketKey+'"]');
+  assert.equal(store.current('interrail_swiss').state.marketQuotes[marketKey],undefined);
+  assert.equal(store.current('swiss_lakes').state.marketQuotes?.[marketKey],undefined);
+  await screenshot('91-v86-barcelona-chain-baskets.png');
+  for(const [slot,recipe] of [['breakfast','barcelona-oats',['lunch','barcelona-salad'],['dinner','pasta']]){
     await click('.meal-slot-tabs [data-action=meal-slot][data-value='+slot+']');
     await click('.meal-card [data-action=meal-choose][data-value='+recipe+']');
     await set('dialog [name=start]','');
@@ -1359,6 +1382,14 @@ try {
       'V85 editorial visible for '+date);
     assert.equal(await js('document.querySelectorAll(".swiss-day-editorial .swiss-editorial-block").length'),3,
       'Three visible editorial blocks on '+date);
+    await until(()=>js('Boolean(document.querySelector(".swiss-quality-day"))'),
+      'V87 source/photo cards visible for '+date);
+    assert.equal(await js('document.querySelectorAll(".swiss-quality-card").length'),
+      ['2027-09-10','2027-09-14'].includes(date)?0:Math.min(4,
+        Number(await js('document.querySelectorAll(".day-plan-stop").length'))),
+      'Evidence cards correspond only to existing daily optional stops '+date);
+    assert.ok(await js('document.querySelector(".swiss-quality-day").getBoundingClientRect().right<=innerWidth+3'),
+      'V87 evidence cards fit browser width '+date);
     assert.ok(await js('document.querySelector(".swiss-day-editorial .swiss-editorial-sources a")!==null'),
       'Official source links in day '+date);
     assert.ok(await js('document.querySelector(".swiss-day-editorial")?.getBoundingClientRect().width<=innerWidth+1'),
@@ -1367,10 +1398,13 @@ try {
   for(const date of ['2027-09-10','2027-09-11','2027-09-12','2027-09-13']){
     await showEditorialDay(date,true);
     await screenshot('88-v85-swiss-'+date.slice(-2)+'-desktop.png');
+    if(['2027-09-11','2027-09-13'].includes(date))
+      await screenshot('92-v87-swiss-'+date.slice(-2)+'-quality.png');
   }
-  for(const date of ['2027-09-02','2027-09-05']){
+  for(const date of ['2027-09-02','2027-09-05','2027-09-06']){
     await showEditorialDay(date,false);
     await screenshot('89-v85-city-'+date.slice(-2)+'-desktop.png');
+    if(date==='2027-09-06')await screenshot('93-v87-sete-quality.png');
   }
   await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   for(const date of ['2027-09-11','2027-09-13']){
@@ -1380,6 +1414,7 @@ try {
     assert.ok(await js('document.querySelector(".swiss-day-editorial").getBoundingClientRect().right<=innerWidth+2'),
       'V85 cards fit mobile viewport '+date);
     await screenshot('90-v85-swiss-'+date.slice(-2)+'-mobile.png');
+    await screenshot('94-v87-swiss-'+date.slice(-2)+'-quality-mobile.png');
   }
   await cdp('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false});
   assert.equal(JSON.stringify(store.current('interrail_swiss').state.expenses),swissExpensesBefore,
