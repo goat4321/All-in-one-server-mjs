@@ -816,7 +816,7 @@ function options(ctx, lodging) {
         ['swimming','Schwimmen erwähnt'],['consensus','Gruppenfavoriten ≥4'],
         ['evening', 'Abend'], ['food', 'Verpflegung']])];
   const visible=list.slice(0,ctx.browseLimit??24);
-  const cards=lodging?stayList(visible,ctx):visible.map(item=>{
+  const cards=lodging?(visible.length?stayList(visible,ctx):''):visible.map(item=>{
     const active=activeSet.has(item.id);
     const highlighted=compareIds.has(item.id);
     const meal=ctx.catalog.mealPlans?.[item.city]?.find(plan=>plan.venue===item.id);
