@@ -1,3 +1,15 @@
+## 20.11.2026 – V88: 61-Punkte-Remote-Abnahme, quellgebundene Schweizer Bilder und echter UX-Laboraudit
+
+Ausgang war der nach den V86/V87-Änderungen erfolgreiche PR-HEAD `a1e6b1f`; dieser Durchgang arbeitet weiter auf `feature/v7-data-day-accommodation-rail`. Die ältere Nutzerangabe von 502 Tests und den Commits `13c0f9a`/`ab26f9b` ist keine aktuelle Remote-Basis. `outputs/Abnahme-V2/` ist in GitHub nicht verfügbar; die 61 Einzelpunkte stehen tatsächlich in `outputs/Reiseplaner/CHECKLIST_V2.md`. Der lokale neueste Windows-Code und private Tripsy-Dateien blieben unzugänglich.
+
+**Bild/Quelle:** Das zuvor bildlose Kandersteg-Dorf-Tagessujet `survey-v19:act-055` bekommt eine lizenzierte historische Dorfaufnahme (Fred Friggens, Commons, CC BY 2.0, 2017) mit Lizenz/Urheber/Motivgrenze; Heuberg und Äscher behalten getrennte Orts-/Teilzielbelege. Keine privaten Unterkunftsfotos, fiktiven Hausnummern oder September-2027-Garantien.
+
+**UX:** Die Essensansicht beginnt wieder mit ihrem Ortskopf, gefolgt von der Kettenübersicht vor Einzelorten. Bestehende quellengebundene Links bleiben, aber Foto-/Lizenz-Trefferflächen, visuelle Fokusanzeige und lesbare Schweizer Detailtexte wurden vergrößert; die mobile Offline-Bildfläche verkleinert und unnötige Hover-Bewegung für Reduced Motion unterdrückt.
+
+**Messung vor Reparatur** (echter Chrome-Laboraudit CI #44824128670): 7 Seiten × 3 Breiten (390/768/1440) × 3 Bedingungen (hell/dunkel/Reduced Motion), 63 Messpunkte, 21 PNGs; 2.417 B HTML; 395–6.288 DOM-Elemente; 0 horizontale Überläufe; 0 gefundene unbeschriftete Eingaben nach Heuristik; 0 Laufzeitausnahmen; max. 102,2 ms synthetische Seitenwechselprobe; bis 51 kleine Touch-Ziele, vor allem Foto-/Quellenlinks. Die Nachher-Messung steht im folgenden neuen CI-Artefakt `quality/quality-v88-lab.json`, ohne Anspruch auf vollständige WCAG/echte User-INP/LCP/CLS. Tokenkontrast, Tabfolge und Filterprobe sind in der neuen Version ergänzt.
+
+**Abnahme:** Die vollständige Liste enthält jetzt **18 erledigte Teilfunktionen, 41 teilweise und 2 nicht verifizierbare Anforderungen**. „Erledigt“ bezeichnet nur den im Remote-Code und portablen CI-Ablauf getesteten Planungsumfang, keine lokale private Originalabnahme oder 2027-Verfügbarkeit. Details, Quellen, Grenzen und exakter Windows-Start stehen in [V88_REMOTE_AUDIT_AND_HANDOFF.md](V88_REMOTE_AUDIT_AND_HANDOFF.md). Der aktuelle Ergebnisstatus liegt bei GitHub Actions, nicht im historischen local-Only-Bericht. Kein Merge, Deployment oder Kauf.
+
 ## 20.11.2026 – V86/V87: Supermarkt-Vergleich und Schweizer Ortsbild-Qualität
 
 Direkt im bestehenden GitHub-Branch `feature/v7-data-day-accommodation-rail`, PR #5. Ausgangs-HEAD `0f650074` mit bestätigtem früheren CI-Erfolg. Lokale private Tripsy-/Windows-Dateien bleiben unzugänglich; deshalb nur remote und Seed-Fallback-gestützte Prüfung, **keine** lokale vollständige 526er-Regression behauptet.
