@@ -148,7 +148,7 @@ export function discoverySelect(ctx,{surface='discover'}={}){
 export function discoveryFilterBar(ctx,data,{surface='discover'}={}){
  const tabs=surface==='food'
    ?[['all','Alle Essen & Läden'],['restaurants','Restaurants & Cafés'],
-     ['markets','Supermärkte']]
+     ['markets','Supermärkte'],['cook','Selbst kochen']]
    :DISCOVERY_CATEGORIES.map(([k,label])=>[k,label]);
  const current=surface==='food'?ctx.browseFoodType??'all':ctx.discoveryCategory??'all';
  const act=surface==='food'?'browse-food-type':'discovery-category';
@@ -157,7 +157,9 @@ export function discoveryFilterBar(ctx,data,{surface='discover'}={}){
    +tabs.map(([key,label])=>'<button type="button" data-action="'+act+'" data-value="'
       +esc(key)+'" aria-pressed="'+(current===key)+'">'+esc(label)
       +'<small>'+((surface==='food'&&key==='restaurants')?data.counts.food??0:
-         surface==='food'&&key==='markets'?data.counts.shop??0:data.counts[key]??0)
+         surface==='food'&&key==='markets'?data.counts.shop??0:
+         surface==='food'&&key==='cook'?data.source.filter(i=>Boolean(i.requiresKitchen)||Array.isArray(i.basketProducts)).length:
+         data.counts[key]??0)
       +'</small></button>').join('')
    +'</div><div class="discovery-filter-tools">'
    +'<label>Nachweis <select id="discovery-quality">'
