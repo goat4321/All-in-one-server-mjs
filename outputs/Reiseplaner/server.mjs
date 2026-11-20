@@ -121,7 +121,19 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
         if (steps.some(step => step.mode !== 'walking')) {
           throw new InputError('Dieser Vorschlag enthält ein Verkehrsmittel. Prüfe die Verbindung und den Tarif beim Betreiber.', 422);
         }
-        const value = { points: route.geometry.coordinates.map(([lon, lat]) => [lat, lon]),
+        // The provider may return a route belonging to the wrong location,
+        // or missing distance/duration data. Reject before persistence and
+        // avoid displaying NaN as an actual measured walk.
+        const walkPoints=route.geometry.coordinates.map(([lon, lat]) => [lat, lon]);
+        if(walkPoints.length<2||walkPoints.length>15000
+          ||walkPoints.some(p=>p.length!==2||!p.every(Number.isFinite)
+            ||Math.abs(p[0])>90||Math.abs(p[1])>180)
+          ||distanceKm(walkPoints[0],points[0])>.075
+          ||distanceKm(walkPoints.at(-1),points[1])>.075
+          ||!Number.isFinite(route.distance)||route.distance<=0||route.distance>100000
+          ||!Number.isFinite(route.duration)||route.duration<=0||route.duration>86400)
+          throw new InputError('Fußroute oder Metrik passt nicht zu Start und Ziel. Keine Gehzeit übernehmen.',422);
+        const value = { points: walkPoints,
           metres: Math.round(route.distance), minutes: Math.max(1, Math.ceil(route.duration / 60)),
           mode: 'Fußweg', price: 0, walkOnly: true, source: 'FOSSGIS / OSRM · OpenStreetMap', checked: new Date().toISOString().slice(0, 10) };
         store.saveRoute(key, value);
