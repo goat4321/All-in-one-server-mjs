@@ -309,3 +309,22 @@
 @media(max-width:650px){.swiss-quality-grid{grid-template-columns:1fr}
 .swiss-quality-day{padding:10px}
 .swiss-quality-photo .place-specific-photo{height:175px}}
+
+/* V87 safe media tile: photo credits are IN FLOW, never over fallback text. */
+.swiss-quality-media{height:164px;position:relative;overflow:hidden;display:grid;place-items:center;
+ background:linear-gradient(135deg,#d9ece2,#e7e9df);color:#214b3b}
+.swiss-quality-media .place-thumbnail{position:relative!important;display:block!important;
+ width:100%!important;height:100%!important;border-radius:0!important;overflow:hidden;max-width:none!important}
+.swiss-quality-media .place-thumbnail-fallback{position:absolute!important;inset:0;display:grid;
+ place-items:center;width:100%!important;height:100%!important;color:#245b46}
+.swiss-quality-media .place-thumbnail-fallback svg{width:36px;height:36px}
+.swiss-quality-media .place-thumbnail img{display:block;position:absolute!important;inset:0;
+ width:100%!important;height:100%!important;object-fit:cover;z-index:1}
+.swiss-quality-no-photo{display:flex;flex-direction:column;align-items:center;justify-content:center;
+ gap:5px;text-align:center;padding:16px}
+.swiss-quality-no-photo strong{font-size:.8rem;line-height:1.35}
+.swiss-quality-no-photo small{font-size:.7rem;line-height:1.4}
+.swiss-quality-credit{display:block;position:static!important;margin:0;padding:8px 12px;
+ font-size:.66rem;line-height:1.5;color:var(--muted);background:var(--paper);
+ overflow-wrap:anywhere;border-bottom:1px solid var(--atlas-line,var(--line))}
+.swiss-quality-credit a{color:var(--green);text-underline-offset:3px}
