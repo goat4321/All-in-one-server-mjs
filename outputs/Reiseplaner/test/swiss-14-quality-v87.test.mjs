@@ -66,3 +66,17 @@ test('new GPX routes use two specifically licensed historic photos with explicit
   assert.match(placeThumbnailHtml(item,ctx(item.date)),/data-licensed="true"/);
  }
 });
+test('V88 previously blank Kandersteg village idea uses licensed 2017 town view, not a provider photo',()=>{
+ const item=trip.items.find(x=>x.id==='survey-v19:act-055');
+ assert.ok(item,'Kandersteg village activity must exist');
+ const photo=curatedPlacePhoto(item);
+ assert.ok(photo,'Town-view illustration must resolve for exactly this place');
+ assert.equal(photo.photoScope,'historic_village_landscape');
+ assert.equal(photo.photographed,'2017-07-29');
+ assert.match(photo.credit,/Fred Friggens/);
+ assert.match(photo.licenseUrl,/^https:\/\/creativecommons.org\/licenses\/by\/2\.0\//);
+ assert.match(photo.subjectDisclaimer,/2027/);
+ assert.ok(placeThumbnailHtml(item,ctx('2027-09-11')).includes('data-licensed="true"'));
+ assert.equal(curatedPlacePhoto({...item,name:'Unrelated hotel in Kandersteg'}),null);
+});
+
