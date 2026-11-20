@@ -494,3 +494,18 @@
 .data-disclosure-body>.section{margin-top:0;box-shadow:none}
 @media(max-width:600px){.data-page-heading{flex-direction:column;align-items:stretch}.data-page-heading .section-actions{justify-content:flex-start;flex-wrap:wrap}.data-disclosure>summary{padding:16px 0}.data-disclosure>summary small{font-size:.8rem}.data-page .readiness-grid{gap:4px;grid-template-columns:1fr}.data-page .readiness-card{padding:12px 0}}
 @media(prefers-reduced-motion:reduce){.data-disclosure>summary>.icon{transition:none}}
+
+/* V88 search control clipping fix: grid/flex min-content used to push the
+   submit button outside the visible 390px card without page-level overflow. */
+.hub-toolbar{grid-template-columns:minmax(0,1fr);min-width:0}
+.hub-search-form{width:100%;min-width:0}
+.hub-search-form>input{width:0;min-width:0;flex:1 1 0}
+.hub-search-form>.button{flex:0 0 auto}
+@media(max-width:650px){
+ .hub-search-form{display:grid;grid-template-columns:20px minmax(0,1fr) auto;
+  align-items:center;gap:6px;padding:5px 6px 5px 9px}
+ .hub-search-form>label{grid-column:1}
+ .hub-search-form>input{grid-column:2;width:100%;min-width:0}
+ .hub-search-form>[data-action="browse-search-apply"]{grid-column:3;white-space:nowrap;min-width:72px}
+ .hub-search-form>[data-action="browse-search-reset"]{grid-column:1/-1;justify-self:start}
+}
