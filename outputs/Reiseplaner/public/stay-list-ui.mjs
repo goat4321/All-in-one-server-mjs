@@ -69,7 +69,7 @@ export function stayListRow(item,ctx){
  const sourceLabel=direct?(src.booking?'Booking.com · Objektlink':'Airbnb · Objektlink'):
    src.operator?'Betreiberquelle · Tarif offen':src.offer?'Link nicht objektspezifisch':'Angebotslink offen';
  const station=e.stationWalkMinutes==null?'Bahnhof-Fußweg offen':e.stationWalkMinutes+' Min. berechneter Bahnhof-Fußweg';
- return '<article class="stay-list-row" data-stay-id="'+esc(item.id)+'" data-stay-city="'+esc(item.city)+'">'
+ return '<article class="stay-list-row hub-option-card" data-kind="lodging" data-stay-id="'+esc(item.id)+'" data-stay-city="'+esc(item.city)+'">'
    +'<div class="stay-list-media">'
    +(photo?placeImageHtml(item,ctx,{small:true})
      :'<div class="stay-list-photo-empty" role="img" aria-label="Kein verifiziertes Foto dieser Unterkunft">'
