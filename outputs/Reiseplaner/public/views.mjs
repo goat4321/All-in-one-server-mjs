@@ -786,7 +786,7 @@ function options(ctx, lodging) {
     (lodgingPriceInsight(a,people.length,ctx.nightlyTargetEuro)?.personNightCents??Infinity)
      -(lodgingPriceInsight(b,people.length,ctx.nightlyTargetEuro)?.personNightCents??Infinity)
      || a.name.localeCompare(b.name,'de'));
-  if (lodging && ['price','total','station','documentation'].includes(sort)) {
+  if (lodging && ['price','total','station','documentation','source-quality','location','laundry','beds'].includes(sort)) {
     const resorted = sortStayOptions(list,people,ctx.hotelWalks,state.verifications ?? {},sort);
     list.splice(0,list.length,...resorted);
   }
@@ -841,7 +841,9 @@ function options(ctx, lodging) {
     +'<label>Sortieren <select id="sort">'
     +[['source','Quelle'],['price',lodging?'Preisreferenz (EUR)':'Preis'],['name','Name'],
       ...(lodging?[['total','Gruppensumme'],['person-night','Pro Person/Nacht'],
-         ['station','Bahnhof-Fußweg'],['documentation','Datenvollständigkeit']]
+         ['station','Bahnhof-Fußweg'],['documentation','Datenvollständigkeit'],
+         ['source-quality','Quellenqualität'],['location','Standortgenauigkeit'],
+         ['laundry','Waschmaschine'],['beds','Betten für Gruppe geprüft']]
         :[['score','Gruppeninteresse']])]
       .map(([id,label])=>'<option value="'+id+'"'
        +(sort===id?' selected':'')+'>'+label+'</option>').join('')
