@@ -78,8 +78,10 @@ export function marketPriceOverrideValid(entry,city,chain,product){
   &&(entry.priceCents===null||(Number.isSafeInteger(entry.priceCents)&&entry.priceCents>=0&&entry.priceCents<=100000))
   &&Number.isSafeInteger(entry.packAmount)&&entry.packAmount>0&&entry.packAmount<=100000
   &&entry.packUnit===row.unit&&entry.currency===currency&&entry.status==='manual_unverified'
-  &&/^20\d\d-\d\d-\d\d$/.test(entry.checkedOn)&&!Number.isNaN(Date.parse(entry.checkedOn+'T00:00:00Z'))
-  &&entry.checkedOn<='2027-09-30'
+  &&/^20\d\d-\d\d-\d\d$/.test(entry.checkedOn)
+  &&!Number.isNaN(Date.parse(entry.checkedOn+'T00:00:00Z'))
+  &&new Date(entry.checkedOn+'T00:00:00Z').toISOString().slice(0,10)===entry.checkedOn
+  &&entry.checkedOn<=new Date().toISOString().slice(0,10)
   &&(entry.sourceUrl===null||typeof entry.sourceUrl==='string'&&entry.sourceUrl.length<=500&&/^https:\/\/[^\s]+$/.test(entry.sourceUrl));
 }
 export function marketQuote(city,chain,product,overrides={}){
