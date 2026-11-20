@@ -1165,6 +1165,45 @@ try {
   await text('#main', 'Oeschinensee');
   await until(()=>js('Boolean(document.querySelector(".swiss-focus-day"))'),'Swiss day-specific notes after day jump');
   await text('.swiss-focus-day','24.04.');
+  // Prompt 08: real browser verification of all critical Swiss final days,
+  // plus one Paris and one Barcelona segment. No day is auto-adopted.
+  const swissBeforeEditorial=JSON.stringify(store.current('interrail_swiss').state);
+  const swissShots=[
+    ['2027-09-01','paris'],['2027-09-04','barcelona'],
+    ['2027-09-10','kandersteg'],['2027-09-11','kandersteg'],
+    ['2027-09-12','appenzell'],['2027-09-13','appenzell'],
+    ['2027-09-14','appenzell']];
+  for(const width of [1440,390]){
+    await cdp('Emulation.setDeviceMetricsOverride',{
+      width,height:width===390?900:1100,deviceScaleFactor:1,mobile:width===390});
+    for(const [date,city] of swissShots){
+      await click('.sidebar [data-action=page][data-value=overview]');
+      await js('document.querySelector(".day-plan-overview").open=true');
+      await click('.day-plan-overview [data-action=day-plan-go][data-value="'+date+'"]');
+      await until(()=>js('document.querySelector(".swiss-editorial-plan")?.querySelectorAll(".swiss-editorial-block").length===3'),
+        'Swiss editorial three sections '+date);
+      assert.ok(await js('document.querySelector(".swiss-editorial-plan").textContent.includes("Küche & Lebensmittel")'));
+      assert.equal(await js('document.querySelectorAll(".swiss-editorial-block").length'),3);
+      const measured=await js('(()=>{const r=document.querySelector(".swiss-editorial-plan").getBoundingClientRect();return{width:innerWidth,overflow:document.documentElement.scrollWidth-innerWidth,left:r.left,right:r.right}})()');
+      assert.ok(measured.overflow<=5&&measured.left>=-4&&measured.right<=width+4,
+        'Swiss 14-day narrative fits screen '+date+': '+JSON.stringify(measured));
+      if(date==='2027-09-10'||date==='2027-09-14')
+        assert.equal(await js('document.querySelectorAll(".swiss-editorial-plan [data-action=day-plan-add]").length'),0,
+          'Long transfers never introduce invented activities');
+      if(date==='2027-09-11')
+        await text('.swiss-editorial-plan','Heuberg');
+      if(date==='2027-09-13')
+        await text('.swiss-editorial-plan','Regionalticket');
+      await js('document.querySelector(".swiss-editorial-plan").scrollIntoView({block:"start"})');
+      await screenshot('93-swiss-redaktion-'+date+'-'+width+'.png');
+    }
+  }
+  await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+  assert.equal(JSON.stringify(store.current('interrail_swiss').state),swissBeforeEditorial,
+    'Reading Swiss travel itinerary never changes actual date, selection or budget');
+  assert.equal(store.current('swiss_lakes').state.people.length,4);
+  await click('.sidebar [data-action=page][data-value=overview]');
+  await click('.swiss-focus-day-shortcuts [data-action=day-plan-go][data-value="2027-09-11"]');
   await click('.sidebar [data-action=page][data-value=rail]');
   await text('.swiss-focus-rail', 'Schweiz-Verbindungen');
   assert.equal(await js('document.querySelectorAll(".swiss-focus-corridor").length'),4,
