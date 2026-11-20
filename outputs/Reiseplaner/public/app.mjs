@@ -33,6 +33,7 @@ const toast = document.querySelector('#toast');
 const motion = createMotionController(document);
 let catalog, variant, currentMap, context, toastTimer, undo, revisionToken = 0, dragged, timetableSearch;
 let saving = false, loading = false;
+let pendingVariantSwitch=null; // Last requested variant while a write/load is in flight
 let mapRouteRequestGeneration=0;
 let commonsPhotoPick = null;
 let browseSearchTimer=null;
@@ -681,20 +682,31 @@ async function save(next, message, recordUndo = true) {
   saving = true;
   const label = app.querySelector('.status-icon');
   if (label) label.textContent = 'Speichert …';
+  let committed=false;
   try {
     const response = await api(variantUrl(), 'PUT', { state: next, revision: variant.revision });
     if (recordUndo) undo = { id, state: before };
     Object.assign(variant, { state: next, revision: response.revision });
     Object.assign(catalog.variants.find(v => v.id === id), { state: next, revision: response.revision });
+    committed=true;
     say(message, recordUndo);
   } finally {
     saving = false;
     render({ restoreView: true });
+    // A quick variant change while an edit is saving must not silently vanish.
+    // Only switch after a confirmed save; reject on failed writes.
+    const queued=pendingVariantSwitch;
+    pendingVariantSwitch=null;
+    if(queued&&committed&&queued!==variant.id)
+      void switchVariant(queued).catch(error=>say(error.message));
+    else if(queued&&!committed)
+      say('Variantenwechsel verworfen: Speichern fehlgeschlagen. Bitte prüfen.');
   }
 }
 
 async function switchVariant(id) {
-  if (loading || saving || !catalog.variants.some(v => v.id === id)) return;
+  if(!catalog.variants.some(v=>v.id===id))return;
+  if(saving||loading){pendingVariantSwitch=id;return;}
   loading = true;
   view.mapPinPicking=false;view.mapPinDraft=null;view.mapPinEditingId=null;
   try {
@@ -713,7 +725,13 @@ async function switchVariant(id) {
     view.dailyBudgetDate=null; view.showAllVotes=false;
     view.dataOpenSections=[];
     render();
-  } finally { loading = false; }
+  } finally {
+    loading = false;
+    const queued=pendingVariantSwitch;
+    pendingVariantSwitch=null;
+    if(queued&&queued!==variant.id)
+      void switchVariant(queued).catch(error=>say(error.message));
+  }
 }
 
 async function loadCityMarkets(cityId){
