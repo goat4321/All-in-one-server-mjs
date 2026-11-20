@@ -106,8 +106,8 @@ try{
    'Full-text search preserves requested POI and search term');
  await click('[data-action=browse-search-reset]');
  await change('#discover-evidence','point');
- assert.ok(await js('[...document.querySelectorAll(".discovery-card")].every(x=>x.textContent.includes("Kartenpunkt"))'),
-   'Point filter uses grounded pins only');
+ assert.ok(await js('[...document.querySelectorAll(".discovery-card .discovery-essentials > span:nth-child(2)")].every(x=>/Kartenpunkt|Gebietsreferenz/.test(x.textContent))'),
+   'Point filter includes recorded points and correctly labelled area centroids only');
  await change('#discover-evidence','all');
  await change('#discover-duration','unknown');
  await until(()=>js('Boolean(document.querySelector(".discovery-count"))'),'Duration facet');
