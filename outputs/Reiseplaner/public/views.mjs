@@ -25,6 +25,7 @@ import {mapViewSummary} from './map-view-summary-v72.mjs';
 import {hikingMapPanel} from './hiking.mjs';
 import {plansForSlot,currentMeals} from './meal-planner.mjs';
 import {mealDayOverview,mealFlowSummary,stapleComparison,shoppingStopButton} from './meal-planner-ui.mjs';
+import {marketBasketPanel} from './market-basket-ui-v86.mjs';
 import {table} from './ui.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
@@ -953,7 +954,7 @@ function food(ctx) {
        ?'<div class="hub-more-button">'
          +btn('browse-more','Weitere '+Math.min(24,shown.length-(ctx.browseLimit??24))
            +' Orte anzeigen','plus','','primary')+'</div>':'');
-  return visualBrowse + '<details class="hub-food-planning"'
+  return visualBrowse + marketBasketPanel(ctx) + '<details class="hub-food-planning"'
     +(ctx.browseMealsOpen?' open':'')+'><summary>'
     +icon('calendar')+' Tagesmenüs, Einkaufswarenkorb & detaillierte Preisrecherche'
     +icon('chevron')+'</summary><div class="hub-food-planning-content">'
