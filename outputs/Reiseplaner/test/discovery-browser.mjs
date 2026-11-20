@@ -100,9 +100,7 @@ try{
  const ids=await allIds();assert.ok(ids.length>=5,'At least five distinct real existing POIs');
  const firstName=await js('document.querySelector(".discovery-card h3").textContent');
  await js('(()=>{const x=document.querySelector("#browse-search");x.value='+JSON.stringify(firstName.slice(0,8))+';x.dispatchEvent(new Event("input",{bubbles:true}))})()');
- await until(()=>js('document.querySelector(".discovery-count strong")?.textContent.includes("Ergebnisse")&&document.querySelectorAll(".discovery-card").length>0
-  &&[...document.querySelectorAll(".discovery-card h3")].every(x=>x.textContent.toLowerCase().includes('+JSON.stringify(firstName.slice(0,8).toLowerCase())+'))'),
-  'Live search keeps same content');
+ await until(()=>js('document.querySelector(".discovery-count strong")?.textContent.includes("Ergebnisse")&&document.querySelectorAll(".discovery-card").length>0&&[...document.querySelectorAll(".discovery-card h3")].every(x=>x.textContent.toLowerCase().includes('+JSON.stringify(firstName.slice(0,8).toLowerCase())+'))'),'Live search keeps same content');
  await click('[data-action=browse-search-reset]');
  await change('#discover-evidence','point');
  assert.ok(await js('[...document.querySelectorAll(".discovery-card")].every(x=>x.textContent.includes("Kartenpunkt"))'),
