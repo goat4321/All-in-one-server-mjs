@@ -783,6 +783,15 @@ function discoverCatalog(ctx){
   return browseHero(ctx,'discover',result.filtered.length)
     +browseToolbar(ctx,{kind:'discover',total:result.source.length,filtered:result.filtered.length})
     +discoveryFilterBar(ctx,result,{surface:'discover'})
+    +(ctx.discoveryCategory==='shop'&&ctx.browseScope==='city'
+      ?'<div class="discovery-market-status" role="status">'
+        +'<span>Zusätzliche OSM-Supermärkte: '
+        +esc(ctx.foodMarketCoverage?.cityLoaded?'für die Stadt geladen'
+          :ctx.foodMarketCoverage?.error?'Quelle nicht erreichbar: '+ctx.foodMarketCoverage.error
+          :ctx.foodMarketCoverage?.loading?'Lade Daten …':'noch nicht abgefragt')+'</span>'
+        +(!ctx.foodMarketCoverage?.cityLoaded&&!ctx.foodMarketCoverage?.loading
+          ?btn('browse-market-load','OSM-Supermärkte laden','plus','','subtle'):'')
+        +'</div>':'')
     +'<div class="discovery-list-head"><strong>'+result.filtered.length+' passende Orte</strong>'
       +'<small>Nur Recherche · erst „Zum Tag“ verändert den Plan.</small></div>'
     +(result.filtered.length
