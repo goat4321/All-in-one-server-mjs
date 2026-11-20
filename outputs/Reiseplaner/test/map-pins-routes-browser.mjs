@@ -313,7 +313,10 @@ try{
   await until(()=>js('!document.querySelector(".map-fullscreen-mode")'),'Vollbild schließen');
  }
  for(const [id,snapshot] of Object.entries(otherVariants))assert.equal(JSON.stringify(store.current(id).state),snapshot,'All other variant states remain unchanged');
- assert.equal(providerCalls.filter(call=>call.recorded).length,7,'Recorded routes are cached, not repeatedly fetched');
+ assert.equal(providerCalls.filter(call=>call.recorded&&call.mode==='foot').length,7,
+   'Only the seven unique source-backed foot legs are fetched, then cached');
+ assert.equal(providerCalls.filter(call=>call.recorded&&call.mode==='bike').length,1,
+   'The newly exercised bicycle route has an independent and cached provider request');
  assert.deepEqual(report.errors,[]);if(output)await writeFile(join(output,'map-flows.json'),JSON.stringify({...report,providerCalls},null,2));
  console.log('PASS: real map-click pin CRUD/Undo, two and eight recorded foot segments, ordering/focus, conflict protection, itinerary Undo, reload and variant isolation');
 }finally{
