@@ -1,5 +1,5 @@
 import {entryCompleteness} from './entry-completeness.mjs';
-import {placeImageHtml,placeProfileModel} from './place-profile.mjs';
+import {placeThumbnailHtml,placeProfileModel} from './place-profile.mjs';
 import {googleMapsSearchUrl} from './google-maps.mjs';
 import {esc,btn,urlLink} from './ui.mjs';
 
@@ -51,12 +51,20 @@ export function renderSwiss14QualityDay(ctx){
   const source=sourceFor(item,ctx),profile=placeProfileModel(item,ctx);
   const detail=String(item.detail??item.note??item.swissGuideV75?.summary??'')
      .trim().slice(0,260);
-  const photo=placeImageHtml(item,ctx,{small:true});
+  // Attribution stays below the media, even if external images are blocked.
+  const photo=profile?.photo;
+  const media=photo
+   ?'<div class="swiss-quality-media">'+placeThumbnailHtml(item,ctx)+'</div>'
+      +'<div class="swiss-quality-credit">Bild: '+esc(photo.credit)
+      +' · '+urlLink(photo.sourceUrl,'Bildquelle')
+      +(photo.licenseUrl?' · '+urlLink(photo.licenseUrl,'Lizenz'):'')+'</div>'
+   :'<div class="swiss-quality-media swiss-quality-no-photo"><strong>Kein verifiziertes Objektfoto</strong>'
+      +'<small>Nur Orts-/Symbolvorschau – nicht mit einem konkreten Foto verwechseln.</small></div>';
   const airbnb=item.provider==='Airbnb'||item.id.startsWith('wishlist:airbnb:');
   const maps=(!airbnb&&item.pointPrecision!=='unverified_or_not_single_location'
       &&item.kind==='activity')?googleMapsSearchUrl(item,ctx.cities):null;
   return '<article class="swiss-quality-card" data-quality-id="'+esc(item.id)+'">'
-    +'<div class="swiss-quality-photo">'+photo+'</div>'
+    +'<div class="swiss-quality-photo">'+media+'</div>'
     +'<div class="swiss-quality-body"><small>'+esc(item.id)+' · '
      +(evidence.hasPhoto?'Lizenzbild im Detail':'Kein verifiziertes Objektfoto')+'</small>'
     +'<h4>'+esc(item.name)+'</h4>'
