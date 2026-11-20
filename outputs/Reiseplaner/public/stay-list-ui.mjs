@@ -67,7 +67,10 @@ export function stayListRow(item,ctx){
    +'<div><dt>Standort</dt><dd>'+esc(stayLocationState(item))+'</dd></div>'
    +'<div><dt>Datenprüfung</dt><dd>'+e.risk.length+' offene Prüfpunkte</dd></div></dl>'
    +lodgingPriceMeter(item,people,ctx.nightlyTargetEuro)
+   +'<p class="stay-list-review">Eigene Unterkunftsprüfung: '+e.review.count+'/'+e.review.total
+     +' · '+(e.review.complete?'dokumentiert':'Nachweise fehlen')+'</p>'
    +'<div class="stay-list-preview-links">'+btn('details','Vollständige Details & Quellen','folder',item.id)
+     +btn('verify-item','Belegung und Checkout prüfen','check',item.id)
      +(direct?urlLink(direct,src.booking?'Objekt auf Booking.com':'Objekt auf Airbnb'):'')
      +(src.operator?urlLink(src.operator,'Betreiber-Referenz'):'')+'</div></div></details>'
    +'</div><div class="stay-list-decision">'
@@ -75,7 +78,11 @@ export function stayListRow(item,ctx){
    +'<span>'+esc(group)+'</span>'
    +'<small>'+esc(p?.isSample?'Historischer Suchwert, kein Checkout 2027':p?.source??'Preis offen')+'</small>'
    +'<span class="stay-list-booking">'+esc(stayStatus(item,ctx))+'</span>'
-   +'<div class="stay-list-actions">'+btn('details','Details','folder',item.id,'primary')
+   +'<div class="stay-list-actions">'
+   +btn(ctx.activeSet?.has(item.id)?'edit':'choose',
+     ctx.activeSet?.has(item.id)?'Im Plan bearbeiten':'Unterkunft prüfen',
+     ctx.activeSet?.has(item.id)?'edit':'check',item.id,'primary')
+   +btn('details','Details','folder',item.id)
    +btn('browse-save',saved?'Gemerkt':'Merken',saved?'check':'bookmark',item.id)
    +btn('compare',compared?'Vergleich aktiv':'Vergleichen','compare',item.id)
    +'</div></div></article>';
