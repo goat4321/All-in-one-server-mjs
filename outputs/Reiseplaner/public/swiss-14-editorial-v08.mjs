@@ -208,7 +208,7 @@ export function swissEditorialPanel(ctx){
   +'<div class="swiss-editorial-logistics">'
   +'<section><h4>'+icon('food')+' Küche & Lebensmittel</h4><p>'+esc(row.food)+'</p></section>'
   +'<section><h4>'+icon('clock')+' Puffer</h4><p>'+esc(row.buffer)+'</p></section>'
-  +'<section><h4>'+icon('cloud')+' Alternative</h4><p>'+esc(row.alternative)+'</p></section>'
+  +'<section><h4>'+icon('alert')+' Alternative</h4><p>'+esc(row.alternative)+'</p></section>'
   +'</div>'
   +'<details class="swiss-editorial-evidence"><summary>'
    +icon('info')+' Konkrete Prüfungen & offizielle Links ('+row.checks.length+')'
