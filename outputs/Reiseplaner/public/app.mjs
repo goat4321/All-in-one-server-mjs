@@ -25,7 +25,7 @@ import { btn, empty, esc, icon, urlLink } from './ui.mjs';
 import {hikingPreview,hikingMapPreview} from './hiking.mjs';
 import {mealAccommodation,mealSlotLabels} from './meal-planner.mjs';
 import {renderDataSection,renderCoverageReasons} from './data-page.mjs';
-import {shoppingStopForm,mapPinForm} from './forms.mjs';
+import {shoppingStopForm,mapPinForm,marketQuoteForm} from './forms.mjs';
 import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, expenseForm, itemDetails, layerForm, groceryEditForm, groceryExtraForm, mealForm, openDialog, routeForm, simpleField, timetableForm, verificationForm } from './forms.mjs';
 
 const app = document.querySelector('#app');
@@ -2061,6 +2061,16 @@ async function action(name, value = '') {
     case 'meal-cost':
       if (item?.mealSlot && ctx.activeSet.has(item.id)) expenseForm(ctx, ctx.state.expenses.find(e => e.forItem === item.id), save, item);
       break;
+    case 'market-quote':
+      marketQuoteForm(ctx,value,save);
+      break;
+    case 'market-quote-reset': {
+      if(!ctx.state.marketQuotes?.[value]||!value.startsWith(ctx.city+':'))break;
+      const updated={...ctx.state.marketQuotes};
+      delete updated[value];
+      await save({...ctx.state,marketQuotes:updated},'Eigene Marktpreisreferenz zurückgesetzt');
+      break;
+    }
     case 'grocery-edit': {
       const row = groceryBasket(ctx.active.filter(item => !ctx.state.expenses.some(e => e.forItem === item.id)),
         ctx.people.length, ctx.state.groceryOverrides ?? {}, ctx.state.shopping).find(entry => entry.key === value && entry.city === ctx.city);
