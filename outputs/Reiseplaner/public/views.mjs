@@ -954,7 +954,7 @@ function food(ctx) {
        ?'<div class="hub-more-button">'
          +btn('browse-more','Weitere '+Math.min(24,shown.length-(ctx.browseLimit??24))
            +' Orte anzeigen','plus','','primary')+'</div>':'');
-  return visualBrowse + marketBasketPanel(ctx) + '<details class="hub-food-planning"'
+  return marketBasketPanel(ctx) + visualBrowse + '<details class="hub-food-planning"'
     +(ctx.browseMealsOpen?' open':'')+'><summary>'
     +icon('calendar')+' Tagesmenüs, Einkaufswarenkorb & detaillierte Preisrecherche'
     +icon('chevron')+'</summary><div class="hub-food-planning-content">'
