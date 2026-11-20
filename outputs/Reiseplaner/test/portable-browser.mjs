@@ -1264,8 +1264,11 @@ try {
   await text('.market-baskets-v86','Aldi');
   assert.equal(await js('document.querySelectorAll(".market-chain-card").length'),3);
   assert.equal(await js('document.querySelector(".market-chain-card table tbody")?.rows.length'),10);
+  assert.equal(await js('document.querySelectorAll(".market-chain-card[open]").length'),0,
+    'All stores initially compact, detailed product matrix on demand');
   const marketKey='barcelona:mercadona:spaghetti';
   const beforeMarketExpenses=JSON.stringify(store.current('interrail_swiss').state.expenses);
+  await click('.market-chain-card:first-child > summary');
   await click('.market-baskets-v86 [data-action=market-quote][data-value="'+marketKey+'"]');
   await text('dialog','Supermarkt-Produktpreis');
   await set('dialog [name=price]','1,15');
@@ -1275,6 +1278,7 @@ try {
   assert.equal(JSON.stringify(store.current('interrail_swiss').state.expenses),beforeMarketExpenses);
   await cdp('Page.navigate',{url:address+'&variant=interrail_swiss'});
   await text('h1','Reiseübersicht');await openMeals();
+  await click('.market-chain-card:first-child > summary');
   await text('.market-baskets-v86','Eigene Angabe');
   await click('.market-baskets-v86 [data-action=market-quote-reset][data-value="'+marketKey+'"]');
   await until(async()=>store.current('interrail_swiss').state.marketQuotes[marketKey]===undefined,
@@ -1399,13 +1403,18 @@ try {
   for(const date of ['2027-09-10','2027-09-11','2027-09-12','2027-09-13']){
     await showEditorialDay(date,true);
     await screenshot('88-v85-swiss-'+date.slice(-2)+'-desktop.png');
-    if(['2027-09-11','2027-09-13'].includes(date))
+    if(['2027-09-11','2027-09-13'].includes(date)){
+      await js('document.querySelector(".swiss-quality-day")?.scrollIntoView({block:"start",behavior:"instant"})');
       await screenshot('92-v87-swiss-'+date.slice(-2)+'-quality.png');
+    }
   }
   for(const date of ['2027-09-02','2027-09-05','2027-09-06']){
     await showEditorialDay(date,false);
     await screenshot('89-v85-city-'+date.slice(-2)+'-desktop.png');
-    if(date==='2027-09-06')await screenshot('93-v87-sete-quality.png');
+    if(date==='2027-09-06'){
+      await js('document.querySelector(".swiss-quality-day")?.scrollIntoView({block:"start",behavior:"instant"})');
+      await screenshot('93-v87-sete-quality.png');
+    }
   }
   await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   for(const date of ['2027-09-11','2027-09-13']){
@@ -1415,6 +1424,7 @@ try {
     assert.ok(await js('document.querySelector(".swiss-day-editorial").getBoundingClientRect().right<=innerWidth+2'),
       'V85 cards fit mobile viewport '+date);
     await screenshot('90-v85-swiss-'+date.slice(-2)+'-mobile.png');
+    await js('document.querySelector(".swiss-quality-day")?.scrollIntoView({block:"start",behavior:"instant"})');
     await screenshot('94-v87-swiss-'+date.slice(-2)+'-quality-mobile.png');
   }
   await cdp('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false});
