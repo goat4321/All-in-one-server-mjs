@@ -120,8 +120,10 @@ export function discoverySelect(ctx,{surface='discover'}={}){
    :surface==='activities'?'activity':ctx.discoveryCategory??'all';
  const saved=ctx.browseSavedIds??new Set(ctx.state?.favorites??[]);
  const filtered=searched.filter(i=>
-   (category==='all'||explorerCategory(i)===category)
-   &&(!ctx.discoverySavedOnly||saved.has(i.id))
+   (surface==='food'&&ctx.browseFoodType==='cook'?(Boolean(i.requiresKitchen)||Array.isArray(i.basketProducts))
+      :category==='all'||explorerCategory(i)===category
+         &&!(surface==='food'&&category==='food'&&(Boolean(i.requiresKitchen)||Array.isArray(i.basketProducts))))
+   &&(!(ctx.discoverySavedOnly||surface==='food'&&ctx.browseFoodSavedOnly)||saved.has(i.id))
    &&discoveryQualityMatch(i,ctx,ctx.discoveryQuality??'all'));
  const order=ctx.discoveryOrder??'source';
  if(order==='name'||order==='city')filtered.sort((a,b)=>
@@ -184,8 +186,9 @@ export function discoveryCard(item,ctx,{surface='discover'}={}){
    +'" data-place-id="'+esc(item.id)+'" data-kind="'+esc(explorerCategory(item))
    +'" data-city="'+esc(item.city)+'">'
    +'<div class="discovery-result-photo">'+placeImageHtml(item,ctx,{small:true})+'</div>'
-   +'<div class="discovery-result-info"><p class="discovery-result-eyebrow">'
-     +esc(facts.category)+' · '+esc(facts.city)+'</p><h3>'+esc(item.name)+'</h3>'
+   +'<div class="discovery-result-info"><p class="discovery-result-eyebrow hub-food-card-type">'
+     +esc((Boolean(item.requiresKitchen)||Array.isArray(item.basketProducts))?'Selbstversorgung':facts.category)+' · '+esc(facts.city)+'</p><h3>'+esc(item.name)+'</h3>'
+   +(isExternal?'<small class="discovery-readonly">OSM-Geodaten · Betrieb ungeprüft · '+esc(facts.position)+'</small>':'')
    +'<div class="discovery-quickfacts"><span>'+icon('pin')+esc(facts.position)+'</span>'
    +'<span>'+icon('clock')+esc(facts.duration)+'</span>'
    +'<span>'+icon('wallet')+esc(facts.price)+'</span></div>'
@@ -195,7 +198,7 @@ export function discoveryCard(item,ctx,{surface='discover'}={}){
    +'<p>'+esc(item.detail??item.note??'Weitere geprüfte Angaben sind nicht vorhanden.')+'</p>'
    +'<dl>'+facts.features.map(([k,v])=>'<div><dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd></div>').join('')+'</dl>'
    +'<div>'+btn('details','Vollständige Details','folder',item.id)
-   +(source?urlLink(source,'Originalquelle'):'')+'</div></details>'
+   +(source?urlLink(source,isExternal?'Kartendatenquelle':'Originalquelle'):'')+'</div></details>'
    +'</div><div class="discovery-result-actions">'
    +(active?'<small>Im Plan</small>':'<small>Unverbindliche Option</small>')
    +(allowPlan?btn(active?'edit':meal?'meal-choose':'choose',
