@@ -52,3 +52,56 @@ export function shoppingStopButton(ctx){
  return shoppingCandidates(ctx).length?btn('shopping-stop','Einkaufsstopp planen','calendar')
   :'<small>Für einen Einkaufsstopp zuerst einen Ort dieser Stadt erfassen oder laden.</small>';
 }
+
+
+/** Read-only guide across the existing meal, shared pantry and budget modules.
+ * Quantities are pooled by groceryBasket upstream. This component does not
+ * write an expense merely because a meal or reference product was selected.
+ */
+export function mealFlowSummary(ctx,basket=[]){
+ const meals=Object.entries(mealSlotLabels).map(([slot,label])=>({
+  slot,label,items:currentMeals(ctx,slot).filter(item=>item.city===ctx.city&&!item.removed)
+ }));
+ const chosen=meals.reduce((sum,row)=>sum+row.items.length,0);
+ const servings=ctx.people?.length??0;
+ const groups=new Map();
+ for(const row of basket){
+  const result=groups.get(row.currency)??{currency:row.currency,known:0,unknown:0};
+  if(row.total===null||row.excluded)result.unknown++;
+  else result.known+=row.total;
+  groups.set(row.currency,result);
+ }
+ const costs=[...groups.values()].map(row=>money(row.known,row.currency)
+  +(row.unknown?' + '+row.unknown+' offene Position(en)':'')).join(' · ');
+ const missing=basket.filter(row=>row.packs>0&&!row.checked).length;
+ const stock=basket.filter(row=>row.stock>0).length;
+ const confirmed=meals.flatMap(row=>row.items).filter(item=>
+   ctx.state?.expenses?.some(expense=>expense.forItem===item.id)).length;
+ const selected=ctx.mealSlot??'dinner';
+ const active=meals.find(row=>row.slot===selected);
+ const warnings=active?.items.filter(item=>item.requiresKitchen).map(item=>
+  mealAccommodation({...ctx,city:item.city},selected,
+   item.start?localParts(item.start,item.zone).time:undefined,item.duration??0)
+ ).filter(info=>!info.kitchenReady)??[];
+ return '<section class="meal-flow-summary" aria-label="Ablauf Mahlzeiten und Einkauf">'
+  +'<h3>Vom Rezept zum Tagesbudget · '+servings+' Personen</h3>'
+  +'<ol class="meal-flow-steps">'
+  +'<li><strong>1 · Mahlzeit wählen</strong><small>'+chosen+' Auswahl(en) heute · '
+     +meals.map(row=>row.label+': '+row.items.length).join(', ')+'</small></li>'
+  +'<li><strong>2 · Mengen berechnen</strong><small>Rezeptkarten für '+servings
+     +' Personen; kochfrei oder mit tatsächlich bestätigter Küche.</small>'
+     +'<a href="#meal-recipe-choices">Zu den Rezepten</a></li>'
+  +'<li><strong>3 · Vorräte abziehen</strong><small>'+stock
+     +' Artikel mit hinterlegtem Vorrat · Bedarf und Verbrauch bleiben vom Einkauf getrennt.</small></li>'
+  +'<li><strong>4 · Ganze Packungen einkaufen</strong><small>'
+     +missing+' offene Einkaufsposition(en) · Extras und zusätzliche Packungen ausdrücklich möglich.</small>'
+     +'<a href="#meal-grocery-basket">Zum Warenkorb</a></li>'
+  +'<li><strong>5 · Kosten bewusst bestätigen</strong><small>'
+     +(costs||'Noch kein Produktbetrag')+' · '+confirmed
+     +' Mahlzeit(en) mit erfasster Ausgabe. Schätzungen sind keine Zahlungen.</small>'
+     +'</li></ol>'
+  +(warnings.length?'<p class="meal-flow-warning"><strong>Küchenzugang nicht bestätigt:</strong> '
+     +esc(warnings[0].notice)+'</p>':'')
+  +'<p class="muted">EUR und CHF bleiben getrennt. Leere Produktpreise bleiben offen; ein Einkauf wird nicht automatisch als bezahlt verbucht.</p>'
+  +'</section>';
+}
