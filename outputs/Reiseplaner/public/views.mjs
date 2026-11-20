@@ -961,7 +961,7 @@ function food(ctx) {
     + menuSection
     + mealDayOverview(ctx)
     + mealFlowSummary(ctx,basket)
-    + (planCards ? '<section id="meal-recipe-choices" class="section"><h2>2 · Selbst kochen, kochfrei oder auswärts essen</h2><div class="grid-cards">' + planCards + '</div></section>' : '')
+    + (planCards ? '<section id="meal-recipe-choices" class="section"><h2>Selbst kochen oder auswärts essen</h2><p class="muted">Schritt 2 · Rezept, Kochmöglichkeit und kochfreie Alternativen für die Gruppe auswählen.</p><div class="grid-cards">' + planCards + '</div></section>' : '')
     + '<section id="meal-grocery-basket" class="section grocery-section" aria-label="Gemeinsamer Einkaufswarenkorb"><div class="inline"><h2>Gemeinsamer Einkaufswarenkorb'
       + (basket.length ? ' · ' + esc(basketTotals) : '') + '</h2>' + btn('grocery-extra', 'Artikel ergänzen', 'plus') + shoppingStopButton(ctx) + '</div>'
       + '<p class="muted">Mengen gelten für alle geplanten Rezeptmahlzeiten in ' + esc(ctx.cities[city].name)
