@@ -67,7 +67,7 @@ export function discoveryFactRows(item,ctx){
    ['Quelle',discoverySourceLabel(item)]];
  if(kind==='activity')return [
    ['Dauer',duration],['Saison / Öffnung',season],
-   ['Schwerpunkt',item.tags?.slice(0,2).join(' · ')||'Noch offen'),...common
+   ['Schwerpunkt',item.tags?.slice(0,2).join(' · ')||'Noch offen'],...common
  ];
  if(kind==='food')return [
    ['Küche / Ausrichtung',item.tags?.slice(0,2).join(' · ')||'Nicht belegt'],
