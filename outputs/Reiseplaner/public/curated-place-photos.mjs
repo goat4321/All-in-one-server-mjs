@@ -2,6 +2,15 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // V88: village landscape, not a photo of a provider or of a 2027 event.
+ {city:'kandersteg',name:/^kandersteg\s*[–-]\s*ruhiger dorfnachmittag$/i,
+  file:'Kandersteg Valley.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Kandersteg_Valley.jpg',
+  credit:'Fred Friggens · CC BY 2.0 · Blick über das Dorf Kandersteg (29.07.2017), historisches Ortsmotiv · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by/2.0/',
+  photoScope:'historic_village_landscape',photographed:'2017-07-29',
+  subjectDisclaimer:'Historische Dorfansicht, keine Bestätigung von Öffnungszeiten oder Wegezugang im September 2027.'},
+
  // V87: directly matched scenic PARTS of the two optional Swiss hike routes.
  // Neither photo proves passability or a complete 2027 route; keep dated captions.
  {city:'kandersteg',name:/^heuberg\s*[·-]/i,
