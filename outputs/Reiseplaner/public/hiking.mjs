@@ -1,4 +1,5 @@
 import {esc,btn,urlLink} from './ui.mjs';
+import {placeImageHtml} from './place-profile.mjs';
 
 const radians=x=>x*Math.PI/180;
 const distance=(a,b)=>{
@@ -69,6 +70,20 @@ function profileHtml(trail){
     +number(Math.round(metric.ascent))+' m. Vor der Tour die konkrete Wegvariante prüfen.</small>':'')
   +'</figcaption></figure>';
 }
+/** Reuse an already sourced place image. A lake/region image is not evidence of a
+ * particular mountain trail or its present condition. Never derive image URLs from GPX.
+ */
+function hikingContextPhoto(ctx,trail){
+ const all=ctx.all??[];
+ const scenicIds=trail.city==='kandersteg'?['act-054','act-053']:['act-046','act-045'];
+ const specific=all.find(item=>item.kind==='activity'&&item.id!==trail.itemId
+  &&(trail.id==='ebenalp'?/Ebenalp|Wildkirchli|Äscher/i.test(item.name):false));
+ const item=specific??all.find(item=>scenicIds.includes(item.id)&&item.kind==='activity');
+ if(!item)return '';
+ return '<div class="hike-context-photo">'+placeImageHtml(item,ctx,{small:true})
+  +'<p class="hike-photo-context">Ortsmotiv: '+esc(item.name)
+  +' · zeigt nicht zwingend den konkreten Wanderabschnitt oder den Wegzustand 2027.</p></div>';
+}
 export function hikingPanel(ctx){
  const trails=hikingOptions(ctx);if(!trails.length)return '';
  const selectedCount=trails.filter(t=>ctx.activeSet?.has(t.itemId)).length;
@@ -78,14 +93,18 @@ export function hikingPanel(ctx){
   +'<div class="hiking-options-grid">'+trails.map(trail=>{
    const selected=ctx.activeSet?.has(trail.itemId),slot=ctx.dayPlan?.slots?.find(s=>s.id===trail.itemId);
    const official=trail.official;
-   return '<article class="hike-option" data-hike-id="'+esc(trail.id)+'"><h4>'+esc(trail.title)+'</h4>'
+   return '<article class="hike-option" data-hike-id="'+esc(trail.id)+'">'
+    +hikingContextPhoto(ctx,trail)
+    +'<h4>'+esc(trail.title)+'</h4>'
     +'<p class="hike-facts">'+(official.km===null?'Länge offen':number(official.km,2)+' km')
     +' · ↑ '+number(official.ascent)+' m · ↓ '+number(official.descent)+' m · '
     +number(official.minutes)+' Min.'+(trail.id==='oesch-light'?' pro Richtung':' reine Gehzeit')+'</p>'
-    +'<p>'+esc(trail.category)+'</p><p>'+esc(trail.exposure)+'</p>'
+     +'<p class="hike-category"><strong>Wegtyp:</strong> '+esc(trail.category)+'</p>'
+    +'<p class="hike-risk"><strong>Gelände & Anforderungen:</strong> '+esc(trail.exposure)+'</p>'
     +profileHtml(trail)
     +'<details><summary>Weg, Anfahrt und Bedingungen</summary><p>'+esc(trail.route)+'</p>'
     +'<p>'+esc(trail.access)+'</p><p>'+esc(trail.conditions)+'</p><p>'+esc(trail.costs)+'</p>'
+     +'<p><strong>Stand:</strong> '+esc(trail.conditions)+'</p>'
     +'<p>Quellenprüfung '+esc(ctx.catalog.research.hikingEvidence.checkedOn)+' · SAC-Stufe '
     +esc(trail.sac??'nicht konkret belegt')+'</p><div class="swiss-focus-links">'
     +urlLink(trail.sourceUrl,'Offizielle Tourbeschreibung')+urlLink(trail.statusUrl,'Weg-/Betriebsstatus prüfen')
