@@ -50,7 +50,8 @@ test('search and category filters show the same source records as the map (inclu
   assert.deepEqual(query.result.map(x=>x.id).sort(),expected,category);
   assert.equal(query.counts[category],expected.length);
  }
- const dish=current.all.find(item=>item.menuPriceResearchV08?.menuReference?.sample?.[0]?.name);
+ const dish=current.all.find(item=>item.city===current.city&&!item.duplicateOf&&!item.removed
+   &&item.kind==='activity'&&item.menuPriceResearchV08?.menuReference?.sample?.[0]?.name);
  if(dish){
   const phrase=dish.menuPriceResearchV08.menuReference.sample[0].name;
   assert.ok(discoveryBase({...current,browseSearch:phrase}).some(x=>x.id===dish.id));
