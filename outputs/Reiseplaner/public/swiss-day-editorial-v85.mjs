@@ -176,7 +176,7 @@ export function renderSwissDayEditorialV85(ctx){
   ['Zeitreserve',day.buffer],['Alternative',day.alternative]];
  return '<section class="swiss-day-editorial" aria-label="Morgen Mittag Abend: unverbindlicher Tagesablauf">'
   +'<header class="swiss-editorial-head"><span>REDAKTIONELLER TAGESABLAUF · 3 REISENDE</span>'
-  +'<h3>Morgen, Mittag & Abend</h3>'
+  +'<h3>Morgen, Mittag &amp; Abend</h3>'
   +'<p>Bestehenden Plan ergänzt, nichts automatisch übernommen. Die Vorschläge und Bilder ersetzen keine bestätigten Zugzeiten, Preise oder Buchungen.</p></header>'
   +'<div class="swiss-editorial-grid">'+blocks+'</div>'
   +'<div class="swiss-editorial-facts">'+facts.map(([title,body])=>
