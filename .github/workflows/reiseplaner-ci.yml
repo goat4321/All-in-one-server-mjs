@@ -58,6 +58,10 @@ jobs:
         env:
           REISEPLAN_SCREENSHOT_DIR: ${{ runner.temp }}/reiseplaner-ui-review
         run: node test/portable-browser.mjs
+      - name: Sieben Seiten: Accessibility-, Motion- und Performance-Labormessung
+        env:
+          REISEPLAN_QUALITY_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/quality
+        run: npm run test:quality
       - name: Veraltete Mahlzeitendialoge dürfen neue Änderungen nicht überschreiben
         run: npm run test:meal-race
       - name: Datenbereiche, vollständige Exporte und Tastaturbedienung
