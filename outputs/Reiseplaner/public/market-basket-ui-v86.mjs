@@ -26,7 +26,9 @@ export function marketBasketPanel(ctx){
       +(q?'<small>Stand '+esc(q.checkedOn)+'</small>':'')
       +(q?.note?'<small>'+esc(q.note)+'</small>':'')
       +(q?.sourceUrl?urlLink(q.sourceUrl,'Produktbeleg'):'')
-      +'<div>'+btn('market-quote','Preis eingeben / prüfen','edit',item.key,'subtle')+'</div></td></tr>';
+      +'<div>'+btn('market-quote','Preis eingeben / prüfen','edit',item.key,'subtle')
+      +(ctx.state?.marketQuotes?.[item.key]?btn('market-quote-reset','Eigene Angabe zurücksetzen','reset',item.key,'subtle'):'')
+      +'</div></td></tr>';
  }).join('');
  return '<section class="section market-baskets-v86" aria-label="Supermarktketten mit Produktpreisen">'
    +'<header><small>DATIERTER PREISVERGLEICH · KEIN ANGEBOT FÜR 2027</small>'
