@@ -86,7 +86,7 @@ export const SWISS_DAY_EDITORIAL_V85=[
   cost:'Promenade kostenlos; Nahverkehr und Verpflegung gesondert. Marktbesuch nicht mit fixem Abendstand rechnen.',
   access:'Nice-Ville–Unterkunft–Ufer erfordert zusätzlichen Ortsweg.',
   buffer:'Mindestens 90 Min. zwischen Ankunft und Freizeit plus freie Verspätungsreserve.',
-  alternative:'Bei später Ankunft nur Essen und Unterkunft.',
+  alternative:'Bei später Ankunft nur Essen und Unterkunft; Promenade und Altstadt nicht zu einem verpflichtenden Nachtprogramm verdichten.',
   sources:[['Nice Tourismus','https://www.explorenicecotedazur.com/en/'],['Cours Saleya','https://www.explorenicecotedazur.com/culture/cours-saleya/']]},
  {date:'2027-09-09',city:'nice',blocks:[
   {period:'morning',title:'Villefranche: Plage des Marinières',detail:'Regionalzug/Bus nach Villefranche-sur-Mer prüfen. Baden nur bei passenden Meer- und Wetterbedingungen.',activity:'act-026'},
