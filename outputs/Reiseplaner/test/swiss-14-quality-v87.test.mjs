@@ -34,7 +34,7 @@ test('source-bound Swiss day cards expose photos/gaps and avoid fabricated provi
   const html=renderSwiss14QualityDay(ctx(date));
   assert.match(html,/Orte, Bilder & Quellen dieses Tages/);
   assert.match(html,/data-quality-id/);
-  assert.match(html,/Details & Quellen/);
+  assert.match(html,/Details &amp; Quellen/);
   assert.match(html,/Preis:/);
   assert.match(html,/Öffnung:/);
   assert.match(html,/für 2027 nicht bestätigt|historische Referenz vorhanden/);
