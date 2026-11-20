@@ -54,6 +54,8 @@ const view = {
   mapDensity:localStorage.getItem('reiseplan-map-density')==='detail'?'detail':'calm',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
   browseScope:'city',browseSearch:'',browseFoodType:'all',browseLimit:24,
+  discoveryCategory:'all',discoveryQuality:'all',discoveryOrder:'source',
+  discoverySavedOnly:false,discoveryCompareIds:new Set(),
   activityCategory:'all',activitySavedOnly:false,activityOrder:'source',activityEvidenceFilter:'all',
   browseFoodSavedOnly:false,browseMarketLoadingCity:null,browseMarketError:null,
   browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
@@ -910,6 +912,7 @@ function changePage(page) {
   if (!['overview', 'plan', 'map', 'rail', 'lodging', 'discover', 'activities', 'food', 'budget', 'group', 'data'].includes(page)) return;
   if(view.page!==page){
     if(view.page==='lodging'||page==='lodging')view.compareIds.clear();
+    if(!['discover','food','activities'].includes(page))view.discoveryCompareIds.clear();
     view.mapPinPicking=false;view.mapPinDraft=null;view.mapPinEditingId=null;
     view.browseFilterOpen=false;view.browseResearchOpen=false;
     view.browseMealsOpen=false;view.browseFoodResearchOpen=false;
@@ -1117,7 +1120,33 @@ async function action(name, value = '') {
     case 'browse-scope':
       if(!['city','trip'].includes(value))break;
       view.browseScope=value;view.browseLimit=24;view.optionFilter='all';view.compareIds.clear();
+      view.discoveryCompareIds.clear();
       render({fetchRoutes:false});break;
+    case 'discovery-category':
+      if(!['all','activity','food','shop'].includes(value))break;
+      view.discoveryCategory=value;view.browseLimit=24;
+      render({restoreView:true,fetchRoutes:false});break;
+    case 'discovery-saved':
+      if(view.page==='food'&&view.browseFoodSavedOnly){
+        view.browseFoodSavedOnly=false;view.discoverySavedOnly=false;
+      }else view.discoverySavedOnly=!view.discoverySavedOnly;
+      view.browseLimit=24;render({restoreView:true,fetchRoutes:false});break;
+    case 'discovery-compare':{
+      if(!item||!['activity','transport'].includes(item.kind)||item.removed)break;
+      if(view.discoveryCompareIds.has(value))view.discoveryCompareIds.delete(value);
+      else if(view.discoveryCompareIds.size<4)view.discoveryCompareIds.add(value);
+      else{say('Höchstens vier Orte gleichzeitig vergleichen.');break;}
+      render({restoreView:true,fetchRoutes:false});break;
+    }
+    case 'discovery-compare-clear':
+      view.discoveryCompareIds.clear();render({restoreView:true,fetchRoutes:false});break;
+    case 'discovery-reset':
+      clearTimeout(browseSearchTimer);browseSearchTimer=null;
+      view.browseSearch='';view.discoveryCategory='all';
+      view.discoveryQuality='all';view.discoveryOrder='source';
+      view.discoverySavedOnly=false;view.browseFoodSavedOnly=false;
+      if(view.page==='food')view.browseFoodType='all';
+      view.browseLimit=24;render({fetchRoutes:false});break;
     case 'browse-search-apply':
       clearTimeout(browseSearchTimer);
       browseSearchTimer=null;
@@ -1139,12 +1168,14 @@ async function action(name, value = '') {
       clearTimeout(browseSearchTimer);browseSearchTimer=null;
       view.browseSearch='';view.browseFoodType='all';
       view.browseFoodSavedOnly=false;view.optionFilter='all';
+      view.discoveryCategory='all';view.discoveryQuality='all';
+      view.discoveryOrder='source';view.discoverySavedOnly=false;
       if(ctx.page==='lodging')view.stayFacets={};
       view.browseLimit=24;render({fetchRoutes:false});break;
     case 'stay-facets-reset':
       view.stayFacets={};view.browseLimit=24;render({restoreView:true,fetchRoutes:false});break;
     case 'browse-market-load':{
-      if(ctx.page!=='food')break;
+      if(!['food','discover'].includes(ctx.page))break;
       const cityId=ctx.city;
       if(supermarketByCity.has(cityId)){
         view.browseFoodType='markets';render({fetchRoutes:false});break;
@@ -1164,7 +1195,7 @@ async function action(name, value = '') {
         }
       }finally{
         if(view.browseMarketLoadingCity===cityId)view.browseMarketLoadingCity=null;
-        if(view.page==='food'&&ctx.variant.id===variant.id)
+        if(['food','discover'].includes(view.page)&&ctx.variant.id===variant.id)
           render({fetchRoutes:false});
       }
       break;
@@ -2508,6 +2539,7 @@ app.addEventListener('change', event => {
   }
   if(event.target.id==='browse-city'&&context?.trip?.route.includes(event.target.value)){
     view.browseScope='city';view.browseLimit=24;view.optionFilter='all';
+    view.discoveryCompareIds.clear();
     view.browseMarketError=null;showCity(event.target.value);return;
   }
   if(['coverage-filter-query','coverage-filter-kind','coverage-filter-gap',
@@ -2515,6 +2547,16 @@ app.addEventListener('change', event => {
     applyCoverageFilters(app.querySelector('.entry-coverage'));
   }
   if (event.target.id === 'variant') void switchVariant(event.target.value).catch(error => say(error.message));
+  if(event.target.id==='discovery-quality'){
+    if(!['all','photo','point','missingPoint','price','missingPrice','source'].includes(event.target.value))return;
+    view.discoveryQuality=event.target.value;view.browseLimit=24;
+    render({restoreView:true,fetchRoutes:false});return;
+  }
+  if(event.target.id==='discovery-order'){
+    if(!['source','name','price','duration','city'].includes(event.target.value))return;
+    view.discoveryOrder=event.target.value;view.browseLimit=24;
+    render({restoreView:true,fetchRoutes:false});return;
+  }
   if (event.target.id === 'sort') { view.sort = event.target.value; render({ restoreView: true }); }
   if (event.target.id === 'activity-order' && ['source','score','name','price'].includes(event.target.value)) {
     view.activityOrder=event.target.value; render({restoreView:true,fetchRoutes:false});
