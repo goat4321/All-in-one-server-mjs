@@ -10,6 +10,7 @@
     "start": "node server.mjs",
     "test": "node --test --test-isolation=none test/*.test.mjs",
     "test:browser": "node test/browser.mjs",
+    "test:quality": "node test/quality-audit-v88-browser.mjs",
     "test:meal-race": "node test/meal-race-browser.mjs",
     "test:data-browser": "node test/data-disclosure-browser.mjs",
     "test:map-browser": "node test/map-pins-routes-browser.mjs",
