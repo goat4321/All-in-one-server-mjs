@@ -2,6 +2,7 @@ import {explorerData,explorerCategory,validPoint} from './map-explorer.mjs';
 import {placeImageHtml,placeProfileModel} from './place-profile.mjs';
 import {groupPrice,money} from './model.mjs';
 import {esc,icon,btn,urlLink} from './ui.mjs';
+import {quickDayTargetDates} from './day-quick-edits-v50.mjs';
 
 const normalize=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('de');
 const label=(item,ctx)=>ctx.cities?.[item.city]?.name??item.city;
@@ -70,7 +71,7 @@ export function discoveryFacts(item,ctx){
  const category=item.researchV50?.category??item.category??item.tags?.[0]??null;
  const note=item.detail??item.note??null;
  const station=point?item.geoEvidence?.isCentroid===true
-   ?'Gebietsposition · kein sicherer Eingang':'Kartenpunkt · Eingang prüfen'
+   ?'Gebietsposition · kein bestätigter Eingang':'Kartenpunkt · Eingang prüfen'
    :'Keine belegten Koordinaten';
  const fixed=price?.text??'Preis offen';
  const basic={category:discoveryCategory(item),city:label(item,ctx),
@@ -183,6 +184,12 @@ export function discoveryCard(item,ctx,{surface='discover'}={}){
  const isExternal=Boolean(item.readOnlyExternal);
  const allowPlan=!isExternal&&!item.locked&&!item.booked&&item.kind==='activity';
  const meal=ctx.catalog?.mealPlans?.[item.city]?.find(p=>p.venue===item.id);
+ // Preserve the established compatible-day selection, Undo and move/delete
+ // workflows. These are explicitly labeled "Zum Tag", never triggered by
+ // merely opening the preview, comparing or bookmarking a source item.
+ const quickDays=allowPlan&&surface!=='food'?quickDayTargetDates(ctx,item):[];
+ const suggestedDay=active&&quickDays.includes(item.date)?item.date:
+   quickDays.includes(ctx.date)?ctx.date:quickDays[0];
  const prefix=surface==='food'?'hub-food-card ':'hub-option-card ';
  return '<article class="'+prefix+'discovery-result" data-discovery-id="'+esc(item.id)
    +'" data-place-id="'+esc(item.id)+'" data-kind="'+esc(explorerCategory(item))
@@ -203,9 +210,19 @@ export function discoveryCard(item,ctx,{surface='discover'}={}){
    +(source?urlLink(source,isExternal?'Kartendatenquelle':'Originalquelle'):'')+'</div></details>'
    +'</div><div class="discovery-result-actions">'
    +(active?'<small>Im Plan</small>':'<small>Unverbindliche Option</small>')
-   +(allowPlan?btn(active?'edit':meal?'meal-choose':'choose',
-     active?'Im Plan bearbeiten':'Zum Tag',active?'edit':'plus',
-     meal&&!active?meal.id:item.id,'primary'):'')
+   +(quickDays.length
+     ?'<div class="hub-quick-day discovery-quick-day" data-quick-day-id="'+esc(item.id)+'">'
+       +'<label>Reisetag <select class="hub-quick-day-select" aria-label="Reisetag für '+esc(item.name)+' auswählen">'
+       +quickDays.map(date=>'<option value="'+esc(date)+'"'+(date===suggestedDay?' selected':'')+'>'
+         +esc(date)+' · '+esc(ctx.cities?.[ctx.cityForDay(date)]?.name??ctx.cityForDay(date))
+         +'</option>').join('')+'</select></label>'
+       +(active?'<div class="hub-quick-day-actions">'
+         +btn('day-quick-move','Tag ändern','calendar',item.id,'subtle')
+         +btn('day-quick-remove','Vom Tag entfernen','close',item.id,'subtle')+'</div>'
+         :btn('day-quick-add','Zum Tag','plus',item.id,'primary'))+'</div>'
+     :allowPlan?btn(active?'edit':meal?'meal-choose':'choose',
+       active?'Im Plan bearbeiten':'Zum Tag',active?'edit':'plus',
+       meal&&!active?meal.id:item.id,'primary'):'')
    +btn('browse-save',saved?'Gemerkt':'Merken',saved?'check':'bookmark',item.id)
    +btn('discovery-compare',compare?'Im Vergleich':'Vergleichen','compare',item.id)
    +(point?btn('browse-map-item','Auf Karte','pin',item.id):'')
