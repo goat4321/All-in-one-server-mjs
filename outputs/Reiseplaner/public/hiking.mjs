@@ -1,5 +1,5 @@
 import {esc,btn,urlLink} from './ui.mjs';
-import {placeImageHtml} from './place-profile.mjs';
+import {placeImageHtml,placeProfileModel} from './place-profile.mjs';
 
 const radians=x=>x*Math.PI/180;
 const distance=(a,b)=>{
@@ -74,11 +74,13 @@ function profileHtml(trail){
  * particular mountain trail or its present condition. Never derive image URLs from GPX.
  */
 function hikingContextPhoto(ctx,trail){
- const all=ctx.all??[];
+ const all=ctx.all??ctx.trip?.items??[];
+ const hikeItem=all.find(item=>item.id===trail.itemId);
+ const routePhoto=hikeItem&&placeProfileModel(hikeItem,ctx)?.photo?hikeItem:null;
  const scenicIds=trail.city==='kandersteg'?['act-054','act-053']:['act-046','act-045'];
  const specific=all.find(item=>item.kind==='activity'&&item.id!==trail.itemId
   &&(trail.id==='ebenalp'?/Ebenalp|Wildkirchli|Äscher/i.test(item.name):false));
- const item=specific??all.find(item=>item.kind==='activity'&&scenicIds.some(id=>item.id===id||item.id.endsWith(':'+id)));
+ const item=routePhoto??specific??all.find(item=>item.kind==='activity'&&scenicIds.some(id=>item.id===id||item.id.endsWith(':'+id)));
  if(!item)return '';
  return '<div class="hike-context-photo">'+placeImageHtml(item,ctx,{small:true})
   +'<p class="hike-photo-context">Ortsmotiv: '+esc(item.name)
