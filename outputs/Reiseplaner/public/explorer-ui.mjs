@@ -20,6 +20,7 @@ export function explorerToolbar(ctx) {
     :route?.cycleOnly&&route?.mode==='Radweg'&&Number.isFinite(route.metres)&&Number.isFinite(route.minutes)
       ?'Berechnete Fahrradroute (FOSSGIS-Bike-Profil) · '+route.minutes+' Min. · '
         +(route.metres/1000).toLocaleString('de-DE',{maximumFractionDigits:2})+' km'
+        +(route.pushingBike?' · Abschnitte mit Fahrrad schieben':'')
     : route?.legs?.length ? 'ÖPNV-Referenzfahrplan · ' + route.minutes + ' Min. · nur für gültige Fahrplandaten'
       : ex.connection?.status ?? 'Wähle auf Karte oder Liste zuerst Start und Ziel.';
   const endpointQuality=from&&to?routePositionQuality([from,to]):null;
@@ -101,7 +102,8 @@ export function explorerToolbar(ctx) {
       + (urlLink(transitUrl, 'Verkehrsbetrieb / Tarife prüfen') || '') + '</div>' : '')
     + '<p class="muted">Zu Fuß oder mit dem Fahrrad werden Kilometer und Dauer ausschließlich aus einer passenden, erfolgreich geprüften OSRM-Routerantwort angezeigt. GTFS-Fahrpläne gelten nur in ihrem angegebenen Zeitraum. Stadtübergreifende oder unbekannte ÖPNV-Fahrten bleiben extern.</p>'
     + '<p class="muted">© OpenStreetMap-Mitwirkende (ODbL) · '
-    +'<a href="https://routing.openstreetmap.de/about.html" target="_blank" rel="noopener noreferrer">FOSSGIS-Routing: Quelle & Nutzung</a></p>'
+    +'<a href="https://routing.openstreetmap.de/about.html" target="_blank" rel="noopener noreferrer">FOSSGIS-Routing: Quelle & Nutzung</a> · '
+    +'<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OSM-Karte korrigieren / Datenlizenz</a></p>'
     + '</div></details></section>';
 }
 
