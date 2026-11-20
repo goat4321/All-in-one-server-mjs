@@ -6,6 +6,7 @@ import { placeInspectorHtml } from './place-inspector.mjs';
 import { VERIFICATION_FIELDS, reviewProgress } from './verification.mjs';
 import {mealSlotLabels,mealSlotTimes,plansForSlot,currentMeals,mealAccommodation,mealSelectionPatch,shoppingCandidates,shoppingStopDraft} from './meal-planner.mjs';
 import {mapPinPatch} from './map-pins.mjs';
+import {marketProducts,marketKey,marketQuote,marketCurrency,chains,marketPriceOverrideValid} from './market-basket-v86.mjs';
 
 const dialog = document.querySelector('#dialog');
 const field = (label, control, wide = false) => '<label class="field' + (wide ? ' wide' : '') + '"><span>' + esc(label) + '</span>' + control + '</label>';
@@ -607,4 +608,40 @@ export function timetableForm(ctx, search, submit) {
       + urlLink('https://www.tmb.cat/en/barcelona/metro/-/lineametro', 'Metro-Netzstatus') : '')
     + '</div>';
   dialog.querySelector('.dialog-body').append(resultBox);
+}
+
+/** Reference collection only. It cannot create a budget purchase or change
+ * shared ingredient needs, and stale dialogs use the application's save guard. */
+export function marketQuoteForm(ctx,key,save){
+ const [city,chain,product]=String(key).split(':');
+ const canonical=marketKey(city,chain,product);
+ if(canonical!==key||city!==ctx.city)throw Error('Preis gehört nicht zur aktuellen Stadt.');
+ const original=marketQuote(city,chain,product,ctx.state.marketQuotes??{});
+ const item=marketProducts.find(row=>row.id===product);
+ const unit=item.unit==='pcs'?'Stück':item.unit;
+ const entered=ctx.state.marketQuotes?.[key];
+ const current=entered??original;
+ const today=new Date().toISOString().slice(0,10);
+ const content='<p>Manuelle Werte sind kein bestätigter Filialpreis. Prüfe Verpackung,'
+  +' Qualität, Datum und gegebenenfalls deine konkrete Filiale. Kein automatischer Budgeteintrag.</p>'
+  +controls([
+   field('Ort / Kette / Produkt', '<strong>'+esc(ctx.cities?.[city]?.name??city)
+      +' · '+esc(chains[chain].name)+' · '+esc(item.name)+'</strong>'),
+   field('Produkt / Markenangabe',input('name',current?.name??item.name,'text','maxlength="160" required'),true),
+   field('Packungsmenge · '+unit,input('packAmount',current?.packAmount??item.amount,'number','min="1" max="100000" required')),
+   field('Packungspreis · '+marketCurrency(city)+' (leer = offen)',
+    input('price',current?.priceCents==null?'':(current.priceCents/100).toFixed(2),'text','inputmode="decimal"')),
+   field('Qualitätsklasse',select('grade',[['unknown','Noch nicht verglichen'],['economy','Günstige Eigenmarke'],['standard','Standard'],['organic','Bio']],current?.grade??'unknown')),
+   field('Preis geprüft am',input('checkedOn',entered?.checkedOn??today,'date','required')),
+   field('Produkt-/Preisquelle · HTTPS',input('sourceUrl',entered?.sourceUrl??original?.sourceUrl??'','url','maxlength="500"')),
+  ],'Manuelle Referenz speichern');
+ openDialog('Supermarkt-Produktpreis prüfen',content,async data=>{
+  const priceCents=minor(text(data,'price'));
+  const entry={name:text(data,'name').trim(),priceCents,packAmount:n(data,'packAmount'),
+   packUnit:item.unit,currency:marketCurrency(city),grade:text(data,'grade'),
+   checkedOn:text(data,'checkedOn'),sourceUrl:text(data,'sourceUrl')||null,
+   status:'manual_unverified'};
+  if(!marketPriceOverrideValid(entry,city,chain,product))throw Error('Datum, Menge oder Währung der manuellen Preisreferenz ungültig.');
+  await save({...ctx.state,marketQuotes:{...ctx.state.marketQuotes,[key]:entry}},'Preisreferenz für '+item.name+' gespeichert');
+ });
 }
