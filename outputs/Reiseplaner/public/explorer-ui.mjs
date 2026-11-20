@@ -17,15 +17,19 @@ export function explorerToolbar(ctx) {
   const statusLine = route?.mode === 'Fußweg'
     ? 'Berechneter Fußweg über Straßen und Wege · ' + route.minutes + ' Min. · '
       + (route.metres / 1000).toLocaleString('de-DE', { maximumFractionDigits: 2 }) + ' km'
+    :route?.cycleOnly&&route?.mode==='Radweg'&&Number.isFinite(route.metres)&&Number.isFinite(route.minutes)
+      ?'Berechnete Fahrradroute (FOSSGIS-Bike-Profil) · '+route.minutes+' Min. · '
+        +(route.metres/1000).toLocaleString('de-DE',{maximumFractionDigits:2})+' km'
+        +(route.pushingBike?' · Abschnitte mit Fahrrad schieben':'')
     : route?.legs?.length ? 'ÖPNV-Referenzfahrplan · ' + route.minutes + ' Min. · nur für gültige Fahrplandaten'
       : ex.connection?.status ?? 'Wähle auf Karte oder Liste zuerst Start und Ziel.';
   const endpointQuality=from&&to?routePositionQuality([from,to]):null;
   const riskyEndpoints=endpointQuality?.reviewCount??0;
-  const positionNote=route?.walkOnly
+  const positionNote=(route?.walkOnly||route?.cycleOnly)
     ? (riskyEndpoints
       ? '<p class="explorer-route-point-warning" role="status">'
         + riskyEndpoints+' von 2 Zielpunkten sind Anbieter-/Gebiets-/ungeprüfte Positionen. '
-        +'Der Router bestätigt nur den Weg zwischen gespeicherten Koordinaten, nicht den Gebäudezugang.</p>'
+        +'Die gemessene Routerlinie bestätigt nur den Weg zwischen gespeicherten Koordinaten, nicht den Gebäudezugang.</p>'
       : '<p class="explorer-route-point-note">Beide Zielkoordinaten haben Ortsquellen; der tatsächliche Eingang ist gesondert zu prüfen.</p>')
     : '';
   const transitUrl = transitPlanners[from?.city ?? ctx.city];
@@ -76,6 +80,7 @@ export function explorerToolbar(ctx) {
     + '<div class="explorer-directions"><div><strong>Route von A nach B</strong><p class="muted">'
     + esc(from?.name ?? 'Startpunkt wählen') + ' → ' + esc(to?.name ?? 'Zielpunkt wählen') + '</p></div>'
     + '<div class="inline">' + chip('explorer-mode', 'Zu Fuß', ex.routeMode === 'walk', 'walk', 'walk')
+      + chip('explorer-mode', 'Fahrrad', ex.routeMode === 'bike', 'bike', 'route')
       + chip('explorer-mode', 'ÖPNV', ex.routeMode === 'transit', 'transit', 'train')
       + '<label for="explorer-time">Abfahrt</label><input id="explorer-time" type="time" value="' + esc(ex.routeTime) + '">'
       + btn('explorer-route', 'Verbindung prüfen', 'arrow')
@@ -83,17 +88,23 @@ export function explorerToolbar(ctx) {
       + (from?.point && to?.point ? btn('explorer-zoom-route', 'Route vergrößern', 'target') : '')
       + btn('explorer-clear-route', 'Zurücksetzen', 'reset') + '</div>'
     + '<div class="explorer-route-result" aria-live="polite"><span class="explorer-route-status-dot">'
-      + (route?.walkOnly ? '✓' : '•') + '</span><div><strong>'
+      + (route?.walkOnly||route?.cycleOnly||route?.legs?.length ? '✓' : '•') + '</span><div><strong>'
       + esc(route?.walkOnly?'Berechnete Fußweg-Geometrie geladen'
+        :route?.cycleOnly?'Berechnete Fahrradroute geladen'
         :route?.legs?.length?'ÖPNV-Fahrplanreferenz geladen':'Verbindung vorbereiten')
       + '</strong><p role="status" class="explorer-status">' + esc(statusLine)
       + '</p></div></div>'
     + positionNote
     + (from && to ? '<div class="inline">' + (ex.routeMode === 'walk' ? (urlLink(externalFootUrl(from, to), 'Fußweg in OpenStreetMap') || '') : '')
+      + (urlLink(googleMapsDirectionsUrl(from,to,ctx.cities,'bicycling'),'Google Maps · Fahrrad A → B')||'')
       + (urlLink(externalTransitUrl(from, to,ctx.cities), 'Google Maps · ÖPNV A → B') || '')
       + (urlLink(googleMapsDirectionsUrl(from,to,ctx.cities,'walking'), 'Google Maps · Zu Fuß A → B') || '')
       + (urlLink(transitUrl, 'Verkehrsbetrieb / Tarife prüfen') || '') + '</div>' : '')
-    + '<p class="muted">Nur berechnete Fußwege werden als reale Straßen dargestellt. Fehlende oder außerhalb des Datenzeitraums liegende ÖPNV-Fahrten werden nicht geschätzt.</p>'
+    + '<p class="muted">Zu Fuß oder mit dem Fahrrad werden Kilometer und Dauer ausschließlich aus einer passenden, erfolgreich geprüften OSRM-Routerantwort angezeigt. GTFS-Fahrpläne gelten nur in ihrem angegebenen Zeitraum. Stadtübergreifende oder unbekannte ÖPNV-Fahrten bleiben extern.</p>'
+    + '<p class="muted">© OpenStreetMap-Mitwirkende (ODbL) · '
+    +'<a href="https://routing.openstreetmap.de/about.html" target="_blank" rel="noopener noreferrer">FOSSGIS-Routing: Quelle & Nutzung</a> · '
+    +'<a href="https://www.openstreetmap.org/fixthemap" target="_blank" rel="noopener noreferrer">OSM-Kartenfehler melden / korrigieren</a> · '
+    +'<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OSM-Datenlizenz</a></p>'
     + '</div></details></section>';
 }
 

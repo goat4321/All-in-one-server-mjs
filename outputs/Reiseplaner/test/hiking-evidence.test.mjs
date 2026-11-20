@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {trailMetrics, hikingOptions, hikingPanel, hikingPreview, hikingMapPreview, hikingMapPanel} from '../public/hiking.mjs';
+import {trailMetrics,hikingEvidenceQuality, hikingOptions, hikingPanel, hikingPreview, hikingMapPreview, hikingMapPanel} from '../public/hiking.mjs';
 import {attachHikingEvidence} from '../lib/hiking.mjs';
 import {loadCatalog} from '../lib/catalog.mjs';
 import {dayPlanCandidates,dayPlanDraftEdits} from '../public/day-plans-logic.mjs';
@@ -123,4 +123,50 @@ test('a tour preview is confined to its own date and the My Day map mode',()=>{
   assert.equal(hikingMapPreview({...ctx,...change}),null);
   assert.equal(hikingMapPanel({...ctx,...change}),'');
  }
+});
+
+test('empty/malformed GPX segment collections never fabricate distance, ascent or a map route',()=>{
+ for(const data of [null,[],[[]],[[[46,7,1000]]],[[[46,7,1000],[NaN,7,1000]]],
+   [[[46,7,1000],[46,7,-1000]]],[[[46,7,1000],[46,181,1000]]]])
+  assert.throws(()=>trailMetrics(data),'Invalid GPX segments rejected');
+ const missing=trailMetrics([[[47,8,1200],[47.01,8.01,null]]]);
+ assert.ok(missing.metres>0);
+ assert.equal(missing.ascent,null);
+ assert.equal(missing.descent,null);
+ assert.equal(missing.profile,null);
+});
+test('source-specific zero-elevation placeholders suppress alpine profile without altering genuine sea-level GPX',()=>{
+ const eben=archive.trails.find(t=>t.id==='ebenalp');
+ const report=hikingEvidenceQuality(eben);
+ assert.equal(report.state,'geometry_only');
+ assert.equal(report.zero,212);
+ assert.equal(report.metric.ascent,null);
+ assert.equal(report.metric.descent,null);
+ assert.equal(report.metric.profile,null);
+ assert.match(report.warnings.join(' '),/0-m-Platzhalter/);
+ assert.ok(report.kmDeviation>25,'operator and GPX route length genuinely differ');
+ const sea=hikingEvidenceQuality({
+   segments:[[[0,10,0],[0.001,10.001,0]]],
+   elevationsUsable:true,official:{km:0.16,ascent:0},
+ });
+ assert.equal(sea.state,'gpx_elevation','true sea-level elevation remains valid when the source permits it');
+ assert.equal(sea.metric.ascent,0);
+});
+test('real official GPX evidence preserves exact original point counts and records operator differences',()=>{
+ const byId=Object.fromEntries(archive.trails.map(t=>[t.id,t]));
+ const heub=hikingEvidenceQuality(byId.heuberg);
+ const see=hikingEvidenceQuality(byId.seealpsee);
+ assert.equal(heub.points,187);
+ assert.equal(see.points,542);
+ assert.equal(heub.state,'gpx_elevation');
+ assert.equal(see.state,'gpx_elevation');
+ assert.ok(heub.kmDeviation<-8&&heub.kmDeviation>-12);
+ assert.ok(heub.upDeviation>18&&heub.upDeviation<21);
+ assert.ok(Math.abs(see.kmDeviation)<1);
+ assert.ok(Math.abs(see.upDeviation)<3);
+ const html=hikingPanel(context('2027-09-11'));
+ assert.match(html,/GPX-Aufstieg weicht/);
+ assert.match(html,/GPS-Auflösung/);
+ assert.match(hikingPanel(context('2027-09-13')),/Nur GPX-Weglinie/);
+ assert.equal(byId.heuberg.gpxSha256.length,64);
 });

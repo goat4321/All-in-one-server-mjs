@@ -29,6 +29,39 @@ export function trailMetrics(segments,{elevationsUsable=true}={}){
   min:hasElevation?Math.min(...points.map(p=>p[2])):null,max:hasElevation?Math.max(...points.map(p=>p[2])):null,
   profile:hasElevation?profile:null};
 }
+
+/** Distinguish operator claims from measured original GPX geometry.
+ * Height data quality is source-scoped; 0m sea level is not universally NODATA.
+ * This never interpolates or alters any original official GPX observations.
+ */
+export function hikingEvidenceQuality(trail){
+ if(!trail?.segments?.length)
+  return{state:'no_track',label:'Kein Original-GPX',metric:null,warnings:['Trackgeometrie nicht vorhanden.']};
+ const metric=trailMetrics(trail.segments,{elevationsUsable:trail.elevationsUsable!==false});
+ const points=trail.segments.flat(),zero=points.filter(p=>p[2]===0).length;
+ const missing=points.filter(p=>p[2]===null).length;
+ const usable=metric.profile!==null;
+ const reasons=[];
+ if(!usable){
+  if(trail.elevationsUsable===false&&zero===points.length)
+   reasons.push('Alle Höhenwerte sind 0-m-Platzhalter. Keine Auf-/Abstiege oder Höhenkurven berechenbar.');
+  else reasons.push('Unvollständige bzw. von der Quelle als unbrauchbar markierte Höhenwerte.');
+ }
+ const official=trail.official??{};
+ const gpKm=metric.metres/1000;
+ const kmDeviation=Number.isFinite(official.km)&&official.km>0
+   ?100*(gpKm-official.km)/official.km:null;
+ const upDeviation=usable&&Number.isFinite(official.ascent)&&official.ascent>0
+   ?100*(metric.ascent-official.ascent)/official.ascent:null;
+ if(kmDeviation!==null&&Math.abs(kmDeviation)>5)
+   reasons.push('GPX-Distanz weicht um '+Math.abs(kmDeviation).toFixed(1)+' % vom Betreiberwert ab.');
+ if(upDeviation!==null&&Math.abs(upDeviation)>10)
+   reasons.push('GPX-Aufstieg weicht um '+Math.abs(upDeviation).toFixed(1)+' % vom Betreiberwert ab.');
+ if(reasons.length===0)reasons.push('Höhenwerte vollständig, aber GPS-/Höhenmessung nicht unabhängig kontrolliert.');
+ return{state:usable?'gpx_elevation':'geometry_only',label:usable?'GPX-Profil verfügbar':'Nur GPX-Weglinie',
+   metric,points:points.length,zero,missing,kmDeviation,upDeviation,warnings:reasons};
+}
+
 export function hikingOptions(ctx){
  if(ctx?.trip?.id!=='interrail_swiss')return [];
  return (ctx.catalog?.research?.hikingEvidence?.trails??[]).filter(t=>t.date===ctx.date);
@@ -44,8 +77,8 @@ export function hikingMapPreview(ctx){
 const number=(value,digits=0)=>value===null?'offen':value.toLocaleString('de-DE',{maximumFractionDigits:digits});
 function profileHtml(trail){
  if(!trail.segments)return '<p class="hike-missing">Kein GPX mit Höhenpunkten vorhanden; Länge und Höhenprofil offen.</p>';
- const metric=trailMetrics(trail.segments,{elevationsUsable:trail.elevationsUsable!==false});
- if(!metric.profile)return '<p class="hike-missing">GPX-Weglinie: '+number(metric.metres/1000,2)
+ const quality=hikingEvidenceQuality(trail),metric=quality.metric;
+ if(!metric.profile)return '<p class="hike-missing">Datenqualität: '+esc(quality.label)+'. GPX-Weglinie: '+number(metric.metres/1000,2)
   +' km; Betreiber: '+number(trail.official.km,2)+' km. Abweichende Weglängen vor der Tour prüfen. '
   +esc(trail.elevationNote??'Höhenpunkte unvollständig.')+' Kein Höhenprofil und keine GPX-Höhenmeter berechnet.</p>';
  const x=value=>30+value/Math.max(1,metric.metres)*540;
@@ -62,11 +95,12 @@ function profileHtml(trail){
   +'<text x="495" y="138">'+number(metric.metres/1000,2)+' km</text></svg>'
   +'<figcaption><strong>GPX-Höhenprofil</strong> · '+number(metric.metres/1000,2)+' km · ↑ '
   +number(Math.round(metric.ascent))+' m · ↓ '+number(Math.round(metric.descent))+' m'
-  +'<small>Aus '+metric.profile.length+' Originalpunkten, ohne Glättung. Höhenmodell und Genauigkeit nicht unabhängig geprüft; '
-  +'Betreiberwerte können abweichen.</small>'
+  +'<small>Datenqualität: '+esc(quality.label)+' · '+metric.profile.length+' originale Koordinaten/Höhenpunkte ohne Glättung. Keine eigene Gelände-Höhenmodellierung; Höhenmessung nicht unabhängig geprüft.</small>'
+  +'<small>Betreiber- und GPX-Werte können wegen unterschiedlicher Wegvarianten, GPS-Auflösung und Höhenmethoden abweichen. Diese Ursachen sind mögliche Erklärungen, keine belegte Ursache für den konkreten Track.</small>'
   +(differs?'<small><b>Abweichende Quellwerte:</b> Betreiber '+number(trail.official.km,2)+' km / ↑ '
     +number(trail.official.ascent)+' m; GPX '+number(metric.metres/1000,2)+' km / ↑ '
     +number(Math.round(metric.ascent))+' m. Vor der Tour die konkrete Wegvariante prüfen.</small>':'')
+  +(quality.warnings.length?'<small class="hike-quality-note" role="note">'+esc(quality.warnings.join(' '))+'</small>':'')
   +'</figcaption></figure>';
 }
 export function hikingPanel(ctx){

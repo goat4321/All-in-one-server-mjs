@@ -401,17 +401,21 @@ export class TripMap {
         area.push(...this.storyBounds);
       }
     }
-    if (explorer?.connection?.route?.walkOnly===true
+    if ((explorer?.connection?.route?.walkOnly===true
+      ||explorer?.connection?.route?.cycleOnly===true)
       && explorer.connection.route?.points?.length > 1) {
       const route = explorer.connection.route;
+      const cycling=route.cycleOnly===true;
+      const routeLabel=cycling?'Berechnete Fahrradroute':'Berechneter Fußweg';
+      const routeColor=cycling?'#2060ad':'#0c977b';
       const points = route.points.filter(p => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite));
       if (points.length > 1) {
         L.polyline(points,{color:'#ffffff',weight:10,opacity:.85,interactive:false})
           .addTo(this.features);
-        L.polyline(points, {color:'#0c977b',weight:6,opacity:.95,
-          className:'explorer-walk-line route-studio-map-line measured current'})
+        L.polyline(points, {color:routeColor,weight:6,opacity:.95,
+          className:'explorer-'+(cycling?'bike':'walk')+'-line route-studio-map-line measured current'})
           .addTo(this.features)
-          .bindTooltip(labelNode('Berechneter Fußweg · ' + route.minutes + ' Min. · ' + route.metres + ' m'));
+          .bindTooltip(labelNode(routeLabel+' · ' + route.minutes + ' Min. · ' + route.metres + ' m'));
         if (!quietMotion()) L.polyline(points,{color:'#eafff8',weight:3,
           opacity:.9,dashArray:'2 17',interactive:false,
           className:'route-studio-map-flow'}).addTo(this.features);
@@ -425,7 +429,7 @@ export class TripMap {
               const value=Math.round(route.minutes)+' Min · '+Math.round(route.metres)+' m';
               const badge=L.divIcon({className:'route-studio-time-icon',
                 html:'<span class="route-studio-time-pill" aria-hidden="true">'
-                  +'<span class="route-studio-time-walk">🚶</span>'+value+'</span>',
+                  +'<span class="route-studio-time-walk">'+(cycling?'🚲':'🚶')+'</span>'+value+'</span>',
                 iconSize:[128,34],iconAnchor:[64,17]});
               L.marker(at,{icon:badge,interactive:false,keyboard:false,
                 zIndexOffset:1100}).addTo(this.features);

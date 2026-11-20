@@ -34,3 +34,88 @@ test('September2027 outside the actual transit package returns no invented conne
   assert.ok(result.body.meta.to<'2027-09-04');assert.equal(calls,0);
  });
 });
+
+test('FOSSGIS bike profile is distinct from foot, validates source endpoint and caches only bicycle output',async()=>{
+ const {bikeRequestUrl,checkedBikeResponse,bikeRouteKey}=await import('../lib/bike-route.mjs');
+ const points=fixture.stops.slice(0,2).map(stop=>stop.point);
+ const url=bikeRequestUrl(points);
+ assert.match(url,/\/routed-bike\/route\/v1\/driving\//);
+ assert.match(url,/geometries=geojson/);
+ assert.match(bikeRouteKey(points),/^bike:/);
+ const [a,b]=points;
+ const geometry={type:'LineString',coordinates:[[a[1],a[0]],[b[1],b[0]]]};
+ const result={code:'Ok',routes:[{geometry,distance:190,duration:91,legs:[{steps:[{mode:'cycling'}]}]}]};
+ assert.equal(checkedBikeResponse(result,a,b,'2026-11-19').minutes,2);
+ assert.equal(checkedBikeResponse(result,a,b,'2026-11-19').mode,'Radweg');
+ const push=structuredClone(result);
+ push.routes[0].legs[0].steps.push({mode:'pushing bike'});
+ assert.equal(checkedBikeResponse(push,a,b,'2026-11-19').pushingBike,true);
+ const boat=structuredClone(result);
+ boat.routes[0].legs[0].steps.push({mode:'ferry'});
+ assert.throws(()=>checkedBikeResponse(boat,a,b),/weitere Verkehrsmittel/);
+ const untyped=structuredClone(result);
+ untyped.routes[0].legs[0].steps=[];
+ assert.throws(()=>checkedBikeResponse(untyped,a,b),/keine belegten/);
+ assert.throws(()=>checkedBikeResponse({...result,routes:[{...result.routes[0],
+   geometry:{type:'LineString',coordinates:[[13,48],[14,48]]}}]},a,b),/75-m-Grenze/);
+ assert.throws(()=>checkedBikeResponse({...result,code:'NoRoute'},a,b),/keine belegte Strecke/);
+ assert.throws(()=>bikeRequestUrl([[91,2],b]),/gültige Fahrrad/);
+ let calls=0;
+ await withApp({upstream:true,fetcher:async(requestUrl)=>{
+    calls++;assert.match(requestUrl,/routed-bike/);return Response.json(result);
+  }},async post=>{
+   const bike1=await post('/api/bike',{points});
+   assert.equal(bike1.status,200);
+   assert.equal(bike1.body.cycleOnly,true);
+   assert.equal(bike1.body.walkOnly,false);
+   assert.equal(bike1.body.metres,190);
+   assert.equal(bike1.body.minutes,2);
+   assert.equal(bike1.body.price,undefined,'No pretend zero euro transit fare');
+   const bike2=await post('/api/bike',{points,cachedOnly:true});
+   assert.equal(bike2.status,200);
+   assert.deepEqual(bike2.body,bike1.body);
+   assert.equal(calls,1,'Successful bike geometry is cached by mode and points');
+  });
+});
+test('offline, invalid and mismatched cycling results never claim distance or duration',async()=>{
+ const points=fixture.stops.slice(0,2).map(stop=>stop.point);
+ await withApp({upstream:false},async post=>{
+   const no=await post('/api/bike',{points});
+   assert.equal(no.status,503);
+   assert.equal(no.body.minutes,undefined);
+   assert.equal(no.body.points,undefined);
+   assert.equal((await post('/api/bike',{points,cachedOnly:true})).body,null);
+   assert.equal((await post('/api/bike',{points:[[91,2],[91,3]]})).status,400);
+ });
+ let calls=0;
+ await withApp({upstream:true,fetcher:async()=>{
+   calls++;return Response.json({code:'NoRoute',routes:[]});
+ }},async post=>{
+   const wrong=await post('/api/bike',{points});
+   assert.equal(wrong.status,503);
+   assert.equal(wrong.body.minutes,undefined);
+   assert.equal((await post('/api/bike',{points,cachedOnly:true})).body,null);
+   assert.equal(calls,1,'Failed bike routes are never cached');
+ });
+});
+
+test('a walking provider cannot inject a route for the wrong endpoints or NaN duration',async()=>{
+ const points=fixture.stops.slice(0,2).map(stop=>stop.point);
+ const bad=structuredClone(fixture.response);
+ bad.routes[0].geometry={
+   type:'LineString',coordinates:[[7.5,46],[7.6,46.1]]
+ };
+ await withApp({upstream:true,fetcher:async()=>Response.json(bad)},async post=>{
+   const response=await post('/api/walk',{points});
+   assert.equal(response.status,422);
+   assert.match(response.body.error,/nicht zu Start und Ziel/);
+   assert.equal(response.body.minutes,undefined);
+ });
+ const invalid=structuredClone(fixture.response);
+ invalid.routes[0].duration=null;
+ await withApp({upstream:true,fetcher:async()=>Response.json(invalid)},async post=>{
+   const response=await post('/api/walk',{points});
+   assert.equal(response.status,422);
+   assert.equal(response.body.walkOnly,undefined);
+ });
+});

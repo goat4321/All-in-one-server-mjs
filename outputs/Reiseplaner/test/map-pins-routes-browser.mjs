@@ -17,11 +17,19 @@ const captured=new Map(fixture.response.routes[0].legs.map((leg,index)=>[
 ]));
 const providerCalls=[];
 const fetcher=async url=>{
- if(!String(url).startsWith('https://routing.openstreetmap.de/routed-foot/'))throw Error('Unrecorded upstream disabled in this test');
+ const source=String(url);
+ const cycling=source.startsWith('https://routing.openstreetmap.de/routed-bike/');
+ if(!cycling&&!source.startsWith('https://routing.openstreetmap.de/routed-foot/'))
+   throw Error('Unrecorded upstream disabled in this test');
  const coords=new URL(url).pathname.split('/').at(-1).split(';').map(pair=>pair.split(',').map(Number)).map(([lon,lat])=>[lat,lon]);
- const key=pairKey(coords),response=captured.get(key);providerCalls.push({key,recorded:Boolean(response)});
+ const key=pairKey(coords),response=captured.get(key);providerCalls.push({key,recorded:Boolean(response),mode:cycling?'bike':'foot'});
  if(!response)return new Response(JSON.stringify({code:'NoRoute'}),{status:503});
- return Response.json(response);
+ if(!cycling)return Response.json(response);
+ const bicycle=structuredClone(response);
+ bicycle.routes[0].legs=bicycle.routes[0].legs.map(leg=>({
+   ...leg,steps:leg.steps.map(step=>({...step,mode:'cycling'}))
+ }));
+ return Response.json(bicycle);
 };
 const browser=[process.env.REISEPLAN_BROWSER,'C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','/usr/bin/google-chrome','/usr/bin/chromium'].filter(Boolean).find(existsSync);assert.ok(browser);
 const folder=await mkdtemp(join(tmpdir(),'reise-map-flow-'));
@@ -83,6 +91,16 @@ try{
    'City playback must not persist any costs, itinerary changes or pins');
  await click('[data-action=explorer-scope][data-value=city]');
  await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+ // All transport modes are real, selectable controls in the same browser.
+ await js('document.querySelector(".explorer-route-settings").open=true');
+ await click('[data-action=explorer-mode][data-value=bike]');
+ assert.equal(await js('document.querySelector("[data-action=explorer-mode][data-value=bike]").getAttribute("aria-pressed")'),'true');
+ assert.match(await js('document.querySelector(".explorer-route-settings").textContent'),/Fahrrad/);
+ assert.match(await js('document.querySelector(".explorer-route-settings").textContent'),/FOSSGIS/);
+ await screenshot('karte-routenmodi-rad-1440.png');
+ await click('[data-action=explorer-mode][data-value=transit]');
+ assert.equal(await js('document.querySelector("[data-action=explorer-mode][data-value=transit]").getAttribute("aria-pressed")'),'true');
+ await click('[data-action=explorer-mode][data-value=walk]');
  const original=JSON.stringify(store.current('interrail_swiss').state.edits);
  const otherVariants=Object.fromEntries(['interrail_classic','interrail_august','swiss_lakes'].map(id=>[id,JSON.stringify(store.current(id).state)]));
  await js('document.querySelector(".reference-places-drawer").open=true');
@@ -149,6 +167,32 @@ try{
   await openPin();await set('dialog [name=name]',name);await set('dialog [name=lat]',stop.point[0]);await set('dialog [name=lon]',stop.point[1]);await set('dialog [name=duration]',15);await save();pins.push(findPin(name));
  }
  assert.ok(pins.every(item=>item&&!item.selected));
+ // Exercise the real app's cycling API through the visible list controls.
+ // Upstream geometry is a deterministic fixture, not a claimed live 2027 route.
+ const chooseEndpoint=async(item,action)=>{
+   await js('document.querySelector(".reference-places-drawer").open=true');
+   await set('#map-search',item.name);await click('[data-action=explorer-search]');
+   const selector='.explorer-place[data-place-id="'+item.id+'"] [data-action='+action+']';
+   await until(()=>js('Boolean(document.querySelector('+JSON.stringify(selector)+'))'),'Route endpoint');
+   await js('document.querySelector('+JSON.stringify(selector)+').closest("details")?.setAttribute("open","")');
+   await click(selector);
+ };
+ await click('[data-action=explorer-mode][data-value=bike]');
+ await chooseEndpoint(pins[0],'explorer-start');
+ await chooseEndpoint(pins[1],'explorer-end');
+ await until(()=>js('document.querySelector(".explorer-status")?.textContent.includes("Berechnete Fahrradroute")'),'Bike profile routing in live map');
+ assert.ok(await js('document.querySelectorAll("#map .explorer-bike-line").length>=1'),'Exact bike source geometry is painted into Leaflet');
+ assert.match(await js('document.querySelector(".explorer-status")?.textContent'),/km/);
+ assert.ok(providerCalls.some(call=>call.mode==='bike'&&call.recorded),'Browser used the segregated bicycle upstream fixture');
+ await js('document.querySelector("#map").scrollIntoView({block:"center"})');
+ await screenshot('karte-belegte-fahrradstrecke-1440.png');
+ await click('[data-action=explorer-mode][data-value=transit]');
+ await until(()=>js('document.querySelector(".explorer-status")?.textContent.includes("Kein gültiges ÖPNV-Fahrplanpaket")'),
+   '2027 is outside the available Barcelona GTFS dates');
+ assert.equal(await js('document.querySelectorAll("#map .explorer-bike-line").length'),0,
+   'Obsolete bike geometry is removed as soon as the GTFS mode changes');
+ await click('[data-action=explorer-clear-route]');
+ await click('[data-action=explorer-mode][data-value=walk]');
  const addStop=async item=>{
   await js('document.querySelector(".reference-places-drawer").open=true');
   await set('#map-search',item.name);await click('[data-action=explorer-search]');
@@ -269,7 +313,10 @@ try{
   await until(()=>js('!document.querySelector(".map-fullscreen-mode")'),'Vollbild schließen');
  }
  for(const [id,snapshot] of Object.entries(otherVariants))assert.equal(JSON.stringify(store.current(id).state),snapshot,'All other variant states remain unchanged');
- assert.equal(providerCalls.filter(call=>call.recorded).length,7,'Recorded routes are cached, not repeatedly fetched');
+ assert.equal(providerCalls.filter(call=>call.recorded&&call.mode==='foot').length,7,
+   'Only the seven unique source-backed foot legs are fetched, then cached');
+ assert.equal(providerCalls.filter(call=>call.recorded&&call.mode==='bike').length,1,
+   'The newly exercised bicycle route has an independent and cached provider request');
  assert.deepEqual(report.errors,[]);if(output)await writeFile(join(output,'map-flows.json'),JSON.stringify({...report,providerCalls},null,2));
  console.log('PASS: real map-click pin CRUD/Undo, two and eight recorded foot segments, ordering/focus, conflict protection, itinerary Undo, reload and variant isolation');
 }finally{

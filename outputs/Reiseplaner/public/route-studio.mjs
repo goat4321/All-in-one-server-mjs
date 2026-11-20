@@ -14,12 +14,19 @@ const metresBetween=(a,b)=>{
  const h=Math.sin(dl/2)**2+Math.cos(a[0]*rad)*Math.cos(b[0]*rad)*Math.sin(dn/2)**2;
  return 6371000*2*Math.asin(Math.min(1,Math.sqrt(Math.max(0,h))));
 };
+/** Accept only geometry that actually reaches BOTH saved points. The routing
+ * mode is checked separately by the caller, never inferred from a polyline. */
+export function routeEndpointMatchesStops(from,to,points,maxSnapMetres=75){
+ return Boolean(from&&to&&Array.isArray(points)&&points.length>=2
+   &&points.every(validPoint)
+   &&metresBetween(points[0],from.point)<=maxSnapMetres
+   &&metresBetween(points.at(-1),to.point)<=maxSnapMetres);
+}
 export function footpathMatchesStops(from,to,route,maxSnapMetres=75){
  if(!from||!to||!route?.walkOnly||!Array.isArray(route.points)
    ||route.points.length<2||!route.points.every(validPoint))return false;
  const first=route.points[0],last=route.points.at(-1);
- return metresBetween(first,from.point)<=maxSnapMetres
-   &&metresBetween(last,to.point)<=maxSnapMetres;
+ return routeEndpointMatchesStops(from,to,route.points,maxSnapMetres);
 }
 
 
