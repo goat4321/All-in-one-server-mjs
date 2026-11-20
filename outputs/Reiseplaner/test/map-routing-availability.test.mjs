@@ -44,9 +44,18 @@ test('FOSSGIS bike profile is distinct from foot, validates source endpoint and 
  assert.match(bikeRouteKey(points),/^bike:/);
  const [a,b]=points;
  const geometry={type:'LineString',coordinates:[[a[1],a[0]],[b[1],b[0]]]};
- const result={code:'Ok',routes:[{geometry,distance:190,duration:91,legs:[{steps:[]}]}]};
+ const result={code:'Ok',routes:[{geometry,distance:190,duration:91,legs:[{steps:[{mode:'cycling'}]}]}]};
  assert.equal(checkedBikeResponse(result,a,b,'2026-11-19').minutes,2);
  assert.equal(checkedBikeResponse(result,a,b,'2026-11-19').mode,'Radweg');
+ const push=structuredClone(result);
+ push.routes[0].legs[0].steps.push({mode:'pushing bike'});
+ assert.equal(checkedBikeResponse(push,a,b,'2026-11-19').pushingBike,true);
+ const boat=structuredClone(result);
+ boat.routes[0].legs[0].steps.push({mode:'ferry'});
+ assert.throws(()=>checkedBikeResponse(boat,a,b),/weitere Verkehrsmittel/);
+ const untyped=structuredClone(result);
+ untyped.routes[0].legs[0].steps=[];
+ assert.throws(()=>checkedBikeResponse(untyped,a,b),/keine belegten/);
  assert.throws(()=>checkedBikeResponse({...result,routes:[{...result.routes[0],
    geometry:{type:'LineString',coordinates:[[13,48],[14,48]]}}]},a,b),/75-m-Grenze/);
  assert.throws(()=>checkedBikeResponse({...result,code:'NoRoute'},a,b),/keine belegte Strecke/);
