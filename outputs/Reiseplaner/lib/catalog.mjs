@@ -950,6 +950,10 @@ export async function loadCatalog() {
   const fieldNotesV28Archive=await loadFieldNotesV28();
   const fieldNotesV28=applyFieldNotesV28(output,fieldNotesV28Archive,surveyFirstV19Archive.activities.items);
   const dayPlansV32=await loadDayPlansV32(output,transport);
+  // Editorial read-only layer for one variant; original v32 drafts and trip
+  // resources remain untouched. References are checked before rendering.
+  const swissEditorialV08=JSON.parse(await readFile(
+    new URL('../data/interrail-swiss-editorial-v08.json',import.meta.url),'utf8'));
   const hikingArchive=JSON.parse(await readFile(new URL('../data/hiking-evidence.json',import.meta.url),'utf8'));
   const hikingStats=attachHikingEvidence(output,hikingArchive,cities);
   const mappedFareRowsV07 = Object.fromEntries(destinations.map(city => [
@@ -1225,6 +1229,7 @@ export async function loadCatalog() {
       researchV22,
        fieldNotesV28,
       dayPlansV32,
+      interrailSwissEditorialV08:swissEditorialV08,
       mealResearch,
       hikingEvidence:{...hikingArchive,stats:hikingStats},
       uploadedResearchV50:{meta:uploadedResearchV50.meta,stats:uploadedStatsV50},
