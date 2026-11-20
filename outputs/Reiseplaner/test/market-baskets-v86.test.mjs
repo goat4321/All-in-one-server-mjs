@@ -60,6 +60,8 @@ test('editable quotes persist only for the chosen trip; invalid dates and curren
  assert.ok(marketPriceOverrideValid(item,'barcelona','aldi-es','spaghetti'));
  assert.equal(marketPriceOverrideValid({...item,currency:'CHF'},'barcelona','aldi-es','spaghetti'),false);
  assert.equal(marketPriceOverrideValid({...item,checkedOn:'nichts'},'barcelona','aldi-es','spaghetti'),false);
+ assert.equal(marketPriceOverrideValid({...item,checkedOn:'2026-02-30'},'barcelona','aldi-es','spaghetti'),false);
+ assert.equal(marketPriceOverrideValid({...item,checkedOn:'2027-01-01'},'barcelona','aldi-es','spaghetti'),false);
  assert.equal(marketPriceOverrideValid({...item,sourceUrl:'http://example.com'},'barcelona','aldi-es','spaghetti'),false);
  const state={...initialState(trip),marketQuotes:{[key]:item}};
  assert.doesNotThrow(()=>validateState(state,trip,[]));
