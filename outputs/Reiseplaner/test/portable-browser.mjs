@@ -1344,6 +1344,49 @@ try {
   await text('dialog','CHF');await set('dialog [name=start]','');await save();
   await openMeals();await text('.grocery-section','2,10');await text('.grocery-section','CHF');
   assert.equal(store.current('interrail_swiss').state.manual.find(i=>i.mealPlanId==='kandersteg-oats').price.currency,'CHF');
+  // V85: actual Chrome navigation and screenshots for all four critical Swiss days,
+  // two city segments and a 390px viewport. All scenarios are read-only.
+  const swissExpensesBefore=JSON.stringify(store.current('interrail_swiss').state.expenses);
+  const showEditorialDay=async (date,swissFinal)=>{
+    await click('.sidebar [data-action=page][data-value=overview]');
+    const selector=swissFinal
+      ?'.swiss-focus-day-shortcuts [data-action=day-plan-go][data-value="'+date+'"]'
+      :'.day-plan-overview-row[data-action=day-plan-go][data-value="'+date+'"]';
+    if(!swissFinal&&!await js('document.querySelector(".day-plan-overview")?.open'))
+      await click('.day-plan-overview>summary');
+    await click(selector);
+    await until(()=>js('document.querySelector(".swiss-day-editorial")?.textContent.includes("Morgen, Mittag & Abend")'),
+      'V85 editorial visible for '+date);
+    assert.equal(await js('document.querySelectorAll(".swiss-day-editorial .swiss-editorial-block").length'),3,
+      'Three visible editorial blocks on '+date);
+    assert.ok(await js('document.querySelector(".swiss-day-editorial .swiss-editorial-sources a")!==null'),
+      'Official source links in day '+date);
+    assert.ok(await js('document.querySelector(".swiss-day-editorial")?.getBoundingClientRect().width<=innerWidth+1'),
+      'No editorial card exceeds viewport '+date);
+  };
+  for(const date of ['2027-09-10','2027-09-11','2027-09-12','2027-09-13']){
+    await showEditorialDay(date,true);
+    await screenshot('88-v85-swiss-'+date.slice(-2)+'-desktop.png');
+  }
+  for(const date of ['2027-09-02','2027-09-05']){
+    await showEditorialDay(date,false);
+    await screenshot('89-v85-city-'+date.slice(-2)+'-desktop.png');
+  }
+  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  for(const date of ['2027-09-11','2027-09-13']){
+    await showEditorialDay(date,true);
+    await until(()=>js('getComputedStyle(document.querySelector(".swiss-editorial-grid")).gridTemplateColumns.split(" ").length===1'),
+      'V85 mobile three-part card stack '+date);
+    assert.ok(await js('document.querySelector(".swiss-day-editorial").getBoundingClientRect().right<=innerWidth+2'),
+      'V85 cards fit mobile viewport '+date);
+    await screenshot('90-v85-swiss-'+date.slice(-2)+'-mobile.png');
+  }
+  await cdp('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false});
+  assert.equal(JSON.stringify(store.current('interrail_swiss').state.expenses),swissExpensesBefore,
+    'Reading V85 editorials does not edit the trip expenses');
+  assert.equal(store.current('swiss_lakes').state.people.length,4,
+    'The separate Swiss lakes four-person itinerary remains unchanged');
+  console.log('PASS V85 Browser: days 10-13, Paris 02, Barcelona 05, 390px, source links, no budget writes');
   await cdp('Page.navigate',{url:address+'&variant=interrail_classic'});
   await text('h1','Reiseübersicht');await openMeals();
   await text('.meal-day-slot[data-meal-slot=breakfast]','Noch keine Mahlzeit');
