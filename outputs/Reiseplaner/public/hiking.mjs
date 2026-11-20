@@ -1,5 +1,5 @@
 import {esc,btn,urlLink} from './ui.mjs';
-import {placeImageHtml,placeProfileModel} from './place-profile.mjs';
+import {placeThumbnailHtml,placeProfileModel} from './place-profile.mjs';
 
 const radians=x=>x*Math.PI/180;
 const distance=(a,b)=>{
@@ -82,7 +82,14 @@ function hikingContextPhoto(ctx,trail){
   &&(trail.id==='ebenalp'?/Ebenalp|Wildkirchli|Äscher/i.test(item.name):false));
  const item=routePhoto??specific??all.find(item=>item.kind==='activity'&&scenicIds.some(id=>item.id===id||item.id.endsWith(':'+id)));
  if(!item)return '';
- return '<div class="hike-context-photo">'+placeImageHtml(item,ctx,{small:true})
+ const photo=placeProfileModel(item,ctx)?.photo;
+ const media=photo
+  ?'<div class="swiss-quality-media hike-safe-media">'+placeThumbnailHtml(item,ctx)+'</div>'
+    +'<div class="swiss-quality-credit">Bild: '+esc(photo.credit)
+    +' · '+urlLink(photo.sourceUrl,'Bildquelle')
+    +(photo.licenseUrl?' · '+urlLink(photo.licenseUrl,'Lizenz'):'')+'</div>'
+  :'<div class="swiss-quality-media swiss-quality-no-photo">Kein konkretes Wanderweg-Foto belegt</div>';
+ return '<div class="hike-context-photo">'+media
   +'<p class="hike-photo-context">Ortsmotiv: '+esc(item.name)
   +' · zeigt nicht zwingend den konkreten Wanderabschnitt oder den Wegzustand 2027.</p></div>';
 }
