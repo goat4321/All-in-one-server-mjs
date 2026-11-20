@@ -153,7 +153,6 @@ export function foodBrowseCards(ctx,items){
  */
 export function browseOptionCard(item,ctx,{lodging=false,active=false,highlighted=false,
   verification=null,stayStats=null,meal=null}={}){
- if(!lodging)return discoveryCard(item,ctx,{surface:'discover'});
  const profile=placeProfileModel(item,ctx);
  if(!profile)return '';
  const people=ctx.people?.length??1;
