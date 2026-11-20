@@ -97,7 +97,11 @@ export function explorerData(items, trip, { city = null, group = 'all', search =
       || mapDistanceKm(item.point,nearbyPoint)>radiusKm)) continue;
     const category = explorerCategory(item);
     if (group !== 'all' && category !== group) continue;
-    const label = [item.name, item.city, item.address, item.detail, ...(item.tags ?? [])].join(' ');
+    const menuSamples=item.menuPriceResearchV08?.menuReference?.sample;
+    const label = [item.name,item.city,item.address,item.detail,item.note,
+      item.brand,item.operator,...(item.tags??[]),
+      ...(Array.isArray(menuSamples)?menuSamples.map(row=>row.name):[])
+    ].join(' ');
     if (needle && !norm(label).includes(needle)) continue;
     const id = item.entryKey ?? item.id;
     if (!dedup.has(id)) dedup.set(id, { ...item, explorerCategory: category, explorerId: id });
