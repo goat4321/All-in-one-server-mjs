@@ -58,7 +58,7 @@ jobs:
         env:
           REISEPLAN_SCREENSHOT_DIR: ${{ runner.temp }}/reiseplaner-ui-review
         run: node test/portable-browser.mjs
-      - name: Sieben Seiten: Accessibility-, Motion- und Performance-Labormessung
+      - name: "Sieben Seiten: Accessibility-, Motion- und Performance-Labormessung"
         env:
           REISEPLAN_QUALITY_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/quality
         run: npm run test:quality
