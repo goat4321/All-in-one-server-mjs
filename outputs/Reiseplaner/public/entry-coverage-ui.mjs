@@ -1,5 +1,6 @@
 import {esc,btn,urlLink} from './ui.mjs';
 import {entryCompletenessReport} from './entry-completeness.mjs';
+import {swiss14GapSummary} from './swiss-14-quality-v87.mjs';
 
 const labels={photo:'Foto',description:'Beschreibung',price:'Preis',
   hours:'Öffnung',location:'Kartenort',geo_evidence:'Koordinatenquelle',
@@ -99,6 +100,7 @@ export function entryCoveragePanel(ctx,{deferReasons=false}={}){
     +'Ein gespeicherter Kartenpunkt ist nicht automatisch ein unabhängig belegter Gebäude- oder Eingangspunkt.</p></header>'
     +'<div class="coverage-counts">'+countersHtml+'</div>'
     +'<div class="coverage-gap-summary">'+gapSummary+'</div>'
+    +swiss14GapSummary(ctx)
     +'<div class="coverage-export-controls">'+btn('coverage-export','JSON-Bericht speichern','folder')
     +btn('coverage-export-csv','CSV / Excel-Tabelle speichern','download')
     +'<span>Beide Dateien enthalten alle ungeklärten Einträge dieser Variante mit konkreten Prüfgründen. '
