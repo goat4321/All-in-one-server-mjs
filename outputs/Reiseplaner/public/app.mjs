@@ -1201,8 +1201,9 @@ async function action(name, value = '') {
       view.browseLimit=Math.min(2000,view.browseLimit+24);render({fetchRoutes:false});break;
     case 'browse-map': {
       const kind=value==='lodging'?'lodging':value==='food'?'food'
-        :view.page==='discover'&&['food','shop','activity'].includes(view.discoverGroup)
-          ?view.discoverGroup:'activity';
+        :view.page==='discover'
+          ?(['food','shop','activity'].includes(view.discoverGroup)
+            ?view.discoverGroup:'all'):'activity';
       view.page='map';view.mapScope=view.browseScope==='trip'?'trip':'city';
       view.total=view.mapScope==='trip';view.mapGroup=kind;view.mapSearch='';
       view.selected=null;view.mapViewportOnly=false;view.mapViewportBounds=null;
