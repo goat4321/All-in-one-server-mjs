@@ -1,3 +1,13 @@
+## 20.11.2026 – V86/V87: Supermarkt-Vergleich und Schweizer Ortsbild-Qualität
+
+Direkt im bestehenden GitHub-Branch `feature/v7-data-day-accommodation-rail`, PR #5. Ausgangs-HEAD `0f650074` mit bestätigtem früheren CI-Erfolg. Lokale private Tripsy-/Windows-Dateien bleiben unzugänglich; deshalb nur remote und Seed-Fallback-gestützte Prüfung, **keine** lokale vollständige 526er-Regression behauptet.
+
+**V86 Supermarktketten:** sechs Kernorte, exakt 13 stadtbezogene Kettenvergleiche, zehn definierte Basisprodukte je Kette. Die acht verschiedenen datierten Online-/Archivproduktbelege füllen 12 der 130 Stadt-Ketten-Produktzellen; 118 bleiben offen. Kosten pro kg/l/Stück, ganze Packungen, EUR/CHF, Qualität, Quellen und Preisstand sind getrennt; kein unvollständiger Warenkorb wird als billigste Kette gerankt. Manuelle Preise werden gesondert pro Reisevariante mit Quelle und Datum gespeichert und sind rücknehmbar; dadurch keine automatische Veränderung an Mahlzeitenwarenkorb, Budget, Buchungen oder externen Daten. Kein erfundener Filialpin oder Filialanzahl; die vorhandene optionale OSM-Suche bleibt eigenständig.
+
+**V87 Qualität:** die beiden optionalen Wanderungen `hiking:heuberg` und `hiking:ebenalp` erhalten je ein passendes historisches, individuell lizenzbelegtes Commons-Motiv, ausdrücklich nur als Aussichtspunkt/Teilziel. Für die 14 bestehenden Schweizer Interrail-Tage werden aus den echten Tages-IDs lesbare Foto-/Quellen-/Preis-/Öffnungskarten und eine deduplizierte aktuelle Lückenübersicht gerendert. Bestehende Tagesaktivitäten, Tagesreihenfolge und Reise-/Ruhetage werden nicht verändert. Hotel-/Airbnb-Fotos, Öffnungen oder Angebote September 2027 nicht erfunden. Vorhandene Fallbacks/Lazy Loading und Google-Maps-Suchlinks für öffentliche Aktivitäten werden wiederverwendet.
+
+Nachweis: [MARKET_SWISS_QUALITY_V86_V87.md](MARKET_SWISS_QUALITY_V86_V87.md), zwei neue Fachtests, portable Chrome-Prüfung einschließlich Barcelona/Sète/Kandersteg/Appenzell und ergänzte CHECKLIST_V2.md. **CI-Ergebnis ausschließlich dem aktuellen GitHub-Actions-Run entnehmen.** Weder Merge nach `main`, Buchungen, Zahlungen noch Deployment durchgeführt.
+
 ## 19.11.2026 – Kombinierbare Unterkunftsfilter und vollständiger Direktvergleich
 
 Die Unterkunftsseite beginnt jetzt mit Reiseort und Suche. Die vorhandene Schweizer Recherche mit 20 datierten Suchanzeigen und acht Zimmerkategorien bleibt in einem benannten Aufklappbereich erreichbar. Sie verdeckt den Einstieg nicht mehr mit mehreren Bildschirmhöhen Recherchetext.
