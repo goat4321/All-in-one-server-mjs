@@ -103,7 +103,8 @@ export function explorerToolbar(ctx) {
     + '<p class="muted">Zu Fuß oder mit dem Fahrrad werden Kilometer und Dauer ausschließlich aus einer passenden, erfolgreich geprüften OSRM-Routerantwort angezeigt. GTFS-Fahrpläne gelten nur in ihrem angegebenen Zeitraum. Stadtübergreifende oder unbekannte ÖPNV-Fahrten bleiben extern.</p>'
     + '<p class="muted">© OpenStreetMap-Mitwirkende (ODbL) · '
     +'<a href="https://routing.openstreetmap.de/about.html" target="_blank" rel="noopener noreferrer">FOSSGIS-Routing: Quelle & Nutzung</a> · '
-    +'<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OSM-Karte korrigieren / Datenlizenz</a></p>'
+    +'<a href="https://www.openstreetmap.org/fixthemap" target="_blank" rel="noopener noreferrer">OSM-Kartenfehler melden / korrigieren</a> · '
+    +'<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OSM-Datenlizenz</a></p>'
     + '</div></details></section>';
 }
 
