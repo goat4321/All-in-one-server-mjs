@@ -78,7 +78,7 @@ function hikingContextPhoto(ctx,trail){
  const scenicIds=trail.city==='kandersteg'?['act-054','act-053']:['act-046','act-045'];
  const specific=all.find(item=>item.kind==='activity'&&item.id!==trail.itemId
   &&(trail.id==='ebenalp'?/Ebenalp|Wildkirchli|Äscher/i.test(item.name):false));
- const item=specific??all.find(item=>scenicIds.includes(item.id)&&item.kind==='activity');
+ const item=specific??all.find(item=>item.kind==='activity'&&scenicIds.some(id=>item.id===id||item.id.endsWith(':'+id)));
  if(!item)return '';
  return '<div class="hike-context-photo">'+placeImageHtml(item,ctx,{small:true})
   +'<p class="hike-photo-context">Ortsmotiv: '+esc(item.name)
@@ -110,7 +110,7 @@ export function hikingPanel(ctx){
     +'<p class="hike-risk"><strong>Gelände & Anforderungen:</strong> '+esc(trail.exposure)+'</p>'
     +profileHtml(trail)
     +'<details><summary>Weg, Anfahrt und Bedingungen</summary><p>'+esc(trail.route)+'</p>'
-    +'<p>'+esc(trail.access)+'</p><p>'+esc(trail.conditions)+'</p><p>'+esc(trail.costs)+'</p>'
+    +'<p>'+esc(trail.access)+'</p><p>'+esc(trail.costs)+'</p>'
      +'<p><strong>Stand:</strong> '+esc(trail.conditions)+'</p>'
     +'<p>Quellenprüfung '+esc(ctx.catalog.research.hikingEvidence.checkedOn)+' · SAC-Stufe '
     +esc(trail.sac??'nicht konkret belegt')+'</p><div class="swiss-focus-links">'
