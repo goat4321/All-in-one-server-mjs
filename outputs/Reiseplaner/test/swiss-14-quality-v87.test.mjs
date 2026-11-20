@@ -37,6 +37,8 @@ test('source-bound Swiss day cards expose photos/gaps and avoid fabricated provi
   assert.match(html,/Details &amp; Quellen/);
   assert.match(html,/Preis:/);
   assert.match(html,/Öffnung:/);
+  assert.doesNotMatch(html,/class="place-photo small"/,'No overlaid credits on the V87 photo tile');
+  assert.match(html,/class="swiss-quality-media/,'The preview contains its own fallback-safe media tile');
   assert.match(html,/für 2027 nicht bestätigt|historische Referenz vorhanden/);
  }
  const travel=renderSwiss14QualityDay(ctx('2027-09-10'));
