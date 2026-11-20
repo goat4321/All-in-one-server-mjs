@@ -24,7 +24,7 @@ import {markerProvenance} from './poi-location-provenance.mjs';
 import {mapViewSummary} from './map-view-summary-v72.mjs';
 import {hikingMapPanel} from './hiking.mjs';
 import {plansForSlot,currentMeals} from './meal-planner.mjs';
-import {mealDayOverview,stapleComparison,shoppingStopButton} from './meal-planner-ui.mjs';
+import {mealDayOverview,mealFlowSummary,stapleComparison,shoppingStopButton} from './meal-planner-ui.mjs';
 import {table} from './ui.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
@@ -960,14 +960,15 @@ function food(ctx) {
     +heading('Mahlzeiten am Reisetag',ctx.cities[city].name+' · '+count+' Reisende',planDate)
     + menuSection
     + mealDayOverview(ctx)
-    + '<section class="section grocery-section" aria-label="Gemeinsamer Einkaufswarenkorb"><div class="inline"><h2>Gemeinsamer Einkaufswarenkorb'
+    + mealFlowSummary(ctx,basket)
+    + (planCards ? '<section id="meal-recipe-choices" class="section"><h2>2 · Selbst kochen, kochfrei oder auswärts essen</h2><div class="grid-cards">' + planCards + '</div></section>' : '')
+    + '<section id="meal-grocery-basket" class="section grocery-section" aria-label="Gemeinsamer Einkaufswarenkorb"><div class="inline"><h2>Gemeinsamer Einkaufswarenkorb'
       + (basket.length ? ' · ' + esc(basketTotals) : '') + '</h2>' + btn('grocery-extra', 'Artikel ergänzen', 'plus') + shoppingStopButton(ctx) + '</div>'
       + '<p class="muted">Mengen gelten für alle geplanten Rezeptmahlzeiten in ' + esc(ctx.cities[city].name)
       + '. Vorräte reduzieren den Einkauf. Abhaken speichert den Einkaufsstatus. Zahlungen erfasst du im Budget.</p>'
       + (basketTable || empty('Einkaufsliste ist leer', 'Plane eine Kochmahlzeit oder ergänze einen eigenen Artikel.'))
       + '</section>'
     + stapleComparison(ctx)
-    + (planCards ? '<section class="section"><h2>Selbst kochen oder auswärts essen</h2><div class="grid-cards">' + planCards + '</div></section>' : '')
     + (scenarios.length ? '<section class="section"><h2>Unterkunft und ein Abendessen</h2><p class="muted">Szenarien mit den vorhandenen Unterkunftspreisen für den gesamten Aufenthalt.</p>'
       + table(['Unterkunft', 'Küche', 'Aufenthalt', 'Mit Kochen', 'Mit Restaurant innen'], scenarios) + '</section>' : '')
     + '<section class="section"><h2>Einkauf und Restaurants</h2>'
