@@ -4,7 +4,7 @@ import {assessStay,kitchenAccess} from './stay-analysis.mjs';
 import {stayCancellationLabel,staySourceLinks} from './stay-facets.mjs';
 import {stayExactListingUrl,stayLaundryState,stayLocationState} from './stay-evidence.mjs';
 import {esc,btn,icon,urlLink} from './ui.mjs';
-import {money} from './model.mjs';
+import {money,groupPrice} from './model.mjs';
 
 export function stayStatus(item,ctx){
  if(item?.booked===true)return 'Als gebucht im Plan markiert';
@@ -27,9 +27,14 @@ export function stayListRow(item,ctx){
  const pricing=p?.personNightCents!=null
    ?money(p.personNightCents)+' pro Person / Nacht'
    :'Preis pro Person/Nacht offen';
+ const quoted=item.effectivePrice??item.price;
+ const native=quoted?.currency&&(quoted.party==null||quoted.party===people)
+   ?groupPrice(quoted,people):null;
  const group=p?.groupTotalCents!=null
    ?money(p.groupTotalCents)+' für '+people+' Personen'
-   :'Gruppenpreis offen';
+   :Number.isSafeInteger(native)
+     ?money(native,quoted.currency)+' für '+people+' Personen · Währungsreferenz'
+     :'Gruppenpreis offen';
  const kind=p?.isSample?'Alter Suchwert':p?.groupTotalCents!=null?'Plan-/Preisreferenz':'Preis offen';
  const beds=e.bedsVerified?'Betten selbst geprüft':item.bedsDisplayed!=null
    ?item.bedsDisplayed+' Betten angegeben · ungeprüft':'Betten für Gruppe ungeprüft';
