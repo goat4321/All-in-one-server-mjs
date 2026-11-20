@@ -67,6 +67,18 @@ try{
  await change('#stay-kitchen','usable');assert.equal(await cardCount(),0,'Unknown kitchen cannot satisfy combined kitchen criterion');
  assert.match(await js('document.querySelector(".hub-empty").textContent'),/Keine passenden Optionen/);
  await click('.hub-empty [data-action=browse-reset]');assert.ok(await cardCount()>4);
+ assert.equal(await js('Boolean(document.querySelector(".stay-list-area"))'),true,
+   'Photo-first lodging list replaces dense multi-column tiles');
+ assert.ok(await js('document.querySelectorAll(".stay-list-row.hub-option-card").length>4'));
+ const firstRow=await js('(()=>{const row=document.querySelector(".stay-list-row"),media=row.querySelector(".stay-list-media");return {title:row.querySelector("h3")?.textContent,mediaHeight:media.getBoundingClientRect().height,mediaWidth:media.getBoundingClientRect().width,buttons:row.querySelectorAll("[data-action]")?.length}})()');
+ assert.ok(firstRow.mediaHeight>=190&&firstRow.mediaWidth>=150,
+   'Photo or explicit object-photo placeholder has editorial scale');
+ assert.equal(await js('document.querySelector(".stay-list-preview").open'),false,'Extra lodging facts are hidden until requested');
+ await click('.stay-list-preview summary');
+ assert.equal(await js('document.querySelector(".stay-list-preview").open'),true,
+   'Quick preview opens without replacing the whole page');
+ assert.match(await js('document.querySelector(".stay-list-preview-body").textContent'),/Storno/);
+ await click('.stay-list-preview summary');
  assert.equal(await js('document.querySelector("#stay-source").value'),'all');
  for(const value of ['possible','excluded']){await change('#stay-cancellation',value);assert.equal(await cardCount(),0,'Missing tariff evidence cannot match '+value);}
  await click('[data-action=stay-facets-reset]');
@@ -75,6 +87,12 @@ try{
   if(index===1){assert.match(await js('document.querySelector(".stay-compare-board").textContent'),/285,90/);assert.match(await js('document.querySelector(".stay-compare-board").textContent'),/448,80/);}
  }
  await click(compare(ids[4]));assert.equal(await count(),4,'Fifth option refused');
+ assert.ok(await js('document.querySelector(".stay-list-area").compareDocumentPosition(document.querySelector(".stay-compare-board")) & Node.DOCUMENT_POSITION_FOLLOWING'),
+   'Accommodation list must lead, comparison follows after the results');
+ assert.equal(await js('document.querySelector(".stay-compare-more").open'),false,
+   'Less decisive documentation is collapsed by default');
+ assert.equal(await js('document.querySelectorAll(".stay-compare-keyfacts > div").length'),24,
+   'Six primary decision facts are aligned in each of four comparison columns');
  assert.match(await js('document.querySelector(".stay-compare-board").textContent'),/Nicht bestätigt gebucht/);
  assert.match(await js('document.querySelector(".stay-compare-board").textContent'),/2027-09-03/);
  assert.equal(await js('[...document.querySelectorAll(".stay-compare-board a")].filter(a=>a.textContent.includes("Originalangebot")).length'),4);
@@ -84,6 +102,12 @@ try{
  await click('[data-action=browse-reset]');
  for(const width of [1440,820,390]){
   await cdp('Emulation.setDeviceMetricsOverride',{width,height:1100,deviceScaleFactor:1,mobile:width===390});await delay(150);
+  await js('document.querySelector(".stay-list-area").scrollIntoView({block:"start"})');await delay(80);
+  const listLayout=await js('(()=>{const row=document.querySelector(".stay-list-row"),media=row.querySelector(".stay-list-media");const r=row.getBoundingClientRect(),m=media.getBoundingClientRect();return {width:innerWidth,overflow:document.documentElement.scrollWidth-innerWidth,rows:document.querySelectorAll(".stay-list-row").length,mediaHeight:m.height,mediaWidth:m.width,rowLeft:r.left,rowRight:r.right}})()');
+  assert.ok(listLayout.overflow<=0&&listLayout.rowLeft>=-2&&listLayout.rowRight<=width+2,
+    'Accommodation list fits screen without horizontal overflow: '+JSON.stringify(listLayout));
+  assert.ok(listLayout.mediaHeight>=185,'Hotel photo/placeholder must not shrink to an icon');
+  await screenshot('unterkunft-fotoliste-'+width+'.png');
   await js('document.querySelector(".stay-facets").scrollIntoView({block:"start"})');await screenshot('unterkunft-filter-'+width+'.png');
   await js('document.querySelector(".stay-compare-board").scrollIntoView({block:"start"})');await delay(80);
   const metrics=await js('(()=>{const board=document.querySelector(".stay-compare-board"),grid=board.querySelector(".stay-compare-grid");return {width:innerWidth,overflow:document.documentElement.scrollWidth-innerWidth,cards:board.querySelectorAll(".stay-compare-card").length,columns:getComputedStyle(grid).gridTemplateColumns,controls:[...board.querySelectorAll("button,a")].filter(e=>e.checkVisibility()).map(e=>{const b=e.getBoundingClientRect();return {name:e.textContent.trim(),left:b.left,right:b.right,width:b.width,height:b.height}})}})()');

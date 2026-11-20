@@ -42,6 +42,7 @@ import { dayPeriod,planCostSignal } from './visual-experience.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
 import { stayComparisonBoard } from './stay-compare-ui.mjs';
+import {stayList} from './stay-list-ui.mjs';
 import {stayFacetControls,stayMatchesFacets,stayCancellationLabel} from './stay-facets.mjs';
 import { voteSnippet, groupVoteBoard } from './group-vote.mjs';
 import { assessStay, sortStayOptions, kitchenAccess } from './stay-analysis.mjs';
@@ -785,7 +786,7 @@ function options(ctx, lodging) {
     (lodgingPriceInsight(a,people.length,ctx.nightlyTargetEuro)?.personNightCents??Infinity)
      -(lodgingPriceInsight(b,people.length,ctx.nightlyTargetEuro)?.personNightCents??Infinity)
      || a.name.localeCompare(b.name,'de'));
-  if (lodging && ['price','total','station','documentation'].includes(sort)) {
+  if (lodging && ['price','total','station','documentation','source-quality','location','laundry','beds'].includes(sort)) {
     const resorted = sortStayOptions(list,people,ctx.hotelWalks,state.verifications ?? {},sort);
     list.splice(0,list.length,...resorted);
   }
@@ -814,16 +815,12 @@ function options(ctx, lodging) {
       : [['free','0-€-Preisreferenz'],['water','Wasser & Strand erwähnt'],
         ['swimming','Schwimmen erwähnt'],['consensus','Gruppenfavoriten ≥4'],
         ['evening', 'Abend'], ['food', 'Verpflegung']])];
-  const cards=list.slice(0,ctx.browseLimit??24).map(item=>{
+  const visible=list.slice(0,ctx.browseLimit??24);
+  const cards=lodging?(visible.length?stayList(visible,ctx):''):visible.map(item=>{
     const active=activeSet.has(item.id);
     const highlighted=compareIds.has(item.id);
     const meal=ctx.catalog.mealPlans?.[item.city]?.find(plan=>plan.venue===item.id);
-    const verification=lodging
-      ?reviewProgress('lodging',state.verifications?.[item.id],people.length):null;
-    const stayStats=lodging?assessStay(item,people,ctx.hotelWalks[item.id],
-      state.verifications?.[item.id]):null;
-    return browseOptionCard(item,ctx,{lodging,active,highlighted,meal,
-      verification,stayStats});
+    return browseOptionCard(item,ctx,{lodging,active,highlighted,meal});
   }).join('');
   const cardLabel=lodging?'Unterkünfte':'Reiseideen';
   const quick=filters.slice(0,3).map(([id,label])=>
@@ -844,7 +841,9 @@ function options(ctx, lodging) {
     +'<label>Sortieren <select id="sort">'
     +[['source','Quelle'],['price',lodging?'Preisreferenz (EUR)':'Preis'],['name','Name'],
       ...(lodging?[['total','Gruppensumme'],['person-night','Pro Person/Nacht'],
-         ['station','Bahnhof-Fußweg'],['documentation','Datenvollständigkeit']]
+         ['station','Bahnhof-Fußweg'],['documentation','Datenvollständigkeit'],
+         ['source-quality','Quellenqualität'],['location','Standortgenauigkeit'],
+         ['laundry','Waschmaschine'],['beds','Betten für Gruppe geprüft']]
         :[['score','Gruppeninteresse']])]
       .map(([id,label])=>'<option value="'+id+'"'
        +(sort===id?' selected':'')+'>'+label+'</option>').join('')
@@ -854,15 +853,19 @@ function options(ctx, lodging) {
     +'<span>'+esc(ctx.browseScope==='trip'?'In allen Reiseorten':cities[city].name)
     +' · '+esc(smartFilterHelp[optionFilter]??'Einträge aus deiner Recherche')
     +'</span></p>'
-    +(compared.length?'<section class="hub-compare-summary">'
-      +(lodging?stayComparisonBoard(compared,ctx)
-        :'<h2>'+compared.length+' Optionen im Vergleich</h2>'+btn('compare-clear','Auswahl leeren','close'))
-      +'</section>':'')
-    +(cards?'<div class="hub-option-grid">'+cards+'</div>'
+    +(lodging&&compared.length
+      ?'<nav class="stay-compare-jump" aria-label="Vergleich"><span>'
+        +compared.length+' von 4 Unterkünften gewählt</span><a href="#unterkunftvergleich">'
+        +'Zum Direktvergleich</a>'+btn('compare-clear','Vergleich leeren','x')+'</nav>':'')
+    +(cards?(lodging?cards:'<div class="hub-option-grid">'+cards+'</div>')
       :'<div class="hub-empty"><strong>Keine passenden Optionen</strong>'
        +'<p>Versuche eine andere Stadt oder entferne die aktuellen Suchfilter.</p>'
        +btn('browse-reset','Suche und Filter zurücksetzen','reset','','primary')
        +'</div>')
+    +(compared.length?'<section class="hub-compare-summary">'
+      +(lodging?stayComparisonBoard(compared,ctx)
+        :'<h2>'+compared.length+' Optionen im Vergleich</h2>'+btn('compare-clear','Auswahl leeren','close'))
+      +'</section>':'')
     +(list.length>(ctx.browseLimit??24)
       ?'<div class="hub-more-button">'
         +btn('browse-more','Weitere '+Math.min(24,list.length-(ctx.browseLimit??24))

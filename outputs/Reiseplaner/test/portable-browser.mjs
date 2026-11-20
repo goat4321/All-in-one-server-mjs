@@ -845,7 +845,7 @@ try {
   await click('[data-action=browse-search-reset]');
   await until(() => js('document.querySelector("#browse-search")?.value===""'),'Suche wieder zurückgesetzt');
   await until(() => js('document.querySelectorAll(".lodging-price-meter").length > 0'), 'Unterkunfts-Budgetbalken');
-  await until(() => js('document.querySelectorAll(".hub-option-card .hub-option-pricing strong").length > 0'), 'Alte und neue Unterkunftskarten zeigen €/€€/€€€ oder €?');
+  await until(() => js('document.querySelectorAll(".stay-list-row .stay-list-decision strong").length > 0'), 'Unterkunftsliste zeigt tatsächliche Referenzpreise oder ausdrücklich offene Preise');
   await set('#nightly-target', '40');
   await js('document.querySelector("#nightly-target").dispatchEvent(new Event("change",{bubbles:true}))');
   await until(() => js('document.querySelector("#nightly-target")?.value === "40"'),'Budgetziel angepasst');
@@ -880,13 +880,13 @@ try {
   await text('#main', 'Detaillierter Preis- und Quellenvergleich');
   await js('document.querySelector(".hub-filter-more:not([open]) > summary")?.click()');
    await click('[data-action=option-filter][data-value=search]');
-  await text('.hub-option-grid', 'HeyLola! Hostel');
-  await text('.hub-option-grid', 'Preisorientierung');
+  await text('.stay-list-area', 'HeyLola! Hostel');
+  await text('.stay-list-area', 'pro Person');
   const scopedHotelSearchCount = catalog.trips.find(trip => trip.id === 'interrail_classic')
     .items.filter(item => item.city === 'barcelona' && item.kind === 'lodging'
       && item.quote && !item.duplicateOf).length;
   assert.equal(await js('document.querySelectorAll(".hub-option-card").length'), Math.min(24,scopedHotelSearchCount));
-  await text('.hub-option-grid', 'Preisorientierung');
+  await text('.stay-list-area', 'Buchung offen');
   assert.ok(await js('!document.querySelector(".hub-option-card").textContent.includes("gebucht")')
     || await js('document.querySelector(".hub-option-card").textContent.includes("nicht gebucht")'));
   await click('.sidebar [data-action=page][data-value=discover]');
@@ -1112,7 +1112,7 @@ try {
   await click('.sidebar [data-action=page][data-value=lodging]');
   await js('document.querySelector(".hub-filter-more:not([open]) > summary")?.click()');
    await click('[data-action=option-filter][data-value=search]');
-  await text('.hub-option-grid', 'HeyLola! Hostel');
+  await text('.stay-list-area', 'HeyLola! Hostel');
   await click('[data-action=choose][data-value="research:bcom_12814471"]');
   await text('dialog', 'keine Reservierung oder Zahlung');
   await save();
