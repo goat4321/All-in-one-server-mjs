@@ -71,7 +71,7 @@ export function mealFlowSummary(ctx,basket=[]){
   else result.known+=row.total;
   groups.set(row.currency,result);
  }
- const costs=[...groups.values()].map(row=>money(row.known,row.currency)
+ const costs=[...groups.values()].map(row=>row.currency+' '+money(row.known,row.currency)
   +(row.unknown?' + '+row.unknown+' offene Position(en)':'')).join(' · ');
  const missing=basket.filter(row=>row.packs>0&&!row.checked).length;
  const stock=basket.filter(row=>row.stock>0).length;
