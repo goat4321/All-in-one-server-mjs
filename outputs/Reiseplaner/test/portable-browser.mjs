@@ -880,13 +880,13 @@ try {
   await text('#main', 'Detaillierter Preis- und Quellenvergleich');
   await js('document.querySelector(".hub-filter-more:not([open]) > summary")?.click()');
    await click('[data-action=option-filter][data-value=search]');
-  await text('.hub-option-grid', 'HeyLola! Hostel');
-  await text('.hub-option-grid', 'Preisorientierung');
+  await text('.stay-list-area', 'HeyLola! Hostel');
+  await text('.stay-list-area', 'pro Person');
   const scopedHotelSearchCount = catalog.trips.find(trip => trip.id === 'interrail_classic')
     .items.filter(item => item.city === 'barcelona' && item.kind === 'lodging'
       && item.quote && !item.duplicateOf).length;
   assert.equal(await js('document.querySelectorAll(".hub-option-card").length'), Math.min(24,scopedHotelSearchCount));
-  await text('.hub-option-grid', 'Preisorientierung');
+  await text('.stay-list-area', 'Buchung offen');
   assert.ok(await js('!document.querySelector(".hub-option-card").textContent.includes("gebucht")')
     || await js('document.querySelector(".hub-option-card").textContent.includes("nicht gebucht")'));
   await click('.sidebar [data-action=page][data-value=discover]');
