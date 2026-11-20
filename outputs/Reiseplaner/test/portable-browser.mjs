@@ -1112,7 +1112,7 @@ try {
   await click('.sidebar [data-action=page][data-value=lodging]');
   await js('document.querySelector(".hub-filter-more:not([open]) > summary")?.click()');
    await click('[data-action=option-filter][data-value=search]');
-  await text('.hub-option-grid', 'HeyLola! Hostel');
+  await text('.stay-list-area', 'HeyLola! Hostel');
   await click('[data-action=choose][data-value="research:bcom_12814471"]');
   await text('dialog', 'keine Reservierung oder Zahlung');
   await save();
