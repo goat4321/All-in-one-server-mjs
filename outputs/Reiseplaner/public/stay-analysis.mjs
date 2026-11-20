@@ -1,5 +1,6 @@
 import { groupPrice } from './model.mjs';
 import { reviewProgress } from './verification.mjs';
+import {stayLaundryState,stayLocationState,stayExactListingUrl} from './stay-evidence.mjs';
 
 // A claimed kitchen is not automatically a usable kitchen. Unknown, negated
 // and unverified text must not pass a "with kitchen" filter.
@@ -63,5 +64,24 @@ export function sortStayOptions(items, people, walks, reviews, mode = 'source') 
     assessStay(b,people,walks[b.id],reviews[b.id]).completeness
     - assessStay(a,people,walks[a.id],reviews[a.id]).completeness
     || a.name.localeCompare(b.name,'de'));
+  if(mode==='source-quality') {
+    const score=item=>stayExactListingUrl(item)?0
+      :item.venueSourceV78?.sourceType==='operator'?1:2;
+    copy.sort((a,b)=>score(a)-score(b)||a.name.localeCompare(b.name,'de'));
+  }
+  if(mode==='location') {
+    const score=item=>stayLocationState(item).startsWith('Kartenpunkt vorhanden')?0
+      :Array.isArray(item?.point)?1:2;
+    copy.sort((a,b)=>score(a)-score(b)||a.name.localeCompare(b.name,'de'));
+  }
+  if(mode==='laundry') {
+    const score=item=>stayLaundryState(item)==='yes'?0
+      :stayLaundryState(item)==='no'?1:2;
+    copy.sort((a,b)=>score(a)-score(b)||a.name.localeCompare(b.name,'de'));
+  }
+  if(mode==='beds') copy.sort((a,b)=>
+    Number(Boolean(reviews[b.id]?.checks?.beds&&reviews[b.id]?.groupSize===people.length))
+     -Number(Boolean(reviews[a.id]?.checks?.beds&&reviews[a.id]?.groupSize===people.length))
+     ||a.name.localeCompare(b.name,'de'));
   return copy;
 }
