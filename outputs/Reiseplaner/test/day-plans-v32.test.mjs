@@ -165,7 +165,7 @@ test('Swiss editorial completes exactly 14 days with three sections, food, buffe
   const before=JSON.stringify(ctx.state);
   const html=swissEditorialPanel(ctx);
   assert.equal((html.match(/class="swiss-editorial-block"/g)||[]).length,3,row.date);
-  assert.match(html,/Küche &amp; Lebensmittel/);
+  assert.match(html,/Küche & Lebensmittel/);
   assert.match(html,/Puffer/);
   assert.match(html,/Alternative/);
   assert.match(html,/Reisende · unverbindlicher Tagesentwurf/);
