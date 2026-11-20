@@ -2,6 +2,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { randomUUID, createHash } from 'node:crypto';
 import { activeItems, fxAmount, groupPrice, mealDate, minor } from '../public/model.mjs';
 import { VERIFICATION_FIELDS } from '../public/verification.mjs';
+import {marketPriceOverrideValid} from '../public/market-basket-v86.mjs';
 
 const object = v => v !== null && typeof v === 'object' && !Array.isArray(v);
 const goodText = (v, limit = 600) => typeof v === 'string' && v.length <= limit;
@@ -30,7 +31,7 @@ export function initialState(trip) {
     edits: {}, manual: [], expenses: [], favorites: [], deadlines: [], localRoutes: {},
     placePhotos: {}, votes: {},
     pass: { from: trip.from, to: trip.to, days: 7, cost: null, rides: 0, purchased: false, budgetMode: 'tickets', includeReferences: false },
-    mobility: {}, groceryOverrides: {}, shopping: { pantry: {}, checked: {}, excluded: {}, extras: [] }, verifications: {},
+    mobility: {}, groceryOverrides: {}, marketQuotes: {}, shopping: { pantry: {}, checked: {}, excluded: {}, extras: [] }, verifications: {},
     budgetLimit: null, title: null,
   };
 }
@@ -59,6 +60,17 @@ export function validateState(state, trip, imported) {
         || (value.date != null && !validDay(value.date))
         || (value.sourceUrl != null && (!goodText(value.sourceUrl, 500) || !/^https:\/\//i.test(value.sourceUrl)))))) {
     error('Ungültiger gemeinsamer Einkaufswarenkorb.');
+  }
+  // Optional for legacy saved variants: a researched quote is never a purchase.
+  if (state.marketQuotes != null) {
+    if (!object(state.marketQuotes) || Object.keys(state.marketQuotes).length > 300
+      || Object.entries(state.marketQuotes).some(([key,quote])=>{
+        const parts=key.split(':');
+        return parts.length!==3 || !trip.route.includes(parts[0])
+          || !marketPriceOverrideValid(quote,parts[0],parts[1],parts[2])
+          || (quote.name!=null&&(!goodText(quote.name,160)||!quote.name.trim()))
+          || (quote.grade!=null&&!['economy','standard','organic','unknown'].includes(quote.grade));
+      })) error('Ungültige Supermarkt-Preisreferenz.');
   }
   if (state.shopping != null) {
     const shopping = state.shopping;
