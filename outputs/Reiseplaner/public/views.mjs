@@ -944,6 +944,7 @@ function food(ctx) {
           :btn('browse-market-load','Supermärkte in '+(ctx.cities[city]?.name??city)+' laden','plus','','primary'))
       +'</section>':'';
   const visualBrowse=browseHero(ctx,'food',shown.length)
+    +marketBasketPanel(ctx)
     +browseToolbar(ctx,{kind:'food',total,filtered:shown.length})
     +foodTypeTabs(ctx,available)+marketCTA
     +(ctx.browseFoodSavedOnly?'<p class="hub-saved-notice">'
@@ -954,7 +955,7 @@ function food(ctx) {
        ?'<div class="hub-more-button">'
          +btn('browse-more','Weitere '+Math.min(24,shown.length-(ctx.browseLimit??24))
            +' Orte anzeigen','plus','','primary')+'</div>':'');
-  return marketBasketPanel(ctx) + visualBrowse + '<details class="hub-food-planning"'
+  return visualBrowse + '<details class="hub-food-planning"'
     +(ctx.browseMealsOpen?' open':'')+'><summary>'
     +icon('calendar')+' Tagesmenüs, Einkaufswarenkorb & detaillierte Preisrecherche'
     +icon('chevron')+'</summary><div class="hub-food-planning-content">'
