@@ -32,7 +32,15 @@ export function checkedBikeResponse(json,from,to,checked=new Date().toISOString(
    ||!Number.isFinite(first.duration)||first.duration<=0||first.duration>7*86400
    ||!Array.isArray(first.legs)||first.legs.length===0)
    throw Error('Radroute ohne belastbare Distanz oder Dauer.');
- return {mode:'Radweg',cycleOnly:true,walkOnly:false,points,
+ // The OSRM bicycle profile can legally traverse ferries or public transport.
+ // A bike-only ETA must never conceal those legs. Pushing a bike is allowed
+ // but must be disclosed separately from continuous cycling.
+ const steps=first.legs.flatMap(leg=>Array.isArray(leg.steps)?leg.steps:[]);
+ const modeLabels=steps.map(step=>step.mode).filter(Boolean);
+ if(!modeLabels.length||modeLabels.some(mode=>!['cycling','pushing bike'].includes(mode)))
+   throw Error('Fahrradprofil enthält keine belegten Rad-/Schiebeabschnitte oder weitere Verkehrsmittel.');
+ return {mode:'Radweg',cycleOnly:true,walkOnly:false,
+   pushingBike:modeLabels.includes('pushing bike'),points,
    metres:Math.round(first.distance),minutes:Math.max(1,Math.ceil(first.duration/60)),
    source:'FOSSGIS · OSRM-Fahrradprofil / © OpenStreetMap-Mitwirkende',
    sourceUrl:'https://routing.openstreetmap.de/about.html',
