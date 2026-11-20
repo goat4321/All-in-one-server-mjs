@@ -1,3 +1,13 @@
+## 20.11.2026 – V88: reproduzierbare Messung, Textlesbarkeit und strengere Abnahme
+
+- Der Nutzer verlangt Messungen vor Optimierungsbehauptungen. Deshalb wurde zuerst ein 63-Punkte-Headless-Chrome-Baseline-Audit auf dem aktuellen Remote-Seed mit reproduzierbarer Bildschirm-/Theme-/Motion-Matrix aufgenommen; aus einer 2.417-Byte-HTML-Antwort folgt **keine** Gesamttransfer- oder Feld-Performancebehauptung. Maximal 102,2 ms ist eine **synthetische** Seitenschaltprobe, kein INP-Wert.
+- Heuristisch fehlende Formlabels: 0, maximal 51 kleine klickbare Flächen im Baseline-Test. Sie sind überwiegend Foto-/Quellen- und Lizenzlinks. Anpassung daher an den gemeinsamen Quellenlink-/Qualitätsklassen im bestehenden CSS statt eines pauschalen globalen Button-Resizes. W3C WCAG 2.2 verlangt u. a. definierte Zielgrößen bzw. Abstände, Fokusanzeige und Tastaturzugang; ein DOM-Snapshot ersetzt keine externe manuelle Abnahme.
+- Reale Accessibility-/Motion-Regressionsprüfungen bleiben als CDP-Audit im CI und legen JSON plus 21 Screenshots ins vorhandene Artefakt ab. Berechneter CSS-Kontrast der Design-Variablen ist nur ein Ausschnitt; keine komplette automatische WCAG-Konformitätsbehauptung.
+- Der Kandersteg-Dorfrundgang erhält ein exakt zugeordnetes Commons-Ortsbild mit 2017er Quelle/Urheber und CC BY 2.0. „Exakt zugeordnet“ bedeutet Dorf/Ort, **nicht** konkrete Route, heutiger Zustand oder private Unterkunft.
+- Der Essen-Seitenkopf bleibt die erste Orientierung, die recherchierte Supermarktkettenübersicht folgt direkt darunter und vor der Einzel-Suchliste. Informationsarchitektur nicht für ein einzelnes CI-Screenshotziel aufbrechen.
+- 61-Punkte-Liste streng normalisiert; frühere Aussagen aus lokaler Windows-Testumgebung bleiben historische Nachweise, keine neu ausgeführten Tests. `erledigt` ist nur bei eingeschränkter klar nachgewiesener Planungsfunktion zulässig.
+- Alle Änderungen nur im Branch `feature/v7-data-day-accommodation-rail`; lokales Windows-Verzeichnis, Tripsy-Rohdateien und SQLite bleiben unangetastet. Vor einem manuellen lokalen Pull ist Status- und Divergenzprüfung obligatorisch; kein `reset --hard`, kein Merge oder Deployment.
+
 ## 20.11.2026 – V86/V87: Preisbelege, Varianten- und Fotowahrheit
 
 - 13 Ketten×Stadtzeilen sind **Research-Auswahl**, keine 13 verifizierten Ladengeschäfte. OSM/Overpass bleibt nur als explizit gestartete und begrenzte Standortabfrage vorhanden, ohne garantierten Eingang, Filialvollständigkeit oder navigierbare neue Kettenpins.
