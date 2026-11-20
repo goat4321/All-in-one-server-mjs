@@ -78,6 +78,11 @@ try{
    const started=performance.now();window.scrollTo(0,Math.min(document.body.scrollHeight,800));
    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
    const nav=performance.getEntriesByType('navigation')[0];
+   const form=document.querySelector('.hub-search-form'),
+    submit=form?.querySelector('[data-action="browse-search-apply"]');
+   const a=form?.getBoundingClientRect(),b=submit?.getBoundingClientRect();
+   const searchButtonClipPx=a&&b?Math.round(Math.max(0,b.right-Math.min(a.right,innerWidth),
+     Math.max(a.left,0)-b.left)*10)/10:null;
    // Token contrast is exact for these known solid colors; component-level
    // gradients/photos and all text combinations need separate visual review.
    const root=getComputedStyle(document.documentElement);
@@ -111,6 +116,7 @@ try{
     images:media.length,lazyImages:media.filter(i=>i.loading==='lazy').length,failedOfflineImages:failed.length,
     horizontalOverflow:Math.max(0,document.documentElement.scrollWidth-innerWidth),
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
+    searchButtonClipPx,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
     reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,
@@ -172,6 +178,9 @@ try{
    console.log('V88_PAGE '+JSON.stringify(row));
  assert.equal(store.list().length,4);
  assert.equal(exceptions.length,0,'Runtime exceptions during audit');
+ assert.ok(rows.filter(row=>row.width===390&&['lodging','discover','food'].includes(row.page))
+   .every(row=>row.searchButtonClipPx===null||row.searchButtonClipPx<=1),
+   'Search action must remain inside its toolbar at 390px in food, lodging and discover');
  assert.ok(rows.filter(row=>row.reduce).every(row=>row.motionProbeSeconds<0.001),
   'Computed reduced-motion stylesheet must effectively suppress long animations');
  console.log('PASS V88 lab snapshots: seven pages × three widths × light/dark/reduced-motion');
