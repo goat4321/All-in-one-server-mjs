@@ -147,7 +147,7 @@ export const SWISS_DAY_EDITORIAL_V85=[
   access:'Durchgehende reale Verbindung und Anschlussreserve erst mit dem 2027er Fahrplan festlegen.',
   buffer:'Vor Bahnhofsfahrt Check-out-Reserve und auf der Gesamtstrecke großzügige Umsteigepuffer.',
   alternative:'Bei Störungen offizielle SBB/DB/ÖBB-Alternative prüfen, keine fiktive frühere Zugankunft übernehmen.',
-  sources:[['SBB','https://www.sbb.ch/de'],['DB','https://int.bahn.de/de'],['Interrail Reisetage','https://www.interrail.com/en/support/interested-in-interrailing/what-is-a-travel-day']]}
+  sources:[['SBB','https://www.sbb.ch/de'],['Deutsche Bahn','https://int.bahn.de/de'],['Interrail Reisetage','https://www.interrail.com/en/support/interested-in-interrailing/what-is-a-travel-day']]}
 ];
 const byDate=new Map(SWISS_DAY_EDITORIAL_V85.map(x=>[x.date,x]));
 const titles={morning:'Morgen',noon:'Mittag',evening:'Abend'};
