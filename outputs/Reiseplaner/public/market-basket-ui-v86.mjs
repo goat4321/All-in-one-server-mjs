@@ -41,12 +41,14 @@ export function marketBasketPanel(ctx){
    +'Filialpreise, Lagerbestand und Öffnung für September 2027 sind nicht bestätigt.</p></header>'
    +'<p class="market-basket-coverage"><strong>Belegte Preispositionen:</strong> '+esc(summary)
    +' · Währung '+marketCurrency(city)+' · kein vollständiger Preisvergleich und kein Sieger.</p>'
-   +'<div class="market-chain-list">'+baskets.map((basket,i)=>{
+   +'<div class="market-chain-list">'+baskets.map(basket=>{
     const shop=chains[basket.chain];
-    return '<details class="market-chain-card"'+(i===0?' open':'')+'>'
+    const examples=basket.rows.filter(row=>row.comparable).slice(0,2).map(row=>row.name).join(', ');
+    return '<details class="market-chain-card">'
      +'<summary><strong>'+esc(shop.name)+'</strong><span>'+basket.known
      +' von '+marketProducts.length+' Produkten mit Preis · '
-     +basket.missing.length+' offen</span></summary>'
+     +basket.missing.length+' offen'
+     +(examples?' · '+esc(examples):'')+'</span></summary>'
      +'<div class="market-chain-detail"><p>'+esc(basket.reason)+'</p>'
      +'<p><strong>Vollständiger Standardwarenkorb:</strong> '
      +(basket.totalCents===null?'nicht berechenbar':money(basket.totalCents,basket.currency))
