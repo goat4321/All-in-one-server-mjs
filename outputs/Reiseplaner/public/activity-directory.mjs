@@ -5,7 +5,7 @@ import {hasIndependentPointEvidence} from './poi-location-provenance.mjs';
 import {groupPrice} from './model.mjs';
 import {esc,icon} from './ui.mjs';
 import {nightlifeType} from './nightlife-v50.mjs';
-import {discoverySource,discoveryCompareBoard} from './discovery-catalog.mjs';
+import {discoverySource,discoveryCompareBoard,discoveryCard} from './discovery-catalog.mjs';
 
 // Every activity remains part of its existing trip variant. Categories are
 // browsing heuristics based on names and tags, not verified provider facts.
@@ -109,8 +109,7 @@ export function activityDirectory(ctx){
    .map(([key,label])=>'<option value="'+key+'"'+((ctx.activityOrder??'source')===key?' selected':'')+'>'
     +esc(label)+'</option>').join('')+'</select></label>';
  const cards=data.filtered.slice(0,ctx.browseLimit??24).map(item=>
-  browseOptionCard(item,ctx,{lodging:false,active:Boolean(ctx.activeSet?.has(item.id)),
-    highlighted:Boolean(ctx.compareIds?.has(item.id))})).join('');
+  discoveryCard(item,ctx,{surface:'activities'})).join('');
  return '<div class="activity-directory">'
   +browseHero(ctx,'activities',data.all.length)
   +browseToolbar(ctx,{kind:'discover',total:data.all.length,filtered:data.filtered.length})
