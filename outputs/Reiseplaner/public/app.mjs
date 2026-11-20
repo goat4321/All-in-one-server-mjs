@@ -2135,6 +2135,10 @@ async function action(name, value = '') {
     }break;
     case 'remove':
       if (item && !item.locked && !item.booked) {
+        // Stop playback BEFORE the asynchronous edit/save causes a rerender.
+        // Otherwise the detached player can keep running until the queue is
+        // reconciled, even though one of its source pins was just removed.
+        if(view.dayQueueIds.includes(item.id))invalidateDayRoute();
         await withEdit(item, { removed: true, selected: false }, 'Aus dem Plan entfernt'); closeDialog();
         if(view.dayQueueIds.includes(item.id)){
           const previous=[...view.dayQueueIds];invalidateDayRoute();
