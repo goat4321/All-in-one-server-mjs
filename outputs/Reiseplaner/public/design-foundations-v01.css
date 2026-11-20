@@ -2088,3 +2088,217 @@
  .reference-travel-shell .discovery-card,
  .reference-travel-shell .discovery-category-chip{transition:none!important;animation:none!important}
 }
+
+/* Prompt 08 – 14 original Swiss-interrail days, source-only editorial layer.
+ * Keeps the existing day-plan actions, original timeline and budget untouched. */
+.reference-travel-shell .swiss-editorial-plan{
+  min-width:0;
+  padding:clamp(14px,2.4vw,25px);
+  border:1px solid var(--audit-stroke);
+  border-radius:17px;
+  background:var(--audit-surface);
+  display:grid;gap:16px;
+}
+.reference-travel-shell .swiss-editorial-nav{
+  display:flex;justify-content:space-between;align-items:center;gap:9px;
+  padding-bottom:12px;border-bottom:1px solid var(--audit-stroke);
+}
+.reference-travel-shell .swiss-editorial-nav>.button{
+  min-height:42px;
+  font-size:.75rem;
+}
+.reference-travel-shell .swiss-editorial-nav strong{
+  font-size:.78rem;
+  color:var(--audit-secondary);
+  white-space:nowrap;text-align:center;
+}
+.reference-travel-shell .swiss-editorial-heading{display:grid;gap:4px}
+.reference-travel-shell .swiss-editorial-heading p{
+  color:var(--audit-primary);
+  font-size:.72rem;font-weight:770;
+  letter-spacing:.02em;margin:0;
+}
+.reference-travel-shell .swiss-editorial-heading h3{
+  margin:0;letter-spacing:-.025em;font-size:1.31rem;line-height:1.2;
+}
+.reference-travel-shell .swiss-editorial-heading>span{
+  color:var(--audit-secondary);font-size:.78rem;line-height:1.45;
+}
+.reference-travel-shell .swiss-editorial-timeline{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;min-width:0;align-items:stretch;
+}
+.reference-travel-shell .swiss-editorial-block{
+  min-width:0;
+  display:flex;flex-direction:column;gap:10px;
+  padding:13px;
+  border:1px solid var(--audit-stroke);
+  border-radius:13px;background:var(--audit-soft);
+}
+.reference-travel-shell .swiss-editorial-block>header{
+  display:flex;gap:6px 9px;align-items:center;flex-wrap:wrap;
+  padding-bottom:8px;border-bottom:1px solid var(--audit-stroke);
+}
+.reference-travel-shell .swiss-editorial-block>header>span{
+  display:grid;place-items:center;
+  width:27px;height:27px;border-radius:9px;
+  background:var(--audit-surface);
+  color:var(--audit-primary);
+}
+.reference-travel-shell .swiss-editorial-block>header>.ui-icon{width:15px;height:15px}
+.reference-travel-shell .swiss-editorial-block>header strong{font-size:.88rem}
+.reference-travel-shell .swiss-editorial-block>header small{
+  width:100%;
+  padding-left:36px;
+  font-size:.68rem;line-height:1.35;
+  color:var(--audit-secondary);
+}
+.reference-travel-shell .swiss-editorial-block>p{
+  margin:0;
+  color:var(--audit-ink);
+  font-size:.8rem;line-height:1.55;
+  overflow-wrap:anywhere;
+}
+.reference-travel-shell .swiss-editorial-ideas{
+  display:grid;gap:9px;margin-top:auto;
+}
+.reference-travel-shell .swiss-editorial-idea{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:9px;background:var(--audit-surface);
+  border:1px solid var(--audit-stroke);border-radius:10px;
+}
+.reference-travel-shell .swiss-editorial-image{
+  width:63px;height:63px;flex:0 0 63px;
+  border-radius:8px;overflow:hidden;
+  background:var(--audit-soft);
+}
+.reference-travel-shell .swiss-editorial-image .place-thumbnail{
+  width:63px;height:63px;
+}
+.reference-travel-shell .swiss-editorial-image img{
+  width:100%;height:100%;object-fit:cover;
+}
+.reference-travel-shell .swiss-editorial-idea-copy{
+  display:grid;gap:5px;min-width:0;flex:1;
+}
+.reference-travel-shell .swiss-editorial-idea-copy strong{
+  overflow-wrap:anywhere;line-height:1.37;
+  font-size:.77rem;
+}
+.reference-travel-shell .swiss-editorial-idea-copy>small{
+  color:var(--audit-secondary);font-size:.68rem;line-height:1.42;
+}
+.reference-travel-shell .swiss-editorial-idea-actions{
+  display:flex;flex-wrap:wrap;align-items:center;gap:5px;
+}
+.reference-travel-shell .swiss-editorial-idea-actions .button{
+  min-height:36px;
+  padding:6px 9px;
+  font-size:.7rem;line-height:1.3;
+}
+.reference-travel-shell .swiss-editorial-idea-actions a{
+  font-size:.7rem;line-height:1.35;
+  overflow-wrap:anywhere;
+}
+.reference-travel-shell .swiss-editorial-chosen{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.71rem;color:var(--audit-primary);
+  font-weight:720;
+}
+.reference-travel-shell .swiss-editorial-logistics{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:11px;
+}
+.reference-travel-shell .swiss-editorial-logistics section{
+  min-width:0;display:grid;align-content:start;gap:6px;
+  padding:12px;
+  border:1px solid var(--audit-stroke);
+  border-radius:11px;
+  background:var(--audit-surface);
+}
+.reference-travel-shell .swiss-editorial-logistics h4{
+  display:flex;align-items:center;gap:7px;
+  font-size:.78rem;margin:0;
+}
+.reference-travel-shell .swiss-editorial-logistics h4 .ui-icon{
+  width:15px;height:15px;color:var(--audit-primary);
+}
+.reference-travel-shell .swiss-editorial-logistics p{
+  margin:0;font-size:.76rem;line-height:1.5;
+  color:var(--audit-secondary);
+}
+.reference-travel-shell .swiss-editorial-evidence{
+  border-top:1px solid var(--audit-stroke);
+  padding:7px 2px;
+}
+.reference-travel-shell .swiss-editorial-evidence>summary{
+  display:flex;align-items:center;gap:8px;
+  min-height:44px;
+  cursor:pointer;
+  color:var(--audit-primary);font-size:.81rem;font-weight:730;
+  line-height:1.4;
+}
+.reference-travel-shell .swiss-editorial-evidence li{
+  font-size:.78rem;line-height:1.52;margin-bottom:6px;
+}
+.reference-travel-shell .swiss-editorial-links{
+  display:flex;flex-wrap:wrap;gap:10px;
+}
+.reference-travel-shell .swiss-editorial-links a{
+  font-size:.75rem;
+  min-height:36px;
+}
+.reference-travel-shell .swiss-editorial-evidence>p{
+  font-size:.75rem;line-height:1.5;color:var(--audit-secondary);
+}
+.reference-travel-shell .swiss-editorial-footnote{
+  padding-top:9px;border-top:1px solid var(--audit-stroke);
+  margin:0;
+  font-size:.72rem;line-height:1.55;color:var(--audit-secondary);
+}
+@media(max-width:1150px){
+ .reference-travel-shell .swiss-editorial-timeline{grid-template-columns:1fr}
+ .reference-travel-shell .swiss-editorial-block{gap:8px}
+ .reference-travel-shell .swiss-editorial-ideas{
+   margin-top:0;grid-template-columns:repeat(2,minmax(0,1fr))
+ }
+}
+@media(max-width:740px){
+ .reference-travel-shell .swiss-editorial-logistics{
+   grid-template-columns:1fr;
+ }
+ .reference-travel-shell .swiss-editorial-ideas{grid-template-columns:1fr}
+}
+@media(max-width:490px){
+ .reference-travel-shell .swiss-editorial-plan{
+   padding:12px;gap:12px;
+ }
+ .reference-travel-shell .swiss-editorial-nav{
+   flex-wrap:wrap;gap:7px;
+ }
+ .reference-travel-shell .swiss-editorial-nav strong{
+   order:-1;flex:1 1 100%;
+ }
+ .reference-travel-shell .swiss-editorial-nav>.button{
+   min-height:44px;flex:1 1 120px;
+ }
+ .reference-travel-shell .swiss-editorial-block{
+   padding:10px;
+ }
+ .reference-travel-shell .swiss-editorial-idea{
+   gap:7px;padding:8px;
+ }
+ .reference-travel-shell .swiss-editorial-image{
+   width:53px;height:53px;flex-basis:53px;
+ }
+ .reference-travel-shell .swiss-editorial-image .place-thumbnail{width:53px;height:53px}
+ .reference-travel-shell .swiss-editorial-idea-actions .button{
+   min-height:44px;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .swiss-editorial-plan *{
+   animation:none!important;
+   transition:none!important;
+ }
+}
