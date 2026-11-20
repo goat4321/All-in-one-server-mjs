@@ -98,3 +98,24 @@ test('offline, invalid and mismatched cycling results never claim distance or du
    assert.equal(calls,1,'Failed bike routes are never cached');
  });
 });
+
+test('a walking provider cannot inject a route for the wrong endpoints or NaN duration',async()=>{
+ const points=fixture.stops.slice(0,2).map(stop=>stop.point);
+ const bad=structuredClone(fixture.response);
+ bad.routes[0].geometry={
+   type:'LineString',coordinates:[[7.5,46],[7.6,46.1]]
+ };
+ await withApp({upstream:true,fetcher:async()=>Response.json(bad)},async post=>{
+   const response=await post('/api/walk',{points});
+   assert.equal(response.status,422);
+   assert.match(response.body.error,/nicht zu Start und Ziel/);
+   assert.equal(response.body.minutes,undefined);
+ });
+ const invalid=structuredClone(fixture.response);
+ invalid.routes[0].duration=null;
+ await withApp({upstream:true,fetcher:async()=>Response.json(invalid)},async post=>{
+   const response=await post('/api/walk',{points});
+   assert.equal(response.status,422);
+   assert.equal(response.body.walkOnly,undefined);
+ });
+});
