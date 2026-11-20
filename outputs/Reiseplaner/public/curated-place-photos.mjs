@@ -2,6 +2,23 @@
 // against their Wikimedia Commons file-description pages on 13 Nov 2026.
 // These are NOT provider photos, hotels, Airbnbs, or property-location evidence.
 const images=[
+ // V87: directly matched scenic PARTS of the two optional Swiss hike routes.
+ // Neither photo proves passability or a complete 2027 route; keep dated captions.
+ {city:'kandersteg',name:/^heuberg\s*[·-]/i,
+  file:'View over Oeschinensee from Aussichtspunkt Heuberg, Switzerland.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:View_over_Oeschinensee_from_Aussichtspunkt_Heuberg,_Switzerland.jpg',
+  credit:'Alltheswissthings · CC BY-SA 4.0 · Blick vom Aussichtspunkt Heuberg (10.09.2020), nicht die gesamte Wanderroute · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/4.0/',
+  photoScope:'route_viewpoint_not_path',photographed:'2020-09-10',
+  subjectDisclaimer:'Historisches Panorama vom Heuberg. Keine Aussage zu exponierten Wegabschnitten oder Wegöffnung 2027.'},
+ {city:'appenzell',name:/^ebenalp\s*[·-]/i,
+  file:'Aescher-Wildkirchli 20210528 01.jpg',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:Aescher-Wildkirchli_20210528_01.jpg',
+  credit:'Daniel Kraft (Domob) · CC BY-SA 3.0 · Berggasthaus Äscher (28.05.2021), nur ein Teilziel der Wanderung · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/3.0/',
+  photoScope:'route_landmark_not_path',photographed:'2021-05-28',
+  subjectDisclaimer:'Historisches Foto am Äscher, nicht die komplette Route, kein Nachweis einer Wegeöffnung 2027.'},
+
  // V81 · exact photographic provenance checked against Commons file pages.
  // Different scopes: a historic meal is not today's menu; a venue courtyard
  // is NOT evidence that an event takes place on the travel date.
