@@ -78,6 +78,29 @@ try{
    const started=performance.now();window.scrollTo(0,Math.min(document.body.scrollHeight,800));
    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
    const nav=performance.getEntriesByType('navigation')[0];
+   // Token contrast is exact for these known solid colors; component-level
+   // gradients/photos and all text combinations need separate visual review.
+   const root=getComputedStyle(document.documentElement);
+   const rgb=variable=>{
+     const s=root.getPropertyValue(variable).trim();
+     const match=/^#([0-9a-f]{6})$/i.exec(s);
+     if(!match)return null;
+     return [0,2,4].map(n=>parseInt(match[1].slice(n,n+2),16)/255);
+   };
+   const lumi=rgb=>rgb.map(x=>x<=0.04045?x/12.92:((x+0.055)/1.055)**2.4)
+     .reduce((sum,v,i)=>sum+v*[0.2126,0.7152,0.0722][i],0);
+   const contrast=(a,b)=>a&&b?Math.round(((Math.max(lumi(a),lumi(b))+0.05)/
+      (Math.min(lumi(a),lumi(b))+0.05))*100)/100:null;
+   const tokenContrast={
+     textOnPaper:contrast(rgb('--text'),rgb('--paper')),
+     mutedOnPaper:contrast(rgb('--muted'),rgb('--paper')),
+     greenOnPaper:contrast(rgb('--green'),rgb('--paper'))
+   };
+   const probe=document.createElement('div');
+   probe.style.animation='v88-probe 20s linear infinite';
+   document.body.appendChild(probe);
+   const motionProbeSeconds=parseFloat(getComputedStyle(probe).animationDuration);
+   probe.remove();
    return {
     dom:document.getElementsByTagName('*').length,controls:controls.length,
     unlabeled:unlabeled.map(el=>el.outerHTML.slice(0,130)).slice(0,8),
@@ -91,7 +114,8 @@ try{
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
     reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,
-    motionDataset:document.documentElement.dataset.motion
+    motionDataset:document.documentElement.dataset.motion,
+    tokenContrast,motionProbeSeconds
    };
  }.toString()+')()';
  for(const width of [1440,768,390]){
@@ -127,6 +151,8 @@ try{
    console.log('V88_PAGE '+JSON.stringify(row));
  assert.equal(store.list().length,4);
  assert.equal(exceptions.length,0,'Runtime exceptions during audit');
+ assert.ok(rows.filter(row=>row.reduce).every(row=>row.motionProbeSeconds<0.001),
+  'Computed reduced-motion stylesheet must effectively suppress long animations');
  console.log('PASS V88 lab snapshots: seven pages × three widths × light/dark/reduced-motion');
 }finally{
  socket?.close();
