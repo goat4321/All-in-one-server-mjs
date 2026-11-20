@@ -90,6 +90,13 @@ export function hikingPanel(ctx){
  return '<section class="hiking-options" aria-label="Wandertouren vergleichen"><header><h3>Wähle eure Wandertour</h3>'
   +'<p>Eine Tour als Tagesidee übernehmen. Gehzeiten gelten ohne Anfahrt und Pausen; keine Wegöffnung für September 2027 bestätigt.</p></header>'
   +(selectedCount>1?'<p role="status">Mehrere alternative Wandertouren sind eingeplant. Prüft den Tagesumfang und entfernt nicht benötigte Touren im Tagesplan.</p>':'')
+  +(ctx.date==='2027-09-13'
+   ?'<p class="hike-route-warning"><strong>Nicht verwechseln:</strong> Die kurze Ebenalp–Äscher-Runde ist NICHT der Abstieg zum Seealpsee. '
+    +'Für die eigenständige Ebenalp–Wildkirchli–Seealpsee–Wasserauen-Traverse veröffentlicht der Seilbahnbetreiber '
+    +'5,4 km, 2 Std. 15 Min., 794 Höhenmeter Abstieg und die Einstufung „schwer“. '
+    +'Steile Hänge erfordern Trittsicherheit; diese Traverse ist hier nicht als einfache Tour buchbar oder automatisch eingeplant. '
+    +urlLink('https://www.ebenalp.ch/sommer/wanderkarte/ebenalp-wildkirchli-seealpsee-wasserauen','Offizielle schwierige Traverse')
+    +'</p>':'')
   +'<div class="hiking-options-grid">'+trails.map(trail=>{
    const selected=ctx.activeSet?.has(trail.itemId),slot=ctx.dayPlan?.slots?.find(s=>s.id===trail.itemId);
    const official=trail.official;
