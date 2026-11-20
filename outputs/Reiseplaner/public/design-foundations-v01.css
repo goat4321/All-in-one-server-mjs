@@ -1585,3 +1585,108 @@
  .reference-travel-shell .stay-list-row,
  .reference-travel-shell .stay-compare-jump{transition:none!important;animation:none!important}
 }
+
+/* Comparison: shortlist facts first, secondary evidence on demand. Override
+ * the old 16-row subgrid only inside the lodging comparison. */
+.reference-travel-shell .stay-compare-board .stay-compare-grid{
+  align-items:stretch;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-card{
+  display:flex!important;flex-direction:column;
+  grid-template-rows:none!important;grid-row:auto!important;row-gap:0!important;
+  padding:8px 0 14px;
+  min-width:0;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-content{
+  display:flex!important;flex-direction:column;gap:8px;
+  padding:8px 0;
+  flex:1;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-card dl{
+  display:block!important;margin:0;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-verification{
+  font-size:.72rem;line-height:1.38;font-weight:720;
+  color:var(--audit-secondary);padding-block:3px;
+  min-height:26px;margin:0;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-card-top{
+  min-height:53px;align-items:start;padding:0!important;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-card-top h3{
+  font-size:.95rem;line-height:1.34;
+  overflow-wrap:anywhere;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-price{
+  display:flex!important;flex-direction:column;gap:4px!important;
+  min-height:155px;
+  padding:4px 0 9px!important;
+  border-bottom:1px solid var(--audit-stroke);
+}
+.reference-travel-shell .stay-compare-board .stay-compare-price strong{
+  font-size:.91rem;line-height:1.3;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-price span,
+.reference-travel-shell .stay-compare-board .stay-compare-price small{
+  font-size:.73rem;line-height:1.45;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-keyfacts{
+  border-top:0;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-card .stay-compare-keyfacts>div{
+  display:grid!important;grid-template-columns:1fr;gap:2px;
+  min-height:57px;padding:7px 5px!important;
+  margin:0;border-bottom:1px solid var(--audit-stroke);
+  align-content:center;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-keyfacts [data-different=true]{
+  background:var(--audit-soft);
+  border-left:2px solid var(--audit-primary);
+  padding-left:8px!important;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-keyfacts dt{
+  font-size:.7rem;line-height:1.3;color:var(--audit-secondary)
+}
+.reference-travel-shell .stay-compare-board .stay-compare-keyfacts dd{
+  font-size:.77rem;line-height:1.37;color:var(--audit-ink);margin:0;
+  overflow-wrap:anywhere;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-more{
+  margin-top:4px;border-bottom:1px solid var(--audit-stroke);
+}
+.reference-travel-shell .stay-compare-board .stay-compare-more summary{
+  min-height:44px;display:flex;align-items:center;cursor:pointer;
+  font-size:.76rem;line-height:1.4;font-weight:730;
+  color:var(--audit-primary);
+}
+.reference-travel-shell .stay-compare-board .stay-compare-more dl>div{
+  display:grid!important;grid-template-columns:1fr;
+  padding:8px 4px!important;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-card .row-actions{
+  margin-top:auto;display:flex;flex-wrap:wrap;gap:7px;padding-top:10px;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-card>.place-photo{
+  width:100%;
+}
+@media(min-width:1161px){
+ .reference-travel-shell .stay-compare-board .stay-compare-card-top{min-height:59px}
+ .reference-travel-shell .stay-compare-board .stay-compare-price{min-height:180px}
+}
+@media(max-width:650px){
+ .reference-travel-shell .stay-compare-board .stay-compare-card-top,
+ .reference-travel-shell .stay-compare-board .stay-compare-price{
+   min-height:0;
+ }
+ .reference-travel-shell .stay-compare-board .stay-compare-keyfacts{
+   display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));
+   gap:0 8px;
+ }
+ .reference-travel-shell .stay-compare-board .stay-compare-card .stay-compare-keyfacts>div{
+   grid-template-columns:1fr;min-height:73px;
+ }
+ .reference-travel-shell .stay-compare-board .stay-compare-card{
+   border-bottom:1px solid var(--audit-stroke)!important;
+   padding-bottom:25px;
+ }
+}
