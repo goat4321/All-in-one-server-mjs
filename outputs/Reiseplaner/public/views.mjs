@@ -43,6 +43,7 @@ import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
 import { stayComparisonBoard } from './stay-compare-ui.mjs';
 import {stayList} from './stay-list-ui.mjs';
+import {discoverySelect,discoveryFilterBar,discoveryCard,discoveryCompareBoard} from './discovery-catalog.mjs';
 import {stayFacetControls,stayMatchesFacets,stayCancellationLabel} from './stay-facets.mjs';
 import { voteSnippet, groupVoteBoard } from './group-vote.mjs';
 import { assessStay, sortStayOptions, kitchenAccess } from './stay-analysis.mjs';
@@ -771,7 +772,46 @@ function overview(ctx) {
     +'</div>';
 }
 
+/** One map-sourced directory across activities, restaurants and supermarkets.
+ * List rendering is read-only; the explicit "Zum Tag" action is the only
+ * route into the existing choose/meal workflows. */
+function discoverCatalog(ctx){
+  const result=discoverySelect(ctx,{surface:'discover'});
+  const visible=result.filtered.slice(0,ctx.browseLimit??24);
+  const allIds=new Set(result.source.map(item=>item.id));
+  const compared=result.source.filter(item=>ctx.discoveryCompareIds?.has(item.id));
+  return browseHero(ctx,'discover',result.filtered.length)
+    +browseToolbar(ctx,{kind:'discover',total:result.source.length,filtered:result.filtered.length})
+    +discoveryFilterBar(ctx,result,{surface:'discover'})
+    +(ctx.discoveryCategory==='shop'&&ctx.browseScope==='city'
+      ?'<div class="discovery-market-status" role="status">'
+        +'<span>Zusätzliche OSM-Supermärkte: '
+        +esc(ctx.foodMarketCoverage?.cityLoaded?'für die Stadt geladen'
+          :ctx.foodMarketCoverage?.error?'Quelle nicht erreichbar: '+ctx.foodMarketCoverage.error
+          :ctx.foodMarketCoverage?.loading?'Lade Daten …':'noch nicht abgefragt')+'</span>'
+        +(!ctx.foodMarketCoverage?.cityLoaded&&!ctx.foodMarketCoverage?.loading
+          ?btn('browse-market-load','OSM-Supermärkte laden','plus','','subtle'):'')
+        +'</div>':'')
+    +'<div class="discovery-list-head"><strong>'+result.filtered.length+' passende Orte</strong>'
+      +'<small>Nur Recherche · erst „Zum Tag“ verändert den Plan.</small></div>'
+    +(result.filtered.length
+      ?'<div class="hub-option-grid discovery-results-grid">'+visible.map(item=>
+        discoveryCard(item,ctx,{surface:'discover'})).join('')+'</div>'
+      :'<div class="hub-empty" role="status"><strong>Keine passenden Orte</strong>'
+        +'<p>Bitte Suche, Kategorie oder Nachweisfilter ändern.</p>'
+        +btn('discovery-reset','Suche und Filter zurücksetzen','reset','','primary')+'</div>')
+    +(compared.length
+      ?'<nav class="discovery-compare-jump" aria-label="Auswahlvergleich">'
+        +'<span>'+compared.length+' von 4 Orten vorgemerkt</span>'
+        +(compared.length>=2?'<a href="#entdecken-vergleich">Direktvergleich ansehen</a>':'')
+        +btn('discovery-compare-clear','Auswahl leeren','close')+'</nav>':'')
+    +discoveryCompareBoard(compared,ctx)
+    +(result.filtered.length>visible.length
+      ?'<div class="hub-more-button">'+btn('browse-more','Weitere Orte anzeigen','plus','','primary')+'</div>':'');
+}
+
 function options(ctx, lodging) {
+  if(!lodging)return discoverCatalog(ctx);
   const { all, city, cities, people, optionFilter, sort, state, compareIds, activeSet } = ctx;
   const found=browseItems(all,{...ctx,browseSearch:''},
     {kind:lodging?'lodging':'activity'});
@@ -1010,6 +1050,8 @@ function food(ctx) {
   // The directory is independent of the selected day; imported supermarkets
   // stay explicitly read-only and never become a price or booking record.
   const {available,shown,total}=foodDirectory(ctx,ctx.marketItems??[]);
+  const discovery=discoverySelect(ctx,{surface:'food'});
+  const compared=discovery.source.filter(item=>ctx.discoveryCompareIds?.has(item.id));
   const selectedType=ctx.browseFoodType??'all';
   const market=ctx.foodMarketCoverage??{};
   const marketStatus=marketCoverage({
@@ -1031,11 +1073,16 @@ function food(ctx) {
       +'</section>':'';
   const visualBrowse=browseHero(ctx,'food',shown.length)
     +browseToolbar(ctx,{kind:'food',total,filtered:shown.length})
-    +foodTypeTabs(ctx,available)+marketCTA
-    +(ctx.browseFoodSavedOnly?'<p class="hub-saved-notice">'
+    +discoveryFilterBar(ctx,discovery,{surface:'food'})+marketCTA
+    +(ctx.browseFoodSavedOnly||ctx.discoverySavedOnly?'<p class="hub-saved-notice">'
       +icon('bookmark')+' Nur selbst gemerkte Orte · '
-      +btn('browse-food-saved','Alle anzeigen','close')+'</p>':'')
+      +btn('discovery-saved','Alle anzeigen','close')+'</p>':'')
     +foodBrowseCards(ctx,shown.slice(0,ctx.browseLimit??24))
+    +(compared.length
+      ?'<nav class="discovery-compare-jump"><span>'+compared.length+' von 4 ausgewählt</span>'
+        +(compared.length>=2?'<a href="#entdecken-vergleich">Direktvergleich ansehen</a>':'')
+        +btn('discovery-compare-clear','Auswahl leeren','close')+'</nav>':'')
+    +discoveryCompareBoard(compared,ctx)
     +(shown.length>(ctx.browseLimit??24)
        ?'<div class="hub-more-button">'
          +btn('browse-more','Weitere '+Math.min(24,shown.length-(ctx.browseLimit??24))

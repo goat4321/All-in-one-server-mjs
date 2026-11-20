@@ -10,6 +10,7 @@ import {googleMapsSearchUrl,googleMapsSearchLabel} from './google-maps.mjs';
 import {venueAlternativesHtml} from './venue-alternatives-v80.mjs';
 import {quickDayTargetDates} from './day-quick-edits-v50.mjs';
 import {nightlifeVenueNote} from './nightlife-v50.mjs';
+import {discoveryCard} from './discovery-catalog.mjs';
 
 const kindTitle={lodging:'Unterkünfte entdecken',food:'Essen & Einkaufen',discover:'Orte & Aktivitäten',activities:'Alle Aktivitäten'};
 const kindSub={lodging:'Aufenthalte vergleichen – erst prüfen, dann auswählen',
@@ -139,48 +140,12 @@ export function foodTypeTabs(ctx,counts={}){
  +'</nav>';
 }
 export function foodBrowseCards(ctx,items){
- const cards=items.map(item=>{
-  const group=explorerCategory(item);
-  const signal=planCostSignal(item,ctx.people?.length??3);
-  const hasMap=Array.isArray(item.point)&&item.point.length===2
-      &&item.point.every(Number.isFinite);
-  const tags=(item.tags??[]).slice(0,2);
-  const options=!item.readOnlyExternal&&item.kind==='activity';
-  const active=ctx.activeSet?.has(item.id)??false;
-  const meal=ctx.catalog?.mealPlans?.[item.city]?.find(plan=>plan.venue===item.id);
-  const saved=ctx.browseSavedIds?.has(item.id)??(ctx.state?.favorites?.includes(item.id)??false);
-  const external=Boolean(item.readOnlyExternal);
-  return '<article class="hub-food-card" data-kind="'+esc(group)+'">'
-    +placeImageHtml(item,ctx,{small:true})
-    +'<div class="hub-food-card-body">'
-    +'<small class="hub-food-card-type">'+icon(group==='food'?'food':'wallet')+' '
-    +esc(isSelfCatering(item)?'Selbstversorgung':group==='food'?'Restaurant / Café':group==='shop'?'Lebensmittel & Einkauf':'Selbstversorgung')+'</small>'
-    +'<h3>'+esc(item.name)+'</h3><p>'+esc(ctx.cities[item.city]?.name??item.city)
-      +(item.address?' · '+esc(item.address):' · Adresse nicht geprüft')+'</p>'
-    +'<div class="hub-food-card-tags">'
-    +(external?'<span>OSM-Geodaten · Betrieb ungeprüft</span>'
-      :'<span title="'+esc(signal.note)+'">'+esc(signal.tier)+' · '+esc(signal.amount)+'</span>')
-    +tags.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>'
-    +(external?'<p class="hub-market-precision">'+icon('pin')+' '
-      +esc(item.geoEvidence?.isCentroid
-        ?'Flächenmittelpunkt · kein bestätigter Eingang'
-        :'Kartierter Ladenstandort · Eingang ungeprüft')+'</p>':'')
-    +'<div class="hub-food-card-actions">'
-    +btn('details','Details & Quellen','folder',item.id)
-    +(hasMap?btn('browse-map-item','Auf Karte','pin',item.id):'')
-    +(urlLink(googleMapsSearchUrl(item,ctx.cities),googleMapsSearchLabel(item))||'')
-    +(options?btn(active?'edit':meal?'meal-choose':'choose',
-      active?'Im Plan bearbeiten':'Einplanen',active?'edit':'plus',
-      meal&&!active?meal.id:item.id,'primary'):'')
-    +btn('browse-save',saved?'Gemerkt':'Merken',saved?'check':'bookmark',item.id)
-    +(external?urlLink(item.sourceUrl,'Kartendatenquelle'):'')
-    +'</div></div></article>';
- }).join('');
- return cards?'<div class="hub-food-grid">'+cards+'</div>':
-  '<div class="hub-empty"><strong>Keine passenden Verpflegungsorte</strong>'
-  +'<p>Versuche eine andere Kategorie oder einen anderen Suchbegriff.</p>'
-  +btn('browse-reset','Suche und Filter zurücksetzen','reset','','primary')
-  +'</div>';
+ const cards=items.map(item=>discoveryCard(item,ctx,{surface:'food'})).join('');
+ return cards?'<div class="hub-food-grid discovery-results-grid">'+cards+'</div>':
+   '<div class="hub-empty"><strong>Keine passenden Verpflegungsorte</strong>'
+   +'<p>Versuche eine andere Kategorie oder einen anderen Suchbegriff.</p>'
+   +btn('browse-reset','Suche und Filter zurücksetzen','reset','','primary')
+   +'</div>';
 }
 
 /** Progressive disclosure: visible option essentials, verifiable details below.

@@ -5,6 +5,7 @@ import {hasIndependentPointEvidence} from './poi-location-provenance.mjs';
 import {groupPrice} from './model.mjs';
 import {esc,icon} from './ui.mjs';
 import {nightlifeType} from './nightlife-v50.mjs';
+import {discoverySource,discoveryCompareBoard,discoveryCard} from './discovery-catalog.mjs';
 
 // Every activity remains part of its existing trip variant. Categories are
 // browsing heuristics based on names and tags, not verified provider facts.
@@ -73,7 +74,7 @@ export function activityGroupMatches(item,key='all'){
  return activityGroup(item)===key;
 }
 export function activityRows(ctx){
- const all=browseItems(ctx.all??[],{...ctx,browseSearch:''},{kind:'activity'})
+ const all=discoverySource(ctx)
    .filter(item=>explorerCategory(item)==='activity'||nightlifeType(item)!=='none');
  const query=normalize(ctx.browseSearch).trim();
  const searched=all.filter(item=>!query||normalize([item.name,item.city,item.detail,item.note,
@@ -108,8 +109,7 @@ export function activityDirectory(ctx){
    .map(([key,label])=>'<option value="'+key+'"'+((ctx.activityOrder??'source')===key?' selected':'')+'>'
     +esc(label)+'</option>').join('')+'</select></label>';
  const cards=data.filtered.slice(0,ctx.browseLimit??24).map(item=>
-  browseOptionCard(item,ctx,{lodging:false,active:Boolean(ctx.activeSet?.has(item.id)),
-    highlighted:Boolean(ctx.compareIds?.has(item.id))})).join('');
+  discoveryCard(item,ctx,{surface:'activities'})).join('');
  return '<div class="activity-directory">'
   +browseHero(ctx,'activities',data.all.length)
   +browseToolbar(ctx,{kind:'discover',total:data.all.length,filtered:data.filtered.length})
@@ -139,5 +139,6 @@ export function activityDirectory(ctx){
   +(data.filtered.length>(ctx.browseLimit??24)
    ?'<div class="hub-more-button"><button class="button primary" type="button" data-action="browse-more">'
     +'Weitere Aktivitäten anzeigen</button></div>':'')
+  +discoveryCompareBoard(data.all.filter(item=>ctx.discoveryCompareIds?.has(item.id)),ctx)
   +'</div>';
 }
