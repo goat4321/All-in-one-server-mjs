@@ -1,5 +1,5 @@
 import {placeProfileModel,placeImageHtml} from './place-profile.mjs';
-import {lodgingPriceInsight} from './price-insights.mjs';
+import {lodgingPriceInsight,lodgingPriceMeter} from './price-insights.mjs';
 import {assessStay,kitchenAccess} from './stay-analysis.mjs';
 import {stayCancellationLabel,staySourceLinks} from './stay-facets.mjs';
 import {stayExactListingUrl,stayLaundryState,stayLocationState} from './stay-evidence.mjs';
@@ -61,6 +61,7 @@ export function stayListRow(item,ctx){
    +'<div><dt>Zimmer</dt><dd>'+esc(item.room??'Zimmeraufteilung offen')+'</dd></div>'
    +'<div><dt>Standort</dt><dd>'+esc(stayLocationState(item))+'</dd></div>'
    +'<div><dt>Datenprüfung</dt><dd>'+e.risk.length+' offene Prüfpunkte</dd></div></dl>'
+   +lodgingPriceMeter(item,people,ctx.nightlyTargetEuro)
    +'<div class="stay-list-preview-links">'+btn('details','Vollständige Details & Quellen','folder',item.id)
      +(direct?urlLink(direct,src.booking?'Objekt auf Booking.com':'Objekt auf Airbnb'):'')
      +(src.operator?urlLink(src.operator,'Betreiber-Referenz'):'')+'</div></div></details>'
