@@ -54,6 +54,10 @@ jobs:
         env:
           REISEPLAN_DISCOVERY_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/discovery
         run: npm run test:discovery-browser
+      - name: "Interrail Schweiz: Tage 10–13, zwei Städte, 3 Breakpoints und Undo in Chrome"
+        env:
+          REISEPLAN_SWISS_EDITORIAL_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/swiss-editorial
+        run: npm run test:swiss-editorial-browser
       - name: Lokaler API-Smoke-Test mit Origin- und URL-Eingabepruefung
         run: npm run test:smoke
       - name: Karten-Datenabdeckung für alle Reisen und Städte
