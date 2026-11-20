@@ -143,3 +143,64 @@ test('Concrete day-plan stops offer direct Google Maps lookup without claiming v
  }
  assert.ok(mapCount>0,'The 46 day plans should expose concrete place lookups');
 });
+
+test('Swiss editorial completes exactly 14 days with three sections, food, buffer and documented source checks',async()=>{
+ const {SWISS_EDITORIAL_14,swissEditorialFor,swissEditorialPanel}
+  =await import('../public/swiss-14-editorial-v08.mjs');
+ const swiss=trips.find(t=>t.id==='interrail_swiss');
+ assert.equal(SWISS_EDITORIAL_14.length,14);
+ assert.deepEqual(SWISS_EDITORIAL_14.map(x=>x.date),dateRange(swiss.from,swiss.to));
+ assert.equal(new Set(SWISS_EDITORIAL_14.map(x=>x.date)).size,14);
+ const route=['paris','paris','barcelona','barcelona','barcelona','sete','sete',
+  'nice','nice','kandersteg','kandersteg','appenzell','appenzell','appenzell'];
+ assert.deepEqual(SWISS_EDITORIAL_14.map(x=>x.city),route);
+ for(const [i,row] of SWISS_EDITORIAL_14.entries()){
+  for(const key of ['morning','noon','evening','food','buffer','alternative']){
+   assert.ok(typeof row[key]==='string'&&row[key].length>42,row.date+': '+key);
+  }
+  assert.ok(row.checks.length>=2);
+  const base=sample(swiss,row.date);
+  const ctx={...base,people:[{id:'a'},{id:'b'},{id:'c'}],catalog,day:[]};
+  assert.equal(swissEditorialFor(ctx),row);
+  const before=JSON.stringify(ctx.state);
+  const html=swissEditorialPanel(ctx);
+  assert.equal((html.match(/class="swiss-editorial-block"/g)||[]).length,3,row.date);
+  assert.match(html,/Küche &amp; Lebensmittel/);
+  assert.match(html,/Puffer/);
+  assert.match(html,/Alternative/);
+  assert.match(html,/Reisende · unverbindlicher Tagesentwurf/);
+  assert.doesNotMatch(html,/on(?:click|load|change)=/i);
+  assert.equal(JSON.stringify(ctx.state),before,'No writes even while rendering '+row.date);
+  const orig=swiss.dayPlansV32[i];
+  const actions=[...html.matchAll(/data-action="day-plan-add" data-value="([^"]+)"/g)]
+   .map(m=>m[1]);
+  assert.deepEqual(actions.sort(),orig.slots.map(s=>s.id).sort(),
+   'Only original survey activities can be explicitly selected: '+row.date);
+  assert.ok(!html.includes('data-action="day-plan-adopt"'),
+   'Narrative never bulk-schedules an unsourced item');
+ }
+});
+test('Swiss arrivals and return remain buffer-only; alpine checks stay explicit and original trips isolated',async()=>{
+ const {swissEditorialPanel}=await import('../public/swiss-14-editorial-v08.mjs');
+ const swiss=trips.find(t=>t.id==='interrail_swiss');
+ const p=day=>swissEditorialPanel({...sample(swiss,day),people:[1,2,3],catalog});
+ const ten=p('2027-09-10'),eleven=p('2027-09-11'),
+  twelve=p('2027-09-12'),thirteen=p('2027-09-13'),
+  last=p('2027-09-14');
+ assert.doesNotMatch(ten,/data-action="day-plan-add"/);
+ assert.doesNotMatch(last,/data-action="day-plan-add"/);
+ assert.match(ten,/RE1/);
+ assert.match(ten,/Check-in/);
+ assert.match(eleven,/24.04.–19.09.2027/);
+ assert.match(eleven,/Heuberg/);
+ assert.match(twelve,/Sonntag/);
+ assert.match(thirteen,/Regionalticket/);
+ assert.match(thirteen,/T2/);
+ assert.match(last,/Inbound/);
+ for(const other of trips.filter(t=>t.id!=='interrail_swiss')){
+  const ctx={...sample(other,other.from),people:[1,2,3],catalog};
+  assert.equal(swissEditorialPanel(ctx),'','Never leak into '+other.id);
+ }
+ const four={...sample(swiss,'2027-09-13'),people:[1,2,3,4],catalog};
+ assert.equal(swissEditorialPanel(four),'','4-person standalone Swiss trip must remain separate');
+});
