@@ -1,6 +1,7 @@
 import {esc,icon,btn,urlLink} from './ui.mjs';
 import {placeThumbnailHtml} from './place-profile.mjs';
 import {dayPlanCandidates} from './day-plans-logic.mjs';
+import {localParts} from './model.mjs';
 import {googleMapsSearchUrl} from './google-maps.mjs';
 import {hasIndependentPointEvidence} from './poi-location-provenance.mjs';
 
@@ -40,7 +41,8 @@ export function swissDayEditorialPanel(ctx) {
  if(!day)return '';
  const existing=ctx.dayPlan.slots??[];
  const present=new Set((ctx.active??[]).filter(item=>
-   item.kind==='activity'&&!item.removed&&item.date===ctx.date).map(item=>item.id));
+   item.kind==='activity'&&!item.removed
+   &&(localParts(item.start,item.zone).date??item.date)===ctx.date).map(item=>item.id));
  const cards=day.blocks.map((block,i)=>{
   const phase=phases[block.period]??['Flexibel','calendar'];
   const slot=block.activityId?existing.find(x=>x.activityId===block.activityId):null;
