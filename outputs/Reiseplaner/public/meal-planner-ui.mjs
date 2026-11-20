@@ -84,7 +84,7 @@ export function mealFlowSummary(ctx,basket=[]){
    item.start?localParts(item.start,item.zone).time:undefined,item.duration??0)
  ).filter(info=>!info.kitchenReady)??[];
  return '<section class="meal-flow-summary" aria-label="Ablauf Mahlzeiten und Einkauf">'
-  +'<h3>Vom Rezept zum Tagesbudget · '+servings+' Personen</h3>'
+  +'<h3>Vom Rezept zum Einkaufsbudget · '+servings+' Personen</h3>'
   +'<ol class="meal-flow-steps">'
   +'<li><strong>1 · Mahlzeit wählen</strong><small>'+chosen+' Auswahl(en) heute · '
      +meals.map(row=>row.label+': '+row.items.length).join(', ')+'</small></li>'
