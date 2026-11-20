@@ -137,7 +137,7 @@ export const SWISS_DAY_EDITORIAL_V85=[
   access:'Gelbe/weiß-rot-weiße Wegmarkierungen und SAC-Kategorie konkret prüfen; Wetter kann die Route auch im September ausschließen.',
   buffer:'Mindestens 60–90 Min. vor der Rückfahrtreserve, Wanderung nicht ohne Abstiegspuffer bis an den Abend ziehen.',
   alternative:'Bei Regen/Gewitter ein ruhiger Dorf- oder Indoor-Tag. Ebenalp/Äscher nur als eigenständige Wahl bei passender Witterung und Öffnung.',
-  sources:[['Appenzeller Wanderroute','https://www.appenzell.ch/de/sommer/wandern/wandervorschlaege.html?tx_wstourismus_tourismus%5Btour%5D=39'],['Appenzeller Bahnen','https://appenzellerbahnen.ch/de/reiseinformationen/fahrplan.html'],['Ebenalp','https://ebenalp.ch/de/sommer-info']]},
+  sources:[['Appenzeller Wanderroute','https://www.appenzell.ch/de/alpstein/wandern/wandervorschlaege.html?cHash=5e7c40dacf6e64b298ddd8c9a1a50488&tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Bcontroller%5D=Tour&tx_wstourismus_tourismus%5Btour%5D=39'],['Appenzeller Bahnen','https://appenzellerbahnen.ch/de/reiseinformationen/fahrplan.html'],['Ebenalp','https://ebenalp.ch/de/sommer-info']]},
  {date:'2027-09-14',city:'appenzell',contextPhoto:'act-044',blocks:[
   {period:'morning',title:'Appenzell: Frühstück und Check-out',detail:'Schlüssel, Gepäck, Zimmerkontrolle. Keine zusätzlichen Berg- oder Stadtaktivitäten vor der Rückreise verbindlich einplanen.'},
   {period:'noon',title:'Appenzell → München: Reisetag',detail:'SBB/DB/ÖBB-Verbindung mit realer Umsteigekette prüfen. Siebter und letzter geplanter Interrail-Fernreisetag; Inbound-Regel beachten.'},
