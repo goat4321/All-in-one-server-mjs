@@ -1280,7 +1280,7 @@ try {
   assert.equal(store.current('interrail_swiss').state.marketQuotes[marketKey],undefined);
   assert.equal(store.current('swiss_lakes').state.marketQuotes?.[marketKey],undefined);
   await screenshot('91-v86-barcelona-chain-baskets.png');
-  for(const [slot,recipe] of [['breakfast','barcelona-oats',['lunch','barcelona-salad'],['dinner','pasta']]){
+  for(const [slot,recipe] of [['breakfast','barcelona-oats'],['lunch','barcelona-salad'],['dinner','pasta']]){
     await click('.meal-slot-tabs [data-action=meal-slot][data-value='+slot+']');
     await click('.meal-card [data-action=meal-choose][data-value='+recipe+']');
     await set('dialog [name=start]','');
