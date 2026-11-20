@@ -165,8 +165,9 @@ export function discoveryFilterPanel(ctx,info,{food=false}={}){
 export function discoveryCard(item,ctx,{food=false}={}){
  const group=explorerCategory(item),p=placeProfileModel(item,ctx);
  if(!p)return '';
- const label=group==='shop'?'Supermarkt & Einkauf':group==='food'?'Restaurant & Café'
-  :'Aktivität & Sehenswürdigkeit';
+ const catering=Boolean(item.requiresKitchen)||Array.isArray(item.basketProducts);
+ const label=catering?'Selbstversorgung':group==='shop'?'Supermarkt & Einkauf'
+  :group==='food'?'Restaurant & Café':'Aktivität & Sehenswürdigkeit';
  const active=ctx.activeSet?.has(item.id);
  const saved=ctx.browseSavedIds?.has(item.id);
  const compared=ctx.compareIds?.has(item.id);
@@ -199,7 +200,8 @@ export function discoveryCard(item,ctx,{food=false}={}){
   +'" data-discover-id="'+esc(item.id)+'">'
   +'<div class="discovery-media">'+picture+'<span class="discovery-photo-label">'
   +esc(exactPhoto?'Lizenzbild · Quelle im Detail':'Kein Objektfoto')+'</span></div>'
-  +'<div class="discovery-body"><p class="discovery-kicker">'+esc(label)+' · '
+  +'<div class="discovery-body"><p class="discovery-kicker'+(food?' hub-food-card-type':'')
+  +'">'+esc(label)+' · '
   +esc(ctx.cities?.[item.city]?.name??item.city)+'</p>'
   +'<h3>'+esc(item.name)+'</h3>'
   +'<p class="discovery-card-summary">'+esc(summary||'Adresse / Schwerpunkt offen')+'</p>'
