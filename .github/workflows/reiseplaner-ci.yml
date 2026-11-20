@@ -74,7 +74,7 @@ jobs:
         env:
           REISEPLAN_STAY_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/stays
         run: npm run test:stay-browser
-      - name: Entdecken: echte Kategorien, Preisquellen, Merken und Kartenabgleich in Chrome
+      - name: "Entdecken: echte Kategorien, Preisquellen, Merken und Kartenabgleich in Chrome"
         env:
           REISEPLAN_DISCOVERY_OUTPUT: ${{ runner.temp }}/reiseplaner-ui-review/discovery
         run: npm run test:discovery-browser
