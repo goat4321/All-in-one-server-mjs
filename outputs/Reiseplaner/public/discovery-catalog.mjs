@@ -3,6 +3,7 @@ import {placeImageHtml,placeProfileModel} from './place-profile.mjs';
 import {groupPrice,money} from './model.mjs';
 import {esc,icon,btn,urlLink} from './ui.mjs';
 import {quickDayTargetDates} from './day-quick-edits-v50.mjs';
+import {googleMapsSearchUrl} from './google-maps.mjs';
 
 const normalize=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('de');
 const label=(item,ctx)=>ctx.cities?.[item.city]?.name??item.city;
@@ -207,7 +208,9 @@ export function discoveryCard(item,ctx,{surface='discover'}={}){
    +'<p>'+esc(item.detail??item.note??'Weitere geprüfte Angaben sind nicht vorhanden.')+'</p>'
    +'<dl>'+facts.features.map(([k,v])=>'<div><dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd></div>').join('')+'</dl>'
    +'<div>'+btn('details','Vollständige Details','folder',item.id)
-   +(source?urlLink(source,isExternal?'Kartendatenquelle':'Originalquelle'):'')+'</div></details>'
+   +(source?urlLink(source,isExternal?'Kartendatenquelle':'Originalquelle'):'')
+   +(validPoint(item.point)?urlLink(googleMapsSearchUrl(item,ctx.cities),'Google Maps · Suche, kein Eingangsbeleg'):'')
+   +'</div></details>'
    +'</div><div class="discovery-result-actions">'
    +(active?'<small>Im Plan</small>':'<small>Unverbindliche Option</small>')
    +(quickDays.length
