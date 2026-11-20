@@ -328,3 +328,40 @@
  font-size:.66rem;line-height:1.5;color:var(--muted);background:var(--paper);
  overflow-wrap:anywhere;border-bottom:1px solid var(--atlas-line,var(--line))}
 .swiss-quality-credit a{color:var(--green);text-underline-offset:3px}
+
+/* V88 evidenced usability repairs: offline source links were 6–51
+   undersized targets in the 390px lab sweep. Scope to source/quality
+   presentations so unrelated dense editors retain their behavior. */
+:where(.place-photo-credit,.swiss-quality-credit,.swiss-quality-actions,
+ .hike-context-photo,.market-chain-detail) a{
+ display:inline-flex;align-items:center;min-height:32px;padding:5px 6px;
+ border-radius:6px;line-height:1.35;text-underline-offset:3px;
+}
+:where(.place-photo-credit,.swiss-quality-credit,.swiss-quality-actions,
+ .hike-context-photo,.market-chain-detail) a:focus-visible,
+.market-chain-card>summary:focus-visible,
+.swiss-14-gap-summary>summary:focus-visible{
+ outline:3px solid var(--green);outline-offset:2px;
+}
+.market-chain-card>summary{min-height:56px}
+.swiss-quality-body>small{font-size:.78rem}
+.swiss-quality-body p{font-size:.86rem;line-height:1.6}
+.swiss-quality-actions{gap:8px;font-size:.84rem}
+.swiss-quality-facts p{font-size:.82rem;line-height:1.6}
+.swiss-quality-credit{font-size:.76rem;line-height:1.55}
+.swiss-quality-no-photo strong{font-size:.88rem}
+.swiss-quality-no-photo small{font-size:.78rem}
+.hike-photo-context{font-size:.78rem}
+.market-baskets-v86 .market-chain-detail>p{font-size:.84rem}
+.market-basket-scroll table{font-size:.79rem}
+@media(max-width:650px){
+ .swiss-quality-media{height:126px}
+ .swiss-quality-no-photo{min-height:126px;padding:12px}
+ .swiss-quality-credit{padding:6px 10px}
+ .swiss-quality-body{gap:8px;padding:12px}
+ .swiss-quality-day>header p{font-size:.81rem}
+}
+@media(prefers-reduced-motion:reduce){
+ .day-plan-stop:hover .day-plan-photo img{transform:none}
+}
+:root[data-motion=off] .day-plan-stop:hover .day-plan-photo img{transform:none}
