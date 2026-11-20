@@ -29,6 +29,7 @@ import {table} from './ui.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
 import { dayRouteView } from './day-route-ui.mjs';
 import {foodDirectory,marketCoverage} from './food-discovery-v36.mjs';
+import {discoveryRows,discoveryMatches,discoveryFilterPanel,discoveryCards,discoveryCompare} from './unified-discovery-v07.mjs';
 import {activityDirectory} from './activity-directory.mjs';
 import {mapUnlocatedReview,mapUnverifiedPointsReview} from './map-unlocated-v39.mjs';
 import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
@@ -771,7 +772,44 @@ function overview(ctx) {
     +'</div>';
 }
 
+
+function unifiedDiscoverPage(ctx){
+ const filters={
+  group:ctx.discoverGroup??'all',
+  evidence:ctx.discoverEvidence??'all',
+  duration:ctx.discoverDuration??'all',
+  sort:ctx.discoverOrder??'source',
+  savedOnly:ctx.discoverSavedOnly??false
+ };
+ const data=discoveryRows(ctx,filters);
+ const count=data.result.length;
+ const market=ctx.foodMarketCoverage??{};
+ const group=filters.group;
+ const marketCall=(group==='all'||group==='shop')&&ctx.browseScope!=='trip'
+  ?'<section class="discovery-market-status" aria-label="Offene Ladenkartierung">'
+    +'<div><strong>Zusätzliche Supermarkt-Kartenpunkte</strong><p>'
+    +esc(market.cityLoaded
+      ?market.count+' kartierte Orte geladen · Status und Preise ungeprüft'
+      :'Nur die bisher erfassten Geschäfte. Weitere Kartendaten werden nicht automatisch angefragt.')
+    +'</p>'+(market.error?'<p role="alert">'+esc(market.error)+'</p>':'')+'</div>'
+    +(market.loading?'<button class="button" disabled aria-busy="true">Kartendaten werden geladen …</button>'
+       :market.cityLoaded?'':btn('browse-market-load','Weitere Supermärkte laden','plus','','subtle'))
+    +'</section>':'';
+ const rendered=discoveryCards(data.result.slice(0,ctx.browseLimit??24),ctx);
+ const comparison=discoveryCompare(ctx);
+ return browseHero(ctx,'discover',count)
+  +browseToolbar(ctx,{kind:'discover',total:data.base.length,filtered:count})
+  +discoveryFilterPanel(ctx,data)
+  +marketCall
+  +rendered
+  +(count>(ctx.browseLimit??24)?'<div class="hub-more-button">'
+   +btn('browse-more','Weitere '+Math.min(24,count-(ctx.browseLimit??24))
+      +' Orte anzeigen','plus','','primary')+'</div>':'')
+  +comparison;
+}
+
 function options(ctx, lodging) {
+  if(!lodging)return unifiedDiscoverPage(ctx);
   const { all, city, cities, people, optionFilter, sort, state, compareIds, activeSet } = ctx;
   const found=browseItems(all,{...ctx,browseSearch:''},
     {kind:lodging?'lodging':'activity'});
@@ -1029,17 +1067,35 @@ function food(ctx) {
           ?btn('browse-supermarkets','Auf der Karte zeigen','map','','subtle')
           :btn('browse-market-load','Supermärkte in '+(ctx.cities[city]?.name??city)+' laden','plus','','primary'))
       +'</section>':'';
-  const visualBrowse=browseHero(ctx,'food',shown.length)
-    +browseToolbar(ctx,{kind:'food',total,filtered:shown.length})
-    +foodTypeTabs(ctx,available)+marketCTA
+  const facets={group:'all',evidence:ctx.discoverEvidence??'all',
+    duration:ctx.discoverDuration??'all',sort:ctx.discoverOrder??'source',
+    savedOnly:ctx.discoverSavedOnly??false};
+  const results=shown.filter(item=>discoveryMatches(item,ctx,facets));
+  const sorted=discoveryRows({...ctx,browseSearch:'',browseScope:ctx.browseScope},
+    {...facets,group:'all',savedOnly:false}).result;
+  const sourceOrder=new Map(sorted.map((item,index)=>[item.id,index]));
+  if(facets.sort!=='source')results.sort((a,b)=>
+    (sourceOrder.get(a.id)??Infinity)-(sourceOrder.get(b.id)??Infinity));
+  const facetInfo={
+    base:Array.from({length:total}),
+    searched:[...shown],
+    result:results,
+    counts:{all:available.all,food:available.restaurants,shop:available.markets,
+      activity:available.cook}
+  };
+  const visualBrowse=browseHero(ctx,'food',results.length)
+    +browseToolbar(ctx,{kind:'food',total,filtered:results.length})
+    +foodTypeTabs(ctx,available)
+    +discoveryFilterPanel(ctx,facetInfo,{food:true})+marketCTA
     +(ctx.browseFoodSavedOnly?'<p class="hub-saved-notice">'
       +icon('bookmark')+' Nur selbst gemerkte Orte · '
       +btn('browse-food-saved','Alle anzeigen','close')+'</p>':'')
-    +foodBrowseCards(ctx,shown.slice(0,ctx.browseLimit??24))
-    +(shown.length>(ctx.browseLimit??24)
+    +discoveryCards(results.slice(0,ctx.browseLimit??24),ctx,{food:true})
+    +(results.length>(ctx.browseLimit??24)
        ?'<div class="hub-more-button">'
-         +btn('browse-more','Weitere '+Math.min(24,shown.length-(ctx.browseLimit??24))
-           +' Orte anzeigen','plus','','primary')+'</div>':'');
+         +btn('browse-more','Weitere '+Math.min(24,results.length-(ctx.browseLimit??24))
+           +' Orte anzeigen','plus','','primary')+'</div>':'')
+    +discoveryCompare(ctx);
   return visualBrowse + '<details class="hub-food-planning"'
     +(ctx.browseMealsOpen?' open':'')+'><summary>'
     +icon('calendar')+' Tagesmenüs, Einkaufswarenkorb & detaillierte Preisrecherche'

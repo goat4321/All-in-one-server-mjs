@@ -890,10 +890,12 @@ try {
   assert.ok(await js('!document.querySelector(".hub-option-card").textContent.includes("gebucht")')
     || await js('document.querySelector(".hub-option-card").textContent.includes("nicht gebucht")'));
   await click('.sidebar [data-action=page][data-value=discover]');
-  await text('.hub-option-grid', 'Gruppeninteresse');
-  await set('#sort', 'score');
-  await js('document.querySelector("#sort").dispatchEvent(new Event("change", { bubbles: true }))');
-  await text('#main', 'Gruppeninteresse');
+  await text('.discovery-filters', 'Ergebnisse');
+  await until(() => js('document.querySelectorAll(".discovery-card").length>0'),
+    'New source-aware discovery list');
+  await set('#discover-sort', 'name');
+  await js('document.querySelector("#discover-sort").dispatchEvent(new Event("change", { bubbles: true }))');
+  await text('#main', 'Standort');
   await click('.sidebar [data-action=page][data-value=rail]');
   await text('#main', 'Fahrplan- und Preisrecherche · 2027');
   await text('#main', 'Pass-Reisetage und Tarifprüfung');

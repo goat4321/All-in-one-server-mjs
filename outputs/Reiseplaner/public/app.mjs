@@ -33,6 +33,7 @@ const toast = document.querySelector('#toast');
 const motion = createMotionController(document);
 let catalog, variant, currentMap, context, toastTimer, undo, revisionToken = 0, dragged, timetableSearch;
 let saving = false, loading = false;
+let pendingVariantSwitch=null; // Last requested variant while a write/load is in flight
 let mapRouteRequestGeneration=0;
 let commonsPhotoPick = null;
 let browseSearchTimer=null;
@@ -54,6 +55,8 @@ const view = {
   mapDensity:localStorage.getItem('reiseplan-map-density')==='detail'?'detail':'calm',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
   browseScope:'city',browseSearch:'',browseFoodType:'all',browseLimit:24,
+  discoverGroup:'all',discoverEvidence:'all',discoverDuration:'all',
+  discoverOrder:'source',discoverSavedOnly:false,
   activityCategory:'all',activitySavedOnly:false,activityOrder:'source',activityEvidenceFilter:'all',
   browseFoodSavedOnly:false,browseMarketLoadingCity:null,browseMarketError:null,
   browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
@@ -679,20 +682,31 @@ async function save(next, message, recordUndo = true) {
   saving = true;
   const label = app.querySelector('.status-icon');
   if (label) label.textContent = 'Speichert …';
+  let committed=false;
   try {
     const response = await api(variantUrl(), 'PUT', { state: next, revision: variant.revision });
     if (recordUndo) undo = { id, state: before };
     Object.assign(variant, { state: next, revision: response.revision });
     Object.assign(catalog.variants.find(v => v.id === id), { state: next, revision: response.revision });
+    committed=true;
     say(message, recordUndo);
   } finally {
     saving = false;
     render({ restoreView: true });
+    // A quick variant change while an edit is saving must not silently vanish.
+    // Only switch after a confirmed save; reject on failed writes.
+    const queued=pendingVariantSwitch;
+    pendingVariantSwitch=null;
+    if(queued&&committed&&queued!==variant.id)
+      void switchVariant(queued).catch(error=>say(error.message));
+    else if(queued&&!committed)
+      say('Variantenwechsel verworfen: Speichern fehlgeschlagen. Bitte prüfen.');
   }
 }
 
 async function switchVariant(id) {
-  if (loading || saving || !catalog.variants.some(v => v.id === id)) return;
+  if(!catalog.variants.some(v=>v.id===id))return;
+  if(saving||loading){pendingVariantSwitch=id;return;}
   loading = true;
   view.mapPinPicking=false;view.mapPinDraft=null;view.mapPinEditingId=null;
   try {
@@ -705,11 +719,19 @@ async function switchVariant(id) {
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0; view.geocodeReview=null;
     view.total = view.menu = false;
     view.compareIds.clear();view.inspectorCompareIds=[];
+    view.discoverGroup='all';view.discoverEvidence='all';view.discoverDuration='all';
+    view.discoverOrder='source';view.discoverSavedOnly=false;
     view.stayFacets={};view.stayFacetsOpen=false;view.staySwissResearchOpen=false;
     view.dailyBudgetDate=null; view.showAllVotes=false;
     view.dataOpenSections=[];
     render();
-  } finally { loading = false; }
+  } finally {
+    loading = false;
+    const queued=pendingVariantSwitch;
+    pendingVariantSwitch=null;
+    if(queued&&queued!==variant.id)
+      void switchVariant(queued).catch(error=>say(error.message));
+  }
 }
 
 async function loadCityMarkets(cityId){
@@ -1126,6 +1148,20 @@ async function action(name, value = '') {
     case 'browse-search-reset':
       clearTimeout(browseSearchTimer);browseSearchTimer=null;
       view.browseSearch='';view.browseLimit=24;render({fetchRoutes:false});break;
+    case 'discover-group':
+      if(!['all','activity','food','shop'].includes(value))break;
+      view.discoverGroup=value;view.browseLimit=24;
+      render({restoreView:true,fetchRoutes:false});break;
+    case 'discover-saved':
+      view.discoverSavedOnly=!view.discoverSavedOnly;
+      view.browseLimit=24;render({restoreView:true,fetchRoutes:false});break;
+    case 'discover-reset':
+      clearTimeout(browseSearchTimer);browseSearchTimer=null;
+      view.discoverGroup='all';view.discoverEvidence='all';
+      view.discoverDuration='all';view.discoverOrder='source';
+      view.discoverSavedOnly=false;view.browseSearch='';view.browseLimit=24;
+      if(ctx.page==='food'){view.browseFoodType='all';view.browseFoodSavedOnly=false;}
+      render({restoreView:true,fetchRoutes:false});break;
     case 'browse-food-type':
       if(!['all','restaurants','markets','cook'].includes(value))break;
       view.browseFoodType=value;view.browseLimit=24;render({fetchRoutes:false});break;
@@ -1139,32 +1175,42 @@ async function action(name, value = '') {
       clearTimeout(browseSearchTimer);browseSearchTimer=null;
       view.browseSearch='';view.browseFoodType='all';
       view.browseFoodSavedOnly=false;view.optionFilter='all';
+      view.discoverEvidence='all';view.discoverDuration='all';
+      view.discoverOrder='source';view.discoverSavedOnly=false;
+      if(ctx.page==='discover')view.discoverGroup='all';
       if(ctx.page==='lodging')view.stayFacets={};
       view.browseLimit=24;render({fetchRoutes:false});break;
     case 'stay-facets-reset':
       view.stayFacets={};view.browseLimit=24;render({restoreView:true,fetchRoutes:false});break;
     case 'browse-market-load':{
-      if(ctx.page!=='food')break;
+      if(!['food','discover'].includes(ctx.page))break;
       const cityId=ctx.city;
       if(supermarketByCity.has(cityId)){
-        view.browseFoodType='markets';render({fetchRoutes:false});break;
+        if(ctx.page==='food')view.browseFoodType='markets';
+        else view.discoverGroup='shop';
+        render({fetchRoutes:false});break;
       }
       view.browseMarketError=null;view.browseMarketLoadingCity=cityId;
       render({fetchRoutes:false});
       try{
         const data=await loadCityMarkets(cityId);
-        if(ctx.variant.id===variant.id && context?.city===cityId){
-          view.browseFoodType='markets';view.browseFoodSavedOnly=false;
+        if(ctx.variant.id===variant.id&&view.page===ctx.page
+          &&context?.city===cityId){
+          if(ctx.page==='food')view.browseFoodType='markets';
+          else view.discoverGroup='shop';
+          view.browseFoodSavedOnly=false;
           say(data.count+' kartierte Supermärkte für '+ctx.cities[cityId].name+' geladen.');
         }
       }catch(error){
-        if(ctx.variant.id===variant.id && context?.city===cityId){
+        if(ctx.variant.id===variant.id&&view.page===ctx.page
+          &&context?.city===cityId){
           view.browseMarketError=String(error.message??error);
           say('Supermarkt-Datenquelle: '+view.browseMarketError);
         }
       }finally{
         if(view.browseMarketLoadingCity===cityId)view.browseMarketLoadingCity=null;
-        if(view.page==='food'&&ctx.variant.id===variant.id)
+        if(view.page===ctx.page&&['food','discover'].includes(view.page)
+          &&ctx.variant.id===variant.id&&context?.city===cityId)
           render({fetchRoutes:false});
       }
       break;
@@ -1172,11 +1218,16 @@ async function action(name, value = '') {
     case 'browse-more':
       view.browseLimit=Math.min(2000,view.browseLimit+24);render({fetchRoutes:false});break;
     case 'browse-map': {
-      const kind=value==='lodging'?'lodging':value==='food'?'food':'activity';
+      const kind=value==='lodging'?'lodging':value==='food'?'food'
+        :view.page==='discover'
+          ?(['food','shop','activity'].includes(view.discoverGroup)
+            ?view.discoverGroup:'all'):'activity';
       view.page='map';view.mapScope=view.browseScope==='trip'?'trip':'city';
       view.total=view.mapScope==='trip';view.mapGroup=kind;view.mapSearch='';
       view.selected=null;view.mapViewportOnly=false;view.mapViewportBounds=null;
-      view.mapSavedOnly=false;render({fetchRoutes:false});break;
+      view.mapSavedOnly=false;
+      if(kind==='shop'&&supermarketByCity.has(ctx.city))view.mapMarketsShown=true;
+      render({fetchRoutes:false});break;
     }
     case 'browse-supermarkets': {
       view.page='map';view.total=false;view.mapScope='city';view.mapGroup='shop';
@@ -2504,6 +2555,18 @@ app.addEventListener('change', event => {
     const key=event.target.dataset.stayFacet;
     if(!['kitchen','beds','cancellation','source','walk','maxNight'].includes(key))return;
     view.stayFacets={...view.stayFacets,[key]:event.target.value};view.browseLimit=24;
+    render({restoreView:true,fetchRoutes:false});return;
+  }
+  if(['discover-evidence','discover-duration','discover-sort'].includes(event.target.id)){
+    const allowed={
+      'discover-evidence':['all','photo','point','sourcedPoint','missingPoint','price','unknownPrice'],
+      'discover-duration':['all','short','medium','long','unknown'],
+      'discover-sort':['source','name','price','duration','sourceQuality']
+    };
+    if(!allowed[event.target.id].includes(event.target.value))return;
+    const key={'discover-evidence':'discoverEvidence',
+      'discover-duration':'discoverDuration','discover-sort':'discoverOrder'}[event.target.id];
+    view[key]=event.target.value;view.browseLimit=24;
     render({restoreView:true,fetchRoutes:false});return;
   }
   if(event.target.id==='browse-city'&&context?.trip?.route.includes(event.target.value)){
