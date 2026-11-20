@@ -57,8 +57,9 @@ try{
  await cdp('Page.navigate',{url:address});
  await until(()=>js('document.querySelector("h1")?.textContent?.includes("Reiseübersicht")'),'initial overview');
  const clickPage=async id=>{
-  await until(()=>js('Boolean(document.querySelector("[data-action=page][data-value='+JSON.stringify(id)+']"))'),'page button '+id);
-  return js('(async()=>{const button=document.querySelector("[data-action=page][data-value='+JSON.stringify(id)+']");'+
+  const query=JSON.stringify('[data-action="page"][data-value="'+id+'"]');
+  await until(()=>js('Boolean(document.querySelector('+query+'))'),'page button '+id);
+  return js('(async()=>{const button=document.querySelector('+query+');'+
    'const start=performance.now();button.click();await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));'+
    'return Math.round((performance.now()-start)*10)/10})()');
  };
