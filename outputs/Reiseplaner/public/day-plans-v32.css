@@ -175,3 +175,49 @@
  .day-plan-progress>[role=progressbar]>i{animation:none!important;transition:none!important}}
 :root[data-motion=off] .day-plan-progress>[role=progressbar]>i{
  animation:none!important;transition:none!important}
+
+
+/* V85: informative three-part day editorials, not active bookings or plan entries. */
+.swiss-day-editorial{display:grid;gap:12px;margin:4px 0;padding:16px;
+ border:1px solid var(--atlas-line,var(--line));border-radius:18px;
+ background:var(--paper);color:var(--text);min-width:0}
+.swiss-editorial-head{display:grid;gap:5px}
+.swiss-editorial-head>span{font-size:.67rem;font-weight:850;letter-spacing:.07em;color:var(--green)}
+.swiss-editorial-head h3{font-size:1.16rem;letter-spacing:-.026em;margin:0;line-height:1.25}
+.swiss-editorial-head p{font-size:.78rem;color:var(--muted);line-height:1.5;margin:0}
+.swiss-editorial-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.swiss-editorial-block{min-width:0;display:flex;flex-direction:column;gap:9px;
+ background:var(--atlas-soft,var(--light));padding:12px;border-radius:14px}
+.swiss-editorial-period{display:flex;align-items:center;gap:8px;color:var(--green);
+ font-weight:800;font-size:.76rem}
+.swiss-editorial-step{width:24px;height:24px;flex:none;display:grid;place-items:center;
+ border-radius:50%;background:var(--paper);font-size:.74rem}
+.swiss-editorial-photo{width:100%;height:95px;border-radius:10px;overflow:hidden}
+.swiss-editorial-photo .place-thumbnail{width:100%!important;height:100%!important;
+ border-radius:10px!important;display:block;position:relative}
+.swiss-editorial-photo .place-thumbnail img{width:100%;height:100%;object-fit:cover}
+.swiss-editorial-text{display:grid;gap:6px;align-content:start}
+.swiss-editorial-text h4{font-size:.85rem;line-height:1.3;margin:0;letter-spacing:-.014em}
+.swiss-editorial-text p{font-size:.76rem;color:var(--text);line-height:1.48;margin:0}
+.swiss-editorial-text small{font-size:.66rem;color:var(--muted)}
+.swiss-editorial-maps{font-size:.71rem}
+.swiss-editorial-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px}
+.swiss-editorial-facts>div{padding:8px 0;border-top:1px solid var(--atlas-line,var(--line));min-width:0}
+.swiss-editorial-facts strong,.swiss-editorial-sources strong{font-size:.74rem}
+.swiss-editorial-facts p{font-size:.74rem;line-height:1.48;margin:4px 0 0;color:var(--muted)}
+.swiss-editorial-sources{border-top:1px solid var(--atlas-line,var(--line));padding-top:10px;
+ display:flex;flex-wrap:wrap;align-items:center;gap:7px 14px}
+.swiss-editorial-sources>div{display:flex;flex-wrap:wrap;gap:8px 13px;font-size:.72rem}
+.swiss-editorial-caveat{font-size:.68rem;line-height:1.46;color:var(--muted)}
+@media(max-width:900px){.swiss-editorial-grid{grid-template-columns:1fr}
+ .swiss-editorial-block{display:grid;grid-template-columns:minmax(0,1fr) 1.7fr;
+  grid-template-rows:auto 1fr;align-items:start}
+ .swiss-editorial-period{grid-column:1/-1}
+ .swiss-editorial-photo{height:110px}
+ .swiss-editorial-block:not(:has(.swiss-editorial-photo)) .swiss-editorial-text{grid-column:1/-1}
+}
+@media(max-width:550px){.swiss-day-editorial{padding:12px 10px}
+ .swiss-editorial-block{display:flex;gap:6px}
+ .swiss-editorial-photo{height:104px}
+ .swiss-editorial-facts{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.swiss-day-editorial *{scroll-behavior:auto}}
