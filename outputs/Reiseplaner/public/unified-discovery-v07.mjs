@@ -244,9 +244,10 @@ export function discoveryCompare(ctx){
   .filter(item=>item.kind==='activity');
  if(!rows.length)return '';
  const all=rows.map(item=>({item,facts:discoveryFactRows(item,ctx)}));
- const values=Object.fromEntries(new Set(all.flatMap(row=>row.facts.map(pair=>pair[0]))).values()
-  .map(key=>[key,new Set(all.map(row=>row.facts.find(pair=>pair[0]===key)?.[1]
-    ??'Für diese Kategorie nicht anwendbar')).size>1]));
+ const keys=[...new Set(all.flatMap(row=>row.facts.map(pair=>pair[0])))];
+ const values=Object.fromEntries(keys.map(key=>[key,
+   new Set(all.map(row=>row.facts.find(pair=>pair[0]===key)?.[1]
+     ??'Für diese Kategorie nicht anwendbar')).size>1]));
  return '<section class="discovery-comparison" id="entdecken-vergleich" aria-label="Orte direkt vergleichen">'
   +'<div class="discovery-comparison-heading"><div><h2>'+rows.length
   +' Orte im Vergleich</h2><p>Quellen- und Planungsreferenzen, keine Buchung oder zusätzliche Plankosten.</p></div>'
