@@ -1,3 +1,13 @@
+## 20.11.2026 – V86/V87: Preisbelege, Varianten- und Fotowahrheit
+
+- 13 Ketten×Stadtzeilen sind **Research-Auswahl**, keine 13 verifizierten Ladengeschäfte. OSM/Overpass bleibt nur als explizit gestartete und begrenzte Standortabfrage vorhanden, ohne garantierten Eingang, Filialvollständigkeit oder navigierbare neue Kettenpins.
+- Standardisierte Vergleichsmengen (g/ml/Stück) sind nicht identisch mit tatsächlich erhältlichen Packungen. Einheitspreise nur aus dokumentierter Packungsgröße, ganze benötigte Packungen separat. Liter nicht in Kilogramm umrechnen; Qualitätsklassen (Eigenmarke, Bio, Tier-/Gemüseart, Haltungsform) ausdrücklich markieren. Ein fehlender Preis ist **null**, keine 0-Euro-Ersatzschätzung, und kein unvollständiger Topkorb.
+- Historische nationale Onlinebelege gelten weder als konkrete 2027-Filialpreise noch als kaufbarer aktueller Bestand. Acht unterschiedliche 2026er Belege ergeben 12 stadtbezogene Preiszellen; die 118 übrigen fehlen explizit. Keine Ketten-Rangliste aus ungleichartigen Qualitäten.
+- `state.marketQuotes` ist variantengebunden, optional für Bestandsnutzer und ohne Auswirkungen auf `state.shopping` oder `state.expenses`; das bestehende revisionsgeschützte Dialog-/Save-Verfahren übernimmt Speicherung, Reload und Undo. Manuelle Eingaben sind als ungeprüfte Preisbeobachtung markiert.
+- Objektfotos aus Wikimedia Commons nur bei konkret zugeordnetem Motiv und individueller Urheber-/Lizenzangabe; die neuen Bilder belegen Heuberg-Aussichtspunkt und Äscher als Teilziel, **nicht** die Öffnung der Bergwanderroute. Bestehende Objekt-/Ortsfotos und ihre Quellhinweise bleiben erhalten. Für private Ferienwohnungen werden keine Stadt- oder Attraktionsbilder als exakte Objektfotos etikettiert.
+- Qualitätskarten und der Echtzeit-Gapbericht lesen nur vorhandene `interrail_swiss`-Tages-IDs, max. vier priorisierte Einträge pro Datum, ohne gespeicherte Auswahl oder Budgetänderung. Null zusätzliche Tagesideen am 10./14.09. bleiben sichtbar leer. Day-Transport/Unterkunft/Essen erhalten offene Statushinweise, keine Buchungsbehauptung.
+- Quellen- und Geodaten-Lücken werden aus `entryCompleteness` neu abgeleitet; vorhandene Google-Maps-Links sind Suchlinks, keine vom Anbieter bestätigten Objektkoordinaten. Browser prüft Barcelona, Sète, Kandersteg und Appenzell in responsiven Ansichten, aber lokale private Tripsy-Version und externe 2027-Verfügbarkeit bleiben ungetestet.
+
 # Entscheidungen
 
 ## 19.11.2026 – Unterkunftsentscheidungen, Quellenfilter und Eingabeerhaltung
