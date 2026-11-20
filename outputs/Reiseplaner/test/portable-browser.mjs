@@ -845,7 +845,7 @@ try {
   await click('[data-action=browse-search-reset]');
   await until(() => js('document.querySelector("#browse-search")?.value===""'),'Suche wieder zurückgesetzt');
   await until(() => js('document.querySelectorAll(".lodging-price-meter").length > 0'), 'Unterkunfts-Budgetbalken');
-  await until(() => js('document.querySelectorAll(".hub-option-card .hub-option-pricing strong").length > 0'), 'Alte und neue Unterkunftskarten zeigen €/€€/€€€ oder €?');
+  await until(() => js('document.querySelectorAll(".stay-list-row .stay-list-decision strong").length > 0'), 'Unterkunftsliste zeigt tatsächliche Referenzpreise oder ausdrücklich offene Preise');
   await set('#nightly-target', '40');
   await js('document.querySelector("#nightly-target").dispatchEvent(new Event("change",{bubbles:true}))');
   await until(() => js('document.querySelector("#nightly-target")?.value === "40"'),'Budgetziel angepasst');
