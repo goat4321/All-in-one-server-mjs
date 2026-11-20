@@ -706,7 +706,7 @@ async function switchVariant(id) {
     view.mapNearPointId=null;view.mapViewportOnly=false;view.mapViewportBounds=null;view.mapSavedOnly=false;
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0; view.geocodeReview=null;
     view.total = view.menu = false;
-    view.compareIds.clear();view.inspectorCompareIds=[];
+    view.compareIds.clear();view.discoveryCompareIds.clear();view.inspectorCompareIds=[];
     view.stayFacets={};view.stayFacetsOpen=false;view.staySwissResearchOpen=false;
     view.dailyBudgetDate=null; view.showAllVotes=false;
     view.dataOpenSections=[];
@@ -748,7 +748,7 @@ function showCity(id, date, wholeDay = false) {
   view.selected = null;
   view.mapNearPointId=null;view.mapViewportOnly=false;view.mapViewportBounds=null;
   view.total = view.menu = false;
-  view.compareIds.clear();
+  view.compareIds.clear();view.discoveryCompareIds.clear();
   render();
   refreshMarketsOnCityChange(id);
 }
@@ -1185,7 +1185,8 @@ async function action(name, value = '') {
       try{
         const data=await loadCityMarkets(cityId);
         if(ctx.variant.id===variant.id && context?.city===cityId){
-          view.browseFoodType='markets';view.browseFoodSavedOnly=false;
+          if(ctx.page==='food'){view.browseFoodType='markets';view.browseFoodSavedOnly=false;}
+          else view.discoveryCategory='shop';
           say(data.count+' kartierte Supermärkte für '+ctx.cities[cityId].name+' geladen.');
         }
       }catch(error){
