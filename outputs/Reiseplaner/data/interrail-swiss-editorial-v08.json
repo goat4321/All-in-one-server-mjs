@@ -1,0 +1,480 @@
+{
+  "version": "v08",
+  "generatedOn": "2026-11-20",
+  "scope": "interrail_swiss only / 2027-09-01 to 2027-09-14 / three travellers",
+  "source": "day-plans-v32 + trips + sources + focused official checks",
+  "policy": "These are read-only editorial suggestions. No schedule, prices, bookings or activities are selected by this file.",
+  "days": [
+    {
+      "date": "2027-09-01",
+      "city": "paris",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "München → Paris: Reisetag",
+          "note": "Früh starten, Frühstück/Trinken vor dem Einstieg organisieren. Die Tripsy-Zugzeit ist nur eine Referenz."
+        },
+        {
+          "period": "noon",
+          "title": "Ankunft, Gepäck und Seineufer",
+          "note": "Nach Ankunft zuerst Weg zur Unterkunft oder Gepäcklösung prüfen. Anschließend entspannter Spaziergang entlang des vorhandenen Seineufer-Vorschlags.",
+          "activityId": "act-002"
+        },
+        {
+          "period": "evening",
+          "title": "Quartier Latin ohne Zeitdruck",
+          "note": "Straßenrunde und Essen erst nach Check-in und Erholung; keine konkrete Restaurantbuchung.",
+          "activityId": "act-007"
+        }
+      ],
+      "food": "Mitgebrachte Snacks für die Zugfahrt; abends Essen außer Haus oder Küche nur falls Unterkunft bestätigt und nutzbar.",
+      "buffer": "Mindestens 90 Min. zwischen Ankunft, Gepäck und erster Aktivität; bei Verspätung die Abendrunde kürzen.",
+      "alternative": "Bei Zugverspätung direkt zum Abendessen statt der Seine-Runde.",
+      "sourceIds": [
+        "interrail_res",
+        "ratp"
+      ],
+      "risk": "Zug und Unterkunft 2027 nicht bestätigt."
+    },
+    {
+      "date": "2027-09-02",
+      "city": "paris",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Trocadéro und Blick auf den Eiffelturm",
+          "note": "Außenansicht ohne Turm-Ticket. Öffentliche Wege und Fotoorte wetterabhängig.",
+          "activityId": "act-001"
+        },
+        {
+          "period": "noon",
+          "title": "Montmartre & Sacré-Cœur",
+          "note": "Bergauf-Spaziergang mit Pausen. Kircheninnenraum und Öffnung separat prüfen.",
+          "activityId": "act-003"
+        },
+        {
+          "period": "evening",
+          "title": "Canal Saint-Martin & Picknick",
+          "note": "Leichte Abendrunde; am nächsten Morgen steht die lange Fahrt nach Barcelona an.",
+          "activityId": "act-004"
+        }
+      ],
+      "food": "Bäckerei/Supermarkt für Picknick; vor der Weiterreise Wasser und Proviant einkaufen.",
+      "buffer": "Zwischen Trocadéro und Montmartre zusätzliche Metro-/Umsteigezeit lassen.",
+      "alternative": "Bei Regen Montmartre verkürzen oder einen belegten Indoor-Ort aus dem Katalog separat auswählen.",
+      "sourceIds": [
+        "eiffel",
+        "ratp"
+      ],
+      "risk": "Eintritt für Eiffelturm/Louvre ist nicht Teil dieser Außenroute."
+    },
+    {
+      "date": "2027-09-03",
+      "city": "barcelona",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Paris → Barcelona",
+          "note": "Gepäck, Bahnsteig und reservierungspflichtige Fernreise vor Abfahrt prüfen."
+        },
+        {
+          "period": "noon",
+          "title": "Ankommen und Barceloneta",
+          "note": "Zuerst Unterkunft/Gepäck; Strand erst nach tatsächlicher Ankunft und ausreichender Zeit.",
+          "activityId": "act-009"
+        },
+        {
+          "period": "evening",
+          "title": "Poblenou entdecken",
+          "note": "Cafés und ruhige Straßen als lockerer Ausklang; kein Tisch als gebucht behandeln.",
+          "activityId": "act-015"
+        }
+      ],
+      "food": "Im Zug Proviant für drei; abends flexibel draußen essen oder in verfügbarer Unterkunftsküche kochen.",
+      "buffer": "Großer Puffer für Bahnhofstransfer, Check-in und Erholung; Strand bei später Ankunft streichen.",
+      "alternative": "Nur eine kurze Runde in Unterkunftsnähe statt Strand/Quartierwechsel.",
+      "sourceIds": [
+        "interrail_fr_es",
+        "tmb"
+      ],
+      "risk": "Grenzüberschreitende Reservierung und Zugfahrplan 2027 offen."
+    },
+    {
+      "date": "2027-09-04",
+      "city": "barcelona",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Parc de la Ciutadella",
+          "note": "Grünflächen und ein entspanntes Picknick im bereits vorhandenen Tagesvorschlag.",
+          "activityId": "act-010"
+        },
+        {
+          "period": "noon",
+          "title": "Bogatell Beach und Sport",
+          "note": "Strandzeit mit Trinkpausen; Strand- und Wetterbedingungen vor Ort prüfen.",
+          "activityId": "act-008"
+        },
+        {
+          "period": "evening",
+          "title": "Optionaler Clubabend",
+          "note": "Nur bei passendem Alter, geöffnetem Club und sicherer Rückfahrt. Ohne Zusage: ruhiger Abend.",
+          "activityId": "act-016"
+        }
+      ],
+      "food": "Lebensmittel für Picknick/Strand am Vormittag kaufen; vor einem Abendprogramm günstig und ausreichend essen.",
+      "buffer": "Mindestens 60–90 Min. Erholung nach Strand, sichere Heimfahrt und Schlaf vorsehen.",
+      "alternative": "Club komplett auslassen, statt dessen Abendessen oder entspannte Küstenrunde.",
+      "sourceIds": [
+        "tmb"
+      ],
+      "risk": "Club, Eintritt und Rückweg unbestätigt."
+    },
+    {
+      "date": "2027-09-05",
+      "city": "barcelona",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Turó de la Rovira: Aussicht",
+          "note": "Bestehender Aussichtspunkt; Aufstieg, Sonnenschutz und aktuelle Zugangslage beachten.",
+          "activityId": "act-011"
+        },
+        {
+          "period": "noon",
+          "title": "Montjuïc und Grünanlagen",
+          "note": "Unverbindliche Park-/Aussichtsroute. Transport von der Nordseite der Stadt zusätzlich prüfen.",
+          "activityId": "act-014"
+        },
+        {
+          "period": "evening",
+          "title": "Ruhiger Abschluss und Gepäck für Sète",
+          "note": "Kein weiterer Pflicht-POI. Abend zum Einkaufen, Kochen und Packen freihalten."
+        }
+      ],
+      "food": "Abendessen in der Küche falls tatsächlich vorhanden; Zutaten für die morgige Zugreise einplanen.",
+      "buffer": "Tagesplanung bewusst nicht auf drei weit entfernte Ticketattraktionen verdichten.",
+      "alternative": "Sagrada Família nur als vorhandene, optionale Ticketidee; 2027er Einlass erst nach Prüfung.",
+      "sourceIds": [
+        "sagrada",
+        "tmb"
+      ],
+      "risk": "Sagrada-Innenbesuch und Einlasszeiten nicht bestätigt."
+    },
+    {
+      "date": "2027-09-06",
+      "city": "sete",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Barcelona → Sète",
+          "note": "Zugverbindung und Ausstieg mit Gepäck prüfen; Zugdaten sind noch kein 2027er Fahrplan."
+        },
+        {
+          "period": "noon",
+          "title": "Canal Royal nach Ankunft",
+          "note": "Kurzer Spaziergang an den vorhandenen Kanälen nach Gepäckabgabe.",
+          "activityId": "act-019"
+        },
+        {
+          "period": "evening",
+          "title": "Pointe Courte",
+          "note": "Ruhiges Fischerviertel als leichtes Abendprogramm.",
+          "activityId": "act-020"
+        }
+      ],
+      "food": "Einfaches Abendessen; Einkaufsmöglichkeiten und Küche an der konkreten Unterkunft prüfen, keine generelle Ausstattung annehmen.",
+      "buffer": "Mindestens 60–90 Min. nach der Zugankunft zum Einchecken und Erholen.",
+      "alternative": "Bei später Ankunft nur die kurze Hafenrunde, Pointe Courte auf morgen verschieben.",
+      "sourceIds": [
+        "sncf_window"
+      ],
+      "risk": "Barcelona–Sète-Zugzeiten/Reservierung 2027 nicht bestätigt."
+    },
+    {
+      "date": "2027-09-07",
+      "city": "sete",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Plage de la Corniche",
+          "note": "Strandzeit als bestehende Idee, ohne einen festen Liegeplatz oder Preis vorzutäuschen.",
+          "activityId": "act-017"
+        },
+        {
+          "period": "noon",
+          "title": "Mont Saint-Clair",
+          "note": "Aussicht und Spaziergang, Weg/Hitze beachten. Nicht bei schlechtem Wetter erzwingen.",
+          "activityId": "act-018"
+        },
+        {
+          "period": "evening",
+          "title": "Strandpicknick",
+          "note": "Essen mit vor Ort erworbenen Lebensmitteln; Müll entsorgen und Strandregeln beachten.",
+          "activityId": "act-022"
+        }
+      ],
+      "food": "Mittags leichtes Picknick, Wasser mitnehmen; abends Selbstversorgung statt unbestätigter Restaurantpreise.",
+      "buffer": "Aufstieg und Rückweg mit genügend Ruhe-, Wetter- und Kühlpausen.",
+      "alternative": "Bei Hitze Mont Saint-Clair verkürzen und nachmittags im Schatten bleiben.",
+      "sourceIds": [],
+      "risk": "Badewasser- und Wetterbedingungen nicht vorausgesetzt."
+    },
+    {
+      "date": "2027-09-08",
+      "city": "nice",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Sète → Nizza",
+          "note": "Fahrzeit, Anschlüsse und Gepäckstatus priorisieren. Keine zusätzliche Morgenattraktion."
+        },
+        {
+          "period": "noon",
+          "title": "Promenade des Anglais bei Ankunft",
+          "note": "Die im Plan enthaltene Küstenrunde flexibel verkürzen; Ankunft zuerst abwarten.",
+          "activityId": "act-023"
+        },
+        {
+          "period": "evening",
+          "title": "Vieux-Nice",
+          "note": "Altstadtgassen und Essen; Marktstände sind abends nicht automatisch geöffnet.",
+          "activityId": "act-025"
+        }
+      ],
+      "food": "Verpflegung für die Bahnfahrt organisieren; Abendessen spontan oder bei nutzbarer Unterkunftsküche.",
+      "buffer": "Tripsy-Ankunft am frühen Abend ist unbestätigt; mindestens 60 Min. für Check-in.",
+      "alternative": "Bei Verspätung direkt essen und schlafen statt der Küstenrunde.",
+      "sourceIds": [
+        "nice_tram"
+      ],
+      "risk": "Langer Transfer, keine garantierte 2027er Ankunft."
+    },
+    {
+      "date": "2027-09-09",
+      "city": "nice",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Villefranche-sur-Mer und Strand",
+          "note": "Bestehende Küstenidee; lokale Verbindung, Strandlage und Rückfahrt prüfen.",
+          "activityId": "act-026"
+        },
+        {
+          "period": "noon",
+          "title": "Colline du Château",
+          "note": "Aussicht ohne zusätzliche Eintrittsannahmen; mit Wetterpuffer.",
+          "activityId": "act-024"
+        },
+        {
+          "period": "evening",
+          "title": "Port Lympia, früh zurück",
+          "note": "Kurze Hafenrunde, anschließend Gepäck für den großen Schweiz-Transfer vorbereiten.",
+          "activityId": "act-028"
+        }
+      ],
+      "food": "Proviant und Trinkwasser noch heute für den sehr langen Folgetag einkaufen.",
+      "buffer": "Mindestens 60 Min. für Rückweg und Packen, früh schlafen.",
+      "alternative": "Bei Zug-/Wetterproblemen Villefranche auslassen und nur Nizza erkunden.",
+      "sourceIds": [
+        "nice_tram"
+      ],
+      "risk": "10.09. ist ein komplexer Fernreisetag – nicht zu spät zurück."
+    },
+    {
+      "date": "2027-09-10",
+      "city": "kandersteg",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Nizza → Kandersteg, Teil 1",
+          "note": "Bahnhof, Reservierungen und alternativen Umsteigekorridor vor Abfahrt prüfen. Keine Freizeitaktivität."
+        },
+        {
+          "period": "noon",
+          "title": "Unterwegs: Anschlüsse sichern",
+          "note": "Umstiegsbahnhöfe und tatsächlich erreichbare Anschlüsse live gegen Betreiber- und SBB-Fahrpläne vergleichen."
+        },
+        {
+          "period": "evening",
+          "title": "Nur Ankunft und Erholung",
+          "note": "Nach tatsächlicher Ankunft Gepäck, Unterkunfts-Check-in und einfaches Essen; keine zusätzliche Sehenswürdigkeit."
+        }
+      ],
+      "food": "Proviant, Wasser und Ladekabel schon am Vortag besorgen; Küche und spätes Einchecken für drei vorher klären.",
+      "buffer": "Tripsy nennt als unbestätigte Referenz rund 12 Std. 10 Min. Reisezeit. Großzügiger Anschluss-/Verspätungspuffer; keine Aktivitäten eintragen.",
+      "alternative": "Falls die Gesamtreise nicht funktioniert: tatsächliche alternative Verbindung oder Zwischenübernachtung neu prüfen, niemals einen erfundenen Zug einsetzen.",
+      "sourceIds": [
+        "interrail_res",
+        "interrail_days",
+        "sbb"
+      ],
+      "risk": "HÖCHSTES RISIKO: 2027er Gesamtverbindung, Grenzübertritte, Reservierungen und Ankunft unbestätigt."
+    },
+    {
+      "date": "2027-09-11",
+      "city": "kandersteg",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Oeschinensee: Gondel und Zugang",
+          "note": "Vorhandene Gondel-/Seeuferidee; offiziellen Betriebs- und Wegstatus vor dem Aufbruch prüfen.",
+          "activityId": "act-053"
+        },
+        {
+          "period": "noon",
+          "title": "Seealpines Picknick am Oeschinensee",
+          "note": "Vorhandene Pause am See; nur markierte und freigegebene Wege nutzen.",
+          "activityId": "act-054"
+        },
+        {
+          "period": "evening",
+          "title": "Rückweg und ruhiger Dorfabend",
+          "note": "Gondel-Rückfahrt vor Betriebsende einplanen. Kandersteg-Spaziergang nur optional.",
+          "activityId": "act-055"
+        }
+      ],
+      "food": "Wasser, Snacks und Picknick früh vorbereiten. Berggasthauspreise fehlen; keinen Pauschalpreis für drei annehmen.",
+      "buffer": "Offiziell publizierter Sommerbetrieb 24.04.–19.09.2027, 08:30–18:00 Uhr; Fahrten/Wege/Wetter tagesaktuell prüfen. Früh genug zurück.",
+      "alternative": "Bei schlechtem Wetter einfache Talrunde/Erholung; die Bergwanderung entfällt ohne Ersatz-Zwang.",
+      "sourceIds": [
+        "oesch"
+      ],
+      "risk": "Gondelticket, Wetter, Öffnung und Höhenwege nicht bestätigt; keine Ticketkosten als 0."
+    },
+    {
+      "date": "2027-09-12",
+      "city": "appenzell",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Kandersteg → Appenzell",
+          "note": "Überregionale Weiterfahrt, Abfahrt und Anschluss nur nach bestätigtem Fahrplan."
+        },
+        {
+          "period": "noon",
+          "title": "Ankommen statt Ausflug",
+          "note": "Gepäck und Unterkunft in Appenzell vor jeder Ortsrunde klären."
+        },
+        {
+          "period": "evening",
+          "title": "Altstadt Appenzell",
+          "note": "Bereits vorhandene lockere Runde durch den Ort; rechtzeitig für morgen ausruhen.",
+          "activityId": "act-044"
+        }
+      ],
+      "food": "Einfaches Abendessen und Einkäufe für die Seealpsee-Wanderung am nächsten Tag vorsehen.",
+      "buffer": "Tripsy-Zeiten sind Referenz; nach der Ankunft ausreichend Zeit für Transfer und Ruhe.",
+      "alternative": "Bei verspäteter Ankunft ausschließlich Unterkunft/Verpflegung, Altstadtgang auslassen.",
+      "sourceIds": [
+        "sbb",
+        "appenzeller"
+      ],
+      "risk": "2027er Fahrt und Unterkunft nicht bestätigt."
+    },
+    {
+      "date": "2027-09-13",
+      "city": "appenzell",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Wasserauen → Seealpsee",
+          "note": "Vorhandene Wanderung ab Wasserauen. Beschilderung, Schuhe und Wetter kontrollieren; keine zusätzliche schwere Höhenroute.",
+          "activityId": "act-045"
+        },
+        {
+          "period": "noon",
+          "title": "Seealpsee: Picknick und Erholung",
+          "note": "Vorhandener Seeaufenthalt; sichere Pause, ausreichend Wasser und rechtzeitiger Rückweg.",
+          "activityId": "act-046"
+        },
+        {
+          "period": "evening",
+          "title": "Rückkehr nach Appenzell",
+          "note": "Ohne zusätzlichen POI. Nur Abendessen, Packen und Erholung vor der Heimreise."
+        }
+      ],
+      "food": "Picknick für drei schon am Vortag einkaufen; Rückkehr mit Wasser, Müllbeutel und Notfallreserve planen.",
+      "buffer": "Regionalbahn Appenzell ↔ Wasserauen separat prüfen; nicht stillschweigend als achten Pass-Tag zählen. Wetter-/Wegpuffer einplanen.",
+      "alternative": "Bei gesperrtem/unsicherem Wanderweg kürzere Tal-/Ortsrunde; keine Äscher-/Ebenalp-Höhenroute automatisch aufdrängen.",
+      "sourceIds": [
+        "seealp",
+        "appenzeller",
+        "interrail_days"
+      ],
+      "risk": "Sieben geplante Pass-Reisetage; zusätzliche Regionalfahrt sowie Wanderbedingungen offen."
+    },
+    {
+      "date": "2027-09-14",
+      "city": "appenzell",
+      "tripId": "interrail_swiss",
+      "travellers": 3,
+      "status": "suggestion_only",
+      "blocks": [
+        {
+          "period": "morning",
+          "title": "Heimreise vorbereiten",
+          "note": "Auschecken, Gepäck, Frühstück und Bahnsteig ausreichend früh vor der Rückfahrt erledigen."
+        },
+        {
+          "period": "noon",
+          "title": "Appenzell → München",
+          "note": "Bestehende Tripsy-Heimreise nur als Fahrplanreferenz. Tatsächliche Anschlüsse und Reservierungen prüfen."
+        },
+        {
+          "period": "evening",
+          "title": "Ankunft und Abschluss",
+          "note": "Keine weitere Aktivität einplanen; nach Ankunft zu Hause ankommen."
+        }
+      ],
+      "food": "Proviant für die Zugfahrt statt eines ungeprüften Restaurantstopps; offene Ausgaben später mit echten Belegen erfassen.",
+      "buffer": "Genügend Zeit fürs Auschecken und mögliche Umstiege; keine Besichtigung vor der Rückfahrt.",
+      "alternative": "Bei Störung alternative Betreiberroute prüfen; Rückfahrt nicht als bestätigt markieren.",
+      "sourceIds": [
+        "interrail_home",
+        "interrail_res",
+        "sbb"
+      ],
+      "risk": "Heimfahrtdatum/Umstiege 2027 unbestätigt."
+    }
+  ]
+}
