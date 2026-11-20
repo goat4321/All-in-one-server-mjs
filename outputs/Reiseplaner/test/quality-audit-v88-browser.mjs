@@ -137,9 +137,30 @@ try{
    }
   }
  }
+ // Separate keyboard-only focus sample and an actual browse-search update.
+ await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:900,deviceScaleFactor:1,mobile:true});
+ await clickPage('overview');
+ const focusSequence=[];
+ for(let n=0;n<8;n++){
+  await cdp('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+  await cdp('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+  focusSequence.push(await js('(()=>{const e=document.activeElement,r=e?.getBoundingClientRect();return {'+
+    'tag:e?.tagName,name:(e?.getAttribute("aria-label")||e?.textContent||"").trim().slice(0,55),'+
+    'visible:Boolean(r&&r.width>0&&r.height>0),outline:getComputedStyle(e).outlineStyle}})()'));
+ }
+ await clickPage('discover');
+ const filterSample=await js('('+async function(){
+  const input=document.querySelector('#browse-search');
+  const button=document.querySelector('[data-action="browse-search-apply"]');
+  if(!input||!button)return {available:false};
+  input.value='Museum';const start=performance.now();button.click();
+  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+  return {available:true,frameMs:Math.round((performance.now()-start)*10)/10,
+   countLabel:document.querySelector('.hub-filter-count')?.textContent?.trim().slice(0,100)??''};
+ }.toString()+')()');
  const result={environment:'headless Chrome, isolated seeded SQLite and offlineMap, 14-day interrail_swiss',
   measuredAt:new Date().toISOString(),htmlBytes,variants:store.list().length,
-  rows,exceptions,limits:'Synthetic lab snapshots, not field Core Web Vitals or WCAG certification'};
+  rows,exceptions,focusSequence,filterSample,limits:'Synthetic lab snapshots, not field Core Web Vitals or WCAG certification'};
  if(output)await writeFile(join(output,'quality-v88-lab.json'),JSON.stringify(result,null,2));
  console.log('V88_AUDIT_SUMMARY '+JSON.stringify({htmlBytes,rows:rows.length,
   domMin:Math.min(...rows.map(x=>x.dom)),domMax:Math.max(...rows.map(x=>x.dom)),
