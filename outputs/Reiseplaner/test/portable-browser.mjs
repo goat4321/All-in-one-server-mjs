@@ -1277,7 +1277,8 @@ try {
   await text('h1','Reiseübersicht');await openMeals();
   await text('.market-baskets-v86','Eigene Angabe');
   await click('.market-baskets-v86 [data-action=market-quote-reset][data-value="'+marketKey+'"]');
-  assert.equal(store.current('interrail_swiss').state.marketQuotes[marketKey],undefined);
+  await until(async()=>store.current('interrail_swiss').state.marketQuotes[marketKey]===undefined,
+    'Manuelle Marktpreisreferenz wurde rücknehmbar gespeichert');
   assert.equal(store.current('swiss_lakes').state.marketQuotes?.[marketKey],undefined);
   await screenshot('91-v86-barcelona-chain-baskets.png');
   for(const [slot,recipe] of [['breakfast','barcelona-oats'],['lunch','barcelona-salad'],['dinner','pasta']]){
