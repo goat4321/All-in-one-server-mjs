@@ -1,6 +1,7 @@
 import {kitchenAccess} from './stay-analysis.mjs';
 import {lodgingPriceInsight} from './price-insights.mjs';
 import {esc,btn} from './ui.mjs';
+import {stayLaundryState,stayLocationState,stayExactListingUrl} from './stay-evidence.mjs';
 
 const httpUrl=value=>{try{const u=new URL(value);return ['https:','http:'].includes(u.protocol)?u:null;}catch{return null;}};
 export function staySourceLinks(item){
@@ -26,7 +27,8 @@ export function stayCancellationLabel(item){
 }
 export function stayMatchesFacets(item,facets={},ctx={}){
  if(item?.kind!=='lodging'||item.removed)return false;
- const {kitchen='all',beds='all',cancellation='all',source='all',walk='all',maxNight=''}=facets;
+ const {kitchen='all',beds='all',cancellation='all',source='all',walk='all',
+   laundry='all',location='all',sourceQuality='all',date='all',maxNight=''}=facets;
  const access=kitchenAccess(item);
  if(kitchen==='usable'&&access!=='usable')return false;
  if(['private','shared'].includes(kitchen)&&item.kitchenMode!==kitchen)return false;
@@ -38,6 +40,19 @@ export function stayMatchesFacets(item,facets={},ctx={}){
  if(cancellation!=='all'&&(cancellation==='described'?state==='unknown':state!==cancellation))return false;
  const links=staySourceLinks(item);
  if(source!=='all'&&(source==='missing'?Boolean(links.offer):!links[source]))return false;
+ const washer=stayLaundryState(item);
+ if(laundry!=='all'&&washer!==laundry)return false;
+ const position=stayLocationState(item);
+ if(location==='point'&&!position.startsWith('Kartenpunkt vorhanden'))return false;
+ if(location==='area'&&!/(Gebietspunkt|Gebietsposition)/.test(position))return false;
+ if(location==='missing'&&position!=='Kein belegter Kartenpunkt')return false;
+ if(sourceQuality==='listing'&&!stayExactListingUrl(item))return false;
+ if(sourceQuality==='operator'&&!links.operator)return false;
+ if(sourceQuality==='missing'&&(stayExactListingUrl(item)||links.operator))return false;
+ if(date==='matching'){
+   const stay=ctx.trip?.stayByCity?.[item.city];
+   if(!stay||item.stayFrom!==stay.from||item.stayTo!==stay.to)return false;
+ }
  const minutes=ctx.hotelWalks?.[item.id]?.minutes;
  const known=Number.isFinite(minutes)&&minutes>=0;
  if(walk==='unknown'&&known||['15','30'].includes(walk)&&(!known||minutes>Number(walk)))return false;
@@ -61,7 +76,11 @@ export function stayFacetControls(ctx){
   +select('cancellation','Storno',[['all','Alle Bedingungen'],['possible','Kostenlos laut Quelle · Tarif prüfen'],['excluded','Kein kostenloses Storno laut Quelle'],['described','Bedingungen beschrieben'],['unknown','Bedingungen offen']])
   +select('source','Quelle',[['all','Alle Quellen'],['booking','Booking.com-Angebotslink'],['airbnb','Airbnb-Angebotslink'],['operator','Separate Betreiberquelle'],['user','Nutzerrecherche / manuell'],['missing','Kein Angebotslink']])
   +select('walk','Bahnhof-Fußweg',[['all','Alle Lagen'],['15','Berechnet ≤15 Minuten'],['30','Berechnet ≤30 Minuten'],['unknown','Weg noch offen']])
+  +select('laundry','Waschmaschine',[['all','Alle Angaben'],['yes','Explizit genannt'],['no','Explizit nicht vorhanden'],['unknown','Nicht belegt']])
+  +select('location','Standortgenauigkeit',[['all','Alle Positionen'],['point','Kartenpunkt · Eingang prüfen'],['area','Gebiet / Stadtbezug'],['missing','Kein belastbarer Pin']])
+  +select('sourceQuality','Quellenqualität',[['all','Alle Nachweise'],['listing','Exakter Booking-/Airbnb-Objektlink'],['operator','Betreiberquelle'],['missing','Ohne konkreten Objekt-/Betreiberlink']])
+  +select('date','Aufenthaltsdaten',[['all','Alle erfassten Daten'],['matching','Genau passend zum Reisezeitraum']])
   +'<label>Max. € pro Person/Nacht<input data-stay-facet="maxNight" id="stay-maxNight" type="number" min="0" max="10000" step="0.01" placeholder="Ohne Grenze" value="'+esc(f.maxNight??'')+'"></label></div>'
-  +'<p>Alle Kriterien gelten zusammen. Preisgrenze nur mit passender EUR-Referenz, Belegung und Nächten; Suchwerte bleiben vorläufig. Stornoangaben sind keine kostenlose Stornogarantie.</p>'
+  +'<p>Alle Kriterien gelten zusammen. Zeitraum meint die gespeicherten Reisedaten, nicht die Verfügbarkeit 2027. Keine fehlenden Preise als 0 €. Pin ≠ bestätigter Eingang, Objektlink ≠ bestätigte Buchbarkeit. Storno hängt vom Tarif ab.</p>'
   +btn('stay-facets-reset','Unterkunftsfilter zurücksetzen','reset')+'</details>';
 }
