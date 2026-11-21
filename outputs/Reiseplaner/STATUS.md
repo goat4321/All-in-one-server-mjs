@@ -1,3 +1,11 @@
+## 21.11.2026 – V92: mobile Bildquellen leichter treffen, Grunddesign bleibt ruhig
+
+**Verifizierter Code-Stand:** `9a157bf1103275172678fd71dcfc01f97198d319`, GitHub Actions [#44921640348](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44921640348) **success**, **528/528 portable Tests**, 63 echte Chrome-Labormessungen bei 390/768/1440 px, Light/Dark/Reduced Motion, keine JavaScript-Ausnahmen und 0 horizontaler Überlauf. Dieser CI-Lauf prüft auch Unterkünfte, Routen, Speicherfunktionen und HTTP-Smoke.
+
+**Fortsetzung:** `public/calm-design-v91.css` gibt ausschließlich mobilen, belegten Bildquellenlinks (`.destination-credit`, `.hub-hero-photo-credit`) mindestens 32 px hohe Trefferflächen, einheitlichen Innenabstand und sichtbaren Tastaturfokus. Der alte winzige Quellenlink wird nicht durch ein neues Kachel- oder Bilderlayout ersetzt; Urheber, Ziele und Lizenzen bleiben erhalten. `test/calm-design-v91.test.mjs` und `test/quality-audit-v88-browser.mjs` haben passende Regressionen erhalten.
+
+**Vorher → nachher (390px, synthetische Seed-Seiten):** Startseite 6 → 0, Unterkünfte 1 → 0, Entdecken 2 → 1, Essen 14 → 13 Trefferflächen unter 24 px. Andere kleine Quellen- und Aufklapp-Controls, besonders Essen (13), Tag (8) und Karte (6), bleiben als weitere UX-Aufgabe offen. Keine Behauptung vollständiger 44px-Touch-Targets, WCAG-Abnahme oder realer Nutzer-Web-Vitals; keine Windows-Dateien, Buchungen, Deployments oder `main` verändert.
+
 ## 21.11.2026 – V91-Nachabnahme: Smoothness und Dark-Mode-Kontrast bestätigt
 
 **GitHub-Stand:** Letzter Code-Commit `9405062e748c`, CI [#44911502188](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44911502188) **success**, **527/527 portable Tests**, echter Chrome-/API-/HTTP-Gesamttest, 63 Desktop-/Tablet-/Mobile- sowie Light-/Dark-/Reduced-Motion-Messpunkte; **0 horizontale Überläufe, 0 JavaScript-Ausnahmen**. Weitere reine Dokumentationscommits ändern die getestete UI nicht.
