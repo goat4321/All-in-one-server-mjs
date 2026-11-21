@@ -86,7 +86,9 @@
 }
 .reference-travel-shell :is(.overview-quick-card,.hub-option-card,.hub-food-card,
   .reference-discovery-card,.option-card){
-  transition:border-color 180ms ease,background-color 180ms ease,opacity 180ms ease !important;
+  /* Theme changes swap surface/text together to avoid a brief white-on-white
+   frame. Border and opacity may still respond quietly to pointer actions. */
+  transition:border-color 180ms ease,opacity 180ms ease !important;
 }
 .reference-travel-shell :is(.overview-quick-card,.hub-option-card,.hub-food-card,
   .reference-discovery-card,.option-card):focus-within{
