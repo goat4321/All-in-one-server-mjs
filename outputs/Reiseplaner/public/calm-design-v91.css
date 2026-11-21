@@ -320,10 +320,12 @@ dialog[open]::backdrop{animation:ux-backdrop-in 200ms ease-out both !important}
 }
 :root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
  .reference-global-search{
-  background:var(--paper) !important;
-  border-color:var(--line) !important;
+  /* The header may inherit a legacy --paper:#fffefa from its shell.
+   * Pin only the functional chrome to V91's explicit dark material. */
+  background:#202e25 !important;
+  border-color:#3a4b3e !important;
   box-shadow:none !important;
-  color:var(--text);
+  color:#edf6ee !important;
 }
 :root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
  .reference-global-search input{
@@ -332,9 +334,9 @@ dialog[open]::backdrop{animation:ux-backdrop-in 200ms ease-out both !important}
 }
 :root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
  .top-actions :is(.icon-btn,.guide-launch){
-  background:var(--paper) !important;
-  color:var(--text) !important;
-  border-color:var(--line) !important;
+  background:#202e25 !important;
+  color:#edf6ee !important;
+  border-color:#3a4b3e !important;
   box-shadow:none !important;
 }
 :root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
