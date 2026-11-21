@@ -30,7 +30,7 @@ export function marketBasketPanel(ctx){
       +(ctx.state?.marketQuotes?.[item.key]?btn('market-quote-reset','Eigene Angabe zurücksetzen','reset',item.key,'subtle'):'')
       +'</div></td></tr>';
  }).join('');
- return '<section class="section market-baskets-v86" aria-label="Supermarktketten mit Produktpreisen">'
+ return '<section id="market-price-research" class="section market-baskets-v86" aria-label="Supermarktketten mit Produktpreisen">'
    +'<header><small>DATIERTER PREISVERGLEICH · KEIN ANGEBOT FÜR 2027</small>'
    +'<h2>Supermarktketten & Basiskörbe in '+esc(ctx.cities[city]?.name??city)+'</h2>'
    +'<p>Zehn einheitliche Produktgruppen, ganze Packungen und €/kg bzw. CHF/kg bei Gewichtsware. '

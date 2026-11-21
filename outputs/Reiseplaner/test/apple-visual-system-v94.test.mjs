@@ -57,3 +57,15 @@ test('V94 dark fixes address actual light-only component overrides',()=>{
  }
  assert.match(css,/min-height:44px !important/);
 });
+
+test('V94 combined food view leads with search and keeps detailed market evidence reachable',()=>{
+ const start=views.indexOf("const visualBrowse=browseHero(ctx,'food'");
+ const end=views.indexOf('  return visualBrowse',start);
+ const section=views.slice(start,end);
+ assert.ok(start>=0&&end>start);
+ assert.ok(section.indexOf('browseToolbar(ctx')<section.indexOf('foodBrowseCards(ctx'));
+ assert.ok(section.includes("marketFirst?'':marketPrices"));
+ assert.ok(section.includes('#market-price-research'));
+ assert.match(css,/\.hub-market-jump a/);
+ assert.match(css,/:root\[data-theme=dark\] \.mobile-dock/);
+});

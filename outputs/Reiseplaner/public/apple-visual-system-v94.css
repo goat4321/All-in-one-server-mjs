@@ -458,3 +458,59 @@ dialog[open]::backdrop{animation:ux-backdrop-in 175ms ease-out both !important}
   .map-scope-modes button:not([aria-pressed=true]){
   color:#d5e7d9 !important;
 }
+
+/* V94 progressive information hierarchy: show browse/search before historical
+   market research in the combined food view. Keep the original research below
+   results, jump-reachable. In 'markets' mode show it immediately after filters. */
+.reference-travel-shell .hub-market-jump{
+  margin:10px 0 14px;
+}
+.reference-travel-shell .hub-market-jump a{
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:40px;padding:7px 12px;border-radius:11px;
+  border:1px solid var(--v94-stroke);
+  background:var(--v94-surface-soft);
+  color:var(--v94-action);
+  font-weight:650;font-size:.82rem;text-decoration:none;
+}
+.reference-travel-shell .hub-market-jump a:hover{
+  border-color:var(--v94-stroke-active);
+}
+:root[data-theme=dark] .reference-travel-shell .hub-market-jump a{
+  background:#283f31;color:#c9eed6;border-color:#476451;
+}
+/* Dark browse filters are secondary controls, not white focal islands. */
+:root[data-theme=dark] .reference-travel-shell
+  .hub-quick-filters .chip-button{
+  background:#293a2f !important;color:#dcefe0 !important;
+  border-color:#476151 !important;
+}
+:root[data-theme=dark] .reference-travel-shell
+  .hub-quick-filters .chip-button[aria-pressed=true]{
+  background:#266a45 !important;color:#fff !important;
+  border-color:#266a45 !important;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-sort-controls select{
+  background:#293a2f !important;color:#edf6ee !important;
+  border-color:#476151 !important;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-sort-controls label{
+  color:#cee2d3 !important;
+}
+/* Mobile navigation sometimes mounts outside the page shell. Style the actual
+   fixed dock itself, not a parent-dependent descendant selector. */
+:root[data-theme=dark] .mobile-dock{
+  background:rgba(27,39,31,.97) !important;
+  color:#edf6ee !important;
+  border-color:#405849 !important;
+}
+:root[data-theme=dark] .mobile-dock button{
+  color:#d9ebdd !important;
+}
+:root[data-theme=dark] .mobile-dock button[aria-current=page]{
+  color:#e8fff0 !important;
+  background:#2d523b !important;
+}
+@media(max-width:650px){
+  .reference-travel-shell .hub-market-jump a{max-width:100%;min-height:44px;}
+}

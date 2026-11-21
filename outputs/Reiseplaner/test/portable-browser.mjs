@@ -1293,6 +1293,7 @@ try {
   await until(async()=>store.current('interrail_swiss').state.marketQuotes[marketKey]===undefined,
     'Manuelle Marktpreisreferenz wurde rücknehmbar gespeichert');
   assert.equal(store.current('swiss_lakes').state.marketQuotes?.[marketKey],undefined);
+  await js('document.querySelector(".market-baskets-v86")?.scrollIntoView({block:"start",behavior:"instant"})');
   await screenshot('91-v86-barcelona-chain-baskets.png');
   for(const [slot,recipe] of [['breakfast','barcelona-oats'],['lunch','barcelona-salad'],['dinner','pasta']]){
     await click('.meal-slot-tabs [data-action=meal-slot][data-value='+slot+']');

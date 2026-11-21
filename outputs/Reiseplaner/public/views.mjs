@@ -389,7 +389,10 @@ function mapPanel(ctx, full = false) {
     <p>${ctx.total?'Reiseorte und vorhandene Kartenpunkte · schematische Bahnverbindungen'
       :ctx.explorer?.scope==='day'
         ?(ctx.day.length?ctx.day.length+' geplante Stopps':(ctx.dayPlan?.slots.length??0)+' Tagesideen')+' · '+esc(shortDay(ctx.date))
-        :(ctx.explorer?.placed?.length??0)+' Kartenpunkte · '+(ctx.explorer?.unlocated?.length??0)+' Ortsangaben ohne Pin'}</p></div>
+        :ctx.explorer
+          ?(ctx.explorer?.placed?.length??0)+' Kartenpunkte · '
+            +(ctx.explorer?.unlocated?.length??0)+' Ortsangaben ohne Pin'
+          :'Kartenpunkte und Quellen in der Kartenansicht erkunden'}</p></div>
     <div class="inline">${ctx.page==='map'?'<button type="button" class="route-story-launch" data-action="route-story-play" title="Deine Reise als animierte Städtefolge ansehen">'+icon('play')+' <span>Route abspielen</span></button>':''}${ctx.page==='map'?'<button type="button" class="map-fullscreen-launch" data-action="map-fullscreen" aria-pressed="'+Boolean(ctx.mapFullscreen)+'">'
       +icon('map')+' <span>Vollbildkarte</span></button>':''}${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div>${ctx.page==='map'?'<div class="map-local-actions">'+btn('map-pin-new','Eigener Pin','plus','','subtle')+btn('map-fullscreen','Vollbild','map','','subtle')+(ctx.dayRoute?.items.length?btn('day-route-open','Route ('+ctx.dayRoute.items.length+'/8)','walk','','subtle'):'')+'</div>':''}</div>
     ${ctx.mapPinPicking?'<p class="map-pin-picking" role="status">Punkt auf der Karte wählen. Name und Notiz bleiben erhalten. '+btn('map-pin-cancel','Zur Koordinateneingabe','edit')+'</p>':''}
@@ -954,10 +957,14 @@ function food(ctx) {
           ?btn('browse-supermarkets','Auf der Karte zeigen','map','','subtle')
           :btn('browse-market-load','Supermärkte in '+(ctx.cities[city]?.name??city)+' laden','plus','','primary'))
       +'</section>':'';
+  const marketPrices=marketBasketPanel(ctx);
+  const marketFirst=selectedType==='markets';
   const visualBrowse=browseHero(ctx,'food',shown.length)
-    +marketBasketPanel(ctx)
     +browseToolbar(ctx,{kind:'food',total,filtered:shown.length})
     +foodTypeTabs(ctx,available)+marketCTA
+    +(marketFirst?marketPrices
+      :'<p class="hub-market-jump"><a href="#market-price-research">'
+        +icon('wallet')+' Supermarktpreise und Basiskörbe ansehen</a></p>')
     +(ctx.browseFoodSavedOnly?'<p class="hub-saved-notice">'
       +icon('bookmark')+' Nur selbst gemerkte Orte · '
       +btn('browse-food-saved','Alle anzeigen','close')+'</p>':'')
@@ -965,7 +972,8 @@ function food(ctx) {
     +(shown.length>(ctx.browseLimit??24)
        ?'<div class="hub-more-button">'
          +btn('browse-more','Weitere '+Math.min(24,shown.length-(ctx.browseLimit??24))
-           +' Orte anzeigen','plus','','primary')+'</div>':'');
+           +' Orte anzeigen','plus','','primary')+'</div>':'')
+    +(marketFirst?'':marketPrices);
   return visualBrowse + '<details class="hub-food-planning"'
     +(ctx.browseMealsOpen?' open':'')+'><summary>'
     +icon('calendar')+' Tagesmenüs, Einkaufswarenkorb & detaillierte Preisrecherche'
