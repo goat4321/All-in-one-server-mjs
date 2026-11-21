@@ -233,7 +233,8 @@ try{
  }
  await until(()=>js('document.querySelectorAll(".hub-compare-summary").length===1'),
    'Comparison remains available above progressive listing');
- assert.ok(await js('document.querySelector(".hub-compare-summary")?.textContent.includes("Vergleich")'));
+ await until(()=>js('document.querySelectorAll(".stay-compare-card").length===2'),
+   'Both chosen accommodation cards are represented in the independent comparison');
  await js('document.querySelector(".stay-swiss-research > summary")?.click()');
  await until(()=>js('document.querySelector(".stay-swiss-research")?.dataset.contentLoaded==="true"'),
    'Swiss 2027 historical research loads only when expanded');
