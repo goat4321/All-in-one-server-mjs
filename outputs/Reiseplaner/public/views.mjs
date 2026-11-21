@@ -708,7 +708,7 @@ function overview(ctx) {
     + swissInterrailOverviewV82(ctx)
     + swissLodgingSummaryV83(ctx)
     + dayPlanOverview(ctx)
-    + '<section class="cockpit-progress"' aria-label="Vorbereitung nachprüfen">'
+    + '<section class="cockpit-progress" aria-label="Vorbereitung nachprüfen">'
     +'<div class="cockpit-section-head"><div><strong>Was ist schon vorbereitet?</strong>'
     +'<small>Nur in deinem Plan dokumentiert, nicht extern bestätigt</small></div>'
     +btn('page','Details & Fristen','arrow','data')+'</div>'
