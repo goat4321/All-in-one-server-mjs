@@ -98,15 +98,17 @@ try {
     '14 day outlines are accessible for the current two-week variant');
   assert.ok(await js('Array.from(document.querySelectorAll("link")).some(l=>l.getAttribute("href")==="/motion-polish.css")'),
     'Shared motion stylesheet is loaded');
-  await until(()=>js('Boolean(document.querySelector(".overview-quick-card.motion-revealed"))'),
-    'Viewport cards receive a one-shot entrance animation');
+  assert.ok(await js('Array.from(document.querySelectorAll("link")).some(l=>l.getAttribute("href")==="/calm-design-v91.css")'),
+    'Shared calm stylesheet follows legacy visual layers');
+  assert.equal(await js('document.querySelectorAll(".overview-quick-card.motion-revealed").length'),0,
+    'Overview cards remain stable without staggered entrance animations');
   await js('document.querySelector(".overview-quick-card").dispatchEvent(new PointerEvent("pointerdown",{bubbles:true,button:0,clientX:95,clientY:180,pointerType:"mouse",isPrimary:true}))');
-  assert.ok(await js('Boolean(document.querySelector(".overview-quick-card .motion-ripple"))'),
-    'Primary button gives responsive click feedback');
+  assert.equal(await js('document.querySelectorAll(".motion-ripple").length'),0,
+    'Pointer interactions must not inject transient ripple DOM');
   await js('document.documentElement.dataset.motion="off"');
   await js('document.querySelectorAll(".overview-quick-card")[1].dispatchEvent(new PointerEvent("pointerdown",{bubbles:true,button:0,clientX:95,clientY:180,pointerType:"mouse",isPrimary:true}))');
-  assert.equal(await js('document.querySelectorAll(".overview-quick-card")[1].querySelectorAll(".motion-ripple").length'),0,
-    'Explicit off preference prevents additional ripple animations');
+  assert.equal(await js('document.querySelectorAll(".motion-ripple").length'),0,
+    'Explicit off preference remains calm and side-effect free');
   await js('document.documentElement.dataset.motion="auto"');
   await screenshot('25-einfacher-startbildschirm-1280.png');
   // Dedicated activity directory and human-readable field audit are user-facing
