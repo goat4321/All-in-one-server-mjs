@@ -4,14 +4,9 @@
  * Every enhancement is optional; without JS or IntersectionObserver, all
  * content remains visible and usable.
  */
+// Only page identity enters softly. Cards remain stable when filtered or repainted.
 const REVEAL_TARGETS=[
-  '.overview-quick-card','.destination-card','.cockpit-route-surface',
-  '.cockpit-progress-item','.cockpit-reference','.reference-discovery-card',
-  '.reference-agenda-item','.reference-agenda-suggestion','.explorer-place',
-  '.option-card','.rail-card','.stay-compare-card','.meal-card',
-  '.timeline-event .event-card','.journey-connection','.stat',
-  '.route-studio','.day-route-builder','.source-notice','.reference-map-intro',
-  '.cockpit-welcome'
+  '.cockpit-welcome','.reference-map-intro','.hub-hero','.page-head'
 ].join(',');
 const IMAGE_TARGETS=[
   '.destination-cover img','.reference-discovery-image img',
@@ -56,37 +51,9 @@ export function createMotionController(doc){
     if(host){photo.hidden=true;host.classList.add('photo-load-failed');}
   },true);
   // Interactions must never change or intercept a control's click semantics.
-  doc.addEventListener('pointerdown',event=>{
-    if(!canMove()||event.button!==0||(event.pointerType==='touch'&&event.isPrimary===false))return;
-    const target=event.target?.closest?.('button:not([disabled]),summary,a.button');
-    if(!target||target.closest('[hidden],[inert]')||target.matches('[aria-disabled=true]'))return;
-    const rect=target.getBoundingClientRect();
-    if(rect.width<15||rect.height<15||rect.width>750)return;
-    const diameter=Math.min(330,Math.max(rect.width,rect.height)*1.35);
-    const left=(event.clientX-rect.left-diameter/2).toFixed(1);
-    const top=(event.clientY-rect.top-diameter/2).toFixed(1);
-    const ripple=doc.createElement('span');
-    ripple.className='motion-ripple';
-    ripple.setAttribute('aria-hidden','true');
-    ripple.style.width=diameter+'px';
-    ripple.style.height=diameter+'px';
-    ripple.style.left=left+'px';
-    ripple.style.top=top+'px';
-    target.classList.add('motion-ripple-host');
-    target.appendChild(ripple);
-    ripple.addEventListener('animationend',()=>ripple.remove(),{once:true});
-    view?.setTimeout?.(()=>ripple.remove(),650);
-  },{passive:true});
-  doc.addEventListener('keydown',event=>{
-    if(!canMove()||!['Enter',' '].includes(event.key)||event.repeat)return;
-    const button=event.target?.closest?.('button:not([disabled]),summary');
-    if(!button)return;
-    button.classList.remove('motion-key-pressed');
-    // Forced reflow is only for a single keyboard-activated control.
-    void button.offsetWidth;
-    button.classList.add('motion-key-pressed');
-    view?.setTimeout?.(()=>button.classList.remove('motion-key-pressed'),250);
-  });
+  // V91: rely on native :active and :focus-visible feedback. Injecting a ripple
+  // into every button/summary caused extra DOM work and visually noisy presses.
+  // Keyboard focus never depends on forced synchronous layout or animation.
   const reveal=(container,ctx)=>{
     if(observer){observer.disconnect();observer=null;}
     if(!canMove())return;
@@ -94,7 +61,7 @@ export function createMotionController(doc){
     if(scene===lastScene)return;
     lastScene=scene;
     if(typeof view?.IntersectionObserver!=='function')return;
-    const nodes=Array.from(container.querySelectorAll(REVEAL_TARGETS)).slice(0,96);
+    const nodes=Array.from(container.querySelectorAll(REVEAL_TARGETS)).slice(0,12);
     observer=new view.IntersectionObserver(entries=>{
       for(const entry of entries)if(entry.isIntersecting){
         entry.target.classList.add('motion-revealed');
