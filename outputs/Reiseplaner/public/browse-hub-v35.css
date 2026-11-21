@@ -509,3 +509,12 @@
  .hub-search-form>[data-action="browse-search-apply"]{grid-column:3;white-space:nowrap;min-width:72px}
  .hub-search-form>[data-action="browse-search-reset"]{grid-column:1/-1;justify-self:start}
 }
+
+/* V90 visually hidden search label: retain an accessible <label> name without
+   visually colliding with the input placeholder on 390px and wide layouts. */
+.hub-search-form .sr-only{
+ position:absolute!important;width:1px!important;height:1px!important;
+ padding:0!important;margin:-1px!important;overflow:hidden!important;
+ clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;
+ white-space:nowrap!important;border:0!important;
+}
