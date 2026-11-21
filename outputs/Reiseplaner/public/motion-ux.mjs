@@ -97,10 +97,11 @@ export function createMotionController(doc){
       .find(node=>node.dataset.placeId===id);
     for(const node of [card,container.querySelector('.reference-agenda-select[aria-pressed=true]')]){
       if(!node)continue;
-      node.classList.remove('motion-spotlight');
-      void node.offsetWidth;
+      // Selection is already communicated by aria-pressed and border color.
+      // Do not force a synchronous reflow just to replay a highlight.
+      if(node.classList.contains('motion-spotlight'))continue;
       node.classList.add('motion-spotlight');
-      view?.setTimeout?.(()=>node.classList.remove('motion-spotlight'),580);
+      view?.setTimeout?.(()=>node.classList.remove('motion-spotlight'),240);
     }
   };
   return {reveal,images,animateSaved,spotlight,enabled:canMove};
