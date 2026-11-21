@@ -1,3 +1,11 @@
+## 21.11.2026 – V91-Nachabnahme: Smoothness und Dark-Mode-Kontrast bestätigt
+
+**GitHub-Stand:** Letzter Code-Commit `9405062e748c`, CI [#44911502188](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44911502188) **success**, **527/527 portable Tests**, echter Chrome-/API-/HTTP-Gesamttest, 63 Desktop-/Tablet-/Mobile- sowie Light-/Dark-/Reduced-Motion-Messpunkte; **0 horizontale Überläufe, 0 JavaScript-Ausnahmen**. Weitere reine Dokumentationscommits ändern die getestete UI nicht.
+
+**Design-Fixes:** Alte scoped `--paper:#fffefa`-Werte wurden als Ursache der hellen Suchflächen im Dark Mode mittels berechneter CSS-Regeln nachgewiesen. Der finale Kopfzeilenstil verwendet explizit dunkles Material und helle Beschriftungen; der Chrome-Test misst erst nach dem tatsächlichen Übergang. Karten-Hover verändert keine animierten Schatten mehr, stattdessen nur Kontur; OS-Einstellung `prefers-reduced-transparency` schaltet den Blur der Navigationsleisten ab. Echte Light-Mode-CI-Screenshots 1440/390 der Übersicht sowie 390 der Karte und Entdeckungsseite wurden geöffnet und visuell geprüft. Details in [V91_CALM_APPLE_INSPIRED_DESIGN_AND_HANDOFF.md](V91_CALM_APPLE_INSPIRED_DESIGN_AND_HANDOFF.md).
+
+**Grenzen:** Keine privaten originalen Apple-Design-Referenzen/Windows-Dateien, keine realen Geräte-/Screenreader- und Web-Vitals-Werte; keine Daten-, Quellen-, Preis-, Buchungs- oder main/Deployment-Änderungen.
+
 ## 21.11.2026 – V91: ruhigeres Apple-HIG-inspiriertes Grunddesign
 
 **Ausgangsstand:** `dde20b390c86` (V90-CI erfolgreich), PR #5. Öffentliches Apple-Design-GitHub-Skill plus Apples HIG-Motion-/Accessibility-Grundsätze gelesen; das möglicherweise andere private Referenz-Skill bleibt nicht überprüfbar. Plan und exakte Änderungen: [V91_CALM_APPLE_INSPIRED_DESIGN_AND_HANDOFF.md](V91_CALM_APPLE_INSPIRED_DESIGN_AND_HANDOFF.md).
