@@ -506,8 +506,11 @@ try {
     'rgb(33, 59, 45)',
     'Dark-mode inherited text remains legibly dark on the pale map hero');
   assert.equal(await js('getComputedStyle(document.querySelector(".reference-discovery-title strong")).color'),
-    'rgb(34, 55, 44)',
-    'Source photo cards have strong text contrast even under dark global theme');
+    'rgb(237, 246, 238)',
+    'V94 dark photo cards use light text on a dark surface, not legacy dark ink');
+  assert.equal(await js('getComputedStyle(document.querySelector(".reference-discovery-card")).backgroundColor'),
+    'rgb(32, 47, 38)',
+    'V94 dark photo card surface is actually dark behind the light title');
   await js('document.documentElement.dataset.theme="light"');
   await js('document.querySelector(".reference-map-intro").scrollIntoView({block:"start",behavior:"instant"})');
   await screenshot('50-lesbare-kartenkopfzeile-und-bildkarten-1280.png');
