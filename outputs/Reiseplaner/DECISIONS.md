@@ -1,3 +1,12 @@
+## 21.11.2026 – V89: Kleine DOM-Karte statt früh gerenderter XXL-Liste
+
+- **Belegter Engpass:** V88-Chrome-Laboraudit zählte in der einfachen 390px-Karte 6.225 DOM-Knoten, 883 Controls und 66 verzögert geladene Bilder. Ein hoher DOM-Wert trotz sichtbarer kompakter Karte entstand durch das sofortige Mounten von 60 umfangreichen Ortslistenkarten.
+- **Geringstmöglicher Eingriff:** `app.mjs` berechnet im einfachen Kartenmodus zunächst ein Listlimit von 12; ausdrücklich angeforderte nächste Seiten zeigen 24/48/72... statt immer mehr ungebetene Karten. `explorer-ui.mjs` nennt die nächste Anzahl korrekt. Der erweiterte Explorer behält die historischen 60er-Schritte; alle georeferenzierten Plätze, nicht verorteten Orte und Marker liegen unverändert in `explorerData`.
+- **Marker außerhalb der Liste:** `explorer-list-focus` verwendet das **effektive** sichtbare Limit und hebt das Listlimit bedarfsweise an. Auswahl, Favoriten, Mehrstopprouten, Touren, einzelne Preis-/Budgetwerte und Varianten-Isolation werden nicht geändert.
+- **Gemessener Unterschied:** 6.225→2.478 DOM-Knoten (−60,2 %), 883→307 Controls (−65,2 %) in denselben synthetischen 390px-Seed-Ansichten. CI #44878789711 bestanden, 520 portable Modelltests, vollständige Browser-/HTTP-/Karten-/Unterkunftsprüfung. Keine Behauptung von echten User-Web-Vitals; die maximale Laborklickzeit des gesamten 7-Seiten-Sweeps kann leicht schwanken.
+- **Abnahme bleibt streng:** 61 Punkte mit 18 funktional erledigten, 41 teilweise und 2 mangels originaler Referenzen nicht verifizierbaren Positionen. Windows-Lokalstand und private Tripsy-/SQLite-Originaldaten unzugänglich; kein blindes Pull/Reset. V89-Übergabe führt konkrete Windows-Befehle und nächste 3 Schritte.
+- **Keine Externaktionen:** kein GitHub-Merge, keine Veröffentlichung, keine Buchung oder Zahlung.
+
 ## 20.11.2026 – V88: reproduzierbare Messung, Textlesbarkeit und strengere Abnahme
 
 - Der Nutzer verlangt Messungen vor Optimierungsbehauptungen. Deshalb wurde zuerst ein 63-Punkte-Headless-Chrome-Baseline-Audit auf dem aktuellen Remote-Seed mit reproduzierbarer Bildschirm-/Theme-/Motion-Matrix aufgenommen; aus einer 2.417-Byte-HTML-Antwort folgt **keine** Gesamttransfer- oder Feld-Performancebehauptung. Maximal 102,2 ms ist eine **synthetische** Seitenschaltprobe, kein INP-Wert.
