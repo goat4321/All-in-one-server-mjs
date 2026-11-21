@@ -366,7 +366,7 @@ try{
    r.v94HeroTitleColor==='rgb(237, 246, 238)'),
    'Dark photo heroes must keep clearly legible light headings');
  assert.ok(rows.filter(r=>r.theme==='dark'&&r.page==='overview').every(r=>
-   r.v94OverviewStartBg==='rgb(32, 47, 38)'),
+   r.v94OverviewStartBg==='rgb(28, 29, 32)'),
    'Dark overview quick navigation must not remain stark white');
  assert.ok(rows.every(row=>row.v94PrimaryTouch===null||row.v94PrimaryTouch>=42),
    'V94 primary buttons remain usable rather than tiny');
