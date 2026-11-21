@@ -1,3 +1,9 @@
+## 21.11.2026 – V91-Nachkorrektur: funktionales Material, keine Schattenanimation
+
+- **Beobachtete Ursache statt kosmetischem Override:** In 63 Chrome-Proben verwendete die Suchleiste trotz dunklem Root-Theme den geerbten, lokal überschriebenen Wert `--paper:#fffefa`; eine spezifischere `background:var(--paper)!important`-Regel gewann sogar gegen neue dunkle CSS-Regeln. Die tatsächlichen berechneten CSS-Regeln wurden aus Chrome protokolliert. Die spezifische Dark-Header-Regel hat nun ein festes Material `#202e25` und lesbare helle Beschriftung. Tests prüfen erst nach der 190-ms-Farbtransition.
+- **Motion-/Performance-Entscheidung:** Karten bewegen sich bei Hover nicht; `box-shadow` bleibt statisch und wird nicht animiert. Eine dezente Kontur ersetzt repaint-intensive Elevation-Animation. Die Funktionsnavigation hat bei `prefers-reduced-transparency:reduce` deckende Flächen ohne Backdrop-Blur.
+- **Beleg:** Finaler Code-Commit `9405062e748c`, [CI #44911502188](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44911502188) erfolgreich: 527/527 portable Tests, 63 390/768/1440-Light/Dark/Reduced-Motion-Proben, kein horizontaler Überlauf, keine JS-Ausnahmen; Chrome-Funktionen und HTTP-Smoke bestanden. Keine reale iOS-/Android-, WCAG-Komplett- oder Performance-Abnahme, kein Merge/Deployment.
+
 ## 21.11.2026 – V91: Apple-Prinzipien ohne übertriebene Effekte
 
 - **Problem:** Historische CSS-Schichten erzeugten unterschiedlich starke Schatten, helle grüne Flächen, 3px-Hover-Sprünge, 6,5%-Fotokartenzoom, Ripples und bis zu 96 potenzielle Scroll-Reveals. Das entspricht nicht dem Wunsch nach einer ruhigen, flüssigen Reiseanwendung.
