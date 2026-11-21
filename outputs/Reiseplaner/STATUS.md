@@ -1,3 +1,13 @@
+## 21.11.2026 – V89: Prompt 14 + 15, sichere Remote-Integration und messbar schlankere Karte
+
+Remote-Ausgangs-HEAD `f180a7e6`, CI #44826438566 vollständig erfolgreich. Originale Windows-Dateien und `outputs/Abnahme-V2/` nicht zugänglich, daher keine Behauptung lokaler vollständiger Synchronisierung. Tatsächlich vorhandene und gegen vorhandene Tests verifizierte Checkliste ist `outputs/Reiseplaner/CHECKLIST_V2.md` (61 Punkte, weiterhin **18 erledigt im nachgewiesenen Umfang, 41 teilweise, 2 nicht verifizierbar**).
+
+**Autonome größte sichere Verbesserung:** Gemessene einfache Kartenansicht mit 60 sofort gerenderten Ortskarten und 6.225 DOM-Knoten/883 Controls auf 390px wurde auf initial 12 Karten und nutzerinitiiertes 12→24→48-Nachladen umgestellt. `app.mjs` und `explorer-ui.mjs` ändern **nur** die HTML-Listendarstellung, nicht verfügbare POIs, die gesamte Karte, Varianten, Routen, Vorräte oder Budget. Markerauswahl außerhalb der ersten 12 löst nach Bedarf gezieltes Nachrendern aus; der volle Explorer behält seine 60er-Schritte.
+
+**Messbarer Nachher-Stand:** Chrome-CI #44878789711 bestand: 520/520 portable Modelltests und sämtliche Browser-/Smoke-/Speicher-/Karten-/Unterkunftsprüfungen. Auf 390px sinkt die Kartenansicht auf 2.478 DOM-Knoten (−60,2 %) und 307 Controls (−65,2 %); 18 statt 66 Bilder im initialen DOM. 0 horizontaler Überlauf, 0 neue Laufzeitausnahmen. Messung nur synthetisch, kein belegter echter LCP/INP-/Netzwerk-Gewinn. Erweiterte Browserprüfung des Karten-Marker-Sprungs danach ergänzt; ihr Ergebnis separat auf GitHub kontrollieren.
+
+**Übergabe:** [V89_INTEGRATION_AND_NEXT_HANDOFF.md](V89_INTEGRATION_AND_NEXT_HANDOFF.md) mit originalen Windows-Befehlen, Git-Divergenzschutz, Nachweispfaden, genau drei priorisierten Restarbeiten, allen 61 Kategorien und V88/V89-Messgrenzen. Unveränderte vier Reisen, 14 Schweizer Reisetage, 3-Personen-Einkaufsdaten, 2027-Preis-/Quellen-Ungewissheit. Kein Merge nach main, keine Reservierung, Zahlung oder Deployment.
+
 ## 20.11.2026 – V88: 61-Punkte-Remote-Abnahme, quellgebundene Schweizer Bilder und echter UX-Laboraudit
 
 Ausgang war der nach den V86/V87-Änderungen erfolgreiche PR-HEAD `a1e6b1f`; dieser Durchgang arbeitet weiter auf `feature/v7-data-day-accommodation-rail`. Die ältere Nutzerangabe von 502 Tests und den Commits `13c0f9a`/`ab26f9b` ist keine aktuelle Remote-Basis. `outputs/Abnahme-V2/` ist in GitHub nicht verfügbar; die 61 Einzelpunkte stehen tatsächlich in `outputs/Reiseplaner/CHECKLIST_V2.md`. Der lokale neueste Windows-Code und private Tripsy-Dateien blieben unzugänglich.
