@@ -1,3 +1,9 @@
+## 21.11.2026 – V92: Quellennachweise bedienbar statt visuell lauter
+
+- **Entscheidung:** Bei 390px waren sechs Bildnachweise der Startseite und je ein Bildnachweis im Unterkunfts-/Entdecken-/Essenshero als zu kleine Links messbar. Nur bestehende Quellen-Anker (`a.destination-credit`, `a.hub-hero-photo-credit`) erhalten mobil eine min. 32px hohe Trefferfläche, zusätzlichen Innenabstand und fokussichtbaren Umriss. Keine generische Vergrößerung aller Links, die lange Tabellen, Pläne oder Karten verdrängen würde.
+- **Evidenz:** Vorher-V91 CI #44912077919 mit 527/527 Tests; nachher [CI #44921640348](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44921640348) erfolgreich: 528/528 Tests, Startseite 6 → 0 und Unterkunft 1 → 0 zu kleine Bedienelemente (390px), 0 horizontaler Überlauf. CSS greift ausschließlich bei maximal 650px; Links und Daten bleiben unberührt.
+- **Restgrenze:** 32px sind eine gezielte Verbesserung, nicht die allgemeine 44px-Idealgröße; andere enge Sekundärlinks/Details bleiben. Browsermessungen sind synthetisch, kein iPhone-/Screenreader-Nachweis.
+
 ## 21.11.2026 – V91-Nachkorrektur: funktionales Material, keine Schattenanimation
 
 - **Beobachtete Ursache statt kosmetischem Override:** In 63 Chrome-Proben verwendete die Suchleiste trotz dunklem Root-Theme den geerbten, lokal überschriebenen Wert `--paper:#fffefa`; eine spezifischere `background:var(--paper)!important`-Regel gewann sogar gegen neue dunkle CSS-Regeln. Die tatsächlichen berechneten CSS-Regeln wurden aus Chrome protokolliert. Die spezifische Dark-Header-Regel hat nun ein festes Material `#202e25` und lesbare helle Beschriftung. Tests prüfen erst nach der 190-ms-Farbtransition.
