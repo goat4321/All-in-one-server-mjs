@@ -171,7 +171,10 @@ dialog :is(button,input,textarea,select,a,summary):focus-visible{
     .explorer-place,.day-route-stops>li,.route-studio-stop
   ):hover{
     transform:none !important;
-    box-shadow:0 4px 19px rgba(26,57,39,.085);
+    /* A static shadow avoids repaint-heavy animated elevation.
+       The subtle border tint communicates hover without a jump. */
+    box-shadow:var(--calm-shadow);
+    border-color:color-mix(in srgb,var(--green) 18%,var(--line));
   }
   .reference-travel-shell :is(
     .reference-main-nav button,.nav-btn,.city-btn,.explorer-chip,
@@ -194,7 +197,7 @@ dialog :is(button,input,textarea,select,a,summary):focus-visible{
 .reference-travel-shell :is(.overview-quick-card,.destination-card,
   .reference-discovery-card,.option-card,.hub-option-card,.hub-food-card,
   .stay-compare-card,.reference-agenda-select,.explorer-place){
-  transition-property:border-color,background-color,box-shadow,opacity !important;
+  transition-property:border-color,background-color,opacity !important;
   transition-duration:220ms !important;
   transition-timing-function:ease !important;
 }
@@ -397,4 +400,20 @@ dialog[open]::backdrop{animation:ux-backdrop-in 200ms ease-out both !important}
   transition-duration:0s !important;
   background:#202e25 !important;
   background-color:#202e25 !important;
+}
+
+
+/* Respect the OS request for solid navigation chrome; never put opaque glass
+ * on photos or content cards. Keep hover and keyboard feedback available. */
+@media(prefers-reduced-transparency:reduce){
+  .reference-travel-shell>.main-column>.reference-topbar,
+  .reference-travel-shell .mobile-dock{
+    background:#fdfefc !important;
+    -webkit-backdrop-filter:none !important;
+    backdrop-filter:none !important;
+  }
+  :root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar,
+  :root[data-theme=dark] .reference-travel-shell .mobile-dock{
+    background:#1a251e !important;
+  }
 }
