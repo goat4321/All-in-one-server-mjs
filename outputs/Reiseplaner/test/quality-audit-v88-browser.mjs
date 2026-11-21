@@ -355,6 +355,15 @@ try{
    'Dark header actions must match the dark material rather than white buttons');
  assert.ok(rows.every(row=>row.horizontalOverflow<=1),
    'Design changes must not introduce horizontal overflow at 390/768/1440');
+ // V92: the six first-screen destination photo credits and lodging/food hero
+ // source links must not remain sub-24px tap targets on 390px phones.
+ const mobileCreditPages=rows.filter(row=>row.width===390&&row.theme==='light'&&!row.reduce);
+ const overviewCredits=mobileCreditPages.find(row=>row.page==='overview');
+ const lodgingCredits=mobileCreditPages.find(row=>row.page==='lodging');
+ assert.ok(overviewCredits?.smallTargetCount<=1,
+   'Destination source credits should have usable phone-sized touch areas');
+ assert.ok(lodgingCredits?.smallTargetCount===0,
+   'The lodging photo source link should not be a tiny touch target');
  assert.ok(rows.filter(r=>['lodging','discover','food'].includes(r.page))
    .every(r=>r.searchLabelVisuallyHidden===true),
    'All browse search fields retain an accessible label without visible placeholder overlap');
