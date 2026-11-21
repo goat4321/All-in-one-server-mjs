@@ -183,6 +183,19 @@ try{
   assert.ok(second<=24,'First expansion reveals at most 24 cards');
   assert.equal(await js('Number((document.querySelector(".explorer-list")?.textContent??"").match(/(\\d+) passende Einträge/)?.[1]??0)'),totalBefore,
     'Expanding the list does not change total results or variant');
+  // A user selecting a marker beyond the first dozen must be able to jump
+  // back into the list without changing map scope, route or saved data.
+  const targetId=await js('document.querySelectorAll(".explorer-place")['+(second-1)+']?.dataset.placeId');
+  await js('document.querySelector(".explorer-categories [data-action=explorer-group][data-value=all]")?.click()');
+  await until(()=>js('document.querySelectorAll(".explorer-place").length<=12'),
+    'Calm list resets to first page');
+  if(targetId){
+   await js('(()=>{const b=document.createElement("button");b.dataset.action="explorer-list-focus";'+
+     'b.dataset.value='+JSON.stringify(targetId)+';document.querySelector("#app").append(b);'+
+     'b.click();b.remove()})()');
+   await until(()=>js('Boolean(document.querySelector(".explorer-place[data-place-id='+JSON.stringify(targetId)+']"))'),
+     'Selected marker past the first page is reachable in explorer list');
+  }
  }
  const result={environment:'headless Chrome, isolated seeded SQLite and offlineMap, 14-day interrail_swiss',
   measuredAt:new Date().toISOString(),htmlBytes,variants:store.list().length,
