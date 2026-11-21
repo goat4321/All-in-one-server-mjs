@@ -109,6 +109,9 @@ try{
    return {
     dom:document.getElementsByTagName('*').length,controls:controls.length,
     mapRenderedCards:document.querySelectorAll('.explorer-place').length,
+    lodgingRenderedCards:document.querySelectorAll('.hub-option-card[data-kind="lodging"]').length,
+    lodgingSwissResearchLoaded:document.querySelector('.stay-swiss-research')?.dataset.contentLoaded??null,
+    lodgingSourceResearchLoaded:document.querySelector('.hub-technical-details')?.dataset.contentLoaded??null,
     unlabeled:unlabeled.map(el=>el.outerHTML.slice(0,130)).slice(0,8),
     unnamed:unnamed.map(el=>el.outerHTML.slice(0,130)).slice(0,8),
     smallTargetCount:small.length,smallTargets:small.map(el=>({
@@ -197,6 +200,53 @@ try{
      'Selected marker past the first page is reachable in explorer list');
   }
  }
+ // V90: inspect actual real-browser accommodation controls, not merely the
+ // data/model state. All cards, filters, 2–4 compares and disclosures remain
+ // reachable despite an initial 8-card rendering budget.
+ await clickPage('lodging');
+ const originalExpenses=JSON.stringify(store.current('interrail_swiss').state.expenses);
+ const stayStart=await js('document.querySelectorAll(".hub-option-card[data-kind=lodging]").length');
+ assert.ok(stayStart>0&&stayStart<=8,'Stay page initially mounts no more than eight cards');
+ assert.equal(await js('document.querySelector(".stay-swiss-research")?.dataset.contentLoaded'),'false');
+ assert.equal(await js('document.querySelector(".hub-technical-details")?.dataset.contentLoaded'),'false');
+ assert.ok(await js('Boolean(document.querySelector(".hub-results-title"))'));
+ const stayMore=await js('Boolean(document.querySelector(".hub-more-button [data-action=browse-more]"))');
+ if(stayMore){
+   const beforeMore=stayStart;
+   await js('document.querySelector(".hub-more-button [data-action=browse-more]").click()');
+   await until(()=>js('document.querySelectorAll(".hub-option-card[data-kind=lodging]").length>'+beforeMore),
+     'Next eight stays available without changing selected variant');
+   assert.ok(await js('document.querySelectorAll(".hub-option-card[data-kind=lodging]").length<=16'));
+ }
+ const selected=await js('[...document.querySelectorAll(".hub-option-card[data-kind=lodging] [data-action=compare]")].slice(0,2).map(b=>b.dataset.value)');
+ assert.equal(selected.length,2,'At least two stays available for comparison');
+ for(const id of selected){
+   await js('(()=>{const b=[...document.querySelectorAll("[data-action=compare]")].find(x=>x.dataset.value==='+JSON.stringify(id)+');b?.click()})()');
+ }
+ await until(()=>js('document.querySelectorAll(".hub-compare-summary").length===1'),
+   'Comparison remains available above progressive listing');
+ assert.ok(await js('document.querySelector(".hub-compare-summary")?.textContent.includes("Vergleich")'));
+ await js('document.querySelector(".stay-swiss-research > summary")?.click()');
+ await until(()=>js('document.querySelector(".stay-swiss-research")?.dataset.contentLoaded==="true"'),
+   'Swiss 2027 historical research loads only when expanded');
+ assert.ok(await js('document.querySelector(".stay-swiss-research")?.open'));
+ await js('document.querySelector(".hub-technical-details > summary")?.click()');
+ await until(()=>js('document.querySelector(".hub-technical-details")?.dataset.contentLoaded==="true"'),
+   'Source and group comparison loads only after explicitly opened');
+ assert.ok(await js('document.querySelector(".hub-technical-details")?.open'));
+ assert.equal(JSON.stringify(store.current('interrail_swiss').state.expenses),originalExpenses,
+   'Disclosure and compare must never create a budget entry');
+ const lodgingProbe={startCards:stayStart,
+   afterExpansion:await js('document.querySelectorAll(".hub-option-card[data-kind=lodging]").length'),
+   comparisonSelected:selected,
+   swissOpened:await js('document.querySelector(".stay-swiss-research")?.dataset.contentLoaded'),
+   sourceOpened:await js('document.querySelector(".hub-technical-details")?.dataset.contentLoaded')};
+ if(output){
+   await js('document.querySelector(".hub-compare-summary")?.scrollIntoView({block:"start",behavior:"instant"})');
+   const image=await cdp('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
+   await writeFile(join(output,'v90-lodging-compare-390.png'),Buffer.from(image.data,'base64'));
+ }
+ console.log('V90_LODGING_INTERACTION '+JSON.stringify(lodgingProbe));
  const result={environment:'headless Chrome, isolated seeded SQLite and offlineMap, 14-day interrail_swiss',
   measuredAt:new Date().toISOString(),htmlBytes,variants:store.list().length,
   rows,exceptions,focusSequence,filterSample,limits:'Synthetic lab snapshots, not field Core Web Vitals or WCAG certification'};
