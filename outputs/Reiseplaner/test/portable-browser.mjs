@@ -845,7 +845,8 @@ try {
   const scopedHotelSearchCount = catalog.trips.find(trip => trip.id === 'interrail_classic')
     .items.filter(item => item.city === 'barcelona' && item.kind === 'lodging'
       && item.quote && !item.duplicateOf).length;
-  assert.equal(await js('document.querySelectorAll(".hub-option-card").length'), Math.min(24,scopedHotelSearchCount));
+  assert.equal(await js('document.querySelectorAll(".hub-option-card").length'), Math.min(8,scopedHotelSearchCount),
+    'Initiale Unterkunftsoptionen werden in Acht-Schritten angezeigt; Recherchetreffer bleiben vollständig');
   await text('.hub-option-grid', 'Preisorientierung');
   assert.ok(await js('!document.querySelector(".hub-option-card").textContent.includes("gebucht")')
     || await js('document.querySelector(".hub-option-card").textContent.includes("nicht gebucht")'));
