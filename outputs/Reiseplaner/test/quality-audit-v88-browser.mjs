@@ -204,6 +204,14 @@ try{
  // data/model state. All cards, filters, 2–4 compares and disclosures remain
  // reachable despite an initial 8-card rendering budget.
  await clickPage('lodging');
+ // The preceding discovery-filter probe intentionally left "Museum" active.
+ // The app correctly carries search text between pages; clear it through
+ // the actual UI before measuring the unfiltered lodging baseline.
+ if(await js('Boolean(document.querySelector("[data-action=browse-search-reset]"))')){
+   await js('document.querySelector("[data-action=browse-search-reset]").click()');
+   await until(()=>js('document.querySelectorAll(".hub-option-card[data-kind=lodging]").length>0'),
+     'Clearing prior discovery search restores lodging matches');
+ }
  const originalExpenses=JSON.stringify(store.current('interrail_swiss').state.expenses);
  const stayStart=await js('document.querySelectorAll(".hub-option-card[data-kind=lodging]").length');
  assert.ok(stayStart>0&&stayStart<=8,'Stay page initially mounts no more than eight cards');
