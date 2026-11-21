@@ -1,3 +1,15 @@
+## 21.11.2026 – V90: Unterkunfts-Performance und mobile Vergleichsbedienung
+
+Remote-Ausgangs-HEAD `079119ec` mit erfolgreicher V89-CI, private lokale Windows-/Tripsy-/SQLite-Version weiter nicht zugänglich. V90 wurde ausschließlich im vorhandenen Branch `feature/v7-data-day-accommodation-rail` für PR #5 implementiert; **kein Merge/Deployment/Booking/Payment**.
+
+**Tatsächliche Änderungen:** `public/views.mjs` baut pro neu geöffneter Unterkunftsansicht zunächst nur **8 statt 24** Karten und lädt in Achtergruppen nach; 2–4er-Vergleich, Filterergebnis, Sortierung und Orts-/Varianten-IDs bleiben vollständig. Schweizer Unterkunftssuchdaten und zusätzlicher Anbieter-/Tabellenvergleich bleiben vor bewusster Öffnung aus dem DOM; `public/app.mjs` verwaltet getrennte Browse-Limits, Filter-Reset und fokussichere native `toggle`-Nachladung. `public/browse-hub-v35.css` versteckt den Screenreader-Suchlabeltext visuell, ohne ihn aus dem Accessible Name zu entfernen.
+
+**Gemessen:** In identischem 390px-Headless-Chrome-Laborszenario auf `interrail_swiss` mit Seed-Daten: **4.349→1.517 DOM-Elemente (−65,1 %)**, **377→135 Controls (−64,2 %)**, **23→9 Lazy-Bilder (−60,9 %)**, zu kleine Ziele 29→1, weiterhin 0 horizontaler Überlauf und 0 Laufzeitausnahmen. Für 768 und 1440px ebenfalls 1.517 DOM-Elemente und 0 Überlauf. Eine echte LCP-/INP- oder reale Netzwerklatenz-Verbesserung ist damit nicht nachgewiesen.
+
+**Echte Tests:** CI https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44882978787 zum letzten Code-HEAD `62671fc` **success** mit **520/520 portablen Modelltests**, 63 Qualitätsmesspunkten, Chrome-Hauptablauf, 8→16 Unterkünften, 2 Vergleichskarten, nachgeladenen Schweizer Quellen, nachgeladenem detailliertem Vergleich, Vergleich ohne Budgetänderung, vier Varianten, Unterkünfte, Routen, Mehrstopps, Speicherraces und HTTP-Smoke. Echte CI-PNGs 390/768/1440 und offene Vergleichskarte wurden visuell geöffnet; Suche ohne sichtbare Doppelbeschriftung bestätigt. Originale lokale Referenzbilder, Anbieter-Checkouts September 2027 und die private vollständige Windows-Testreihe weiterhin offen.
+
+**Dokumentation:** `V90_LODGING_PERFORMANCE_AND_HANDOFF.md` enthält alle Werte, Dateipfade, Quelle/CI, Abnahmegrenzen, Restprioritäten und exakte Windows-Befehle. `CHECKLIST_V2.md` bleibt streng: 61 Punkte, 18 im genannten Funktionsumfang erledigt, 41 teilweise und 2 nicht verifizierbar; 13 Punkte erhielten neue Belege, keine unbelegten Häkchen.
+
 ## 21.11.2026 – V89: Prompt 14 + 15, sichere Remote-Integration und messbar schlankere Karte
 
 Remote-Ausgangs-HEAD `f180a7e6`, CI #44826438566 vollständig erfolgreich. Originale Windows-Dateien und `outputs/Abnahme-V2/` nicht zugänglich, daher keine Behauptung lokaler vollständiger Synchronisierung. Tatsächlich vorhandene und gegen vorhandene Tests verifizierte Checkliste ist `outputs/Reiseplaner/CHECKLIST_V2.md` (61 Punkte, weiterhin **18 erledigt im nachgewiesenen Umfang, 41 teilweise, 2 nicht verifizierbar**).
