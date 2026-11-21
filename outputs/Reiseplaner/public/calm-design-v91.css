@@ -297,6 +297,44 @@ dialog[open]::backdrop{animation:ux-backdrop-in 200ms ease-out both !important}
   .hub-food-card,.reference-discovery-card,.stay-compare-card){
   border-color:var(--line);
 }
+
+/* Real V91 dark screenshot correction: legacy reference CSS still painted
+ * inactive top navigation and search/action controls as light-mode chrome.
+ * Make the final cascade explicit, including nested svg/label content. */
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .reference-main-nav button:not([aria-current=page]):not([aria-pressed=true]){
+  color:#edf6ee !important;
+  opacity:1 !important;
+}
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .reference-main-nav button:not([aria-current=page]):not([aria-pressed=true]) :is(.ui-icon,span){
+  color:inherit !important;
+  opacity:1 !important;
+}
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .reference-global-search{
+  background:var(--paper) !important;
+  border-color:var(--line) !important;
+  box-shadow:none !important;
+  color:var(--text);
+}
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .reference-global-search input{
+  background:transparent !important;
+  color:var(--text) !important;
+}
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .top-actions :is(.icon-btn,.guide-launch){
+  background:var(--paper) !important;
+  color:var(--text) !important;
+  border-color:var(--line) !important;
+  box-shadow:none !important;
+}
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .top-actions :is(.icon-btn,.guide-launch) .ui-icon{
+  color:inherit !important;
+}
+
 @media(max-width:650px){
   .reference-travel-shell>.main-column>.workspace{
     padding-inline:14px;
