@@ -309,8 +309,11 @@ try{
  const darkNav=rows.find(row=>row.width===390&&row.page==='overview'&&row.theme==='dark')?.calmTopbarBg;
  assert.ok(lightNav&&darkNav&&lightNav!==darkNav,
    'Calm functional navigation needs distinct real light and dark backgrounds');
- assert.ok(rows.filter(row=>row.theme==='dark').every(row=>
-   row.calmInactiveNavColor==='rgb(237, 246, 238)'),
+ const darkNavFailures=rows.filter(row=>row.theme==='dark'&&
+   row.calmInactiveNavColor!=='rgb(237, 246, 238)');
+ if(darkNavFailures.length)console.log('V91_DARK_NAV_DIAGNOSTIC '+JSON.stringify(
+   darkNavFailures.map(row=>({page:row.page,width:row.width,actual:row.calmInactiveNavColor,topbar:row.calmTopbarBg}))));
+ assert.ok(darkNavFailures.length===0,
    'Dark navigation labels must keep light, legible text across seven pages and three widths');
  assert.ok(rows.filter(row=>row.theme==='dark'&&row.width!==390).every(row=>
    row.calmSearchBg==='rgb(32, 46, 37)'),
