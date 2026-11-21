@@ -1033,8 +1033,11 @@ try {
   await save();
   await text('.grocery-section', 'offene Beträge');
   await click('.grocery-section [data-action=grocery-remove][data-value="' + extra.id + '"]');
+  // Saving is async; the 4,00 subtotal already exists elsewhere in this panel
+  // and cannot prove that the delete commit has reached the SQLite store.
+  await until(()=>store.current('interrail_classic').state.shopping.extras.length===0,
+    'Removing the extra shopping item persists before continuing');
   await text('.grocery-section', '4,00');
-  assert.equal(store.current('interrail_classic').state.shopping.extras.length, 0);
   await js('document.querySelector(".grocery-section").scrollIntoView({block:"start"})');
   await screenshot('85-warenkorb-vorraete-desktop.png');
   await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
