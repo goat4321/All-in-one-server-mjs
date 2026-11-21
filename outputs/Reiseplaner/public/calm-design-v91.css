@@ -369,3 +369,20 @@ dialog[open]::backdrop{animation:ux-backdrop-in 200ms ease-out both !important}
 :root[data-motion=off] #toast:not(:empty){
   animation:none !important;
 }
+
+
+/* V91: neutralize older high-specificity light-theme paints on the header
+ * search and icon controls at tablet/desktop widths. */
+:root[data-theme="dark"] .reference-travel-shell .reference-global-search,
+:root[data-theme="dark"] .reference-travel-shell .reference-topbar .reference-global-search{
+  background:#202e25 !important;
+  background-color:#202e25 !important;
+  color:#edf6ee !important;
+  border-color:#3a4b3e !important;
+}
+:root[data-theme="dark"] .reference-travel-shell .top-actions :is(.icon-btn,.guide-launch){
+  background:#202e25 !important;
+  background-color:#202e25 !important;
+  color:#edf6ee !important;
+  border-color:#3a4b3e !important;
+}
