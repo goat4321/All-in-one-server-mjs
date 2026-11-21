@@ -803,14 +803,14 @@ function options(ctx, lodging) {
      +'<span><strong>Detaillierter Preis- und Quellenvergleich</strong>'
      +'<small>Prüfpunkte, Suchwerte, Gruppenvergleich und Originaldaten</small></span></summary>'
     +(!lodging||ctx.browseResearchOpen?(lodging
-      ?'<p class="hub-technical-warning">Alle Unterkunftsangebote sind historische Such- oder Planwerte.
+      ?'<p class="hub-technical-warning">Alle Unterkunftsangebote sind historische Such- oder Planwerte.'
        +' Keines ist automatisch für 2027 gebucht oder als Endpreis bestätigt.</p>'
        +'<div class="hub-risk-chips">'
        +comparisonGaps.map(([label,count])=>status(label+': '+count,'warn')).join('')
        +'</div>'+providerQuotePanel(ctx)
       :''):'')
     +(compared.length&&(!lodging||ctx.browseResearchOpen)
-      ?'<section><h2>Tabellarischer Direktvergleich</h2>
+      ?'<section><h2>Tabellarischer Direktvergleich</h2>'
        +table(['Option','Gruppe','Pro Person',lodging?'Küche':'Dauer',
          lodging?'Zimmer':'Erlebnis','Anbindung',lodging?'Storno':'Einlass',
          ...(lodging?['EUR p. P./Nacht','Offene Nachweise']:[])],compareRows)
