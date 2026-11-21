@@ -52,7 +52,7 @@ const view = {
   mapListOpen:true,
   mapDensity:localStorage.getItem('reiseplan-map-density')==='detail'?'detail':'calm',
   mapMarketsShown:false,mapMarketsLoading:false,mapMarketsError:null,
-  browseScope:'city',browseSearch:'',browseFoodType:'all',browseLimit:24,
+  browseScope:'city',browseSearch:'',browseFoodType:'all',browseLimit:24,stayBrowseLimit:8,
   activityCategory:'all',activitySavedOnly:false,activityOrder:'source',activityEvidenceFilter:'all',
   browseFoodSavedOnly:false,browseMarketLoadingCity:null,browseMarketError:null,
   browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
@@ -644,6 +644,7 @@ async function switchVariant(id) {
     view.total = view.menu = false;
     view.compareIds.clear();view.inspectorCompareIds=[];
     view.stayFacets={};view.stayFacetsOpen=false;view.staySwissResearchOpen=false;
+    view.stayBrowseLimit=8;
     view.dailyBudgetDate=null; view.showAllVotes=false;
     view.dataOpenSections=[];
     render();
@@ -826,6 +827,7 @@ function changePage(page) {
     if(view.page==='lodging'||page==='lodging')view.compareIds.clear();
     view.mapPinPicking=false;view.mapPinDraft=null;view.mapPinEditingId=null;
     view.browseFilterOpen=false;view.browseResearchOpen=false;
+    view.stayBrowseLimit=8;
     view.browseMealsOpen=false;view.browseFoodResearchOpen=false;
   }
   view.page = page;
@@ -1030,16 +1032,16 @@ async function action(name, value = '') {
       render({fetchRoutes:false});break;
     case 'browse-scope':
       if(!['city','trip'].includes(value))break;
-      view.browseScope=value;view.browseLimit=24;view.optionFilter='all';view.compareIds.clear();
+      view.browseScope=value;view.browseLimit=24;view.stayBrowseLimit=8;view.optionFilter='all';view.compareIds.clear();
       render({fetchRoutes:false});break;
     case 'browse-search-apply':
       clearTimeout(browseSearchTimer);
       browseSearchTimer=null;
       view.browseSearch=app.querySelector('#browse-search')?.value?.trim().slice(0,100)??'';
-      view.browseLimit=24;render({fetchRoutes:false});break;
+      view.browseLimit=24;view.stayBrowseLimit=8;render({fetchRoutes:false});break;
     case 'browse-search-reset':
       clearTimeout(browseSearchTimer);browseSearchTimer=null;
-      view.browseSearch='';view.browseLimit=24;render({fetchRoutes:false});break;
+      view.browseSearch='';view.browseLimit=24;view.stayBrowseLimit=8;render({fetchRoutes:false});break;
     case 'browse-food-type':
       if(!['all','restaurants','markets','cook'].includes(value))break;
       view.browseFoodType=value;view.browseLimit=24;render({fetchRoutes:false});break;
@@ -1054,9 +1056,9 @@ async function action(name, value = '') {
       view.browseSearch='';view.browseFoodType='all';
       view.browseFoodSavedOnly=false;view.optionFilter='all';
       if(ctx.page==='lodging')view.stayFacets={};
-      view.browseLimit=24;render({fetchRoutes:false});break;
+      view.browseLimit=24;view.stayBrowseLimit=8;render({fetchRoutes:false});break;
     case 'stay-facets-reset':
-      view.stayFacets={};view.browseLimit=24;render({restoreView:true,fetchRoutes:false});break;
+      view.stayFacets={};view.browseLimit=24;view.stayBrowseLimit=8;render({restoreView:true,fetchRoutes:false});break;
     case 'browse-market-load':{
       if(ctx.page!=='food')break;
       const cityId=ctx.city;
@@ -1084,7 +1086,9 @@ async function action(name, value = '') {
       break;
     }
     case 'browse-more':
-      view.browseLimit=Math.min(2000,view.browseLimit+24);render({fetchRoutes:false});break;
+      if(view.page==='lodging')view.stayBrowseLimit=Math.min(2000,view.stayBrowseLimit+8);
+      else view.browseLimit=Math.min(2000,view.browseLimit+24);
+      render({fetchRoutes:false});break;
     case 'browse-map': {
       const kind=value==='lodging'?'lodging':value==='food'?'food':'activity';
       view.page='map';view.mapScope=view.browseScope==='trip'?'trip':'city';
@@ -2068,7 +2072,7 @@ async function action(name, value = '') {
     case 'compare-clear': view.compareIds.clear(); render({ restoreView: true }); break;
     case 'votes-expand': view.showAllVotes=!view.showAllVotes; render({ restoreView: true }); break;
     case 'provider-budget': view.providerOnlyBudget=!view.providerOnlyBudget; render({ restoreView: true }); break;
-    case 'option-filter': view.optionFilter = value; view.browseLimit=24;render({ restoreView: true }); break;
+    case 'option-filter': view.optionFilter = value; view.browseLimit=24;view.stayBrowseLimit=8;render({ restoreView: true }); break;
     case 'optimize': optimize(); break;
     case 'reorder': await reorder(...JSON.parse(value)); closeDialog(); break;
     case 'expense': expenseForm(ctx, ctx.state.expenses.find(e => e.id === value), save); break;
@@ -2265,11 +2269,25 @@ app.addEventListener('toggle',event=>{
   if(event.target.matches('.day-plan-compact'))view.dayPlanOpen=event.target.open;
   if(event.target.matches('.hub-filter-more'))view.browseFilterOpen=event.target.open;
   if(event.target.matches('.stay-facets'))view.stayFacetsOpen=event.target.open;
-  if(event.target.matches('.stay-swiss-research'))view.staySwissResearchOpen=event.target.open;
+  if(event.target.matches('.stay-swiss-research')){
+    view.staySwissResearchOpen=event.target.open;
+    if(detail.open&&detail.dataset.contentLoaded!=='true'){
+      // Do not mount hundreds of unseen source nodes until deliberately opened.
+      render({restoreView:true,fetchRoutes:false});
+      app.querySelector('.stay-swiss-research > summary')?.focus({preventScroll:true});
+      return;
+    }
+  }
   if(event.target.matches('.hub-food-planning'))view.browseMealsOpen=event.target.open;
   if(event.target.matches('.hub-food-research'))view.browseFoodResearchOpen=event.target.open;
-  if(event.target.matches('.hub-technical-details:not(.hub-food-research)'))
+  if(event.target.matches('.hub-technical-details:not(.hub-food-research)')){
     view.browseResearchOpen=event.target.open;
+    if(context?.page==='lodging'&&detail.open&&detail.dataset.contentLoaded!=='true'){
+      render({restoreView:true,fetchRoutes:false});
+      app.querySelector('.hub-technical-details > summary')?.focus({preventScroll:true});
+      return;
+    }
+  }
 },true);
 // Commons and explicitly sourced photos can fail when offline or blocked.
  // Keep a designed category fallback, not broken alt-text inside a photo tile.
@@ -2384,7 +2402,7 @@ app.addEventListener('change', event => {
     if(!event.target.checkValidity()){event.target.reportValidity();return;}
     const key=event.target.dataset.stayFacet;
     if(!['kitchen','beds','cancellation','source','walk','maxNight'].includes(key))return;
-    view.stayFacets={...view.stayFacets,[key]:event.target.value};view.browseLimit=24;
+    view.stayFacets={...view.stayFacets,[key]:event.target.value};view.browseLimit=24;view.stayBrowseLimit=8;
     render({restoreView:true,fetchRoutes:false});return;
   }
   if(event.target.id==='browse-city'&&context?.trip?.route.includes(event.target.value)){
