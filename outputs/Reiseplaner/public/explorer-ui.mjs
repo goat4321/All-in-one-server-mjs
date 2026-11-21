@@ -176,7 +176,7 @@ export function explorerList(ctx) {
     + '<details class="explorer-data-note"><summary>Quellen, Kosten und Standortgenauigkeit</summary>'
     +'<p>Die €-Stufen basieren nur auf historischen oder erfassten Planwerten und sind keine verbindlichen Anbieterpreise. Google Maps sucht nach veröffentlichter Adresse oder bekanntem Ortsbereich. Bei fehlendem Pin bleibt die genaue Position unbekannt. Google berechnet Fahrten erst beim Öffnen; 2027er Fahrzeiten sind nicht bestätigt.</p></details>'
     + (items.length ? '<div class="explorer-list-grid">' + cards + '</div>' : empty('Keine passenden Einträge', 'Karte verschieben, Zoom ändern oder Filter zurücksetzen.'))
-    + (items.length > ex.limit ? '<div class="explorer-more">' + btn('explorer-more', 'Weitere ' + Math.min(60, items.length - ex.limit) + ' anzeigen', 'plus') + '</div>' : '')
+    + (items.length > ex.limit ? '<div class="explorer-more">' + btn('explorer-more', 'Weitere ' + Math.min(ctx.mapSimple?(ex.limit===12?12:24):60, items.length - ex.limit) + ' anzeigen', 'plus') + '</div>' : '')
     + '</section>';
 }
 
