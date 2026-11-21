@@ -8,8 +8,9 @@ const [html,css,views,packageText]=await Promise.all([
 ]);
 test('V94 visual system loads last, preserving older stylesheets',()=>{
  const sheets=[...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
- assert.equal(sheets.at(-1),'/apple-visual-system-v94.css');
- assert.equal(sheets.at(-2),'/calm-design-v91.css');
+ assert.equal(sheets.at(-1),'/editorial-web-v95.css');
+ assert.equal(sheets.at(-2),'/apple-visual-system-v94.css');
+ assert.equal(sheets.at(-3),'/calm-design-v91.css');
  assert.equal(sheets.filter(x=>x.endsWith('.css')).length,new Set(sheets).size);
  assert.ok(packageText.includes('test/apple-visual-system-v94.test.mjs'));
 });

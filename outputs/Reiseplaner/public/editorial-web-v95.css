@@ -1,0 +1,635 @@
+/*
+ V95 · Editorial travel website, not an administrative dashboard.
+ Reference: owner apple-design-skill (design-principles/layout/typography/
+ branding/images/motion/materials) and observed apple.com/de full-bleed
+ editorial product chapters. Unique travel identity; no Apple logo,
+ proprietary font, product photos or copied assets.
+*/
+:root{
+ --e95-page:#ffffff;--e95-paper:#f5f5f7;--e95-ink:#1d1d1f;
+ --e95-secondary:#66666b;--e95-line:#e7e7eb;
+ --e95-link:#1469ca;--e95-link-hover:#0756ab;
+ --e95-focus:#1772df;
+ --e95-shadow:0 10px 32px rgba(0,0,0,.045);
+ --e95-ease:cubic-bezier(.2,.78,.2,1);
+}
+:root[data-theme=dark]{
+ --e95-page:#101113;--e95-paper:#1c1d20;
+ --e95-ink:#f5f5f7;--e95-secondary:#b6b6bd;
+ --e95-line:#303137;--e95-link:#58a6ff;--e95-link-hover:#88c5ff;
+ --e95-focus:#8ac4ff;--e95-shadow:none;
+}
+.reference-travel-shell{
+ --bg:var(--e95-page);--paper:var(--e95-page);
+ --text:var(--e95-ink);--muted:var(--e95-secondary);
+ --line:var(--e95-line);--green:var(--e95-link);
+ --accent:#edf5ff;--light:var(--e95-paper);
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+ color:var(--e95-ink);font-size:16px;
+}
+:root[data-theme=dark] .reference-travel-shell{
+ --accent:#20334b;--light:#24252a;
+}
+.reference-travel-shell>.main-column>.workspace{
+ max-width:1540px;
+ padding:clamp(15px,2.5vw,36px) clamp(14px,3vw,48px) 100px;
+ background:var(--e95-page) !important;
+ color:var(--e95-ink);
+}
+.reference-travel-shell .page-head{margin:24px 0 36px}
+.reference-travel-shell .page-head h1{
+ font-size:clamp(36px,4vw,62px);font-weight:680;letter-spacing:-.045em;line-height:1.08;
+ color:var(--e95-ink);
+}
+.reference-travel-shell :is(.page-head p,.hub-results-description,
+ .cockpit-intro>p,.editorial-research-heading p){
+ font-size:clamp(15px,1.1vw,19px);line-height:1.55;color:var(--e95-secondary);
+}
+.reference-travel-shell :is(.section>h2,.subheading h2,.cockpit-section-head strong,
+ .panel-head h2,.reference-discovery-head h2){
+ font-size:clamp(23px,2.4vw,36px);font-weight:680;line-height:1.13;
+ letter-spacing:-.034em;color:var(--e95-ink);
+}
+.reference-travel-shell .section{margin-block:clamp(32px,4vw,60px)}
+.reference-travel-shell :is(.panel,.overview-start,.cockpit-welcome,
+ .cockpit-route-surface,.cockpit-progress,.day-plan-panel,.hub-option-card,
+ .hub-food-card,.reference-discovery-card,.option-card,.hub-filter-panel,
+ .stay-facets,.reference-stage-days){
+ box-shadow:none !important;
+ border-color:var(--e95-line);
+}
+.reference-travel-shell .source-notice{
+ margin:0 0 18px;border:0;border-radius:8px;
+ background:var(--e95-paper);box-shadow:none;color:var(--e95-secondary);
+ font-size:.78rem;
+}
+.reference-travel-shell .source-notice>summary{
+ min-height:40px;padding:8px 13px;gap:10px;
+ color:var(--e95-secondary);font-weight:500;
+}
+.reference-travel-shell .source-notice strong{font-weight:620;color:var(--e95-secondary)}
+.reference-travel-shell .source-notice>p{max-width:90ch;padding-inline:13px}
+.reference-travel-shell>.main-column>.reference-topbar{
+ min-height:56px;height:56px;
+ border-bottom:1px solid var(--e95-line);
+ box-shadow:none !important;
+}
+.reference-travel-shell .reference-nav-brand strong{
+ color:var(--e95-ink);letter-spacing:-.035em;font-weight:700;
+}
+.reference-travel-shell .reference-main-nav button{
+ min-height:44px;font-size:13px;
+ color:var(--e95-secondary);border-radius:9px;
+ font-weight:540;
+}
+.reference-travel-shell .reference-main-nav button[aria-current=page],
+.reference-travel-shell .reference-main-nav button[aria-pressed=true]{
+ background:var(--e95-paper) !important;
+ color:var(--e95-ink) !important;
+ box-shadow:none !important;
+}
+.reference-travel-shell .reference-main-nav button:hover{transform:none !important}
+.reference-travel-shell .reference-global-search{
+ background:var(--e95-paper);
+ border-color:transparent;min-height:40px;
+ border-radius:12px;box-shadow:none;
+}
+.reference-travel-shell .reference-global-search input{
+ background:transparent;font-size:13px;
+}
+.reference-travel-shell .button.primary{
+ background:#1469ca !important;border-color:#1469ca !important;
+ color:#fff !important;
+}
+.reference-travel-shell .button.primary:hover{
+ background:#0756ab !important;border-color:#0756ab !important;
+}
+.reference-travel-shell .button{
+ border-radius:999px;
+ min-height:44px;padding:10px 18px;
+ font-size:14px;font-weight:570;
+ transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease !important;
+}
+.reference-travel-shell .button.subtle{
+ background:#fff;border:1px solid #d9d9df;
+ color:#1d1d1f;
+}
+:root[data-theme=dark] .reference-travel-shell .button.subtle{
+ background:#26272d;border-color:#4a4b51;color:#f5f5f7;
+}
+.reference-travel-shell .button .ui-icon{width:16px;height:16px}
+.reference-travel-shell :is(button,a[href],summary,[role=button]):focus-visible{
+ outline:3px solid var(--e95-focus) !important;outline-offset:3px;
+}
+.reference-travel-shell :is(.button,.overview-quick-card,.hub-option-card,
+ .hub-food-card,.reference-discovery-card,.destination-card):hover{
+ transform:none !important;box-shadow:none !important;
+}
+/* Full-bleed editorial homepage with grounded imagery and transparent credit. */
+.reference-travel-shell .editorial-overview-tools{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:12px;margin:0 0 18px;color:var(--e95-secondary);
+ font-size:12px;letter-spacing:.1em;font-weight:650;
+}
+.reference-travel-shell .editorial-overview-tools .button{
+ min-height:38px;font-size:12px;padding:7px 14px;
+}
+.reference-travel-shell .editorial-journey-hero{
+ position:relative;isolation:isolate;overflow:hidden;
+ min-height:clamp(490px,55vw,640px);background:#161b21;color:#fff;
+ display:flex;align-items:center;justify-content:center;text-align:center;
+ border-radius:20px;
+ padding:75px clamp(20px,4vw,75px) 70px;
+}
+.reference-travel-shell .editorial-journey-hero[data-photo=false]{
+ background:linear-gradient(155deg,#dce8ee,#829fb0);
+ color:#131b23;
+}
+.reference-travel-shell .editorial-journey-media{
+ position:absolute;inset:0;z-index:-2;
+ overflow:hidden;pointer-events:none;
+}
+.reference-travel-shell .editorial-journey-media img{
+ width:100%;height:100%;display:block;object-fit:cover;
+ object-position:center 45%;
+}
+.reference-travel-shell .editorial-journey-media svg{
+ width:100%;height:100%;object-fit:cover;
+}
+.reference-travel-shell .editorial-journey-hero[data-photo=true]:before{
+ content:"";position:absolute;inset:0;z-index:-1;
+ background:linear-gradient(0deg,rgba(0,0,0,.63),rgba(0,0,0,.16) 55%,rgba(0,0,0,.36));
+}
+.reference-travel-shell .editorial-journey-copy{max-width:930px}
+.reference-travel-shell .editorial-journey-eyebrow{
+ display:block;margin-bottom:22px;
+ font-weight:660;font-size:12px;letter-spacing:.13em;opacity:.95;
+}
+.reference-travel-shell .editorial-journey-hero h1{
+ margin:0 auto 20px;
+ font-size:clamp(49px,6.4vw,88px);
+ line-height:1.035;letter-spacing:-.055em;
+ font-weight:690;color:inherit;
+ text-wrap:balance;
+}
+.reference-travel-shell .editorial-journey-hero p{
+ margin:0 auto;color:inherit;opacity:.95;
+ font-size:clamp(17px,2vw,23px);line-height:1.45;
+ max-width:56ch;
+}
+.reference-travel-shell .editorial-journey-actions{
+ display:flex;justify-content:center;align-items:center;
+ flex-wrap:wrap;gap:12px;margin-top:32px;
+}
+.reference-travel-shell .editorial-journey-actions .button{
+ min-height:46px;padding:11px 22px;font-size:15px;
+}
+.reference-travel-shell .editorial-journey-actions .button.subtle{
+ border-color:rgba(255,255,255,.85);
+ background:rgba(15,18,24,.22);color:#fff;
+}
+.reference-travel-shell .editorial-journey-credit{
+ position:absolute;right:16px;bottom:12px;
+ font-size:11px;line-height:1.4;padding:8px 11px;
+ color:#f5f5f7;background:rgba(15,18,24,.45);
+ border-radius:10px;text-decoration:none;
+}
+/* One quiet task strip: no nested tiled dashboard above the photos. */
+.reference-travel-shell .overview-start{
+ margin:44px 0 62px;padding:0;
+ border:0;background:transparent;box-shadow:none !important;
+}
+.reference-travel-shell .overview-start-copy{
+ margin-bottom:20px;
+}
+.reference-travel-shell .overview-start-copy strong{
+ color:var(--e95-ink) !important;
+ font-size:clamp(25px,2.8vw,39px) !important;
+ font-weight:700;letter-spacing:-.037em;
+}
+.reference-travel-shell .overview-start-copy span{
+ color:var(--e95-secondary);
+ font-size:15px;
+}
+.reference-travel-shell .overview-quick-grid{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;
+}
+.reference-travel-shell .overview-quick-card{
+ min-height:136px;padding:22px;
+ border:0;background:var(--e95-paper) !important;
+ border-radius:18px;
+ align-items:flex-start;flex-direction:column;gap:12px;
+ color:var(--e95-ink);
+}
+.reference-travel-shell .overview-quick-card:hover{
+ background:color-mix(in srgb,var(--e95-paper) 85%,var(--e95-line)) !important;
+}
+.reference-travel-shell .overview-quick-icon{
+ background:transparent;color:var(--e95-link);
+ width:30px;height:30px;flex-basis:30px;
+}
+.reference-travel-shell .overview-quick-card strong{
+ color:var(--e95-ink) !important;font-size:16px;
+ letter-spacing:-.022em;font-weight:660;
+}
+.reference-travel-shell .overview-quick-card small{
+ color:var(--e95-secondary) !important;font-size:13px;line-height:1.35;
+}
+.reference-travel-shell .overview-quick-card>.ui-icon{
+ position:absolute;align-self:flex-end;right:18px;bottom:16px;
+ color:var(--e95-link);
+}
+.reference-travel-shell .editorial-research-heading{
+ padding-top:44px;max-width:900px;margin:76px auto 25px;
+ text-align:center;
+}
+.reference-travel-shell .editorial-research-heading small{
+ color:var(--e95-link);font-size:12px;font-weight:660;
+ letter-spacing:.15em;
+}
+.reference-travel-shell .editorial-research-heading h2{
+ margin:10px 0 15px;
+ font-size:clamp(32px,4vw,58px);
+ font-weight:690;line-height:1.08;
+ letter-spacing:-.047em;color:var(--e95-ink);
+}
+.reference-travel-shell .cockpit-layout{
+ gap:20px;align-items:stretch;
+}
+.reference-travel-shell .cockpit-welcome{
+ border:0;border-radius:22px;
+ background:var(--e95-paper) !important;
+ padding:clamp(24px,3vw,42px);
+}
+.reference-travel-shell .cockpit-intro h2{
+ font-size:clamp(30px,3.2vw,46px);font-weight:680;
+ letter-spacing:-.04em;line-height:1.12;color:var(--e95-ink);
+}
+.reference-travel-shell .cockpit-eyebrow{
+ color:var(--e95-link);font-size:12px;letter-spacing:.1em;
+}
+.reference-travel-shell .cockpit-facts span{
+ background:color-mix(in srgb,var(--e95-page) 75%,var(--e95-paper));
+ border-radius:10px;
+ font-size:13px;padding:9px 12px;
+}
+.reference-travel-shell .destination-filmstrip{gap:20px}
+.reference-travel-shell .destination-card{
+ border:0;border-radius:16px;overflow:hidden;
+ background:var(--e95-page);
+ box-shadow:none !important;
+}
+.reference-travel-shell .destination-card .destination-cover{
+ height:220px !important;min-height:220px !important;
+ background:var(--e95-paper);
+}
+.reference-travel-shell .destination-card .destination-cover img{
+ width:100%;height:100%;object-fit:cover;display:block;
+}
+.reference-travel-shell .destination-name{
+ font-size:20px;font-weight:690;letter-spacing:-.03em;
+}
+.reference-travel-shell .cockpit-route-surface{
+ border:0;background:var(--e95-paper) !important;
+ border-radius:22px;
+}
+.reference-travel-shell .cockpit-progress{
+ border:0;border-radius:18px;
+ background:var(--e95-paper);padding:25px;
+}
+.reference-travel-shell :is(.cockpit-progress,.cockpit-reference){
+ margin-top:40px;
+}
+/* Product-chapter analogue: photography is the browse hero's entire canvas. */
+.reference-travel-shell .hub-hero{
+ display:flex;flex-direction:column;justify-content:center;align-items:center;
+ position:relative;isolation:isolate;
+ min-height:clamp(410px,46vw,570px) !important;
+ padding:clamp(55px,8vw,90px) clamp(22px,4vw,70px) !important;
+ margin:0 0 38px;
+ text-align:center;border:0;border-radius:20px !important;
+ background:var(--e95-paper) !important;
+ color:var(--e95-ink);
+ box-shadow:none !important;
+}
+.reference-travel-shell .hub-hero-art{
+ position:absolute;inset:0;z-index:-2;overflow:hidden;
+}
+.reference-travel-shell .hub-hero-art>img,
+.reference-travel-shell .hub-hero-art>svg{
+ width:100%;height:100%;display:block;object-fit:cover;
+}
+.reference-travel-shell .hub-hero-art:after{
+ content:none !important;
+}
+.reference-travel-shell .hub-hero[data-photo=true]{
+ background:#20262b !important;color:#fff !important;
+}
+.reference-travel-shell .hub-hero[data-photo=true]:after{
+ content:"";position:absolute;inset:0;z-index:-1;
+ background:rgba(0,0,0,.52);
+}
+.reference-travel-shell .hub-hero[data-photo=false] .hub-hero-art{
+ opacity:.22;left:50%;
+}
+.reference-travel-shell .hub-hero-main{
+ display:flex;flex-direction:column;align-items:center;gap:15px;
+ max-width:880px;min-width:0;
+}
+.reference-travel-shell .hub-hero h1{
+ margin:0;font-size:clamp(52px,5.7vw,83px) !important;
+ font-weight:690 !important;letter-spacing:-.052em !important;line-height:1.06;
+ color:inherit !important;text-wrap:balance;
+}
+.reference-travel-shell .hub-kicker{
+ font-size:12px;font-weight:670;letter-spacing:.14em;
+ color:var(--e95-link) !important;
+}
+.reference-travel-shell .hub-hero-main>p{
+ max-width:36ch;font-size:clamp(17px,1.7vw,24px) !important;
+ font-weight:440;line-height:1.4;
+ color:var(--e95-secondary) !important;
+}
+.reference-travel-shell .hub-hero[data-photo=true] :is(.hub-kicker,.hub-hero-main>p){
+ color:#fff !important;
+}
+.reference-travel-shell .hub-hero-stats{
+ display:flex;gap:10px 18px;justify-content:center;
+ margin-top:3px;flex-wrap:wrap;
+}
+.reference-travel-shell .hub-hero-stats>span{
+ color:var(--e95-secondary) !important;font-size:12px;
+ font-weight:540;
+}
+.reference-travel-shell .hub-hero[data-photo=true] .hub-hero-stats>span{
+ color:#f0f0f2 !important;
+}
+.reference-travel-shell .hub-hero-actions{
+ display:flex;justify-content:center;flex-wrap:wrap;
+ margin-top:18px;gap:12px;
+}
+.reference-travel-shell .hub-hero-actions .button{
+ min-height:46px;font-size:15px;padding-inline:24px;border-radius:999px;
+}
+.reference-travel-shell .hub-hero[data-photo=true] .hub-hero-actions .button:not(.primary){
+ background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.83);
+ color:#fff;
+}
+.reference-travel-shell .hub-hero-photo-credit{
+ right:14px;bottom:12px;font-size:11px;
+ background:rgba(0,0,0,.5);color:#fff !important;
+ border-radius:9px;padding:8px 11px;
+}
+/* Search is a second, functional chapter instead of another decorated tile. */
+.reference-travel-shell .hub-toolbar{
+ margin:0 0 28px;padding:22px clamp(15px,2.5vw,32px);
+ border:1px solid var(--e95-line);
+ border-radius:18px;background:var(--e95-paper) !important;
+ box-shadow:none !important;
+}
+.reference-travel-shell .hub-scope{
+ background:var(--e95-page);border-radius:999px;
+}
+.reference-travel-shell .hub-scope button{
+ color:var(--e95-secondary);font-weight:560;
+}
+.reference-travel-shell .hub-scope button[aria-pressed=true]{
+ background:var(--e95-ink) !important;color:var(--e95-page) !important;
+ box-shadow:none !important;
+}
+.reference-travel-shell .hub-quick-filters .chip-button{
+ background:var(--e95-page);font-weight:540;
+ border-color:var(--e95-line);
+}
+.reference-travel-shell .hub-quick-filters .chip-button[aria-pressed=true]{
+ background:var(--e95-ink) !important;color:var(--e95-page) !important;
+ border-color:var(--e95-ink) !important;
+}
+.reference-travel-shell .hub-search-form input{
+ min-height:52px;font-size:16px;
+ background:var(--e95-page);
+ border:1px solid var(--e95-line);
+}
+.reference-travel-shell .hub-search-form .button{
+ min-height:48px;border-radius:999px;
+}
+.reference-travel-shell :is(.hub-option-grid,.hub-food-grid){
+ gap:24px !important;
+}
+.reference-travel-shell :is(.hub-option-card,.hub-food-card){
+ background:var(--e95-paper) !important;
+ border:0 !important;border-radius:20px !important;
+ box-shadow:none !important;
+ overflow:hidden;
+}
+.reference-travel-shell .hub-option-media .place-photo,
+.reference-travel-shell .hub-food-card>.place-photo{
+ height:230px !important;min-height:230px !important;
+}
+.reference-travel-shell .hub-option-card h3,
+.reference-travel-shell .hub-food-card h3{
+ font-size:clamp(20px,1.8vw,27px);
+ font-weight:670;letter-spacing:-.035em;
+ line-height:1.16;color:var(--e95-ink) !important;
+}
+.reference-travel-shell :is(.hub-option-card,.hub-food-card) p{
+ font-size:14px;line-height:1.5;color:var(--e95-secondary);
+}
+.reference-travel-shell :is(.hub-option-card,.hub-food-card) .button{
+ font-size:13px;
+}
+.reference-travel-shell .hub-results-title{
+ margin:44px 0 21px;
+}
+.reference-travel-shell .hub-results-title strong{
+ font-size:clamp(27px,2.8vw,42px);
+ font-weight:690;letter-spacing:-.042em;
+ color:var(--e95-ink);
+}
+.reference-travel-shell .hub-market-jump a{
+ color:var(--e95-link);border-color:var(--e95-line);
+ background:var(--e95-paper);
+}
+/* The day and map remain working tools, but have editorial entry rhythm. */
+.reference-travel-shell .day-editorial-hero{
+ min-height:clamp(280px,36vw,460px) !important;
+ display:flex;align-items:center;
+ padding:35px clamp(25px,5vw,70px) !important;
+ border:0;border-radius:20px !important;
+ background:#141b26;color:#fff;
+}
+.reference-travel-shell .day-editorial-hero:before{
+ display:none !important;
+}
+.reference-travel-shell .day-editorial-hero:after{
+ z-index:0;background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.12));
+}
+.reference-travel-shell .day-editorial-media{
+ position:absolute;inset:0;z-index:-1;
+}
+.reference-travel-shell .day-editorial-media img{
+ display:block;width:100%;height:100%;object-fit:cover;
+}
+.reference-travel-shell .day-editorial-hero .hero-copy,
+.reference-travel-shell .day-editorial-hero>.button{
+ position:relative;z-index:1;
+}
+.reference-travel-shell .day-editorial-hero h1{
+ font-size:clamp(45px,5vw,75px);
+ font-weight:690;letter-spacing:-.055em;line-height:1.08;
+}
+.reference-travel-shell .day-editorial-credit{
+ position:absolute;bottom:12px;right:16px;z-index:2;
+ font-size:11px;color:#fff;background:rgba(0,0,0,.45);
+ padding:7px 11px;border-radius:9px;
+}
+.reference-travel-shell .reference-map-intro{
+ background:var(--e95-paper) !important;
+ border:0;border-radius:18px !important;
+ min-height:190px;
+}
+.reference-travel-shell .reference-map-intro h1{
+ font-size:clamp(33px,3.7vw,58px);
+ font-weight:680;letter-spacing:-.045em;
+ color:var(--e95-ink) !important;
+}
+.reference-travel-shell .reference-map-workspace>.map-panel{
+ border:1px solid var(--e95-line);
+ border-radius:18px;
+ overflow:hidden;
+}
+/* Return readable neutrals in dark mode without fighting all the route/map art. */
+:root[data-theme=dark] .reference-travel-shell :is(
+ .overview-start,.cockpit-welcome,.cockpit-route-surface,
+ .cockpit-progress,.hub-toolbar,.hub-option-card,.hub-food-card){
+ color:var(--e95-ink);
+ background:var(--e95-paper) !important;
+}
+:root[data-theme=dark] .reference-travel-shell .overview-quick-card{
+ background:#25262b !important;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-hero[data-photo=false]{
+ background:#24252a !important;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-hero-main>p,
+:root[data-theme=dark] .reference-travel-shell .hub-hero-stats>span{
+ color:#bbbcc4 !important;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-hero[data-photo=true] :is(
+ .hub-hero-main>p,.hub-hero-stats>span,.hub-kicker){
+ color:#fff !important;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-option-card :is(h3,p,small,strong),
+:root[data-theme=dark] .reference-travel-shell .hub-food-card :is(h3,p,small,strong){
+ color:var(--e95-ink);
+}
+:root[data-theme=dark] .reference-travel-shell .hub-option-card p,
+:root[data-theme=dark] .reference-travel-shell .hub-food-card p{
+ color:var(--e95-secondary);
+}
+:root[data-theme=dark] .reference-travel-shell .reference-global-search{
+ background:#25272b !important;
+}
+:root[data-theme=dark] .reference-travel-shell .reference-main-nav button[aria-current=page]{
+ background:#2a2d33 !important;color:#f5f5f7 !important;
+}
+@media(max-width:1100px){
+ .reference-travel-shell .overview-quick-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+ .reference-travel-shell .cockpit-layout{grid-template-columns:1fr}
+ .reference-travel-shell .hub-hero{min-height:450px !important}
+}
+@media(max-width:650px){
+ .reference-travel-shell>.main-column>.workspace{
+  padding:14px 14px calc(90px + env(safe-area-inset-bottom));
+ }
+ .reference-travel-shell .editorial-overview-tools{
+  margin:3px 0 15px;
+ }
+ .reference-travel-shell .editorial-journey-hero{
+  min-height:500px;padding:72px 18px 55px;border-radius:17px;
+ }
+ .reference-travel-shell .editorial-journey-hero h1{
+  font-size:clamp(44px,12vw,59px);
+ }
+ .reference-travel-shell .editorial-journey-hero p{font-size:17px}
+ .reference-travel-shell .editorial-journey-actions{
+  gap:8px;margin-top:24px;
+ }
+ .reference-travel-shell .editorial-journey-actions .button{
+  padding:11px 17px;min-height:44px;font-size:13px;
+ }
+ .reference-travel-shell .editorial-journey-credit{
+  bottom:8px;right:9px;font-size:10px;
+ }
+ .reference-travel-shell .overview-start{
+  margin:37px 0 45px;
+ }
+ .reference-travel-shell .overview-quick-grid{gap:10px}
+ .reference-travel-shell .overview-quick-card{
+  min-height:138px;padding:17px 13px;
+  border-radius:15px;
+ }
+ .reference-travel-shell .overview-quick-icon{
+  flex-basis:26px;width:26px;height:26px;
+ }
+ .reference-travel-shell .overview-quick-card strong{font-size:14px}
+ .reference-travel-shell .overview-quick-card small{font-size:12px}
+ .reference-travel-shell .editorial-research-heading{
+  margin:52px 0 22px;
+ }
+ .reference-travel-shell .hub-hero{
+  min-height:460px !important;
+  padding:68px 18px 52px !important;
+  border-radius:16px !important;
+  margin-bottom:25px;
+ }
+ .reference-travel-shell .hub-hero h1{
+  font-size:clamp(40px,11vw,54px) !important;
+ }
+ .reference-travel-shell .hub-hero-main>p{font-size:16px !important}
+ .reference-travel-shell .hub-hero-stats{gap:7px}
+ .reference-travel-shell .hub-hero-actions{margin-top:14px;gap:9px}
+ .reference-travel-shell .hub-hero-actions .button{
+  min-height:44px;font-size:13px;padding:9px 15px;
+ }
+ .reference-travel-shell .hub-toolbar{
+  padding:15px 13px;margin-bottom:20px;
+ }
+ .reference-travel-shell .hub-search-form input{min-height:44px}
+ .reference-travel-shell :is(.hub-option-grid,.hub-food-grid){gap:14px !important}
+ .reference-travel-shell .hub-option-media .place-photo,
+ .reference-travel-shell .hub-food-card>.place-photo{
+  height:200px !important;min-height:200px !important;
+ }
+ .reference-travel-shell .day-editorial-hero{
+  min-height:300px !important;border-radius:16px !important;
+ }
+ .reference-travel-shell .day-editorial-hero h1{font-size:46px}
+ .reference-travel-shell .mobile-dock{
+  background:rgba(250,250,252,.96) !important;
+  border-top:1px solid var(--e95-line);
+  backdrop-filter:blur(12px);
+ }
+ :root[data-theme=dark] .reference-travel-shell .mobile-dock{
+  background:rgba(28,29,32,.97) !important;
+ }
+ .reference-travel-shell .mobile-dock button[aria-current=page]{
+  color:var(--e95-link) !important;background:transparent !important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell :is(.editorial-journey-hero,.hub-hero,.day-editorial-hero,
+ .overview-quick-card,.destination-card) *{
+   animation:none !important;transition:none !important;
+ }
+}
+:root[data-motion=off] .reference-travel-shell :is(
+ .editorial-journey-hero,.hub-hero,.day-editorial-hero,
+ .overview-quick-card,.destination-card) *{
+ animation:none !important;transition:none !important;
+}
+@media(prefers-reduced-transparency:reduce){
+ .reference-travel-shell .mobile-dock{backdrop-filter:none !important}
+}

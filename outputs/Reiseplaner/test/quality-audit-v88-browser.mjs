@@ -88,6 +88,12 @@ try{
      sheet.href?.endsWith('/calm-design-v91.css'));
    const v94StyleLoaded=[...document.styleSheets].some(sheet=>
      sheet.href?.endsWith('/apple-visual-system-v94.css'));
+   const v95StyleLoaded=[...document.styleSheets].some(sheet=>
+     sheet.href?.endsWith('/editorial-web-v95.css'));
+   const v95HomepageHero=document.querySelector('.editorial-journey-hero');
+   const v95HomepageHeroHeight=v95HomepageHero?.getBoundingClientRect().height??null;
+   const v95BrowseHero=document.querySelector('.hub-hero');
+   const v95BrowseHeroHeight=v95BrowseHero?.getBoundingClientRect().height??null;
    const v94Primary=document.querySelector('.reference-travel-shell .button.primary');
    const v94PrimaryTouch=v94Primary?.getBoundingClientRect().height??null;
    const v94HeroTitle=document.querySelector('.hub-hero h1');
@@ -188,7 +194,7 @@ try{
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     v94MapCountBroken:/undefined (?:Kartenpunkte|Ortsangaben ohne Pin)/.test(document.querySelector('.reference-map-workspace')?.textContent??''),
     searchButtonClipPx,searchLabelVisuallyHidden,
-    calmStyleLoaded,v94StyleLoaded,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
+    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
     calmInactiveNavColor,calmSearchBg,calmSearchProbe,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
@@ -342,6 +348,13 @@ try{
    console.log('V88_PAGE '+JSON.stringify(row));
  assert.equal(store.list().length,4);
  assert.equal(exceptions.length,0,'Runtime exceptions during audit');
+ assert.ok(rows.every(row=>row.v95StyleLoaded),
+   'V95 editorial web must be loaded on all pages, widths and themes');
+ assert.ok(rows.filter(row=>row.page==='overview').every(row=>row.v95HomepageHeroHeight>=300),
+   'Editorial homepage hero must be a prominent image-first first screen');
+ assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page))
+   .every(row=>row.v95BrowseHeroHeight>=295),
+   'Browse pages must have full-size editorial heroes, not admin banners');
  assert.ok(rows.every(row=>row.v94StyleLoaded),
    'V94 must be the loaded final design layer on every page and theme');
  assert.ok(rows.filter(r=>r.page==='food').every(r=>r.v94FoodSearchFirst===true),

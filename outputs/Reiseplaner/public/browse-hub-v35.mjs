@@ -43,10 +43,10 @@ export function browseHero(ctx,kind,count){
  const candidate=(ctx.all??[]).find(item=>item.city===ctx.city&&curatedPlacePhoto(item));
  const photo=candidate?curatedPlacePhoto(candidate):null;
  const img=destinationIllustration(ctx.city)
-  +(photo?'<img src="'+esc(photo.url)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">':'');
+  +(photo?'<img src="'+esc(photo.url)+'" alt="" loading="eager" decoding="async" referrerpolicy="no-referrer">':'');
  const source=photo?'<a class="hub-hero-photo-credit" href="'+esc(photo.sourceUrl)
    +'" target="_blank" rel="noopener noreferrer">Ortsbild / Quelle</a>':'';
- return '<header class="hub-hero" data-kind="'+esc(kind)+'">'
+ return '<header class="hub-hero" data-kind="'+esc(kind)+'" data-photo="'+(photo?'true':'false')+'">'
    +'<div class="hub-hero-art" aria-hidden="true">'+img+'</div>'
    +'<div class="hub-hero-main"><small class="hub-kicker">'
    +icon(kind==='lodging'?'bed':kind==='food'?'food':'compass')+' '

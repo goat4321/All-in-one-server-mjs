@@ -195,11 +195,21 @@ function plan(ctx, name) {
   const anchor = ctx.stops.find(item => item.anchor);
   const first = ctx.segments[0];
   const last = ctx.segments.at(-1);
-  return `<section class="hero ${city === 'barcelona' ? 'photo' : ''}">
+  const dayHeroItem=(ctx.all??[]).find(item=>item.city===city&&item.kind==='activity'
+    &&curatedPlacePhoto(item));
+  const dayHeroPhoto=dayHeroItem?curatedPlacePhoto(dayHeroItem):null;
+  return `<section class="hero day-editorial-hero ${city === 'barcelona' ? 'photo' : ''}"
+      data-photo="${dayHeroPhoto?'true':'false'}">
+    ${dayHeroPhoto?'<div class="day-editorial-media" aria-hidden="true"><img src="'
+      +esc(dayHeroPhoto.url)+'" loading="eager" decoding="async"'
+      +' referrerpolicy="no-referrer" alt=""></div>':''}
     <div class="hero-copy"><p class="hero-tag">${icon('pin')} ${esc(ctx.cities[city].country === 'ES' ? 'Spanien' : new Intl.DisplayNames('de', { type: 'region' }).of(ctx.cities[city].country))}</p>
     <h1>${esc(name)}</h1><div class="hero-meta"><span>${icon('calendar')} ${esc(longDay(date))}</span>
     <span>${icon('people')} ${people.length} Reisende</span><span>${icon('train')} ${esc(ctx.variant.state.title ?? trip.title)}</span></div></div>
-    ${btn('show-route', 'Gesamtroute', 'map')}</section>
+    ${btn('show-route', 'Gesamtroute', 'map')}${dayHeroPhoto
+      ?'<a class="day-editorial-credit" href="'+esc(dayHeroPhoto.sourceUrl)
+       +'" target="_blank" rel="noopener noreferrer">Foto: '
+       +esc(dayHeroPhoto.credit)+'</a>':''}</section>
     ${renderDayHud(ctx,dayTotal)}
     <div class="subheading"><div><h2>Reiseplan</h2><p>${dateLabel(trip.from, trip.to)} · ${dates.length} Reisetage im Kalender</p></div>
     <div class="mobile-switch" aria-label="Ansicht">${chip('mobile', 'Liste', mobile === 'plan', 'plan', 'list')}${chip('mobile', 'Karte', mobile === 'map', 'map', 'map')}</div></div>
@@ -636,17 +646,44 @@ function overview(ctx) {
       :'<div class="cockpit-route-empty">Für diese Variante sind noch keine zwei Stadt-Anker hinterlegt.</div>')
     +'</div><div class="cockpit-route-foot"><span>'+icon('map')+' Schematische Übersicht</span>'
     +'<span>'+esc(dateLabel(trip.from,trip.to))+'</span></div></section>';
+  // V95 editorial entry: one genuinely sourced destination photo, never an
+  // invented image or an unrelated photo of a hotel. The rest stays in
+  // the complete, accessible planning sections below.
+  const heroCityId=trip.route.find(id=>(ctx.all??[]).some(item=>
+    item.city===id&&item.kind==='activity'&&curatedPlacePhoto(item)))??trip.route[0];
+  const heroItem=(ctx.all??[]).find(item=>item.city===heroCityId
+    &&item.kind==='activity'&&curatedPlacePhoto(item));
+  const heroPhoto=heroItem?curatedPlacePhoto(heroItem):null;
+  const editorialHero='<section class="editorial-journey-hero" data-photo="'
+    +(heroPhoto?'true':'false')+'" aria-label="Deine Reise im Überblick">'
+    +'<div class="editorial-journey-media" aria-hidden="true">'
+    +(heroPhoto?'<img src="'+esc(heroPhoto.url)+'" alt="" loading="eager"'
+      +' decoding="async" referrerpolicy="no-referrer">':destinationIllustration(heroCityId))
+    +'</div><div class="editorial-journey-copy">'
+    +'<span class="editorial-journey-eyebrow">DEINE REISE · '
+      +esc(dateLabel(trip.from,trip.to))+'</span>'
+    +'<h1><span class="sr-only">Reiseübersicht: </span>Mehr sehen.<br>'
+      +'Mehr erleben.</h1>'
+    +'<p>'+esc(ctx.variant.state.title??trip.title)+' · '
+      +new Set(trip.route).size+' Reiseorte · '+ctx.people.length+' Reisende</p>'
+    +'<div class="editorial-journey-actions">'
+    +btn('page','Tagesplan öffnen','calendar','plan','primary')
+    +btn('show-route','Route entdecken','arrow','','subtle')
+    +'</div></div>'
+    +(heroPhoto?'<a class="editorial-journey-credit" href="'
+      +esc(heroPhoto.sourceUrl)+'" target="_blank" rel="noopener noreferrer">'
+      +'Foto: '+esc(heroPhoto.credit)+'</a>':'')
+    +'</section>';
   const quickStartHtml='<section class="overview-start" aria-label="Schnell zum nächsten Planungsschritt">'
     + '<div class="overview-start-copy"><strong>Wo möchtest du weiterplanen?</strong><span>Direkter Zugang zu den wichtigsten Aufgaben</span></div>'
     + '<div class="overview-quick-grid">'+shortcuts.map(([id,label,note,symbol])=>
       '<button type="button" class="overview-quick-card" data-action="page" data-value="'+id+'">'
       +'<span class="overview-quick-icon">'+icon(symbol)+'</span><span><strong>'+esc(label)+'</strong><small>'+esc(note)+'</small></span>'
       +icon('arrow')+'</button>').join('')+'</div></section>';
-  return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
+  return '<div class="editorial-overview-tools"><span>REISEPLANER / ÜBERSICHT</span>'
+    +btn('copy','Variante duplizieren','plus')+'</div>'
+    + editorialHero
     + quickStartHtml
-    + swissInterrailOverviewV82(ctx)
-    + swissLodgingSummaryV83(ctx)
-    + dayPlanOverview(ctx)
     + '<div class="cockpit-layout">'
     + '<section class="cockpit-welcome" aria-label="Reise auf einen Blick">'
     + '<div class="cockpit-intro"><span class="cockpit-eyebrow">'+icon('compass')+' DEIN REISE-COCKPIT</span>'
@@ -664,7 +701,14 @@ function overview(ctx) {
     +btn('show-route','Route öffnen','arrow')+'</div>'
     +'<div class="destination-filmstrip" aria-label="Reiseorte mit Quellenfotos">'+destinationCards+'</div></div></section>'
     +overviewRoute+'</div>'
-    + '<section class="cockpit-progress" aria-label="Vorbereitung nachprüfen">'
+    + '<div class="editorial-research-heading"><small>DEINE VORBEREITUNG</small>'
+    +'<h2>Alles Wichtige. Klar geordnet.</h2>'
+    +'<p>Hinweise, Tagesideen und Quellen bleiben vollständig verfügbar –'
+    +' ohne den Reiseeinstieg zu überladen.</p></div>'
+    + swissInterrailOverviewV82(ctx)
+    + swissLodgingSummaryV83(ctx)
+    + dayPlanOverview(ctx)
+    + '<section class="cockpit-progress"' aria-label="Vorbereitung nachprüfen">'
     +'<div class="cockpit-section-head"><div><strong>Was ist schon vorbereitet?</strong>'
     +'<small>Nur in deinem Plan dokumentiert, nicht extern bestätigt</small></div>'
     +btn('page','Details & Fristen','arrow','data')+'</div>'
