@@ -1,3 +1,11 @@
+## 21.11.2026 – V91: Apple-Prinzipien ohne übertriebene Effekte
+
+- **Problem:** Historische CSS-Schichten erzeugten unterschiedlich starke Schatten, helle grüne Flächen, 3px-Hover-Sprünge, 6,5%-Fotokartenzoom, Ripples und bis zu 96 potenzielle Scroll-Reveals. Das entspricht nicht dem Wunsch nach einer ruhigen, flüssigen Reiseanwendung.
+- **Gestalterische Entscheidung:** Ein letztes, schmales und gezieltes CSS-Token-Layer statt 29 alte Schichten destruktiv zu ersetzen; neutrale Inhaltsflächen, Bild-/Quellenklarheit, eine ruhige halbtransparente Funktionsnavigation; keine Glasflächen auf allen Inhaltskarten. App-unabhängige Designprinzipien aus öffentlichem GitHub-Skill `KanishkRanjan/apple-design-skill` und offizieller Apple HIG Motion/Accessibility. Das private ursprüngliche Skill bleibt unbekannt.
+- **Interaktion:** Karten und Optionen bleiben ohne Springen, Buttons reagieren über Farbe/Fokus; native Tastaturfokus-Anzeige; JS erzeugt keine Ripple-Knoten oder Layout-Zwangsberechnungen. Nur Seiteneinstiege werden kurz eingeblendet. Bestehende Routensteuerung und `prefers-reduced-motion`/`data-motion=off` bleiben.
+- **Dark Mode:** Grüner Akzent auf Text kann heller sein, aber Weißtext auf gefüllten Primärflächen erhält ein ausreichend dunkles Grün. Keine pauschale Invertierung von Fotos.
+- **Risiko/Abnahme:** CI 390/768/1440 mit Light/Dark, Browse, Mahlzeiten, Route, Unterkünften und Reduced Motion separat zu bestätigen. Authentische lokale Referenzbilder und Private-Daten-Abnahme weiter offen. Keine Datenänderung, kein Merge/Deployment.
+
 ## 21.11.2026 – V90: Unterkunftsansicht ohne verdeckt gerenderte Quellenarchive
 
 - **Auslöser:** Die 390px-Lodging-Seite hatte im reproduzierbaren Headless-Chrome-Audit 4.349 DOM-Knoten, 377 Controls, 23 Bilder und 29 kleine Klickflächen, obwohl anfangs nur der Vergleich wichtig ist. Anders als die Karte verwendete sie das allgemeine 24er-Limit und baute umfangreiche Schweizer Recherche-/Anbieterpanels auch zugeklappt vollständig als DOM ein.
