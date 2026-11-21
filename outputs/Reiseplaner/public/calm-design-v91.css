@@ -311,6 +311,13 @@ dialog[open]::backdrop{animation:ux-backdrop-in 200ms ease-out both !important}
   color:inherit !important;
   opacity:1 !important;
 }
+/* Legacy span-level ink rules out-rank the inherited button color on
+ * desktop/tablet. Set the label's actual computed color directly. */
+:root[data-theme=dark] .reference-travel-shell .reference-main-nav
+ button[aria-current="false"] span{
+  color:#edf6ee !important;
+  opacity:1 !important;
+}
 :root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
  .reference-global-search{
   background:var(--paper) !important;
