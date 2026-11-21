@@ -228,7 +228,11 @@ function buildContext() {
       point:nearbyAnchor.point,radiusKm:view.mapNearRadiusKm}:null,
     showCityReferences: view.mapShowCityReferences,
     density:view.mapDensity,
-    limit: view.mapListLimit, routeMode: view.mapRouteMode, routeTime: view.mapRouteTime,
+    // The calm map starts with 12 list cards rather than mounting 60 dense,
+    // secondary-control-heavy rows before anyone asks for the full directory.
+    // All placed/unlocated data and map pins remain available without truncation.
+    limit: view.mapSimple && view.mapListLimit===60 ? 12 : view.mapListLimit,
+    routeMode: view.mapRouteMode, routeTime: view.mapRouteTime,
     connection: {
       from: all.find(i => i.id === view.mapFrom) ?? null,
       to: all.find(i => i.id === view.mapTo) ?? null,
@@ -1363,8 +1367,14 @@ async function action(name, value = '') {
         say('Dieser Ort liegt außerhalb des aktuellen Kartenfilters. Filter oder Kartenausschnitt ändern.');
         break;
       }
-      if(index>=view.mapListLimit||!view.mapListOpen||view.mapFullscreen&&!view.mapFullscreenDrawer){
-        if(index>=view.mapListLimit)view.mapListLimit=Math.ceil((index+1)/60)*60;
+      const visibleLimit=context.explorer?.limit??view.mapListLimit;
+      if(index>=visibleLimit||!view.mapListOpen||view.mapFullscreen&&!view.mapFullscreenDrawer){
+        // A selected marker must be reachable even outside the initial
+        // 12-row calm-map viewport. Expanding does not change the filters.
+        if(index>=visibleLimit){
+          const step=view.mapSimple?12:60;
+          view.mapListLimit=Math.ceil((index+1)/step)*step;
+        }
         view.mapListOpen=true;
         if(view.mapFullscreen)view.mapFullscreenDrawer=true;
         render({restoreView:true,fetchRoutes:false});
@@ -1375,7 +1385,11 @@ async function action(name, value = '') {
       break;
     }
     case 'explorer-more':
-      view.mapListLimit += 60; render({ restoreView: true }); break;
+      // 12 → 24 → 48 in the calm map; keep the existing 60-row cadence in
+      // the explicitly expanded explorer. No search results are discarded.
+      if(view.mapSimple)view.mapListLimit=view.mapListLimit===60?24:view.mapListLimit+24;
+      else view.mapListLimit+=60;
+      render({ restoreView: true,fetchRoutes:false });break;
     case 'explorer-focus':
       if (item?.point) selectPoint(value, true); break;
     case 'explorer-start':
