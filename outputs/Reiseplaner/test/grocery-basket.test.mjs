@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mealPlans } from '../lib/barcelona-meals.mjs';
 import { allocate, budgetBreakdown, calculateBudget, groceryBasket, mealEstimate } from '../public/model.mjs';
-import { initialState, validateState } from '../lib/store.mjs';
+import { initialState, openStore, validateState } from '../lib/store.mjs';
 
 const recipe = mealPlans.barcelona.find(plan => plan.id === 'pasta');
 const price = { cents: mealEstimate(recipe, 3).base, currency: 'EUR', scope: 'group' };
@@ -114,4 +114,72 @@ test('Budget city/day breakdown counts known amounts exactly once and keeps unkn
   assert.equal(budgetBreakdown(rows, 'city').find(row => row.key === 'unassigned').cents, 125);
   assert.equal(budgetBreakdown(rows, 'date').reduce((sum, row) => sum + row.cents, 0), 885);
   assert.throws(() => budgetBreakdown(rows, 'unknown'), /Budgetauswertung/);
+});
+
+test('Saved stock reduces pooled purchases across meals and scales to a changed group', () => {
+  const meals = [first, second, third];
+  const key = groceryBasket(meals, 3)[0].key;
+  const shopping = { pantry: { [key]: 1000 }, checked: { [key]: true }, excluded: {}, extras: [] };
+  const rows = groceryBasket(meals, 3, {}, shopping);
+  assert.deepEqual([rows[0].required, rows[0].stock, rows[0].packs, rows[0].total], [900, 1000, 0, 0]);
+  const state = { ...initialState(trip), shopping };
+  assert.equal(calculateBudget(meals, state).total, 600);
+  assert.equal(calculateBudget(meals, { ...state, shopping: { ...shopping, checked: {} } }).total, 600);
+  const expanded = groceryBasket(meals, 4, {}, shopping);
+  assert.deepEqual([expanded[0].required, expanded[0].packs, expanded[0].total], [1200, 1, 80]);
+  assert.equal(groceryBasket(meals, 3)[0].packs, 2);
+});
+
+test('Explicit surplus buying is budgeted even with sufficient stock, while legacy overrides remain compatible', () => {
+  const [row]=groceryBasket([first,second],3);
+  const shopping={pantry:{[row.key]:1000},checked:{},excluded:{},extras:[]};
+  const get=override=>groceryBasket([first,second],3,{[row.key]:override},shopping)[0];
+  assert.equal(get({packs:2,unitCents:125}).packs,0,'Old pre-stock overrides do not force extra purchases');
+  assert.equal(get({packs:2,unitCents:125,explicitPacks:true}).total,250);
+  assert.equal(get({packs:0,unitCents:125,explicitPacks:true}).total,0);
+  const state={...initialState(trip),shopping,groceryOverrides:{[row.key]:{packs:0,unitCents:125,explicitPacks:true}}};
+  assert.doesNotThrow(()=>validateState(state,trip,[]));
+  assert.throws(()=>validateState({...state,groceryOverrides:{[row.key]:{packs:0,unitCents:125}}},trip,[]),/Einkaufswarenkorb/);
+});
+
+test('Omitted ingredients and cleared prices keep an incomplete grocery budget visible', () => {
+  const meals = [first, second];
+  const [row] = groceryBasket(meals, 3);
+  const state = { ...initialState(trip), shopping: { pantry: {}, checked: {}, excluded: { [row.key]: true }, extras: [] } };
+  const basket = groceryBasket(meals, 3, {}, state.shopping);
+  assert.equal(basket[0].total, null);
+  assert.equal(basket[0].excluded, true);
+  const budget = calculateBudget(meals, state);
+  assert.equal(budget.rows.find(row => row.id.endsWith(':unknown')).euros, null);
+  assert.equal(budget.total, 400, 'Bekannte Zutaten bleiben trotz ausgelassener Pasta in der bekannten Summe');
+  assert.equal(budget.unknown, 1);
+  const cleared = { ...initialState(trip), groceryOverrides: { [row.key]: { packs: 2, unitCents: null } } };
+  assert.doesNotThrow(() => validateState(cleared, trip, []));
+  assert.equal(calculateBudget(meals, cleared).unknown, 1);
+});
+
+test('Extra articles preserve currency, explicit quantities, unknown prices and variant independence', () => {
+  const extra = { id: 'extra:water', city: 'barcelona', name: 'Wasser', quantity: 6, unit: 'Stück',
+    pack: 6, unitCents: 250, currency: 'CHF', date: '2027-09-03', sourceUrl: null };
+  const shopping = { pantry: {}, checked: {}, excluded: {}, extras: [extra] };
+  const state = { ...initialState(trip), shopping };
+  assert.doesNotThrow(() => validateState(state, trip, []));
+  assert.equal(groceryBasket([], 3, {}, shopping)[0].priceDate, undefined, 'Einkaufstag ist kein Preisstichtag');
+  const budget = calculateBudget([first], state);
+  assert.equal(budget.total, 280);
+  const foreign = budget.rows.find(row => row.currency === 'CHF');
+  assert.equal(foreign.original, 250);
+  assert.equal(foreign.euros, null);
+  const store = openStore(':memory:', { trips: [trip, { ...trip, id: 'independent' }] });
+  try {
+    store.save(trip.id, 0, state);
+    assert.deepEqual(store.current(trip.id).state.shopping, shopping);
+    assert.deepEqual(store.current('independent').state.shopping.extras, []);
+    assert.throws(() => store.save(trip.id, 0, { ...state, shopping: { ...shopping, extras: [] } }), /anderen Fenster/);
+    assert.equal(store.current(trip.id).state.shopping.extras.length, 1);
+  } finally { store.close(); }
+  assert.throws(() => validateState({ ...state, shopping: { ...shopping, extras: [extra, extra] } }, trip, []), /Einkaufsliste/);
+  assert.throws(() => validateState({ ...state, shopping: { ...shopping, extras: [{ ...extra, city: 'paris' }] } }, trip, []), /Einkaufsliste/);
+  assert.throws(() => validateState({ ...state, shopping: { ...shopping, pantry: { 'extra:water': -1 } } }, trip, []), /Einkaufsliste/);
+  assert.throws(() => validateState({ ...state, shopping: { ...shopping, checked: { 'extra:water': 'yes' } } }, trip, []), /Einkaufsliste/);
 });

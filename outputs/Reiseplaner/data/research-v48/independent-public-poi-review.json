@@ -1,0 +1,37 @@
+{
+  "schema": "independent_public_poi_manual_review_v48",
+  "reviewedOn": "2026-11-15",
+  "policy": "Manual one-to-one named public POI review only; no street center, private lodging position or confirmed entrance inferred.",
+  "accepted": 1,
+  "rejectedUnverified": 0,
+  "items": [
+    {
+      "id": "local:food-v03-015",
+      "city": "genoa",
+      "name": "Cavour modo21",
+      "oldState": "published_operator_address_without_independent_coordinate",
+      "status": "accepted_named_public_poi_reference",
+      "mappedAlternateName": "Molo Modo 21",
+      "primaryOperatorUrl": "https://modo21.it/ristorazione/come-prenotare-da-cavour-modo21/",
+      "publicDirectoryUrl": "https://genova-notizie.it/luoghi/molo-modo-21-piazza-cavour/",
+      "coordinatePublicationUrl": "https://www.google.com/maps/search/?api=1&query=44.406616%2C8.927979",
+      "industrySourceUrl": "https://www.ge.camcom.gov.it/it/promuovi/ristoranti-e-bartender/ristoranti-genova-gourmet/elenco-promozionale-glg.pdf",
+      "point": [
+        44.406616,
+        8.927979
+      ],
+      "civicPublic": "Piazza Cavour 21 Rosso",
+      "civicOperator": "Piazza Cavour 21r",
+      "civicMatches": true,
+      "phoneDirectory": "+39 393 851 1140",
+      "phoneOperator": "+39 393 851 1140",
+      "phoneMatches": true,
+      "precision": "public_poi_reference_not_confirmed_entrance",
+      "isCentroid": true,
+      "locationSourceKind": "OSM-derived named POI published by independent local directory",
+      "entranceConfirmed": false,
+      "booked2027": false,
+      "caution": "Different named POI and business brand were reconciled using both full civic suffix 21r and the exact telephone number. Map coordinates are public-POI orientation and not independent confirmation of a building entrance, ramp or customer entrance."
+    }
+  ]
+}

@@ -1,10 +1,39 @@
 import { readFile } from 'node:fs/promises';
+import {loadDayPlansV32} from './day-plans-v32.mjs';
+import {attachHikingEvidence} from './hiking.mjs';
+import {resolvePublicAddressIdentity} from './public-address-identity.mjs';
+import {applyUploadedPlacesV50} from './uploaded-places-v50.mjs';
+import {attachNightlifeReferencesV51} from './nightlife-official-v51.mjs';
+import {applyOperatorDiscoveriesV54} from './operator-discoveries-v54.mjs';
+import {applyOperatorDiscoveriesV55} from './operator-discoveries-v55.mjs';
+import {applyOperatorDiscoveriesV60} from './operator-discoveries-v60.mjs';
+import {applyOperatorDiscoveriesV61} from './operator-discoveries-v61.mjs';
+import {applyOperatorDiscoveriesV62} from './operator-discoveries-v62.mjs';
+import {applyExistingPlaceGuidesV68} from './existing-place-guides-v68.mjs';
+import {applySwissGuidesV75} from './swiss-guides-v75.mjs';
+import {validateInterrailSwissFocusV82} from './interrail-swiss-focus-v82.mjs';
+import {validateSwissLodgingV83} from './swiss-lodging-v83.mjs';
+import {validateSwissDatedSearchV84} from './swiss-dated-search-v84.mjs';
+import {applyCityGuidesV76} from './city-guides-v76.mjs';
+import {applyOfficialVenuesV77} from './official-venues-v77.mjs';
+import {applyVenueSourceReviewV78} from './venue-source-review-v78.mjs';
+import {applyLastCityGapsV79} from './last-city-gaps-v79.mjs';
+import {applyAlternativeVenuesV80} from './alternative-venues-v80.mjs';
+import {VERIFIED_PLACE_UPDATES_V56} from './verified-place-updates-v56.mjs';
+import {VERIFIED_PLACE_UPDATES_V57} from './verified-place-updates-v57.mjs';
+import {VERIFIED_PLACE_UPDATES_V58} from './verified-place-updates-v58.mjs';
+import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsLocationStatus } from '../public/google-maps.mjs';
 import { localParts, minor, utcFromLocal } from '../public/model.mjs';
 import { italyLodgings, italyPlaces, italySources, italyStations } from './italy.mjs';
 import { rivieraAlpsLodgings, rivieraAlpsPlaces, rivieraAlpsSources, rivieraAlpsStations } from './riviera-alps.mjs';
-import { barcelonaFoodPlaces, mealPlans, mealSources } from './barcelona-meals.mjs';
+import { barcelonaFoodPlaces } from './barcelona-meals.mjs';
+import {mealPlans,mealSources,mealResearch} from './meal-catalog.mjs';
 import { seedSnapshot } from './seed-fallback.mjs';
 import { loadResearchV02, scopedQuote, quoteCandidate } from './research-v02.mjs';
+import { loadSurveyFirstV19, applySurveyFirstV19 } from './research-v19.mjs';
+import { loadResearchV20, applyResearchV20 } from './research-v20.mjs';
+import { loadResearchV22, applyResearchV22 } from './research-v22.mjs';
+import {loadFieldNotesV28,applyFieldNotesV28} from './research-v28.mjs';
 
 const file = name => readFile(new URL('../data/' + name + '.json', import.meta.url), 'utf8')
   .then(content => JSON.parse(content.replace(/^\uFEFF/, '')));
@@ -119,6 +148,12 @@ function cityName(text, allowed) {
 function point(latitude, longitude) {
   return Number.isFinite(latitude) && Number.isFinite(longitude) && Math.abs(latitude) <= 90 &&
     Math.abs(longitude) <= 180 && (latitude !== 0 || longitude !== 0) ? [latitude, longitude] : null;
+}
+
+function citiesWithoutAssumptions(item, destinations) {
+  return destinations.some(city => city.id === item.city)
+    && typeof item.name === 'string' && item.name.length > 0
+    && item.locationWarning == null !== (item.locality == null);
 }
 
 export function distanceKm(a, b) {
@@ -244,6 +279,110 @@ export async function loadCatalog() {
   const [trips, destinations, activities, accommodations, transport, fares, budgets, sources, quality] =
     await Promise.all(['trips', 'destinations', 'activities', 'accommodations', 'transport', 'fares', 'budgets', 'sources', 'data_quality'].map(file));
   const research = await loadResearchV02(trips);
+  const surveyFirstV19Archive = await loadSurveyFirstV19();
+  const [providerSearchV13,providerLocationsV13]=await Promise.all([
+    readFile(new URL('../data/research-v13/provider-search-september-2027.json',import.meta.url),'utf8').then(JSON.parse),
+    readFile(new URL('../data/research-v13/provider-location-leads.json',import.meta.url),'utf8').then(JSON.parse),
+  ]);
+  const providerRows=providerSearchV13.searches?.flatMap(group=>group.results)??[];
+  if(providerSearchV13.schema!=='provider_search_snapshot_v13'
+    ||providerSearchV13.searches?.length!==6||providerRows.length!==60
+    ||new Set(providerRows.map(row=>row.bookingId)).size!==60
+    ||providerSearchV13.searches.some(group=>group.adults!==3||group.rooms!==1
+      ||!/^2027-09-\d{2}$/.test(group.from)||!/^2027-09-\d{2}$/.test(group.to)
+      ||group.from>=group.to)
+    ||providerRows.some(row=>row.bookingConfirmed!==false||row.roomBedsConfirmed!==false
+      ||row.mandatoryFeesConfirmed!==false||row.cancellationConfirmed!==false
+      ||row.pointStatus!=='provider_reported_unverified'
+      ||!Number.isSafeInteger(row.searchTotalCents)||row.searchTotalCents<0
+      ||!/^https:\/\/www\.booking\.com\/hotel\//.test(row.url))
+    ||providerLocationsV13.schema!=='public_lodging_provider_location_leads_v13'
+    ||providerLocationsV13.items?.length!==17
+    ||providerLocationsV13.items.some(row=>row.independentGpsVerified!==false
+      ||row.bookingConfirmed!==false||row.id.startsWith('wishlist:airbnb:')))
+    throw new Error('Unbestätigte September-Anbietersuche V13 verletzt Provenienzregeln.');
+  const [newFoodResearch, officialActivityEvidence] = await Promise.all([
+    readFile(new URL('../data/research-v03/food-venues.json', import.meta.url), 'utf8').then(JSON.parse),
+    readFile(new URL('../data/research-v03/official-activity-evidence.json', import.meta.url), 'utf8').then(JSON.parse),
+  ]);
+  const airbnbResearch = JSON.parse(await readFile(
+    new URL('../data/research-v04/airbnb-wishlists.json', import.meta.url), 'utf8'));
+  if (airbnbResearch.schema !== 'wishlist_reference_v04'
+    || !Array.isArray(airbnbResearch.items) || airbnbResearch.items.length !== 42
+    || new Set(airbnbResearch.items.map(item => item.id)).size !== airbnbResearch.items.length
+    || airbnbResearch.items.some(item =>
+      !citiesWithoutAssumptions(item, destinations)
+      || item.point !== null || item.address !== null || item.selected !== false || item.booked !== false
+      || !/^https:\/\/www\.airbnb\.de\/rooms\/\d+$/.test(item.website)
+      || item.sampleQuote?.adults !== 3
+      || (item.sampleQuote?.totalCents !== null &&
+        (!Number.isSafeInteger(item.sampleQuote?.totalCents) || item.sampleQuote.totalCents < 0))))
+    throw new Error('Airbnb-Wunschlistendaten sind unvollständig oder unplausibel.');
+  const railReferenceV04 = JSON.parse(await readFile(
+    new URL('../data/research-v04/rail-reference.json', import.meta.url), 'utf8'));
+  if (railReferenceV04.schema !== 'rail_reference_v04'
+    || railReferenceV04.corridors.length !== 12 || railReferenceV04.rules.length !== 3
+    || railReferenceV04.corridors.some(x =>
+      !destinations.some(city => city.id === x.from)
+      || !destinations.some(city => city.id === x.to)
+      || x.timetable2027Verified !== false || x.exactFareCents !== null
+      || x.departureLocal !== null || x.arrivalLocal !== null))
+    throw new Error('Bahn-Referenz enthält unbestätigte oder widersprüchliche Live-Daten.');
+  // Additional official operator references and 2026 price snapshots.
+  // A price quoted here never becomes an automatically charged trip expense.
+  const operatorV07 = JSON.parse(await readFile(
+    new URL('../data/research-v07/operator-reference-20261113.json', import.meta.url), 'utf8'));
+  const operatorFares = operatorV07.localTransitFareReferences ?? [];
+  if (operatorV07.schema !== 'official_reference_pack_v07'
+    || !Array.isArray(operatorV07.attractionReferences)
+    || operatorFares.length !== 23 || operatorV07.attractionReferences.length !== 8
+    || new Set(operatorFares.map(ref => ref.id)).size !== operatorFares.length
+    || operatorFares.some(ref =>
+      !destinations.some(city => city.id === ref.city)
+      || !Number.isSafeInteger(ref.amountCents) || ref.amountCents < 0
+      || !['EUR','CHF'].includes(ref.currency) || ref.validForSep2027 !== false
+      || !/^https:\/\//.test(ref.sourceUrl))
+    || operatorV07.attractionReferences.some(ref =>
+      !destinations.some(city => city.id === ref.city)
+      || !/^https:\/\//.test(ref.sourceUrl)
+      || !ref.title || !ref.pattern || ref.referenceYear !== 2026)
+    || operatorV07.railExamples.some(ref => ref.priceCents !== null
+      || ref.validForSeptember2027 !== false || !/^https:\/\//.test(ref.sourceUrl))) {
+    throw new Error('Betreiber-Referenzpaket v0.7 verletzt die Quellen-/Preisregeln.');
+  }
+  // Every curated local eatery was reviewed in v0.8. A cited menu item
+  // is an old price observation, not the September 2027 bill.
+  const foodMenuV08 = JSON.parse(await readFile(
+    new URL('../data/research-v08/food-menu-audit.json', import.meta.url), 'utf8'));
+  if (foodMenuV08.schema !== 'food_menu_audit_v08'
+    || !Array.isArray(foodMenuV08.items) || foodMenuV08.items.length !== 39
+    || new Set(foodMenuV08.items.map(x=>x.id)).size !== 39
+    || foodMenuV08.items.some(x=>!newFoodResearch.items.some(y=>y.id===x.id && y.city===x.city)
+      || x.menuReference?.sep2027Confirmed === true
+      || x.menuReference?.includeInTripBudget === true
+      || x.menuReference?.mealGroupCheckoutVerified === true
+      || x.menuReference && (!/^https:\/\//.test(x.menuReference.sourceUrl)
+        || !['EUR','CHF'].includes(x.menuReference.currency)
+        || !Array.isArray(x.menuReference.sample)
+        || x.menuReference.sample.some(s=>!Number.isSafeInteger(s.amountCents) || s.amountCents<0)))) {
+    throw new Error('Menü-Referenzen v0.8 sind nicht quellen-/preislogisch konsistent.');
+  }
+  const foodMenuMapV08 = new Map(foodMenuV08.items.map(x=>['local:'+x.id,x]));
+  const uniqueFoodIds = new Set(newFoodResearch.items.map(p => p.id));
+  if (uniqueFoodIds.size !== newFoodResearch.items.length
+    || newFoodResearch.items.some(p => !destinations.some(city => city.id === p.city)
+      || p.point != null || p.price != null || !p.address || !p.menuNote || !p.observedOn)
+    || officialActivityEvidence.entries.some(p => !/^https:\/\//.test(p.url) || !p.city || !p.match))
+    throw new Error('Ungültiges Recherche-v0.3-Datenpaket.');
+  const officialMatch = item => item.category === 'food' || item.category === 'shop' ? null
+    : officialActivityEvidence.entries.find(record =>
+      record.city === item.city && new RegExp(record.match, 'i').test(item.name));
+  const addOfficial = item => {
+    const info = officialMatch(item);
+    return !info ? item : { ...item, officialEvidence: info,
+      openingHoursNote: info.hours, duration: item.duration ?? info.durationMinutes,
+      source: [...new Set([...(item.source ?? []), 'official-v03:' + info.id])] };
+  };
   const [coverageArchive, daysArchive] = await Promise.all([
     readFile(new URL('../data/research-v02/city-coverage-v02.json', import.meta.url), 'utf8').then(JSON.parse),
     readFile(new URL('../data/research-v02/day-suggestions-v02.json', import.meta.url), 'utf8').then(JSON.parse),
@@ -376,7 +515,7 @@ export async function loadCatalog() {
       candidate.origin = 'Recherche v0.2 · Alternative';
       candidate.verification = entry.verification_status ?? 'ungeprüft';
       candidate.priorityFit = entry.priority_fit;
-      options.push(candidate);
+      options.push(addOfficial(candidate));
       existingActivityIds.add(id);
     }
     if (trip.variant_group === 'interrail_2027' && trip.travellers === 3) {
@@ -442,6 +581,77 @@ export async function loadCatalog() {
         start: null, end: null, selected: false, price: null, origin: 'neu recherchiert', verification: 'Anbieterbeschreibung',
       });
     }
+    // Private wishlist snapshots are independent comparison candidates, never bookings.
+    // Their observed search price is NOT assigned to item.price: the itinerary stay dates
+    // and even the party size can differ from the Airbnb search.
+    for (const ref of airbnbResearch.items.filter(ref => allowed.includes(ref.city))) {
+      const observed = ref.sampleQuote;
+      const sample = observed.totalCents == null ? 'kein Beispielpreis sichtbar'
+        : (observed.totalCents / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })
+          + ' Gesamtbetrag für ' + observed.adults + ' Gäste';
+      const period = observed.from && observed.to
+        ? ' · Suchzeitraum ' + observed.from + ' bis ' + observed.to
+        : ' · Suchzeitraum nicht verlässlich aus der Liste ausgelesen';
+      const location = ref.locality ?? 'genauer Wohnort ungeprüft';
+      researchedHotels.push({
+        id: 'wishlist:' + ref.id, trip: trip.id, city: ref.city,
+        kind: 'lodging', category: 'lodging', zone: cities[ref.city].timezone,
+        name: 'Airbnb · ' + ref.name, selected: false, booked: false,
+        ratingDisplayed: ref.ratingDisplayed,
+        bedsDisplayed: ref.bedsDisplayed,
+        provider: 'Airbnb', providerReference: ref.providerId,
+        booking: 'ungebucht', payment: 'open', origin: 'Airbnb-Wunschliste (privat)',
+        stayFrom: stayByCity[ref.city]?.from ?? null,
+        stayTo: stayByCity[ref.city]?.to ?? null,
+        start: null, end: null, point: null, address: null,
+        positionIssue: 'Nur Ort/Umgebung bekannt; kein geprüfter Unterkunfts-Pin.',
+        price: null,
+        room: ref.bedsDisplayed == null ? 'Bettaufteilung offen'
+          : ref.bedsDisplayed + ' Betten in Wunschlistenkarte angezeigt; Belegung nicht bestätigt',
+        kitchen: null, fees: null, cancellation: null, website: ref.website,
+        detail: location + ' · Airbnb-Referenz ' + sample + period
+          + '. Preis gilt nicht automatisch für die Reisedaten; Gebühren, Mindestaufenthalt, Stornierung, Betten und Küche prüfen.'
+          + (ref.locationWarning ? ' ' + ref.locationWarning : '')
+          + (observed.available ? '' : ' Für den gewählten Suchzeitraum kein Angebotspreis verfügbar.'),
+        verification: 'Wunschlistenauszug 13.11.2026 · NICHT gebucht · Endpreis offen',
+        source: ['wishlist-v04:' + ref.providerId],
+        quote: { observedOn: observed.observedOn, location: location,
+          sampleTotalCents: observed.totalCents, sampleCurrency: observed.currency, sampleAdults: observed.adults,
+          sampleFrom: observed.from, sampleTo: observed.to,
+          sampleAvailability: observed.available,
+          checkoutConfirmed: false, roomConfirmed: false, taxesConfirmed: false },
+      });
+    }
+    for (const place of newFoodResearch.items.filter(place => allowed.includes(place.city))) {
+      const nameKey = clean(place.name);
+      if (options.some(existing => existing.city === place.city && clean(existing.name) === nameKey)) continue;
+      options.push({
+        id: 'local:' + place.id, trip: trip.id, city: place.city,
+        kind: 'activity', category: place.category, zone: cities[place.city]?.timezone ?? zone,
+        name: place.name, tags: place.tags, detail: place.detail, menuNote: place.menuNote,
+        address: place.address, point: null, selected: false, start: null, end: null,
+        openingHoursNote: place.openingHoursNote, estimatedCostNote: place.priceReferenceNote,
+        source: [place.sourceId], website: place.website, price: null,
+        origin: 'Öffentliche Gewerbe-/Kartensuche vom 13.11.2026',
+        verification: place.verification, sourceDate: place.observedOn,
+      });
+    }
+    // Additional official-museum alternative has no original Tripsy counterpart.
+    if (allowed.includes('paris') && !options.some(item => /orsay/i.test(item.name))) {
+      options.push(addOfficial({
+        id: 'official:orsay', trip: trip.id, city: 'paris', kind: 'activity',
+        category: 'activity', name: 'Musée d’Orsay', tags: ['Museum','Kunst','Innen'],
+        zone: cities.paris.timezone, point: null, start: null, selected: false,
+        price: null, source: ['official-v03:orsay'],
+        detail: 'Impressionistische Kunst im ehemaligen Bahnhof am Seineufer.',
+        verification: 'Offizielle Tarif-/Öffnungsregeln; Eintritt für EWR unter 26 nach Berechtigung',
+      }));
+    }
+    for (const item of [...options, ...planned]) {
+      const info = officialMatch(item);
+      if (!info) continue;
+      Object.assign(item, addOfficial(item));
+    }
     if (allowed.includes('barcelona')) {
       for (const place of barcelonaFoodPlaces) options.push({
         ...place, id: 'local:' + place.id, trip: trip.id, city: 'barcelona', kind: 'activity', category: 'food',
@@ -463,13 +673,585 @@ export async function loadCatalog() {
       importCounts: Object.fromEntries(Object.entries(snapshot.resources).map(([k, v]) => [k, v.count])),
       referenceExpenses: snapshot.resources.expenses.items,
       budgetReference: budgets.find(b => b.trip_id === trip.id),
-      items: [...legs, ...planned, ...hotels, ...options, ...researchedHotels], stayByCity, arrivalByDay,
+      items: [...legs, ...planned, ...hotels, ...options, ...researchedHotels].map(item => ({
+        ...item,
+        googleMapsUrl: googleMapsSearchUrl(item,cities),
+        googleTransitUrl: googleMapsDirectionsUrl(null,item,cities,'transit'),
+        mapLocationQuality: googleMapsLocationStatus(item),
+      })), stayByCity, arrivalByDay,
       notes: research.data_quality.filter(q => q.trip_id === 'all' || q.trip_id === trip.id),
     };
   });
+  // Validated, place-specific OSM coordinates from the one-off research.
+  // The research file may not yet exist on a freshly cloned branch. Never
+  // replace an already sourced coordinate or infer a private Airbnb address.
+  const geoResearchV06 = await readFile(
+    new URL('../data/research-v06/geocoded-points.json', import.meta.url), 'utf8')
+    .then(JSON.parse).catch(error => {
+      if (error.code === 'ENOENT') return null;
+      throw error;
+    });
+  if (geoResearchV06 && (geoResearchV06.schema !== 'osm_photon_geocoded_v06'
+      || !Array.isArray(geoResearchV06.points) || !Array.isArray(geoResearchV06.review)
+      || geoResearchV06.points.some(record =>
+        !record.id || !record.city
+        || !/^https:\/\//.test(record.sourceUrl ?? record.osmRef ?? '')
+        || !['street_address_match', 'unique_osm_named_poi', 'verified_external_coordinates', 'reviewed_osm_named_location'].includes(record.confidence)
+        || !point(record.point?.[0], record.point?.[1])
+        || !cities[record.city]?.point
+        || distanceKm(record.point, cities[record.city].point) > 45))) {
+    throw new Error('OSM-Geodaten v0.6 enthalten ungeprüfte oder unzulässige Koordinaten.');
+  }
+  const geoByKey = new Map((geoResearchV06?.points ?? [])
+    .map(record => [record.id + '|' + record.city, record]));
+  let appliedGeo = 0;
+  for (const trip of output) trip.items = trip.items.map(item => {
+    const match = geoByKey.get(item.id + '|' + item.city);
+    if (!match || item.point || item.provider === 'Airbnb'
+        || String(item.id).startsWith('wishlist:airbnb:')) return item;
+    appliedGeo++;
+    const placed = {
+      ...item, point: match.point, positionIssue: null,
+      geoEvidence: {
+        source: match.confidence === 'verified_external_coordinates' ? 'Unabhängig belegte Koordinate' : 'OpenStreetMap / Photon',
+        url: match.sourceUrl ?? match.osmRef,
+        confidence: match.confidence, observedOn: match.observedOn,
+        isCentroid: match.isCentroid,
+        note: match.locationDescription ?? (match.isCentroid
+          ? 'OSM-Objektmittelpunkt, nicht zwingend Eingang.' : 'OSM-POI-Position.'),
+      },
+    };
+    return { ...placed,
+      googleMapsUrl: googleMapsSearchUrl(placed, cities),
+      googleTransitUrl: googleMapsDirectionsUrl(null, placed, cities, 'transit'),
+      mapLocationQuality: googleMapsLocationStatus(placed),
+    };
+  });
+  // Publicly named hotel/restaurant addresses recovered from published sources.
+  // These are usable in external search/directions even if a street-number-level
+  // coordinate cannot be independently confirmed. Never assign a city centre
+  // as a property point or fill a hidden Airbnb address.
+  const publicAddressesV09=JSON.parse(await readFile(
+    new URL('../data/research-v09/verified-public-addresses.json',import.meta.url),'utf8'));
+  if(publicAddressesV09.schema!=='verified_public_addresses_v09'
+    ||publicAddressesV09.entries.length<50
+    ||publicAddressesV09.counts.entries!==publicAddressesV09.entries.length
+    ||publicAddressesV09.counts.withIndependentCoordinates!==publicAddressesV09.entries.filter(x=>x.point).length
+    ||publicAddressesV09.counts.verifiedAddressOnly!==publicAddressesV09.entries.filter(x=>!x.point).length
+    ||new Set(publicAddressesV09.entries.map(x=>x.id)).size!==publicAddressesV09.entries.length
+    ||publicAddressesV09.entries.some(row=>row.airbnb||!row.address
+      ||!/^https:\/\//.test(row.sourceUrl)||!cities[row.city]
+      ||row.confirmedFor2027Checkout!==false
+      ||row.point && (!point(row.point[0],row.point[1])
+        ||distanceKm(row.point,cities[row.city].point)>45))){
+    throw new Error('Unzuverlässige öffentliche Hotel-/Restaurant-Adressen in Recherche v0.9.');
+  }
+  const addressV09ById=new Map(publicAddressesV09.entries.map(row=>[row.id+'|'+row.city,row]));
+  let addressAppliedV09=0;
+  for(const trip of output)trip.items=trip.items.map(item=>{
+    const record=addressV09ById.get(item.id+'|'+item.city)
+      ??resolvePublicAddressIdentity(item,publicAddressesV09.entries,cities);
+    if(!record||item.provider==='Airbnb'||String(item.id).startsWith('wishlist:airbnb:'))return item;
+    addressAppliedV09++;
+    // A booking string such as '2 piano' may describe a floor rather than
+    // a civic number. Never let a previously normalized guessed house number
+    // override the corrected public street-only record.
+    const addr=record.addressQualification==='listing_floor_or_number_ambiguity'
+      ?record.address:item.address??record.address;
+    // The official French BAN phase-45 evidence is an independent address
+    // number match. Keep it separate from the historical V06 OSM cohort.
+    // It does not prove the holiday apartment entrance or any reservation.
+    const officialBan=(!item.point
+      &&record.precision==='official_ban_house_number_reference'
+      &&Array.isArray(record.point)&&record.point.length===2
+      &&record.point.every(Number.isFinite)
+      &&/^https:\/\/data\.geopf\.fr\/geocodage\/search\?/.test(record.coordinateSourceUrl??''));
+    // A reviewed independent public restaurant POI must match the published
+    // commercial civic number AND a separate telephone identity check.
+    // This is a public object reference, never a proven customer entrance.
+    const review=record.coordinateVerification;
+    const reviewedPoi=(!item.point
+      &&record.precision==='reviewed_public_poi_position'
+      &&Array.isArray(record.point)&&record.point.length===2
+      &&record.point.every(Number.isFinite)
+      &&/^https:\/\/genova-notizie\.it\/luoghi\//.test(record.coordinateSourceUrl??'')
+      &&review?.status==='accepted_public_poi_reference_not_verified_entrance'
+      &&review.sameCivicConfirmed===true&&review.samePhoneConfirmed===true
+      &&review.entranceConfirmed===false
+      &&review.namedObjectReference===record.coordinateSourceUrl
+      &&/^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/.test(record.coordinateMapLink??'')
+      &&review.coordinatePublication===record.coordinateMapLink
+      &&/^https:\/\/modo21\.it\//.test(review.primaryOperatorAddressSource??'')
+      &&/^https:\/\/www\.ge\.camcom\.gov\.it\//.test(review.independentIndustryRegisterSource??''));
+    // A third-party company GPS coordinate at the SAME public civic is an
+    // address/building reference only. It is NOT proof of a rental unit or door.
+    const publicAddressReference=(!item.point
+      &&record.id==='research:bcom_4231096'
+      &&record.city==='sete'
+      &&record.precision==='independent_third_party_house_number_reference'
+      &&Array.isArray(record.point)&&record.point.length===2
+      &&record.point.every(Number.isFinite)
+      &&/^https:\/\/immobilier\.annuairefrancais\.fr\/sete\//.test(record.coordinateSourceUrl??'')
+      &&review?.status==='third_party_address_reference_not_rental_property_poi'
+      &&review.postalMatch===true&&review.cityMatch===true
+      &&review.houseNumberMatch===true
+      &&review.coordinateAtDifferentBusiness===true
+      &&review.stayIdentityConfirmed===false&&review.entranceConfirmed===false
+      &&review.coordinateSourceUrl===record.coordinateSourceUrl
+      &&/^https:\/\/www\.pappers\.fr\/entreprise\/central-bar-902013895/.test(review.secondaryStreetNumberSourceUrl??''));
+    const verifiedPoint=officialBan||reviewedPoi||publicAddressReference;
+    const addressPoint=verifiedPoint?{
+      point:record.point,positionIssue:null,
+      geoEvidence:{
+        source:officialBan?'IGN Géoplateforme / amtliche Base Adresse Nationale'
+          :publicAddressReference?'Öffentliches Hausnummern-GPS aus unabhängigem Gewerbeverzeichnis (anderes Unternehmen)'
+          :'OSM-abgeleiteter, unabhängig mit Hausnummer und Telefonnummer abgeglichener Restaurant-POI',
+        url:record.coordinateSourceUrl,
+        confidence:officialBan?'official_ban_house_number'
+          :publicAddressReference?'independent_third_party_house_number_not_lodging_entrance'
+          :'crosschecked_public_poi_reference_not_entrance',
+        observedOn:record.coordinateReviewedOn??record.observedOn,
+        isCentroid:true,
+        note:record.remark+' Öffentlicher Referenzpunkt, kein separat geprüfter Wohnungs- oder Kundeneingang.'
+      },
+    }:{};
+    const known=Boolean(item.point||verifiedPoint);
+    const aligned={
+      ...item,...addressPoint,address:addr,
+      addressEvidenceV09:{
+        sourceRecordId:record.id,
+        identityMatch:record.id===item.id?'original_id':'same_city_exact_original_lodging_name',
+        status:known?'sourced_coordinate_and_published_address':'official_address_without_verified_coordinates',
+        sourceUrl:record.sourceUrl,
+        publishedAddress:record.address,
+        observedOn:record.observedOn,
+        precision:record.precision,
+        addressQualification:record.addressQualification??null,
+        secondarySourceUrl:record.secondaryAddressSourceUrl??null,
+        rejectedSimilarNameUrl:record.rejectedSimilarNameUrl??null,
+        operatorArrivalV47:record.operatorArrivalV47??null,
+        coordinateSourceUrl:verifiedPoint?record.coordinateSourceUrl:null,
+        coordinateMapLink:verifiedPoint?record.coordinateMapLink??null:null,
+        coordinateReferenceId:verifiedPoint?record.coordinateReferenceId??null:null,
+        coordinateVerification:(reviewedPoi||publicAddressReference)?review:null,
+        remark:record.remark,
+        notABooking:Boolean(!record.confirmedFor2027Checkout),
+      },
+      source:[...new Set([...(item.source??[]),'address-v09:'+record.id])],
+    };
+    return{...aligned,
+      googleMapsUrl:googleMapsSearchUrl(aligned,cities),
+      googleTransitUrl:googleMapsDirectionsUrl(null,aligned,cities,'transit'),
+      mapLocationQuality:googleMapsLocationStatus(aligned),
+    };
+  });
+  // Individually reasoned research status for every remaining non-geocoded
+  // reference. Reconcile against current sourced coordinates on every load:
+  // if new points are later verified, stale open issues are suppressed.
+  const unresolvedReasonsV09=JSON.parse(await readFile(
+    new URL('../data/research-v09/individual-unresolved-reasons.json',import.meta.url),'utf8'));
+  if(unresolvedReasonsV09.schema!=='geo_final_individual_reason_v09'
+    ||!Array.isArray(unresolvedReasonsV09.items)
+    ||unresolvedReasonsV09.items.length!==146
+    ||new Set(unresolvedReasonsV09.items.map(x=>x.id+'|'+x.city)).size!==146
+    ||unresolvedReasonsV09.items.some(x=>!x.id||!x.city||!x.reason||!x.nextStep
+      ||x.coordinate!==null||x.coordinateStatus!=='not_verifiably_exact'
+      ||x.privateAirbnbProperty!==x.id.startsWith('wishlist:airbnb:')))
+    throw new Error('Einzelbegründungen für offene Kartenobjekte v0.9 unvollständig.');
+  const publicAddressCheckV49=JSON.parse(await readFile(
+    new URL('../data/research-v49/public-address-checklist.json',import.meta.url),'utf8'));
+  const publicAddressPendingV49=publicAddressesV09.entries.filter(row=>!row.point);
+  const publicAddressByKeyV49=new Map(publicAddressPendingV49
+    .map(row=>[row.id+'|'+row.city,row]));
+  if(publicAddressCheckV49.schema!=='reiseplaner_public_address_verification_queue_v49'
+    ||publicAddressCheckV49.counts?.total!==14
+    ||!Array.isArray(publicAddressCheckV49.entries)
+    ||publicAddressCheckV49.entries.length!==publicAddressPendingV49.length
+    ||publicAddressCheckV49.entries.filter(row=>row.historicalProviderPoint).length!==11
+    ||new Set(publicAddressCheckV49.entries.map(row=>row.id+'|'+row.city)).size!==14
+    ||publicAddressCheckV49.entries.some(row=>{
+      const original=publicAddressByKeyV49.get(row.id+'|'+row.city);
+      return !original||row.publishedAddress!==original.address
+        ||row.addressSource!==original.sourceUrl
+        ||row.entranceVerified!==false||row.booked2027!==false
+        ||row.automaticallyGeocoded!==false
+        ||row.id.startsWith('wishlist:airbnb:')
+        ||!['critical','high','medium','low'].includes(row.reviewPriority)
+        ||!row.nextManualCheck||!row.blocker;
+    })){
+    throw new Error('Quellenprioritäten V49 sind nicht mit den offenen öffentlichen Adressen synchron.');
+  }
+  const publicAddressCheckByKeyV49=new Map(publicAddressCheckV49.entries
+    .map(row=>[row.id+'|'+row.city,row]));
+  const reasonsV09ByKey=new Map(unresolvedReasonsV09.items.map(x=>[x.id+'|'+x.city,x]));
+  // New independent address/POI sources are reconciled with the old audit
+  // without altering its original 146 research records or the V06 cohort.
+  const independentlyLocatedAddressKeys=new Set(publicAddressesV09.entries
+    .filter(x=>Array.isArray(x.point)&&
+      (x.precision==='official_ban_house_number_reference'
+        &&/^https:\/\/data\.geopf\.fr\//.test(x.coordinateSourceUrl??'')
+       ||x.precision==='reviewed_public_poi_position'
+        &&x.coordinateVerification?.status==='accepted_public_poi_reference_not_verified_entrance'
+        &&x.coordinateVerification.sameCivicConfirmed===true
+        &&x.coordinateVerification.samePhoneConfirmed===true
+        &&x.coordinateVerification.entranceConfirmed===false
+        &&/^https:\/\/genova-notizie\.it\/luoghi\//.test(x.coordinateSourceUrl??'')
+       ||x.id==='research:bcom_4231096'
+        &&x.precision==='independent_third_party_house_number_reference'
+        &&x.coordinateVerification?.status==='third_party_address_reference_not_rental_property_poi'
+        &&x.coordinateVerification?.postalMatch===true
+        &&x.coordinateVerification?.houseNumberMatch===true
+        &&x.coordinateVerification?.coordinateAtDifferentBusiness===true
+        &&x.coordinateVerification?.stayIdentityConfirmed===false
+        &&x.coordinateVerification?.entranceConfirmed===false
+        &&/^https:\/\/immobilier\.annuairefrancais\.fr\/sete\//.test(x.coordinateSourceUrl??'')))
+    .map(x=>x.id+'|'+x.city));
+  const activeUnresolvedV09=unresolvedReasonsV09.items.filter(x=>
+    !geoByKey.has(x.id+'|'+x.city)
+    &&!independentlyLocatedAddressKeys.has(x.id+'|'+x.city));
+  let openReasonReferencesV09=0;
+  for(const trip of output)trip.items=trip.items.map(item=>{
+    if(item.point)return item;
+    const unresolved=reasonsV09ByKey.get(item.id+'|'+item.city);
+    if(!unresolved)return item;
+    openReasonReferencesV09++;
+    return{...item,geoReviewV09:{
+      reasonCode:unresolved.reasonCode,reason:unresolved.reason,
+      nextStep:unresolved.nextStep,
+      sourceUrl:unresolved.providerAddressSource,
+      knownPublicAddress:unresolved.knownPublicAddress,
+      exactPointKnown:false,
+      lastReviewedOn:unresolved.lastReviewedOn,
+    }};
+  });
+  // A concise public-only review priority is attached to missing locations.
+  // Historical provider coordinates remain research hints, NEVER active pins.
+  for(const trip of output)trip.items=trip.items.map(item=>{
+    if(item.point||item.provider==='Airbnb'||String(item.id).startsWith('wishlist:airbnb:'))
+      return item;
+    const review=publicAddressCheckByKeyV49.get(item.id+'|'+item.city);
+    if(!review)return item;
+    return {...item,addressCheckV49:{
+      priority:review.reviewPriority,identityConflict:review.identityConflict,
+      addressQualification:review.addressQualification,
+      nextManualCheck:review.nextManualCheck,
+      blocker:review.blocker,
+      hasHistoricalProviderHint:Boolean(review.historicalProviderPoint),
+      reviewedOn:publicAddressCheckV49.reviewDate,
+    }};
+  });
+  // Import candidates after legacy location evidence, before per-entry coverage audits.
+  // Never alter original Tripsy items or commit anything into active trip state.
+  const surveyFirstV19 = applySurveyFirstV19(output, cities, surveyFirstV19Archive);
+  const researchV20Archive = await loadResearchV20(surveyFirstV19Archive.activities.items,cities);
+  const researchV20 = applyResearchV20(output,cities,researchV20Archive);
+  const researchV22Archive = await loadResearchV22();
+  const researchV22 = applyResearchV22(output,researchV22Archive,surveyFirstV19Archive.activities.items);
+  const fieldNotesV28Archive=await loadFieldNotesV28();
+  const fieldNotesV28=applyFieldNotesV28(output,fieldNotesV28Archive,surveyFirstV19Archive.activities.items);
+  const dayPlansV32=await loadDayPlansV32(output,transport);
+  const hikingArchive=JSON.parse(await readFile(new URL('../data/hiking-evidence.json',import.meta.url),'utf8'));
+  const hikingStats=attachHikingEvidence(output,hikingArchive,cities);
+  const mappedFareRowsV07 = Object.fromEntries(destinations.map(city => [
+    city.id, operatorFares.filter(ref => ref.city === city.id),
+  ]));
+  // Attach published evidence only to genuinely corresponding place names.
+  // Avoid converting published general prices into unbooked 2027 checkout prices.
+  for (const trip of output) trip.items = trip.items.map(item => {
+    const match = item.kind === 'activity' && operatorV07.attractionReferences.find(ref =>
+      ref.city === item.city && new RegExp(ref.pattern, 'i').test(item.name));
+    const knownExact = Array.isArray(item.point) && item.point.length === 2;
+    const additionalSources = match ? ['operator-v07-attraction:' + match.id] : [];
+    return {
+      ...item,
+      ...(match ? { operatorReferenceV07: {
+        id: match.id, title: match.title, openingReference: match.hours,
+        localTransitTip: match.transit, priceReference: match.priceReference,
+        pricePeriod: String(match.referenceYear),
+        sourceUrl: match.sourceUrl,
+        confirmedSep2027Hours: Boolean(match.verified2027Hours),
+      }} : {}),
+      ...(additionalSources.length ? {source:[...new Set([...(item.source??[]),...additionalSources])]} : {}),
+      locationReferenceV07: {
+        precision: knownExact ? (item.surveyV19?.locationPrecision === 'booking_provider_property_coordinate' ? 'provider_reported_unverified' : item.geoEvidence?.isCentroid ? 'sourced_area_center' : 'sourced_point') : 'city_only_not_a_pin',
+        exactKnown: knownExact,
+        city: item.city,
+        ...(knownExact ? {} : {orientationCityPoint: cities[item.city]?.point ?? null}),
+        notice: knownExact ? (item.surveyV19?.locationPrecision === 'booking_provider_property_coordinate' ? 'Nur vom Anbieter gemeldete Position; Eingang und genaue Adresse nicht unabhängig belegt.' : item.geoEvidence?.note ?? 'Referenzpunkt aus ursprünglicher Quelle')
+          : 'Nur Stadtorientierung. Keine genaue Eigenschaftsadresse oder bestätigter Kartenmarker.',
+      },
+    };
+  });
+  // Non-booked menu observations: attached to an item but NEVER to item.price
+  // or the user-group budget. A separate source records the specific menu URL.
+  for (const trip of output) trip.items = trip.items.map(item=>{
+    const menuAudit=foodMenuMapV08.get(item.id);
+    return !menuAudit ? item : {
+      ...item,
+      menuPriceResearchV08:{
+        status:menuAudit.status,
+        menuReference:menuAudit.menuReference,
+        sourceUrl:menuAudit.menuReference?.sourceUrl ?? menuAudit.providerSite ?? null,
+        observedOn:menuAudit.observedOn,
+        resolutionNote:menuAudit.resolutionNote,
+      },
+      source:menuAudit.menuReference
+        ? [...new Set([...(item.source??[]),'food-v08-menu:'+menuAudit.id])]
+        : item.source,
+    };
+  });
+  // Every catalog record receives an independent source-/coverage audit for
+  // precise review in the Data & Fristen page and offline JSON export.
+  // One unique source/ambiguity ledger per unresolved record. The 336 original
+  // missing entries over four variants corresponded to 188 distinct records
+  // prior to the v0.8 source-specific coordinate improvements.
+  const geoUnresolvedV08 = ['review','unmatched','skipped'].flatMap(kind=>
+    (geoResearchV06?.[kind] ?? []).map(record=>{
+      const provider=String(record.id).startsWith('wishlist:airbnb:');
+      const genericActivity=record.id.includes(':activity:')
+        || record.id.startsWith('research:suggest_');
+      const hasAddress=Boolean(record.address);
+      const nextAction=provider?'Exact address not public; confirm with host after booking'
+        :kind==='review'?'Ambiguous same-name candidates; independently match an official place address'
+        :hasAddress?'Source address requires verified address/building lookup'
+        :genericActivity?'Specific meeting point must be chosen; whole activity is not one exact POI'
+        :'Provider must publish full address or exact point';
+      return {
+        id:record.id,city:record.city,name:record.name,
+        status:kind,hasStreetAddress:hasAddress,
+        privateAirbnbProperty:provider,
+        candidateCount:record.candidates?.length??0,
+        reviewReason:record.reason??(kind==='skipped'?'Private or generic place':'No exact match'),
+        nextAction,
+        url:googleMapsSearchUrl(record,cities),
+        placePrecision:'unverified_not_a_pin',
+        previouslySearchedWith:'OpenStreetMap Photon, November 2026',
+      };
+    }));
+  const geoUnresolvedById=new Map(geoUnresolvedV08.map(x=>[x.id+'|'+x.city,x]));
+  // Public user-supplied research: import as OPTIONAL candidates only.
+  // All 105 raw rows remain archived and their GPS/price claims unverified;
+  // exact city+name matches are linked as duplicates, never overwriting data.
+  const uploadedResearchV50=JSON.parse(await readFile(
+    new URL('../data/research-v50/uploaded-interrail-2027-candidates.json',import.meta.url),'utf8'));
+  const uploadedStatsV50=applyUploadedPlacesV50(output,cities,uploadedResearchV50);
+  const nightlifeOfficialStatsV51=attachNightlifeReferencesV51(output);
+  const operatorDiscoveryV54=JSON.parse(await readFile(
+    new URL('../data/research-v54/official-discoveries.json',import.meta.url),'utf8'));
+  const operatorDiscoveryStatsV54=applyOperatorDiscoveriesV54(output,cities,operatorDiscoveryV54);
+  const operatorDiscoveryV55=JSON.parse(await readFile(
+    new URL('../data/research-v55/official-discoveries.json',import.meta.url),'utf8'));
+  const operatorDiscoveryStatsV55=applyOperatorDiscoveriesV55(output,cities,operatorDiscoveryV55);
+  const operatorDiscoveryV60=JSON.parse(await readFile(
+    new URL('../data/research-v60/official-discoveries.json',import.meta.url),'utf8'));
+  const operatorDiscoveryStatsV60=applyOperatorDiscoveriesV60(output,cities,operatorDiscoveryV60);
+  const operatorDiscoveryV61=JSON.parse(await readFile(
+    new URL('../data/research-v61/official-discoveries.json',import.meta.url),'utf8'));
+  const operatorDiscoveryStatsV61=applyOperatorDiscoveriesV61(output,cities,operatorDiscoveryV61);
+  const operatorDiscoveryV62=JSON.parse(await readFile(
+    new URL('../data/research-v62/official-discoveries.json',import.meta.url),'utf8'));
+  const operatorDiscoveryStatsV62=applyOperatorDiscoveriesV62(output,cities,operatorDiscoveryV62);
+  const existingGuidesV68=JSON.parse(await readFile(
+    new URL('../data/research-v68/existing-place-guides.json',import.meta.url),'utf8'));
+  const existingGuidesStatsV68=applyExistingPlaceGuidesV68(
+    output,cities,uploadedResearchV50,existingGuidesV68);
+  // Every existing Swiss activity, accommodation and transfer gets a
+  // planning-oriented regional reference; concrete venue claims are separate
+  // from broad regional sources. Never mutate route, geometry or checkout.
+  const swissArchiveV75=JSON.parse(await readFile(
+    new URL('../data/research-v75/swiss-entry-guides.json',import.meta.url),'utf8'));
+  const swissGuideStatsV75=applySwissGuidesV75(output,cities,swissArchiveV75);
+  const cityArchiveV76=JSON.parse(await readFile(
+    new URL('../data/research-v76/city-details.json',import.meta.url),'utf8'));
+  const cityGuideStatsV76=applyCityGuidesV76(output,cities,uploadedResearchV50,cityArchiveV76);
+  const venueArchiveV77=JSON.parse(await readFile(
+    new URL('../data/research-v77/official-venues.json',import.meta.url),'utf8'));
+  const venueGuideStatsV77=applyOfficialVenuesV77(
+    output,cities,uploadedResearchV50,venueArchiveV77);
+  const venueArchiveV78=JSON.parse(await readFile(
+    new URL('../data/research-v78/venue-source-review.json',import.meta.url),'utf8'));
+  const venueReviewStatsV78=applyVenueSourceReviewV78(
+    output,cities,uploadedResearchV50,venueArchiveV78);
+  const lastCityArchiveV79=JSON.parse(await readFile(
+    new URL('../data/research-v79/last-city-gaps.json',import.meta.url),'utf8'));
+  const lastCityStatsV79=applyLastCityGapsV79(
+    output,cities,uploadedResearchV50,lastCityArchiveV79);
+  const alternativesArchiveV80=JSON.parse(await readFile(
+    new URL('../data/research-v80/alternative-venues.json',import.meta.url),'utf8'));
+  const alternativeStatsV80=applyAlternativeVenuesV80(
+    output,cities,uploadedResearchV50,alternativesArchiveV80);
+  const photoArchiveV81=JSON.parse(await readFile(
+    new URL('../data/research-v81/licensed-place-photos.json',import.meta.url),'utf8'));
+  const photoScopesV81=new Set(['exact_historic_external',
+    'at_venue_historic_food','exact_historic_beach','venue_site_not_event']);
+  const v50PhotoSubjects=new Map(uploadedResearchV50.new_entries.map(row=>[row.id,row]));
+  if(photoArchiveV81?.meta?.package!=='research-v81-licensed-site-photos'
+    ||photoArchiveV81.meta.checkedOn!=='2026-11-17'
+    ||photoArchiveV81.meta.count!==4
+    ||photoArchiveV81.images?.length!==photoArchiveV81.meta.count
+    ||new Set(photoArchiveV81.images.map(p=>p.id)).size!==4
+    ||photoArchiveV81.images.some(p=>
+      !v50PhotoSubjects.has(p.id)||!photoScopesV81.has(p.scope)
+      ||!p.sourceUrl.startsWith('https://commons.wikimedia.org/wiki/File:')
+      ||!p.licenseUrl.startsWith('https://creativecommons.org/licenses/')
+      ||!p.author||!p.photographed||p.confirmedAs2027Opening!==false))
+    throw Error('V81 invalid licensed photo provenance archive');
+  const photoQualityV81={
+    checkedOn:photoArchiveV81.meta.checkedOn,
+    addedImages:photoArchiveV81.images.length,
+    individuallyMatched:photoArchiveV81.images.filter(p=>
+      p.scope!=='venue_site_not_event').length,
+    historicVenueOnly:photoArchiveV81.images.filter(p=>
+      p.scope==='venue_site_not_event').length,
+    current2027ConditionsVerified:0,
+    imageEntries:photoArchiveV81.images.map(p=>({
+      id:p.id,city:p.city,name:p.name,scope:p.scope,
+      photographed:p.photographed,author:p.author,license:p.license,
+      sourceUrl:p.sourceUrl
+    })),
+  };
+  // Coverage counts distinct imported identities, not repeated travel variants.
+  // A source-backed location profile is not a verified 2027 booking or pin.
+  const fourCityImportRows=uploadedResearchV50.new_entries.filter(row=>
+    ['Paris','Barcelona','Sète','Nizza'].includes(row.city));
+  const fourCityDirectSources=new Set([
+    ...cityArchiveV76.entries,...venueArchiveV77.entries,
+    ...venueArchiveV78.entries,...lastCityArchiveV79.entries].map(row=>row.id));
+  const fourCityConflicts=new Set([
+    ...venueArchiveV78.reviews,...lastCityArchiveV79.conflicts].map(row=>row.id));
+  const fourCitySourceCoverageV79={
+    checkedOn:'2026-11-17',
+    importedUnique:fourCityImportRows.length,
+    withIndividualReference:fourCityImportRows.filter(row=>
+      fourCityDirectSources.has(row.id)).length,
+    unresolved:fourCityImportRows.filter(row=>
+      !fourCityDirectSources.has(row.id)).map(row=>({
+        id:row.id,name:row.name,city:row.city,
+        identityConflictKnown:fourCityConflicts.has(row.id),
+        nextAction:'Originalanbieter und genaue Filiale anhand zusätzlicher Quelle zuordnen',
+      })),
+    conflictIds:[...fourCityConflicts].sort(),
+    label:'Einzelquellen belegen nur die jeweilige Besucherinfo; keine vollständige 2027-Öffnung, Preis- oder GPS-Verifizierung',
+  };
+  const fourCityIdentityResolutionV80={
+    checkedOn:'2026-11-17',
+    distinctImports:fourCityImportRows.length,
+    directNamedSources:fourCitySourceCoverageV79.withIndividualReference,
+    additionalCornerAliasSupported:alternativesArchiveV80.dossiers
+      .filter(d=>d.status==='corner_addresses_correlated').map(d=>d.id),
+    remainingOriginalIdentityUnconfirmed:alternativesArchiveV80.dossiers
+      .filter(d=>d.status==='original_identity_unconfirmed_with_sourced_alternatives')
+      .map(d=>d.id),
+    distinctAlternatives:alternativesArchiveV80.meta.alternativeCount,
+    userSelectionRequired:true,matchedBusinessCheckout2027:false,
+  };
+  for(const trip of output)trip.items=trip.items.map(item=>
+    !item.researchV50?item:{
+      ...item,
+      googleMapsUrl:googleMapsSearchUrl(item,cities),
+      googleTransitUrl:googleMapsDirectionsUrl(null,item,cities,'transit'),
+      mapLocationQuality:googleMapsLocationStatus(item),
+    });
+  const coverageV07 = output.map(trip => {
+    const entries=trip.items.filter(item => !item.duplicateOf && !item.removed);
+    const categoryOf=item => item.kind==='transport'?'transport'
+      :item.kind==='lodging'?'lodging'
+      :item.category==='food'?'food'
+      :/(supermarkt|einkauf|grocer|market|carrefour)/i.test(
+        [item.name,item.category,...(item.tags??[])].join(' '))?'shopping':'activity';
+    const rows=entries.map(item=>{
+      const amount=item.price?.cents;
+      const hours=Boolean(item.openingHoursNote || item.weekly?.hours
+        || item.hours || item.operatorReferenceV07?.openingReference);
+      const sourceRefs=(item.source??[]).filter(ref=>typeof ref==='string');
+      const publisherRefs=sourceRefs.filter(ref=>
+        research.sources.some(s=>s.id===ref) || sources.some(s=>s.id===ref)
+        || ref.startsWith('operator-v07-') || ref.startsWith('official-v03:')
+        || ref.startsWith('food-v03-') || ref.startsWith('survey-v19:') || ref.startsWith('survey-v20:') || ref.startsWith('survey-v20-indoor:') || ref.startsWith('wishlist-v04:')
+        || ref.startsWith('address-v09:') || ref.startsWith('food-v08-menu:')
+        || ref.startsWith('operator-v54:')||ref.startsWith('operator-v55:')||ref.startsWith('hiking:')
+        || ref.startsWith('operator-v60:')||ref.startsWith('operator-v61:')||ref.startsWith('operator-v62:')||ref.startsWith('guide-v68:')||ref.startsWith('city-v76:')||ref.startsWith('venue-v77:')||ref.startsWith('venue-v78:')||ref.startsWith('city-v79:'));
+      return {
+        id:item.id,city:item.city,name:item.name,category:categoryOf(item),
+        selected:Boolean(item.selected),
+        pointStatus:item.locationReferenceV07.precision,
+        geolocationMissing:!item.locationReferenceV07.exactKnown,
+        priceStatus:Number.isSafeInteger(amount)?'source_price_reference'
+          :item.quote?.sampleTotalCents!=null?'old_wishlist_sample_not_a_trip_price'
+          :item.menuPriceResearchV08?.status==='priced_reference_found'
+            ?'menu_observation_not_trip_price':'no_confirmed_2027_price',
+        menuV08Status:item.menuPriceResearchV08?.status??'not_a_v08_curated_eatery',
+        unresolvedGeoReason:reasonsV09ByKey.get(item.id+'|'+item.city)?.reason
+          ??geoUnresolvedById.get(item.id+'|'+item.city)?.reviewReason??null,
+        sourceBasedPostalAddress:item.addressEvidenceV09?.publishedAddress??null,
+        hoursStatus:hours?'published_reference_recheck_2027':'no_published_hours',
+        sourceStatus:publisherRefs.length?'linked_source_reference':'source_unspecified',
+        bookingStatus:item.kind==='lodging'?(item.booked?'recorded_as_booked':'unbooked_alternative'):null,
+        googleMapsUrl:item.googleMapsUrl,googleTransitUrl:item.googleTransitUrl,
+      };
+    });
+    return {
+      variant:trip.id,
+      total:rows.length,
+      withPrecisePoint:rows.filter(x=>!x.geolocationMissing).length,
+      withoutPrecisePoint:rows.filter(x=>x.geolocationMissing).length,
+      withPriceReference:rows.filter(x=>x.priceStatus==='source_price_reference').length,
+      withHoursReference:rows.filter(x=>x.hoursStatus==='published_reference_recheck_2027').length,
+      withSourceLink:rows.filter(x=>x.sourceStatus==='linked_source_reference').length,
+      byCategory:Object.fromEntries(['activity','food','shopping','lodging','transport']
+        .map(category=>[category,rows.filter(r=>r.category===category).length])),
+      entries:rows,
+    };
+  });
+  const swissInterrailArchiveV82=JSON.parse(await readFile(
+    new URL('../data/research-v82/interrail-swiss-focus.json',import.meta.url),'utf8'));
+  const swissInterrailStatsV82=validateInterrailSwissFocusV82(
+    output,transport,swissInterrailArchiveV82);
+  const swissLodgingArchiveV83=JSON.parse(await readFile(
+    new URL('../data/research-v83/swiss-lodging-three-guests.json',import.meta.url),'utf8'));
+  const sourceLodgingsV83=JSON.parse(await readFile(
+    new URL('../data/accommodations.json',import.meta.url),'utf8'));
+  const swissLodgingStatsV83=validateSwissLodgingV83(
+    output,sourceLodgingsV83,swissLodgingArchiveV83);
+  const swissDatedArchiveV84=JSON.parse(await readFile(
+    new URL('../data/research-v84/interrail-swiss-provider-rail.json',import.meta.url),'utf8'));
+  const swissDatedStatsV84=validateSwissDatedSearchV84(
+    output,sourceLodgingsV83,swissDatedArchiveV84);
   return { trips: output, cities, fares: fareMap, mealPlans,
     research: {
       version: research.import_rules.version,
+      surveyFirstV19,
+      researchV20,
+      researchV22,
+       fieldNotesV28,
+      dayPlansV32,
+      mealResearch,
+      hikingEvidence:{...hikingArchive,stats:hikingStats},
+      uploadedResearchV50:{meta:uploadedResearchV50.meta,stats:uploadedStatsV50},
+      nightlifeOfficialV51:nightlifeOfficialStatsV51,
+      operatorDiscoveryV54:{meta:operatorDiscoveryV54.meta,stats:operatorDiscoveryStatsV54},
+      operatorDiscoveryV55:{meta:operatorDiscoveryV55.meta,stats:operatorDiscoveryStatsV55},
+      operatorDiscoveryV60:{meta:operatorDiscoveryV60.meta,stats:operatorDiscoveryStatsV60},
+      operatorDiscoveryV61:{meta:operatorDiscoveryV61.meta,stats:operatorDiscoveryStatsV61},
+      operatorDiscoveryV62:{meta:operatorDiscoveryV62.meta,stats:operatorDiscoveryStatsV62},
+       existingPlaceGuidesV68:{meta:existingGuidesV68.meta,stats:existingGuidesStatsV68},
+       swissEntryGuidesV75:{meta:swissArchiveV75.meta,stats:swissGuideStatsV75},
+       fourCityDetailsV76:{meta:cityArchiveV76.meta,stats:cityGuideStatsV76},
+       officialVenuesV77:{meta:venueArchiveV77.meta,stats:venueGuideStatsV77},
+       venueSourceReviewV78:{meta:venueArchiveV78.meta,stats:venueReviewStatsV78},
+       lastCityGapsV79:{meta:lastCityArchiveV79.meta,stats:lastCityStatsV79},
+       fourCitySourceCoverageV79,
+       alternativeVenuesV80:{meta:alternativesArchiveV80.meta,stats:alternativeStatsV80},
+       fourCityIdentityResolutionV80,
+       licensedPlacePhotosV81:{meta:photoArchiveV81.meta,stats:photoQualityV81},
+       interrailSwissFocusV82:{...swissInterrailArchiveV82,stats:swissInterrailStatsV82},
+       interrailSwissLodgingV83:{...swissLodgingArchiveV83,stats:swissLodgingStatsV83},
+       interrailSwissDatedV84:{...swissDatedArchiveV84,stats:swissDatedStatsV84},
+      operatorAccessV56:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V56).length},
+      operatorAccessV57:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V57).length,
+        publishedSeasonCandidates:Object.values(VERIFIED_PLACE_UPDATES_V57).filter(x=>x.publishedSeason2027).length},
+      operatorAccessV58:{checkedOn:'2026-11-16',updatedOriginalCandidates:Object.keys(VERIFIED_PLACE_UPDATES_V58).length},
+      providerSearchV13,providerLocationsV13,
       observedOn: '2026-11-12',
       groupPreferences: research.group_preferences,
       cityCoverage: Object.fromEntries(coverageArchive.rows.map(([id, activityCount, lodgingCount, quoteCount, newActivities]) =>
@@ -487,7 +1269,42 @@ export async function loadCatalog() {
       transportCandidates: research.transport_comparison_candidates,
       budgetScenarios: research.budget_scenarios,
       quality: research.data_quality,
+      geoResearchV06: geoResearchV06 ? {
+        observedOn: geoResearchV06.observedOn,
+        eligible: geoResearchV06.eligible,
+        acceptedUnique: geoResearchV06.points.length,
+        reviewUnique: geoResearchV06.review.length,
+        unresolvedUnique: geoResearchV06.unmatched?.length ?? 0,
+        skippedUnique: geoResearchV06.skipped?.length ?? 0,
+        requestsFailed: geoResearchV06.failures?.length ?? 0,
+        appliedAcrossVariants: appliedGeo,
+        attribution: geoResearchV06.attribution,
+      } : null,
+      publicAddressesV09:{
+        ...publicAddressesV09,
+        appliedAcrossVariants:addressAppliedV09,
+      },
+      unresolvedReasonsV09:{
+        ...unresolvedReasonsV09,
+        items:activeUnresolvedV09,
+        actuallyUnresolvedUnique:activeUnresolvedV09.length,
+        appliedAcrossVariants:openReasonReferencesV09,
+      },
+      publicAddressCheckV49,
+      foodMenuV08,
+      geoUnresolvedV08,
+      operatorV07,
+      mappedFareRowsV07,
+      coverageV07,
+      railReferenceV04,
+      airbnbWishlistResearchV04: airbnbResearch.items,
+      foodVenueResearchV03: newFoodResearch.items,
+      activityEvidenceV03: officialActivityEvidence.entries,
       counts: {
+        railReferenceCorridorsV04: railReferenceV04.corridors.length,
+        airbnbWishlistAddsV04: airbnbResearch.items.length,
+        foodVenueAddsV03: newFoodResearch.items.length,
+        officialActivityRefsV03: officialActivityEvidence.entries.length,
         activityCandidates: research.activities_comparison_catalog.length,
         addedActivities: research.activities_comparison_catalog.filter(a => !activities.some(old => old.id === a.id)).length,
         lodgingCandidates: research.accommodation_comparison_catalog.length,
@@ -499,7 +1316,214 @@ export async function loadCatalog() {
         issues: research.data_quality.length,
       },
     },
-    sources: Object.fromEntries([...sources, ...research.sources, {
+    sources: Object.fromEntries([...sources, ...research.sources, ...surveyFirstV19.sources, ...researchV20.sources, ...researchV22.sources, ...fieldNotesV28.sources,
+      ...operatorFares.map(ref => ({ id:'operator-v07-fare:'+ref.id,
+        publisher:'Offizieller Nahverkehr · '+ref.city+' · '+ref.name,
+        url:ref.sourceUrl, accessed_on:operatorV07.observedOn,
+        validity:'2026-only operator fare reference; 2027 not confirmed' })),
+      ...operatorV07.attractionReferences.map(ref => ({
+        id:'operator-v07-attraction:'+ref.id,
+        publisher:'Offizieller Betreiber · '+ref.title,
+        url:ref.sourceUrl, accessed_on:operatorV07.observedOn,
+        validity:ref.verified2027Hours?'published 2027 operating window, conditions apply':'2026 general reference',
+      })),
+      ...operatorV07.railExamples.map(ref => ({
+        id:'operator-v07-rail:'+ref.id,publisher:ref.service+' · Beispiel / Verkaufsregel',
+        url:ref.sourceUrl, accessed_on:operatorV07.observedOn,
+        validity:'2026 sample, 2027 prices/departures unverified',
+      })),
+      ...railReferenceV04.rules.map(rule => ({
+        id: 'rail-rule-v04:' + rule.id, publisher: 'Interrail · offizielle Regeln',
+        url: rule.url, accessed_on: railReferenceV04.observed_on, validity: rule.validity,
+      })),
+      ...airbnbResearch.items.map(ref => ({
+        id: 'wishlist-v04:' + ref.providerId,
+        publisher: 'Airbnb-Wunschliste · ' + ref.name,
+        url: ref.website, accessed_on: airbnbResearch.observed_on,
+        validity: 'historic_wishlist_display_price_not_booked_or_checkout_verified',
+      })),
+      ...publicAddressesV09.entries.map(ref=>({
+        id:'address-v09:'+ref.id,
+        publisher:'Öffentliche Anbieter-/Hoteladresse · '+ref.name,
+        url:ref.sourceUrl,accessed_on:ref.observedOn,
+        validity:ref.point?'Published address with a sourced point':'Published exact postal address; location coordinates not yet verified',
+      })),
+      ...foodMenuV08.items.filter(x=>x.menuReference).map(ref=>({
+        id:'food-v08-menu:'+ref.id,
+        publisher:'Speisekarte / Preisbeobachtung · '+ref.name,
+        url:ref.menuReference.sourceUrl,accessed_on:ref.observedOn,
+        validity:ref.menuReference.dateLabel+'; September 2027 not confirmed; '
+          +ref.menuReference.sourceType,
+      })),
+      ...newFoodResearch.items.map(place => ({
+        id: place.sourceId,
+        publisher: 'Lokale Kartensuche vom 13.11.2026 · ' + place.name,
+        url: place.website,
+        accessed_on: place.observedOn,
+        validity: 'business_listing_snapshot_address_and_hours_not_confirmed_for_2027',
+      })),
+      ...Object.entries(VERIFIED_PLACE_UPDATES_V58).map(([id,place])=>({
+        id:'operator-v58:'+id,
+        publisher:'Betreiber oder Stadtverwaltung · '+id,
+        url:place.sourceUrl,accessed_on:place.checkedOn,
+        validity:'Referenz 2026 mit unbestätigten Veranstaltungsdaten und Preisen für 2027',
+      })),
+      ...Object.entries(VERIFIED_PLACE_UPDATES_V57).map(([id,place])=>({
+        id:'operator-v57:'+id,
+        publisher:'Original Betreiberquelle und Reisejahr-Saisonreferenz · '+id,
+        url:place.sourceUrl,accessed_on:place.checkedOn,
+        validity:place.publishedSeason2027
+          ?'Betreiber veröffentlicht Saisonreferenz 2027; keine Live-Betriebs-/Buchungszusage'
+          :'Betreiberreferenz 2026; weder Preis noch Einlass für Sept. 2027 bestätigt',
+      })),
+      ...Object.entries(VERIFIED_PLACE_UPDATES_V56).map(([id,place])=>({
+        id:'operator-v56:'+id,
+        publisher:'Original-Betreiber-/Stadtquelle · Zugang und Tarif · '+id,
+        url:place.sourceUrl,accessed_on:place.checkedOn,
+        validity:'Historische Betreiberreferenz 2026; keine garantierte Öffnung/Tickets für September 2027',
+      })),
+       ...swissArchiveV75.rules.map(place=>({
+         id:'swiss-v75:'+place.key,
+         publisher:'Offizielle Schweiz Besucher-/Bergbahnquelle · '+place.key,
+         url:place.sourceUrl,accessed_on:swissArchiveV75.meta.checkedOn,
+         validity:'Stand November 2026. 2027 Preise/Betrieb nur falls separat veröffentlicht; keine Buchungszusage',
+       })),
+       ...Object.entries(swissArchiveV75.regions).map(([city,place])=>({
+         id:'swiss-region-v75:'+city,
+         publisher:'Regionale Schweiz Besucherinformation · '+city,
+         url:place.sourceUrl,accessed_on:swissArchiveV75.meta.checkedOn,
+         validity:'Regionalinfo, keine objektbezogene Leistungs-/Buchungsquelle',
+       })),
+       ...swissDatedArchiveV84.quotes.flatMap(group=>group.rows.map(q=>({
+         id:'swiss-search-v84:'+q.propertyId,
+         publisher:'Booking.com · datierte 3-Personen-Suche · '+q.name,
+         url:q.bookingUrl,accessed_on:swissDatedArchiveV84.meta.observedOn,
+         validity:'Preis aus Suchergebnis 3 Erwachsene, 1 Zimmer, 2 Nächte September 2027; keine vollständige Zimmer- oder Checkout-Zusage',
+       }))),
+       ...swissDatedArchiveV84.railClarifications.map(rail=>({
+         id:'swiss-rail-v84:'+rail.id,
+         publisher:'BLS/Interrail/Bergbahnen · Planungshinweis · '+rail.topic,
+         url:rail.sourceUrls[0],accessed_on:swissDatedArchiveV84.meta.observedOn,
+         validity:'Offizielle Linien- und Ticketregel; 2027-Zugfahrt nur bei separat bestätigtem Fahrplan',
+       })),
+       ...swissLodgingArchiveV83.candidates.map(stay=>({
+         id:'swiss-stay-v83:'+stay.id,
+         publisher:'Originalbetreiber Unterkunft Schweiz · '+stay.name,
+         url:stay.sourceUrl,accessed_on:swissLodgingArchiveV83.meta.observedOn,
+         validity:'Zimmerart und veröffentlichte Richtwerte; keine bestätigte Preis- oder Verfügbarkeitszusage für September 2027',
+       })),
+       ...swissLodgingArchiveV83.checks.map(check=>({
+         id:'swiss-stay-check-v83:'+check.id,
+         publisher:'Schweiz Unterkünfte · Risiko '+check.title,
+         url:check.sourceUrls[0],accessed_on:swissLodgingArchiveV83.meta.observedOn,
+         validity:'Recherche zu Mindestnächten, Zimmern und regionalen Vorteilskarten; kein Checkout',
+       })),
+       ...hikingArchive.trails.map(trail=>({id:'hiking:'+trail.id,
+         publisher:'Offizielle Wanderroute · '+trail.title,url:trail.sourceUrl,
+         accessed_on:hikingArchive.checkedOn,
+         validity:'Tourbeschreibung und GPX-Höhenpunkte; keine bestätigte Wegöffnung oder Fahrt 2027'})),
+       ...swissInterrailArchiveV82.priority.map(task=>({
+         id:'swiss-v82:'+task.key,
+         publisher:'Interrail Schweiz · gezielte Betreiberprüfung · '+task.title,
+         url:task.sourceUrls[0],accessed_on:swissInterrailArchiveV82.meta.checkedOn,
+         validity:'Konkreter September-2027-Reisetag geplant, Live-Anschluss, Ticket und Preis offen',
+       })),
+       ...swissInterrailArchiveV82.days.map(day=>({
+         id:'swiss-v82-day:'+day.date,
+         publisher:'Schweiz-Finale · '+day.label,
+         url:day.sourceUrls[0],accessed_on:swissInterrailArchiveV82.meta.checkedOn,
+         validity:'Besucher- und Betriebsreferenz, keine zugesagte 2027-Ankunft oder Buchung',
+       })),
+       ...photoArchiveV81.images.map(photo=>({
+         id:'photo-v81:'+photo.id,
+         publisher:'Wikimedia Commons, '+photo.author+' · '+photo.license+' · '+photo.scope,
+         url:photo.sourceUrl,accessed_on:photoArchiveV81.meta.checkedOn,
+         validity:'Historisches Bild mit spezifischer Motivbeschreibung; keine 2027er Öffnung, Veranstaltung oder Produktpreis-Zusage',
+       })),
+       ...alternativesArchiveV80.dossiers.flatMap(d=>d.alternatives.map(a=>({
+         id:'alt-v80:'+a.key,
+         publisher:(a.sourceType==='operator'?'Originalanbieter':'Offizielles Tourismusamt')
+           +' · eigenständige Alternative · '+a.name,
+         url:a.officialUrl,accessed_on:alternativesArchiveV80.meta.checkedOn,
+         validity:'Alternativer Ort, nicht identisch mit dem importierten Eintrag, kein 2027-Checkout',
+       }))),
+       ...lastCityArchiveV79.entries.map(place=>({
+         id:'city-v79:'+place.id,
+         publisher:'Originalreferenz kleiner Stadt-Orte · '+place.city+' · '+place.id,
+         url:place.sourceUrl,accessed_on:place.checkedOn,
+         validity:'Besucher-/Check-in-Referenz, kein bestätigter September-2027-Tarif oder Checkout',
+       })),
+       ...venueArchiveV78.entries.map(venue=>({
+         id:'venue-v78:'+venue.id,
+         publisher:venue.sourceType==='operator'
+          ?'Original-Betreiberquelle · '+venue.city+' · '+venue.id
+          :venue.sourceType==='tourism'
+            ?'Offizielle Tourismusinformation · '+venue.city+' · '+venue.id
+            :'Redaktionelle Drittquelle, teils Öffnungswiderspruch · '+venue.city+' · '+venue.id,
+         url:venue.sourceUrl,accessed_on:venue.observedOn,
+         validity:'Hinweise zu Besuch und Preisen; kein individueller September-2027-Checkout',
+       })),
+       ...venueArchiveV77.entries.map(venue=>({
+         id:'venue-v77:'+venue.id,
+         publisher:'Offizieller Anbieter/Stadt/Tourismus · '+venue.city+' · '+venue.id,
+         url:venue.sourceUrl,accessed_on:venueArchiveV77.meta.checkedOn,
+         validity:venue.status==='closed_reopening_unknown'
+          ?'Bei Recherche geschlossen, Wiedereröffnung für 2027 nicht bestätigt'
+          :'Öffnungszeiten/Preisreferenz, keine Live-Verfügbarkeit oder September-2027-Buchung',
+       })),
+       ...cityArchiveV76.entries.map(place=>({
+         id:'city-v76:'+place.id,
+         publisher:'Öffentliche Orts-/Betreiberreferenz · '+place.city+' · '+place.id,
+         url:place.sourceUrl,accessed_on:cityArchiveV76.meta.checkedOn,
+         validity:'Veröffentlichte Referenz, kein bestätigter 2027-Termin, Preis oder Ticket',
+       })),
+       ...Object.entries(cityArchiveV76.regions).map(([city,place])=>({
+         id:'city-region-v76:'+city,
+         publisher:'Städtische Reiseorientierung · '+city,
+         url:place.sourceUrl,accessed_on:cityArchiveV76.meta.checkedOn,
+         validity:'Nur allgemeine Stadtinformation, keine belegte Anbieterleistung',
+       })),
+       ...existingGuidesV68.entries.filter(place=>place.sourceUrl).map(place=>({
+         id:'guide-v68:'+place.id,
+         publisher:'Offizielle öffentliche Besucherinformation · '+place.id,
+         url:place.sourceUrl,accessed_on:existingGuidesV68.meta.checkedOn,
+         validity:'Öffentliche Quellenreferenz, keine garantierte Öffnung oder Buchung für September 2027',
+       })),
+      ...operatorDiscoveryV62.entries.map(place=>({
+        id:'operator-v62:'+place.id,
+        publisher:'Offizielle Betreiber-/Stadt-/Tourismusquelle · '+place.name,
+        url:place.sourceUrl,accessed_on:operatorDiscoveryV62.meta.checkedOn,
+        validity:'Besucher- und Tarifreferenz 2026; Saison/Öffnung 2027 nicht gebucht',
+      })),
+      ...operatorDiscoveryV61.entries.map(place=>({
+        id:'operator-v61:'+place.id,
+        publisher:'Betreiber-/Stadt-/Tourismusquelle · '+place.name,
+        url:place.sourceUrl,accessed_on:operatorDiscoveryV61.meta.checkedOn,
+        validity:'Veröffentlichte Öffnungs- oder Preisreferenz (überwiegend 2026), keine 2027-Ticketzusage',
+      })),
+      ...operatorDiscoveryV60.entries.map(place=>({
+        id:'operator-v60:'+place.id,
+        publisher:'Offizielle Betreiber-/Behörden-/Tourismusquelle · '+place.name,
+        url:place.sourceUrl,accessed_on:operatorDiscoveryV60.meta.checkedOn,
+        validity:'2026 veröffentlicht, Teil 2027 allgemeine Zeiten; keine 2027-Buchungs-/Tageszusage',
+      })),
+      ...operatorDiscoveryV55.entries.map(place=>({
+        id:'operator-v55:'+place.id,
+        publisher:'Offizielle Betreiber-/Stadtquelle · '+place.name,
+        url:place.sourceUrl,accessed_on:operatorDiscoveryV55.meta.checkedOn,
+        validity:'2026 veröffentlichte Info/ggf. 2027 Saisonfenster; keine bestätigte Buchung oder aktueller Checkout',
+      })),
+      ...operatorDiscoveryV54.entries.map(place=>({
+        id:'operator-v54:'+place.id,
+        publisher:'Offizielle Betreiberquelle · '+place.name,
+        url:place.sourceUrl,accessed_on:operatorDiscoveryV54.meta.checkedOn,
+        validity:'Veröffentlichte Referenz; September-2027-Öffnung und Checkout nicht bestätigt',
+      })),
+      ...officialActivityEvidence.entries.map(info => ({
+        id: 'official-v03:' + info.id, publisher: 'Offizieller Betreiber · ' + info.title,
+        url: info.url, accessed_on: officialActivityEvidence.observed_on,
+        validity: info.pricePeriod,
+      })), {
       id: 'booking-barcelona-20261112', publisher: 'Booking.com · Suchergebnis vom 12.11.2026',
       url: 'https://www.booking.com/city/es/barcelona.html',
       accessed_on: providerSearch.observed_on, validity: 'booking_search_observation',

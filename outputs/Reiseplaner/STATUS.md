@@ -1,4 +1,345 @@
-# Projektstand · 12.11.2026
+## 21.11.2026 – V92: mobile Bildquellen leichter treffen, Grunddesign bleibt ruhig
+
+**Verifizierter Code-Stand:** `9a157bf1103275172678fd71dcfc01f97198d319`, GitHub Actions [#44921640348](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44921640348) **success**, **528/528 portable Tests**, 63 echte Chrome-Labormessungen bei 390/768/1440 px, Light/Dark/Reduced Motion, keine JavaScript-Ausnahmen und 0 horizontaler Überlauf. Dieser CI-Lauf prüft auch Unterkünfte, Routen, Speicherfunktionen und HTTP-Smoke.
+
+**Fortsetzung:** `public/calm-design-v91.css` gibt ausschließlich mobilen, belegten Bildquellenlinks (`.destination-credit`, `.hub-hero-photo-credit`) mindestens 32 px hohe Trefferflächen, einheitlichen Innenabstand und sichtbaren Tastaturfokus. Der alte winzige Quellenlink wird nicht durch ein neues Kachel- oder Bilderlayout ersetzt; Urheber, Ziele und Lizenzen bleiben erhalten. `test/calm-design-v91.test.mjs` und `test/quality-audit-v88-browser.mjs` haben passende Regressionen erhalten.
+
+**Vorher → nachher (390px, synthetische Seed-Seiten):** Startseite 6 → 0, Unterkünfte 1 → 0, Entdecken 2 → 1, Essen 14 → 13 Trefferflächen unter 24 px. Andere kleine Quellen- und Aufklapp-Controls, besonders Essen (13), Tag (8) und Karte (6), bleiben als weitere UX-Aufgabe offen. Keine Behauptung vollständiger 44px-Touch-Targets, WCAG-Abnahme oder realer Nutzer-Web-Vitals; keine Windows-Dateien, Buchungen, Deployments oder `main` verändert.
+
+## 21.11.2026 – V91-Nachabnahme: Smoothness und Dark-Mode-Kontrast bestätigt
+
+**GitHub-Stand:** Letzter Code-Commit `9405062e748c`, CI [#44911502188](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44911502188) **success**, **527/527 portable Tests**, echter Chrome-/API-/HTTP-Gesamttest, 63 Desktop-/Tablet-/Mobile- sowie Light-/Dark-/Reduced-Motion-Messpunkte; **0 horizontale Überläufe, 0 JavaScript-Ausnahmen**. Weitere reine Dokumentationscommits ändern die getestete UI nicht.
+
+**Design-Fixes:** Alte scoped `--paper:#fffefa`-Werte wurden als Ursache der hellen Suchflächen im Dark Mode mittels berechneter CSS-Regeln nachgewiesen. Der finale Kopfzeilenstil verwendet explizit dunkles Material und helle Beschriftungen; der Chrome-Test misst erst nach dem tatsächlichen Übergang. Karten-Hover verändert keine animierten Schatten mehr, stattdessen nur Kontur; OS-Einstellung `prefers-reduced-transparency` schaltet den Blur der Navigationsleisten ab. Echte Light-Mode-CI-Screenshots 1440/390 der Übersicht sowie 390 der Karte und Entdeckungsseite wurden geöffnet und visuell geprüft. Details in [V91_CALM_APPLE_INSPIRED_DESIGN_AND_HANDOFF.md](V91_CALM_APPLE_INSPIRED_DESIGN_AND_HANDOFF.md).
+
+**Grenzen:** Keine privaten originalen Apple-Design-Referenzen/Windows-Dateien, keine realen Geräte-/Screenreader- und Web-Vitals-Werte; keine Daten-, Quellen-, Preis-, Buchungs- oder main/Deployment-Änderungen.
+
+## 21.11.2026 – V91: ruhigeres Apple-HIG-inspiriertes Grunddesign
+
+**Ausgangsstand:** `dde20b390c86` (V90-CI erfolgreich), PR #5. Öffentliches Apple-Design-GitHub-Skill plus Apples HIG-Motion-/Accessibility-Grundsätze gelesen; das möglicherweise andere private Referenz-Skill bleibt nicht überprüfbar. Plan und exakte Änderungen: [V91_CALM_APPLE_INSPIRED_DESIGN_AND_HANDOFF.md](V91_CALM_APPLE_INSPIRED_DESIGN_AND_HANDOFF.md).
+
+**Tatsächlich implementiert:** Abschließende, gemeinsame Designschicht `public/calm-design-v91.css` nach den 29 historischen Styles eingebunden: harmonisierte Hell-/Dunkel-Farben, ruhigere Schatten und Abstände, reduzierte Bewegung bei Karten, Buttons, Such-/Navigationsflächen sowie ein lesbarer dunkler Primärbutton. `public/motion-ux.mjs` erzeugt keine Klick-Ripple-DOM-Elemente oder erzwungene Reflows mehr und beschränkt Einblendungen auf Seiteneinstiege statt jeder Kartenzeile. V91-spezifische Modell- und echte Chrome-Regressionstests ergänzt.
+
+**Messbare Code-Differenz:** Observer-Obergrenze 96 → 12 (−87,5 %), keine zusätzliche Ripple-Insertion, Karten-Hover 3px Hub → 0px, Foto-Hover höchstens 1,8 % statt 6,5 %. Kein gemessener Web-Vitals-/FPS-Vorteil daraus ableitbar. Die echte V91-CI-Abnahme des finalen HEAD wird separat geprüft; ältere erfolgreiche 520/520 beziehen sich auf V90. Reisedaten, Quellen, Karten, Vergleiche und vier Reisevarianten unverändert. Kein Merge, Deployment oder lokaler Windows-Überschreibvorgang.
+
+## 21.11.2026 – V90: Unterkunfts-Performance und mobile Vergleichsbedienung
+
+Remote-Ausgangs-HEAD `079119ec` mit erfolgreicher V89-CI, private lokale Windows-/Tripsy-/SQLite-Version weiter nicht zugänglich. V90 wurde ausschließlich im vorhandenen Branch `feature/v7-data-day-accommodation-rail` für PR #5 implementiert; **kein Merge/Deployment/Booking/Payment**.
+
+**Tatsächliche Änderungen:** `public/views.mjs` baut pro neu geöffneter Unterkunftsansicht zunächst nur **8 statt 24** Karten und lädt in Achtergruppen nach; 2–4er-Vergleich, Filterergebnis, Sortierung und Orts-/Varianten-IDs bleiben vollständig. Schweizer Unterkunftssuchdaten und zusätzlicher Anbieter-/Tabellenvergleich bleiben vor bewusster Öffnung aus dem DOM; `public/app.mjs` verwaltet getrennte Browse-Limits, Filter-Reset und fokussichere native `toggle`-Nachladung. `public/browse-hub-v35.css` versteckt den Screenreader-Suchlabeltext visuell, ohne ihn aus dem Accessible Name zu entfernen.
+
+**Gemessen:** In identischem 390px-Headless-Chrome-Laborszenario auf `interrail_swiss` mit Seed-Daten: **4.349→1.517 DOM-Elemente (−65,1 %)**, **377→135 Controls (−64,2 %)**, **23→9 Lazy-Bilder (−60,9 %)**, zu kleine Ziele 29→1, weiterhin 0 horizontaler Überlauf und 0 Laufzeitausnahmen. Für 768 und 1440px ebenfalls 1.517 DOM-Elemente und 0 Überlauf. Eine echte LCP-/INP- oder reale Netzwerklatenz-Verbesserung ist damit nicht nachgewiesen.
+
+**Echte Tests:** CI https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44882978787 zum letzten Code-HEAD `62671fc` **success** mit **520/520 portablen Modelltests**, 63 Qualitätsmesspunkten, Chrome-Hauptablauf, 8→16 Unterkünften, 2 Vergleichskarten, nachgeladenen Schweizer Quellen, nachgeladenem detailliertem Vergleich, Vergleich ohne Budgetänderung, vier Varianten, Unterkünfte, Routen, Mehrstopps, Speicherraces und HTTP-Smoke. Echte CI-PNGs 390/768/1440 und offene Vergleichskarte wurden visuell geöffnet; Suche ohne sichtbare Doppelbeschriftung bestätigt. Originale lokale Referenzbilder, Anbieter-Checkouts September 2027 und die private vollständige Windows-Testreihe weiterhin offen.
+
+**Dokumentation:** `V90_LODGING_PERFORMANCE_AND_HANDOFF.md` enthält alle Werte, Dateipfade, Quelle/CI, Abnahmegrenzen, Restprioritäten und exakte Windows-Befehle. `CHECKLIST_V2.md` bleibt streng: 61 Punkte, 18 im genannten Funktionsumfang erledigt, 41 teilweise und 2 nicht verifizierbar; 13 Punkte erhielten neue Belege, keine unbelegten Häkchen.
+
+## 21.11.2026 – V89: Prompt 14 + 15, sichere Remote-Integration und messbar schlankere Karte
+
+Remote-Ausgangs-HEAD `f180a7e6`, CI #44826438566 vollständig erfolgreich. Originale Windows-Dateien und `outputs/Abnahme-V2/` nicht zugänglich, daher keine Behauptung lokaler vollständiger Synchronisierung. Tatsächlich vorhandene und gegen vorhandene Tests verifizierte Checkliste ist `outputs/Reiseplaner/CHECKLIST_V2.md` (61 Punkte, weiterhin **18 erledigt im nachgewiesenen Umfang, 41 teilweise, 2 nicht verifizierbar**).
+
+**Autonome größte sichere Verbesserung:** Gemessene einfache Kartenansicht mit 60 sofort gerenderten Ortskarten und 6.225 DOM-Knoten/883 Controls auf 390px wurde auf initial 12 Karten und nutzerinitiiertes 12→24→48-Nachladen umgestellt. `app.mjs` und `explorer-ui.mjs` ändern **nur** die HTML-Listendarstellung, nicht verfügbare POIs, die gesamte Karte, Varianten, Routen, Vorräte oder Budget. Markerauswahl außerhalb der ersten 12 löst nach Bedarf gezieltes Nachrendern aus; der volle Explorer behält seine 60er-Schritte.
+
+**Messbarer Nachher-Stand:** Chrome-CI #44878789711 bestand: 520/520 portable Modelltests und sämtliche Browser-/Smoke-/Speicher-/Karten-/Unterkunftsprüfungen. Auf 390px sinkt die Kartenansicht auf 2.478 DOM-Knoten (−60,2 %) und 307 Controls (−65,2 %); 18 statt 66 Bilder im initialen DOM. 0 horizontaler Überlauf, 0 neue Laufzeitausnahmen. Messung nur synthetisch, kein belegter echter LCP/INP-/Netzwerk-Gewinn. Erweiterte Browserprüfung des Karten-Marker-Sprungs danach ergänzt; ihr Ergebnis separat auf GitHub kontrollieren.
+
+**Übergabe:** [V89_INTEGRATION_AND_NEXT_HANDOFF.md](V89_INTEGRATION_AND_NEXT_HANDOFF.md) mit originalen Windows-Befehlen, Git-Divergenzschutz, Nachweispfaden, genau drei priorisierten Restarbeiten, allen 61 Kategorien und V88/V89-Messgrenzen. Unveränderte vier Reisen, 14 Schweizer Reisetage, 3-Personen-Einkaufsdaten, 2027-Preis-/Quellen-Ungewissheit. Kein Merge nach main, keine Reservierung, Zahlung oder Deployment.
+
+## 20.11.2026 – V88: 61-Punkte-Remote-Abnahme, quellgebundene Schweizer Bilder und echter UX-Laboraudit
+
+Ausgang war der nach den V86/V87-Änderungen erfolgreiche PR-HEAD `a1e6b1f`; dieser Durchgang arbeitet weiter auf `feature/v7-data-day-accommodation-rail`. Die ältere Nutzerangabe von 502 Tests und den Commits `13c0f9a`/`ab26f9b` ist keine aktuelle Remote-Basis. `outputs/Abnahme-V2/` ist in GitHub nicht verfügbar; die 61 Einzelpunkte stehen tatsächlich in `outputs/Reiseplaner/CHECKLIST_V2.md`. Der lokale neueste Windows-Code und private Tripsy-Dateien blieben unzugänglich.
+
+**Bild/Quelle:** Das zuvor bildlose Kandersteg-Dorf-Tagessujet `survey-v19:act-055` bekommt eine lizenzierte historische Dorfaufnahme (Fred Friggens, Commons, CC BY 2.0, 2017) mit Lizenz/Urheber/Motivgrenze; Heuberg und Äscher behalten getrennte Orts-/Teilzielbelege. Keine privaten Unterkunftsfotos, fiktiven Hausnummern oder September-2027-Garantien.
+
+**UX:** Die Essensansicht beginnt wieder mit ihrem Ortskopf, gefolgt von der Kettenübersicht vor Einzelorten. Bestehende quellengebundene Links bleiben, aber Foto-/Lizenz-Trefferflächen, visuelle Fokusanzeige und lesbare Schweizer Detailtexte wurden vergrößert; die mobile Offline-Bildfläche verkleinert und unnötige Hover-Bewegung für Reduced Motion unterdrückt.
+
+**Messung vor Reparatur** (echter Chrome-Laboraudit CI #44824128670): 7 Seiten × 3 Breiten (390/768/1440) × 3 Bedingungen (hell/dunkel/Reduced Motion), 63 Messpunkte, 21 PNGs; 2.417 B HTML; 395–6.288 DOM-Elemente; 0 horizontale Überläufe; 0 gefundene unbeschriftete Eingaben nach Heuristik; 0 Laufzeitausnahmen; max. 102,2 ms synthetische Seitenwechselprobe; bis 51 kleine Touch-Ziele, vor allem Foto-/Quellenlinks. Die Nachher-Messung steht im folgenden neuen CI-Artefakt `quality/quality-v88-lab.json`, ohne Anspruch auf vollständige WCAG/echte User-INP/LCP/CLS. Tokenkontrast, Tabfolge und Filterprobe sind in der neuen Version ergänzt.
+
+**Abnahme:** Die vollständige Liste enthält jetzt **18 erledigte Teilfunktionen, 41 teilweise und 2 nicht verifizierbare Anforderungen**. „Erledigt“ bezeichnet nur den im Remote-Code und portablen CI-Ablauf getesteten Planungsumfang, keine lokale private Originalabnahme oder 2027-Verfügbarkeit. Details, Quellen, Grenzen und exakter Windows-Start stehen in [V88_REMOTE_AUDIT_AND_HANDOFF.md](V88_REMOTE_AUDIT_AND_HANDOFF.md). Der aktuelle Ergebnisstatus liegt bei GitHub Actions, nicht im historischen local-Only-Bericht. Kein Merge, Deployment oder Kauf.
+
+## 20.11.2026 – V86/V87: Supermarkt-Vergleich und Schweizer Ortsbild-Qualität
+
+Direkt im bestehenden GitHub-Branch `feature/v7-data-day-accommodation-rail`, PR #5. Ausgangs-HEAD `0f650074` mit bestätigtem früheren CI-Erfolg. Lokale private Tripsy-/Windows-Dateien bleiben unzugänglich; deshalb nur remote und Seed-Fallback-gestützte Prüfung, **keine** lokale vollständige 526er-Regression behauptet.
+
+**V86 Supermarktketten:** sechs Kernorte, exakt 13 stadtbezogene Kettenvergleiche, zehn definierte Basisprodukte je Kette. Die acht verschiedenen datierten Online-/Archivproduktbelege füllen 12 der 130 Stadt-Ketten-Produktzellen; 118 bleiben offen. Kosten pro kg/l/Stück, ganze Packungen, EUR/CHF, Qualität, Quellen und Preisstand sind getrennt; kein unvollständiger Warenkorb wird als billigste Kette gerankt. Manuelle Preise werden gesondert pro Reisevariante mit Quelle und Datum gespeichert und sind rücknehmbar; dadurch keine automatische Veränderung an Mahlzeitenwarenkorb, Budget, Buchungen oder externen Daten. Kein erfundener Filialpin oder Filialanzahl; die vorhandene optionale OSM-Suche bleibt eigenständig.
+
+**V87 Qualität:** die beiden optionalen Wanderungen `hiking:heuberg` und `hiking:ebenalp` erhalten je ein passendes historisches, individuell lizenzbelegtes Commons-Motiv, ausdrücklich nur als Aussichtspunkt/Teilziel. Für die 14 bestehenden Schweizer Interrail-Tage werden aus den echten Tages-IDs lesbare Foto-/Quellen-/Preis-/Öffnungskarten und eine deduplizierte aktuelle Lückenübersicht gerendert. Bestehende Tagesaktivitäten, Tagesreihenfolge und Reise-/Ruhetage werden nicht verändert. Hotel-/Airbnb-Fotos, Öffnungen oder Angebote September 2027 nicht erfunden. Vorhandene Fallbacks/Lazy Loading und Google-Maps-Suchlinks für öffentliche Aktivitäten werden wiederverwendet.
+
+Nachweis: [MARKET_SWISS_QUALITY_V86_V87.md](MARKET_SWISS_QUALITY_V86_V87.md), zwei neue Fachtests, portable Chrome-Prüfung einschließlich Barcelona/Sète/Kandersteg/Appenzell und ergänzte CHECKLIST_V2.md. **CI-Ergebnis ausschließlich dem aktuellen GitHub-Actions-Run entnehmen.** Weder Merge nach `main`, Buchungen, Zahlungen noch Deployment durchgeführt.
+
+## 19.11.2026 – Kombinierbare Unterkunftsfilter und vollständiger Direktvergleich
+
+Die Unterkunftsseite beginnt jetzt mit Reiseort und Suche. Die vorhandene Schweizer Recherche mit 20 datierten Suchanzeigen und acht Zimmerkategorien bleibt in einem benannten Aufklappbereich erreichbar. Sie verdeckt den Einstieg nicht mehr mit mehreren Bildschirmhöhen Recherchetext.
+
+Küche, Bettenprüfung für die aktuelle Gruppe, Storno, Quellenart, berechneter Bahnhof-Fußweg und EUR-Nachtpreisgrenze lassen sich als UND-Kriterien kombinieren. Unbekannte Preise, fehlende Nächte, fremde Währungen und unpassende Belegung erfüllen die EUR-Grenze nicht. Leere Ergebnisse und Zurücksetzen sind geprüft. Die EUR-Preissortierung behandelt CHF nicht mehr als gleichartige Eurobeträge. Der importierte Ausschluss kostenloser Stornierung wird nicht als generelles Stornoverbot ausgegeben.
+
+Zwei bis vier bestehende Barcelona-Angebote zeigen jetzt Gruppensumme, ungefähren Personenanteil, Nachtpreis, genaue Aufenthaltsdaten, Buchungs-/Planstatus, Zimmer, Ausstattung und offene Nachweise nebeneinander. Die fünfte Auswahl wird abgewiesen. Suche, Filter und Sortierung erhalten die Kandidaten; Variante/Stadt/Umfang räumen ihre Auswahl nachvollziehbar auf. Vier Desktop-Spalten haben ausgerichtete Faktenzeilen; Tablet und Smartphone stapeln auf zwei beziehungsweise eine Spalte. Fehlende Objektfotos werden ausdrücklich benannt, vorhandene echte Fotos behalten Quelle und Lizenz. Die vier Barcelona-Suchwerte vom 12.11.2026 sind keine neuen Angebote oder bestätigten Endpreise.
+
+Die echte Chrome-Prüfung hält zwei Gruppen tatsächlicher Cache-Anfragen in Nizza und Appenzell an. Nach den Antworten bleiben sowohl Fokus eines bestätigten Filters als auch ein noch nicht bestätigter Zahlenentwurf erhalten. Eine zuvor reproduzierte Aufklapp-/Neudarstellungs-Race ist korrigiert. Native Enter-/Tab-Eingaben und ein tatsächlicher Maus-Reset mit unbestätigtem Entwurf bestehen. Alle vier gespeicherten Reisestände bleiben bytegleich; Filtern/Vergleichen verändert weder Tagesplan noch Budget.
+
+**526/526 vollständige Tests** bestehen. Die **505/505 portable Teilmenge**, Kartenbericht und HTTP-Prüfung bestehen auch im separat exportierten Checkout ohne private Tripsy-Dateien; dessen echter Chrome-Unterkunftsablauf besteht ebenfalls. Die portable Reihe wird nicht zur Gesamtzahl hinzuaddiert. Die bisherige vollständige Chrome-Regression einschließlich lokaler Unterkunftsauswahl, Prüfung und Budget besteht. Der unabhängige lesende Review und die letzte Nachprüfung melden nach den Korrekturen keine verbleibenden konkreten Befunde.
+
+Je 33 frische Vorher-/Nachheransichten umfassen elf Seiten bei drei Größen, ohne berichtete JavaScript-Ausnahme oder positiven horizontalen Seitenüberlauf. Im neuen Vergleich wurden 142 Textstellen je heller Ansicht gemessen: mindestens 5,95:1 bei 1440/820/390; dunkel am Desktop 6,61:1. Das ist eine begrenzte Textstichprobe, keine vollständige Kontrast-/Barrierefreiheitsabnahme. Konkrete Unterkunftsfotos, vollständige Preisbestandteile und 2027-Buchbarkeit bleiben offen.
+
+Nachweise: [STAY_COMPARISON_ACCEPTANCE.md](STAY_COMPARISON_ACCEPTANCE.md). Die [lokale Vorschau](http://127.0.0.1:4175/?variant=interrail_swiss) liefert die neuen Module aus; Menü „Unterkünfte“. Die Nutzerdatenbank wurde für diese Prüfungen nicht verändert. Der V7-/61-Punkte-Gesamtauftrag bleibt aktiv, keine externe Änderung, Buchung, Zahlung, Veröffentlichung oder Zusammenführung.
+
+## Vorangegangener Stand am 19.11.2026 – Eigene Kartenpunkte und belastbare Mehrstopprouten
+
+Eigene Pins sind im Kartenkopf direkt anlegbar: über Koordinaten oder einen echten Kartenklick, mit erhaltenem Namen beim Zurückkehren per Escape. Sie bleiben zunächst ungeplante, manuelle und ungeprüfte Alternativen. Umbenennen, Verschieben, Entfernen und Undo sind geprüft. Das Verschieben löscht alte Koordinatenbelege; Bearbeiten eines bereits gewählten Pins erhält die gespeicherte Startzeit. Die Verwaltung liegt im Ortsbereich der Karte. Explizites Anzeigen eines Pins hebt entgegenstehende Filter auf.
+
+Die bisher im einfachen Kartenmodus vollständig ausgeblendete Mehrstopp-Bedienung erscheint jetzt für gewählte Stopps. Der Kartenkopf bietet einen direkten Routen-Einstieg. Zwei bis acht eindeutige Stopps, Grenze/Dubletten, Umordnen, Fokus, echte Wegberechnung, Übernahme, Undo und Neuladen sind im echten Chrome geprüft. Der ausgewählte Ort bleibt auch bei 820→390 Pixeln im horizontalen Streifen sichtbar. Eine reine Uhrzeitänderung erhält die berechnete Fußgeometrie.
+
+Jede Berechnung ist einem Entwurf und Revisionsstand zugeordnet. Die zuerst reproduzierte späte Antwort nach „Liste leeren“ wird verworfen. Dasselbe gilt nach Umordnen, einer neueren Berechnung, Varianten- und Datumswechsel. Gelöschte Pins verlassen auch den Entwurf und können nicht durch alte Wege erneut eingeplant werden. Bekannte Aktivitäten-/Bahnzeitfenster einschließlich Übernacht-Terminen und eingehender Gehintervalle werden bei der Übernahme geschützt. Bei fehlenden Zeiten bleibt vollständige Konfliktfreiheit ausdrücklich unbelegt.
+
+Eine einzelne öffentliche FOSSGIS-Fußroute vom 19.11.2026 mit acht vorhandenen Barcelona-Punkten und sieben Wegsegmenten liefert die gespeicherte echte Testgeometrie. Quell-URL, Datum, SHA-256 und ODbL-Hinweis sind erhalten. Wiederholungstests benutzen diese Aufnahme; daraus folgt keine 2027-Öffnungs- oder Zugänglichkeitsbestätigung. Neue Pins und die kurzen Besuchsdauern des Browserfalls gehören ausschließlich zur Testdatenbank. Alle drei anderen Varianten bleiben unverändert.
+
+Die Vollbildleiste hat einen sichtbaren Einstieg, bleibt bei 1440/820/390 Pixeln innerhalb des Fensters und legt Kategorien unter die umbrochenen Aktionen. Auf dem Smartphone ist „Schließen“ in der ersten Zeile. Der bisherige Quellenprüfbereich bleibt direkt unter der Karte; es wurde keine lange Prüfliste in das klebende Kartenpanel verschoben.
+
+Die vollständige Originaldatenreihe besteht mit **515/515 Tests**, die portable Teilmenge mit **494/494 Tests**, Kartenbericht und HTTP-Smoke-Test. Pin-/Routen-Chrome, fünf Routing-Race-Fälle, der vollständige bisherige Chrome-Flow, Daten-/Import-/Download-Flow und Mahlzeiten-PUT-Rennfall bestehen ebenfalls. Nachweise und Grenzen stehen in [MAP_INTERACTION_ACCEPTANCE.md](MAP_INTERACTION_ACCEPTANCE.md). Unabhängige Codeprüfungen haben die Wiederbelebung gelöschter Pins, verdeckte Pins unter Kategorien und Kollisionen innerhalb von Gehintervallen aufgedeckt; diese Fälle sind reproduziert, korrigiert und erneut geprüft. Der vollständige V7-/61-Punkte-Auftrag bleibt aktiv. Rad-Routing, vollständige Drawer-/Animations-/Kontrastabnahme, weitere Tagesdetails und lokale Preisbelege sind weiter offen.
+
+Auch der saubere Export ohne private Tripsy-Rohdateien besteht mit 494/494 portablen Tests, Karten-/HTTP-Prüfung, dem Chrome-Pin-/Mehrstoppablauf und allen fünf verzögerten Routingfällen. Je 33 Vorher-/Nachheransichten zeigen im automatisierten Bericht keine JavaScript-Ausnahme und keinen positiven horizontalen Seitenüberlauf. Die unabhängige Nachprüfung meldet keine verbleibenden konkreten Befunde in diesem Paket; das ersetzt keine vollständige Abnahme aller Zustände.
+
+Lokale Vorschau: [Reiseplaner](http://127.0.0.1:4175/?variant=interrail_swiss), dann „Karte“. HTTP 200 für Hauptseite, neue Pin- und App-Module sowie Bootstrap mit vier Varianten sind geprüft; die vorhandene Nutzerdatenbank wurde für diese Tests nicht verändert. Dieses Paket verändert keine externen Quelldaten, Buchungen oder Zahlungen. Der Arbeitsstand wird ausschließlich lokal gesichert.
+
+## Vorangegangener Stand am 19.11.2026 – Daten & Fristen auf Abruf
+
+Die Datenseite stellt jetzt Buchungen/Fristen und den Vorbereitungsstand vor die ausführlichen Rechercheprüfungen. Neun benannte Bereiche laden ihren Inhalt erst beim Öffnen und geben die erzeugten DOM-Elemente beim Schließen wieder frei. Auch die einzelnen Gründe fehlender Angaben werden erst auf Wunsch erzeugt. Alle bisherigen Prüfbereiche, Quellen, Filter und Exporte bleiben erreichbar. Die Datenmatrix beschreibt vorhandene Quellenstände, keine erneute Betreiberbestätigung.
+
+Die frische Ausgangsmessung am Commit `13c0f9a` enthält 27.491 DOM-Knoten beim Öffnen der Datenseite; der neue Stand enthält 387, rund 98,6 Prozent weniger. Identische lokale Tripsy-Rohkopien und drei Bildschirmbreiten wurden verwendet. Das belegt die Entlastung dieser Seite, keine allgemeine Beschleunigung aller Ansichten. Einzelmesswerte und Einschränkungen stehen in [DATA_PAGE_ACCEPTANCE.md](DATA_PAGE_ACCEPTANCE.md).
+
+Die lokale vollständige Reihe besteht mit **502/502 Tests**, die portable Teilmenge mit **481/481 Tests**, jeweils ohne übersprungene Fälle. Kartenbericht und HTTP-Smoke-Test, vollständiger bisheriger Chrome-Flow und verzögerter Mahlzeiten-PUT-Test bestehen ebenfalls. Der neue echte Chrome-Datenablauf prüft alle neun Gruppen, Freigabe beim Schließen, vollständige Quellen-/Datenmatrix, sämtliche Gründe und JSON-/CSV-Downloads, native Enter-/Space-Tasten, eine gespeicherte Frist mit Zeitzone sowie einen echten Dateiimport und dessen Wiederholung ohne Dublette. Beim Variantenwechsel werden offene Bereiche zurückgesetzt. Ursprüngliche Reisen und externe Daten werden nicht geändert.
+
+Im visuellen Korrekturdurchgang wurden die Schatten um den Vorbereitungsbereich entfernt und die Smartphone-Überschrift entlastet. Eine Messung der 47 Texte der anfänglich geschlossenen Datenseite hat zu zwei Farbkorrekturen geführt: Mindestkontrast der Stichprobe jetzt 5,74:1 bei 1440/820/390 Pixeln hell und 9,32:1 bei 1440 Pixeln dunkel. Der geprüfte helle Summary-Fokus hat 7,39:1. Diese Messung ist keine vollständige Barrierefreiheitsabnahme; geöffnete Tabellen, Dialoge und die übrigen Seiten sind davon nicht umfasst.
+
+Die unabhängige lesende Codeprüfung und Nachprüfung melden keine verbleibenden Befunde im Paket. Ein getrennter Export des geprüften Git-Index ohne private Tripsy-Dateien besteht ebenfalls mit 481/481 portablen Tests, Karten-/HTTP-Prüfung und neuem Chrome-Datenablauf. Die neue Browserprüfung ist in der lokalen CI-Konfiguration ergänzt. Ein Remote-CI-Lauf dieses lokalen Pakets wird nicht behauptet. Die Vorschau wurde mit derselben Nutzerdatenbank neu gestartet und bleibt [lokal auf Port 4175](http://127.0.0.1:4175/?variant=interrail_swiss), im Menü unter „Daten & Fristen“.
+
+Das Gesamtziel mit allen 61 Anforderungen bleibt aktiv. Als Nächstes sind die übrigen Hauptseiten visuell und per Tastatur, die konkreten Karten-/Mehrstopp-Flüsse der Schweizer Hauptvariante und die offenen Tages-/Quellendetails weiter abzuarbeiten. Der Stand darunter ist der vorherige Mahlzeiten-Checkpoint.
+
+## Vorangegangener Stand am 19.11.2026 – Drei Mahlzeiten und gemeinsamer Einkauf
+
+Die nächste P5-Erweiterung ist lokal umgesetzt. Die Gesamtwebsite und die 61-Punkte-Abnahme bleiben in Arbeit; der Einzelstand steht in [CHECKLIST_V2.md](CHECKLIST_V2.md). Die vorhandenen vier Routen und ihre unabhängigen Zustände werden bewahrt.
+
+- Frühstück, Mittagessen und Abendessen lassen sich getrennt auswählen, mit eigener Zeit oder flexibel ohne Uhrzeit speichern und als Tagesübersicht anzeigen. Ein Wechsel eines Slots bewahrt die anderen Mahlzeiten. Bezahlte, gebuchte oder gesperrte Mahlzeiten werden nicht still ersetzt.
+- Für Paris, Barcelona, Sète, Nizza, Kandersteg und Appenzell stehen vier einfache Rezeptfamilien zur Verfügung: Haferflocken mit Milch, kalter Kichererbsen-Mais-Salat, Reis und Pasta. Insgesamt sind es 25 stadtspezifische Rezept-/Restaurantoptionen. Mengen pro Person, Beispiele für drei Personen, Zubereitung, Ausstattung und Zeitannahmen werden ausdrücklich genannt. Die bisherigen Barcelona-IDs und Preisreferenzen bleiben erhalten.
+- Der Küchenhinweis verwendet die tatsächlich ausgewählte Unterkunft. Frühstück wird der vorherigen Nacht zugeordnet. Am Abreisetag gelten unbekannte Check-out-/Essenszeiten oder eine über den Check-out hinausreichende Zubereitung nicht als bestätigter Küchenzugang. Kühlbedarf ist separat gekennzeichnet.
+- Auch kalte Rezepte teilen Zutaten im Gruppenwarenkorb. Gramm, Milliliter und Stück sowie EUR/CHF werden erhalten. Fehlende Preise bleiben offen; die bekannte Teilsumme ist sichtbar. Portionsverbrauch und volle Einkaufspackungen sind getrennt. Eigene Preisänderung, Vorrat, Beleg, Wiederladen und Variantenwechsel sind abgedeckt.
+- Neun datierte offizielle Online-Produktreferenzen bilden einen ähnlichen Dreier-Basiskorb für Frankreich, Spanien und die Schweiz. Sie sind nationale Referenzen vom 19.11.2026, keine bestätigten Angebote der einzelnen Städte oder für September 2027. Milchvarianten, Kühlung und Reissorten unterscheiden sich sichtbar. Neun weitere Produkte haben weiterhin keinen belegten Preis; Grund, Packungsannahme und nächste Quelle sind hinterlegt.
+- Aus dem Einkauf lässt sich nach Auswahl eines vorhandenen Ladeneintrags ein optionaler Tagesstopp erstellen. Er übernimmt nur dessen belegten Standort/Quellenstand, plant Zeit ein und berechnet Lebensmittel nicht erneut. Ein zweiter Besuch desselben Ladens am selben Tag wird abgefangen. Undo entfernt den Stopp wieder.
+- Ein während einer laufenden Speicherung geöffnetes altes Dialogformular kann neuere Daten nicht überschreiben. Der Schutz vergleicht Reisevariante und Revision vor dem Speichern. Ein echter Chrome-Test hält die PUT-Antwort gezielt zurück und reproduziert diesen Fall. Kalte und warme Rezepte werden in der Essenssuche als Selbstversorgung geführt.
+
+Die abschließenden Nachweise dieser Erweiterung stehen in [MEALS_ACCEPTANCE.md](MEALS_ACCEPTANCE.md): **499/499 vollständige Tests**, **478/478 portable Tests**, Kartenbericht, HTTP-Smoke-Test, vollständiger Chrome-Flow und separater PUT-Rennfall bestanden. Hauptprüfung und Nachprüfung durch einen unabhängig lesenden Agenten melden keine verbleibenden Befunde im Paket. Die vorherigen 488/467-Teststände und die 66 Hauptseiten-Aufnahmen weiter unten gehören zum vorangegangenen Wander-/Warenkorb-Paket. Die sechs neuen Mahlzeitenbilder ergänzen diesen Bestand; sie ersetzen keine vollständige erneute 61-Punkte-Abnahme.
+
+Lokale Vorschau: [Reiseplaner öffnen](http://127.0.0.1:4175/?variant=interrail_swiss), anschließend „Essen & Einkaufen“ und „Mahlzeiten & Einkauf planen“. Arbeitsbranch: `codex/checklist-v2-audit`, lokale Datenbank `private/checklist-v2-preview.sqlite`. Kein Merge, Deployment, Kauf oder Eingriff in externe Originaldaten.
+
+Weiter offen sind unter anderem lokale Ketten-/Standortbelege und vollständige Städtekörbe, zusätzliche 14-Tage-Details, der originale Referenzbildvergleich und die seitenweite Kontrast-/Tastaturabnahme. Das Gesamtziel bleibt aktiv.
+
+## Vorangegangener Stand am 19.11.2026 – Ziel-Checkliste V2 auf dem aktuellen PR-HEAD
+
+Die vollständige neue Nutzerliste mit 61 einzeln bewerteten Anforderungen steht in [CHECKLIST_V2.md](CHECKLIST_V2.md). Der V7-Gesamtumfang und die neue Checkliste sind weiterhin in Arbeit. Die älteren Phasenberichte darunter beschreiben frühere Zwischenstände.
+
+Ausgangsbasis ist PR #5 mit HEAD `160572eeccb6ce7329af24e463b118425b65193d`. Die beiden CI-Jobs dieses HEADs sind erfolgreich. Lokal wurden vor Änderungen alle 453 portablen Tests und der HTTP-Smoke-Test bestanden. Die Arbeit erfolgt im eigenen lokalen Branch `codex/checklist-v2-audit`.
+
+### Umgesetzt und gezielt geprüft
+
+- Der gemeinsame Einkaufswarenkorb berücksichtigt gespeicherte Vorräte in der Einheit der Zutat. Vorhandene Mengen werden bei der Packungsrechnung abgezogen. Eine Änderung der Reisegruppe berechnet den zusätzlichen Bedarf neu.
+- Eigene Zusatzartikel haben Menge, Packungsgröße, EUR oder CHF, geplanten Einkaufstag und optional einen gesonderten Preisstichtag mit Quellenlink. Ein Preis kann geleert werden. Offene Preise und ausgelassene benötigte Zutaten führen zu einem offenen Budgetposten.
+- Artikel lassen sich abhaken, entfernen und wieder aufnehmen. Das Abhaken speichert den Einkaufsstatus. Ausgaben und Zahlungen werden im Budget erfasst. Eigene Artikel, Vorräte und Änderungen sind an die jeweilige lokale Reisevariante gebunden.
+- Gemessener Übertragungsumfang der Startantwort mit denselben lokalen Rohkopien: vorher 6.919.114 Byte, nach gzip und den Ergänzungen 874.338 Byte, rund 87 Prozent weniger. Die API-Prüfung vergleicht den vollständigen unkomprimierten und dekodierten Inhalt. Ein explizites `gzip;q=0` wird berücksichtigt. Die Antwort bleibt `no-store`. Die Messung belegt den Übertragungsumfang; daraus folgt keine pauschale kürzere Ladezeit.
+- Ein neuer reproduzierbarer UI-Audit erfasst alle elf Hauptseiten bei 1440, 820 und 390 Pixeln. 33 Vorher- und 33 Nachher-Aufnahmen mit der Schweizer Hauptvariante liegen vor. In diesem isolierten Lauf gab es keine JavaScript-Ausnahmen, keine unbeschrifteten sichtbaren Buttons und keinen horizontalen Seitenüberlauf.
+- Die Windows-Bereinigung des Chrome-Testprofils wartet nun auf das Prozessende und versucht das Entfernen bei einer vorübergehenden Dateisperre erneut.
+- Heuberg und leichter Seezugang stehen am 11.09. nebeneinander. Am 13.09. sind die Seealpsee-Runde über Hüttentobel und die eigenständige Ebenalp–Wildkirchli–Äscher-Runde konkret vergleichbar. Drei Original-GPX-Dateien liefern zusammen 941 Koordinaten. Heuberg und Seealpsee besitzen verwendbare Höhenpunkte für zwei Profile. Die Ebenalp-Datei enthält ausschließlich 0-Meter-Platzhalter: Weglinie und berechnete Länge bleiben verfügbar, Höhenprofil und GPX-Höhenmeter werden unterdrückt. Veröffentlichte Betreiberwerte bleiben getrennt; erhebliche Abweichungen werden ausdrücklich gezeigt.
+- Die drei GPX-Tracks sind in der vorhandenen Karte als lesende Vorschau abrufbar. Eine ausgewählte Tour nutzt dieselbe Tagesplan-Speicherung und Undo-Funktion wie andere Aktivitäten. Die getrennte Schweizer Seenreise wird nicht mit der Hauptvariante vermischt; `swiss_lakes` behält ihre vier Reisenden und sieben Tage.
+- Der Kopfbutton „Tour“ besitzt jetzt ausreichend Platz für Symbol und Beschriftung. Der unveränderte Vorher-Stand fällt beim gezielten Überlauftest durch; der Nachher-Stand besteht. Tourkarten berücksichtigen beim Anspringen den fixierten Kopfbereich.
+- Eine bestehende Adressquelle mit Seed-ID wird beim Wechsel zu einer echten Tripsy-Unterkunfts-ID erhalten, sofern Originalname und Stadt eindeutig übereinstimmen. Die bekannte Kennzeichnung „OPTION – Stadt … (NICHT gebucht)“ wird dabei exakt behandelt. Ähnliche Namen, veränderte Namen und mehrdeutige Kandidaten werden abgelehnt. IDs, Originalnamen und Buchungsstatus bleiben erhalten.
+
+### Nachweise und Grenzen dieser Runde
+
+Die vollständige Node-Reihe mit den vorhandenen privaten Tripsy-Rohkopien besteht mit **488/488 Tests**. Die portable Reihe, der Kartenbericht und der HTTP-Smoke-Test bestehen ebenfalls; die aktuellen Konsolenlogs liegen in `outputs/Abnahme-V2/logs`. Die acht neuen Wanderfälle prüfen die genaue 14-Tage-Abfolge, Original-Höhenpunkte, Segmentlücken, fehlende Höhen, optionale Übernahme und Variantenintegrität. Zwei weitere Fälle sichern den konservativen Unterkunfts-Quellenalias.
+
+Der abschließende portable Lauf besteht mit **467/467 Tests** sowie Kartenbericht und HTTP-Smoke-Test. Die unabhängige, lesende Codeprüfung hat die Ebenalp-Höhenplatzhalter und die verschwundenen bewussten Zusatzkäufe erkannt. Beide Befunde sind mit zuerst fehlgeschlagenen Regressionen reproduziert und behoben. Die erneuten vollständigen Modell-/Server- und Browserprüfungen bestehen. Die Kartenmodus-Abgrenzung ist zusätzlich gegen Stadt, Gesamtroute, andere Tage und andere Reisevarianten geprüft.
+
+Der vollständige reale Chrome-Flow besteht auch mit den privaten Rohkopien. Er prüft Warenkorb, Vorräte, Preise leeren/ändern, Abhaken, Gruppensummen, Neuladen und getrennte Varianten. Enter/Escape und Fokus-Rückgabe des Einkaufsdialogs wurden durch native Chrome-Tastaturereignisse geprüft. Der zusätzliche UI-Audit besteht mit elf Hauptseiten bei drei Breiten und neun Wanderkarten-Vorschauen. Tourauswahl, Undo innerhalb derselben Sitzung, erneute Wahl und Persistenz nach Neuladen sind gesondert geprüft. Undo über einen Browser-Neustart hinweg wird nicht zugesagt.
+
+Die 66 Hauptseitenbilder verwenden im abschließenden Vorher-/Nachher-Vergleich dieselben lokalen Tripsy-Rohkopien und getrennte Testdatenbanken. Hinzu kommen 18 Tour-/Kartenaufnahmen und zwei Warenkorb-Bilder. Externe Medien und Kartenkacheln sind im reproduzierbaren Audit blockiert; die Bilder belegen die lokale UI und GPX-Geometrie. Der Original-Seed im Downloads-Ordner wurde unverändert mit seinem Validator geprüft: vier Reisen, 35 Transportabschnitte, 26 Unterkünfte, 73 Aktivitäten, 28 Tarife und 34 Quellen. Die beiden zusätzlichen Python-Datenvalidatoren bestehen mit 16 Datensätzen beziehungsweise 56/56 Einzelprüfungen.
+
+Eine Kontrastprüfung aller Seiten, originale Referenzbildvergleiche, aktuelle externe Bild-/Kartenabrufe und die vollständige inhaltliche Detailabnahme aller 14 Schweizer Haupttage stehen weiter aus. Das tagweise Inventar und konkrete Bild-/Quellenlücken stehen in [SWISS_14_DAY_AUDIT.md](SWISS_14_DAY_AUDIT.md). Der leichte Seezugang hat keinen passenden GPX und erhält deshalb kein erfundenes Profil. Die genaue SAC-Stufe des Heuberg-Wegs und die Genauigkeit der GPX-Höhenmodelle sind nicht unabhängig belegt. Die benannte Apple-SKILL.md und die ursprünglichen Referenzbilder waren im gesuchten lokalen Bestand nicht vorhanden. Foundations, Accessibility und Motion wurden direkt bei Apple gelesen.
+
+Der Messlauf identifiziert außerdem bis zu 27.419 DOM-Knoten in Daten & Fristen. Die Interaktionszeiten schwanken bei parallelen Browserprüfungen. Daraus wird keine allgemeine Geschwindigkeitsgarantie abgeleitet.
+
+### Damaliger Einstieg – durch das Mahlzeitenpaket oben fortgeschrieben
+
+P5 um Frühstück/Mittag und offizielle, datierte Vergleichskörbe der Kernstädte ergänzen. Parallel die offenen Detailfelder aus dem 14-Tage-Inventar und die Kontrast-/Tastaturabnahme der übrigen Hauptseiten bearbeiten. Die Einzelstände stehen in CHECKLIST_V2.md. Die fehlenden Originalreferenzen bleiben als konkreter externer Nachweisbedarf stehen; unabhängige Arbeit kann fortgesetzt werden.
+
+Lokale Vorschau: `http://127.0.0.1:4175/?variant=interrail_swiss`. Arbeitsbranch: `codex/checklist-v2-audit`. Eigene SQLite-Datei: `private/checklist-v2-preview.sqlite`. Keine Änderung der externen Tripsy-Originaldaten, kein Merge, kein Deployment und keine Buchung ausgeführt.
+
+---
+
+## 14.11.2026 – Phase 27: Drei echte Kartenansichten, synchronisierter Tagesplan, Fotofavoriten und Planungswarnungen
+
+Auf Basis der zuletzt überprüften Barcelona-/Interrail-/Wanderlog-Referenzen wurden Layout und Interaktionen nochmals direkt im bestehenden Entwicklungsbranch überarbeitet.
+
+**Funktional korrigiert:** `Mein Tag` zeigte bisher in der Karten-Ortsliste mitunter weiterhin unplanmäßige Vorschläge aus der bisherigen Städte-/Reisesuche. Der neue `dayItemIds`-Filter verwendet ausdrücklich die **wirklichen geplanten Einträge des ausgewählten Datums**. `Stadt` zeigt dagegen recherchierte zusätzliche Orte der aktuellen Stadt und `Gesamtroute` den gesamten geplanten geografischen Verlauf. Bei leeren Tagen wird keine gefälschte Station markiert, sondern die Route bietet ausdrücklich „Stadtorte entdecken“. Sowohl das schwebende Kartenmenü als auch die Ortsfilter steuern denselben echten Datenmodus.
+
+**Interaktive Tagesführung:** Die Prev-/Next-Kalendertagspfeile besitzen reale Datumsgrenzen. Die Tagesliste und vorhandene Leaflet-Marker sind nun auch bei unterschiedlichen `entryKey`-/`id`-Werten korrekt synchronisiert. Die Auswahl setzt die tatsächliche `aria-pressed`-Markierung; die Karte fokussiert ihren Quellmarker statt eine falsche neue Position zu erstellen.
+
+**Bebilderte Orte:** Die Fotoauswahl priorisiert die aktuelle Stadt und verteilt lizenzierte Medien über die echte Reisefolge. Wiederholte Commons-Dateiseiten erscheinen in derselben Galerie nicht mehrfach; alle Bilder behalten Quellen- und Urheberhinweis. Jedes Foto besitzt jetzt **wirklich funktionierende Merken-, Details- und (falls verortet) Kartenaktionen**. Favoriten werden nur für die aktuelle Variante in der bestehenden lokalen Merkliste gespeichert.
+
+**Planwarnungen im Mini-HUD:** Dieselbe `conflicts()`-Engine wie im Tagesplan gibt erkannte Zeit-, Weg-, Ankunfts-, Öffnungs- oder Küchenwarnungen direkt in der Mini-Chronologie aus; mit Verweis in den vollen Tagesplan und Hinweis, dass 2027-Daten nicht bestätigt sind. Zusätzliche dezente Zeitfarben und responsive Kartenschalter verfeinern die Referenzoptik. Alle Warntexte sind HTML-escaped.
+
+**Qualität:** **138/138 Node-Tests plus realer Chrome Desktop-/Mobile-Browsertest erfolgreich**, GitHub Actions **43609056473**. Neue Screenshots: `20-planned-day-only-map-1280.png` und `21-licensed-photo-bookmark-1440.png`. Technische Umsetzung und Testansätze: `PHASE_27_DAY_CITY_TRIP_SYNC_AND_PHOTOS.md`.
+
+**Keine Änderungen** an gebuchten Unterkünften, historischen Planpreisen, realen Tickets, gespeicherten Tagesplänen oder den vier Original-Reisevarianten. Es fehlt weiterhin für Teile der 828 variantebezogenen Einträge ein individuell verifiziertes Bild, exakter Standort, bestätigter Zimmercheckout oder reservierbarer Bahntermin. Entwicklungsbranch und Draft-PR #5 bleiben vom produktiven Hauptbranch getrennt.
+
+---
+
+## 14.11.2026 – Phase 26: Designbild-Abgleich tatsächlich durchgeführt und korrigierte Desktop-/Smartphone-Komposition
+
+**Originale Referenzen wieder geöffnet:** die früheren Dateien `Barcelona-Reise im grünen Reiseplaner.png`, `image-gen-1(4).png` (InterrailPlan), Designyow- und Navica-Screenshots sowie der frühere `reiseplaner_v18_designvergleich(1).png`. Aus den Screenshots wurde die konkrete Hierarchie **Tag-/Aktivitätsliste links, große Karte rechts, Bildvorschläge darunter** abgeleitet, statt nur Farben und Rundungen anzupassen.
+
+**Neu umgesetzt:** In `Karte` stehen auf Desktop die horizontalen Reisetage jetzt **innerhalb der linken Spalte**, darunter ein bebilderter Mini-Tagesablauf mit den wirklichen geplanten Stopps/Uhrzeiten und relativen €-Stufen; rechts beginnt auf gleicher Höhe eine größere Leaflet-Karte. Bei noch leeren Tagen gibt es bis zu vier ausdrücklich **nicht eingeplante** Aktivitäten mit offiziellen Ortsguides und Detail-Links. Ortsrecherche und Such-/Filterfunktionen bleiben darunter, die aktualisierte Bildgalerie zeigt nur vorhandene Quellenfotos mit Lizenzlink und echten Preisen bzw. `€?`. Ein neuer kompakter Fotobanner, weiße Karten-HUD-Einblendung, echte Route-/Tag-/Merkliste-Kontrollen und kurze reduzierte Animationen orientieren sich an den Referenzen. Auf Smartphones: Datumsauswahl oben, Karte darunter, Planung und Suche anschließend. Externe Fotos können offline ausfallen; die Darstellung fällt dann auf eine gestalterische Grafik zurück.
+
+**Screenshot-Korrektur:** Während des visuellen QA wurde ein leerer linker Kartenbereich durch CSS-Grid-Automatik entdeckt. Die Tages-/Explorer-Spalte beginnt nun unmittelbar unter dem Datum, und ein eigener Chrome-Test verhindert diese Layoutregression. `132/132` Unit-Tests plus realer Desktop-/Tablet-/Smartphone-Chrome-Flow erfolgreich im Workflow **43605073840**. Die aktuellen Screenshots heißen `18-reference-day-map-desktop-1440.png` und `19-reference-day-map-mobile-390.png` im `reiseplaner-ui-review`-Artifact.
+
+Die Umsetzung, Quellenvorbehalte und Referenzbilddetails stehen in `PHASE_26_REFERENCE_DESIGN_REVIEW.md`. **Kein Merge/Deployment, keine 2027-Buchungsbehauptung, keine Veränderung der ursprünglichen Reisebudgets.**
+
+---
+
+## 14.11.2026 – Phase 25: Interaktiver Quellen-HUD, optimierte Mikroanimationen, echte Datenintegration
+
+Im vorhandenen Entwicklungsbranch wurden die Tag-/Kartenoberflächen mit einem neuen, datengestützten **Reise-HUD** erweitert. Die Desktop-Kopfzeile und die bisherige Tagesübersicht zeigen die Position des **ausgewählten zukünftigen Plankalendertags**, echte Tagesstopps und dokumentierte Uhrzeiten, bisher erfasste EUR-Planwerte und den stadtbezogenen Weblink-Abdeckungsstand. Eine Datumsanzeige ist kein Echtzeitfortschritt. Die interaktive Karten-Einblendung zählt Kartenpunkte ohne falsche Eingangsgenauigkeit, unplatzierte Einträge, Quellenfotos, HTTPS-Webbelege und individuelle Ortsguides – inklusive eines nativen aufklappbaren Quellenbereichs.
+
+**Aktionen mit echten Effekten:** „Fotos prüfen“ und „Punkte prüfen“ öffnen direkt `Daten & Fristen` mit passendem Foto-/Positionsfilter und aktueller Stadt bzw. Gesamtscope. Diese Aktionen verändern keine Buchungen, Preise oder Routen. Orts-Popups erhalten zusätzliche Bild-/Quellenindikatoren. Nach dem Zurücksetzen von Datenfiltern werden automatisch aufgeklappte Städtegruppen wieder geschlossen.
+
+**Motion & UI:** einmalige sanfte HUD-/Popup-/Marker-Einblendungen, etwas flüssigere Kartenfokussierung nur nach Benutzerklick (ca. 240 ms), adaptive Desktop-/Mobilgestaltung, kein kontinuierliches JavaScript-Animationstracking. In `Karte → Darstellung & Kartengröße` gibt es `Sanfte Animationen` / `Animationen aus` als lokal gespeicherte Einstellung. Das Systemmerkmal `prefers-reduced-motion` wird ebenfalls beachtet, und automatische Karteneinpassung bleibt ohne Animation.
+
+Detaillierte Daten-/Architekturgrenzen, Bedienung und Screenshot-Liste: `PHASE_25_HUD_ANIMATIONS_DATA_INTEGRATION.md`. **128/128 Node-Tests + Chrome-Browsertest erfolgreich** (GitHub Actions [43594606947](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/43594606947)); der anschließende Dokumentations-Commit wird gesondert geprüft. Weiterhin kein Merge oder Deployment; unverifizierte 2027-Endpreise, Zugfahrpläne und Standort-/Fotoabdeckung bleiben offen.
+
+---
+
+**Wichtige Präzisierung der Original-Umfrage:** Genau **56 der 57** recherchierten Aktivitätsideen gehören mindestens einer vorhandenen Reisevariante an. `act-056` „Altstadt Montpellier“ hat ursprünglich `trip_applicability: []` und ist deshalb ein **ausschließlich archivierter Alternativstopp**. Dieser bleibt auf **Daten & Fristen** mit offizieller Quelle auffindbar, wird aber nicht stillschweigend einer Route oder Buchung hinzugefügt. Die Catalog-/Guide-Validierung prüft diese Trennung anhand der V19-Ursprungsdaten.
+
+## 14.11.2026 – Phase 24: 57/57 Quellen-Guides zu V19-Aktivitäten, 37 freie Bildregeln, filterbare Qualitätsliste
+
+Der Reiseplaner verfügt jetzt für **alle 57 V19-Aktivitätsideen** über einen individuell zugeordneten Recherchetext mit konkretem offiziellen Tourismus- oder Betreiberlink, Hinweisen und Einschränkungen (vorher: 37). Einige sind explizit **Konzept- / Beispielbetriebsreferenzen**, *kein* nachgewiesener spezifischer 2027-Aufenthalt, Clubabend, Kurs oder gebuchter Platz. Die übrigen 828 variantebezogenen Katalogeinträge sind nicht dadurch insgesamt vollständig belegt.
+
+**Sieben weitere persönlich anhand ihrer Commons-Dateiseiten überprüfte Creative-Commons-Motive** für Sète (Plage de la Corniche, Canal Royal, Pointe Courte), Montpellier, Toulouse und Venedig (Cannaregio, Zattere). Damit sind es **37 fest zugeordnete Motivregeln** – keine Behauptung einer 100%-Fotoabdeckung. Quellen und Urheber bleiben sichtbar.
+
+**Neu in Daten & Fristen:** sofortige Suche und Filter nach Stadt, Eintragsart, fehlendem Foto, Preis, Beschreibung, Öffnungs-/Fahrzeit, Koordinate, individueller Webquelle, Checkout-Daten oder fehlendem Ortsguide. Die Trefferzahl aktualisiert sich ohne Seitenlade- und Karten-Rerender; nur passende Zeilen/Städte werden sichtbar. **Zurücksetzen** stellt alle offenen Datensätze wieder her. Beim Ortsguide gibt es nun ein sichtbares Kennzeichen, ob die Quelle einen konkreten Ort oder nur ein Beispiel/Konzept belegt. Keine automatischen Kosten- oder Buchungsänderungen.
+
+Quellen, Bild-Urheberrechte, Bedienung, technische Module, Tests und unvermeidbare 2027-Datenlücken sind detailliert in `PHASE_24_57_GUIDES_IMAGE_FILTER.md` dokumentiert. Änderungen nur auf `feature/v7-data-day-accommodation-rail`, nicht produktiv deployed oder gemergt.
+
+---
+
+## 14.11.2026 – Phase 23: 37 quellenbasierte Ortsguides, 30 kuratierte Bildregeln, interaktiver Drei-Wege-Ortsvergleich
+
+Die vorhandenen 21 offiziellen Ortsguides wurden um **16 einzeln recherchierte Orte/Teilabschnitte** auf **37** erweitert. Neue Quellen umfassen Paris (Canal Saint-Martin, Quartier Latin, Seine), Sète (Canal Royal und Pointe Courte), Barcelona (Bogatell Strand), Nice/Villefranche, Genua (Corso Italia und Altstadt) sowie Grindelwald (First Flyer) und Klöntalersee/Rhodannenberg. Betreiberinformationen bleiben als datierte Referenzen dargestellt; insbesondere **Badeassistenzzeiten sind nicht Strandöffnungszeiten**, **6-km-Küstenwege sind nicht kurze Hafenrunden**, und **21-km-Trailruns sind nicht Picknickspaziergänge**. Keine neuen Buchungen oder Planpreis-Überschreibungen.
+
+Fünf weitere einzeln lizenz- und motivgeprüfte Wikimedia-Commons-Fotos für Trocadéro, Canal Saint-Martin, Montjuïc, Cours-Saleya-Markt und Corso Italia ergänzen die kuratierte Sammlung auf **30** Regeln. CC BY-SA 2.5 wird mit direktem Lizenzlink angezeigt. Fehlende Fotos bleiben sichtbar, Hotelzimmerfotos ohne Nutzungsrechte werden nicht kopiert.
+
+**Neu in jedem Ortsinspektor:** „Zum Vergleich“ sammelt bis zu **drei** verschiedene Einträge derselben Stadt und Kategorie. „Vergleich (n)“ zeigt sie tabellarisch mit Bildern, realen vorhandenen Preisstufen, Quellen, offiziellen Betreiberhinweisen, Position und dokumentierten Datenlücken. Der Vergleich ist **flüchtiger Browserzustand**, setzt sich beim Variantenwechsel zurück und verändert weder Reisebudget noch Buchung noch Tagesplanung. Desktop-/Mobile-Design einschließlich Quellen- und Zugänglichkeitsprüfungen ergänzt. Vollständige Dokumentation: `PHASE_23_COMPARISON_IMAGES_RESEARCH.md`.
+
+**Noch nicht vollständig:** Alle 828 variantebezogenen Einträge haben noch nicht individuelle Bilder, veröffentlichte 2027-Endpreise oder alle exakten Zugverbindungen. Die dynamische Abdeckungsprüfung unter `Daten & Fristen` bleibt dafür die verbindliche Lückenliste.
+
+---
+
+## 14.11.2026 – Phase 22: 21 neue offizielle Ortsguides und ausgereifter Fünf-Tab-Ortsinspektor
+
+**Im Entwicklungsbranch implementiert, nicht in `main` gemergt und nicht deployed.** Zusätzlich zum V20-Quellenbestand und dem V21-Bild-/Lückenbericht enthalten **21** exakte V19-Aktivitätseinträge eigene, neu recherchierte Betreiber-/Tourismusguides mit Fakten, Saison-/Tarifhinweisen, praktischen Einschränkungen, klaren Gültigkeitsdaten und Original-HTTPS-Links. Dazu gehören die separate T2-Rundwanderung Wasserauen–Seealpsee (**nicht** mit dem leichteren Fahrstraßenweg gleichsetzen), der offizielle 2027-Eiffelturmtarif und die 2027-Oeschinensee-Gondelsaison. 2026-Referenzpreise werden nicht zu gebuchten 2027-Preisen.
+
+**Neu in allen Eintragsdetails:** ein responsiver Ortsinspektor mit Foto-Cover oder klar als fehlend markiertem Bild, aufklappbaren Betreiberangaben, fünf umschaltbaren Bereichen **Übersicht / Fotos / Kosten / Quellen / In der Nähe**, sieben kontextbezogenen Begriffserklärungen zu Quellen, Preisen, Buchungen, Geogenauigkeit, Luftlinie, Bildrechten und Tarifgültigkeit, echten Quelle-/Lizenzlinks, Navigation zu weiteren Einträgen, Direktlink zur Karte und benachbarten Aktivitäten (nur belegte Luftlinien ≤5 km). Browser- und Tastaturzugänglichkeit plus schmale 390px-Ansicht getestet. Keine Veränderung der ursprünglichen Budget- und Buchungsdaten. Inspektor, Daten, Tests, Quellen und Designentscheidungen dokumentiert in `PHASE_22_GUIDE_INSPECTOR_NAOL_DESIGN.md`.
+
+**Naol-Websites-Designreferenz:** großzügiger, heller und weniger blockiger Stil aus vorherigen visuellen Vorgaben. Die aktuelle Live-Firmenseite konnte nicht zuverlässig geladen werden; kein angeblich exakter Live-Nachbau.
+
+---
+
+## Nachtrag 14.11.2026 – v2.1 Eintragsabdeckung und Commons-Fotowahl
+
+**Noch nicht alles vollständig:** Der letzte Kartenreport zählt 829 Einträge über vier Reisevarianten (nicht 829 unterschiedliche Orte), davon 510 mit einer Position und 319 ohne einzelnen Kartenanker. Nach Quellenprüfung sind die manuell fest eingebauten Fotoregeln von 21 auf **25** gestiegen; einzelne Regeln decken mehrere passende Einträge ab. Die dynamische Datenprüfung in **Daten & Fristen** misst für **jeden tatsächlichen Eintrag** je Reisevariante u. a. Quellenfoto, Beschreibung, vergleichbaren Preis, Webquelle, geografische Genauigkeit, Öffnungszeiten, Betten-/Checkoutangaben und bestätigte Fahrpläne. Die Ergebnisse bleiben als offene To-dos mit Eintrags-Details sichtbar, keine behauptete Komplettabdeckung.
+
+Neu: **„Lizenzfotos suchen“** in jedem Ortsdetail und **„Bild suchen“** für fehlende Motive in **Daten & Fristen**. Der interaktive Wikimedia-Commons-Suchdialog filtert freie Lizenzen, Urheber- und Quellendaten, zeigt ein Bild samt Lizenzlink an und erfordert die ausdrückliche Auswahl des konkreten Motivs. Die Fotos werden danach individuell in der Reisevariante gespeichert; es werden keine fremden Zimmerbilder oder unsicheren Stockbilder automatisch übernommen. Bei gesperrter API bleibt der externe Commons-Link plus bisheriges manuelles Einfügen erreichbar. Zurzeit keine bestätigte Live-API-End-to-end-Prüfung dieser externen Bildsuche.
+
+Drei neue auf Commons persönlich lizenzgeprüfte Fotos: **Mont Saint-Clair in Sète (Einaz80), Nervi-Promenade in Genua (Tiia Monto), Hauptgasse Appenzell (Tobyc75)**. Existierendes Seealpsee-Foto funktioniert jetzt ebenfalls für den unter Appenzell erfassten Weg und Klöntalersee-Foto für Glarus-Zuordnungen. Zusätzliche Betreiberangaben zu Èze, ACTV-Inselbesuchen und variablen First-Gondeltarifen. Alle exakten Links, Lizenzen, Dokumentation, fehlenden Felder und der sichere Weg zu mehr Bildern stehen in `PHASE_21_ENTRY_INFO_PHOTO_COVERAGE.md`. Kein Merge/Deployment/Buchung.
+
+---
+
+## Nachtrag 14.11.2026 – v2.0 Web-Einzelprüfung & einheitliche €-Preisstufen
+
+**Entwicklungsbranch `feature/v7-data-day-accommodation-rail` (Draft-PR #5), kein Merge/Deployment.** Alle 57 Umfrageaktivitäten sind einzeln quellengeprüft; für 24 liegen nach alten und ergänzenden belegten öffentlichen Orts-/Gebietsreferenzen nutzbare Kartenpositionen vor. 33 Aktivitäten behalten individuelle offene Geobegründungen. Bedingte Freieintritte (Louvre) sind nicht mehr fälschlich pauschal 0 €. Eiffelturm erhält den offiziell veröffentlichten 2027er Jugend-Treppenpreis 7,60 €; Nizza-Schlossberg die bereits publizierten 2027-Zeiten; Sagrada/Park Güell bleiben als 2026-Referenzen gekennzeichnet. Oeschinensee 2027-Betriebszeiten sind bestätigt, 2027-Gondelpreis dagegen nicht.
+
+**Alle 35 Unterkünfte wurden in zehn Suchgebieten mit identischer Personenzahl/Datumsfenster erneut mit dem Anbieter abgeglichen:** 22 Angebote in den Suchresultaten wiedergefunden, 13 nicht in der begrenzten Ergebnisliste (keine Aussage über Nichtverfügbarkeit). 19 unabhängig benannte öffentliche OSM-Ortsreferenzen bestätigt, ein Alpina-Kandersteg-Ortskonflikt von 392 m und eine ungeklärte neue Preisabweichung von 49,62 € offengelegt. Keine sichere Bettanzahl, Steuern oder Checkout aus dem Suchresultat abgeleitet. Original-Suchwerte und aktive Budgets unangetastet.
+
+Die 29 datierten Bahn-/Transferabschnitte und 40 allgemeinen Essen-/Abendideen sind einzeln mit offener Betreiber-/Preis-/Zeit-/Menü-Frage sowie nächstem Prüfschritt dokumentiert. Acht **zusätzliche** verlinkte Indoor-Aktivitäten (Paris, Barcelona, Sète, Nizza, Genua, Mestre, Grindelwald zweimal) stehen nicht ausgewählt im Entdecken-Katalog; sieben Regenideen können darauf verweisen. Betreiber-/Kommunaltarife von 2025/26 bleiben Referenzen.
+
+**Preiszeichen global harmonisiert** über sämtliche alten und neuen Orts-, Unterkunfts-, Tagesplan-, Popup-/Detail-, Kartenlisten- und Ideenansichten: € / €€ / €€€ aus vergleichbaren EUR-Zahlen; 0 € bei belegter kostenloser Basisleistung, €? bei fehlender Vergleichbarkeit, Zuschlags-/EWR-Bedingung oder CHF ohne bestätigten Wechselkurs. Unterkunftsstufen pro Person/Nacht, Speisen nach kompletten Menüs (nicht nur Getränk oder einzelne Häppchen), Aktivitäten und Transport pro Person. Keine Livepreisbehauptungen.
+
+Einzelbelege, technische Regeln, Quellen und offene Ausnahmen stehen in `PHASE_20_WEB_RECHECK_PRICE_SIGNALS.md` und `data/research-v20/`. CI-Regression wurde um `test/research-v20.test.mjs` ergänzt. Kein externer Buchungsvorgang und keine Änderung an Tripsy oder `main`.
+
+---
+
+## Nachtrag 14.11.2026 – v1.9 zweite Designrunde + Survey-First-Import
+
+Zweite visuelle Überarbeitung anhand der bisherigen Nutzerreferenzen: Tageskontext in Plan und Atlas, luftigere Termin-/Ortslisten, responsives Karte-Liste-Layout ab 1180 px und größere belegte Ortsbilder bzw. gekennzeichnete Illustrationen. Technischer Eingriff in CSS, UI-Modulen und lokalem Katalog, kein neues externes Deployment.
+
+20 zusätzlich hochgeladene Originaldateien als separates `data/research-v19-survey-first/` archiviert. Der Validator besteht 56/56 Prüfungen. `lib/research-v19.mjs` integriert 57 unterschiedliche neue Aktivitäten und 35 Unterkunftskandidaten mit `survey-v19:`-IDs in die 4 existierenden Varianten: Aktivitäten 43 / 41 / 44 / 12, Unterkünfte 24 / 0 / 0 / 11. Sechs Ausflugsoptionen in Glarus und Grindelwald bleiben erhalten. Die 29 Bahnabschnitte ohne bestätigte 2027-Zeiten, 17 nichtaktive Tagesvorschläge, 40 Essens-/Abendideen und 4 Budgetszenarien erscheinen in gesonderten Ansichten. 28 Quellen, 24 offene Qualitätsfragen. Alle Kandidaten bleiben ungebucht/unselektiert, keine aktive Budgetänderung; genaue Aktivitätspins sind nicht erfunden. Anbieterpositionsreferenzen der Unterkünfte werden als nicht unabhängig verifiziert markiert.
+
+**GitHub Actions:** Erste vollständige neue Import-CI #43575436978 (einschließlich Node-Modelltests, Python 20-Dateien-Check, Browser, Kartenreport und Server-Smoke) erfolgreich. Weitere Dokumentations-/Kennzeichnungscommits erhalten eigene CI-Läufe; nicht nach main mergen. Vollständiges Protokoll und Ausnahmen: `PHASE_19_DESIGN_ROUND2_SURVEY_IMPORT.md`.
+
+---
+
+# Projektstand · 14.11.2026
+
+## Nachtrag 14.11.2026 – v1.8 iterative Screenshot-Abgleiche
+
+Mehrere überprüfte Designschleifen im bestehenden Entwicklungsbranch mit Bezug auf vom Nutzer gelieferte hochwertige Trip-App-Screenshots: ein zweispaltiges, luftiges Reise-Cockpit; anklickbare, ausdrücklich **schematische** Route auf Basis vorhandener Stadtkoordinaten; einzigartige symbolische Stadt-, Küsten- und Bergbilder als lokale Foto-Fallbacks; gekoppelte Hover-Hervorhebung zwischen Leaflet und Liste. Der Karten-Explorer wurde **map-first** neu sortiert (Tagesauswahl → Karte links / Suchleiste und Liste rechts), große Tagesvorschläge/Zusatzoptionen sind gefaltet, die gestalterischen Karteneinstellungen und die Stadtabfolge stehen nach der Karte. Suchbutton erscheint in einer Zeile mit Eingabe, Kategorien sind in einer scrollbaren Leiste, kompakte Einträge zeigen nur Wesentliches.
+
+Die visuelle Kontrolle erfolgt anhand echter Chrome-Screenshots, automatisch gegen DOM-Geometrie und Verhalten ergänzt. `test/route-mini-map.test.mjs` und die volle CI wurden erweitert; aktueller Offline-Browserdurchlauf erzeugt acht PNGs. **Noch nicht als identisch mit Referenzbildern oder vollständig live-verifiziert bewerten**: Viele individuelle Fotos fehlen; echte Online-OSM-Tiles, Gerätehardware und fremde Netzbedingungen wurden nicht visuell abgenommen; Unterkunfts-Checkout, Zugreservierungen, Öffnungszeiten 2027 und genaue Privat-/Airbnb-Adressen bleiben offen. Keine Buchung wurde geändert.
+
+
+
+## Nachtrag 13.11.2026 – v1.7 Designreferenzen integriert
+
+Angelehnt an die vom Nutzer geteilten Designyow-/Navica-/Wanderlog-Vorlagen: weniger harte Kacheln, systemnahe Sans-Serif-Typografie, diskrete Animationen, Reise-Cockpit mit korrekten Statusbalken, bildorientierte Reiseort-Leiste mit Quellenhinweisen, einfachere Planungs- und Quellen-Accordions. Tagesplan mit belegten Fotos oder Kategorie-Icons sowie Uhrzeitgruppen (nur wenn wirklich eingeplant). An Orten zusätzlich transparente, planwertbasierte Preisstufen `€`/`€€`/`€€€` bzw. `€?` für offene/nicht vergleichbare Werte. Karte mit Datums-/Stadt-HUD, nur bei vorhandenen Einträgen mit Zeitfolge, Bildminiaturen in Auswahlvorschau und einklappbaren Zusatzeinstellungen. Kompakte Ortsliste mit `Weitere Aktionen` statt zwölf gleichzeitig sichtbaren Schaltflächen. Bildfehler werden ohne kaputte Icons abgefangen. **Keine erdachten Live-Bewertungen, Orte, 2027-Tickets, Freundesstandorte oder angeblich bestätigten Endpreise.**
+
+Regression mit echten Chrome-Screenshots einschließlich `07-dashboard-fortschritt.png` und isoliertem Offline-Seed. Visual-Referenzen sind Inspiration, nicht ein Screenshot-Klon. Noch offen: echtes Browser-/Geräte-Testing mit externen Kacheln, zusätzliche belegte Bilder für die Mehrheit der Einträge, zeitlich und preislich bestätigte 2027-Daten. Details siehe `PHASE_17_VISUAL_REDESIGN.md`.
+
+
+
+## Nachtrag 13.11.2026 – v1.6 Atlas-Synchronisierung und Screenshot-QA
+
+Karten-Explorer für Desktop im nebeneinanderliegenden Karten-/Listenlayout, synchronisierte Ortsauswahl über Marker und Listenkarte sowie Quellendetails im Dialog. Lokale, je Reisevariante unabhängige Karten-Merkliste mit Filter und Pin-Hervorhebung (max. 120 IDs), ausdrücklich nicht Teil von Buchungen/Budget oder SQLite. Doppelte große Leaflet-Popups entfernt. Fehlerhaft ungeschlossenes `map-wrap`-Element korrigiert. Mobil wird die Auswahlkarte nicht unter dem unteren Navigationsdock überdeckt, sondern im Dokumentfluss direkt unter der Karte gezeigt.
+
+Screenshot-Vergleich in GitHub Actions: 1280-/1440-Pixel-Desktop, 390-Pixel-Smartphone und 820-Pixel-Tablet, jeweils isoliertes Seed-/Offline-Kartenlayout; sechs Dateien im 14 Tage gehaltenen Artefakt `reiseplaner-ui-review`. Zusätzliche Node- und Chrome-Regressionsprüfungen sichern die Bedienabläufe. **Echte Endgeräte, Performance mit allen Online-Kacheln und vollständige 2027-Datenrecherche bleiben offen.**
+
+
+
+## Nachtrag 13.11.2026 – v1.5 Übersicht & interaktiver Karten-Explorer
+
+Navigationsgruppen, Reiseübersichts-Schnellzugriffe, mobile Dock-Navigation und persistente Reiseort-Accordion-Ansicht. Karte vor Mehrstopp-Builder, zusätzliche aufklappbare Routenplanung. Leaflet-POI-Zoomcluster ab Zoom 12 und kleiner, klickbare Kategorien in der Legende und Kartenkennzahlen. Individuelle POI-Umkreissuche mit 1/3/10 km und visuellem Radius; Live-Filter der Ergebnisliste nach aktuellem Kartenausschnitt; umschaltbare kompakte und detaillierte Ortskarten, Ein-Klick-Filter-Reset. **Keine Kartenpunkt-Erfindungen, keine veränderten Buchungen oder Budgetdaten.** Siehe `PHASE_15_UI_MAP.md`.
+
+
+
+## Nachtrag 13.11.2026 – v1.4 Bahn-Prüfzeitleiste
+
+Sieben originale Bahnabschnitte der September-Klassikroute werden als **ungefähre Prüfzeitpunkte** mit Betreiberlink und lokaler Wiedervorlage angezeigt. SNCF hatte am 12.11.2026 Ticketverkäufe für große Teile des Netzes bis zum 02.07.2027 freigegeben; kein September-Fahrplan, Reservierungsplatz oder exakter Fahrpreis wurde dadurch bestätigt. Die frühere Statusbedingung für die veröffentlichte SNCF-Verkaufsgrenze wurde für den 13.11.2026 korrigiert. Regressionstests und Headless-Chrome-Flow im CI-Workflow.
+
+
+
+## Nachtrag 13.11.2026 – v1.3 Anbieter-Recherche
+
+60 neue datierte Booking.com-Suchwerte für sechs echte September-2027-Aufenthaltsfenster und drei Erwachsene/ein Zimmer: sichtbar im separaten Hotel-Vergleich, **nicht** als finale Checkouts oder Reisekosten. Filter/Sortierung greifen nur bei identischen Reisedaten und Gruppengröße. 17 öffentliche Adressfälle: 13 Anbieter-Geohinweise, 4 ohne Treffer, **0 neu unabhängig bestätigte Punkte**. Ein Konflikt bei `research:bcom_12257788` in Genua bleibt unaufgelöst und ist im UI dokumentiert. JSON-/CSV-Archive in `data/research-v13/`; Tests und Methodik in `PHASE_13_PROVIDER_RESEARCH.md`.
+
+
+
+## Nachtrag 13.11.2026 – v1.2 Benutzerführung und datenbewusste Qualitätsverbesserung
+
+**Entwicklung im Branch `feature/v7-data-day-accommodation-rail`, PR #5; kein Merge oder Deployment.** Die ursprüngliche Übersicht vom 12.11.2026 bleibt im Folgenden als Baseline erhalten.
+
+**Neu implementiert:** siebenteiliges zugängliches In-App-Tutorial mit Modulnavigation und mobiler Ansicht; Tagesbudget-Szenariosimulator ohne Auswirkung auf Zahlungen oder Buchungen; präzisierter Küchen- und Preisfilter; vierteiliger Unterkunftsvergleich mit Zurücksetzen; Gruppenabstimmung ohne 15er-Deckel; Fotos mit Einzel-Lizenzangaben in kompatiblen Mehrbildgalerien (maximal fünf eigene pro Ort); zwei zusätzliche lizenzierte Commons-Sehenswürdigkeiten; transparente Smart Filter für nachgewiesene Bahnhof-Fußwege, gruppengrößenabhängige Bettenprüfung, 0-€-Referenz, Wasser/Schwimmen und Mehrheitsinteresse; fünf datenbasierte Fortschrittsindikatoren im Bereich Daten & Fristen.
+
+**Verifiziert:** Actions-Qualitätslauf [#43474139218](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/43474139218) mit Syntax, Datensatzvalidierung, Node-Regressionschecks, Kartenabdeckung, Headless Chrome und Server-Smoke vollständig erfolgreich. Detailliertes Protokoll in [PHASE_12_GUIDE_VISUAL_QUALITY.md](PHASE_12_GUIDE_VISUAL_QUALITY.md).
+
+**Weiterhin offen:** Vollständige Bildrechte/Quellen für alle Hunderte Datensätze; 229 variantenspezifisch ungenaue Kartenpunkte; ungeprüfte Zimmer-/Betten-/Gebührendetails und Stornierung für konkrete drei oder vier Reisende; Oktober/November-2026-Suchpreise statt bestätigter 2027er Checkoutpreise; verbindliche Züge, Gastrotarife und Öffnungszeiten für die tatsächlichen Reisetage. Der Fortschrittsindikator misst belegte Plan-/Eigeneinträge, **nicht** Buchungsbereitschaft oder objektive Reisefertigstellung. Die früheren fehlgeschlagenen optionalen Forschungs-Workflows werden nicht als Qualitätsnachweis ausgegeben, siehe separate CI-Berichte.
+
+
 
 Die private Webanwendung startet mit `Start.cmd` oder `node server.mjs`. Die lokale Vorschau auf Port 4173 antwortete mit HTTP 200 und vier Varianten. Das vollständige Projekt liegt im Ordner dieser Datei. Der V7-Gesamtumfang bleibt in Arbeit.
 
@@ -167,3 +508,11 @@ Diese Hinweise werden auf der **Reiseübersicht** der jeweils passenden Variante
 **Abdeckung / ehrliche Lücken:** `npm run report:map` erstellt jederzeit den tatsächlichen Varianten-/Stadt-Audit. Bei der Prüfung des Branchs am 12.11.2026 gab es **36 Variants-Stadt-Kombinationen, 453 katalogisierte Varianten-Einträge, davon 143 mit echten Koordinaten und 310 ohne Punktposition**. Die 453 sind keine weltweit eindeutigen Angebote, da dieselben Orte in mehreren Reisevarianten vorkommen. Nur wenige Einträge enthalten verfügbare Stunden-/Menürecherchen; 2027er Endpreise und verifizierte Betten fehlen oft. `MAP_DATA_COVERAGE.md` enthält den Einzelvergleich; die UI kennzeichnet Unbekanntes und wertet es nicht als kostenlos.
 
 **Prüfstand:** Neue `test/map-explorer.test.mjs` für Kategorien, vier Reisen, Orts-/Detailfilter, Geolokalisierung, Weg-Risiken und importierte Stadt-/Tagespakete. Chrome-E2E testet farbige Pins, Suchfeld, A→B und Auswahl einer Restaurant-Alternative im lokalen Tagesplan sowie die übrigen alten Module. Github Actions Node 24 + Python + Chrome + Server; historische vollständige Regression mit git-ignorierten vier privaten Tripsy-Rohdaten auf dem Windows-Rechner bleibt offen. Das neue GitHub-Prüfprotokoll und `MAP_EXPLORER.md` sind maßgeblich.
+
+## 13.11.2026 – Datenabdeckung, echte Tagesrouten, Hotel- und Bahnprüfung
+
+Die vier Prioritäten sind auf dem Branch `feature/v7-data-day-accommodation-rail` **funktional erweitert**, ohne die bisherigen Tripsy-Originalreisen oder `main` zu verändern. 39 neue Café-/Restaurant-/Einkaufsrecherchen in 12 Orten und sechs mit Betreiberquellen dokumentierte Sehenswürdigkeitsfamilien werden als ungebuchte, teilweise unbepreiste Optionen eingebunden. Die 39 Einträge sind **nicht automatisch auf die Karte gepinnt**: neue `Kartenstandort prüfen`-Funktion erlaubt nur explizites Nutzer-Geocoding mit OpenStreetMap Nominatim und Bestätigung der Adresse; kein Massenabruf.
+
+`day-route.mjs` / `day-route-ui.mjs` und `app.mjs` ermöglichen jetzt bis zu 8 Stopps mit Startzeit, Reihenfolge, geprüftem Fußweg und bewusster Übernahme des vollständigen Tages. Unbestätigte Besuchsdauern sind Planannahmen, fehlende Geometrien werden nicht als Straßen ausgegeben. `stay-analysis.mjs` liefert EUR-Gruppenpreis pro Nacht/Person, Bahnhofsfußweg und Datenrisiken, ohne einen Zimmer-Checkout vorzutäuschen. `rail-analysis.mjs` zeigt Pass-Reisetage, Nachtzugprüfung, Umsteigeknappheit und fehlende 2027-Angebote an.
+
+Die letzte grüne CI vor den abschließenden Geocoder-Tests (Actions 43375367543) hat 41/41 Node-Prüfungen sowie Chrome und HTTP bestanden; die finalen Änderungen benötigen den jüngsten Testlauf. `PHASE_1_TO_4.md` ist der detaillierte Audit. 2027-Preise, Buchbarkeit, Zimmerbelegung sowie die vollständige Windows-Regression mit privaten Tripsy-Snapshots bleiben weiterhin offen.

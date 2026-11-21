@@ -24,6 +24,7 @@ test('Month arithmetic clamps calendar edge days (non leap-year February)', () =
 test('SNCF September travel is outside officially announced 2 July 2027 bookable period', () => {
   const sncf = railSalesStatus({ route: 'Paris Gare de Lyon → Barcelona Sants', date_local: '2027-09-03' }, '2026-11-12');
   assert.equal(sncf.status, 'not_in_published_window');
+  assert.equal(railSalesStatus({route:'Paris Gare de Lyon → Barcelona Sants',date_local:'2027-09-03'},'2026-11-13').status,'not_in_published_window');
   assert.equal(sncf.publishedThrough, '2027-07-02');
   assert.match(sncf.text, /nicht|nach/i);
   const international = railSalesStatus({ route: 'München Hbf → Paris Est', date_local: '2027-09-01' });

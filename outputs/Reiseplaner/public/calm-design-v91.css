@@ -1,0 +1,454 @@
+/*
+ * V91 / Calm travel UI. Product UI inspired by Apple HIG principles:
+ * content-first, consistent rhythm, quiet functional chrome and purposeful motion.
+ * This last CSS layer reconciles historical design rounds without altering layout,
+ * routing, source evidence or saved data. No Apple brand assets or fonts are copied.
+ */
+:root{
+  --bg:#f6f8f5;
+  --paper:#ffffff;
+  --line:#e3eae3;
+  --text:#1d3026;
+  --muted:#53695d;
+  --green:#176244;
+  --accent:#e4f2e8;
+  --light:#f0f5f0;
+  --shadow:0 3px 14px rgba(24,55,35,.045);
+  --ref63-bg:var(--bg);
+  --ref63-surface:var(--paper);
+  --ref63-stroke:var(--line);
+  --ref63-green:var(--green);
+  --ref63-ink:var(--text);
+  --ref63-muted:var(--muted);
+  --ref63-elevation:0 3px 15px rgba(24,55,35,.052);
+  --ref63-round:20px;
+  --calm-ease:cubic-bezier(.22,1,.36,1);
+  --calm-interaction:190ms;
+  --calm-shadow:0 3px 16px rgba(26,57,39,.052);
+}
+:root[data-theme=dark]{
+  --bg:#151e19;
+  --paper:#202e25;
+  --line:#3a4b3e;
+  --text:#edf6ee;
+  --muted:#bfcec1;
+  --green:#ade6bf;
+  --accent:#2b4937;
+  --light:#273a2e;
+  --shadow:0 3px 16px rgba(0,0,0,.13);
+  --ref63-bg:var(--bg);
+  --ref63-surface:var(--paper);
+  --ref63-stroke:var(--line);
+  --ref63-green:var(--green);
+  --ref63-green-dark:var(--text);
+  --ref63-ink:var(--text);
+  --ref63-muted:var(--muted);
+  --ref63-elevation:0 3px 15px rgba(0,0,0,.16);
+  --calm-shadow:0 3px 18px rgba(0,0,0,.16);
+}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.reference-travel-shell>.main-column>.workspace{
+  background:var(--bg);
+}
+.reference-travel-shell :is(.page-head h1,.hub-hero h1,.reference-map-intro h1){
+  font-weight:690;
+  letter-spacing:-.038em;
+}
+.reference-travel-shell :is(.panel-head h2,.hub-results-title strong,.subheading h2){
+  font-weight:670;
+  letter-spacing:-.028em;
+}
+.reference-travel-shell :is(.page-head p,.hub-hero-main>p){
+  line-height:1.58;
+}
+/* Quiet functional glass: navigation only. Never make every content tile glass. */
+.reference-travel-shell>.main-column>.reference-topbar{
+  background:rgba(253,254,252,.94);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 1px 9px rgba(21,48,31,.035);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+}
+.reference-travel-shell .reference-main-nav button{
+  font-weight:630;
+  transition:background-color var(--calm-interaction) ease,
+    color var(--calm-interaction) ease,
+    box-shadow var(--calm-interaction) ease !important;
+}
+.reference-travel-shell .reference-main-nav button[aria-current=page],
+.reference-travel-shell .reference-main-nav button[aria-pressed=true]{
+  box-shadow:none;
+}
+.reference-travel-shell .reference-global-search{
+  box-shadow:none;
+  border-color:var(--line);
+  background:var(--paper);
+  transition:border-color var(--calm-interaction) ease,
+    box-shadow var(--calm-interaction) ease;
+}
+.reference-travel-shell .reference-global-search:focus-within{
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 13%,transparent);
+}
+.reference-travel-shell .reference-brand-menu{
+  box-shadow:none;
+}
+/* Content panels group by spacing and a hairline, not stacked floating boxes. */
+.reference-travel-shell :is(
+  .panel,.day-plan-panel,.hub-option-card,.hub-food-card,
+  .option-card,.reference-discovery-card,.stay-compare-card,
+  .overview-quick-card,.reference-agenda-select
+){
+  border-color:var(--line);
+  box-shadow:var(--calm-shadow);
+}
+.reference-travel-shell :is(.panel,.day-plan-panel,.hub-option-card,.hub-food-card,
+  .reference-discovery-card,.stay-compare-card){
+  border-radius:20px;
+}
+.reference-travel-shell :is(.panel,.hub-option-card,.hub-food-card,.reference-discovery-card)
+ :is(.panel,.source-notice,.hub-technical-details){
+  box-shadow:none;
+}
+.reference-travel-shell :is(.hub-filter-panel,.activity-filter-panel,
+  .stay-facets,.source-notice,.reference-places-drawer){
+  box-shadow:none;
+  border-color:var(--line);
+}
+.reference-travel-shell :is(.reference-stage-days,.reference-map-workspace>.explorer-right,
+  .reference-map-workspace>.map-panel,.reference-map-workspace>.reference-discovery){
+  box-shadow:var(--calm-shadow);
+  border-color:var(--line);
+}
+/* Photo-led heroes keep existing licensed imagery, with calm surfaces behind it. */
+.reference-travel-shell .hub-hero{
+  border-color:var(--line);
+  background:#f1f6f0;
+  box-shadow:var(--calm-shadow);
+  border-radius:22px;
+}
+.reference-travel-shell .hub-hero-art:after{
+  background:linear-gradient(90deg,#f1f6f0 0%,#f1f6f0de 40%,#f1f6f074 100%);
+}
+.reference-travel-shell .reference-map-intro{
+  background:linear-gradient(110deg,var(--paper) 28%,var(--light) 76%,var(--accent) 100%) !important;
+  border-color:var(--line);
+  box-shadow:var(--calm-shadow);
+}
+.reference-travel-shell .reference-map-intro .reference-intro-photo:after{
+  background:linear-gradient(90deg,var(--paper) 0%,color-mix(in srgb,var(--paper) 75%,transparent) 30%,transparent 100%) !important;
+}
+/* Input/selection affordances: short color transitions, no position jumps. */
+.reference-travel-shell :is(.button,.chip-button,.icon-btn,.hub-more-button .button,
+ .explorer-chip,.day,.reference-agenda-select,.reference-discovery-save){
+  transition-property:background-color,color,border-color,box-shadow,opacity !important;
+  transition-duration:var(--calm-interaction) !important;
+  transition-timing-function:ease !important;
+}
+.reference-travel-shell :is(.button,.chip-button,.icon-btn,.day,.explorer-chip):active{
+  transform:none !important;
+}
+.reference-travel-shell :is(.button,.chip-button,.icon-btn,
+  .reference-main-nav button):focus-visible,
+dialog :is(button,input,textarea,select,a,summary):focus-visible{
+  outline:3px solid color-mix(in srgb,var(--green) 72%,#ffffff);
+  outline-offset:3px;
+}
+.reference-travel-shell :is(.button,.chip-button,.icon-btn)[disabled]{
+  opacity:.55;
+  cursor:not-allowed;
+}
+/* Remove the hover trampoline from text/card surfaces; keep a subtle response. */
+@media(hover:hover) and (pointer:fine){
+  .reference-travel-shell :is(
+    .overview-quick-card,.destination-card,.reference-discovery-card,
+    .option-card,.hub-option-card,.hub-food-card,.stay-compare-card,
+    .rail-card,.reference-agenda-select,.reference-agenda-suggestion,
+    .explorer-place,.day-route-stops>li,.route-studio-stop
+  ):hover{
+    transform:none !important;
+    /* A static shadow avoids repaint-heavy animated elevation.
+       The subtle border tint communicates hover without a jump. */
+    box-shadow:var(--calm-shadow);
+    border-color:color-mix(in srgb,var(--green) 18%,var(--line));
+  }
+  .reference-travel-shell :is(
+    .reference-main-nav button,.nav-btn,.city-btn,.explorer-chip,
+    .day,.chip-button,.simple-main-button,.route-city-step
+  ):hover{transform:none !important}
+  .reference-travel-shell :is(
+    .reference-discovery-image img,.destination-cover img,
+    .reference-agenda-thumb,.place-thumbnail,.destination-art,
+    .reference-map-intro .reference-hero-thumb img
+  ):hover{transform:none !important}
+  .reference-travel-shell :is(
+    .reference-discovery-card:hover img,.destination-card:hover img,
+    .reference-agenda-select:hover .reference-agenda-thumb,
+    .reference-map-intro .reference-hero-thumb:hover img
+  ){transform:scale(1.018) !important}
+  .reference-travel-shell :is(.button,.icon-btn,.reference-main-nav button):hover .ui-icon{
+    transform:none !important;
+  }
+}
+.reference-travel-shell :is(.overview-quick-card,.destination-card,
+  .reference-discovery-card,.option-card,.hub-option-card,.hub-food-card,
+  .stay-compare-card,.reference-agenda-select,.explorer-place){
+  transition-property:border-color,background-color,opacity !important;
+  transition-duration:220ms !important;
+  transition-timing-function:ease !important;
+}
+.reference-travel-shell :is(.reference-discovery-image img,.destination-cover img,
+  .reference-hero-thumb img){
+  transition:transform 320ms var(--calm-ease) !important;
+}
+/* One small context reveal. No bounces on tabs, keyboard presses or saved cards. */
+@keyframes calm-enter{
+  from{opacity:.93;transform:translate3d(0,3px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes calm-dialog{
+  from{opacity:.92;transform:translateY(4px)}
+  to{opacity:1;transform:translateY(0)}
+}
+#app .motion-revealed{
+  animation:calm-enter 230ms ease-out both !important;
+  animation-delay:0ms !important;
+}
+#app img.motion-photo-loaded{animation:none !important}
+.reference-travel-shell :is(
+ .reference-main-nav button[aria-current=page]>.ui-icon,
+ .mobile-dock button[aria-current=page]>.ui-icon,
+ .day[aria-pressed=true] strong,
+ .reference-discovery-save[aria-pressed=true] .ui-icon,
+ .reference-agenda-item.is-active>.reference-agenda-index,
+ .reference-agenda-select.motion-spotlight,.explorer-place.motion-spotlight,
+ .explorer-place.motion-saved-success,.route-studio-stop[aria-pressed=true],
+ .route-studio-direction-arrow
+){animation:none !important}
+.motion-ripple{display:none !important}
+dialog[open]{animation:calm-dialog 200ms ease-out both !important}
+dialog[open]::backdrop{animation:ux-backdrop-in 200ms ease-out both !important}
+#toast:not(:empty){animation:calm-dialog 190ms ease-out both !important}
+.reference-travel-shell :is(.reference-agenda-select,.explorer-place)[aria-pressed=true]{
+  border-color:color-mix(in srgb,var(--green) 45%,var(--line));
+}
+.reference-travel-shell .mobile-dock{
+  background:rgba(253,254,252,.94);
+  border-top:1px solid var(--line);
+  box-shadow:0 -4px 18px rgba(19,46,30,.06);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+}
+.reference-travel-shell .mobile-dock button[aria-current=page]{
+  background:var(--accent);
+  color:var(--green);
+  border-radius:13px;
+}
+/* Dark mode is designed, not a light-mode filter. */
+:root[data-theme=dark] .reference-travel-shell>.main-column>.workspace{
+  background:var(--bg);
+}
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar,
+:root[data-theme=dark] .reference-travel-shell .mobile-dock{
+  background:rgba(26,37,30,.95);
+  border-color:var(--line);
+}
+:root[data-theme=dark] .reference-travel-shell .hub-hero{
+  background:#23362a;
+  color:var(--text);
+  border-color:var(--line);
+}
+:root[data-theme=dark] .reference-travel-shell .hub-hero-art:after{
+  background:linear-gradient(90deg,#23362a 0%,#23362ae8 42%,#23362a80 100%);
+}
+:root[data-theme=dark] .reference-travel-shell .hub-hero :is(h1,p,.hub-kicker){
+  color:var(--text);
+}
+:root[data-theme=dark] .reference-travel-shell .reference-map-intro{
+  background:linear-gradient(110deg,var(--paper) 28%,#294432 77%,#35533d 100%) !important;
+  border-color:var(--line);
+}
+:root[data-theme=dark] .reference-travel-shell .reference-global-search{
+  background:var(--paper);
+  border-color:var(--line);
+}
+/* Keep contrast on filled controls: pale green is for text, not white-on-green buttons. */
+:root[data-theme=dark] .reference-travel-shell :is(
+  .button.primary,.reference-main-nav button[aria-current=page],
+  .reference-main-nav button[aria-pressed=true],.reference-brand-menu,
+  .hub-option-primary-actions>.button.primary,.hub-hero-actions .button.primary
+){
+  background:#266a45;
+  color:#ffffff;
+  border-color:#266a45;
+}
+:root[data-theme=dark] .reference-travel-shell :is(
+ .reference-stage-days .day[aria-pressed=true],.days .day[aria-pressed=true]
+){
+  background:#266a45 !important;
+  border-color:#266a45 !important;
+  color:#ffffff !important;
+}
+:root[data-theme=dark] .reference-travel-shell .reference-main-nav button:not([aria-current=page]):not([aria-pressed=true]){
+  color:var(--text);
+}
+:root[data-theme=dark] .reference-travel-shell :is(.panel,.day-plan-panel,.hub-option-card,
+  .hub-food-card,.reference-discovery-card,.stay-compare-card){
+  border-color:var(--line);
+}
+
+/* Real V91 dark screenshot correction: legacy reference CSS still painted
+ * inactive top navigation and search/action controls as light-mode chrome.
+ * Make the final cascade explicit, including nested svg/label content. */
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .reference-main-nav button:not([aria-current=page]):not([aria-pressed=true]){
+  color:#edf6ee !important;
+  opacity:1 !important;
+}
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .reference-main-nav button:not([aria-current=page]):not([aria-pressed=true]) :is(.ui-icon,span){
+  color:inherit !important;
+  opacity:1 !important;
+}
+/* Legacy span-level ink rules out-rank the inherited button color on
+ * desktop/tablet. Set the label's actual computed color directly. */
+:root[data-theme=dark] .reference-travel-shell .reference-main-nav
+ button[aria-current="false"] span{
+  color:#edf6ee !important;
+  opacity:1 !important;
+}
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .reference-global-search{
+  /* The header may inherit a legacy --paper:#fffefa from its shell.
+   * Pin only the functional chrome to V91's explicit dark material. */
+  background:#202e25 !important;
+  border-color:#3a4b3e !important;
+  box-shadow:none !important;
+  color:#edf6ee !important;
+}
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .reference-global-search input{
+  background:transparent !important;
+  color:var(--text) !important;
+}
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .top-actions :is(.icon-btn,.guide-launch){
+  background:#202e25 !important;
+  color:#edf6ee !important;
+  border-color:#3a4b3e !important;
+  box-shadow:none !important;
+}
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar
+ .top-actions :is(.icon-btn,.guide-launch) .ui-icon{
+  color:inherit !important;
+}
+
+@media(max-width:650px){
+  .reference-travel-shell>.main-column>.workspace{
+    padding-inline:14px;
+  }
+  .reference-travel-shell :is(.hub-hero,.reference-map-intro){
+    border-radius:18px !important;
+  }
+  .reference-travel-shell :is(.button,.chip-button,.icon-btn,.overview-quick-card,
+    .hub-option-card,.reference-discovery-card):hover{
+    transform:none !important;
+  }
+  .reference-travel-shell .mobile-dock{
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+}
+/* Existing preference and OS accessibility controls always win. */
+@media(prefers-reduced-motion:reduce){
+  #app .motion-revealed,dialog[open],dialog[open]::backdrop,#toast:not(:empty){
+    animation:none !important;
+  }
+}
+:root[data-motion=off] #app .motion-revealed,
+:root[data-motion=off] dialog[open],
+:root[data-motion=off] dialog[open]::backdrop,
+:root[data-motion=off] #toast:not(:empty){
+  animation:none !important;
+}
+
+
+/* V91: neutralize older high-specificity light-theme paints on the header
+ * search and icon controls at tablet/desktop widths. */
+:root[data-theme="dark"] .reference-travel-shell .reference-global-search,
+:root[data-theme="dark"] .reference-travel-shell .reference-topbar .reference-global-search{
+  background:#202e25 !important;
+  background-color:#202e25 !important;
+  color:#edf6ee !important;
+  border-color:#3a4b3e !important;
+}
+:root[data-theme="dark"] .reference-travel-shell .top-actions :is(.icon-btn,.guide-launch){
+  background:#202e25 !important;
+  background-color:#202e25 !important;
+  color:#edf6ee !important;
+  border-color:#3a4b3e !important;
+}
+
+/* Avoid stale light surfaces while a legacy background-color transition runs
+ * after a theme toggle; nav text itself keeps its short color animation. */
+:root[data-theme=dark] .reference-global-search,
+:root[data-theme=dark] .reference-topbar .top-actions :is(.icon-btn,.guide-launch){
+  transition-property:none !important;
+  transition-duration:0s !important;
+  background:#202e25 !important;
+  background-color:#202e25 !important;
+}
+
+
+/* Respect the OS request for solid navigation chrome; never put opaque glass
+ * on photos or content cards. Keep hover and keyboard feedback available. */
+@media(prefers-reduced-transparency:reduce){
+  .reference-travel-shell>.main-column>.reference-topbar,
+  .reference-travel-shell .mobile-dock{
+    background:#fdfefc !important;
+    -webkit-backdrop-filter:none !important;
+    backdrop-filter:none !important;
+  }
+  :root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar,
+  :root[data-theme=dark] .reference-travel-shell .mobile-dock{
+    background:#1a251e !important;
+  }
+}
+
+/* V92 / Mobile source-link tap targets: preserve authentic photo credits and
+ * their URLs, but stop presenting tiny 12–18px anchor hit areas. Apply only
+ * to the two evidenced credit styles, not every dense plan/editor link. */
+@media(max-width:650px){
+  .reference-travel-shell a.destination-credit,
+  .reference-travel-shell a.hub-hero-photo-credit{
+    display:inline-flex;
+    align-items:center;
+    box-sizing:border-box;
+    min-height:32px;
+    max-width:100%;
+    padding:7px 10px;
+    border-radius:9px;
+    line-height:1.35;
+    text-underline-offset:3px;
+  }
+  .reference-travel-shell a.destination-credit{
+    background:transparent;
+    font-size:.67rem;
+  }
+  .reference-travel-shell a.hub-hero-photo-credit{
+    font-size:.68rem;
+    background:#fffffff0;
+    color:#365743;
+  }
+  :root[data-theme=dark] .reference-travel-shell a.hub-hero-photo-credit{
+    background:#202e25ef;
+    color:#edf6ee;
+  }
+  .reference-travel-shell :is(a.destination-credit,a.hub-hero-photo-credit):focus-visible{
+    outline:3px solid color-mix(in srgb,var(--green) 72%,#fff);
+    outline-offset:2px;
+  }
+}

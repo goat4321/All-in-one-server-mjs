@@ -1,3 +1,193 @@
+> **Windows-ZIP starten:** GitHub-Branch `feature/v7-data-day-accommodation-rail` herunterladen, vollständig entpacken und im ZIP-Hauptordner `Start-Reiseplaner.cmd` öffnen. Anleitung: [README-STARTEN.md](../../README-STARTEN.md). Vor neuen ZIP-Versionen lokale Daten mit `Daten-sichern.cmd` sichern. Noch kein Merge nach `main`; GitHub-Actions-Runner derzeit nicht bestätigt.
+
+## Phase 36 – weitere Bedienungs- und Datenoptimierungen
+
+Aktueller Stand: Verpflegungsliste mit auf Anfrage nachgeladenen Supermärkten, gemeinsamer Merkliste aus Karten- und Planfavoriten, direkter Suchfilterung, Zurücksetzen leerer Ergebnisse, korrekter Stadt-/Tagesauswahl und sauberer Angabe unbestätigter Buchungen. [Ausführlicher Plan, Umsetzung und Prüfgrenzen](PHASE_36_OPTIMIZATION_PLAN_AND_EXECUTION.md).
+
+---
+
+## Phase 35 – Reiseorte, Unterkünfte und Verpflegung unabhängig vom einzelnen Reisetag
+
+**Karte:** Über den neuen sichtbaren Schalter **Mein Tag / Stadt entdecken / Alle Reiseorte** werden entweder tatsächliche Tagesideen, sämtliche vorhandenen Stadtorte oder das komplette Reiseprofil angezeigt. Im Stadt- und Reise-Modus führt eine übersichtliche Kategorieliste direkt zu **Unterkünften, Restaurants/Cafés, Supermärkten, Aktivitäten und Verkehr**. Die Karte darf das gewählte Tagesdatum nicht mehr als Filtervoraussetzung benutzen.
+
+**Unterkünfte, Entdecken und Verpflegung:** Einheitliches Fotokarten-Design mit Reisekopf, **Stadt / alle Reiseorte**, Stadtwechsel und Suche. Kosten bleiben ausdrücklich historische/ungeprüfte Referenzen. Große Schaltflächen zeigen **Karte, Details, Vergleichen und Auswahl**; die langen Prüfnotizen, Provider-Snapshots, Gruppenvotings und Preisrecherchen liegen in aufklappbaren Bereichen und bleiben funktional.
+
+**Verpflegung:** Eigenständige Ansichten für **Restaurants & Cafés**, **Supermärkte** und **Selbst kochen**. Nutzer können bestehende Orte unabhängig vom Tag durchsehen oder bei Supermärkten die belegte, begrenzte OpenStreetMap/Overpass-Abfrage auf der Karte öffnen. Tagesmenüs und Einkaufswarenkorb bleiben weiterhin vorhanden.
+
+**Stand:** Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, Pull Request #5; kein Merge/Deployment. [Vollständiges Änderungsprotokoll](PHASE_35_GENERAL_DISCOVERY_FOOD_LODGING.md). Neue Desktop-Browser-Screenshots sind vorbereitet, aber noch nicht bestätigt, da die GitHub-Actions-Runner bislang vor dem ersten Testschritt ausfallen.
+
+---
+## Kartenansicht V34: sanfte Vektorkarte, Foto-Bubbles und Supermärkte
+
+Die Reiseansicht verwendet keine klassische OpenStreetMap-Standardkachel mehr: Sofort wird die helle CARTO-Rasterkarte angezeigt; bei erreichbarem MapLibre/OpenFreeMap-Vektorstil wechselt sie auf den pastellfarbenen Vektormodus. Der Ursprung der freien Kartendaten ist weiterhin OSM. Marker wechseln von Punkten/Clustern (Fernansicht) über Kategorien zu runden, bebilderten Ortsmarkern (Nahansicht). Dichte Bereiche begrenzen Fotoüberlagerungen.
+
+Über **Supermärkte anzeigen** werden auf Wunsch bis zu 160 öffentlich kartierte Geschäfte im 6,5-km-Radius der jeweiligen Reisestadt nachgeladen und 24 Stunden zwischengespeichert. Genauigkeit, Öffnungszeiten und Betrieb sind nicht verifiziert. **Alle Kartenpunkte** zeigt die vorhandenen belegten POI-Koordinaten der aktuellen Reise.
+
+[Technische Dokumentation, Datenquellen und Einschränkungen](PHASE_34_SOFT_VECTOR_MAP_AND_MARKETS.md)
+
+---
+
+## Designvergleich V33
+
+Die Reisekarten-Oberfläche wurde erneut anhand der tatsächlich geöffneten Barcelona- und InterrailPlan-Referenzbilder überarbeitet: rechter Karten-/Fotobereich, linker chronologischer Tagesablauf, nur eine Desktop-Suche, nummerierte Tagesvorschläge auf tatsächlich belegten Kartenpositionen, mobile/stufenweise Anzeige. Die 46 V32-Tagesentwürfe sind jetzt auch in der Kartenansicht sofort sichtbar, ohne sie ungefragt zu speichern.
+
+- [Detailprotokoll des tatsächlichen Referenzvergleichs](PHASE_33_REFERENCE_COMPARISON.md)
+
+Die letzte Chrome-Screenshotabnahme von Phase 33 ist weiterhin offen, weil die GitHub-Actions-Runner bisher keine Schritte ausführen. Dies ist eine implementierte Codeänderung, keine bestätigte pixelgenaue Abnahme.
+
+---
+
+## V32 – 46 fertige Tagesvorschläge für alle vier Reisen (14.11.2026)
+
+Die Startseite enthält den aufklappbaren Einstieg **Alle Tagespläne ansehen**. Die vier bestehenden Reisevarianten besitzen jetzt jeweils für **jeden einzelnen Reisetag** einen Tagesentwurf: Classic (14 Tage), Interrail mit Schweiz (14), August-Interrail (11), Schweizer Seen (7). Insgesamt: **46 Tage, 97 Aktivitätszuordnungen und 35 Fahrten aus den Original-Planungsdaten**.
+
+Im **Tagesplan** erscheinen Reiseetappen, Aktivitätsideen nach Tagesabschnitt, quellenbelegte Ortsbilder und geschätzte Planungsdauern. Über **Zum Tag** oder **Ideen zum Tag hinzufügen** kannst du sie als zeitlich flexible, unverbindliche Einträge in deiner aktuellen Reisevariante speichern. Originaldaten und bisherige Einträge werden nicht automatisch überschrieben; teure oder unsichere Alternativen bleiben zunächst optional. Die Kartenansicht zeigt einen aufklappbaren Kurzüberblick. Bereits übernommene Vorschläge werden durch eine echte Fortschrittsanzeige markiert.
+
+**Wichtig:** Die Zug-, Auto- und Unterkunftseinträge stammen aus einem unbestätigten Reiseentwurf. Die 2027er Fahrten, Sitzplätze, Tickets, Eintrittszeiten und Kosten sind keinesfalls automatisch bestätigt. Genaue Gehzeiten oder Routen werden nur mit vorhandenen, tatsächlich belegten Geometrien angegeben.
+
+- [Alle 46 Tagespläne als vollständige Tabelle](DAY_PLANS_2027_FULL_LIST.md)
+- [Technische Details zu Phase 32](PHASE_32_ALL_DAYS_AND_UI.md)
+
+Die neue UI befindet sich weiterhin auf dem Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, nicht in `main`. Wer den Stand auf Windows ansehen will, muss diesen Branch entpacken und im Ordner `outputs/Reiseplaner` die `Start.cmd` starten. Fehlende private `tripsy-*.json` werden im Entwicklungsbranch durch gekennzeichnete Recherchedaten ersetzt, nicht durch behauptete Originaltermine.
+
+---
+
+## v1.8 – Visuelle Referenzabgleiche / Map-first Layout (14.11.2026)
+
+Die aktuelle UI-Runde überarbeitet das v1.7-Design gezielt anhand der vom Nutzer übermittelten Wanderlog-, Designyow-/Trip-Plan- und Navica-Screenshots. **Kein UI-Klon und keine nacherfundenen Live-Daten.**
+
+- **Startseite:** ein luftig gestaltetes zweispaltiges Cockpit (Reisedaten/Foto-Filmstreifen links, anklickbare schematische Routen-Miniatur rechts). Die Städte sind ausschließlich an vorhandene (teils approximative) Stadt-Anker gebunden; die Linien zeigen **kein** tatsächliches Bahn-/Straßennetz. Die Routenüberschrift zählt tatsächlich dargestellte unterschiedliche Reiseziele.
+- **Bild-Fallback:** bei fehlenden oder blockierten Ortsfotos unterscheiden sich dekorative, lokal erzeugte Stadt-/Küsten-/Bergillustrationen. Sie werden ausdrücklich als **symbolische Illustration, kein echtes Ortsfoto** gekennzeichnet; sobald ein eindeutig zugeordnetes Foto mit Quellen-/Lizenzbeleg vorhanden und erreichbar ist, erscheint dieses darüber. Die 21 zuvor kuratierten Foto-Mappings bleiben erhalten und wurden nicht durch freie Providerbilder ergänzt.
+- **Map first wie Wanderlog:** Tagesleiste unmittelbar über dem zweispaltigen Explorer. **Karte links, Suche/Filter/Ergebnisliste rechts**, statt zuerst mehrere breite Dashboard-Sektionen und Kartensteuerungen abzuarbeiten. Die Map stellt eigene Ebenen und Maßstabsoptionen nach der Kartenfläche bereit; vorhandene ältere Tagesideen und Datendetails sind bewusst aufklappbar.
+- **Kompakte Suchspalte:** Texte und Gruppenvoten der Listenansicht weniger repetitiv, sekundäre Aktionen aufklappbar, Sucheingabe und Lupe in einer Zeile, eine horizontal scrollbarere Kategorienzeile und ein kleiner dauerhaft sichtbarer Reset-Knopf.
+- **Direkte Interaktion:** Map-Marker und der zugehörige Listeneintrag heben sich beim Hover gegenseitig hervor, ohne den Kartenzustand neu zu rendern. Routenminiatur-Städte sind als `button` direkt zum Tagesplan anklickbar. Die bisherigen Route-Studio-Animationen und neu hinzugefügte subtile Routenfluss- und Micro-Transitions bleiben mit `prefers-reduced-motion` abschaltbar.
+- **Datenwahrheit:** keine ersetzten Privat-/Airbnb-Koordinaten, keine erfundenen Hotelbilder, keine Live-Buchungen oder 2027er Fahrpläne. EUR-Symbole bleiben transparente Orientierung aus bekannten Planwerten; Rechnungs- und Anbieterendpreise werden nicht vorgetäuscht.
+- **Qualität:** Node-Test `test/route-mini-map.test.mjs` sichert schematische Routenprojektion; Chrome-E2E prüft Karte innerhalb des ersten 1440×900-Viewports, nebeneinanderliegende Atlas-Flächen, Sucheingabe und Suchknopf in gleicher Zeile, Kategorie-Scrollzeile, gefaltete Zusatzfunktionen, Foto-/Illustrations-Fallbacks, Hover und Mobilansicht. Die GitHub-Actions-Prüfung exportiert acht Chrome-Screenshots inklusive `08-atlas-oben-desktop.png` für 14 Tage.
+
+Ausführliche Vergleiche, Umsetzung und offene Punkte in [PHASE_18_DESIGN_REFERENCE_COMPARE.md](PHASE_18_DESIGN_REFERENCE_COMPARE.md). Änderungen nur im Entwicklungsbranch `feature/v7-data-day-accommodation-rail` ([Draft PR #5](https://github.com/goat4321/All-in-one-server-mjs/pull/5)); weiterhin **nicht** in `main` und **nicht** deployed.
+
+---
+## v1.7 – Weiches, bildorientiertes Reise-Cockpit (13.11.2026)
+
+**Ziel:** An die vom Nutzer gelieferten Wanderlog-, mobilen Trip-Plan-, Designyow- und Navica-Beispielbilder angelehnte Informationsarchitektur, aber mit eigenständigem Interface und ausschließlich echten Reise- und Quellenwerten. Das Programm bleibt ein privater Interrail-/Schweiz-Planer; es wurden keine Live-Freunde-Standorte, Benachrichtigungen, Wetterberichte, Flugtickets oder Buchungen erfunden.
+
+- **Ruhigere Oberfläche:** systemnahe Inter-/Segoe-UI-Variable-Typografie, leichtere Flächen/Schatten und dezente Animationen mit Unterstützung für `prefers-reduced-motion`; nur wenige primäre Aktionen auf einmal.
+- **Bild-/Reise-Cockpit:** Startseite zeigt den aktuellen Variantentitel, echte Daten, Gruppe, Anzahl Reiseorte, bisher bekannte Plankosten und nicht geklärte Preisposten. Darunter ein horizontal scrollbarerer Zielort-Filmstreifen. Er verwendet ausschließlich die bereits zugeordneten, lizenzierten Wikimedia-Commons-Ortsbilder (keine zufälligen Provider-/Airbnb-Fotos) und zeigt Quellenhinweise an. Ein Klick auf einen Reiseort öffnet seinen Tagesplan. Ist kein Foto vorhanden oder ein Bild nicht erreichbar, erscheint ein gestaltetes Symbol statt eines defekten Bildsymbols.
+- **Planungsstatus statt dekorativer KPIs:** vier echte Fortschrittsbalken für abgedeckte Aufenthalte, dokumentierte Unterkunfts-Checks, dokumentierte Zug-Checks und erfasste Planpreise. Die Berechnung stammt aus `readinessOverview` und weist `0/0` bei nicht vorhandenen Vergleichsobjekten aus, statt 100 % zu behaupten. Umfangreiche Planungs-Checks, amtliche Hinweise und Varianten bleiben in aufklappbaren Abschnitten erhalten.
+- **Schlankerer Tagesplan:** Bildminiaturen mit Quellenbezug bzw. Kategorie-Symbol, flachere interaktive Zeilen und Zeitabschnitte Nacht/Morgen/Mittag/Nachmittag/Abend. Nicht vorhandene Uhrzeiten bleiben `Flexibel`; die Zeiten sind Planangaben und keine geprüften Öffnungszeiten.
+- **Preiszeichen:** `€`, `€€` und `€€€` als transparent definierte, *relative*, aus vorhandenen EUR-Planwerten pro Person berechnete Orientierung; zusätzlich wird der bekannte Gruppenbetrag angezeigt. Bei fehlenden/nicht vergleichbaren Werten `€?`/`Preis offen`. Für Unterkunftsangebote wird **keine** vergleichbare Nachtpreis-Klasse aus einem nicht bestätigten Gesamtwert abgeleitet. Diese Zeichen sind weder Endpreise noch verbindliche Tarife.
+- **Aufgeräumter Atlas:** Ortsliste zeigt Miniaturbilder oder Kategorie-Symbole, Preisangaben und nur die häufigsten Aktionen direkt. Google-Maps-Routen, Umkreissuche, Plan-Einträge und die vollständige Recherche sind im aufklappbaren `Weitere Aktionen`-Bereich weiterhin vorhanden. Gekürzter Forschungsdaten-Hinweis mit sichtbar bleibender Warnung.
+- **Zeit und Ort direkt auf der Karte:** Datums-/Stadtkontext im Karten-HUD und eine anklickbare chronologische Planzeit-Leiste nur für Tage, an denen wirklich Einträge vorhanden sind. Der Klick markiert denselben Ort wie die Karte und der Tagesplan. Die ohnehin vorhandene animierte Routenlinie für reale Fußweggeometrie bleibt, nicht bestätigte Verbindungen sind weiter als schematisch erkennbar. Design-/Größeneinstellungen sind ausblendbar und merken den geöffneten Zustand bei Auswahl.
+- **Browser-Fallback:** Bei externer Bildstörung zeigt die App einen Kategorien-/Ortsplatzhalter, nie einen kaputten Browser-`<img>`-Text. Quellen und Namenszuordnung bleiben sichtbar.
+
+**Geprüft:** Node-Test `test/visual-experience.test.mjs`, bestehende Preis-/Bildquellen-/Karten- und Daten-Tests, echter Chrome-End-to-End-Test samt zusätzlichen Screenshot `07-dashboard-fortschritt.png`. Das Browser-Screenshot-Artefakt (`reiseplaner-ui-review`) enthält jetzt **7 Bilder** und wird in GitHub Actions 14 Tage gehalten.
+
+**Standort:** Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, Draft [PR #5](https://github.com/goat4321/All-in-one-server-mjs/pull/5), **nicht** nach `main` gemergt oder deployed. Ausführliche Notizen: [PHASE_17_VISUAL_REDESIGN.md](PHASE_17_VISUAL_REDESIGN.md).
+
+---
+## v1.6 – Synchronisierter Kartenatlas, Merkliste und visuelle QA (13.11.2026)
+
+**Entwicklungsbranch:** `feature/v7-data-day-accommodation-rail` · Draft PR #5 · keine Änderung an `main`, keine Veröffentlichung.
+
+Der Karten-Explorer ist bei breiten Desktop-Ansichten als **Karte links + separat scrollbarerer Ortsliste rechts** aufgebaut; auf schmalen Bildschirmen bleiben die Bereiche untereinander. Das Antippen eines Markers markiert die passende Ortskarte und zeigt eine kompakte Vorschau mit `In Liste` und `Details`; umgekehrt führt `Auf Karte` zum Marker. Bei nicht in den ersten 60 Ergebnissen sichtbaren Einträgen lädt `In Liste` bei Bedarf weitere Ergebnisse nach. Der frühere doppelte große Leaflet-Popup und die duplizierte Detailsektion unterhalb des Atlas wurden im Explorer entfernt. Der ausführliche quellengestützte Dialog ist weiter erreichbar.
+
+**Neue Merkliste:** `Merken`/`Merken entfernen` direkt in Ortskarte und Kartenvorschau, Filter `Merkliste (N)`, Hervorhebung gemerkter Einzelpins bzw. Sternanzahl in Zoom-Clustern. Die maximal 120 gespeicherten IDs liegen **nur im Browser-localStorage pro Reisevarianten-ID** (`reiseplan-map-shortlist:<variant>`), nicht in der SQLite-Reisedatenbank. Browserdaten löschen oder anderer Browser/Gerät bedeutet eine separate Merkliste. Sie sind keine Reisebuchungen, Budgetposten, Anbieterlisten oder Gruppenstimmen. Fehlerhafte localStorage-Inhalte werden ignoriert; die IDs werden im aktuellen Reise-Katalog gefiltert.
+
+**Visuelle Abnahme:** Der echte Chrome-Regressionstest erzeugt neue Screenshots für Desktop-Übersicht (1280 px), Desktop-Atlas mit Karte/Liste und ausgewähltem Marker (1440 px), Smartphone (390 px) inklusive eigenständiger Ortsvorschau sowie Tablet (820 px). Die Bilder liegen 14 Tage als GitHub-Actions-Artefakt `reiseplaner-ui-review` im jeweiligen erfolgreichen Lauf. Getestet wird der isolierte lokale Seed bei ausgeschalteten Online-Kartenkacheln; die Bildprüfung ist keine Abnahme an echten Smartphones und keine Prüfung externer OSM-Kartenserver.
+
+**Behobener QA-Befund:** `map-wrap` war im Kartenmarkup nicht geschlossen, wodurch die Vorschau über die Legende hinausragen konnte. Der DOM-Aufbau ist repariert; ein echter Chrome-Test kontrolliert jetzt, dass auf Desktop die Vorschau vollständig im Kartenausschnitt bleibt und auf dem Handy als eigene Karte darunter erscheint, ohne vom unteren Dock verdeckt zu werden.
+
+Tests: `npm run test:portable` inkl. neuem `test/map-shortlist.test.mjs`, Katalog-/Server-Smoke, Chrome-Browser-End-to-End-Suite und sechs Screenshots. Architektur und noch offene Grenzen: [PHASE_16_ATLAS_VISUAL_QA.md](PHASE_16_ATLAS_VISUAL_QA.md).
+
+---
+## v1.5 – Navigations- und Karten-Redesign (13.11.2026)
+
+Die Reiseplaner-App wurde funktional **umstrukturiert**, ohne Datensätze, Buchungen oder Reisevarianten zu ändern:
+
+- **Neue Aufgabenstruktur:** Sidebar in `Planung`, `Reise organisieren` und `Verwalten` gegliedert, Reiseorte aufklappbar (Offen/Zugeklappt wird bei normalen Seitenwechseln beibehalten). Schnellzugriff im Desktop-Kopfbereich, feste vierspaltige Dock-Navigation auf kleinen Bildschirmen. Reiseübersicht mit vier klickbaren Einstiegen (Tagesplan, Karte, Unterkünfte, Bahn).
+- **Karte zuerst:** Der Karten-Explorer zeigt die eigentliche interaktive Karte nun **vor** dem umfangreichen Mehrstopp-Tagesroutenplaner. Die Start-/Zielplanung und Hinweise zu ungeklärten Stadt-Sammelmarkern liegen in aufklappbaren Bereichen; der Routenplaner öffnet sich bei Wahl von Start/Ziel.
+- **Weniger Marker-Chaos:** Leaflet bündelt bei Zoomstufen bis einschließlich 12 nahe, tatsächlich verortete Orte nach Stadt und Kartenraster zu **anklickbaren Sammelkreisen**. Ein Klick zoomt hinein. Ab höherer Zoomstufe erscheinen die einzelnen belegten Markerpunkte; die Sammler werden ausdrücklich **nicht** als exakte Objektkoordinate behandelt.
+- **Umkreissuche:** Von einem bereits vorhandenen Kartenpunkt aus lassen sich alle Einträge in 1, 3 oder 10 km Entfernung herausfiltern. Der Radius wird als Ring angezeigt; nur verzeichnete Koordinaten zählen. Keine Stadtzentren als erfundene Hoteladresse.
+- **Sichtbarer Kartenausschnitt:** Der Knopf `Nur sichtbare Orte in der Liste` filtert die Liste anhand des Leaflet-Kartenausschnitts und aktualisiert sie beim Schwenken/Zoomen **ohne Kartenneustart**. Einträge ohne genaue Koordinate werden in diesem Modus ausdrücklich ausgeschlossen.
+- **Kompaktere Listen:** Initial schlanke Ergebnis-Karten mit jederzeit umschaltbarer Detailansicht, unveränderten Quellendetails und Buchungs-/Planungsaktionen.
+- **Direkte Kartenfilter:** Kategorien in der Kartenlegende sind jetzt anklickbar. Kartenpunkt- und fehlende-Position-Zähler im Kartenoverlay sowie ein Knopf zum Zurücksetzen aller Ortsfilter.
+- **Bedienbarkeit:** Enter löst die Kartensuche aus; Mobilnavigation wurde in einem echten Chrome-Durchlauf überprüft.
+
+**Quellschutz bleibt:** Airbnb-Wunschlisten ohne genaue Adressen behalten ihre offene Position. Historische Suchpreise, unbestätigte Zugverbindungen, Lizenznachweise und 2027-Checkout werden durch das UI nicht künstlich als bestätigt angezeigt. Keine Buchung und keine Budgetänderung durch diese Entwicklung.
+
+Alle Änderungen auf Entwicklungsbranch `feature/v7-data-day-accommodation-rail` / Draft-[PR #5](https://github.com/goat4321/All-in-one-server-mjs/pull/5), weiterhin **nicht** in `main` oder öffentlich live. Bedienung und Qualitätsgrenzen: [PHASE_15_UI_MAP.md](PHASE_15_UI_MAP.md).
+
+---
+## v1.4 – Bahn-Kaufprüfung als interaktive Zeitleiste (13.11.2026)
+
+Im Modul **Bahn & Interrail** befindet sich oberhalb der bisherigen Pass-/Zugtabellen eine neue **Bahn-Prüfzeitleiste** mit den tatsächlich im Originalreiseplan enthaltenen Bahnabschnitten. Sie zeigt Reisetag, Strecke, approximativen Beginn des sinnvollen Buchungschecks und einen Link zur Betreiber-Verkaufsregel. Über **Prüfung vormerken** öffnet sich die bereits vorhandene lokale Kalender-/Fristfunktion.
+
+Die Termine sind **keine garantierten Verkaufsstarts**, und die Anzeige behauptet ausdrücklich keine buchbaren September-2027-Verbindungen. Für die SNCF ist die am **12.11.2026** veröffentlichte Verkaufsfreigabe vorerst nur bis **02.07.2027** nachgewiesen; weitere Verkaufsschritte sind zu beobachten.
+
+Nachweise: [SNCF-Fahrkartenverkauf](https://www.sncf-connect.com/en-en/help/ticket-sales-opening), [DB-Vorlauf internationaler Sitzplatzreservierungen](https://int.bahn.de/en/faq/seat-reservations-booking-period). Die übliche Orientierung ist je nach Zug/Anbieter etwa drei, vier oder sechs Monate vorher. Das tatsächliche Angebot muss je Reisetag neu geprüft werden. Keine automatischen Käufe, keine fiktiven Preise.
+
+Automatisierte Tests decken sieben originale September-Klassik-Bahnabschnitte, ungefähre Prüftermine, ausstehende 2027-Fahrpläne, fristbedingte Statusänderungen und einen echten Chrome-Browserablauf ab. Mehr unter [PHASE_14_RAIL_REVIEW.md](PHASE_14_RAIL_REVIEW.md).
+
+---
+## v1.3 – September-2027-Anbieterpreise, Standortabgleich und Prüfung (13.11.2026)
+
+**Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, PR #5, noch nicht gemergt oder öffentlich deployed.**
+
+Unter **Unterkünfte** zeigt der neue Quellenvergleich 60 Booking.com-Suchergebnisse, je zehn für Paris, Barcelona, Sète, Nizza, Genua und Venedig. Die Daten wurden am 13.11.2026 für **drei Erwachsene und ein Zimmer** zu exakt diesen Aufenthalten abgefragt:
+
+| Stadt | Zeitraum |
+|---|---|
+| Paris | 01.–03.09.2027 |
+| Barcelona | 03.–06.09.2027 |
+| Sète | 06.–08.09.2027 |
+| Nizza | 08.–10.09.2027 |
+| Genua | 10.–12.09.2027 |
+| Venedig | 12.–14.09.2027 |
+
+Sortierbar nach Preis, Anbieterbewertung (/10) und Name; eigener Budgetfilter, Anbieterlink, Gruppensuchwert sowie rechnerischer Preis pro Person/Nacht. Keine automatische Auswahl oder Budgetanrechnung. **Suchwerte sind keine bestätigten Checkouts**: Steuer-/Pflichtgebühren, drei Betten im konkreten Zimmer, Storno, Buchbarkeit und finaler Tarif sind noch ungeprüft. Bei anderen Reisezeiträumen oder Gruppengrößen werden diese Snapshots nicht angezeigt.
+
+Unter **Daten & Fristen → Standortprüfung** bleiben 17 öffentliche Gebäude ohne unabhängige Einzelverortung offen. 13 erhielten Anbieter-Koordinaten als separate Recherchehinweise, vier keinen Treffernachweis und kein Punkt wurde automatisch auf die Karte übernommen. Der Widerspruch bei **A due passi dalla Lanterna** in Genua (bisher Via Giuseppe Ratti 4; jetzt Anbieter Via Venezia 50a/6 mit unterschiedlichem Listing-Link) ist dokumentiert und wird nicht stillschweigend überschrieben.
+
+**Datenpaket:** `data/research-v13/` enthält JSON und CSV für 60 Anbieter-Suchergebnisse sowie JSON und CSV für 17 Standortprüfungen. Siehe [PHASE_13_PROVIDER_RESEARCH.md](PHASE_13_PROVIDER_RESEARCH.md).
+
+---
+## v1.2 – Bedienqualität, Tutorial, Bilder, Smart Filter und Reisevorbereitung (13.11.2026)
+
+**Status: Im GitHub-Entwicklungsbranch `feature/v7-data-day-accommodation-rail`, Pull Request #5; noch nicht gemergt oder öffentlich deployed.** Der bisherige v1.1-Abschnitt ist ein historischer Zwischenstand. Die folgenden Änderungen ergänzen seine bestehenden Detailprofile, Quellenansichten, Karten-Popups und die lokale Gruppenbewertung.
+
+### So verwendest du die neuen Funktionen
+1. Branch `feature/v7-data-day-accommodation-rail` auf GitHub auswählen, **Code → Download ZIP**, ZIP entpacken.
+2. Unter `outputs/Reiseplaner` **Start.cmd** starten (benötigt Node.js 24) und lokal `http://127.0.0.1:4173` öffnen. Eine laufende alte Instanz vorher beenden. Die private SQLite-Datei `private/reiseplan.sqlite` vor dem Ordnerwechsel sichern, nicht zu GitHub hochladen.
+3. **Tour** rechts oben startet jederzeit eine **siebenteilige geführte Einführung** in Planung, Karten, Unterkunftsvergleich, Zugrecherche, Budget, Gruppenabstimmung und Quellenprüfung. Mit Zurück/Weiter bzw. den Schrittpunkten navigieren, mit Esc oder Beenden abbrechen. Die Tour ändert keine Reisebuchung und kein Budget.
+4. **Budget → Tagesbudget-Simulator**: Tag und frei wählbare Zusatzannahmen für Essen, Nahverkehr, Aktivitäten sowie das Tagesziel pro Person einstellen. Vorhandene Hotelbeträge werden ausschließlich für diese Szenarioansicht centgenau auf Nächte verteilt. Die normale Budget- und Zahlungslogik wird nicht verändert; unbekannte Preise bleiben ausdrücklich offen.
+5. **Unterkünfte**: Nachtbudgetfilter, Entfernung bis 15 Minuten *bei tatsächlich berechnetem Bahnhof-Fußweg*, Bettenprüfung für die Gruppengröße und Preis-/Quellenstatus auswählen. Bis zu vier Unterkünfte nebeneinander vergleichen und die Auswahl vollständig leeren.
+6. **Entdecken**: Filter für 0-€-Referenzen, Wasser/Strand, erwähnte Schwimmmöglichkeiten und Gruppenfavoriten mit mindestens zwei Stimmen. Diese Text-/Referenzfilter sind keine Öffnungs-, Sicherheits- oder Verfügbarkeitsbestätigung.
+7. **Alle Details & Quellen → Foto zur Galerie hinzufügen**: bis zu fünf eigene, individuell mit HTTPS-Fotolink, Lizenz/Urheber und Quellenlink hinterlegte Bilder pro Eintrag. Bereits gespeicherte Einzelfotos bleiben verwendbar. Die Detailansicht zeigt eine Mehrbildgalerie, Quellen und Möglichkeit zum Entfernen einzelner eigener Fotos. Hinzugefügt sind zwei kuratierte Wikimedia-Commons-Referenzen zu Rialtobrücke und Oeschinensee (insgesamt fünf kuratierte Sehenswürdigkeiten). Keine automatisch übernommenen Hotel-/Airbnb-Anbieterbilder oder privaten Adressen.
+8. **Daten & Fristen → Fortschritt der Reisevorbereitung** zeigt getrennt die abgedeckten Unterkunftszeiträume, vollständig selbst dokumentierte Hotel- und Zugprüfungen, Planposten mit bekannten Preisen und erledigte lokale Fristen. Eine Eigenprüfung stellt keine Bestätigung durch einen Anbieter dar.
+
+### Qualität und Grenzen
+- Vollständiger CI-Lauf für die Funktionsentwicklung (Commit `41730270`): [#43474139218](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/43474139218) bestanden. Enthält JavaScript-Syntaxchecks, Forschungsdatenvalidierung, portable Node-Tests, Kartenbericht, echten Headless-Chrome-Browsertest und HTTP-Starttest. Die neue Galerie, der Simulator, die Filter und die Fortschrittsanzeigen besitzen Regressionstests.
+- Datenqualität bleibt getrennt von Bedienqualität: 642 variantenbezogene Karteneinträge; 413 mit Quellen-/Gebietsposition, 229 ohne belegten individuellen Pin. 42 private Airbnb-Wunschlisteneinträge haben keine frei verwendbare genaue Privatadresse. Historische Preisbeispiele sind keine datierten September-2027-Checkouts.
+- Fehlende 2027-Bahnbuchbarkeit, Endpreise, Steuern, Stornoregeln, konkrete Hotelzimmer, Menükosten und Bildrechte pro Objekt werden **nicht** erfunden. Bisher fehlen für die meisten Einträge individuell geprüfte Ortsfotos und aktuelle Anbieterinformationen.
+- Lokale Gruppenstimmen, Bildquellen und Reiseänderungen liegen in der jeweiligen privaten SQLite-Reisevariante. Kein Live-Mehrgeräteabgleich, kein automatisches Booking und kein Hosting im Internet.
+
+[Implementierungs- und Prüfprotokoll](PHASE_12_GUIDE_VISUAL_QUALITY.md)
+
+---
+
+## v1.1 – Fünf Ausbauschritte: Detailprofile, Bilder, Budget, Unterkunftsvergleich, Gruppenwertung
+
+**Stand 13.11.2026 · Entwicklungsbranch (nicht deployed)**
+
+1. **Einheitliche Ortsprofile:** Jeder Eintrag (Unterkunft, Airbnb, Aktivität, Restaurant und Verkehr) verwendet ein identisches, belegorientiertes Detailprofil. Preise, Bewertungen, Küchen-/Zimmerausstattung, Standortgenauigkeit, Öffnungszeiten und Quellen erscheinen getrennt. Fehlende Angaben heißen ausdrücklich *offen*.
+2. **Fotos und Karten-Popups:** Das Karten-Popup zeigt Namen, Quelle, Preis, Bewertung und Google-Maps-Link. Für **drei** namentlich verifizierte Sehenswürdigkeiten (Sagrada Família, Park Güell, Eiffelturm) sind Wikimedia-Commons-Bilder mit Urheber und CC-BY-SA-4.0-Lizenzreferenz hinterlegt. Für andere Einträge bleibt der gestaltete Platzhalter, bis ein Foto bewusst im Detaildialog mit HTTPS-Bildlink, Urheber-/Lizenztext und Quellenlink hinterlegt wird. Bilder werden **nicht** ungeprüft von Booking.com/Airbnb kopiert. Selbst hinterlegte Bildlinks sind je Reisevariante gespeichert und überschreibbar. Der Browser lädt externe Bilder direkt vom Bildanbieter.
+3. **Preis-Einordnung:** Im Tab **Unterkünfte** ist das **Nachtbudget pro Person** standardmäßig mit einem frei veränderbaren Beispielwert von 35 € voreingestellt und im lokalen Browser gespeichert. Karten zeigen Preis/Person/Nacht nur bei bekannten Daten, passenden Personen und Nächten. Sortieren nach Betrag bzw. Filtern nach Budget ist möglich. *Im Budget* bedeutet ausschließlich unter der selbst gewählten Grenze – **kein** angebliches Stadtmarkt-Preisranking. Airbnb-Wunschlistenpreise sind datierte Stichproben, keine bestätigten Checkoutpreise und gehen nicht in die Reiseausgaben ein.
+4. **Vierer-Vergleich:** Neben der bisherigen Vergleichstabelle erscheinen nebeneinander bis zu **vier** Unterkunftskarten. Bewertungen, Betten, Küche, Badezimmer, Gebühren, Stornierung, tatsächliche Bahnhof-Fußwege und offene Prüfpunkte werden getrennt ausgewiesen. Nur passende, gleich datierte EUR-Referenzen ohne Airbnb-Suchwert sind untereinander eingeschränkt vergleichbar. Keine automatische *beste Unterkunft* und keine fiktive Ersparnis.
+5. **Gruppenbewertung:** Bei Unterkünften/Aktivitäten und auf **Reisegruppe → Gemeinsam entscheiden** kann für jedes vorhandene Profil von jeder Person (p1 usw.) ein Wert von 1 bis 5 gespeichert bzw. gelöscht werden (0 = keine Stimme). Durchschnitt und Anzahl stimmenbezogener Personen werden angezeigt. Stimmen werden **nur innerhalb der jeweiligen Reisevariante in der lokalen SQLite-Datenbank** gespeichert; es gibt **keine Accounts, kein Live-Voting und keine gemeinsame Fernsynchronisierung**.
+
+**Kurzer Funktionstest:** `Start.cmd` starten → **Karte** → Ort antippen → Orts-Popup und „Alle Quellen & Details“; in den Details ein optionales Quellenfoto hinterlegen. **Unterkünfte** → Nachtbudget ändern → zwei Angebote mit **Vergleichen** auswählen. **Reisegruppe** → **Gemeinsam entscheiden**, eine Option mit **Stimmen bearbeiten** bewerten. Alle Aktionen verändern weder Fremdanbieterpreise noch Reservierungen. Die bisherigen Datenqualitätsgrenzen (413/642 örtliche Kartenpunkte und 229 nicht genau lokalisierte variantengebundene Einträge) bleiben bestehen.
+
+
 # Reiseplaner
 
 Im Kartenpanel lassen sich je nach Stadt **Metro**, **Vaporetto**, **Tram**, **Bus** oder das amtliche Schweizer **Wanderwegenetz** einblenden. In **Unterkünfte** werden Wege ab den ausgewiesenen Bahnhöfen verglichen. **Budget → Nahverkehr** vergleicht die Referenztarife für das gewählte Gültigkeitsfenster.
@@ -11,6 +201,77 @@ Im Kartenpanel lassen sich je nach Stadt **Metro**, **Vaporetto**, **Tram**, **B
 3. Das Konsolenfenster geöffnet lassen. Mit **Strg+C** beenden.
 
 Alternativ im Projektordner `node server.mjs` starten. Leaflet ist lokal enthalten. Die App benötigt keinen Installations- oder Buildschritt. Bei belegtem Port den laufenden Reiseplaner öffnen oder `REISEPLAN_PORT` auf einen freien Port setzen.
+
+## Neueste Entwicklungsfassung öffnen und Datenqualität prüfen (13.11.2026)
+
+**Achtung:** Diese v0.9-Version liegt im Branch
+`feature/v7-data-day-accommodation-rail`, im Draft-PR #5, und ist noch nicht
+unter einer eigenen Internetadresse bereitgestellt.
+
+1. In GitHub [PR #5](https://github.com/goat4321/All-in-one-server-mjs/pull/5)
+   öffnen, zum Repository wechseln und den Branch `feature/v7-data-day-accommodation-rail` wählen.
+2. **Code → Download ZIP** wählen, heruntergeladenes Archiv entpacken.
+3. Ordner `outputs/Reiseplaner` öffnen und unter Windows **Start.cmd** doppelklicken.
+4. Falls sich nicht automatisch ein Tab öffnet:
+   **http://127.0.0.1:4173** in einem Browser auf demselben PC öffnen.
+5. `Start.cmd` benötigt **Node.js 24**. Mit `node --version` im Terminal prüfen.
+   Alternativ im Reiseplaner-Ordner `node server.mjs --open` ausführen.
+
+**Wichtig bei einer älteren Installation:** Den Server vorher beenden und
+`private/reiseplan.sqlite` sichern; beim Wechsel in einen neuen ZIP-Ordner
+wird die alte lokale Datenbank nicht automatisch mitgenommen. Die Datei nicht
+öffentlich auf GitHub hochladen.
+
+**Kartendaten, Stand 13.11.2026:** 642 variantenspezifische Einträge,
+413 mit nachvollziehbaren Standort-/Gebietspunkten, 229 ohne präzise eigene
+Koordinaten. 175 verschiedene Objekte wurden im Rechercheverlauf neu verortet,
+115 verbleiben noch ungeklärt. **Daten & Fristen** zeigt für jeden offenen
+Eintrag eine konkrete deutsche Begründung, nächste Prüfschritte, bekannte
+veröffentlichte Adressen, den Originalquellenlink und Google Maps. Die
+50 öffentlich recherchierten Hotel-/Geschäftsadressen umfassen 33 mit
+Geometrie und 17 mit lediglich belegter Postanschrift; **42 private Airbnb-Adressen**
+werden nicht geraten.
+
+Geprüfter GitHub-CI-Lauf: [Run #43429832835](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/43429832835),
+62/62 Node-Modelltests, Browser- und Server-Smoke-Test erfolgreich.
+
+Weitere Details: [PHASE_9_GEO_FINAL_AND_OPEN.md](PHASE_9_GEO_FINAL_AND_OPEN.md).
+
+## Neues Design: Interaktives Route Studio und Kartenstile (13.11.2026)
+
+Im **Karten-Explorer** ist die oberste Gesamtstrecke jetzt als anklickbare
+**Städteleiste** verfügbar. Ein Klick auf eine Station öffnet direkt den
+entsprechenden Kartenabschnitt. Die Verbindungslinie zwischen Städten bleibt
+ausdrücklich schematisch – sie ist kein berechneter Zugfahrplan oder Fußweg.
+
+Im **Route Studio**:
+
+1. In **Karte** nach Ort/Restaurant/Aktivität filtern und für zwei bis acht
+   geokodierte Aktivitäten in derselben Stadt auf **Zur Mehrstopp-Route** klicken.
+2. Die grafische Stopp-Leiste zeigt Nummern, Namen und bereits belegte
+   Fußwege. Ein Stopp ist anklickbar; **Zurück/Weiter** springt durch die Tour.
+3. **Alle Etappen** zeigt alle Strecken, **Etappe hervorheben** blendet
+   nicht gewählte Etappen visuell zurück. **Ganze Tour zeigen** zoomt auf die
+   geplanten Stopps. Stopps sind auch direkt auf der Karte anklickbar.
+4. **Grün durchgezogen und dezent animiert** ist nur eine tatsächlich über
+   den Fußrouter berechnete Straßen-/Weggeometrie. **Braun gestrichelt** ist
+   ausdrücklich nur die Luftlinie zwischen zwei belegten Orten; eine noch
+   ungeprüfte Etappe bekommt **keine** erfundene Gehzeit, Distanz oder Kosten.
+5. **Fußwege und Zeiten berechnen** lädt bestätigte Fußwege. Erst die
+   separate bewusste Übernahme verändert den Tagesplan. Externe Google-Maps-
+   ÖPNV-Links sind keine automatisch geprüften September-2027-Fahrpläne.
+
+Das **Kartenlook**-Menü bietet **Klassisch, Midnight und Sand**. Alle drei
+nutzen dieselben lizenzierten Straßenkacheln mit einer lokalen CSS-Farbgebung;
+keine Satellitenbilder oder neuen Kartendatenanbieter werden vorgetäuscht.
+Die Einstellung wird nur lokal im Browser gespeichert. **Großansicht**
+vergrößert die Karte, ohne Daten zu verändern. Für Menschen mit aktivierter
+Systemeinstellung *Bewegung reduzieren* ist die Routenanimation deaktiviert.
+
+Unter **Route von A nach B** gibt es zusätzlich **Start & Ziel tauschen**,
+**Route vergrößern** und einen hervorgehobenen Quell-/Ergebnisstatus.
+Fehlende Fahrpläne, Routen oder genaue Positionen bleiben ausdrücklich
+als unbestätigt gekennzeichnet.
 
 ## Reise planen
 
@@ -107,3 +368,45 @@ Im Menü **Karte** gibt es jetzt einen gemeinsamen Karten-Explorer für **alle v
 **Tagesplan:** Reisetag oben auswählen, Vorschläge ansehen, gewünschte Aktivitäten bewusst in den vorhandenen Tagesplan übernehmen. Das frühere vollständige Forschungs-ZIP wurde nochmals abgeglichen: 21 Ortspakete und 14 optionale klassische September-Tagesideen sind als `data/research-v02/city-coverage-v02.json` und `day-suggestions-v02.json` neu berücksichtigt. Sie enthalten keine eigenständigen Buchungen und verändern keine Tripsy-Originalroute.
 
 Ausführliche Anleitung: `MAP_EXPLORER.md`. Ehrliche Einzelabdeckung pro Reise und Ort: `MAP_DATA_COVERAGE.md`. Aktuelle Auswertung: `npm run report:map` oder `node test/map-coverage.mjs --json`. Die Tests bleiben im Node-24-GitHub-Workflow; private vollständige Tripsy-Dateien müssen weiterhin auf dem Originalrechner separat mit `Pruefen.cmd` geprüft werden.
+
+## Prioritäten 1–4 · Ergänzungen vom 13.11.2026
+
+Details und offene Datenlücken: `PHASE_1_TO_4.md`. Die Karte/Entdecken-Ansicht enthält nun 39 weitere (als 2026er Recherche gekennzeichnete) Restaurants, Cafés und Einkaufsmöglichkeiten aus 12 Städten sowie sechs offizielle Eintritts-/Öffnungsinformationen zu beliebten Sehenswürdigkeiten. Nicht verfügbare Preise und genaue Koordinaten werden weiterhin als unbekannt ausgewiesen. Unter `Kartenstandort prüfen` können vorhandene Adressen mit einer **einzelnen nutzerinitiierten** OpenStreetMap/Nominatim-Suche abgeglichen und ein Treffer lokal übernommen werden – nie automatisch.
+
+Unter **Karte → Mehrstopp-Tagesroute** lassen sich 2–8 bestehende Punkte in einer Stadt sammeln, sortieren, die tatsächlichen Fußwege berechnen und nach Konfliktprüfung in den Tagesplan übertragen. Ohne echte Wege bleibt die Zeitplanung unvollständig. **Unterkünfte** bieten jetzt prüfbare EUR-Gesamtpreise, Person/Nacht-Werte, Bahnhof-Wege, Betten-/Steuer-/Storno-/Checkoutstatus und entsprechende Sortieroptionen. **Bahn & Interrail** zeigt eine eigene Pass-Tage-Prüfung, Nachtzugkonstellationen, knappe Anschlüsse sowie ausdrücklich unbestätigte 2027er Fahrpläne und Reservierungen.
+
+Vor Änderungen an echten Buchungen oder Daten der Anbieter muss der Nutzer die Aktion separat beim Anbieter bestätigen. Die Website tätigt keine Käufe und ist weiterhin eine lokale Node.js-Anwendung; `main` wurde nicht geändert.
+
+## Vollbildkarte (v69)
+
+Unter **Karte** auf **Vollbildkarte** klicken (alternativ das **Vollbild**-Symbol in der schwebenden Kartenleiste). Die Karte nimmt dann die gesamte verfügbare Browserfensterfläche ein – auf Desktop, Tablet und Smartphone. Es handelt sich um einen Vollbildmodus **innerhalb der Website**, nicht um eine automatische Umstellung des Browsers auf F11.
+
+- Oben **Mein Tag**, **Stadt** oder **Gesamtroute** umschalten und über **Ort wechseln** eine andere Reisestadt wählen.
+- Schnellfilter für **Aktivitäten**, **Essen**, **Unterkünfte**, **Einkaufen** und die **Merkliste** bleiben über der Karte verfügbar.
+- **Orte & Filter** öffnet ein seitliches Such-/Detailpanel mit der bestehenden Liste, Kategorien und Route A→B. **In Liste** an einem ausgewählten Marker öffnet dieses Panel ebenfalls.
+- **Schließen** beendet den Modus. **Esc** schließt zuerst die geöffnete Suchleiste und beim zweiten Druck den Vollbildmodus. Auf Mobilgeräten ist der gleiche Schließen-Button vorhanden.
+- Beim Öffnen/Schließen bleiben Leaflet-Karteninstanz, Zoom und Mittelpunkt erhalten. Daten, bestehende Tagespläne und Buchungen werden durch diesen Anzeigemodus **nicht** verändert.
+
+Technik: `public/map-fullscreen-v69.css` enthält die Responsive-Ansicht, `public/views.mjs` die Steuerung, `public/app.mjs` den lokalen UI-Zustand und die Tastatur-/Schaltflächenaktionen. Der vorhandene OSM/OpenFreeMap-Kartenstack bleibt kostenlos und ohne Google-Maps-Key; externe Kartenkacheln benötigen Internet. Den echten Browser-Vollbildmodus kannst du zusätzlich mit **F11** aktivieren.
+
+## Animierte Reiseroute & ruhige Kartenoberfläche (v70)
+
+In **Karte** den Button **Route abspielen** benutzen. Der Kartenmodus wechselt dafür in **Gesamtroute**, zoomt auf die vorhandenen Stadt-Koordinaten und animiert einen leuchtenden Punkt **in der gespeicherten Reihenfolge**. Bei jedem Stadthalt erscheinen ein Stadtsymbol und der Stadtname; ein kompakter Fortschrittsbereich nennt die aktuelle und die nächste Etappe. **Pause/Fortsetzen**, **1× / 1,5× / 2×**, **Neustart** und **Beenden** sind manuell bedienbar. Die Animation funktioniert auch in der Vollbildkarte. „Legende & Kartenhinweise“ ist jetzt standardmäßig eingeklappt, die Details bleiben bei Bedarf zugänglich.
+
+**Wichtig:** Die Verbindungslinien zwischen den belegten **Stadt-Referenzkoordinaten** sind **schematische direkte Verbindungen**, **keine** verifizierten Bahntrassen oder 2027-Fahrpläne. Die Animation nutzt **keine** angenommenen Hotel-/Eingangskoordinaten. Städte ohne gespeicherte Stadtkoordinate werden für die Animation übersprungen. Der Wiedergabemodus verändert **keinen** Tagesplan, keine Auswahl, Preise, Buchungen oder Datenquellen.
+
+Bei eingeschalteter Systemeinstellung „Bewegung reduzieren“ oder in der Website-Einstellung „Animationen aus“ wird die Route **ohne laufenden Punkt** gezeigt und alle Stadtsymbole sofort eingeblendet. Die Story läuft **nur nach aktivem Start**, nicht automatisch beim Öffnen der Website. Bilder/Lizenzen der gespeicherten Ortsprofile bleiben unabhängig von den symbolischen Stadtmotiven.
+
+Technik: `route-city-story-v70.mjs` (geprüfte Stadtfolge, Motive und Interpolation), `route-city-story-player-v70.mjs` (separate Leaflet-Overlay-Animation mit eigener Bereinigung), `route-city-story-v70.css` (responsive Karten-/Popupgestaltung), Integration in `map.mjs`, `app.mjs` und `views.mjs`. Tests: `test/route-city-story-v70.test.mjs` und Browserdurchlauf in `test/browser.mjs`.
+
+## Kartenansicht – Klarheit und Navigation (v72)
+
+Die Kartenansicht wurde anhand der tatsächlichen Desktop-/Smartphone-Browserbilder überarbeitet, ohne Reise-, Preis-, Termin-, Buchungs- oder Koordinatendaten zu ändern.
+
+**Gestaltungsentscheidungen:** Die drei Kartenumfänge **Mein Tag / Stadt / Gesamtroute** sind die einzige primäre Navigation der normalen Kartenansicht; bisherige doppelte Schalter auf dem Kartenmaterial werden ausgeblendet. Titel, Route abspielen, Vollbild und Kartenwerkzeuge sitzen in einer schlanken Leiste **über** der Karte. Die Karte ist im normalen Desktop-Modus etwa 505 px hoch und auf Mobilgeräten mindestens 405 px (weiterhin abhängig von Bildschirm und Elternlayout). Der Quellen-/Kartenstatus, zusätzliche Kartenebenen, Designoptionen und die vollständige Legende stehen hinter **Kartenstil, Ebenen & Quellen** – die Angaben werden nicht gelöscht. Bereits bekannte, zu prüfende Standorte bleiben sichtbar und gekennzeichnet.
+
+**Suchworkflow:** Die Karte zeigt einen kompakten, aus den aktuellen Daten abgeleiteten Status mit echter Zahl der Pins (bzw. Städte in der Gesamtroute), Anzahl Einträge ohne individuellen Pin und gut sichtbaren aktiven Filtern. **Orte durchsuchen** öffnet die Ortsliste samt Suchfeld, auch aus dem einfachen Modus; in der Gesamtroute wird dafür in die Stadtansicht gewechselt, weil die Gesamtroute nur **Städte**, nicht individuelle POI-Pins, kartiert. **Filter zurücksetzen** entfernt Suche, Kategorie, Merkliste, Umkreis- und Kartenausschnittsfilter, ohne die Reiseplanung zu verändern. Ein ausgewählter Ort hat nun einen eigenen Schließen-Knopf. Die Ortsliste ist standardmäßig ausgeklappt; Kategorie-Inspiration bzw. die Tages-Detailplanung lassen sich gezielt öffnen.
+
+**Aussagen und Einschränkungen:** Die Kartenleiste zählt vorhandene Daten, keine verifizierten Buchungen/Öffnungen. Auch ein vorhandener Kartenpunkt bestätigt nicht den genauen Eingang. Für Gesamtrouten werden nur Städte mit gültigen gespeicherten Stadt-Referenzpunkten gezählt. Die Reiseanimation aus v70/v71 bleibt verfügbar und visualisiert schematische Luftlinien, **keine** nachgewiesenen Bahngleise oder Fahrzeiten.
+
+**Code/Abnahme:** `public/map-view-summary-v72.mjs` (reine Status-/Filterlogik), `public/map-clarity-v72.css` (Responsive-Oberfläche), `public/views.mjs` und `public/app.mjs` (Suche, Filter, Auswahl, Aufklapp-Logik). `test/map-clarity-v72.test.mjs` prüft die Datenangaben; `test/browser.mjs` und `test/portable-browser.mjs` prüfen echte Browserlayouts, Suchfokus und Kartenbedienung. Die vorhandene Vollbildansicht, Leaflet-Instanz und die getrennte Stadtankunft-Animation werden beibehalten.

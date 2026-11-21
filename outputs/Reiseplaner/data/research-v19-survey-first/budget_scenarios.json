@@ -1,0 +1,159 @@
+{
+  "version": "2026-11-13-survey-first-v1",
+  "currency": "EUR",
+  "comparison_only": true,
+  "no_double_counting": true,
+  "scenarios": [
+    {
+      "id": "budget-economy-ir-classic",
+      "trip_id": "ir-classic",
+      "status": "hypothetical_unselected_comparison",
+      "group_size": 3,
+      "stay_nights": 13,
+      "calendar_days": 14,
+      "candidate_lodging_ids": [
+        "lod-002",
+        "lod-005",
+        "lod-010",
+        "lod-013",
+        "lod-018",
+        "lod-021"
+      ],
+      "group_cost_minor": {
+        "accommodation": 129969,
+        "food_assumption": 79800,
+        "activity_assumption": 18000,
+        "local_transport_assumption": 15000,
+        "interrail_reservation_allowance": 30000,
+        "contingency": 27277
+      },
+      "total_group_minor": 300046,
+      "per_person_split_minor": {
+        "naol": 100016,
+        "k": 100015,
+        "c": 100015
+      },
+      "interrail_pass_group_optional_minor": 85800,
+      "pass_included_in_scenario_total": false,
+      "notes": "Quotes and assumptions, not confirmed purchases. No CHF conversions. No selected lodging changed. Pass may be provided by DiscoverEU."
+    },
+    {
+      "id": "budget-balanced-ir-classic",
+      "trip_id": "ir-classic",
+      "status": "hypothetical_unselected_comparison",
+      "group_size": 3,
+      "stay_nights": 13,
+      "calendar_days": 14,
+      "candidate_lodging_ids": [
+        "lod-001",
+        "lod-006",
+        "lod-011",
+        "lod-015",
+        "lod-017",
+        "lod-022"
+      ],
+      "group_cost_minor": {
+        "accommodation": 168268,
+        "food_assumption": 105000,
+        "activity_assumption": 30000,
+        "local_transport_assumption": 21000,
+        "interrail_reservation_allowance": 37500,
+        "contingency": 36177
+      },
+      "total_group_minor": 397945,
+      "per_person_split_minor": {
+        "naol": 132649,
+        "k": 132648,
+        "c": 132648
+      },
+      "interrail_pass_group_optional_minor": 85800,
+      "pass_included_in_scenario_total": false,
+      "notes": "Quotes and assumptions, not confirmed purchases. No CHF conversions. No selected lodging changed. Pass may be provided by DiscoverEU."
+    },
+    {
+      "id": "budget-comfort-ir-classic",
+      "trip_id": "ir-classic",
+      "status": "hypothetical_unselected_comparison",
+      "group_size": 3,
+      "stay_nights": 13,
+      "calendar_days": 14,
+      "candidate_lodging_ids": [
+        "lod-003",
+        "lod-008",
+        "lod-012",
+        "lod-016",
+        "lod-019",
+        "lod-023"
+      ],
+      "group_cost_minor": {
+        "accommodation": 195736,
+        "food_assumption": 134400,
+        "activity_assumption": 51000,
+        "local_transport_assumption": 30000,
+        "interrail_reservation_allowance": 45000,
+        "contingency": 54736
+      },
+      "total_group_minor": 510872,
+      "per_person_split_minor": {
+        "naol": 170291,
+        "k": 170291,
+        "c": 170290
+      },
+      "interrail_pass_group_optional_minor": 85800,
+      "pass_included_in_scenario_total": false,
+      "notes": "Quotes and assumptions, not confirmed purchases. No CHF conversions. No selected lodging changed. Pass may be provided by DiscoverEU."
+    },
+    {
+      "id": "budget-swiss-accommodation-only",
+      "trip_id": "swiss-week",
+      "status": "hypothetical_unselected_lodging_only",
+      "group_size": 4,
+      "stay_nights": 6,
+      "candidate_lodging_ids": [
+        "lod-025",
+        "lod-028",
+        "lod-030",
+        "lod-033"
+      ],
+      "group_cost_minor": {
+        "accommodation": 172509,
+        "rental_car": null,
+        "fuel": null,
+        "gondolas": null,
+        "food": null
+      },
+      "total_group_minor": null,
+      "per_person_lodging_split_minor": {
+        "naol": 43128,
+        "swiss_guest_2_unknown": 43127,
+        "swiss_guest_3_unknown": 43127,
+        "swiss_guest_4_unknown": 43127
+      },
+      "note": "Fourth person not surveyed. Do not claim this lodging-only subtotal covers Switzerland road trip."
+    }
+  ],
+  "assumption_inputs": {
+    "economy": {
+      "food_eur_person_day": 19,
+      "activities_eur_person_trip": 60,
+      "city_transport_eur_person_trip": 50,
+      "reservations_eur_person_trip": 100,
+      "buffer_rate_percent": 10
+    },
+    "balanced": {
+      "food_eur_person_day": 25,
+      "activities_eur_person_trip": 100,
+      "city_transport_eur_person_trip": 70,
+      "reservations_eur_person_trip": 125,
+      "buffer_rate_percent": 10
+    },
+    "comfort": {
+      "food_eur_person_day": 32,
+      "activities_eur_person_trip": 170,
+      "city_transport_eur_person_trip": 100,
+      "reservations_eur_person_trip": 150,
+      "buffer_rate_percent": 12
+    }
+  },
+  "rounding": "All amounts in integer euro cents. Distribute residual cents by stable participant order. CHF values remain separate."
+}

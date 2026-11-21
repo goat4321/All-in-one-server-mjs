@@ -1,0 +1,37 @@
+category;naol;k;c;mean_0_5;min_0_5;spread_0_5;group_priority
+Meer und Strände besuchen;5;5;5;5.0;5;0;very_high
+Natur und Landschaften;5;5;5;5.0;5;0;very_high
+Aussichtspunkte;4;5;5;4.667;4;1;very_high
+Bergwanderungen und Wandern;5;4;5;4.667;4;1;very_high
+Lange Fußwege;5;4;5;4.667;4;1;very_high
+Schwimmen;5;5;4;4.667;4;1;very_high
+Seen und Flüsse besuchen;3;5;5;4.333;3;2;high
+Frühes Starten;4;4;4;4.0;4;0;high
+Regionale Spezialitäten probieren;3;4;5;4.0;3;2;high
+Ruhige Abende;5;3;4;4.0;3;2;high
+Spontaneität und flexible Tagesplanung;4;3;5;4.0;3;2;high
+Events und Festivals;4;4;3;3.667;3;1;medium
+Viel Programm pro Tag;3;3;5;3.667;3;2;medium
+Streetfood;5;1;5;3.667;1;4;medium
+Bars und Pubs;4;3;3;3.333;3;1;medium
+Clubs und Partys;4;3;3;3.333;3;1;medium
+Parks besuchen;4;2;4;3.333;2;2;medium
+Restaurants besuchen;3;2;5;3.333;2;3;medium
+Direkte Zugverbindungen;3;2;4;3.0;2;2;medium
+Geschichte und lokale Kultur;2;3;4;3.0;2;2;medium
+Gym und Fitness;5;2;2;3.0;2;3;medium
+Basketball;5;1;3;3.0;1;4;medium
+Historische Bauwerke und Architektur;1;3;5;3.0;1;4;medium
+Konzerte und Live-Musik;4;2;2;2.667;2;2;low
+Technik- und Science-Museen;2;2;4;2.667;2;2;low
+Komfort und Erholung;1;2;5;2.667;1;4;low
+Shopping;2;2;3;2.333;2;1;low
+Cafés besuchen;1;2;4;2.333;1;3;low
+Historische Sehenswürdigkeiten und Denkmäler;2;1;4;2.333;1;3;low
+Kunstmuseen;0;3;4;2.333;0;4;low
+Fußballspiele;1;2;3;2.0;1;2;low
+Bootstouren;0;3;3;2.0;0;3;low
+Kajakfahren;0;4;2;2.0;0;4;low
+SUP;2;3;0;1.667;0;3;low
+Rafting;0;4;0;1.333;0;4;low
+Zipline und Hochseilgarten;0;0;1;0.333;0;1;low

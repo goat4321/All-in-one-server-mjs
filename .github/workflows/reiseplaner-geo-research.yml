@@ -1,0 +1,31 @@
+name: Reiseplaner · Einmalige OSM-Ortsrecherche v0.5
+# Explicit one-off job: never re-run this external research on every PR commit.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  one-time-poi-research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Syntax des Forschungsprogramms
+        run: node --check scripts/geo-research-v05.mjs
+        working-directory: outputs/Reiseplaner
+      - name: Einmalige, quellensparsame Overpass-Recherche (kein Nominatim)
+        run: node scripts/geo-research-v05.mjs
+        working-directory: outputs/Reiseplaner
+      - name: Ergebnis als Prüfpaket archivieren
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reiseplaner-georecherche-v05
+          path: outputs/Reiseplaner/data/research-v05/osm-candidates.json
+          if-no-files-found: warn
+          retention-days: 14

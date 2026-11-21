@@ -4,7 +4,8 @@ import { loadCatalog } from '../lib/catalog.mjs';
 import { activeItems } from '../public/model.mjs';
 import { initialState } from '../lib/store.mjs';
 import { explorerCategory, explorerData, explorerDetail, validPoint,
-  explorerRouteInput, externalFootUrl, externalTransitUrl } from '../public/map-explorer.mjs';
+  explorerRouteInput, externalFootUrl, externalTransitUrl, explorerUnlocatedCityClusters,
+  mapDistanceKm, mapPointInBounds } from '../public/map-explorer.mjs';
 
 const catalog = await loadCatalog();
 const classic = catalog.trips.find(t => t.id === 'interrail_classic');
@@ -117,4 +118,64 @@ test('Sourced destination station is a distinct pin without creating a second tr
   assert.ok(arrivals.every(x=>x.kind==='transport' && x.price===null));
   const originalTrips=activeItems(classic,initialState(classic));
   assert.ok(originalTrips.every(x=>!x.id.startsWith('arrival:')));
+});
+
+
+test('All unlocated options can be shown as explicitly theoretical city clusters without fake individual coordinates',()=>{
+  for(const trip of catalog.trips){
+    const found=explorerData(trip.items,trip);
+    const clusters=explorerUnlocatedCityClusters({...found,showCityReferences:true},catalog.cities);
+    assert.ok(clusters.length>0,trip.id);
+    assert.equal(clusters.reduce((s,x)=>s+x.count,0),
+      found.unlocated.filter(item=>validPoint(catalog.cities[item.city]?.point)).length,
+      'Every unlocated record must be counted once in its actual city');
+    assert.equal(new Set(clusters.map(c=>c.city)).size,clusters.length);
+    assert.ok(clusters.every(c=>c.count>0&&validPoint(c.point)&&c.exampleNames.length<=3));
+    assert.deepEqual(explorerUnlocatedCityClusters({...found,showCityReferences:false},catalog.cities),[]);
+    assert.ok(found.unlocated.every(x=>!validPoint(x.point)),trip.id);
+    // City cluster coordinates must never alter an underlying precise venue pin.
+    assert.ok(found.placed.every(x=>validPoint(x.point)),trip.id);
+  }
+});
+
+
+test('Geographic nearby selection uses only actual POI positions, not approximate city references',()=>{
+ const a=[41.387,2.17],b=[41.3875,2.1705];
+ assert.ok(mapDistanceKm(a,b)<1);
+ assert.equal(mapDistanceKm(a,null),Infinity);
+ assert.equal(mapPointInBounds(a,[41.38,2.16,41.39,2.18]),true);
+ assert.equal(mapPointInBounds(a,[41.40,2.16,41.42,2.18]),false);
+ assert.equal(mapPointInBounds(null,[41.38,2.16,41.39,2.18]),false);
+ const trip={route:['barcelona']};
+ const all=[
+  {id:'near',city:'barcelona',name:'Bogatell',kind:'activity',point:a},
+  {id:'near2',city:'barcelona',name:'Parc',kind:'activity',point:b},
+  {id:'unknown',city:'barcelona',name:'Unbekannt',kind:'activity',point:null},
+  {id:'far',city:'barcelona',name:'Auswärts',kind:'activity',point:[41.7,2.9]}
+ ];
+ const result=explorerData(all,trip,{nearbyPoint:a,radiusKm:1});
+ assert.deepEqual(result.placed.map(x=>x.id),['near','near2']);
+ assert.equal(result.unlocated.length,0);
+ assert.equal(result.total,2);
+});
+
+test('Planned-day geographic scope contains only its original items and linked arrival points',()=>{
+  const transport=classic.items.find(x=>x.kind==='transport'&&x.toCity
+    &&validPoint(x.toPoint)&&classic.route.includes(x.toCity));
+  const activity=classic.items.find(x=>x.kind==='activity'&&x.city==='barcelona'
+    &&!x.duplicateOf);
+  assert.ok(transport&&activity,'A real train and a Barcelona activity must exist');
+  const dayItemIds=new Set([transport.id,activity.id]);
+  const scoped=explorerData(classic.items,classic,{dayItemIds});
+  assert.ok(scoped.total>=2);
+  assert.ok(scoped.total<explorerData(classic.items,classic).total);
+  const rows=[...scoped.placed,...scoped.unlocated];
+  assert.ok(rows.every(x=>dayItemIds.has(x.explorerParent??x.id)),
+    'An arrival may only inherit the original transport item from the selected day');
+  assert.ok(rows.some(x=>x.id===activity.id));
+  assert.ok(rows.some(x=>x.id===transport.id));
+  assert.equal(explorerData(classic.items,classic,{dayItemIds:new Set()}).total,0,
+    'An empty day displays no unplanned city suggestions as planned stops');
+  assert.ok(explorerData(classic.items,classic,{city:'barcelona'}).total>1,
+    'City discovery is independent from the planned-day scope');
 });

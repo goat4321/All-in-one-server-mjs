@@ -1,0 +1,234 @@
+{
+  "version": "2026-11-13-survey-first-v1",
+  "source": "Tripsy read-only; route frames recovered and freshly normalized; no original files altered",
+  "trips": [
+    {
+      "id": "ir-classic",
+      "tripsy_id": "1297194",
+      "title": "Interrail Test 2 – klassische Küstenroute",
+      "start": "2027-09-01",
+      "end": "2027-09-14",
+      "party_size": 3,
+      "members": [
+        "naol",
+        "k",
+        "c"
+      ],
+      "mode": "rail",
+      "variant_family": "ir-september",
+      "route": [
+        "munich",
+        "paris",
+        "barcelona",
+        "sete",
+        "nice",
+        "genoa",
+        "venice",
+        "munich"
+      ],
+      "stays": [
+        {
+          "destination_id": "paris",
+          "checkin": "2027-09-01",
+          "checkout": "2027-09-03"
+        },
+        {
+          "destination_id": "barcelona",
+          "checkin": "2027-09-03",
+          "checkout": "2027-09-06"
+        },
+        {
+          "destination_id": "sete",
+          "checkin": "2027-09-06",
+          "checkout": "2027-09-08"
+        },
+        {
+          "destination_id": "nice",
+          "checkin": "2027-09-08",
+          "checkout": "2027-09-10"
+        },
+        {
+          "destination_id": "genoa",
+          "checkin": "2027-09-10",
+          "checkout": "2027-09-12"
+        },
+        {
+          "destination_id": "venice",
+          "checkin": "2027-09-12",
+          "checkout": "2027-09-14"
+        }
+      ],
+      "interrail_planned_travel_days": 7,
+      "original_is_read_only": true
+    },
+    {
+      "id": "ir-swiss",
+      "tripsy_id": "1312180",
+      "title": "Interrail Test 2 – Schweiz-Variante",
+      "start": "2027-09-01",
+      "end": "2027-09-14",
+      "party_size": 3,
+      "members": [
+        "naol",
+        "k",
+        "c"
+      ],
+      "mode": "rail",
+      "variant_family": "ir-september",
+      "route": [
+        "munich",
+        "paris",
+        "barcelona",
+        "sete",
+        "nice",
+        "kandersteg",
+        "appenzell",
+        "munich"
+      ],
+      "stays": [
+        {
+          "destination_id": "paris",
+          "checkin": "2027-09-01",
+          "checkout": "2027-09-03"
+        },
+        {
+          "destination_id": "barcelona",
+          "checkin": "2027-09-03",
+          "checkout": "2027-09-06"
+        },
+        {
+          "destination_id": "sete",
+          "checkin": "2027-09-06",
+          "checkout": "2027-09-08"
+        },
+        {
+          "destination_id": "nice",
+          "checkin": "2027-09-08",
+          "checkout": "2027-09-10"
+        },
+        {
+          "destination_id": "kandersteg",
+          "checkin": "2027-09-10",
+          "checkout": "2027-09-12"
+        },
+        {
+          "destination_id": "appenzell",
+          "checkin": "2027-09-12",
+          "checkout": "2027-09-14"
+        }
+      ],
+      "interrail_planned_travel_days": 7,
+      "original_is_read_only": true
+    },
+    {
+      "id": "ir-august",
+      "tripsy_id": "1275516",
+      "title": "Interrail ab München – August-Test mit Nachtzug",
+      "start": "2027-08-17",
+      "end": "2027-08-27",
+      "party_size": 3,
+      "members": [
+        "naol",
+        "k",
+        "c"
+      ],
+      "mode": "rail",
+      "variant_family": "ir-august",
+      "route": [
+        "munich",
+        "paris",
+        "toulouse",
+        "narbonne",
+        "barcelona",
+        "sete",
+        "nice",
+        "genoa",
+        "venice",
+        "munich"
+      ],
+      "stays": [
+        {
+          "destination_id": "barcelona",
+          "checkin": "2027-08-18",
+          "checkout": "2027-08-20"
+        },
+        {
+          "destination_id": "sete",
+          "checkin": "2027-08-20",
+          "checkout": "2027-08-22"
+        },
+        {
+          "destination_id": "nice",
+          "checkin": "2027-08-22",
+          "checkout": "2027-08-24"
+        },
+        {
+          "destination_id": "genoa",
+          "checkin": "2027-08-24",
+          "checkout": "2027-08-25"
+        },
+        {
+          "destination_id": "venice",
+          "checkin": "2027-08-25",
+          "checkout": "2027-08-27"
+        }
+      ],
+      "interrail_planned_travel_days": 7,
+      "original_is_read_only": true,
+      "overnight_train": true
+    },
+    {
+      "id": "swiss-week",
+      "tripsy_id": "1273324",
+      "title": "Test Schweiz – Seen & Berge",
+      "start": "2027-09-05",
+      "end": "2027-09-11",
+      "party_size": 4,
+      "members": [
+        "naol",
+        "swiss_guest_2_unknown",
+        "swiss_guest_3_unknown",
+        "swiss_guest_4_unknown"
+      ],
+      "mode": "rental_car_unbooked",
+      "variant_family": "switzerland-separate",
+      "route": [
+        "munich",
+        "appenzell",
+        "wasserauen",
+        "seealpsee",
+        "glarus",
+        "kloental",
+        "grindelwald",
+        "bachalpsee",
+        "kandersteg",
+        "oeschinensee",
+        "munich"
+      ],
+      "stays": [
+        {
+          "destination_id": "appenzell",
+          "checkin": "2027-09-05",
+          "checkout": "2027-09-07"
+        },
+        {
+          "destination_id": "glarus",
+          "checkin": "2027-09-07",
+          "checkout": "2027-09-08"
+        },
+        {
+          "destination_id": "grindelwald",
+          "checkin": "2027-09-08",
+          "checkout": "2027-09-09"
+        },
+        {
+          "destination_id": "kandersteg",
+          "checkin": "2027-09-09",
+          "checkout": "2027-09-11"
+        }
+      ],
+      "original_is_read_only": true,
+      "note": "Swiss co-traveler identities are unknown: do not assume K and C. Driver age/eligibility, deposit and road coverage unverified."
+    }
+  ]
+}

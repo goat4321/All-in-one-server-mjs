@@ -1,0 +1,179 @@
+{
+  "meta": {
+    "package": "research-v80-alternative-venues",
+    "checkedOn": "2026-11-17",
+    "originVersion": "research-v79-last-city-gaps",
+    "count": 3,
+    "alternativeCount": 7,
+    "purpose": "Research resolution without altering a user's itinerary or turning substitutes into the original entry.",
+    "contextPhotos": 2,
+    "photoScope": "Historic Commons contextual only; no venue-specific photo claim; source and CC license explicitly disclosed"
+  },
+  "dossiers": [
+    {
+      "id": "new_021",
+      "city": "barcelona",
+      "status": "corner_addresses_correlated",
+      "evidenceSummary": "Mehrere öffentlich zugängliche Ortsverzeichnisse beschreiben Bo de B ausdrücklich an derselben Straßenecke Carrer de la Fusteria 14 / Carrer de la Mercè 35. Es handelt sich wahrscheinlich um zwei Adressbezeichnungen desselben Ecklokals, nicht automatisch um zwei verschiedene Betriebe.",
+      "caveat": "Sekundärquellen und eine Restaurantdarstellung auf Tripadvisor. Kein unabhängiger Beleg für die genaue Eingangstür oder die Öffnung im September 2027.",
+      "sourceUrls": [
+        "https://www.tripadvisor.es/Restaurant_Review-g187497-d1519230-Reviews-Bo_de_B_Barcelona_official-Barcelona_Catalonia.html",
+        "https://guiacat.cat/en/restaurant/bo-de-b",
+        "https://www.corner.inc/place/pMz9ru1iPxfm"
+      ],
+      "mapQuery": "Bo de B Carrer de la Mercè 35 Barcelona",
+      "mapHint": "Gemeinsamer Eckstandort Fusteria/Mercè laut mehreren Verzeichnissen; tatsächlichen Eingang prüfen",
+      "originalIdentityConfirmed": false,
+      "verifiedExactEntrance": false,
+      "alternatives": []
+    },
+    {
+      "id": "new_047",
+      "city": "sete",
+      "status": "original_identity_unconfirmed_with_sourced_alternatives",
+      "evidenceSummary": "Für eine Tielle-Bäckerei namens Chez François an 19 rue Gambetta fehlt ein unabhängiger Anbieterbeleg. Das gleichnamige Fischrestaurant darf nicht als diese Bäckerei behandelt werden.",
+      "caveat": "Die unten genannten Tielle-Betriebe sind ALTERNATIVEN; keine davon wird als identisch mit dem importierten Chez François ausgegeben.",
+      "sourceUrls": [
+        "https://www.archipel-thau.com/mon-sejour/ou-manger/producteurs-de-terroir/tielles-giulietta-halles-sete-fr-6264043/"
+      ],
+      "mapQuery": "Tielles artisanales Halles Centrales Sète Rue Gambetta",
+      "mapHint": "Nur Tielle-Anbieter im Marktgebiet; importiertes Chez François nicht eindeutig lokalisierbar",
+      "originalIdentityConfirmed": false,
+      "verifiedExactEntrance": false,
+      "alternatives": [
+        {
+          "key": "tielle-giulietta-halles",
+          "name": "Tielles Giulietta – Halles",
+          "category": "Tielle / Streetfood",
+          "address": "Halles Centrales, Rue Gambetta, 34200 Sète, Frankreich",
+          "sourceType": "official_tourism",
+          "officialUrl": "https://www.archipel-thau.com/mon-sejour/ou-manger/producteurs-de-terroir/tielles-giulietta-halles-sete-fr-6264043/",
+          "summary": "Offiziell vom Tourismusbüro als Tielle-Manufaktur in den Halles Centrales geführt.",
+          "hours": "Tourismus nennt Betrieb im Jahr 2026, keine verbindliche tägliche Öffnungszeit oder September-2027-Verfügbarkeit.",
+          "price": "Einzelpreise 2027 nicht bestätigt.",
+          "pinVerified": false,
+          "notAutomaticallyPlanned": true
+        },
+        {
+          "key": "tielle-dasse-halles",
+          "name": "Tielles Dassé – Halles",
+          "category": "Tielle / Streetfood",
+          "address": "Halles Centrales, Rue Gambetta, 34200 Sète, Frankreich",
+          "sourceType": "official_tourism",
+          "officialUrl": "https://www.archipel-thau.com/mon-sejour/ou-manger/producteurs-de-terroir/tielles-dasse-halles-de-sete-sete-fr-6264920/",
+          "summary": "Tourismusbüro bestätigt die historische Tiellerie Dassé innerhalb der Halles.",
+          "hours": "Die Betreiberangaben und einzelne Hallenstände können voneinander abweichen; September 2027 prüfen.",
+          "price": "Einzelpreise 2027 nicht bestätigt.",
+          "pinVerified": false,
+          "notAutomaticallyPlanned": true
+        },
+        {
+          "key": "tielle-la-cettoise",
+          "name": "La Cettoise",
+          "category": "Tielle / Streetfood",
+          "address": "2 Rue du Palais, 34200 Sète, Frankreich",
+          "sourceType": "operator",
+          "officialUrl": "https://lacettoise.fr/",
+          "summary": "Eigenständige Tielle-Manufaktur mit eigener Website und veröffentlichter Ladenadresse.",
+          "hours": "Die genaue Ladenöffnung am Reisetag 2027 nicht bestätigt.",
+          "price": "Aktuelle Speisepreise nur auf Betreiberseite verifizieren.",
+          "pinVerified": false,
+          "notAutomaticallyPlanned": true
+        },
+        {
+          "key": "tielle-chez-david",
+          "name": "Tielle Cettoise Chez David",
+          "category": "Tielle / Streetfood",
+          "address": "67 Rue Paul Bousquet, 34200 Sète, Frankreich",
+          "sourceType": "official_tourism",
+          "officialUrl": "https://www.archipel-thau.com/mon-sejour/ou-manger/producteurs-de-terroir/tielle-cettoise-chez-david-sete-fr-6264779/",
+          "summary": "Archipel-de-Thau-Tourismus bestätigt die Adresse und handgemachte Tielles sowie Muschelgebäck.",
+          "hours": "Veröffentlichte 2026-Zeitfenster nicht als 2027-Betrieb übernehmen.",
+          "price": "Keine bestätigten September-2027-Preise.",
+          "pinVerified": false,
+          "notAutomaticallyPlanned": true
+        }
+      ],
+      "contextPhotos": [
+        {
+          "file": "Sète Les Halles (52238627073).jpg",
+          "description": "Halles de Sète – Marktgebäude, kein Foto eines bestimmten Tielle-Verkäufers",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:S%C3%A8te_Les_Halles_%2852238627073%29.jpg",
+          "author": "Jorge Franganillo",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+          "picturedYear": 2022,
+          "scope": "market_context_not_venue",
+          "processed": "Nur verkleinert / CSS-Bildausschnitt"
+        },
+        {
+          "file": "Vente de tielles à Sète.jpg",
+          "description": "Tielle-Verkauf in Sète – allgemeines Streetfood-Motiv, nicht einer bestimmten Bäckerei zugeordnet",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vente_de_tielles_%C3%A0_S%C3%A8te.jpg",
+          "author": "TCY",
+          "license": "CC BY 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+          "picturedYear": 2021,
+          "scope": "city_food_context_not_venue",
+          "processed": "Nur verkleinert / CSS-Bildausschnitt"
+        }
+      ]
+    },
+    {
+      "id": "new_049",
+      "city": "sete",
+      "status": "original_identity_unconfirmed_with_sourced_alternatives",
+      "evidenceSummary": "Im aktuellen offiziellen Carrefour-Filialverzeichnis ist der importierte Carrefour City Sète Centre an 15 Rue du 11 Novembre 1918 nicht unabhängig nachgewiesen. Andere Carrefour-Filialen in Sète sind offiziell dokumentiert.",
+      "caveat": "Die folgenden Supermärkte sind andere Geschäfte mit jeweils eigenen Adressen und Öffnungszeiten. Weder Adresse noch Tarif-/Öffnungszeiten dürfen stillschweigend auf den importierten Markt übertragen werden.",
+      "sourceUrls": [
+        "https://www.carrefour.fr/magasin/ville/sete-34301",
+        "https://www.carrefour.fr/magasin/city-sete-resistance"
+      ],
+      "mapQuery": "Carrefour City 5 Quai de la Résistance Sète",
+      "mapHint": "Quai de la Résistance ist eine belegte ALTERNATIVE, nicht die unbestätigte Importadresse",
+      "originalIdentityConfirmed": false,
+      "verifiedExactEntrance": false,
+      "alternatives": [
+        {
+          "key": "carrefour-city-resistance",
+          "name": "Carrefour City Sète Résistance",
+          "category": "Supermarkt / Selbstverpflegung",
+          "address": "5 Quai de la Résistance, 34200 Sète, Frankreich",
+          "sourceType": "operator",
+          "officialUrl": "https://www.carrefour.fr/magasin/city-sete-resistance",
+          "summary": "Carrefour bestätigt den Laden an 5 Quai de la Résistance, nahe Canal Royal.",
+          "hours": "Betreiberreferenz: Montag–Samstag 08:00–23:00, Sonntag 10:00–21:00. Für September 2027 und Feiertage erneut prüfen.",
+          "price": "Supermarktpreise je Produkt und Datum; kein 2027-Warenkorbpreis.",
+          "pinVerified": false,
+          "notAutomaticallyPlanned": true
+        },
+        {
+          "key": "carrefour-express-voltaire",
+          "name": "Carrefour Express Sète Voltaire",
+          "category": "Supermarkt / Selbstverpflegung",
+          "address": "12 Rue Voltaire, 34200 Sète, Frankreich",
+          "sourceType": "operator",
+          "officialUrl": "https://www.carrefour.fr/magasin/express-sete-voltaire",
+          "summary": "Carrefour bestätigt die Filiale an der Rue Voltaire.",
+          "hours": "Offizielle Webseiten zeigen unterschiedliche Stundenangaben. Nicht ohne Filial-/Datumsauswahl auf 2027 übertragen.",
+          "price": "Supermarktpreise je Produkt und Datum; kein bestätigter Warenkorbpreis.",
+          "pinVerified": false,
+          "notAutomaticallyPlanned": true
+        },
+        {
+          "key": "carrefour-express-quai",
+          "name": "Carrefour Express Sète (Quai de Lattre)",
+          "category": "Supermarkt / Selbstverpflegung",
+          "address": "29 Quai Maréchal de Lattre de Tassigny, 34200 Sète, Frankreich",
+          "sourceType": "operator",
+          "officialUrl": "https://www.carrefour.fr/magasin/express-sete",
+          "summary": "Im offiziellen Carrefour-Verzeichnis als eigene Sète-Express-Filiale mit dieser Quai-Adresse gelistet.",
+          "hours": "Betreiberreferenz: Montag–Samstag 08:00–22:00, Sonntag 10:00–13:30; September 2027 und Ausnahmen prüfen.",
+          "price": "Supermarktpreise je Produkt und Datum; kein 2027-Warenkorbpreis.",
+          "pinVerified": false,
+          "notAutomaticallyPlanned": true
+        }
+      ]
+    }
+  ]
+}

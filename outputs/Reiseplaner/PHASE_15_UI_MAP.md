@@ -1,0 +1,20 @@
+# Phase 15 – Informationsarchitektur und interaktiver Karten-Explorer
+Stand 13.11.2026 · Branch `feature/v7-data-day-accommodation-rail` · PR #5 (Draft)
+
+## 1. Informationsarchitektur
+Sidebar: Planen (Übersicht, Tagesplan, Karte), Reise organisieren (Entdecken, Unterkünfte, Bahn & Interrail, Verpflegung), Verwalten (Budget, Reisegruppe, Daten & Fristen). Der bisherige Reisevarianten-Wechsler bleibt bestehen; die Reiseorte sind über ein natives Details-/Summary-Steuerelement zugänglich. Topbar hat auf großen Bildschirmen direkte Schnelllinks, auf Mobilgeräten erscheint eine feste vierteilige Dock-Navigation. Die Reiseübersicht bietet vier große Aufgaben-Kacheln. Alle zehn Module sind weiterhin verfügbar, es wurde kein bestehendes Modul entfernt.
+
+## 2. Karte zuerst, trotzdem vollständige Planung
+Der Karten-Explorer ordnet die Elemente: Überschrift → Tag-/Ortsauswahl → kompakte Suche, Filter und Scope → Leaflet-Karte → Mehrstopp-Tagesroutenplaner → Ortsliste. Der separate Start-/Ziel-Router und ungeklärte Stadt-Sammelmarker sind aufklappbar. Bei Auswahl von Start oder Ziel öffnet die Routenplanung automatisch. Die bisherige lokale Linien-/Wanderwegdarstellung, Farbvarianten, umfangreiche Routenstudio-Funktionen und externe Google-Maps-Links bleiben erhalten.
+
+## 3. Interaktive Kartenfunktionen
+- **Dichtecluster:** In `public/map.mjs` werden nur POIs mit wirklichem `item.point` bis Zoom 12 in 70-Pixel-Rasterzellen nach Stadt gruppiert; größere Gruppen erscheinen als Anzahlkreise. Klick zoomt mit `fitBounds` zu den tatsächlichen Koordinaten. Auf höheren Zoomstufen werden die Einzelmarker samt Popup/Quellprofil angezeigt. Aggregatsmittelpunkt ist **kein** neuer Ortseintrag oder genaue Gebäudeposition; Cluster werden nicht für den Routenstart verwendet.
+- **Umkreis:** In `map-explorer.mjs` wird Haversine-Entfernung ausschließlich zwischen zwei gültigen POI-Punkten berechnet. UI-Chips bieten 1, 3 und 10 km; die Karte kennzeichnet den Radius durch einen echten Leaflet-Kreis. Ohne tatsächlichen Punkt ist eine interne Umkreissuche nicht möglich; kein Fallback auf ein Stadtzentrum.
+- **Viewport-Liste:** Datenfilter auf Grundlage von `map.getBounds()`, Wiederberechnung bei `moveend`. Es wird nur die HTML-Ortsliste ersetzt, nicht die Leaflet-Karteninstanz; Kartenzoom und Schwenkposition bleiben erhalten. Datensätze ohne Punkt können nicht zum Kartenausschnitt zugeordnet werden und werden ausdrücklich als ausgeschlossen ausgewiesen. Der Kartenmarkerbestand selbst bleibt davon unberührt.
+- **Kategorien:** Kartenlegende ist über `data-action=explorer-group` mit der vorhandenen Kategorienlogik verbunden. `explorer-reset` setzt Text-, Kategorie-, Umkreis-, Scope- und Viewportfilter zurück, ohne Tagesplan oder Buchungen anzufassen.
+- **Anzeige:** Kompakt standardmäßig, Detailkarten mit Bildern, Quellen, Kosten- und Ortsnachweisen weiter per Chip verfügbar. Die neuen Interaktionen sind im UI-Zustand, nicht in persistenten SQLite-Reisedaten gespeichert.
+
+## 4. Qualitäts- und Schutzgrenzen
+Die vorhandene GitHub-Qualitätsprüfung umfasst echte Node-Tests, Seed-/Katalog-Checks, Kartenabdeckungsübersicht, Chrome-Browser-Flow und Serverstart. In `test/portable-browser.mjs` werden Navigationsgruppen, Schnellzugriffe, Kategorien-Filter in der Kartenlegende, Kartentöne, Kartengröße, Umkreis, Aufklapp-Routenplanung, kompakte Liste, sichtbare-Kartenbereich-Auswahl und mobile Dock-Navigation geprüft. `test/map-explorer.test.mjs` prüft Entfernungen, ungültige/fehlende Punkte und Bounding-Box-Logik.
+
+**Noch offen:** echte visuelle Abnahme auf mehreren Geräten samt Screenshots, Haptik und Performance bei sehr vielen sichtbaren Markern, individuelle Bildanreicherung, unbestätigte Unterkunfts-Checkouts, 2027-Zugverfügbarkeit und unabhängige Ortsnachweise. Ein Browser-Test prüft Verhalten, nicht die perfekte Pixelgestaltung auf iOS/Android.

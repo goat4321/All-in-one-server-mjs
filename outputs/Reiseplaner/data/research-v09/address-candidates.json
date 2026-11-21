@@ -1,0 +1,928 @@
+{
+  "schema": "verified_address_geocoding_candidates_v09",
+  "observedOn": "2026-11-13",
+  "attribution": "© OpenStreetMap contributors / Photon (ODbL)",
+  "method": "One-off sequential 1-request-per-2.05 sec geocode of public operator/booking postal addresses. Strict house number, street tokens, country and 40km near intended city.",
+  "totalAddresses": 50,
+  "alreadySourcedCoordinates": 9,
+  "queried": 41,
+  "eligible": 41,
+  "singleAddressCandidates": 18,
+  "multipleCandidates": 6,
+  "unmatched": 17,
+  "failed": 0,
+  "warnings": [
+    "A building-centre is not an entrance, room or reservation. Verify address association before import.",
+    "No Airbnb wishes geocoded. No guessed city-centre coordinates.",
+    "Do not automatically import ambiguous address matches."
+  ],
+  "items": [
+    {
+      "id": "research:bcom_1010034",
+      "city": "barcelona",
+      "name": "Malacuna Barcelona",
+      "address": "Carrer de la Unió 10–12, 08001 Barcelona, Spain",
+      "originalSourceUrl": "https://www.booking.com/hotel/es/ideal-youth-hostel.de.html",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            41.3797103,
+            2.1734994
+          ],
+          "street": "Carrer de la Unió",
+          "houseNumber": "10",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/11983640334",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_3955394",
+      "city": "genoa",
+      "name": "Le Stanze della Lanterna",
+      "address": "Via Galata 39/8, 16121 Genova, Italy",
+      "originalSourceUrl": "https://www.lestanzedellalanterna.com/contatti",
+      "observedOn": "2026-11-13",
+      "status": "multiple_exact_address_matches",
+      "candidates": [
+        {
+          "point": [
+            44.4087082,
+            8.9436897
+          ],
+          "street": "Via Galata",
+          "houseNumber": "39",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/1504210649",
+          "precision": "osm_address_node"
+        },
+        {
+          "point": [
+            44.4057796,
+            8.942834
+          ],
+          "street": "Via Galata",
+          "houseNumber": "39 rosso",
+          "name": "Il forno di Ghia",
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/5194891886",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "More than one OSM object shares the same house number; manual inspection needed."
+    },
+    {
+      "id": "research:bcom_10900187",
+      "city": "nice",
+      "name": "B&B HOTEL Nice Stade Riviera",
+      "address": "311 Boulevard du Mercantour, 06200 Nice, France",
+      "originalSourceUrl": "https://www.hotel-bb.com/de/hotel/nice-stade-riviera",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            43.699313,
+            7.189506
+          ],
+          "street": "Boulevard du Mercantour",
+          "houseNumber": "311",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/13426135880",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_15322595",
+      "city": "nice",
+      "name": "Gite Maïoun Cremat",
+      "address": "12 Chemin du Collet de Bellon, 06200 Nice, France",
+      "originalSourceUrl": "https://www.explorenicecotedazur.com/location-vacances/gite-maioun-cremat-le-baou-2/",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            43.733395,
+            7.211417
+          ],
+          "street": "Chemin du Collet de Bellon",
+          "houseNumber": "12",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/13444802121",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_51591",
+      "city": "paris",
+      "name": "Campanile Paris 12 Bercy Village",
+      "address": "17 Rue Baron Le Roy, 75012 Paris, France",
+      "originalSourceUrl": "https://paris-12-bercy-village.campanile.com/fr-fr/",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            48.8352035,
+            2.3875606
+          ],
+          "street": "Rue Baron Le Roy",
+          "houseNumber": "17",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/1418667929",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_1105489",
+      "city": "paris",
+      "name": "Les Patios du Marais 1",
+      "address": "26 Rue des Gravilliers, 75003 Paris, France",
+      "originalSourceUrl": "https://www.patiosdumarais.com/",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            48.8638965,
+            2.3566337
+          ],
+          "street": "Rue des Gravilliers",
+          "houseNumber": "26",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/708490522",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_5163757",
+      "city": "paris",
+      "name": "MEININGER Hotel Paris Porte de Vincennes",
+      "address": "37 Boulevard Carnot, 75012 Paris, France",
+      "originalSourceUrl": "https://help-center.meininger-hotels.com/fr/support/solutions/articles/79000143507-se-rendre-au-meininger-hotel-paris-porte-de-vincennes",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            48.8433616,
+            2.4131235
+          ],
+          "street": "Boulevard Carnot",
+          "houseNumber": "37",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/1438759343",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_3199845",
+      "city": "grindelwald",
+      "name": "Hotel Gletscherblick Grindelwald",
+      "address": "Kirchbühlstrasse 14, 3818 Grindelwald, Switzerland",
+      "originalSourceUrl": "https://jungfrauregion.swiss/en/footer/detail-footer/hotel-gletscherblick-793447b2-bd07-4f87-9de8-a33651eacaa1.html",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            46.6279305,
+            8.0472519
+          ],
+          "street": "Kirchbühlstrasse",
+          "houseNumber": "14",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/way/278638380",
+          "precision": "osm_building_or_area_centroid"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_15315821",
+      "city": "kandersteg",
+      "name": "Gemmi Hotel & Spa",
+      "address": "Innere Dorfstrasse 199, 3718 Kandersteg, Switzerland",
+      "originalSourceUrl": "https://www.booking.com/hotel/ch/gemmi-kandersteg.de.html",
+      "observedOn": "2026-11-13",
+      "status": "multiple_exact_address_matches",
+      "candidates": [
+        {
+          "point": [
+            46.478744,
+            7.664783
+          ],
+          "street": "Innere Dorfstrasse",
+          "houseNumber": "199",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/way/225204285",
+          "precision": "osm_building_or_area_centroid"
+        },
+        {
+          "point": [
+            46.4788389,
+            7.6648071
+          ],
+          "street": "Innere Dorfstrasse",
+          "houseNumber": "199",
+          "name": "Gemmi-Lodge Backpackers",
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/287359107",
+          "precision": "osm_address_node"
+        },
+        {
+          "point": [
+            46.4785318,
+            7.664836
+          ],
+          "street": "Innere Dorfstrasse",
+          "houseNumber": "199a",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/way/478404553",
+          "precision": "osm_building_or_area_centroid"
+        }
+      ],
+      "reason": "More than one OSM object shares the same house number; manual inspection needed."
+    },
+    {
+      "id": "research:bcom_9893804",
+      "city": "kandersteg",
+      "name": "Swiss Alps Lodge",
+      "address": "Innere Arelestrasse 23, 3718 Kandersteg, Switzerland",
+      "originalSourceUrl": "https://www.booking.com/hotel/ch/swiss-alps-lodge.de.html",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            46.499034,
+            7.6736161
+          ],
+          "street": "Innere Arelestrasse",
+          "houseNumber": "23",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/way/228151540",
+          "precision": "osm_building_or_area_centroid"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_5391301",
+      "city": "kandersteg",
+      "name": "Büelbad Relax Holiday Apartment",
+      "address": "Äussere Dorfstrasse 168, 3718 Kandersteg, Switzerland",
+      "originalSourceUrl": "https://www.booking.com/hotel/ch/buelbad-relax-holiday-apartment.de.html",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            46.5049622,
+            7.6791179
+          ],
+          "street": "Aeussere Dorfstrasse",
+          "houseNumber": "168",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/way/1340524007",
+          "precision": "osm_building_or_area_centroid"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_14072122",
+      "city": "appenzell",
+      "name": "Wohnhaus Münzmühle in Appenzell",
+      "address": "Enggenhüttenstrasse 72, 9050 Appenzell, Switzerland",
+      "originalSourceUrl": "https://www.appenzell.ch/de/service/unterkuenfte.html?cHash=01a8f5bc22f33ac70ed32d50a3686c74&tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Bcontroller%5D=Housing&tx_wstourismus_tourismus%5Bhousing%5D=957",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            47.3391299,
+            9.394379
+          ],
+          "street": "Enggenhüttenstrasse",
+          "houseNumber": "72",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/way/243544064",
+          "precision": "osm_building_or_area_centroid"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_7584624",
+      "city": "appenzell",
+      "name": "Blattenheimat traditionelles Appenzeller Haus",
+      "address": "Blattenheimatstrasse 8, 9050 Appenzell, Switzerland",
+      "originalSourceUrl": "https://www.appenzell.ch/de/unterkunft/ferien-wohnungen/ferienwohnung-blattenheimat-og2.html",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            47.3323808,
+            9.4065075
+          ],
+          "street": "Blattenheimatstrasse",
+          "houseNumber": "8",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/way/242538994",
+          "precision": "osm_building_or_area_centroid"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_4032998",
+      "city": "sete",
+      "name": "Le Pouffre maison de pêcheur",
+      "address": "85 Grande Rue Haute, 34200 Sète, France",
+      "originalSourceUrl": "https://www.lepouffre.com/contact/",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "local:food-v03-015",
+      "city": "genoa",
+      "name": "Cavour modo21",
+      "address": "Piazza Cavour 21r, 16128 Genova, Italy",
+      "originalSourceUrl": "https://modo21.it/ristorazione/come-prenotare-da-cavour-modo21/",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "local:food-v03-019",
+      "city": "venice",
+      "name": "Bacarino",
+      "address": "Salizada San Giovanni Grisostomo 5755, 30121 Venezia, Italy",
+      "originalSourceUrl": "https://www.tripadvisor.it/Restaurant_Review-g187870-d33473744-Reviews-Bacarino_Venezia-Venice_Veneto.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_4482736",
+      "city": "genoa",
+      "name": "Colombo House e L'isola che non c'è",
+      "address": "Via Colombo 6, 16121 Genova, Italy",
+      "originalSourceUrl": "https://www.booking.com/hotel/it/colombo-house-genova.it.html",
+      "observedOn": "2026-11-13",
+      "status": "multiple_exact_address_matches",
+      "candidates": [
+        {
+          "point": [
+            44.4060338,
+            8.9441309
+          ],
+          "street": "Via Colombo",
+          "houseNumber": "6",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/566285675",
+          "precision": "osm_address_node"
+        },
+        {
+          "point": [
+            44.4060863,
+            8.9437995
+          ],
+          "street": "Via Colombo",
+          "houseNumber": "6 rosso",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/5553202196",
+          "precision": "osm_address_node"
+        },
+        {
+          "point": [
+            44.3857648,
+            9.0223504
+          ],
+          "street": "Via dei Colombo",
+          "houseNumber": "6",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/4012297159",
+          "precision": "osm_address_node"
+        },
+        {
+          "point": [
+            44.5332852,
+            9.0118539
+          ],
+          "street": "Via Cristoforo Colombo",
+          "houseNumber": "6",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/5284002730",
+          "precision": "osm_address_node"
+        },
+        {
+          "point": [
+            44.3889595,
+            8.6443527
+          ],
+          "street": "Via Cristoforo Colombo",
+          "houseNumber": "6",
+          "name": "Spinnaker",
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/5339578371",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "More than one OSM object shares the same house number; manual inspection needed."
+    },
+    {
+      "id": "research:bcom_16054934",
+      "city": "venice",
+      "name": "Angela's Rooms - 10 minutes from VENICE",
+      "address": "Quartiere S. Teodoro 41/1, 30173 Venezia, Italy",
+      "originalSourceUrl": "https://www.booking.com/hotel/it/angelas-rooms.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_16827286",
+      "city": "genoa",
+      "name": "Ca' du Pitta Old Town Genoa apartment",
+      "address": "Vico delle Cinque Lampadi 1/5A, 16123 Genova, Italy",
+      "originalSourceUrl": "https://www.booking.com/hotel/it/ca-du-pitta-a-stay-in-the-heart-of-genoa.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_12257788",
+      "city": "genoa",
+      "name": "A due passi dalla Lanterna",
+      "address": "Via Giuseppe Ratti 4, 16126 Genova, Italy",
+      "originalSourceUrl": "https://www.booking.com/hotel/it/paolo-apartment-genova.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_6592678",
+      "city": "venice",
+      "name": "CASA MODERNA A DUE PASSI DA RIALTO",
+      "address": "Calle Varisco 5461, Cannaregio, 30121 Venezia, Italy",
+      "originalSourceUrl": "https://www.booking.com/hotel/it/casa-moderna-a-due-passi-da-rialto.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_13963152",
+      "city": "genoa",
+      "name": "Cittadella 3",
+      "address": "Scalinata della Cittadella 2, 16126 Genova, Italy",
+      "originalSourceUrl": "https://www.booking.com/hotel/it/cittadella-3.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_16062567",
+      "city": "venice",
+      "name": "Ca' Parco",
+      "address": "Cannaregio 440/A, 30121 Venezia, Italy",
+      "originalSourceUrl": "https://www.booking.com/hotel/it/ca-parco-venezia.de.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_14807211",
+      "city": "venice",
+      "name": "Ca' Mercati Mestre Una camera",
+      "address": "Via Monte Piana 38, 30171 Venezia Mestre, Italy",
+      "originalSourceUrl": "https://www.booking.com/hotel/it/appartamento-x-vacanze-ca-mercati.html",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            45.4858474,
+            12.2279601
+          ],
+          "street": "Via Monte Piana",
+          "houseNumber": "38",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/9688346302",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_6206017",
+      "city": "venice",
+      "name": "beautiful house in Venice",
+      "address": "Calle Zancani 2423, Cannaregio, 30121 Venezia, Italy",
+      "originalSourceUrl": "https://www.booking.com/hotel/it/beautiful-house-in-venice.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_9743748",
+      "city": "genoa",
+      "name": "Appartamento in centro",
+      "address": "Via Carlo Barabino 2, 16129 Genova, Italy",
+      "originalSourceUrl": "https://www.booking.com/hotel/it/appartamento-in-centro-genova.it.html",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            44.3993335,
+            8.9519068
+          ],
+          "street": "Via Carlo Barabino",
+          "houseNumber": "2",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/1467011385",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_12769785",
+      "city": "sete",
+      "name": "Le Chic-Cadre Royal-Centre ville",
+      "address": "Rue de Tunis 12, 34200 Sète, France",
+      "originalSourceUrl": "https://www.booking.com/hotel/fr/le-chic-cadre-royal-centre-ville.de.html",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            43.4052264,
+            3.7000343
+          ],
+          "street": "Rue de Tunis",
+          "houseNumber": "12",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/6216514521",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_16577964",
+      "city": "sete",
+      "name": "Charmant T2 avec terrasse au coeur de Sète",
+      "address": "Rue de la Liberté 21, 34200 Sète, France",
+      "originalSourceUrl": "https://www.booking.com/hotel/fr/charming-two-rooms-appartment-with-terrace-and-view.fr.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_4231096",
+      "city": "sete",
+      "name": "L'Eternel Estivant",
+      "address": "Promenade Jean-Baptiste Marty 26, 34200 Sète, France",
+      "originalSourceUrl": "https://www.booking.com/hotel/fr/l-39-eternel-estivant.fr.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_4664508",
+      "city": "sete",
+      "name": "LOFT COCON EN PLEIN CENTRE DE SETE",
+      "address": "Rue Pierre Semard 42bis, 34200 Sète, France",
+      "originalSourceUrl": "https://www.booking.com/hotel/fr/loft-cocon-en-plein-centre-de-sete.fr.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_12902044",
+      "city": "sete",
+      "name": "Appartement au cœur de la Marina",
+      "address": "Rue du Grand Large 8, 34200 Sète, France",
+      "originalSourceUrl": "https://www.booking.com/apartments/city/fr/sete.fr.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_9923338",
+      "city": "sete",
+      "name": "Jolie maison de pêcheur - La Pointe Courte",
+      "address": "Rue de la Pétanque 11, 34200 Sète, France",
+      "originalSourceUrl": "https://www.booking.com/hotel/fr/jolie-maison-de-pecheur-la-pointe-courte.de.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_10404998",
+      "city": "sete",
+      "name": "Maison quartier pointe-courte à Sète",
+      "address": "Traverse des Rameurs 19, 34200 Sète, France",
+      "originalSourceUrl": "https://www.booking.com/hotel/fr/maison-quartier-pointe-courte-a-sete.de.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_17509626",
+      "city": "nice",
+      "name": "Cocooning - Wifi Parking",
+      "address": "Rue Marie Bashkirtseff 27, 06200 Nice, France",
+      "originalSourceUrl": "https://www.booking.com/hotel/fr/cocooning-wifi-parking.de.html",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            43.6752296,
+            7.2245363
+          ],
+          "street": "Rue Marie Bashkirtseff",
+          "houseNumber": "27",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/13444796626",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_16340567",
+      "city": "grindelwald",
+      "name": "Chalet Amaryllis Eiger View Apartment",
+      "address": "Wychelstrasse 40, 3818 Grindelwald, Switzerland",
+      "originalSourceUrl": "https://www.booking.com/hotel/ch/chalet-amaryllis-grindelwald.html",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            46.6271724,
+            8.0176496
+          ],
+          "street": "Wychelstrasse",
+          "houseNumber": "40",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/way/320821425",
+          "precision": "osm_building_or_area_centroid"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_789575",
+      "city": "grindelwald",
+      "name": "Ferienwohnung im Grünen",
+      "address": "Brandeggstrasse 21, 3818 Grindelwald, Switzerland",
+      "originalSourceUrl": "https://www.booking.com/hotel/ch/ferienwohnung-im-roth.de.html",
+      "observedOn": "2026-11-13",
+      "status": "multiple_exact_address_matches",
+      "candidates": [
+        {
+          "point": [
+            46.6131003,
+            8.0164057
+          ],
+          "street": "Brandeggstrasse",
+          "houseNumber": "21",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/way/322885191",
+          "precision": "osm_building_or_area_centroid"
+        },
+        {
+          "point": [
+            46.6131056,
+            8.0160489
+          ],
+          "street": "Brandeggstrasse",
+          "houseNumber": "21a",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/way/322885193",
+          "precision": "osm_building_or_area_centroid"
+        }
+      ],
+      "reason": "More than one OSM object shares the same house number; manual inspection needed."
+    },
+    {
+      "id": "research:bcom_12518316",
+      "city": "appenzell",
+      "name": "Ferienwohnung Bärli Appenzell",
+      "address": "Gaiserstrasse 1, 9050 Appenzell, Switzerland",
+      "originalSourceUrl": "https://bookitbutton.booking.com/hotel/ch/ferienwohnung-barli-appenzell-appenzell.de.html",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            47.3312549,
+            9.4111926
+          ],
+          "street": "Gaiserstrasse",
+          "houseNumber": "1",
+          "name": "Bärli",
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/way/240649870",
+          "precision": "osm_building_or_area_centroid"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    },
+    {
+      "id": "research:bcom_16984449",
+      "city": "genoa",
+      "name": "Frappi house front of the aquarium",
+      "address": "Via San Luca 4/12c, 16124 Genova, Italy",
+      "originalSourceUrl": "https://www.viamichelin.com/maps/hotels/poi/genoa-16124-f699302e",
+      "observedOn": "2026-11-13",
+      "status": "multiple_exact_address_matches",
+      "candidates": [
+        {
+          "point": [
+            44.4099257,
+            8.9299011
+          ],
+          "street": "Via San Luca",
+          "houseNumber": "4",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/5139914226",
+          "precision": "osm_address_node"
+        },
+        {
+          "point": [
+            44.4094709,
+            8.9299213
+          ],
+          "street": "Via San Luca",
+          "houseNumber": "4 rosso",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/5139914262",
+          "precision": "osm_address_node"
+        },
+        {
+          "point": [
+            44.4071441,
+            8.951318
+          ],
+          "street": "Via Luca Cambiaso",
+          "houseNumber": "4 rosso",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/5194891868",
+          "precision": "osm_address_node"
+        },
+        {
+          "point": [
+            44.4071653,
+            8.9513416
+          ],
+          "street": "Via Luca Cambiaso",
+          "houseNumber": "4a rosso",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/5194891867",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "More than one OSM object shares the same house number; manual inspection needed."
+    },
+    {
+      "id": "research:bcom_17205591",
+      "city": "venice",
+      "name": "4 Venice rooms Hotel Piazza Ferretto",
+      "address": "Corte Marin Sanudo 15, 30174 Venezia Mestre, Italy",
+      "originalSourceUrl": "https://www.booking.com/hotel/it/4-venice-rooms-piazza-ferretto-m9-museum-duomo-teatro-toniolo-airport-wi-fi-cent.de.html",
+      "observedOn": "2026-11-13",
+      "status": "no_exact_address_match",
+      "candidates": [],
+      "reason": "No exact street and building number match; never substitute city centre."
+    },
+    {
+      "id": "research:bcom_12284646",
+      "city": "venice",
+      "name": "Alloggi Ca'Vignotto Sant Erasmo Venezia",
+      "address": "Via dei Forti 71, Sant'Erasmo, Venezia, Italy",
+      "originalSourceUrl": "https://gratis-4659839.webadorsite.com/",
+      "observedOn": "2026-11-13",
+      "status": "multiple_exact_address_matches",
+      "candidates": [
+        {
+          "point": [
+            45.4567085,
+            12.4159321
+          ],
+          "street": "Via dei Forti",
+          "houseNumber": "71",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/13408752343",
+          "precision": "osm_address_node"
+        },
+        {
+          "point": [
+            45.4564213,
+            12.4162925
+          ],
+          "street": "Via dei Forti",
+          "houseNumber": "71",
+          "name": "Ca' Vignotto",
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/4824492222",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "More than one OSM object shares the same house number; manual inspection needed."
+    },
+    {
+      "id": "research:bcom_11815614",
+      "city": "nice",
+      "name": "APPARTEMENT-NICE 01 VUE MER - PANORAMIQUE",
+      "address": "Voie Romaine 69, 06000 Nice, France",
+      "originalSourceUrl": "https://www.bedandbreakfast.eu/en/a/0ocZlmQPiBlJ/appartement-nice-01-vue-mer-panoramique-wifi-parking-climatisation",
+      "observedOn": "2026-11-13",
+      "status": "unique_exact_street_number_match",
+      "candidates": [
+        {
+          "point": [
+            43.720641,
+            7.280377
+          ],
+          "street": "Voie Romaine",
+          "houseNumber": "69",
+          "name": null,
+          "overlap": 1,
+          "osmRef": "https://www.openstreetmap.org/node/13448169206",
+          "precision": "osm_address_node"
+        }
+      ],
+      "reason": "Matching street and house number on OSM; frontage/room not independently verified."
+    }
+  ]
+}

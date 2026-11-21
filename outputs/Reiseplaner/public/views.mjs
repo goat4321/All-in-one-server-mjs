@@ -1,20 +1,66 @@
+import { railReviewTimeline } from './rail-review-timeline.mjs';
+import { surveyV19DayPanel, surveyV19RailPanel, surveyV19FoodPanel, surveyV19BudgetPanel } from './survey-v19-ui.mjs';
+import {v20RailStatus,v20FoodResearch} from './research-v20-ui.mjs';
+import {renderDataPage} from './data-page.mjs';
+import {mapPinsPanel} from './map-pins.mjs';
+import {renderHeaderHud,renderDayHud,renderMapHud,mapSelectionEvidence} from './travel-hud.mjs';
+import {mapDayAgenda,mapImageIntro,mapFloatingControls,mapPhotoDiscovery} from './reference-map-scene.mjs';
+import {fieldNoteStrip} from './field-notes-ui.mjs';
+import { routeSketch } from './route-mini-map.mjs';
+import { destinationIllustration } from './destination-illustration.mjs';
+import { providerQuotePanel } from './provider-quotes-v13.mjs';
+import { readinessOverview } from './readiness-panel.mjs';
+import { optionMatchesFilter, smartFilterHelp } from './smart-filters.mjs';
+import { dailyBudgetHtml } from './daily-budget.mjs';
+import { guideMarkup } from './tutorial.mjs';
+import { googleMapsSearchUrl, googleMapsSearchLabel, googleMapsDirectionsUrl, googleMapsLocationStatus } from './google-maps.mjs';
 import { categories, budgetBreakdown, calculateBudget, activeItems, conflicts, groupPrice, groceryBasket, interrail, localParts, mealDate, mealEstimate, money, ticketBreakEven, dateRange, planReadiness } from './model.mjs';
 import { icon, esc, shortDay, longDay, dateText, dateLabel, status, btn, iconBtn, chip, empty, alert, categoryIcon, cost, unit, urlLink, sourceList, timeText, transitPlanners } from './ui.mjs';
 import { transitFares, transitNetworks } from './transit.mjs';
 import { railSalesStatus, reviewProgress } from './verification.mjs';
 import { official2027Notices } from './official-rules-2027.mjs';
-import { EXPLORER_GROUPS, explorerDetail } from './map-explorer.mjs';
+import { EXPLORER_GROUPS, explorerDetail, explorerCategory } from './map-explorer.mjs';
+import {markerProvenance} from './poi-location-provenance.mjs';
+import {mapViewSummary} from './map-view-summary-v72.mjs';
+import {hikingMapPanel} from './hiking.mjs';
+import {plansForSlot,currentMeals} from './meal-planner.mjs';
+import {mealDayOverview,mealFlowSummary,stapleComparison,shoppingStopButton} from './meal-planner-ui.mjs';
+import {marketBasketPanel} from './market-basket-ui-v86.mjs';
+import {table} from './ui.mjs';
 import { explorerToolbar, explorerList, explorerDayStrip } from './explorer-ui.mjs';
+import { dayRouteView } from './day-route-ui.mjs';
+import {foodDirectory,marketCoverage} from './food-discovery-v36.mjs';
+import {activityDirectory} from './activity-directory.mjs';
+import {mapUnlocatedReview,mapUnverifiedPointsReview} from './map-unlocated-v39.mjs';
+import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
+  mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
+import {dayPlanPanel,dayPlanOverview,dayPlanQuickBar} from './day-plans-ui.mjs';
+import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
+import {swissLodgingSummaryV83,swissLodgingCompareV83,swissLodgingRailNoteV83} from './swiss-lodging-v83.mjs';
+import {swissDatedSearchBoardV84,swissRailPrecisionV84} from './swiss-dated-search-v84.mjs';
+import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
+import { dayPeriod,planCostSignal } from './visual-experience.mjs';
+import { curatedPlacePhoto } from './curated-place-photos.mjs';
+import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
+import { stayComparisonBoard } from './stay-compare-ui.mjs';
+import {stayFacetControls,stayMatchesFacets,stayCancellationLabel} from './stay-facets.mjs';
+import { voteSnippet, groupVoteBoard } from './group-vote.mjs';
+import { assessStay, sortStayOptions, kitchenAccess } from './stay-analysis.mjs';
+import { auditInterrailRoute, railAlternativeStatus } from './rail-analysis.mjs';
 
+const navSections=[
+  {title:'Planung', ids:['overview','plan','map']},
+  {title:'Reise organisieren', ids:['activities','discover','lodging','rail','food']},
+  {title:'Verwalten', ids:['budget','group','data']}
+];
+const mobileTabs=['overview','plan','map','activities','lodging','food'];
 const tabs = [
   ['overview', 'Übersicht', 'compass'], ['plan', 'Tagesplan', 'calendar'], ['map', 'Karte', 'map'],
-  ['rail', 'Bahn & Interrail', 'train'], ['lodging', 'Unterkünfte', 'bed'], ['discover', 'Entdecken', 'pin'],
+  ['rail', 'Bahn & Interrail', 'train'], ['lodging', 'Unterkünfte', 'bed'], ['activities', 'Aktivitäten', 'compass'], ['discover', 'Entdecken', 'pin'],
   ['food', 'Verpflegung', 'food'],
   ['budget', 'Budget', 'wallet'], ['group', 'Reisegruppe', 'people'], ['data', 'Daten & Fristen', 'folder'],
 ];
 const heading = (title, note, actions = '') => '<header class="page-head"><div><h1>' + esc(title) + '</h1><p>' + esc(note) + '</p></div><div class="section-actions">' + actions + '</div></header>';
-const table = (labels, rows) => '<div class="table-wrap panel"><table><thead><tr>' + labels.map(l => '<th scope="col">' + esc(l) + '</th>').join('')
-  + '</tr></thead><tbody>' + rows.map(cells => '<tr>' + cells.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>';
 const stat = (label, value, note = '') => '<div class="panel stat"><small>' + esc(label) + '</small><strong>' + esc(value) + '</strong>' + (note ? '<p>' + esc(note) + '</p>' : '') + '</div>';
 
 export function renderShell(ctx) {
@@ -24,11 +70,33 @@ export function renderShell(ctx) {
   const places = [...new Set(trip.route)];
   const currentTitle = variant.state.title ?? trip.title;
   const sourceNotice = trip.dataMode === 'research_seed_fallback'
-    ? '<div class="alert" role="status">Nur Forschungsdaten verfügbar: Die privaten Tripsy-Originaldateien fehlen in diesem Projektordner. Termine, Quellenbezüge und Buchungsdetails sind unvollständig. Es wurden keine Buchungen oder Live-Fahrpläne importiert.</div>'
+    ? '<details class="source-notice"><summary>'+icon('alert')
+      +'<strong>Forschungsstand · Reisedaten teilweise unvollständig</strong><span>Mehr erfahren</span></summary>'
+      +'<p>Nur Forschungsdaten verfügbar: Die privaten Tripsy-Originaldateien fehlen in diesem Projektordner. Termine, Quellenbezüge und Buchungsdetails sind unvollständig. Es wurden keine Buchungen oder Live-Fahrpläne importiert.</p></details>'
     : '';
-  const activeNav = tabs.map(([id, label, symbol]) => '<button type="button" class="nav-btn" data-action="page" data-value="' + id
-    + '" aria-current="' + (page === id ? 'page' : 'false') + '">' + icon(symbol) + esc(label) + '</button>').join('');
-  return `<div class="shell"><aside class="sidebar ${menu ? 'open' : ''}" aria-label="Reisenavigation">
+  const activeNav=navSections.map(section=>
+    '<section class="sidebar-section"><div class="side-label">'+esc(section.title)+'</div><nav aria-label="'+esc(section.title)+'">'
+    +section.ids.map(id=>{
+      const tab=tabs.find(t=>t[0]===id);
+      return '<button type="button" class="nav-btn" data-action="page" data-value="'+id
+        +'" aria-current="'+(page===id?'page':'false')+'">'+icon(tab[2])+'<span>'+esc(tab[1])+'</span></button>';
+    }).join('')+'</nav></section>').join('');
+  const referenceNav='<div class="reference-nav-brand"><button type="button" class="reference-brand-menu" data-action="menu" aria-label="Reisevarianten und weitere Seiten öffnen">'
+    +icon('menu')+'</button><strong>Reiseplaner</strong></div>'
+    +'<nav class="reference-main-nav" aria-label="Reise-Navigation">'
+    +'<button type="button" data-action="page" data-value="map" aria-current="'+(page==='map'?'page':'false')+'">'+icon('pin')+'<span>Reise</span></button>'
+    +'<button type="button" data-action="page" data-value="discover" aria-current="'+(page==='discover'||page==='activities'?'page':'false')+'">'+icon('compass')+'<span>Entdecken</span></button>'
+    +'<button type="button" data-action="nav-saved" aria-pressed="'+Boolean(page==='map'&&ctx.explorer?.savedOnly)+'">'+icon('bookmark')+'<span>Merkliste</span></button>'
+    +'</nav><label class="reference-global-search"><span class="sr-only">Reiseorte durchsuchen</span>'
+    +icon('search')+'<input id="reference-top-search" type="search" maxlength="100" autocomplete="off"'
+    +' value="'+esc(ctx.mapSearch??'')+'" placeholder="Ziele, Orte, Aktivitäten suchen …"></label>';
+  const mobileDock='<nav class="mobile-dock" aria-label="Schnellnavigation">'
+    +mobileTabs.map(id=>{
+      const tab=tabs.find(t=>t[0]===id);
+      return '<button type="button" data-action="page" data-value="'+id
+        +'" aria-current="'+(page===id?'page':'false')+'">'+icon(tab[2])+'<span>'+esc(tab[1])+'</span></button>';
+    }).join('')+'</nav>';
+  return `<div class="shell reference-travel-shell ${page==='map'&&ctx.mapSimple?'simple-map-mode':''} ${page==='map'?'is-map-page':'is-content-page'}"><aside class="sidebar ${menu ? 'open' : ''}" aria-label="Reisenavigation">
     <div class="brand"><span class="brandmark">${icon('train')}</span> Reiseplaner</div>
     <div class="sidebar-inner">
       <div class="side-label">Reisevariante</div>
@@ -36,33 +104,81 @@ export function renderShell(ctx) {
         const base = ctx.catalog.trips.find(t => t.id === v.base);
         return '<option value="' + esc(v.id) + '"' + (v.id === variant.id ? ' selected' : '') + '>' + esc(v.state.title ?? base.title) + '</option>';
       }).join('')}</select><small>${dateLabel(trip.from, trip.to)} · ${variant.state.people.length} Reisende</small></div>
-      <nav aria-label="Module">${activeNav}</nav>
-      <div class="side-label">Reiseorte</div>
+      ${activeNav}
+      <details class="sidebar-places" ${ctx.cityNavOpen?'open':''}><summary>Reiseorte <span>${places.length}</span></summary>
       <nav aria-label="Reiseorte">${places.map(id => '<button type="button" class="city-btn" data-action="city" data-value="' + id
         + '" aria-current="' + (city === id) + '"><span class="dot"></span>' + esc(cities[id]?.name ?? id) + '</button>').join('')}</nav>
+      </details>
     </div>
-    <div class="sidebar-bottom">${icon('lock')} <span>Privat auf diesem Gerät</span></div>
-  </aside><div class="main-column"><header class="topbar">
+    <div class="sidebar-bottom">${icon('lock')} <span>Privat auf diesem Gerät</span>
+      <button type="button" class="motion-preference-button" data-action="map-motion"
+        data-value="${ctx.mapMotion==='off'?'on':'off'}"
+        aria-pressed="${ctx.mapMotion!=='off'}"
+        aria-label="${ctx.mapMotion==='off'?'Animationen aktivieren':'Animationen deaktivieren'}">
+        ${icon('spark')} ${ctx.mapMotion==='off'?'Animationen einschalten':'Animationen ausschalten'}
+      </button>
+    </div>
+  </aside><div class="main-column"><header class="topbar reference-topbar">
+    ${referenceNav}
     <div class="crumb"><span class="mobile-menu">${iconBtn('menu', 'Navigation öffnen', 'menu')}</span><strong>${esc(currentTitle)}</strong>${icon('chevron')}<span>${esc(tabTitle)}</span></div>
-    <div class="top-actions"><span class="status-icon">${saving ? 'Speichert …' : 'Lokal gespeichert'}</span>
+    ${renderHeaderHud(ctx)}
+    <div class="top-actions"><nav class="topbar-shortcuts" aria-label="Schnellzugriff">
+      <button type="button" data-action="page" data-value="plan" aria-current="${page==='plan'?'page':'false'}">${icon('calendar')} Tag</button>
+      <button type="button" data-action="page" data-value="map" aria-current="${page==='map'?'page':'false'}">${icon('map')} Karte</button>
+      <button type="button" data-action="page" data-value="lodging" aria-current="${page==='lodging'?'page':'false'}">${icon('bed')} Unterkünfte</button>
+      <button type="button" data-action="page" data-value="food" aria-current="${page==='food'?'page':'false'}">${icon('food')} Verpflegung</button>
+    </nav><span class="status-icon">${saving ? 'Speichert …' : 'Lokal gespeichert'}</span>
+    <button type="button" class="guide-launch" data-action="guide-start" aria-label="Interaktive Tour starten" title="Interaktive Tour starten">${icon('spark')}<span>Tour</span></button>
     ${iconBtn('theme', theme === 'dark' ? 'Helles Design' : 'Dunkles Design', theme === 'dark' ? 'sun' : 'moon')}
     ${iconBtn('undo', 'Letzte Änderung rückgängig', 'reset')}
     ${iconBtn('page', 'Daten importieren', 'upload', 'data')}</div>
-  </header><main class="workspace" id="main">${sourceNotice}${content(ctx, cityName)}</main></div></div>`;
+  </header><main class="workspace" id="main">${page==='map'?'':sourceNotice}${content(ctx, cityName)}${page==='map'?sourceNotice:''}</main>${guideMarkup(ctx.guideIndex)}</div>${mobileDock}</div>`;
 }
 
 function content(ctx, city) {
   switch (ctx.page) {
     case 'overview': return overview(ctx);
-    case 'map': return heading('Karten-Explorer', 'Alle Orte, Unterkünfte, Restaurants und Aktivitäten der Reise auf einer Karte')
-      + explorerDayStrip(ctx) + explorerToolbar(ctx) + mapPanel(ctx, true) + explorerList(ctx);
-    case 'rail': return rail(ctx);
+    case 'map': return mapImageIntro(ctx)
+      + '<div class="map-explorer-split reference-map-workspace'+(ctx.mapFullscreen
+         ?' map-fullscreen-mode'+(ctx.mapFullscreenDrawer?' fullscreen-drawer-open':''):'')
+       +'" aria-label="Orte, Karte und Reiseplanung">'
+      + '<div class="reference-stage-days">'+mapBrowseModes(ctx)
+      +(ctx.explorer?.scope==='day'?explorerDayStrip(ctx):'')+'</div>'
+      + mapPanel(ctx, true) + '<div class="explorer-right" id="map-fullscreen-drawer" aria-label="Kategorien, Orte und Tagesplanung">'
+       +'<div class="map-fullscreen-drawer-heading"><strong>Orte & Filter</strong>'
+       +'<button type="button" data-action="map-fullscreen-drawer" aria-label="Orte und Filter schließen">'
+       +icon('close')+'</button></div>'
+      +hikingMapPanel(ctx)
+      +mapPinsPanel(ctx)
+      +(ctx.explorer?.scope==='day'?mapDayAgenda(ctx):'')
+      +(ctx.explorer?.scope==='day'
+        ?'<details class="map-day-more"><summary>'+icon('calendar')
+          +'<span>Tagesplanung & Hinweise</span>'+icon('chevron')+'</summary>'
+          +dayPlanPanel(ctx,{compact:true})+fieldNoteStrip(ctx)+'</details>'
+        :'<details class="map-category-discovery"><summary>'+icon('compass')
+          +'<span>Kategorien & weitere Inspiration</span>'+icon('chevron')+'</summary>'
+          +mapBrowsePanel(ctx)+'</details>')
+      + '<details class="reference-places-drawer"'
+      +(ctx.mapFullscreen||ctx.mapListOpen||ctx.mapSearch||ctx.explorer?.search?' open':'')
+      +'><summary>'+icon('compass')+'<span>Alle Orte, Filter und Quellen</span>'
+      +'<small>'+((ctx.explorer?.placed.length??0)+(ctx.explorer?.unlocated.length??0))+' passende Einträge</small>'+icon('chevron')+'</summary>'
+      + explorerToolbar(ctx) + explorerList(ctx) + '</details></div>'
+      + mapPhotoDiscovery(ctx) + '</div>'
+      + mapUnlocatedReview(ctx) + mapUnverifiedPointsReview(ctx) + dayRouteView(ctx);
+    case 'rail': return rail(ctx) + surveyV19RailPanel(ctx) + v20RailStatus(ctx);
     case 'lodging': return options(ctx, true);
     case 'discover': return options(ctx, false);
-    case 'food': return food(ctx);
-    case 'budget': return budget(ctx);
+    case 'activities': return activityDirectory(ctx);
+    case 'food': return food(ctx)
+      +'<details class="hub-technical-details hub-food-research"'
+      +(ctx.browseFoodResearchOpen?' open':'')+'><summary>'
+      +icon('chevron')+'<span><strong>Weitere Recherche & Quellen</strong>'
+      +'<small>Umfrageauswertung, Betreiberinformationen und Preisbeispiele</small>'
+      +'</span></summary><div class="hub-research-body">'
+      +surveyV19FoodPanel(ctx)+v20FoodResearch(ctx)+'</div></details>';
+    case 'budget': return budget(ctx) + surveyV19BudgetPanel(ctx);
     case 'group': return group(ctx);
-    case 'data': return data(ctx);
+    case 'data': return renderDataPage(ctx);
     default: return plan(ctx, city);
   }
 }
@@ -84,10 +200,12 @@ function plan(ctx, name) {
     <h1>${esc(name)}</h1><div class="hero-meta"><span>${icon('calendar')} ${esc(longDay(date))}</span>
     <span>${icon('people')} ${people.length} Reisende</span><span>${icon('train')} ${esc(ctx.variant.state.title ?? trip.title)}</span></div></div>
     ${btn('show-route', 'Gesamtroute', 'map')}</section>
+    ${renderDayHud(ctx,dayTotal)}
     <div class="subheading"><div><h2>Reiseplan</h2><p>${dateLabel(trip.from, trip.to)} · ${dates.length} Reisetage im Kalender</p></div>
     <div class="mobile-switch" aria-label="Ansicht">${chip('mobile', 'Liste', mobile === 'plan', 'plan', 'list')}${chip('mobile', 'Karte', mobile === 'map', 'map', 'map')}</div></div>
     <div class="days" aria-label="Reisetage">${dates.map(d => '<button type="button" class="day" data-action="day" data-value="' + d + '" aria-pressed="' + (d === date) + '"><strong>' + esc(shortDay(d)) + '</strong><small>' + esc(ctx.cities[ctx.cityForDay(d)]?.name ?? 'Reise') + '</small></button>').join('')}</div>
     ${dayPlaces(ctx)}
+    ${dayPlanQuickBar(ctx)}
     <div class="plan-grid" data-mobile="${mobile}">
       <section class="panel timeline-panel"><div class="panel-head"><div><h2>Tagesablauf</h2><p>${day.length} ${day.length === 1 ? 'Eintrag' : 'Einträge'} · ${dayTotal ? money(dayTotal) + ' erfasst' : 'Kosten zum Teil offen'}</p></div>
       ${iconBtn('add', 'Planeintrag hinzufügen', 'plus')}</div>
@@ -96,6 +214,11 @@ function plan(ctx, name) {
         anchor && first?.from.anchor ? connector(first, routes[0], 0, 'Ab Unterkunft', people.length) : '',
         ...day.map((item, index) => {
           const after = ctx.segments.findIndex(segment => segment.from.entryKey === item.entryKey);
+          const period=dayPeriod(item.time);
+          const lastPeriod=index?dayPeriod(day[index-1].time):null;
+          const periodLabel=period&&period.key!==lastPeriod?.key
+            ?'<div class="timeline-period '+period.key+'">'+icon(period.icon)+'<strong>'+period.title+'</strong></div>':'';
+          const signal=planCostSignal(item,people.length);
           const pinned = selected === item.entryKey;
           const name = item.kind === 'transport' ? item.role + ' · ' + (item.role === 'Ankunft' ? item.arrival : item.departure)
             : item.role ? item.role + ' · ' + item.name : item.name;
@@ -103,19 +226,23 @@ function plan(ctx, name) {
           const place = ctx.wholeDay ? (ctx.cities[item.placeCity]?.name ?? 'Ort offen') + ' · ' : '';
           const line = place + (item.kind === 'transport' ? item.name + (item.mode === 'roadtrip' ? ' · Autofahrt' : ' · Entwurf')
             : duration + (item.tags?.slice(0, 2).join(' · ') || item.category || 'Geplant'));
-          return `<article class="timeline-event"><time>${esc(item.time ?? 'Flexibel')}</time><div class="axis"><span class="number">${index + 1}</span></div>
+          return periodLabel+`<article class="timeline-event"><time>${esc(item.time ?? 'Flexibel')}</time><div class="axis"><span class="number">${index + 1}</span></div>
           <div class="event-card ${pinned ? 'selected' : ''}" data-event-id="${esc(item.id)}" ${!item.locked && !item.booked && item.kind !== 'transport' && item.kind !== 'lodging' ? 'draggable="true"' : ''}>
           <button type="button" class="event-content" data-action="select" data-value="${esc(item.entryKey)}" aria-pressed="${pinned}">
-          <span class="category-icon ${item.category === 'food' ? 'food' : item.kind === 'transport' ? 'train' : ''}">${icon(categoryIcon(item))}</span><div>
-          <h3>${esc(name)} ${item.locked || item.booked ? icon('lock') : ''}</h3><small>${esc(line)}</small></div></button>
-          <button type="button" class="mini-action" data-action="edit" data-value="${esc(item.id)}" aria-label="Bearbeiten: ${esc(item.name)}">${icon('edit')}</button></div></article>`
+          ${placeThumbnailHtml(item,ctx)}<div class="timeline-event-copy">
+          <h3>${icon(categoryIcon(item))}${esc(name)} ${item.locked || item.booked ? icon('lock') : ''}</h3>
+          <small>${esc(line)}</small><span class="timeline-price" title="${esc(signal.note)}">${esc(signal.tier)} · ${esc(signal.amount)}</span></div></button>
+          <button type="button" class="mini-action" data-action="edit" data-value="${esc(item.id)}" aria-label="Bearbeiten: ${esc(item.name)}">${icon('edit')}</button>
+          ${item.kind==='activity'&&!item.booked&&!item.locked
+            ?'<button type="button" class="mini-action timeline-quick-remove" data-action="day-quick-remove" data-value="'+esc(item.id)+'" aria-label="Vom Tag entfernen: '+esc(item.name)+'">'+icon('close')+'</button>'
+            :''}</div></article>`
           + (after >= 0 ? connector(ctx.segments[after], routes[after], after, ctx.segments[after] === last && last.to.anchor ? 'Zur Unterkunft' : '', people.length) : '');
         }),
       ].join('') : empty('Dieser Tag ist noch offen', 'Ergänze einen Termin oder übernimm eine Option aus Entdecken.')}</div>
       ${ctx.wholeDay ? '' : '<div class="insight">' + icon('spark') + '<div><strong>' + (anchor ? 'Unterkunft als Tagesanker' : 'Unterkunft vergleichen') + '</strong><div>'
         + (anchor ? esc(anchor.name) + ' fließt in verfügbare Hin- und Rückwege ein.' : 'Standorte und Gruppenpreise für diesen Aufenthalt ansehen.') + '</div></div></div>'}
       <div class="panel-pad inline">${btn('page', 'Unterkünfte', 'bed', 'lodging')}${btn('page', 'Aktivitäten', 'compass', 'discover')}${btn('page', 'Verpflegung', 'food', 'food')}${day.length > 1 ? btn('optimize', 'Tag prüfen', 'spark') : ''}</div>
-    </section>${mapPanel(ctx)}</div>`;
+    </section>${mapPanel(ctx)}</div>${dayPlanPanel(ctx)}${surveyV19DayPanel(ctx)}`;
 }
 
 function dayPlaces(ctx) {
@@ -129,43 +256,256 @@ function connector(segment, route, index, label, peopleCount) {
     route.metres != null ? (route.metres / 1000).toLocaleString('de-DE', { maximumFractionDigits: 1 }) + ' km' : null,
     route.fare ? money(groupPrice(route.fare, peopleCount), route.fare.currency) + ' für die Gruppe' : null].filter(Boolean).join(' · ')
     : segment.access?.label ?? (segment.from.point && segment.to.point ? 'Weg berechnen' : 'Wegdaten fehlen');
-  return '<button type="button" class="connector" data-action="leg" data-value="' + index + '">' + icon(route?.mode === 'ÖPNV' ? 'train' : 'walk') + esc(label ? label + ' · ' + details : details) + '</button>';
+  return '<div class="journey-connection"><button type="button" class="connector" data-action="leg" data-value="' + index + '">' + icon(route?.mode === 'ÖPNV' ? 'train' : 'walk') + esc(label ? label + ' · ' + details : details) + '</button>'
+    + (urlLink(googleMapsDirectionsUrl(segment.from, segment.to, {}, 'transit'), 'ÖPNV Google Maps') || '') + '</div>';
 }
 
 export function mapDetail(ctx) {
+  // Atlas visitors use the compact overlay, highlighted list card and
+  // explicit full-details dialog. Avoid duplicating entire profiles below
+  // the map (a second panel could make the sticky map taller than viewport).
+  if(ctx.explorer)return '';
   const item = ctx.detail;
   if (!item) return '';
-  const extra = explorerDetail(item, ctx.people.length);
   const rows = ctx.segments.flatMap((segment, index) => [segment.from, segment.to].some(stop => item.entryKey ? stop.entryKey === item.entryKey : stop.id === item.id)
     ? [connector(segment, ctx.routes[index], index, segment.from.name + ' → ' + segment.to.name, ctx.people.length)] : []);
-  const info = item.kind === 'transport' ? timeText(item) : item.duration ? item.duration + ' Min. geplant' : 'Besuchsdauer offen';
-  return `<div class="map-detail" id="point-detail"><div class="inline"><h3>${esc(item.name)}</h3>
-  ${status(item.selected ? 'Im Plan' : 'Alternative', item.selected ? 'green' : '')}</div>
-  <p>${esc(info)} · ${esc(cost(item, ctx.people.length))} gesamt · ${esc(unit(item, ctx.people.length))}</p>
-  ${item.address ? '<p>' + esc(item.address) + '</p>' : ''}
-  ${extra ? '<p>' + esc(extra.description) + '</p><p><strong>Öffnungszeiten:</strong> ' + esc(extra.hours) + '</p>' + extra.extra.map(line => '<p>' + esc(line) + '</p>').join('') : ''}
-  ${item.price?.label ? '<p>Preisreferenz: ' + esc(item.price.label) + '</p>' : ''}
-  <p class="muted">Quellenstand: ${esc(extra?.sourceStatus ?? 'unbestätigt')}</p>
-  ${item.website ? urlLink(item.website, 'Anbieter und weitere Details') : ''}
-  <details class="map-source-details"><summary>Quellen, Abrufdaten und Datenqualität anzeigen</summary>${sourceList(item, ctx.catalog.sources)}</details>
-  ${item.access ? '<p>' + esc(item.access) + '</p>' : ''}
-  ${item.positionIssue ? alert(item.positionIssue) : ''}
-  ${rows.length ? '<div class="local-routes">' + rows.join('').replaceAll('class="connector"', 'class="connector detail-connector"') + '</div>' : ''}
-  <div class="row-actions">${btn('details', 'Quellen & Details', 'folder', item.id)}
-  ${ctx.explorer && item.point ? btn('explorer-start', 'Start hier', 'pin', item.id) + btn('explorer-end', 'Ziel hier', 'arrow', item.id) : ''}
-  ${item.selected ? btn('edit', 'Bearbeiten', 'edit', item.id) : item.kind !== 'transport' ? btn('choose', item.kind === 'lodging' ? 'Aufenthalt wählen' : 'In Tagesplan', 'plus', item.id, 'subtle') : ''}</div></div>`;
+  return '<div class="map-detail" id="point-detail">'
+    + placeProfileHtml(item,ctx,{compact:true})
+    + (item.access ? '<p>' + esc(item.access) + '</p>' : '')
+    + (item.positionIssue ? alert(item.positionIssue) : '')
+    + (item.geoEvidence ? '<p class="muted"><strong>Standortbeleg:</strong> ' + esc(item.geoEvidence.note) + '</p>' : '')
+    + (rows.length ? '<div class="local-routes">' + rows.join('').replaceAll('class="connector"', 'class="connector detail-connector"') + '</div>' : '')
+    + '<div class="row-actions">' + btn('details', 'Alle Quellen & Details', 'folder', item.id)
+    + (ctx.explorer && item.point ? btn('explorer-nearby', 'Im Umkreis', 'target', item.id)
+      + btn('explorer-start', 'Start hier', 'pin', item.id)
+      + btn('explorer-end', 'Ziel hier', 'arrow', item.id) : '')
+    + (item.selected ? btn('edit','Bearbeiten','edit',item.id)
+      : item.kind!=='transport' ? btn('choose',item.kind==='lodging'?'Aufenthalt wählen':'In Tagesplan','plus',item.id,'subtle') : '')
+    + '</div></div>';
+}
+
+// Compact on-map selection works on phones; desktop users also see the
+// corresponding highlighted card in the adjacent scrollable results pane.
+export function mapSelectionPreview(ctx) {
+  if(!ctx.explorer||!ctx.detail?.name)return '';
+  const item=ctx.detail,id=item.explorerId??item.id;
+  const category=EXPLORER_GROUPS[item.explorerCategory]?.label??'Reiseort';
+  const signal=planCostSignal(item,ctx.people.length);
+  const provenance=markerProvenance(item);
+  const locationLabel={
+    sourced:'Quellenpunkt',area:'Gebäude-/Gebietsreferenz',
+    provider:'Anbieterposition prüfen',unverified:'Position prüfen',
+    none:'Standort offen',
+  }[provenance.kind]??'Standort prüfen';
+  const selectedPrice=signal.tier==='€?'?signal.amount:signal.tier+' · '+signal.amount;
+  const bookmarked=ctx.explorer.saved?.has(item.id)??false;
+  const evidenceUrl=String(item.geoEvidence?.url??'');
+  const publicPointLink=(provenance.kind==='area'||provenance.kind==='sourced')
+    &&/^https:\/\/[^\s]+$/.test(evidenceUrl)
+    &&String(item.provider??'').toLowerCase()!=='airbnb'
+    &&!String(item.id??'').startsWith('wishlist:airbnb:');
+  return '<div class="map-selected-place" role="group" aria-label="Ausgewählter Reiseort">'
+    +'<button class="map-selected-dismiss" type="button" data-action="map-clear-selection"'
+    +' aria-label="Ortskarte schließen" title="Schließen">'+icon('close')+'</button>'
+    +placeThumbnailHtml(item,ctx)
+    +'<div class="map-selected-copy"><strong>'+esc(item.name)+'</strong><small>'
+    +esc(ctx.cities[item.city]?.name??item.city)+' · '+esc(category)
+    +' · '+esc(locationLabel)
+    +'</small><small class="map-selected-cost" title="'+esc(signal.note)+'">'
+    +esc(selectedPrice)
+    +(item.time?' · '+esc(item.time):'')+'</small>'
+    +mapSelectionEvidence(item,ctx)
+    +(publicPointLink?'<small class="map-selected-location-source"><a href="'
+      +esc(evidenceUrl)+'" target="_blank" rel="noopener noreferrer">'
+      +'Koordinatenquelle prüfen</a> · Eingang gesondert prüfen</small>':'')
+    +'</div><div class="map-selected-actions">'
+    +btn('explorer-save',bookmarked?'Merken entfernen':'Merken',bookmarked?'check':'bookmark',id)
+    +btn('explorer-list-focus','In Liste','list',id)
+    +btn('details','Details','folder',id)+'</div></div>';
+}
+
+/** Map information hierarchy: one compact truthfully scoped status line,
+ * plus one explicit next action. Does not reinterpret unverified points. */
+function mapContextSummary(ctx){
+ const summary=mapViewSummary(ctx);
+ const tags=summary.filters.map(f=>'<button type="button" class="map-active-filter"'
+   +' data-action="map-remove-filter" data-value="'+esc(f.key)+'"'
+   +' aria-label="Filter '+esc(f.label)+' entfernen" title="Diesen Filter entfernen">'
+   +icon(f.key==='saved'?'bookmark':f.key==='search'?'search':'layers')
+   +'<span>'+esc(f.label)+'</span>'+icon('close')+'</button>').join('');
+ return '<section class="map-context-summary" aria-label="Kartenübersicht und Filterstatus">'
+  +'<div class="map-context-identity"><span class="map-context-kicker">'
+  +icon(summary.scope==='day'?'calendar':summary.scope==='trip'?'map':'pin')
+  +esc(summary.title)+'</span><div class="map-context-count">'
+  +'<strong>'+summary.displayCount+'</strong> '+esc(summary.displayLabel)
+  +(summary.scope==='trip'||summary.viewportLimited?'':summary.unlocated?' · '+summary.unlocated+' ohne Pin':'')
+  +'</div><small class="map-context-help">'+esc(summary.hint)+'</small></div>'
+  +'<div class="map-context-actions">'
+  +(tags?'<div class="map-active-filters" aria-label="Aktive Kartenfilter">'+tags+'</div>':'')
+  +(summary.canClear?'<button class="map-filter-clear" type="button"'
+    +' data-action="map-clear-filters">'+icon('reset')+' Filter zurücksetzen</button>':'')
+  +'<button class="map-find-button" type="button" data-action="map-open-search">'
+  +icon('search')+'<span>Orte durchsuchen</span>'+icon('arrow-right')+'</button>'
+  +'</div></section>';
 }
 
 function mapPanel(ctx, full = false) {
+  const tourCities=[...new Set(ctx.trip.route)].filter(id=>ctx.cities[id]?.point);
+  const tripJourney=ctx.total&&ctx.page==='map'
+    ? '<details class="route-city-showcase" aria-label="Städte der Reiseroute">'
+      + '<summary class="route-city-showcase-head"><strong>Reiseroute entdecken</strong>'
+      + '<span>Reihenfolge aus deiner Planung · Verbindungen schematisch</span></summary>'
+      + '<div class="route-city-steps">'+tourCities.map((id,i)=>
+        '<button type="button" class="route-city-step" data-action="city" data-value="'+esc(id)
+        +'" aria-label="Reiseort '+(i+1)+': '+esc(ctx.cities[id].name)+' öffnen">'
+        +'<span>'+(i+1)+'</span><strong>'+esc(ctx.cities[id].name)
+        +'</strong><small>'
+        +esc(ctx.trip.stayByCity?.[id]?.from
+          ?shortDay(ctx.trip.stayByCity[id].from)
+            +(ctx.trip.stayByCity[id].to?' – '+shortDay(ctx.trip.stayByCity[id].to):'')
+          :'Reiseort')
+        +'</small></button>').join('')+'</div></details>'
+    : '';
   const t = ctx.filters;
   const network = transitNetworks[ctx.city];
   const quickLayer = network?.quick;
   const timetable = ctx.catalog.transitSchedules?.[ctx.city];
   const outside = timetable && (ctx.date < timetable.from || ctx.date > timetable.to);
-  return `<section class="panel map-panel ${full ? 'map-full' : ''}" aria-label="Interaktive Karte">
-    <div class="panel-head"><div><h2>${ctx.total ? 'Gesamtroute' : 'Karte'}</h2>
-    <p>${ctx.total ? 'Originale Reihenfolge · Trassen schematisch' : esc(ctx.wholeDay ? 'Alle Tagesorte' : ctx.cities[ctx.city].name) + ' · ' + esc(shortDay(ctx.date))}</p></div>
-    <div class="inline">${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div></div>
+  const dayRail=ctx.explorer?.scope==='day'&&ctx.day.length
+    ?'<nav class="map-day-rail" aria-label="Zeitfolge der ausgewählten Tagesplanung">'
+      +'<span class="map-day-rail-label">'+icon('clock')+' Im Tagesplan</span>'
+      +'<div class="map-day-rail-track">'+ctx.day.slice(0,9).map((entry,i)=>
+        '<button type="button" class="map-day-stop" data-action="select" data-value="'+esc(entry.entryKey)
+        +'" aria-pressed="'+(ctx.selected===entry.entryKey)+'" title="Planzeit, keine geprüfte Öffnungszeit">'
+        +'<span class="map-day-stop-index">'+(i+1)+'</span><span>'
+        +'<strong>'+esc(entry.time??'Flexibel')+'</strong><small>'+esc(entry.name)+'</small>'
+        +'</span></button>').join('')+'</div>'
+      +(ctx.day.length>9?'<small>+'+(ctx.day.length-9)+' weitere Einträge im Tagesplan</small>':'')+'</nav>'
+    :'';
+  return `<section class="panel map-panel ${full ? 'map-full' : ''} ${ctx.mapExpanded ? 'map-immersive' : ''}" aria-label="Interaktive Karte">
+    <div class="panel-head"><div><h2>${ctx.total?'Gesamte Reiseroute':ctx.explorer?.scope==='day'
+      ?'Tag '+(ctx.dates.indexOf(ctx.date)+1)+' · '+esc(ctx.cities[ctx.city].name)
+      :esc(ctx.cities[ctx.city].name)+' entdecken'}</h2>
+    <p>${ctx.total?'Reiseorte und vorhandene Kartenpunkte · schematische Bahnverbindungen'
+      :ctx.explorer?.scope==='day'
+        ?(ctx.day.length?ctx.day.length+' geplante Stopps':(ctx.dayPlan?.slots.length??0)+' Tagesideen')+' · '+esc(shortDay(ctx.date))
+        :ctx.explorer?.placed.length+' Kartenpunkte · '+ctx.explorer?.unlocated.length+' Ortsangaben ohne Pin'}</p></div>
+    <div class="inline">${ctx.page==='map'?'<button type="button" class="route-story-launch" data-action="route-story-play" title="Deine Reise als animierte Städtefolge ansehen">'+icon('play')+' <span>Route abspielen</span></button>':''}${ctx.page==='map'?'<button type="button" class="map-fullscreen-launch" data-action="map-fullscreen" aria-pressed="'+Boolean(ctx.mapFullscreen)+'">'
+      +icon('map')+' <span>Vollbildkarte</span></button>':''}${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div>${ctx.page==='map'?'<div class="map-local-actions">'+btn('map-pin-new','Eigener Pin','plus','','subtle')+btn('map-fullscreen','Vollbild','map','','subtle')+(ctx.dayRoute?.items.length?btn('day-route-open','Route ('+ctx.dayRoute.items.length+'/8)','walk','','subtle'):'')+'</div>':''}</div>
+    ${ctx.mapPinPicking?'<p class="map-pin-picking" role="status">Punkt auf der Karte wählen. Name und Notiz bleiben erhalten. '+btn('map-pin-cancel','Zur Koordinateneingabe','edit')+'</p>':''}
+    ${!full && !ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
+    ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
+      + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
+      + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
+    <div class="map-wrap" data-map-tone="${esc(ctx.mapTone)}"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div>
+    ${ctx.page==='map'?`<div class="map-fullscreen-ui"><div class="map-fullscreen-toolbar" role="toolbar" aria-label="Vollbildkarte steuern">
+      <div class="map-fullscreen-brand"><small>REISEATLAS</small><strong>${esc(ctx.cities[ctx.city]?.name??ctx.city)}</strong></div>
+      <div class="map-fullscreen-scope" role="group" aria-label="Kartenumfang">
+        ${[['day','Mein Tag'],['city','Stadt'],['trip','Gesamtroute']].map(([id,label])=>
+          '<button type="button" data-action="explorer-scope" data-value="'+id+'" aria-pressed="'
+          +(ctx.explorer?.scope===id)+'">'+label+'</button>').join('')}
+      </div>
+      <button type="button" class="map-story-toolbar-play" data-action="route-story-play" title="Reiseroute abspielen" aria-label="Reiseroute abspielen">${icon('play')}<span>Route abspielen</span></button>
+      ${btn('map-pin-new','Eigener Pin','plus','','subtle')}
+      ${ctx.dayRoute?.items.length?btn('day-route-open','Route ('+ctx.dayRoute.items.length+'/8)','walk','','subtle'):''}
+      <details class="map-fullscreen-city-picker"><summary>${icon('pin')}<span>Ort wechseln</span></summary>
+        <div class="map-fullscreen-city-options" role="group" aria-label="Reiseort auswählen">
+        ${[...new Set(ctx.trip.route)].map(id=>'<button type="button" data-action="city" data-value="'
+          +esc(id)+'" aria-pressed="'+(id===ctx.city)+'">'+esc(ctx.cities[id]?.name??id)+'</button>').join('')}
+        </div></details>
+      <button type="button" class="map-fullscreen-drawer-toggle" data-action="map-fullscreen-drawer"
+        aria-expanded="${Boolean(ctx.mapFullscreenDrawer)}" aria-controls="map-fullscreen-drawer">
+        ${icon('search')}<span>Orte & Filter</span></button>
+      <button type="button" class="map-fullscreen-exit" data-action="map-fullscreen"
+        aria-label="Vollbildkarte schließen" title="Vollbild schließen (Esc)">${icon('close')}<span>Schließen</span></button>
+    </div>
+    <nav class="map-fullscreen-categories" aria-label="Kategorien im Vollbild filtern">
+      ${[['all','Alle'],['activity','Aktivitäten'],['food','Essen'],['lodging','Unterkünfte'],['shop','Einkaufen']]
+        .map(([id,label])=>'<button type="button" data-action="explorer-group" data-value="'+id
+        +'" aria-pressed="'+(ctx.explorer?.group===id)+'">'+esc(label)+'</button>').join('')}
+      <button type="button" class="map-fullscreen-bookmarks" data-action="explorer-saved-only"
+        aria-pressed="${Boolean(ctx.explorer?.savedOnly)}">${icon('bookmark')}<span>Merkliste</span></button>
+    </nav></div>`:''}
+    ${ctx.page==='map'?`<section id="route-story-player" class="route-story-player" hidden
+      aria-label="Animierte Reisevorschau" data-status="idle">
+      <div class="route-story-leading">
+        <span class="route-story-symbol" id="route-story-symbol" aria-hidden="true">🧭</span>
+        <div class="route-story-heading">
+          <span class="route-story-eyebrow" id="route-story-stage">DEINE REISE · STÄDTEFOLGE</span>
+          <strong id="route-story-city">Reiseroute</strong>
+          <small id="route-story-description">Schematische Verbindung, keine Bahngleise</small>
+        </div>
+        <span class="route-story-count" id="route-story-count">0 / 0</span>
+      </div>
+      <div class="route-story-ideas" id="route-story-ideas" hidden
+        aria-label="Vorhandene Aktivitäten, Restaurants und Ideen für diese Stadt">
+        <div class="route-story-ideas-top">
+          <span id="route-story-ideas-count">Orte in deinem Reiseplaner</span>
+          <span class="route-story-ideas-note">Symbole sind illustrativ · keine Ortspositionen</span>
+        </div>
+        <div id="route-story-idea-list" class="route-story-idea-list"></div>
+        <button type="button" class="route-story-ideas-open" data-action="route-story-explore">
+          ${icon('search')}<span>Alle Orte dieser Stadt ansehen</span>${icon('arrow-right')}
+        </button>
+      </div>
+      <div class="route-story-stoprail" id="route-story-stoprail"
+        aria-label="Übersicht aller Städte der Reiseroute"></div>
+      <div class="route-story-progress" role="progressbar" aria-label="Abgespielte Reiseetappen"
+        aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span id="route-story-progress-fill"></span></div>
+      <div class="route-story-actions">
+        <span id="route-story-announcement" role="status" aria-live="polite">Reisevorschau</span>
+        <button type="button" class="route-story-ideas-toggle" data-action="route-story-ideas-toggle"
+          aria-controls="route-story-ideas" aria-expanded="false" aria-label="Ortsideen anzeigen"
+          title="Ortsideen ein- oder ausblenden" hidden>${icon('compass')}<span>Ideen</span></button>
+        <button type="button" class="route-story-pause" data-action="route-story-pause"
+          aria-label="Animation pausieren">${icon('pause')}<span>Pause</span></button>
+        <button type="button" data-action="route-story-speed" title="Abspielgeschwindigkeit" aria-label="Abspielgeschwindigkeit ändern">1×</button>
+        <button type="button" data-action="route-story-play" title="Vom Anfang starten" aria-label="Reise erneut abspielen">${icon('reset')}</button>
+        <button type="button" data-action="route-story-stop" title="Animation beenden" aria-label="Animation beenden">${icon('close')}</button>
+      </div>
+      <small class="route-story-disclaimer">Verlauf nur schematisch · keine reale Zugstrecke oder Fahrplanbestätigung</small>
+    </section>`:''}
+    <div class="map-source-indicator" id="map-source-indicator" data-state="loading" role="status" aria-live="polite">
+      <span id="map-source-label">Kostenlose Karte wird geladen …</span>
+      <button type="button" class="map-source-retry" id="map-source-retry" data-action="map-basemap-retry" hidden>Erneut laden</button>
+    </div>
+      ${mapFloatingControls(ctx)}
+      ${ctx.page==='map'?'<div class="map-place-switches">'
+        +'<button type="button" class="point-overview-toggle" data-action="map-points-toggle" aria-pressed="'
+        +Boolean(ctx.total)+'">'+icon('pin')
+        +(ctx.total?'Stadtansicht':'Alle Kartenpunkte')+'</button>'
+        +(!ctx.total?'<button type="button" class="market-toggle" data-action="map-supermarkets" aria-pressed="'
+          +Boolean(ctx.explorer?.marketsShown)+'">'+icon('folder')
+          +(ctx.explorer?.marketsLoading?' Suche läuft …':ctx.explorer?.marketsShown
+            ?ctx.explorer.marketCount+' Supermärkte':'Supermärkte anzeigen')
+          +'</button>':'')
+        +(ctx.explorer?.marketsError?'<span class="market-status">'+esc(ctx.explorer.marketsError)+'</span>':'')
+        +(ctx.explorer?.marketsShown&&!ctx.total&&ctx.explorer.marketsNote
+          ?'<span class="market-status" title="'+esc(ctx.explorer.marketsNote)+'">6,5 km Umkreis · Geodaten, Öffnung unbestätigt</span>':'')
+        +'</div>':''}
+      <div id="map-selection-preview" class="map-selection-preview" aria-live="polite">${mapSelectionPreview(ctx)}</div>
+      ${ctx.explorer && ctx.dayRoute.items.length>1 && !ctx.total
+        ? '<div class="route-map-hud"><span class="route-map-pulse"></span><strong>Route Studio</strong><span>'
+          +ctx.dayRoute.items.length+' Stopps · '
+          +(ctx.dayRoute.routes.filter(r=>r?.walkOnly).length)+' Fußwege berechnet</span></div>' : ''}
+      <div class="map-hint" id="map-hint" hidden></div>
+      ${ctx.page==='map'&&ctx.mapSimple&&!ctx.total&&ctx.dayPlan?.slots.length
+       &&!ctx.day.some(item=>item.kind==='activity')
+        ?'<div class="reference-preview-map-note">'+icon('pin')
+          +' Tagesideen · nur belegte Pins, Wege noch nicht berechnet</div>'
+        :''}
+    </div>
+    ${full && !ctx.total && outside ? '<details class="reference-map-schedule-notice"><summary>'+icon('alert')+'<span>Fahrplan 2027 offen</span></summary>'
+      +'<div>Die lokale Referenz deckt nur '+esc(dateText(timetable.from))+' bis '+esc(dateText(timetable.to))
+      +' ab. Für '+esc(dateText(ctx.date))+' keine bestätigten Echtzeitfahrten. '
+      +urlLink(transitPlanners[ctx.city],'Beim Betreiber prüfen')+'</div></details>' : ''}
+    ${ctx.page==='map'?mapContextSummary(ctx):''}
+    <details class="map-extra-details" aria-label="Optionale Karteninformationen und Ebenen">
+      <summary>${icon('layers')} <span>Kartenstil, Ebenen & Quellen</span>
+        <small>Bei Bedarf anpassen</small>${icon('chevron')}</summary>
+      <div class="map-extra-content">
+      ${renderMapHud(ctx)}
     <div class="map-tools" aria-label="Kartenebenen">
       ${chip('map-mode', 'Tag', !ctx.total, 'day')}${chip('map-mode', 'Gesamt', ctx.total, 'total')}
       ${ctx.explorer ? '<span class="muted">Alle vorhandenen Orte · farbige Kategorien · keine erfundenen Positionen</span>' : ''}
@@ -173,19 +513,40 @@ function mapPanel(ctx, full = false) {
         + (quickLayer ? chip('transit', network.groups[quickLayer].title, t.transit[quickLayer], quickLayer, 'train') : '')
         + (ctx.cities[ctx.city].country === 'CH' ? chip('filter', 'Wanderwege', t.hiking, 'hiking', 'walk') : '') : ''}
     </div>
-    ${!ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
-    ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
-      + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
-      + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
-    <div class="map-wrap"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div><div class="map-hint" id="map-hint" hidden></div></div>
+    <details class="map-design-details" ${ctx.mapDesignOpen?'open':''}><summary>Darstellung & Kartengröße</summary>
+    <div class="map-design-controls" role="group" aria-label="Design und Größe der Karte">
+      <span class="map-design-caption">Kartenlook</span>
+      ${chip('map-tone','Klassisch',ctx.mapTone==='standard','standard','map')}
+      ${chip('map-tone','Midnight',ctx.mapTone==='midnight','midnight','moon')}
+      ${chip('map-tone','Sand',ctx.mapTone==='sand','sand','sun')}
+      ${chip('map-expand',ctx.mapExpanded?'Normalgröße':'Großansicht',ctx.mapExpanded,'toggle','target')}
+      <span class="map-design-caption">Marker-Dichte</span>
+      ${chip('map-density','Ruhige Karte',ctx.mapDensity!=='detail','calm','layers')}
+      ${chip('map-density','Alle Einzelmarker',ctx.mapDensity==='detail','detail','pin')}
+      ${chip('map-motion',ctx.mapMotion==='off'?'Animationen aus':'Sanfte Animationen',ctx.mapMotion!=='off',ctx.mapMotion==='off'?'on':'off','spark')}
+    </div></details>
+    ${tripJourney}
+    <details class="map-legend-disclosure"><summary>${icon('layers')} <span>Legende & Kartenhinweise</span><small>Bei Bedarf öffnen</small></summary>
     <div class="map-legend"><span><i class="legend-line ${ctx.total ? 'dashed' : ''}"></i> ${ctx.total ? 'Städtefolge · Schema' : 'Berechneter Fußweg'}</span>
-    ${ctx.explorer ? Object.entries(EXPLORER_GROUPS).map(([id, group]) => '<span><i class="category-swatch ' + id + '"></i>' + esc(group.label) + '</span>').join('') : ''}
+    ${ctx.explorer ? Object.entries(EXPLORER_GROUPS).map(([id, group]) =>
+      '<button type="button" class="map-legend-control" data-action="explorer-group" data-value="'+esc(id)
+      +'" aria-pressed="'+(ctx.explorer.group===id)+'" title="Nur diese Kategorie auf der Karte anzeigen">'
+      +'<i class="category-swatch '+esc(id)+'"></i>'+esc(group.label)+'</button>').join('') : ''}
+    ${ctx.explorer ? '<span class="map-source-legend" aria-label="Genauigkeit von Kartenpunkten">'
+      +'<span><i class="map-provenance-swatch area"></i> Flächenpunkt · Eingang offen</span>'
+      +'<span><i class="map-provenance-swatch provider"></i> Anbieterposition · ungeprüft</span>'
+      +'<span><i class="map-provenance-swatch unverified"></i> Quellenstatus offen</span>'
+      +'</span>' : ''}
+    ${ctx.explorer?.showCityReferences && ctx.explorer.unlocated.length ? '<span>Grau gestrichelt ? = Stadt-Sammelmarker, keine nachgewiesene Objektposition</span>' : ''}
     ${!ctx.total && t.stations && ctx.dayTravel.length ? '<span><i class="legend-line dashed"></i> Tagesfahrt · Schema</span>' : ''}
     ${!ctx.total && (ctx.timetablePreview || ctx.routes.some(route => route?.legs?.length)) ? '<span>ÖPNV · gespeicherter / referenzierter Fahrplan, Reisedatum prüfen</span>' : ''}
     ${!ctx.total ? '<span><i class="legend-dot"></i> Alternative</span>' : ''}
     ${!ctx.total && network?.dateLabel ? '<span>' + esc(network.dateLabel) + ' · Netzreferenz</span>' : ''}
     ${!ctx.total && ctx.cities[ctx.city].country === 'CH' && t.hiking ? '<span>Signalisiertes Netz · ab Zoomstufe 10</span>' : ''}
-    ${!ctx.total ? urlLink(transitPlanners[ctx.city], 'ÖPNV-Planer') : ''}</div>
+    ${!ctx.total ? urlLink(transitPlanners[ctx.city], 'ÖPNV-Planer') : ''}</div></details>
+    </div></details>
+
+    ${dayRail}
     <div id="detail-container">${mapDetail(ctx)}</div>
   </section>`;
 }
@@ -230,118 +591,264 @@ function overview(ctx) {
       esc(shareLabel), esc(String(b.unknown)), esc(passDays.days.length + ' / ' + v.state.pass.days),
       esc(String(v.state.people.length))];
   });
+  const shortcuts=[
+    ['plan','Tagesplan öffnen','Termine, Wege und Reisestopps','calendar'],
+    ['map','Karte entdecken','Orte, Umkreis und Routen','map'],
+    ['lodging','Unterkünfte vergleichen','Suchpreise und Lage prüfen','bed'],
+    ['rail','Zugfahrten prüfen','Buchungsfenster und Reservierungen','train']
+  ];
+  // Source-scoped destination imagery: never substitute a random hotel/provider
+  // picture. Commons license credit and source stay visible with every photo.
+  const destinationCards=[...new Set(trip.route)].slice(0,9).map(id=>{
+    const photoItem=ctx.all.find(item=>item.city===id&&item.kind==='activity'&&curatedPlacePhoto(item));
+    const photo=photoItem?curatedPlacePhoto(photoItem):null;
+    return '<article class="destination-card"><button type="button" data-action="trip-city" data-value="'+esc(id)+'">'
+      +'<span class="destination-cover">'
+      +'<span class="destination-placeholder" aria-hidden="true">'+destinationIllustration(id)+'</span>'
+      +(photo?'<img src="'+esc(photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="'+esc(photoItem.name)+'">':'')
+      +'</span>'
+      +'<span class="destination-name">'+esc(ctx.cities[id]?.name??id)+'</span>'
+      +'<small>'+esc(photoItem?.name??'Reiseort erkunden')+'</small></button>'
+      +(photo?'<a class="destination-credit" href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer" title="'+esc(photo.credit)+'">Bild: '+esc(photo.credit)+'</a>'
+      :'<small class="destination-credit">Symbolische Illustration · kein Ortsfoto</small>')
+      +'</article>';
+  }).join('');
+  const progress=readinessOverview(ctx).filter(r=>['stays','hotel-review','rail-review','cost'].includes(r.key));
+  const progressLink={stays:'lodging','hotel-review':'lodging','rail-review':'rail',cost:'budget'};
+  const routeGraphic=routeSketch(trip.route,ctx.cities);
+  const routePoints=routeGraphic.stops.map(stop=>
+    '<button class="cockpit-route-point" type="button" style="--px:'+stop.x+'%;--py:'+stop.y+'%"'
+      +' data-action="trip-city" data-value="'+esc(stop.id)+'" title="'+esc(stop.name)+' im Tagesplan öffnen">'
+      +'<span>'+stop.order+'</span><small>'+esc(stop.name)+'</small></button>').join('');
+  const overviewRoute='<section class="cockpit-route-surface" aria-label="Schematische Städtefolge der Reise">'
+    +'<div class="cockpit-route-head"><div><span class="cockpit-mini-label">DEINE ROUTE</span>'
+    +'<h2>'+routeGraphic.stops.length+' Reiseziele. Eine Route.</h2>'
+    +'<p>Städtefolge im Entwurf · keine berechnete Bahntrasse</p></div>'
+    +btn('show-route','Karte öffnen','arrow')+'</div>'
+    +'<div class="cockpit-route-canvas">'
+    +(routeGraphic.stops.length>1
+      ?'<svg viewBox="0 0 560 280" preserveAspectRatio="none" aria-hidden="true">'
+       +'<path class="cockpit-route-under" d="'+routeGraphic.path+'"/>'
+       +'<path class="cockpit-route-line" d="'+routeGraphic.path+'"/></svg>'+routePoints
+      :'<div class="cockpit-route-empty">Für diese Variante sind noch keine zwei Stadt-Anker hinterlegt.</div>')
+    +'</div><div class="cockpit-route-foot"><span>'+icon('map')+' Schematische Übersicht</span>'
+    +'<span>'+esc(dateLabel(trip.from,trip.to))+'</span></div></section>';
+  const quickStartHtml='<section class="overview-start" aria-label="Schnell zum nächsten Planungsschritt">'
+    + '<div class="overview-start-copy"><strong>Wo möchtest du weiterplanen?</strong><span>Direkter Zugang zu den wichtigsten Aufgaben</span></div>'
+    + '<div class="overview-quick-grid">'+shortcuts.map(([id,label,note,symbol])=>
+      '<button type="button" class="overview-quick-card" data-action="page" data-value="'+id+'">'
+      +'<span class="overview-quick-icon">'+icon(symbol)+'</span><span><strong>'+esc(label)+'</strong><small>'+esc(note)+'</small></span>'
+      +icon('arrow')+'</button>').join('')+'</div></section>';
   return heading('Reiseübersicht', ctx.variant.state.title ?? trip.title, btn('copy', 'Variante duplizieren', 'plus'))
-    + '<div class="stat-grid">' + stat('Zeitraum', dateLabel(trip.from, trip.to)) + stat('Reisegruppe', ctx.people.length + ' Personen')
-    + stat('Reiseorte', new Set(trip.route).size + ' Orte') + stat('Bekannte Plankosten', money(ctx.budget.total), ctx.budget.unknown + ' Posten ohne EUR-Summe') + '</div>'
-    + '<section class="section"><h2>Planungs-Check</h2><p class="muted">Direkt aus den aktuell ausgewählten Einträgen berechnet. Fehlende Angaben sind keine bestätigten Buchungen.</p>' + table(['Prüffeld', 'Aktueller Stand', 'Nächster Schritt'], readinessRows) + '</section>'
-    + (ruleRows.length ? '<section class="section"><h2>Offizielle Reiseregeln für 2027</h2>'
-      + '<p class="muted">Nur belegte Saison- und Zugangsregeln, keine Garantie für aktuelle Tickets, geöffneten Betrieb oder die Gültigkeit im Reisedatum.</p>'
-      + table(['Ort / Thema', 'Bekannte Regel und offene Punkte', 'Quellenstand', 'Prüfen'], ruleRows)
-      + '</section>' : '')
-    + '<section class="section panel panel-pad"><h2>Originalroute</h2><p>' + esc(trip.route.map(id => ctx.cities[id]?.name).join(' → ')) + '</p><p class="muted">' + esc(trip.description) + '</p>'
-    + '<div class="row-actions section">' + btn('show-route', 'Gesamtroute öffnen', 'map') + btn('page', 'Zum Tagesplan', 'calendar', 'plan') + '</div></section>'
-    + '<section class="section"><h2>Varianten im Vergleich</h2>' + table(['Variante', 'Zeitraum', 'Originalroute', 'Bekannte Plankosten', 'Personenanteile', 'Preise offen', 'Pass-Tage', 'Gruppe'], variants) + '</section>';
+    + quickStartHtml
+    + swissInterrailOverviewV82(ctx)
+    + swissLodgingSummaryV83(ctx)
+    + dayPlanOverview(ctx)
+    + '<div class="cockpit-layout">'
+    + '<section class="cockpit-welcome" aria-label="Reise auf einen Blick">'
+    + '<div class="cockpit-intro"><span class="cockpit-eyebrow">'+icon('compass')+' DEIN REISE-COCKPIT</span>'
+    +'<h2>'+esc(ctx.variant.state.title??trip.title)+'</h2>'
+    +'<p>'+esc(trip.route.slice(0,5).map(id=>ctx.cities[id]?.name??id).join(' → '))
+      +(trip.route.length>5?' → …':'')+'</p>'
+    +'<div class="cockpit-facts">'
+    +'<span>'+icon('calendar')+esc(dateLabel(trip.from,trip.to))+'</span>'
+    +'<span>'+icon('pin')+new Set(trip.route).size+' Orte</span>'
+    +'<span>'+icon('people')+ctx.people.length+' Reisende</span>'
+    +'<span title="Bekannte Plankosten – kein endgültiger Buchungspreis">'+icon('wallet')+'Bekannte Plankosten: '+esc(money(ctx.budget.total))+'</span>'
+    +'</div><p class="cockpit-disclaimer">'+ctx.budget.unknown+' Preisposten offen · Planwerte, keine bestätigten Buchungen</p></div>'
+    +'<div class="cockpit-journey"><div class="cockpit-section-head"><div><strong>Reiseorte entdecken</strong>'
+    +'<small>Fotos nur bei belegter Bildquelle</small></div>'
+    +btn('show-route','Route öffnen','arrow')+'</div>'
+    +'<div class="destination-filmstrip" aria-label="Reiseorte mit Quellenfotos">'+destinationCards+'</div></div></section>'
+    +overviewRoute+'</div>'
+    + '<section class="cockpit-progress" aria-label="Vorbereitung nachprüfen">'
+    +'<div class="cockpit-section-head"><div><strong>Was ist schon vorbereitet?</strong>'
+    +'<small>Nur in deinem Plan dokumentiert, nicht extern bestätigt</small></div>'
+    +btn('page','Details & Fristen','arrow','data')+'</div>'
+    +'<div class="cockpit-progress-track">'+progress.map(r=>{
+      const pct=r.total?Math.min(100,Math.round(r.done/r.total*100)):0;
+      return '<button type="button" class="cockpit-progress-item" data-action="page" data-value="'
+      +progressLink[r.key]+'" aria-label="'+esc(r.title)+': '+r.done+' von '+r.total+'">'
+      +'<span class="cockpit-progress-label"><strong>'+esc(r.title)+'</strong>'
+      +'<small>'+r.done+' / '+r.total+'</small></span>'
+      +'<span class="cockpit-progress-line" role="progressbar" aria-label="'+esc(r.title)
+      +'" aria-valuemin="0" aria-valuemax="'+r.total+'" aria-valuenow="'+r.done+'"><i style="width:'+pct+'%"></i></span></button>';
+    }).join('')+'</div></section>'
+    + '<details class="cockpit-reference section"><summary><strong>Planungs-Check</strong>'
+    +'<small>Alle Prüfungen und offenen Aufgaben anzeigen</small>'+icon('chevron')+'</summary>'
+    +'<div class="cockpit-reference-body"><p class="muted">Direkt aus den ausgewählten Einträgen berechnet. Fehlende Angaben sind keine bestätigten Buchungen.</p>'
+    +table(['Prüffeld', 'Aktueller Stand', 'Nächster Schritt'], readinessRows)+'</div></details>'
+    + (ruleRows.length ? '<details class="cockpit-reference section"><summary><strong>Offizielle Reiseregeln für 2027</strong>'
+      +'<small>Saisonale Hinweise und Quellen aufklappen</small>'+icon('chevron')+'</summary><div class="cockpit-reference-body">'
+      +'<p class="muted">Nur belegte Saison- und Zugangsregeln, keine Garantie für Buchungen und Gültigkeit am Reisetag.</p>'
+      +table(['Ort / Thema', 'Bekannte Regel und offene Punkte', 'Quellenstand', 'Prüfen'], ruleRows)+'</div></details>' : '')
+    + '<details class="cockpit-reference section"><summary><strong>Varianten im Vergleich</strong>'
+    +'<small>Kosten, Gruppen, Reisedauer und Pass-Tage vergleichen</small>'+icon('chevron')+'</summary>'
+    +'<div class="cockpit-reference-body">'+table(['Variante', 'Zeitraum', 'Originalroute', 'Bekannte Plankosten', 'Personenanteile', 'Preise offen', 'Pass-Tage', 'Gruppe'], variants)+'</div></details>';
 }
 
 function options(ctx, lodging) {
   const { all, city, cities, people, optionFilter, sort, state, compareIds, activeSet } = ctx;
-  const predicate = item => item.city === city && item.kind === (lodging ? 'lodging' : 'activity') && !item.duplicateOf;
-  const found = all.filter(predicate);
-  const list = found.filter(item => {
-    if (optionFilter === 'saved') return state.favorites.includes(item.id);
-    if (optionFilter === 'known') return groupPrice(item.price, people.length) != null;
-    if (optionFilter === 'kitchen') return Boolean(item.kitchen);
-    if (optionFilter === 'search') return Boolean(item.quote);
-    if (optionFilter === 'evening') return Boolean(item.minAge) || item.tags?.some(t => /abend|nightlife|bar/i.test(t));
-    if (optionFilter === 'food') return item.category === 'food';
-    return true;
-  });
-  if (sort === 'price') list.sort((a, b) => (groupPrice(a.price, people.length) ?? Infinity) - (groupPrice(b.price, people.length) ?? Infinity));
+  const found=browseItems(all,{...ctx,browseSearch:''},
+    {kind:lodging?'lodging':'activity'});
+  const list=found.filter(item=>browseMatch(item,ctx.browseSearch,cities)
+    &&optionMatchesFilter(item,optionFilter,ctx,lodging)
+    &&(!lodging||stayMatchesFacets(item,ctx.stayFacets,ctx)));
+  if (sort === 'price'&&!lodging) list.sort((a, b) => (groupPrice(a.price, people.length) ?? Infinity) - (groupPrice(b.price, people.length) ?? Infinity));
   if (sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'de'));
   if (sort === 'score' && !lodging) list.sort((a, b) =>
     (b.preference?.score ?? -1) - (a.preference?.score ?? -1) || a.name.localeCompare(b.name, 'de'));
+  if (lodging && sort==='person-night') list.sort((a,b)=>
+    (lodgingPriceInsight(a,people.length,ctx.nightlyTargetEuro)?.personNightCents??Infinity)
+     -(lodgingPriceInsight(b,people.length,ctx.nightlyTargetEuro)?.personNightCents??Infinity)
+     || a.name.localeCompare(b.name,'de'));
+  if (lodging && ['price','total','station','documentation'].includes(sort)) {
+    const resorted = sortStayOptions(list,people,ctx.hotelWalks,state.verifications ?? {},sort);
+    list.splice(0,list.length,...resorted);
+  }
   const compared = found.filter(i => compareIds.has(i.id));
   const stay = ctx.trip.stayByCity[city];
+  const stayEvaluations = lodging ? list.map(item => assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id])) : [];
+  const comparisonGaps = lodging ? [
+    ['Nicht bestätigte Betten',stayEvaluations.filter(x=>!x.bedsVerified).length],
+    ['Preis oder Währung offen',stayEvaluations.filter(x=>x.totalEuroCents==null).length],
+    ['Bahnhof-Fußweg offen',stayEvaluations.filter(x=>x.stationWalkMinutes==null).length],
+    ['Keine vollständige Eigenprüfung',stayEvaluations.filter(x=>!x.review.complete).length],
+  ] : [];
   const compareRows = compared.map(item => [esc(item.name), esc(cost(item, people.length)), esc(unit(item, people.length)),
     esc(lodging ? item.kitchen || 'Offen' : item.duration ? item.duration + ' Min.' : 'Offen'),
     esc(lodging ? item.room || 'Offen' : item.tags?.join(' · ') || 'Offen'),
     esc(lodging ? [ctx.hotelWalks[item.id]?.minutes != null
       ? (item.localStation ? 'Ab ' + item.localStation.name + ' · ' : '') + ctx.hotelWalks[item.id].minutes + ' Min. zu Fuß' : '',
       item.access].filter(Boolean).join(' · ') || 'Weg offen' : item.access || 'Weg im Tagesplan'),
-    esc(lodging ? item.cancellation ?? 'Tarifbedingungen offen' : item.minAge ? item.minAge + '+' : 'Offen')]);
+    esc(lodging ? stayCancellationLabel(item) : item.minAge ? item.minAge + '+' : 'Offen'),
+    ...(lodging ? [esc((() => { const a=assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]); return a.personNightEuroCents==null ? 'Preis offen' : money(a.personNightEuroCents) + ' p. P./Nacht'; })()),
+      esc(assessStay(item,people,ctx.hotelWalks[item.id],state.verifications?.[item.id]).risk.slice(0,3).join(' · ')||'Eigenprüfung dokumentiert')] : [])]);
   const filters = [['all', 'Alle Optionen'], ['saved', 'Merkliste'], ['known', 'Mit Preisreferenz'],
-    ...(lodging ? [['kitchen', 'Mit Küche'], ['search', '2027-Suchpreise']] : [['evening', 'Abend'], ['food', 'Verpflegung']])];
-  const cards = list.map(item => {
-    const active = activeSet.has(item.id);
-    const highlighted = compareIds.has(item.id);
-    const meal = ctx.catalog.mealPlans?.[city]?.find(plan => plan.venue === item.id);
-    const verification = lodging ? reviewProgress('lodging', state.verifications?.[item.id], people.length) : null;
-    const rank = !lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3 ? item.preference : null;
-    const prefs = lodging && ctx.trip.group === 'interrail_2027' && ctx.people.length === 3
-      ? ctx.catalog.research?.groupPreferences?.nightly_accommodation_targets_eur_per_person : null;
-    const personNight = item.quote?.nights > 0 && item.price?.cents != null
-      ? item.price.cents / (people.length * item.quote.nights) : null;
-    const targetLine = prefs && personNight != null
-      ? '<small>Pro Person/Nacht etwa ' + esc(money(Math.round(personNight))) + ' · individuelle Zielwerte (flexibel): '
-        + Object.entries(prefs).map(([alias, info]) => {
-          const delta = Math.round(personNight - info.target * 100);
-          return esc(alias) + ': ' + (delta <= 0 ? 'unter Ziel ' : 'über Ziel ')
-            + esc(money(Math.abs(delta)));
-        }).join(' · ') + '</small>' : '';
-    const rankLine = rank
-      ? '<p class="muted">Gruppeninteresse ' + esc(String(rank.score)) + '/100 · Heuristik · '
-        + Object.entries(rank.individual ?? {}).map(([alias, score]) => esc(alias + ': ' + score + '/5')).join(' · ')
-        + (rank.disagreement ? ' · unterschiedliche Interessen' : '') + '</p>' : '';
-    return `<article class="panel option-card">
-      <div class="card-top"><span class="category-icon">${icon(categoryIcon(item))}</span><div class="chips">
-      ${status(active ? 'Im Plan' : 'Alternative', active ? 'green' : '')}${item.quote ? status('Suchpreis · nicht gebucht', 'warn') : ''}${verification ? status('Eigene Prüfung ' + verification.count + '/' + verification.total, verification.complete ? 'green' : 'warn') : ''}${item.minAge ? status(item.minAge + '+', 'warn') : ''}</div></div>
-      <h3>${esc(item.name)}</h3>
-      <div class="chips">${(lodging ? [item.kitchen || 'Küche offen'] : item.tags?.slice(0, 3) ?? []).map(t => status(t)).join('')}</div>
-      ${rankLine}<p>${esc(item.detail || 'Weitere Angaben stehen in den importierten Quellen.')}</p>
-      ${item.quote ? '<p class="muted">Suchstand ' + esc(item.quote.observedOn) + ' · Zimmer/Betten, Steuern, Stornierung und Checkout offen. '
-        + esc(item.quote.location ?? '') + '</p>' : ''}${targetLine}
-      <div class="option-facts"><small>${esc(lodging ? (item.stayFrom && item.stayTo ? dateLabel(item.stayFrom, item.stayTo) : 'Aufenthaltsdaten offen') : item.duration ? item.duration + ' Min.' : 'Dauer offen')}
-      ${lodging && ctx.hotelWalks[item.id]?.minutes ? esc(' · ' + (item.localStation?.name ?? 'Bahnhof') + ' · ' + ctx.hotelWalks[item.id].minutes + ' Min. zu Fuß') : ''}</small>
-      <div class="price-line"><span><strong>${esc(cost(item, people.length))}</strong><br><small>${esc(unit(item, people.length))}</small></span>
-      <small>${esc(item.price?.label ?? 'Preis noch offen')}</small></div></div>
-      <div class="row-actions">${btn(active ? 'edit' : meal ? 'meal-choose' : 'choose', active ? 'Bearbeiten' : lodging ? 'Auswahl prüfen' : 'Einplanen',
-        active ? 'edit' : 'plus', !active && meal ? meal.id : item.id, 'subtle')}
-      ${iconBtn('favorite', state.favorites.includes(item.id) ? 'Aus Merkliste entfernen' : 'Merken', state.favorites.includes(item.id) ? 'check' : 'bookmark', item.id)}
-      ${chip('compare', 'Vergleichen', highlighted, item.id, 'compare')}
-      ${iconBtn('details', 'Details: ' + item.name, 'folder', item.id)}${lodging ? btn('verify-item', 'Anbieter prüfen', 'check', item.id) : ''}${item.point ? iconBtn('option-map', 'Auf Karte: ' + item.name, 'pin', item.id) : ''}</div>
-    </article>`;
+    ...(lodging ? [['kitchen', 'Kochmöglichkeit beschrieben'], ['station','Bahnhof ≤15 Min. zu Fuß'],
+      ['beds','Betten selbst geprüft'],['search', '2027-Suchpreise'],
+      ['budget','Im Nachtbudget (inkl. Suchwerte)'], ['self_reviewed','Eigenprüfung dokumentiert']]
+      : [['free','0-€-Preisreferenz'],['water','Wasser & Strand erwähnt'],
+        ['swimming','Schwimmen erwähnt'],['consensus','Gruppenfavoriten ≥4'],
+        ['evening', 'Abend'], ['food', 'Verpflegung']])];
+  // Accommodation cards are expensive (photo, quotes, verifier and source
+  // actions); render a compact initial batch without losing filtered options
+  // or any item in the independent 2–4-stay comparison.
+  const visibleLimit=lodging?(ctx.stayBrowseLimit??8):(ctx.browseLimit??24);
+  const moreStep=lodging?8:24;
+  const cards=list.slice(0,visibleLimit).map(item=>{
+    const active=activeSet.has(item.id);
+    const highlighted=compareIds.has(item.id);
+    const meal=ctx.catalog.mealPlans?.[item.city]?.find(plan=>plan.venue===item.id);
+    const verification=lodging
+      ?reviewProgress('lodging',state.verifications?.[item.id],people.length):null;
+    const stayStats=lodging?assessStay(item,people,ctx.hotelWalks[item.id],
+      state.verifications?.[item.id]):null;
+    return browseOptionCard(item,ctx,{lodging,active,highlighted,meal,
+      verification,stayStats});
   }).join('');
-  return heading(lodging ? 'Unterkünfte' : 'Entdecken', cities[city].name + (lodging && stay ? ' · ' + dateLabel(stay.from, stay.to) : ' · ' + found.length + ' Einträge'),
-    btn('page', 'Zum Tagesplan', 'calendar', 'plan'))
-    + '<div class="filterbar">' + filters.map(([id, label]) => chip('option-filter', label, optionFilter === id, id)).join('')
-    + '<label>Sortieren <select id="sort"><option value="source">Quelle</option><option value="price"' + (sort === 'price' ? ' selected' : '') + '>Preis</option><option value="name"' + (sort === 'name' ? ' selected' : '') + '>Name</option>'
-    + (lodging ? '' : '<option value="score"' + (sort === 'score' ? ' selected' : '') + '>Gruppeninteresse</option>') + '</select></label></div>'
-    + (lodging ? alert('Angebote vom 12.11.2026 sind nur Suchpreis-Snapshots. Unterkunft, vollständige Steuern, Betten, Stornierung und Verfügbarkeit vor einer Buchung prüfen. Kein automatischer Kauf.') : '')
-    + (compared.length ? '<section class="section"><h2>Direkter Vergleich</h2>' + table(['Option', 'Für die Gruppe', 'Pro Person', lodging ? 'Küche' : 'Dauer', lodging ? 'Zimmer' : 'Erlebnis', 'Anbindung', lodging ? 'Storno' : 'Einlass'], compareRows) + '</section>' : '')
-    + (cards ? '<div class="grid-cards">' + cards + '</div>' : empty('Keine Optionen in dieser Ansicht', 'Wechsle den Filter, wähle einen anderen Ort oder importiere deine Recherche.'));
+  const cardLabel=lodging?'Unterkünfte':'Reiseideen';
+  const quick=filters.slice(0,3).map(([id,label])=>
+    chip('option-filter',label,optionFilter===id,id)).join('');
+  const advanced=filters.slice(3).map(([id,label])=>
+    chip('option-filter',label,optionFilter===id,id)).join('');
+  return browseHero(ctx,lodging?'lodging':'discover',list.length)
+    +browseToolbar(ctx,{kind:lodging?'lodging':'discover',total:found.length,
+       filtered:list.length})
+    +'<div class="hub-result-settings"><div class="hub-quick-filters">'+quick
+    +'<details class="hub-filter-more"'+(ctx.browseFilterOpen?' open':'')
+      +'><summary>'+icon('layers')
+      +' Weitere Filter</summary><div>'+advanced+'</div></details></div>'
+    +'<div class="hub-sort-controls">'
+    +(lodging?'<label>Nachtbudget <input id="nightly-target" type="number"'
+      +' min="5" max="1000" value="'+esc(ctx.nightlyTargetEuro)
+      +'" aria-label="Budget pro Person und Nacht in Euro"> €</label>':'')
+    +'<label>Sortieren <select id="sort">'
+    +[['source','Quelle'],['price',lodging?'Preisreferenz (EUR)':'Preis'],['name','Name'],
+      ...(lodging?[['total','Gruppensumme'],['person-night','Pro Person/Nacht'],
+         ['station','Bahnhof-Fußweg'],['documentation','Datenvollständigkeit']]
+        :[['score','Gruppeninteresse']])]
+      .map(([id,label])=>'<option value="'+id+'"'
+       +(sort===id?' selected':'')+'>'+label+'</option>').join('')
+    +'</select></label></div></div>'
+    +(lodging?stayFacetControls(ctx):'')
+    +'<p class="hub-results-title"><strong>'+list.length+' '+cardLabel+'</strong>'
+    +'<span>'+esc(ctx.browseScope==='trip'?'In allen Reiseorten':cities[city].name)
+    +' · '+esc(smartFilterHelp[optionFilter]??'Einträge aus deiner Recherche')
+    +'</span></p>'
+    +(compared.length?'<section class="hub-compare-summary">'
+      +(lodging?stayComparisonBoard(compared,ctx)
+        :'<h2>'+compared.length+' Optionen im Vergleich</h2>'+btn('compare-clear','Auswahl leeren','close'))
+      +'</section>':'')
+    +(cards?'<div class="hub-option-grid">'+cards+'</div>'
+      :'<div class="hub-empty"><strong>Keine passenden Optionen</strong>'
+       +'<p>Versuche eine andere Stadt oder entferne die aktuellen Suchfilter.</p>'
+       +btn('browse-reset','Suche und Filter zurücksetzen','reset','','primary')
+       +'</div>')
+    +(list.length>visibleLimit
+      ?'<div class="hub-more-button">'
+        +'<p class="muted" aria-live="polite">'+Math.min(visibleLimit,list.length)
+        +' von '+list.length+' '+cardLabel+' geladen · Filter und Vergleich bleiben vollständig.</p>'
+        +btn('browse-more','Weitere '+Math.min(moreStep,list.length-visibleLimit)
+          +' Optionen anzeigen','plus','','primary')+'</div>':'')
+    +(lodging&&ctx.trip.id==='interrail_swiss'?'<details class="stay-swiss-research"'
+      +' data-content-loaded="'+Boolean(ctx.staySwissResearchOpen)+'"'
+      +(ctx.staySwissResearchOpen?' open':'')+'><summary>Schweizer Unterkunftsrecherche · datierte Suchwerte und Ausstattung</summary>'
+      +(ctx.staySwissResearchOpen?swissDatedSearchBoardV84(ctx)+swissLodgingCompareV83(ctx):'')
+      +'</details>':'')
+    +'<details class="hub-technical-details"'
+      +' data-content-loaded="'+Boolean(!lodging||ctx.browseResearchOpen)+'"'
+      +(ctx.browseResearchOpen?' open':'')
+     +'><summary>'+icon('chevron')
+     +'<span><strong>Detaillierter Preis- und Quellenvergleich</strong>'
+     +'<small>Prüfpunkte, Suchwerte, Gruppenvergleich und Originaldaten</small></span></summary>'
+    +(!lodging||ctx.browseResearchOpen?(lodging
+      ?'<p class="hub-technical-warning">Alle Unterkunftsangebote sind historische Such- oder Planwerte.'
+       +' Keines ist automatisch für 2027 gebucht oder als Endpreis bestätigt.</p>'
+       +'<div class="hub-risk-chips">'
+       +comparisonGaps.map(([label,count])=>status(label+': '+count,'warn')).join('')
+       +'</div>'+providerQuotePanel(ctx)
+      :''):'')
+    +(compared.length&&(!lodging||ctx.browseResearchOpen)
+      ?'<section><h2>Tabellarischer Direktvergleich</h2>'
+       +table(['Option','Gruppe','Pro Person',lodging?'Küche':'Dauer',
+         lodging?'Zimmer':'Erlebnis','Anbindung',lodging?'Storno':'Einlass',
+         ...(lodging?['EUR p. P./Nacht','Offene Nachweise']:[])],compareRows)
+       +'</section>':'')
+    +'</details>';
 }
 
 function food(ctx) {
   const { city, date, people, mealHotel, state, budget, catalog } = ctx;
   const count = people.length;
-  const plans = catalog.mealPlans?.[city] ?? [];
-  const planned = ctx.active.filter(i => i.city === city && i.mealSlot === 'dinner' && mealDate(i) === date);
+  const plans = plansForSlot(catalog.mealPlans?.[city] ?? [],ctx.mealSlot??'dinner');
+  const planned = currentMeals(ctx,ctx.mealSlot??'dinner');
   const stay = ctx.trip.stayByCity[city];
   const dates = ctx.dates.filter(d => d === date || (stay ? stay.from <= d && d <= stay.to : ctx.cityForDay(d) === city));
   const planDate = '<label class="field meal-day"><span>Reisetag</span><select id="meal-date">' + dates.map(d =>
     '<option value="' + d + '"' + (d === date ? ' selected' : '') + '>' + esc(longDay(d)) + '</option>').join('') + '</select></label>';
   const plannedCooking = ctx.active.filter(item => !state.expenses.some(expense => expense.forItem === item.id));
-  const basket = groceryBasket(plannedCooking, count, state.groceryOverrides ?? {}).filter(row => row.city === city);
-  const basketTotal = basket.reduce((sum, row) => sum + row.total, 0);
+  const basket = groceryBasket(plannedCooking, count, state.groceryOverrides ?? {}, state.shopping).filter(row => row.city === city);
+  const basketTotals = [...Map.groupBy(basket, row => row.currency)].map(([currency, rows]) =>
+    money(rows.reduce((sum, row) => sum + (row.total ?? 0), 0), currency) + (rows.some(row => row.total == null) ? ' + offene Beträge' : '')).join(' · ');
   const basketTable = basket.length ? table(['Zutat', 'Benötigte Menge', 'Packungen', 'Packungspreis', 'Gruppe', ''],
     basket.map(row => [
-      esc(row.name) + '<br><small>' + esc(row.adjustedForGroup ? 'Packungen an den gesamten Bedarf angepasst'
-        : row.modified ? 'Preis/Menge selbst angepasst' : 'Preisreferenz, kein Filialangebot') + '</small>',
-      esc(row.required + ' g'), esc(row.packs + ' × ' + row.pack + ' g'),
-      money(row.unitCents), money(row.total),
-      btn('grocery-edit', 'Anpassen', 'edit', row.key)
+      '<span class="grocery-name">' + esc(row.name) + '</span><br><small>' + esc(row.excluded ? 'Aus Einkauf genommen · Rezeptbedarf offen'
+        : row.adjustedForGroup ? 'Packungen an den gesamten Bedarf angepasst'
+        : row.extra ? 'Eigener Artikel' : row.modified ? 'Preis/Menge selbst angepasst' : row.unitCents==null?'Preis offen – manuell ergänzen':'Preisreferenz, kein Filialangebot') + '</small>'
+        +(row.packAssumption?'<br><small>Planpackung · konkretes Produkt/Abtropfgewicht prüfen</small>':''),
+      esc(row.required + ' ' + row.unit) + (row.stock ? '<br><small>' + esc(row.stock + ' ' + row.unit + ' Vorrat') + '</small>' : ''),
+      esc(row.packs + ' × ' + row.pack + ' ' + row.unit),
+      money(row.unitCents, row.currency) + (row.priceDate ? '<br><small>' + esc(dateText(row.priceDate)) + '</small>' : ''),
+      money(row.total, row.currency),
+      '<button class="button" type="button" data-action="grocery-check" data-value="' + esc(row.key) + '" aria-pressed="' + row.checked + '">'
+        + icon(row.checked ? 'check' : 'bookmark') + (row.checked ? 'Erledigt' : 'Abhaken') + '</button>'
+        + btn(row.extra ? 'grocery-extra' : 'grocery-edit', 'Anpassen', 'edit', row.key)
+        + (row.extra ? btn('grocery-edit', 'Vorrat', 'edit', row.key) : '')
         + (row.modified ? btn('grocery-reset', 'Zurücksetzen', 'reset', row.key) : '')
-        + urlLink(catalog.sources[row.source]?.url, 'Quelle'),
+        + btn(row.excluded ? 'grocery-restore' : 'grocery-remove', row.excluded ? 'Wieder aufnehmen' : 'Entfernen', row.excluded ? 'plus' : 'close', row.key)
+        + urlLink(row.priceSourceUrl ?? catalog.sources[row.source]?.url,
+          row.priceSourceUrl?'Eigene Preisquelle':catalog.sources[row.source]?.publisher?.startsWith('Produktsuche')?'Produktsuche':'Quelle'),
     ])) : '';
   const planCards = plans.map(plan => {
     const estimate = mealEstimate(plan, count);
@@ -349,24 +856,29 @@ function food(ctx) {
     const route = ctx.foodWalks[venue?.id];
     const plannedHere = planned.some(i => i.mealPlanId === plan.id);
     const rows = estimate.products.map(product => {
-      const amount = product.quantity + (product.pack ? ' × ' + product.pack + ' g' : ' Portion(en)');
-      return [esc(product.name), esc(amount), money(product.total),
-        urlLink(catalog.sources[product.source ?? plan.source[0]]?.url, 'Quelle')];
+      const amount = product.quantity + (product.pack ? ' × ' + product.pack + ' '+(product.unit??'g')+' · Bedarf '+product.need*count+' '+(product.unit??'g') : ' Portion(en)');
+      return [esc(product.name)+(product.packAssumption?'<br><small>Planpackung, Produkt offen</small>':''), esc(amount), money(product.total,estimate.currency),
+        urlLink(catalog.sources[product.source ?? plan.source[0]]?.url, product.cents===null?'Produktsuche':'Quelle')];
     });
-    const subtitle = plan.type === 'cook' ? plan.shopMinutes + ' Min. Einkauf · ' + plan.prep + ' Min. Kochen und Aufräumen'
+    const subtitle = plan.type === 'cook' ? plan.shopMinutes + ' Min. Einkauf · ' + plan.prep + (plan.requiresKitchen===false?' Min. Vorbereiten ohne Herd':' Min. Kochen und Aufräumen')
       : plan.prep + ' Min. für das Essen eingeplant';
     return '<article class="panel option-card meal-card"><div class="card-top"><span class="category-icon food">' + icon('food') + '</span>'
       + (plannedHere ? status('Im Plan', 'green') : '') + '</div><h3>' + esc(plan.name) + '</h3>'
-      + '<div class="price-line"><div><strong>' + money(estimate.base) + '</strong> für die Gruppe<br><small>Ø '
-      + money(Math.round(estimate.base / count)) + ' p. P.</small></div>'
-      + (estimate.terrace == null ? '' : '<small>Terrasse ' + money(estimate.terrace) + '</small>') + '</div>'
+      + '<div class="price-line"><div><strong>' + money(estimate.base,estimate.currency) + '</strong> für die Gruppe<br><small>Ø '
+      + money(estimate.base===null?null:Math.round(estimate.base / count),estimate.currency) + ' p. P.</small></div>'
+      + (estimate.terrace == null ? '' : '<small>Terrasse ' + money(estimate.terrace,estimate.currency) + '</small>') + '</div>'
+      +(estimate.base===null&&estimate.knownBase?'<p>Bekannte Packungen: '+money(estimate.knownBase,estimate.currency)+' + offene Zutatenpreise</p>':'')
+      +(plan.type==='cook'&&estimate.portionCents!==null?'<p class="muted">Verwendete Zutaten rechnerisch '+money(estimate.portionCents,estimate.currency)
+        +' für die Gruppe. Der Einkauf bezahlt ganze Packungen; vorhandene Vorräte berücksichtigt der gemeinsame Korb.</p>':'')
       + '<p>' + esc(plan.priceNote) + '</p><p class="muted">' + esc(subtitle) + '</p>'
       + (venue ? '<p>' + esc(venue.name + ' · ' + (route ? route.minutes + ' Min. zu Fuß ab Unterkunft' : venue.address)) + '</p>' : '')
       + '<details><summary>' + (plan.type === 'cook' ? 'Warenkorb und Mengen' : 'Bestellung und Preise') + '</summary><p>' + esc(plan.note) + '</p>'
+      +(plan.equipment?'<p>'+esc(plan.equipment)+'</p>':'')
+      +(plan.steps?'<ol>'+plan.steps.map(step=>'<li>'+esc(step)+'</li>').join('')+'</ol>':'')
       + table(['Position', 'Menge', 'Betrag', ''], rows) + '</details>'
       + '<div class="row-actions">' + btn('meal-choose', plannedHere ? 'Auswahl prüfen' : 'Einplanen', 'plus', plan.id, 'subtle') + '</div></article>';
   }).join('');
-  const cook = plans.find(plan => plan.type === 'cook');
+  const cook = plans.find(plan => plan.type === 'cook'&&plan.requiresKitchen!==false);
   const restaurant = plans.find(plan => plan.type === 'restaurant');
   const lodgings = ctx.all.filter(i => i.kind === 'lodging' && i.city === city && !i.duplicateOf && !i.removed
     && i.stayFrom <= date && date < i.stayTo);
@@ -375,7 +887,7 @@ function food(ctx) {
     const cooking = ['shared', 'private'].includes(i.kitchenMode);
     return [esc(i.name), esc(i.kitchen ?? 'Küche offen'),
       price == null ? 'Offen' : money(price) + '<br><small>' + esc(i.price.label ?? 'Planpreis') + '</small>',
-      cooking && price != null ? money(price + mealEstimate(cook, count).base) : 'Offen',
+      cooking && price != null && mealEstimate(cook,count).base!==null ? money(price + mealEstimate(cook, count).base) : 'Offen',
       price == null ? 'Offen' : money(price + mealEstimate(restaurant, count).base)];
   }) : [];
   const places = ctx.foodPlaces.filter(i => !i.requiresKitchen).map(i => {
@@ -385,26 +897,96 @@ function food(ctx) {
       btn('details', 'Details', 'folder', i.id) + (i.point ? iconBtn('option-map', 'Auf Karte: ' + i.name, 'pin', i.id) : '')
       + (ctx.activeSet.has(i.id) ? '' : btn(meal ? 'meal-choose' : 'choose', 'Einplanen', 'plus', meal?.id ?? i.id))];
   });
-  return heading('Verpflegung', ctx.cities[city].name + ' · ' + count + ' Reisende', planDate)
-    + '<section class="section panel panel-pad"><h2>Abendessen am ' + dateText(date) + '</h2><p>'
-    + (planned.length ? planned.map(i => {
-      const actual = budget.rows.find(row => row.forItem === i.id);
-      return esc(i.name) + ' · ' + esc(cost(i, count)) + ' ' + (actual ? 'erfasst' : i.requiresKitchen && i.basketProducts ? 'Einzelschätzung, gemeinsamer Einkauf unten' : 'geplant') + ' '
-        + btn('meal-cost', actual ? 'Ausgabe bearbeiten' : 'Ausgabe erfassen', 'wallet', i.id);
-    }).join(' ') : 'Für den Tag ist noch kein Abendessen ausgewählt.')
-    + '</p><p class="muted">' + (mealHotel ? esc(mealHotel.name + ' · ' + (mealHotel.kitchen ?? 'Küchenzugang offen'))
-      : 'Unterkunft für diese Nacht offen. Küchenzugang und Ausstattung bei der Auswahl prüfen.') + '</p></section>'
-    + (basket.length ? '<section class="section"><h2>Gemeinsamer Einkaufswarenkorb · ' + money(basketTotal)
-      + '</h2><p class="muted">Für alle aktiven Koch-Mahlzeiten in dieser Stadt zusammengefasst. '
-      + 'Packungen werden nur einmal im aktiven Budget gezählt, nicht pro Mahlzeit. '
-      + 'Die Preise sind Planreferenzen oder von dir geänderte Annahmen; sie sind keine Kassenzettel. '
-      + 'Bereits als echte Ausgabe erfasste Mahlzeiten sind aus dieser Planung ausgenommen.</p>' + basketTable + '</section>' : '')
-    + (planCards ? '<section class="section"><h2>Selbst kochen oder auswärts essen</h2><div class="grid-cards">' + planCards + '</div></section>' : '')
+  const menuItems=ctx.all.filter(item=>item.city===city && item.menuPriceResearchV08 && !item.duplicateOf && !item.removed);
+  const priced=menuItems.filter(item=>item.menuPriceResearchV08.menuReference);
+  const menuRows=menuItems.map(item=>{
+    const audit=item.menuPriceResearchV08,ref=audit.menuReference;
+    const displayed=ref?.sample?.map(sample=>{
+      const amount=new Intl.NumberFormat('de-DE',{style:'currency',currency:ref.currency})
+        .format(sample.amountCents/100);
+      return esc(sample.name)+' · <strong>'+esc(amount)+'</strong>'
+        +(sample.note?'<br><small>'+esc(sample.note)+'</small>':'');
+    }).join('<hr>') ?? 'Kein genauer Einzelgericht- oder Komplettmenüpreis belegt';
+    const kind=!ref?'Preis offen'
+      :ref.sourceType==='delivery_menu_only'?'Nur Liefer-/Abholmenü'
+      :ref.sourceType==='operator_retail_price_not_cafe_menu'?'Nur Laden-/Webshoppreis'
+      :ref.sourceType==='tourism_2027_group_offer'?'2027 Gruppenmenü, Mindestgruppe prüfen'
+      :['full_set_menu','fixed_menu_indicative','specific_day_fixed_menu'].includes(ref.precision)
+        ?'Menüpreis / Festangebot':'Einzelgerichtpreis (kein kompletter Checkout)';
+    return [
+      esc(item.name)+'<br><small>'+esc(item.address??'Adresse ungeprüft')+'</small>',
+      displayed,
+      esc(kind)+'<br><small>'+esc(ref?.dateLabel??'Kein verlässlicher Preis')+'</small>'
+        +(ref?.note?'<br><small>'+esc(ref.note)+'</small>':'')
+        +(ref?.extraPercentage?'<br><small>Zusatz: '+ref.extraPercentage+'% '+esc(ref.extraAppliesTo)+'</small>':''),
+      urlLink(audit.sourceUrl,'Speisekarte / Anbieter') || 'Original-Menü offen',
+      urlLink(item.googleMapsUrl,'Google Maps')+' '+(urlLink(item.googleTransitUrl,'ÖPNV')||''),
+    ];
+  });
+  const menuSection=menuRows.length
+    ? '<section class="section panel panel-pad"><h2>Nachrecherchierte Speisekarten & Einzelpreise · '
+      +esc(ctx.cities[city].name)+'</h2><p class="muted">'
+      +priced.length+' von '+menuItems.length+' erfassten Lokalen mit veröffentlichten Preisbeispielen. '
+      +'Diese Preise sind historische Betreiber-/Plattformbelege oder Angebote mit Bedingungen, KEINE garantierten September-2027-Endpreise. '
+      +'Liefergebühren, italienischer Coperto, Getränke und Terrassenzuschlag sind nur bei ausdrücklichem Nachweis enthalten. CHF nicht in Euro umgerechnet. '
+      +'Die Menüpreise werden nicht automatisch in das Gruppenbudget übernommen.</p>'
+      +table(['Lokal','Konkrete Preisbeispiele','Art / Gültigkeit','Quelle','Anreise'],menuRows)
+      +'</section>' : '';
+  // The directory is independent of the selected day; imported supermarkets
+  // stay explicitly read-only and never become a price or booking record.
+  const {available,shown,total}=foodDirectory(ctx,ctx.marketItems??[]);
+  const selectedType=ctx.browseFoodType??'all';
+  const market=ctx.foodMarketCoverage??{};
+  const marketStatus=marketCoverage({
+    cityName:ctx.cities[city]?.name??city,cityLoaded:market.cityLoaded,
+    loadedCities:market.loadedCities??0,totalCities:market.totalCities??1,
+    scope:ctx.browseScope,count:market.count??0,checkedOn:market.checkedOn,
+  });
+  const marketCTA=selectedType==='all'||selectedType==='markets'
+    ?'<section class="hub-market-access" aria-label="Zusätzliche Supermärkte">'
+      +'<div><strong>'+icon('wallet')+' Offene Supermarkt-Kartendaten</strong>'
+      +'<p>'+esc(marketStatus)+'</p>'
+      +(market.error?'<p role="alert" class="hub-market-error">'+esc(market.error)+'</p>':'')
+      +'</div>'
+      +(market.loading?'<button type="button" class="button" disabled aria-busy="true">'
+        +icon('clock')+' Datenquelle wird abgefragt …</button>'
+        :market.cityLoaded
+          ?btn('browse-supermarkets','Auf der Karte zeigen','map','','subtle')
+          :btn('browse-market-load','Supermärkte in '+(ctx.cities[city]?.name??city)+' laden','plus','','primary'))
+      +'</section>':'';
+  const visualBrowse=browseHero(ctx,'food',shown.length)
+    +marketBasketPanel(ctx)
+    +browseToolbar(ctx,{kind:'food',total,filtered:shown.length})
+    +foodTypeTabs(ctx,available)+marketCTA
+    +(ctx.browseFoodSavedOnly?'<p class="hub-saved-notice">'
+      +icon('bookmark')+' Nur selbst gemerkte Orte · '
+      +btn('browse-food-saved','Alle anzeigen','close')+'</p>':'')
+    +foodBrowseCards(ctx,shown.slice(0,ctx.browseLimit??24))
+    +(shown.length>(ctx.browseLimit??24)
+       ?'<div class="hub-more-button">'
+         +btn('browse-more','Weitere '+Math.min(24,shown.length-(ctx.browseLimit??24))
+           +' Orte anzeigen','plus','','primary')+'</div>':'');
+  return visualBrowse + '<details class="hub-food-planning"'
+    +(ctx.browseMealsOpen?' open':'')+'><summary>'
+    +icon('calendar')+' Tagesmenüs, Einkaufswarenkorb & detaillierte Preisrecherche'
+    +icon('chevron')+'</summary><div class="hub-food-planning-content">'
+    +heading('Mahlzeiten am Reisetag',ctx.cities[city].name+' · '+count+' Reisende',planDate)
+    + menuSection
+    + mealDayOverview(ctx)
+    + mealFlowSummary(ctx,basket)
+    + (planCards ? '<section id="meal-recipe-choices" class="section"><h2>Selbst kochen oder auswärts essen</h2><p class="muted">Schritt 2 · Rezept, Kochmöglichkeit und kochfreie Alternativen für die Gruppe auswählen.</p><div class="grid-cards">' + planCards + '</div></section>' : '')
+    + '<section id="meal-grocery-basket" class="section grocery-section" aria-label="Gemeinsamer Einkaufswarenkorb"><div class="inline"><h2>Gemeinsamer Einkaufswarenkorb'
+      + (basket.length ? ' · ' + esc(basketTotals) : '') + '</h2>' + btn('grocery-extra', 'Artikel ergänzen', 'plus') + shoppingStopButton(ctx) + '</div>'
+      + '<p class="muted">Mengen gelten für alle geplanten Rezeptmahlzeiten in ' + esc(ctx.cities[city].name)
+      + '. Vorräte reduzieren den Einkauf. Abhaken speichert den Einkaufsstatus. Zahlungen erfasst du im Budget.</p>'
+      + (basketTable || empty('Einkaufsliste ist leer', 'Plane eine Kochmahlzeit oder ergänze einen eigenen Artikel.'))
+      + '</section>'
+    + stapleComparison(ctx)
     + (scenarios.length ? '<section class="section"><h2>Unterkunft und ein Abendessen</h2><p class="muted">Szenarien mit den vorhandenen Unterkunftspreisen für den gesamten Aufenthalt.</p>'
       + table(['Unterkunft', 'Küche', 'Aufenthalt', 'Mit Kochen', 'Mit Restaurant innen'], scenarios) + '</section>' : '')
     + '<section class="section"><h2>Einkauf und Restaurants</h2>'
     + (places.length ? table(['Ort', 'Adresse', 'Anbindung', ''], places) : empty('Verpflegungsorte offen', 'Vorhandene Vorschläge lassen sich unter Entdecken oder Daten & Fristen ergänzen.'))
-    + '</section>';
+    + '</section></div></details>';
 }
 
 function rail(ctx) {
@@ -418,6 +1000,31 @@ function rail(ctx) {
   const ticketUnknown = singles.filter(p => p == null).length;
   const researchQueue = (catalog.research?.transportQueue ?? []).filter(row => row.trip_id === trip.id);
   const suggestions = (catalog.research?.transportCandidates ?? []).filter(row => row.trip_id === trip.id);
+  const railReference = catalog.research?.railReferenceV04;
+  const corridors = (railReference?.corridors ?? []).filter(ref =>
+    trip.route.includes(ref.from) && trip.route.includes(ref.to));
+  const operatorV07 = catalog.research?.operatorV07;
+  const railExamplesV07=(operatorV07?.railExamples ?? []).filter(x=>
+    x.from == null || (trip.route.includes(x.from) && trip.route.includes(x.to)));
+  const railExamplesRowsV07=railExamplesV07.map(x=>[
+    esc(x.direction),esc(x.journeyReferenceDate),esc(x.sampleTime??'Keine Musterabfahrt'),
+    x.durationMinutes==null?'Dauer offen':Math.floor(x.durationMinutes/60)+' h '+String(x.durationMinutes%60).padStart(2,'0')+' Min.',
+    status('Nur Referenz, nicht für September 2027 bestätigt','warn'),
+    urlLink(x.sourceUrl,'Offizielle SNCF-Quelle')
+  ]);
+  const bookingRulesV07=(operatorV07?.railBookingSources ?? []).map(x=>
+    '<p class="muted">' + esc(x.note) + ' ' + (urlLink(x.url,'Offizielle Quelle') || '') + '</p>').join('');
+  const corridorRows = corridors.map(ref => [
+    esc((catalog.cities[ref.from]?.name ?? ref.from) + ' → '
+      + (catalog.cities[ref.to]?.name ?? ref.to)),
+    esc(ref.planning),
+    ref.operators.map(operator => {
+      const provider = railReference.operator_planners.find(x => x.id === operator);
+      return provider ? urlLink(provider.url, provider.name) : '';
+    }).filter(Boolean).join(' · '),
+    status('2027: Fahrzeit, Verfügbarkeit und Preise offen', 'warn'),
+  ]);
+  const audit = auditInterrailRoute(legs,state.pass,researchQueue);
   const researchRows = researchQueue.map(row => {
     const window = railSalesStatus(row);
     const match = legs.find(leg => leg.researchTask?.id === row.id);
@@ -435,11 +1042,12 @@ function rail(ctx) {
     ];
   });
   const candidateRows = suggestions.map(row => [
+    ...([]),
     esc(row.from + ' → ' + row.to), esc(dateText(row.date_local)),
     esc(row.routing_hypothesis),
     row.indicative_seat_reservation_eur_per_person == null ? 'Reservierung offen'
       : esc(money(Math.round(row.indicative_seat_reservation_eur_per_person * 100))) + ' p. P. · Referenz',
-    'Keine bestätigte Abfahrt · nicht buchbar',
+    esc(railAlternativeStatus(row).label),
   ]);
   const candidates = ['Bahnverbindungen 2027 sind Planwerte. Buchungsfenster, Sitzplätze und Preise vor der Reise beim Betreiber prüfen.'];
   const reference = catalog.fares.pass_7d;
@@ -458,13 +1066,39 @@ function rail(ctx) {
       ${l.via ? '<small>' + esc(l.via) + '</small>' : ''}
       ${sameDay && gap != null && gap < 25 ? alert(gap < 0 ? 'Überschneidung mit der nächsten Fahrt.' : 'Nur ' + gap + ' Min. bis zum nächsten Zug. Umstieg prüfen.') : ''}
       <div class="row-actions">${btn('details', 'Quellen & Details', 'folder', l.id)}${btn('edit', 'Bearbeiten', 'edit', l.id)}${btn('verify-item', 'Eigene Prüfung ' + evidence.count + '/' + evidence.total, 'check', l.id)}
-      ${urlLink(l.website || 'https://int.bahn.de/de', 'Fahrplan prüfen', 'button')}</div></article>`;
+      ${urlLink(l.website || 'https://int.bahn.de/de', 'Fahrplan prüfen', 'button')}
+      ${urlLink(googleMapsSearchUrl(l,catalog.cities),'Abfahrtsort Google Maps')}
+      ${urlLink(googleMapsDirectionsUrl(
+        {name:l.departure,city:l.city,point:l.point},
+        {name:l.arrival,city:l.toCity,point:l.toPoint},
+        catalog.cities,'transit'),'Strecke in Google Maps')}</div></article>`;
   }).join('');
+  const passRows = audit.dayRows.map(day => [
+    esc(dateText(day.day)),
+    esc(day.names.join(' · ')),
+    String(day.segments),
+    day.overnight ? 'Übernachtfahrt · Wechsel nach Mitternacht / weiterer Zug gesondert prüfen' : 'Abfahrtstag des Passes',
+    day.assumed2027 ? status('Fahrplan 2027 nicht bestätigt','warn') : status('Manuell prüfen')
+  ]);
   return heading('Bahn & Interrail', trip.title, btn('add-rail', 'Verbindung ergänzen', 'plus'))
     + '<div class="stat-grid">' + stat('Reisetage im Entwurf', pass.days.length + ' / ' + state.pass.days, pass.days.map(d => dateText(d).slice(0, 6)).join(' · '))
     + stat('Reservierungen bekannt', money(reservations), priced.length + ' Referenzen · keine Verfügbarkeitszusage')
     + stat('Pass + bekannte Reservierungen', state.pass.cost == null && !state.pass.purchased ? 'Passpreis offen' : money((state.pass.purchased ? 0 : state.pass.cost * people.length) + reservations), 'Zwischensumme')
     + stat('Einzeltickets', ticketUnknown ? 'Teilpreis ' + money(knownSingles) : money(knownSingles), ticketUnknown + ' Fahrten mit offenem Preis') + '</div>'
+    + railReviewTimeline(ctx)
+    + swissInterrailRailV82(ctx)
+    + swissRailPrecisionV84(ctx)
+    + swissLodgingRailNoteV83(ctx)
+    + '<section class="section panel panel-pad"><h2>Pass-Reisetage und Tarifprüfung</h2>'
+    + '<p>Die Passrechnung verwendet Abfahrtstage, nicht die Anzahl der Züge. Bei Nachtzügen ist entscheidend, ob am nächsten Tag ein weiterer Zug benutzt wird. Keine Annahme über 2027er Sitzplätze.</p>'
+    + (passRows.length ? table(['Abfahrtstag','Züge','Abschnitte','Nachtzug-Regel','2027er Quelle'],passRows) : '<p>Keine Zugfahrten im Pass-Entwurf.</p>')
+    + '<p class="muted">' + audit.missingSchedules + ' Fahrpläne für 2027 unbestätigt · '
+    + audit.unknownTicketPrices + ' Ticketpreise offen · '
+    + audit.remainingDays + ' Pass-Reisetage verbleibend.</p>'
+    + (audit.issues.length ? audit.issues.map(issue=>alert(issue)).join('') : '')
+    + (audit.tightConnections.length ? '<h3>Anschlüsse mit Risiko</h3>'
+      + audit.tightConnections.map(x=>alert(x.previous+' → '+x.next+': '+x.gapMinutes+' Min. · '+x.warning)).join('') : '')
+    + '<p><a href="https://www.interrail.com/en/plan-your-trip/interrail-timetable" target="_blank" rel="noopener noreferrer">Offizieller Interrail-Fahrplan (vor dem Kauf prüfen)</a></p></section>'
     + '<div class="panel panel-pad"><div class="inline">' + btn('pass', 'Pass konfigurieren', 'edit')
     + urlLink('https://help.interrail.com/hc/de/articles/38312789999261-Wie-funktionieren-Reisetage-bei-Nachtz%C3%BCgen', 'Nachtzugregel')
     + urlLink('https://www.interrail.eu/en/interrail-passes/what-is-interrail/travel-your-own-country', 'Wohnsitzland-Regel') + '</div>'
@@ -473,6 +1107,16 @@ function rail(ctx) {
     + (reference ? '<small>Recherchewert ' + esc(reference.tariff_year) + ' · ' + money(reference.amount * 100) + ' Jugendpass p. P. · für 2027 offen.</small>' : '')
     + candidates.map(alert).join('') + pass.issues.map(i => alert(i.text)).join('') + '</div>'
     + '<section class="section"><h2>Verbindungen in Reihenfolge</h2><div class="stack">' + (connections || empty('Keine Verbindungen', 'Ergänze eine Fahrt oder wähle eine andere Variante.')) + '</div></section>'
+    + (corridorRows.length ? '<section class="section"><h2>Bahnkorridore & offizielle Betreiber</h2>'
+      + '<p class="muted">Planungshypothesen ohne bestätigte Abfahrtszeiten oder reservierbare Sitzplätze im September 2027. Diese Optionen werden nicht automatisch gebucht und nicht in den aktiven Tagesplan übernommen.</p>'
+      + table(['Korridor', 'Zu prüfende Verbindung', 'Betreiber-Fahrplan', 'Stand'], corridorRows)
+      + '<h3>Regel-Referenzen</h3>' + (railReference?.rules ?? []).map(rule =>
+        '<p class="muted">' + esc(rule.text) + ' ' + (urlLink(rule.url, 'Quelle') ?? '') + '</p>').join('')
+      + '</section>' : '')
+    + (railExamplesRowsV07.length ? '<section class="section"><h2>Bahn-Beispielverbindungen und 2027er Verkaufsstand</h2>'
+      + '<p class="muted">Das sind echte Betreiber-Referenzen oder Veröffentlichungen aus 2026, keine Züge, Reservierungen oder Ticketangebote für September 2027. Preise bleiben offen.</p>'
+      + table(['Abschnitt','Beispieldatum','Uhrzeit','Referenzdauer','Gültigkeit','Originalquelle'],railExamplesRowsV07)
+      + bookingRulesV07 + '</section>' : '')
     + '<section class="section"><h2>Fahrplan- und Preisrecherche · 2027</h2>'
     + '<p class="muted">Offene Aufgaben, keine Echtzeitverbindungen. Jede Abfahrt und jeder Ticketpreis muss später für das konkrete Reisedatum beim Anbieter bestätigt werden.</p>'
     + (researchRows.length ? table(['Originalabschnitt', 'Reisedatum', 'Recherchestatus', 'Ticketpreis', 'Noch prüfen', 'Orientierungsfenster', 'Verkaufsregel', 'Eigenprüfung', 'Wiedervorlage'], researchRows)
@@ -521,7 +1165,8 @@ function budget(ctx) {
     + '<div class="stat-grid">' + stat('Bekannte Gesamtkosten', money(b.total), b.unknown + ' Posten offen')
     + stat('Netto bezahlt', money(b.paid)) + stat('Noch offen aus bekannten Kosten', money(b.total - b.paid))
     + stat('Budget nach bekannten Kosten', state.budgetLimit == null ? 'Kein Limit' : money(state.budgetLimit - b.total)) + '</div>'
-    + '<div class="split"><section class="panel panel-pad"><h2>Kategorien</h2>' + (charts || '<p class="muted">Noch keine bezifferten Kosten im Plan.</p>') + '</section>'
+    + dailyBudgetHtml(ctx)
+     + '<div class="split"><section class="panel panel-pad"><h2>Kategorien</h2>' + (charts || '<p class="muted">Noch keine bezifferten Kosten im Plan.</p>') + '</section>'
     + '<section class="panel panel-pad"><h2>Aufteilung & Ausgleich</h2><ul class="sources-list">' + people.map((p, i) => '<li>' + esc(p.name) + ' · Anteil '
       + money(b.balances[i].share) + ' · bezahlt ' + money(b.balances[i].paid) + '</li>').join('') + '</ul>'
     + (b.transfers.length ? b.transfers.map(t => '<p>' + esc(people[t.from].name + ' → ' + people[t.to].name) + ' · ' + money(t.cents) + '</p>').join('')
@@ -547,7 +1192,22 @@ function budget(ctx) {
 
 function localMobility(ctx) {
   const fare = transitFares[ctx.city];
-  if (!fare) return '';
+  const operators = ctx.catalog.research?.operatorV07;
+  const catalogFares = (ctx.catalog.research?.mappedFareRowsV07 ?? {})[ctx.city] ?? [];
+  const cityPlanner=operators?.providerPlanning?.[ctx.city] ?? transitPlanners[ctx.city];
+  const formatFare=ref=>new Intl.NumberFormat('de-DE',{style:'currency',
+    currency:ref.currency}).format(ref.amountCents / 100);
+  const officialTable=catalogFares.length
+    ? '<details class="panel panel-pad"><summary>Alle ' + catalogFares.length
+      + ' nachrecherchierten Ticketvarianten (2026)</summary>'
+      + '<p class="muted">Die Beträge gelten nur als Betreiber-Referenzen für 2026; Tarifzonen, Ermäßigungen und 2027er Gültigkeit beim Kauf prüfen. Sie werden nicht automatisch ins Reisebudget übernommen.</p>'
+      + table(['Ticket','Referenzpreis','Geltung','Hinweis','Quelle'],catalogFares.map(x=>[
+        esc(x.name),esc(formatFare(x)),esc(x.scope),esc(x.qualifier),
+        urlLink(x.sourceUrl,'Betreiber-Tarif')])) + '</details>' : '';
+  if (!fare) return !cityPlanner ? '' : '<section class="section panel panel-pad"><h2>Nahverkehr · '
+    + esc(ctx.cities[ctx.city]?.name ?? ctx.city)
+    + '</h2><p>Für diesen Ort liegen keine verifizierten, vergleichbaren ÖPNV-Ticketpreise für 2027 vor. Der offizielle Betreiberplaner kann Zug-, Bus- und Bergbahnverbindungen getrennt prüfen.</p>'
+    + (urlLink(cityPlanner,'Verbindungen beim Betreiber prüfen') || '') + officialTable + '</section>';
   const tickets = ctx.state.mobility?.[ctx.city] ?? 0;
   const compare = ticketBreakEven({ single: fare.single, pass: fare.pass, rides: tickets, travellers: ctx.people.length });
   return '<section class="section panel panel-pad"><h2>Nahverkehr · ' + esc(ctx.cities[ctx.city].name) + '</h2><p>'
@@ -556,7 +1216,8 @@ function localMobility(ctx) {
     + stat(compare.savings >= 0 ? 'Ersparnis' : 'Mehrkosten', money(Math.abs(compare.savings)), 'Vorteil ab ' + compare.firstSaving + ' Einzeltickets p. P.')
     + '</div>' + btn('mobility', 'Einzeltickets eingeben', 'edit') + ' ' + urlLink(fare.source, 'Offizielle Tarife')
     + (fare.singleSource ? ' ' + urlLink(fare.singleSource, 'Einzelfahrkarte') : '')
-    + '<p class="muted">' + esc(fare.details) + ' Preisvergleich außerhalb des aktiven Budgets.</p></section>';
+    + '<p class="muted">' + esc(fare.details) + ' Preisvergleich außerhalb des aktiven Budgets.</p>'
+    + (urlLink(cityPlanner,'Routenplaner öffnen') || '') + '</section>' + officialTable;
 }
 
 function group(ctx) {
@@ -580,50 +1241,6 @@ function group(ctx) {
       + '<p class="muted">Fehlende freie Antworten werden als unbekannt behandelt. Bei unterschiedlichen Vorlieben können Aktivitäten auch optional oder parallel geplant werden.</p>'
       + '</section>'
       : '<section class="section panel panel-pad"><h2>Eigenständige Reisegruppe</h2>'
-        + '<p>Für diese Reise liegt keine passende Gruppenbefragung vor. Die Drei-Personen-Interrail-Umfrage wird auf die vierköpfige Schweizer Seenreise ausdrücklich nicht übertragen.</p></section>');
-}
-
-function data(ctx) {
-  const { trip, state, variant, all, catalog } = ctx;
-  const imported = Object.entries(trip.importCounts).map(([key, value]) => [esc(({activities:'Aktivitäten',transportations:'Verbindungen',hostings:'Unterkünfte',expenses:'Budgetreferenzen',documents:'Dokumente'})[key] ?? key), esc(value ?? 'Kein Zugriff')]);
-  const research = catalog.research;
-  const quality = (research?.quality ?? []).filter(item => !item.resolved
-    && (item.trip_id === 'all' || item.trip_id === trip.id));
-  const priorities = { critical: 0, high: 1, medium: 2, low: 3 };
-  quality.sort((a, b) => (priorities[a.severity] ?? 9) - (priorities[b.severity] ?? 9));
-  const qualityRows = quality.map(item => [
-    status(item.severity === 'critical' ? 'Kritisch' : item.severity === 'high' ? 'Hoch'
-      : item.severity === 'medium' ? 'Mittel' : 'Niedrig', ['critical','high'].includes(item.severity) ? 'warn' : ''),
-    esc(item.domain), esc(item.finding), esc(item.action.replaceAll('_', ' ')),
-    (item.source_ids ?? []).map(id => urlLink(catalog.sources[id]?.url, id) || esc(id)).join(' · ') || 'Keine Direktquelle',
-  ]);
-  const issues = all.filter(i => i.duplicateOf || i.positionIssue || i.importConflict)
-    .map(i => '<li>' + esc(i.originalName ?? i.name) + ' · ' + esc([i.positionIssue, i.importConflict].filter(Boolean).join(' ') || 'Dublettenverdacht, Quelle erhalten') + '</li>');
-  const deadlineRows = state.deadlines.slice().sort((a, b) => String(a.when ?? 'z').localeCompare(String(b.when ?? 'z'))).map(d => {
-    const date = localParts(d.when, d.zone);
-    return [esc(d.title), esc(d.when ? dateText(date.date) + ' ' + date.time + ' · ' + d.zone : 'Zeitpunkt offen'),
-      status(d.done ? 'Erledigt' : !d.when ? 'Unklar' : Date.parse(d.when) < Date.now() ? 'Verstrichen' : 'Offen'), btn('deadline', 'Bearbeiten', 'edit', d.id)];
-  });
-  return heading('Daten & Fristen', 'Quellen, lokale Sicherung und Wiedervorlagen',
-    btn('export', 'JSON sichern', 'download') + btn('ics', 'Kalender exportieren', 'calendar'))
-    + '<section class="section panel panel-pad"><h2>Recherche importieren</h2><p class="muted">JSON oder CSV in die aktuelle Variante einlesen. Dateieinträge beginnen als Alternativen.</p>'
-    + '<form id="import-form" class="row-actions section"><label class="field"><span>Datei</span><input type="file" name="file" accept=".csv,.json" required></label><button class="button primary" type="submit">' + icon('upload') + 'Importieren</button>'
-    + '<div class="form-error" aria-live="polite"></div></form><small>Spalten: name, city oder destination_id, kind, id, amount, currency, price_scope, latitude, longitude, source_url.</small></section>'
-    + (variant.logs?.length ? table(['Import', 'Neu', 'Vorhanden', 'Konflikte'], variant.logs.map(l => [esc(l.filename), l.inserted, l.existing, l.conflicts])) : '')
-    + '<section class="section"><div class="subheading compact"><h2>Buchungen & Fristen</h2>' + btn('deadline', 'Frist erfassen', 'plus') + '</div>'
-    + (deadlineRows.length ? table(['Eintrag', 'Ortszeit', 'Status', ''], deadlineRows) : empty('Keine bestätigten Fristen', 'Buchungsfenster und Stornierungsbedingungen sind für diese Reise offen.')) + '</section>'
-    + '<section class="section"><h2>' + (trip.dataMode === 'research_seed_fallback' ? 'Lokales Recherchearchiv · reduzierter Bestand' : 'Tripsy-Import') + ' · ' + esc(dateText(trip.importedOn)) + '</h2>' + (trip.dataMode === 'research_seed_fallback' ? alert('Kein vollständiger Tripsy-Snapshot. Angezeigte Datensätze sind nur aus dem Forschungs-Seed rekonstruiert; die ursprünglichen Buchungen werden nicht ersetzt.') : '') + table(['Quelle', 'Verfügbar'], imported) + '</section>'
-    + (research ? '<section class="section"><h2>Forschungsarchiv · Stand ' + esc(research.observedOn) + '</h2>'
-      + '<div class="stat-grid">' + stat('Aktivitäten gesamt', String(research.counts.activityCandidates), research.counts.addedActivities + ' neue Ideen')
-      + stat('Unterkunfts-Suchpreise', String(research.counts.accommodationSearchQuotes), 'Nicht checkoutbestätigt')
-      + stat('Zugabschnitte zur Prüfung', String(research.counts.transportLegs), 'Fahrplan 2027 offen')
-      + stat('Datenprobleme dokumentiert', String(research.counts.issues), 'Ausführliche Liste unten')
-      + '</div><p class="muted">Die 20 Quellen-Dateien sind als separate Referenz archiviert. '
-      + 'Neue Vergleichsangebote sind weder bezahlt noch automatisch ausgewählt; 2027er Zeiten und Endpreise bleiben offen.</p></section>' : '')
-    + (qualityRows.length ? '<section class="section"><h2>Offene Datenqualitätsbefunde dieser Reise</h2>'
-      + table(['Schwere', 'Bereich', 'Feststellung', 'Nötiger Schritt', 'Quelle'], qualityRows)
-      + '</section>' : '')
-    + (issues.length ? '<section class="section panel panel-pad"><h2>Importhinweise</h2><ul class="sources-list">' + issues.join('') + '</ul></section>' : '')
-    + '<section class="section panel panel-pad"><h2>Recherchequellen</h2><ul class="sources-list">'
-    + Object.values(catalog.sources).map(s => '<li>' + (urlLink(s.url, s.publisher) || esc(s.publisher)) + ' · ' + esc(s.accessed_on || 'Prüfdatum offen') + '</li>').join('') + '</ul></section>';
+        + '<p>Für diese Reise liegt keine passende Gruppenbefragung vor. Die Drei-Personen-Interrail-Umfrage wird auf die vierköpfige Schweizer Seenreise ausdrücklich nicht übertragen.</p></section>')
+    + groupVoteBoard(ctx);
 }

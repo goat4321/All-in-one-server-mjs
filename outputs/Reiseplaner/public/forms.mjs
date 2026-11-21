@@ -1,7 +1,12 @@
 import { categories, groupPrice, localParts, mealDate, mealEstimate, minor, money, utcFromLocal } from './model.mjs';
 import { alert, btn, esc, iconBtn, dateLabel, dateText, sourceList, urlLink, cost, unit, timeText, transitPlanners } from './ui.mjs';
 import { transitNetworks } from './transit.mjs';
+import { placeProfileHtml } from './place-profile.mjs';
+import { placeInspectorHtml } from './place-inspector.mjs';
 import { VERIFICATION_FIELDS, reviewProgress } from './verification.mjs';
+import {mealSlotLabels,mealSlotTimes,plansForSlot,currentMeals,mealAccommodation,mealSelectionPatch,shoppingCandidates,shoppingStopDraft} from './meal-planner.mjs';
+import {mapPinPatch} from './map-pins.mjs';
+import {marketProducts,marketKey,marketQuote,marketCurrency,chains,marketPriceOverrideValid} from './market-basket-v86.mjs';
 
 const dialog = document.querySelector('#dialog');
 const field = (label, control, wide = false) => '<label class="field' + (wide ? ' wide' : '') + '"><span>' + esc(label) + '</span>' + control + '</label>';
@@ -17,6 +22,8 @@ export function openDialog(title, body, submit) {
   dialog.innerHTML = '<div class="dialog-head"><h2 id="dialog-title">' + esc(title) + '</h2>' + iconBtn('close', 'Dialog schließen', 'close')
     + '</div><div class="dialog-body">' + body + '</div>';
   dialog.setAttribute('aria-labelledby', 'dialog-title');
+  dialog.dataset.variantId=document.querySelector('#app').dataset.variantId??'';
+  dialog.dataset.revision=document.querySelector('#app').dataset.revision??'';
   dialog.showModal();
   const form = dialog.querySelector('#modal-form');
   if (form && submit) form.addEventListener('submit', async event => {
@@ -30,6 +37,27 @@ export function openDialog(title, body, submit) {
   });
 }
 export const closeDialog = () => dialog.close();
+export function mapPinForm(ctx,item,save,after,seed={}){
+ const city=item?.city??ctx.city;
+ const values={name:item?.name??'',detail:item?.detail??'',duration:item?.duration??30,
+  lat:item?.point?.[0]??'',lon:item?.point?.[1]??'',...seed};
+ const body='<p>Dein eigener Punkt in '+esc(ctx.cities[city]?.name??city)
+  +'. Manuell / ungeprüft; kein bestätigter Eingang. Neue Pins werden erst durch deine spätere Auswahl eingeplant.</p>'
+  +controls([
+   field('Name',input('name',values.name,'text','maxlength="240" required'),true),
+   field('Breitengrad',input('lat',values.lat,'number','step="any" min="-90" max="90" required')),
+   field('Längengrad',input('lon',values.lon,'number','step="any" min="-180" max="180" required')),
+   field('Angenommene Besuchsdauer (Minuten)',input('duration',values.duration,'number','min="1" max="300" required')),
+   field('Notiz',input('detail',values.detail,'text','maxlength="4000"'),true),
+  ],item?'Pin speichern':'Pin anlegen',btn('map-pin-pick','Auf Karte wählen','pin'))
+  .replace('id="modal-form"','id="modal-form" data-map-pin-form="true" data-pin-id="'+esc(item?.id??'')+'"');
+ openDialog(item?'Eigenen Kartenpunkt bearbeiten':'Eigenen Kartenpunkt hinzufügen',body,async data=>{
+  const id=item?.id??uid('manual');
+  const next=mapPinPatch(ctx,item,Object.fromEntries(data),id);
+  await save(next,item?'Kartenpunkt aktualisiert':'Ungeplanten Kartenpunkt angelegt');
+  after(next.manual.find(row=>row.id===id));
+ });
+}
 const text = (data, key) => String(data.get(key) ?? '').trim();
 const n = (data, key) => text(data, key) === '' ? null : Number(data.get(key));
 const uid = type => type + ':' + crypto.randomUUID();
@@ -186,25 +214,17 @@ export function chooseItem(ctx, item, save, after) {
     });
 }
 
-export function itemDetails(ctx, item) {
-  const local = localParts(item.start, item.zone);
-  const details = [
-    item.address, item.kind === 'transport' && item.arrivalAddress ? 'Ziel: ' + item.arrivalAddress : null,
-    item.kind === 'transport' ? timeText(item) + ' · Ortszeiten · ' + item.verification : local.date ? local.date + ' ' + (local.time ?? '') : null,
-    item.kind === 'lodging' ? [item.kitchen, item.room, 'Gebühren: ' + (item.fees ?? 'offen'), 'Storno: ' + (item.cancellation ?? 'offen')].filter(Boolean).join(' · ') : null,
-    item.duration ? 'Dauer ' + item.duration + ' Min.' : null,
-    item.detail, item.access, item.price?.label, item.eligibility ? 'Berechtigung: ' + item.eligibility : null,
-    item.originalName && item.originalName !== item.name ? 'Originaleintrag: ' + item.originalName : null,
-    item.externalId ? 'Tripsy-ID ' + item.externalId : null,
-  ].filter(Boolean);
-  openDialog(item.name, '<p><strong>' + esc(cost(item, ctx.people.length)) + '</strong> gesamt · ' + esc(unit(item, ctx.people.length))
-    + '</p>' + details.map(value => '<p>' + esc(value) + '</p>').join('') + (item.positionIssue ? alert(item.positionIssue) : '')
+export function itemDetails(ctx, item, compareIds=[]) {
+  openDialog(item.name, placeInspectorHtml(ctx,item,compareIds)
+    + (item.positionIssue ? alert(item.positionIssue) : '')
     + (item.importConflict ? alert(item.importConflict) : '')
-    + sourceList(item, ctx.catalog.sources) + '<div class="dialog-foot">'
+    + '<div class="dialog-foot">'
     + (item.mealSlot && ctx.activeSet.has(item.id) ? btn('meal-cost', 'Ausgabe zur Mahlzeit', 'wallet', item.id) : '')
+    + btn('commons-photo-search', 'Lizenzfotos suchen', 'compass', item.id)
+    + btn('photo-edit', 'Bildlink manuell hinzufügen', 'pin', item.id)
+    + (ctx.state.placePhotos?.[item.id] ? btn('photo-remove','Alle eigenen Fotos entfernen','x',item.id) : '')
     + btn('close', 'Schließen') + '</div>');
 }
-
 
 const checklistLabels = {
   room: 'Die konkrete Zimmerkategorie passt für die Reisegruppe',
@@ -319,66 +339,98 @@ export function mealForm(ctx, option, save, after) {
   const { date, people, city } = ctx;
   const zone = ctx.cities[city].timezone;
   const estimate = mealEstimate(option, people.length);
-  const current = ctx.active.filter(item => item.mealSlot === option.slot && mealDate(item) === date);
+  const slot=plansForSlot([option],ctx.mealSlot??'dinner').length?(ctx.mealSlot??'dinner'):option.slot;
+  const current = currentMeals(ctx,slot);
   const existing = current.find(item => item.mealPlanId === option.id);
-  const destination = ctx.all.find(item => item.id === option.venue);
-  const localTime = localParts((existing ?? current[0])?.start, zone).time ?? '19:00';
-  const comparison = 'Gruppe ' + money(estimate.base) + (estimate.terrace != null ? ' innen · Terrasse ' + money(estimate.terrace) : '');
-  const warn = option.type === 'cook' && !['shared', 'private'].includes(ctx.mealHotel?.kitchenMode)
-    ? alert('Für die Zubereitung sind Herd, Topf und Küchenzugang einzuplanen.') : '';
-  openDialog('Abendessen einplanen', '<h3>' + esc(option.name) + '</h3><p>' + esc(dateText(date) + ' · ' + comparison) + '</p>'
+  const localTime = existing&&!existing.start?'':localParts((existing ?? current[0])?.start, zone).time ?? mealSlotTimes[slot];
+  const comparison = 'Gruppe ' + money(estimate.base,estimate.currency) + (estimate.terrace != null ? ' innen · Terrasse ' + money(estimate.terrace,estimate.currency) : '');
+  const accommodation=mealAccommodation(ctx,slot,localTime,existing?.duration??option.prep);
+  const warn = option.type === 'cook' && (option.requiresKitchen??true) && !accommodation.kitchenReady
+    ? alert(accommodation.notice) : '';
+  openDialog(mealSlotLabels[slot]+' einplanen', '<h3>' + esc(option.name) + '</h3><p>' + esc(dateText(date) + ' · ' + comparison) + '</p>'
     + '<p class="muted">' + esc(option.priceNote) + '</p>'
+    +(option.requiresColdStorage?'<p class="muted">Kühlmöglichkeit und Lagerhinweise der Milch prüfen; kein Herd nötig.</p>':'')
     + (current.length ? '<p>Ersetzt im Tagesplan ' + esc(current.map(i => i.name).join(', ')) + '.</p>' : '') + warn
     + controls([
-      field('Startzeit · Ortszeit', input('start', localTime, 'time', 'required')),
+      field('Startzeit · Ortszeit, leer = flexibel', input('start', localTime, 'time')),
       field('Dauer · Min.', input('duration', existing?.duration ?? option.prep, 'number', 'min="1" max="360" required')),
       ...(estimate.terrace == null ? [] : [field('Sitzplatz', select('seating', [['inside', 'Innen'], ['terrace', 'Terrasse']], existing?.seating ?? 'inside'))]),
     ], 'In Plan übernehmen'), async data => {
-    if (current.some(i => i.locked || i.booked)) throw new Error('Eine Mahlzeit im Plan ist gesperrt.');
-    if (current.some(i => ctx.state.expenses.some(expense => expense.forItem === i.id))) {
-      throw new Error('Für diese Mahlzeit ist schon eine Ausgabe erfasst. Passe den Betrag im Budget an.');
-    }
-    const seating = text(data, 'seating');
-    const cents = seating === 'terrace' && estimate.terrace != null ? estimate.terrace : estimate.base;
-    const requiresKitchen = option.type === 'cook';
-    const item = { id: uid('manual'), trip: ctx.trip.id, city, kind: 'activity', category: 'food', selected: true,
-      name: option.name + (seating === 'terrace' ? ' · Terrasse' : ''), zone, date, mealSlot: option.slot,
-      mealPlanId: option.id, seating, start: utcFromLocal(date, text(data, 'start'), zone, existing?.start),
-      duration: n(data, 'duration'), point: destination?.point ?? null, address: destination?.address,
-      requiresKitchen, ...(requiresKitchen ? { basketProducts: option.products.map(product => ({
-        name: product.name, pack: product.pack, need: product.need, cents: product.cents, source: product.source,
-      })) } : {}),
-      tags: ['Abendessen', requiresKitchen ? 'Selbst kochen' : 'Restaurant'],
-      price: { cents, currency: 'EUR', scope: 'group', party: people.length, label: option.priceNote },
-      source: option.source, detail: option.note, origin: 'manuell', verification: 'Preisreferenz' };
-    const edits = { ...ctx.state.edits };
-    for (const previous of current) edits[previous.id] = { ...edits[previous.id], selected: false };
-    await save({ ...ctx.state, edits, manual: [...ctx.state.manual, item] }, 'Abendessen eingeplant');
-    after(item.id);
+    const id=uid('manual');
+    const next=mealSelectionPatch(ctx,option,{slot,time:text(data,'start'),duration:n(data,'duration'),seating:text(data,'seating')||'inside'},id);
+    await save(next,mealSlotLabels[slot]+' eingeplant');
+    after(id);
+  });
+}
+
+export function shoppingStopForm(ctx,save,after){
+ const choices=shoppingCandidates(ctx);
+ if(!choices.length){openDialog('Einkaufsort noch offen','<p>Erfasse oder lade zuerst einen Einkaufsort für diese Stadt. Es wird keine Position erfunden.</p>');return}
+ openDialog('Einkaufsstopp einplanen','<p>Die Warenkosten bleiben im gemeinsamen Warenkorb. Hier planst du nur Ort und Besuchszeit; Öffnung und Produktbestand sind gesondert zu prüfen.</p>'
+  +controls([field('Einkaufsort',select('store',choices.map(i=>[i.id,i.name]),choices[0].id),true),
+   field('Startzeit · leer = flexibel',input('start','','time')),
+   field('Einkaufsdauer · Min.',input('duration',20,'number','min="5" max="180" required'))], 'Stopp übernehmen'),async data=>{
+   const store=choices.find(i=>i.id===text(data,'store'));
+   const stop=shoppingStopDraft(ctx,store,{time:text(data,'start'),duration:n(data,'duration')},uid('manual'));
+   await save({...ctx.state,manual:[...ctx.state.manual,stop]},'Einkaufsstopp eingeplant');after(stop.id);
   });
 }
 
 export function groceryEditForm(ctx, row, save) {
   openDialog('Gruppenwarenkorb bearbeiten', '<h3>' + esc(row.name) + '</h3>'
     + '<p class="muted">Für alle geplanten Koch-Mahlzeiten in ' + esc(ctx.cities[row.city]?.name ?? row.city)
-    + ': ' + row.required + ' g benötigt · mindestens ' + row.minPacks + ' Packung(en) à ' + row.pack + ' g.</p>'
+    + ': ' + row.required + ' ' + row.unit + ' benötigt · Packungsgröße ' + row.pack + ' ' + row.unit + '.</p>'
     + '<p class="muted">Der eingetragene Packungspreis ist eine Planannahme, kein bestätigter Regalpreis. '
     + 'Für bereits bezahlte Einkäufe muss ein separater Beleg als Ausgabe erfasst werden.</p>'
     + controls([
-      field('Packungen', input('packs', row.packs, 'number', 'min="' + row.minPacks + '" max="100" step="1" required'), true),
-      field('Preis je Packung · EUR', input('unitPrice', (row.unitCents / 100).toFixed(2), 'text',
-        'inputmode="decimal" required'), true),
+      field('Schon vorhanden · ' + row.unit, input('stock', row.stock, 'number', 'min="0" max="1000000" step="1" required')),
+      field('Packungen zusätzlich kaufen', input('packs', row.packs, 'number', 'min="0" max="100" step="1" required')),
+      field('Preis je Packung · ' + row.currency, input('unitPrice', row.unitCents == null ? '' : (row.unitCents / 100).toFixed(2), 'text',
+        'inputmode="decimal"'), true),
+      field('Preisstand', input('priceDate', row.priceDate ?? '', 'date')),
+      field('Preisquelle · HTTPS-Link', input('sourceUrl', row.priceSourceUrl ?? '', 'url', 'maxlength="500"')),
     ], 'Warenkorb aktualisieren'), async data => {
       const packs = n(data, 'packs');
       const unitCents = minor(text(data, 'unitPrice'));
-      if (!Number.isSafeInteger(packs) || packs < row.minPacks || packs > 100
-        || unitCents == null || unitCents < 0 || unitCents > 100000) {
+      const stock = n(data, 'stock');
+      const needed = Math.ceil(Math.max(0, row.required - stock) / row.pack);
+      if (!Number.isSafeInteger(stock) || stock < 0 || stock > 1_000_000
+        || !Number.isSafeInteger(packs) || packs < needed || packs > 100
+        || (unitCents != null && (unitCents < 0 || unitCents > 100000))) {
         throw new Error('Mindestens die erforderliche Anzahl Packungen und einen gültigen Preis eingeben.');
       }
+      const shopping = ctx.state.shopping ?? { pantry: {}, checked: {}, excluded: {}, extras: [] };
       await save({ ...ctx.state, groceryOverrides: {
-        ...ctx.state.groceryOverrides, [row.key]: { packs, unitCents },
-      } }, 'Gemeinsamen Einkauf aktualisiert');
+        ...ctx.state.groceryOverrides, [row.key]: { packs, explicitPacks: true, unitCents,
+          date: text(data, 'priceDate') || null, sourceUrl: text(data, 'sourceUrl') || null },
+      }, shopping: { ...shopping, pantry: { ...shopping.pantry, [row.key]: stock } } }, 'Gemeinsamen Einkauf aktualisiert');
     });
+}
+
+export function groceryExtraForm(ctx, extra, save) {
+  openDialog(extra ? 'Einkaufsartikel bearbeiten' : 'Einkaufsartikel ergänzen', controls([
+    field('Artikel', input('name', extra?.name, 'text', 'maxlength="160" required'), true),
+    field('Benötigte Menge für die Gruppe', input('quantity', extra?.quantity ?? 1, 'number', 'min="1" max="1000000" step="1" required')),
+    field('Einheit', select('unit', ['Stück', 'g', 'ml'].map(unit => [unit, unit]), extra?.unit ?? 'Stück')),
+    field('Menge pro Packung', input('pack', extra?.pack ?? 1, 'number', 'min="1" max="100000" step="1" required')),
+    field('Packungspreis · leer für offen', input('price', extra?.unitCents == null ? '' : (extra.unitCents / 100).toFixed(2), 'text', 'inputmode="decimal"')),
+    field('Währung', select('currency', [['EUR', 'EUR'], ['CHF', 'CHF']], extra?.currency ?? 'EUR')),
+    field('Einkaufstag', inputDate('date', extra?.date ?? ctx.date, ctx)),
+    field('Preisstand · falls bekannt', input('priceDate', extra?.priceDate, 'date')),
+    field('Preisquelle · HTTPS-Link', input('sourceUrl', extra?.sourceUrl, 'url', 'maxlength="500"'), true),
+  ], extra ? 'Änderungen übernehmen' : 'Zum Einkaufsplan hinzufügen'), async data => {
+    const unitCents = minor(text(data, 'price'));
+    if (unitCents != null && unitCents < 0) throw new Error('Einen Preis ab 0 eingeben oder das Feld offen lassen.');
+    const shopping = ctx.state.shopping ?? { pantry: {}, checked: {}, excluded: {}, extras: [] };
+    const item = { id: extra?.id ?? uid('extra'), city: ctx.city, name: text(data, 'name'),
+      quantity: n(data, 'quantity'), unit: text(data, 'unit'), pack: n(data, 'pack'), unitCents,
+      currency: text(data, 'currency'), date: text(data, 'date'), priceDate: text(data, 'priceDate') || null,
+      sourceUrl: text(data, 'sourceUrl') || null };
+    const overrides = { ...ctx.state.groceryOverrides };
+    if (extra) delete overrides[extra.id];
+    await save({ ...ctx.state, groceryOverrides: overrides, shopping: { ...shopping,
+      extras: extra ? shopping.extras.map(row => row.id === extra.id ? item : row) : [...shopping.extras, item] } }, 'Einkaufsliste gespeichert');
+  });
 }
 
 export function editPeople(ctx, save) {
@@ -556,4 +608,40 @@ export function timetableForm(ctx, search, submit) {
       + urlLink('https://www.tmb.cat/en/barcelona/metro/-/lineametro', 'Metro-Netzstatus') : '')
     + '</div>';
   dialog.querySelector('.dialog-body').append(resultBox);
+}
+
+/** Reference collection only. It cannot create a budget purchase or change
+ * shared ingredient needs, and stale dialogs use the application's save guard. */
+export function marketQuoteForm(ctx,key,save){
+ const [city,chain,product]=String(key).split(':');
+ const canonical=marketKey(city,chain,product);
+ if(canonical!==key||city!==ctx.city)throw Error('Preis gehört nicht zur aktuellen Stadt.');
+ const original=marketQuote(city,chain,product,ctx.state.marketQuotes??{});
+ const item=marketProducts.find(row=>row.id===product);
+ const unit=item.unit==='pcs'?'Stück':item.unit;
+ const entered=ctx.state.marketQuotes?.[key];
+ const current=entered??original;
+ const today=new Date().toISOString().slice(0,10);
+ const content='<p>Manuelle Werte sind kein bestätigter Filialpreis. Prüfe Verpackung,'
+  +' Qualität, Datum und gegebenenfalls deine konkrete Filiale. Kein automatischer Budgeteintrag.</p>'
+  +controls([
+   field('Ort / Kette / Produkt', '<strong>'+esc(ctx.cities?.[city]?.name??city)
+      +' · '+esc(chains[chain].name)+' · '+esc(item.name)+'</strong>'),
+   field('Produkt / Markenangabe',input('name',current?.name??item.name,'text','maxlength="160" required'),true),
+   field('Packungsmenge · '+unit,input('packAmount',current?.packAmount??item.amount,'number','min="1" max="100000" required')),
+   field('Packungspreis · '+marketCurrency(city)+' (leer = offen)',
+    input('price',current?.priceCents==null?'':(current.priceCents/100).toFixed(2),'text','inputmode="decimal"')),
+   field('Qualitätsklasse',select('grade',[['unknown','Noch nicht verglichen'],['economy','Günstige Eigenmarke'],['standard','Standard'],['organic','Bio']],current?.grade??'unknown')),
+   field('Preis geprüft am',input('checkedOn',entered?.checkedOn??today,'date','required')),
+   field('Produkt-/Preisquelle · HTTPS',input('sourceUrl',entered?.sourceUrl??original?.sourceUrl??'','url','maxlength="500"')),
+  ],'Manuelle Referenz speichern');
+ openDialog('Supermarkt-Produktpreis prüfen',content,async data=>{
+  const priceCents=minor(text(data,'price'));
+  const entry={name:text(data,'name').trim(),priceCents,packAmount:n(data,'packAmount'),
+   packUnit:item.unit,currency:marketCurrency(city),grade:text(data,'grade'),
+   checkedOn:text(data,'checkedOn'),sourceUrl:text(data,'sourceUrl')||null,
+   status:'manual_unverified'};
+  if(!marketPriceOverrideValid(entry,city,chain,product))throw Error('Datum, Menge oder Währung der manuellen Preisreferenz ungültig.');
+  await save({...ctx.state,marketQuotes:{...ctx.state.marketQuotes,[key]:entry}},'Preisreferenz für '+item.name+' gespeichert');
+ });
 }

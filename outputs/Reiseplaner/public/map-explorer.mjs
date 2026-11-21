@@ -1,3 +1,4 @@
+import { googleMapsDirectionsUrl } from './google-maps.mjs';
 // Shared explorer selectors for every variant and city. Only place-level
 // coordinates provided by source records are plotted: no city-centre guesses.
 export const EXPLORER_GROUPS = Object.freeze({
@@ -24,7 +25,45 @@ export function validPoint(point) {
     && !(point[0] === 0 && point[1] === 0);
 }
 
-export function explorerData(items, trip, { city = null, group = 'all', search = '' } = {}) {
+// These are city-level labels for records lacking a sourced POI. A city
+// reference is NEVER returned as an item.point or used for walk/transit ETAs.
+export function explorerUnlocatedCityClusters(explorer, cities={}) {
+  if (!explorer?.showCityReferences || !Array.isArray(explorer.unlocated)) return [];
+  const counts=new Map();
+  for(const item of explorer.unlocated) {
+    const id=item.city;
+    const city=cities[id];
+    if (!city || !validPoint(city.point)) continue;
+    const row=counts.get(id) ?? {city:id,name:city.name??id,point:city.point,
+      count:0,hotelCount:0,exampleNames:[]};
+    row.count++;
+    if(item.kind==='lodging')row.hotelCount++;
+    if(row.exampleNames.length<3)row.exampleNames.push(item.name);
+    counts.set(id,row);
+  }
+  return [...counts.values()].sort((a,b)=>a.name.localeCompare(b.name,'de'));
+}
+
+// Distances are computed only between actual recorded POI points: never city-centre guesses.
+export function mapDistanceKm(a,b) {
+  if(!validPoint(a)||!validPoint(b))return Infinity;
+  const rad=Math.PI/180;
+  const dLat=(a[0]-b[0])*rad,dLon=(a[1]-b[1])*rad;
+  const h=Math.sin(dLat/2)**2+Math.cos(a[0]*rad)*Math.cos(b[0]*rad)*Math.sin(dLon/2)**2;
+  return 6371*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));
+}
+
+export function mapPointInBounds(point,bounds) {
+  if(!validPoint(point)||!Array.isArray(bounds)||bounds.length!==4
+    ||!bounds.every(Number.isFinite))return false;
+  const [south,west,north,east]=bounds;
+  return point[0]>=south&&point[0]<=north
+    &&(west<=east?point[1]>=west&&point[1]<=east:point[1]>=west||point[1]<=east);
+}
+
+export function explorerData(items, trip, { city = null, group = 'all', search = '',
+  nearbyPoint = null, radiusKm = 3, savedOnly = false, savedIds = new Set(),
+  dayItemIds = null } = {}) {
   const validCities = new Set(trip.route);
   const norm = text => String(text ?? '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('de');
   const needle = norm(search).trim().slice(0, 100);
@@ -41,9 +80,16 @@ export function explorerData(items, trip, { city = null, group = 'all', search =
     return [item, ...arrivals];
   });
   for (const item of entries) {
-    if (!validCities.has(item.city) || item.duplicateOf || item.removed || item.positionIssue && !validPoint(item.point)) continue;
+    if (!validCities.has(item.city) || item.duplicateOf || item.removed) continue;
     if (!['activity', 'transport', 'lodging'].includes(item.kind)) continue;
+    // The "Mein Tag" scope is only the planned calendar-day entries, not
+    // every optional point in the same city. Synthetic arrival points inherit
+    // their original parent ID and are never promoted to separate bookings.
+    if (dayItemIds && !dayItemIds.has(item.explorerParent??item.id)) continue;
     if (city && item.city !== city) continue;
+    if (savedOnly && !savedIds.has(item.id)) continue;
+    if (validPoint(nearbyPoint) && (!validPoint(item.point)
+      || mapDistanceKm(item.point,nearbyPoint)>radiusKm)) continue;
     const category = explorerCategory(item);
     if (group !== 'all' && category !== group) continue;
     const label = [item.name, item.city, item.address, item.detail, ...(item.tags ?? [])].join(' ');
@@ -99,14 +145,66 @@ export function explorerDetail(item, people = 3) {
     if (item.menuNote) extra.push('Speisen / Speisekarte: ' + item.menuNote);
     if (explorerCategory(item) === 'food' && !item.menuNote)
       extra.push('Speisekarte, Einzelpreise und konkrete Gerichtsauswahl: noch nicht vollständig geprüft');
+    if (item.menuPriceResearchV08) {
+      const menu=item.menuPriceResearchV08,ref=menu.menuReference;
+      if (!ref) extra.push('Einzelgericht-/Menü-Endpreise: trotz Quellenprüfung nicht veröffentlicht oder dem Restaurant nicht eindeutig zuzuordnen.');
+      else {
+        const money=amount=>new Intl.NumberFormat('de-DE',{style:'currency',currency:ref.currency})
+          .format(amount/100);
+        extra.push('Historische Menüpreise ('+ref.dateLabel+'; nicht als September-2027-Kaufpreis):');
+        for(const sample of ref.sample) extra.push(sample.name+': '+money(sample.amountCents)
+          +(sample.note?' · '+sample.note:''));
+        if(ref.extraPercentage)extra.push('ZUSCHLAG: '+ref.extraPercentage+' %'
+          +' für '+ref.extraAppliesTo+' laut Karte; nicht im Grundpreis enthalten.');
+        if(ref.note)extra.push('Preisbegrenzung: '+ref.note);
+        if(['delivery_menu_only','operator_retail_price_not_cafe_menu'].includes(ref.sourceType))
+          extra.push('Achtung: Dieser Wert ist KEIN vollständiger Restaurantpreis vor Ort.');
+        extra.push('Menü-Originalquelle: '+ref.sourceUrl);
+      }
+    }
     if (item.estimatedCostNote != null && amount == null)
       extra.push('Unbestätigte Kostenreferenz: ' + item.estimatedCostNote);
     if (item.eligibilityOrRisk) extra.push('Zu prüfen: ' + item.eligibilityOrRisk);
+    if (item.operatorReferenceV07) {
+      const info=item.operatorReferenceV07;
+      extra.push('Offizieller Quellenabgleich: ' + info.title);
+      extra.push('Öffnungs-/Saisonreferenz: ' + info.openingReference);
+      extra.push('ÖPNV-Anfahrt: ' + info.localTransitTip);
+      extra.push('Preisreferenz: ' + info.priceReference);
+      extra.push('Gültigkeit: ' + (info.confirmedSep2027Hours
+        ? 'veröffentlichte saisonale Betriebszeit für 2027; wetter- oder betriebsbedingte Änderungen möglich'
+        : 'Tarif-/Öffnungsreferenz 2026, September 2027 nicht bestätigt'));
+    }
+    if (item.officialEvidence) {
+      const info=item.officialEvidence;
+      extra.push('Betreiberinformation: '+info.description);
+      if (info.generalPriceCents != null) extra.push('Offizieller normaler Tarifstand: '+(info.generalPriceCents/100).toFixed(2).replace('.',',')+' EUR pro Person; 2027er Verfügbarkeit separat prüfen');
+      if (info.under30Cents != null) extra.push('Ermäßigung unter 30: '+(info.under30Cents/100).toFixed(2).replace('.',',')+' EUR nach Berechtigungsnachweis');
+      for (const variant of info.fareVariants??[]) extra.push('Tarifvariante: '+variant.label+' '+(variant.cents/100).toFixed(2).replace('.',',')+' EUR');
+      extra.push('Tarifstand: '+info.pricePeriod);
+    }
     if (item.minAge) extra.push('Einlass: ab ' + item.minAge + ' Jahren · konkreten Termin prüfen');
   } else {
     extra.push('Betreiber: ' + (item.operator || 'noch nicht bestätigt'));
     extra.push('Fahrplan 2027: ' + (item.verification || 'nicht bestätigt'));
   }
+  if (item.addressEvidenceV09) {
+    const info=item.addressEvidenceV09;
+    extra.push('Quellenbelegte öffentliche Anbieteradresse: '+info.publishedAddress);
+    extra.push('Adressprüfung: '+info.remark);
+    extra.push('Quellenlink zur Hausadresse: '+info.sourceUrl);
+    if(!item.point)extra.push('Für diese Adresse gibt es noch keinen unabhängig bestätigten genauen Gebäude-Pin; Google Maps kann nach der Hausanschrift suchen.');
+  }
+  if(item.geoReviewV09) {
+    const info=item.geoReviewV09;
+    extra.push('Warum noch keine genaue Kartenkoordinate: '+info.reason);
+    extra.push('Nächster sinnvoller Prüfschritt: '+info.nextStep);
+    if(info.sourceUrl)extra.push('Öffentliche Originalquelle der erfassten Hausadresse: '+info.sourceUrl);
+  }
+  if (item.locationReferenceV07?.precision === 'city_only_not_a_pin')
+    extra.push('Standortstatus: nur die Stadt als theoretische Orientierung bekannt; kein echter POI-Kartenpunkt.');
+  else if (item.locationReferenceV07?.precision === 'sourced_area_center')
+    extra.push('Standortstatus: Quelle belegt einen Gebiets-/Objektmittelpunkt; nicht zwingend Eingang oder Treffpunkt.');
   return {
     group, priceText, hours, extra, description: item.detail || item.note || 'Ausführliche Tätigkeits- bzw. Angebotsbeschreibung in den vorhandenen Daten nicht belegt.',
     sourceStatus: item.verification || 'Quelle und Aktualität offen',
@@ -126,11 +224,8 @@ export function explorerRouteInput(from, to) {
   return { points: [from.point, to.point], km, canWalk: km <= 25, sameCity: from.city === to.city };
 }
 
-export function externalTransitUrl(from, to) {
-  if (!validPoint(from?.point) || !validPoint(to?.point)) return null;
-  return 'https://www.google.com/maps/dir/?api=1&origin='
-    + encodeURIComponent(from.point.join(',')) + '&destination='
-    + encodeURIComponent(to.point.join(',')) + '&travelmode=transit';
+export function externalTransitUrl(from, to, cities={}) {
+  return googleMapsDirectionsUrl(from, to, cities, 'transit');
 }
 
 export function externalFootUrl(from, to) {
