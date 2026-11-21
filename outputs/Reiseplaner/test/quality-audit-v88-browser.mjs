@@ -77,6 +77,12 @@ try{
    const failed=media.filter(i=>i.complete&&!i.naturalWidth&&i.getAttribute('src'));
    const started=performance.now();window.scrollTo(0,Math.min(document.body.scrollHeight,800));
    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+   const srSearchLabel=document.querySelector('.hub-search-form .sr-only');
+   const searchLabelVisuallyHidden=srSearchLabel
+     ?getComputedStyle(srSearchLabel).position==='absolute'
+       &&srSearchLabel.getBoundingClientRect().width<=1.5
+       &&srSearchLabel.textContent.includes('Angebote durchsuchen')
+     :null;
    const nav=performance.getEntriesByType('navigation')[0];
    const form=document.querySelector('.hub-search-form'),
     submit=form?.querySelector('[data-action="browse-search-apply"]');
@@ -120,7 +126,7 @@ try{
     images:media.length,lazyImages:media.filter(i=>i.loading==='lazy').length,failedOfflineImages:failed.length,
     horizontalOverflow:Math.max(0,document.documentElement.scrollWidth-innerWidth),
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
-    searchButtonClipPx,
+    searchButtonClipPx,searchLabelVisuallyHidden,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
     reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,
@@ -270,6 +276,9 @@ try{
    console.log('V88_PAGE '+JSON.stringify(row));
  assert.equal(store.list().length,4);
  assert.equal(exceptions.length,0,'Runtime exceptions during audit');
+ assert.ok(rows.filter(r=>['lodging','discover','food'].includes(r.page))
+   .every(r=>r.searchLabelVisuallyHidden===true),
+   'All browse search fields retain an accessible label without visible placeholder overlap');
  assert.ok(rows.filter(row=>row.width===390&&['lodging','discover','food'].includes(row.page))
    .every(row=>row.searchButtonClipPx===null||row.searchButtonClipPx<=1),
    'Search action must remain inside its toolbar at 390px in food, lodging and discover');
