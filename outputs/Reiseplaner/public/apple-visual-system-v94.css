@@ -514,3 +514,27 @@ dialog[open]::backdrop{animation:ux-backdrop-in 175ms ease-out both !important}
 @media(max-width:650px){
   .reference-travel-shell .hub-market-jump a{max-width:100%;min-height:44px;}
 }
+
+
+/* V94 final mobile photo-fallback action. The original Wikimedia attribution
+ * URL remains unchanged; only the actual anchor hit area expands, without
+ * turning the photo or full attribution block into a click target. */
+@media(max-width:650px){
+  .reference-travel-shell a.place-photo-unavailable-source{
+    display:inline-flex;
+    align-items:center;
+    min-height:36px;
+    max-width:100%;
+    padding:6px 8px;
+    border-radius:8px;
+    line-height:1.35;
+    text-underline-offset:3px;
+    overflow-wrap:anywhere;
+    color:#fff;
+    vertical-align:middle;
+  }
+  .reference-travel-shell a.place-photo-unavailable-source:focus-visible{
+    outline:3px solid #d2f2df;
+    outline-offset:2px;
+  }
+}

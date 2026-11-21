@@ -392,7 +392,7 @@ try{
  // in V92. Small labels remain visible; enlarge their hit regions without
  // altering routes, photos, source URLs, or desktop/tablet geometry.
  const mobileLinks=rows.filter(r=>r.width===390&&r.theme==='light'&&!r.reduce);
- for(const [page,maximum] of [['food',2],['plan',1],['map',1],['discover',1]]){
+ for(const [page,maximum] of [['food',0],['plan',0],['map',0],['discover',0]]){
    const row=mobileLinks.find(r=>r.page===page);
    assert.ok(row&&row.smallTargetCount<=maximum,
      'V93 '+page+' mobile controls should have fewer under-24px hit regions: '

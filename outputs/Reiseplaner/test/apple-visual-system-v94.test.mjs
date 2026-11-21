@@ -69,3 +69,9 @@ test('V94 combined food view leads with search and keeps detailed market evidenc
  assert.match(css,/\.hub-market-jump a/);
  assert.match(css,/:root\[data-theme=dark\] \.mobile-dock/);
 });
+
+test('V94 Wikimedia fallback photo link has a real mobile touch region',()=>{
+ assert.match(css,/a\.place-photo-unavailable-source\{/);
+ assert.match(css,/min-height:36px/);
+ assert.match(css,/a\.place-photo-unavailable-source:focus-visible/);
+});
