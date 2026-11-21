@@ -108,6 +108,7 @@ try{
    probe.remove();
    return {
     dom:document.getElementsByTagName('*').length,controls:controls.length,
+    mapRenderedCards:document.querySelectorAll('.explorer-place').length,
     unlabeled:unlabeled.map(el=>el.outerHTML.slice(0,130)).slice(0,8),
     unnamed:unnamed.map(el=>el.outerHTML.slice(0,130)).slice(0,8),
     smallTargetCount:small.length,smallTargets:small.map(el=>({
@@ -164,6 +165,25 @@ try{
   return {available:true,frameMs:Math.round((performance.now()-start)*10)/10,
    countLabel:document.querySelector('.hub-filter-count')?.textContent?.trim().slice(0,100)??''};
  }.toString()+')()');
+ // V89: the calm map's initial dataset is NOT truncated; only the DOM list is
+ // progressive. A user may fetch additional matches without switching modes.
+ await clickPage('map');
+ const firstCardCount=await js('document.querySelectorAll(".explorer-place").length');
+ assert.ok(firstCardCount<=12&&firstCardCount>0,
+  'Calm map must render at most the first 12 researched places');
+ const totalBefore=await js('Number((document.querySelector(".explorer-list")?.textContent??"").match(/(\\d+) passende Einträge/)?.[1]??0)');
+ assert.ok(totalBefore>=firstCardCount);
+ if(totalBefore>firstCardCount){
+  const label=await js('document.querySelector("[data-action=explorer-more]")?.textContent');
+  assert.match(label??'',/Weitere 12 anzeigen/);
+  await js('document.querySelector("[data-action=explorer-more]").click()');
+  await until(()=>js('document.querySelectorAll(".explorer-place").length>12'),
+    'Progressive explorer exposes next batch');
+  const second=await js('document.querySelectorAll(".explorer-place").length');
+  assert.ok(second<=24,'First expansion reveals at most 24 cards');
+  assert.equal(await js('Number((document.querySelector(".explorer-list")?.textContent??"").match(/(\\d+) passende Einträge/)?.[1]??0)'),totalBefore,
+    'Expanding the list does not change total results or variant');
+ }
  const result={environment:'headless Chrome, isolated seeded SQLite and offlineMap, 14-day interrail_swiss',
   measuredAt:new Date().toISOString(),htmlBytes,variants:store.list().length,
   rows,exceptions,focusSequence,filterSample,limits:'Synthetic lab snapshots, not field Core Web Vitals or WCAG certification'};
