@@ -452,3 +452,96 @@ dialog[open]::backdrop{animation:ux-backdrop-in 200ms ease-out both !important}
     outline-offset:2px;
   }
 }
+
+/* V93 · Mobile interaction clarity. Scoped to observed small controls (V92 lab:
+ * food 13, plan 8, map 6, discover 1 at 390px). Reference: the owner's
+ * apple-design-skill (HIG Layout / Buttons / Accessibility / Motion / Maps).
+ * Keep image/licence URLs, card hierarchy and map geometry unchanged.
+ * Increase the actual interactive box, not text scale or decorative cards. */
+@media (max-width:650px){
+  /* Secondary links: a modest 36px target without large pill backgrounds.
+   * This includes recipe/basket jumps, historic product credits, Swiss-day
+   * source and map links and compact map research links. */
+  .reference-travel-shell :is(
+    .meal-flow-steps,.meal-staple-comparison,.meal-card,
+    .hub-food-planning,.hub-food-research,.day-plan-panel,
+    .day-plan-quick-bottom,.day-plan-current-row,.swiss-day-editorial,
+    .reference-map-workspace
+  ) a[href]:not(.button):not(.destination-credit):not(.hub-hero-photo-credit){
+    box-sizing:border-box;
+    display:inline-flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:3px;
+    min-height:36px;
+    max-width:100%;
+    padding:6px 9px;
+    border-radius:9px;
+    line-height:1.35;
+    vertical-align:middle;
+    overflow-wrap:anywhere;
+    text-underline-offset:3px;
+    transition:background-color 170ms ease,color 170ms ease;
+  }
+  /* Tables cannot gain broad fixed widths on a 390px viewport. Allow the
+   * source itself to wrap, retaining the existing table scrolling container. */
+  .reference-travel-shell :is(
+    .meal-staple-comparison,.hub-food-planning,.swiss-editorial-sources,
+    .day-plan-stop,.reference-map-workspace
+  ) a[href]:not(.button) .ui-icon{
+    flex:0 0 auto;
+  }
+  /* Disclosure rows deserve a full-height touch region, but the labels,
+   * cards and metadata should not swell or slide on each tap. */
+  .reference-travel-shell :is(
+    .hub-food-planning,.hub-food-research,.meal-card,.meal-staple-comparison,
+    .reference-map-workspace
+  ) summary{
+    box-sizing:border-box;
+    min-height:44px;
+    align-content:center;
+    line-height:1.35;
+    transition:background-color 170ms ease,color 170ms ease;
+  }
+  /* Photo attribution remains present and readable; only its link gets a
+   * larger hit area, without making the image or entire caption clickable. */
+  .reference-travel-shell .reference-map-workspace .place-photo-credit a[href]{
+    min-height:32px;
+    padding:6px 7px;
+  }
+  .reference-travel-shell :is(
+    .meal-flow-steps,.meal-staple-comparison,.meal-card,.hub-food-planning,
+    .hub-food-research,.day-plan-panel,.day-plan-quick-bottom,
+    .swiss-day-editorial,.reference-map-workspace
+  ) :is(a[href],summary):focus-visible{
+    outline:3px solid color-mix(in srgb,var(--green) 70%,#fff);
+    outline-offset:2px;
+  }
+}
+@media (max-width:650px) and (hover:hover) and (pointer:fine){
+  .reference-travel-shell :is(
+    .meal-flow-steps,.meal-staple-comparison,.meal-card,.hub-food-planning,
+    .hub-food-research,.day-plan-panel,.day-plan-quick-bottom,
+    .swiss-day-editorial,.reference-map-workspace
+  ) a[href]:not(.button):hover{
+    background:color-mix(in srgb,var(--green) 7%,transparent);
+  }
+}
+@media (max-width:650px) and (prefers-reduced-motion:reduce){
+  .reference-travel-shell :is(
+    .meal-flow-steps,.meal-staple-comparison,.meal-card,.hub-food-planning,
+    .hub-food-research,.day-plan-panel,.swiss-day-editorial,
+    .reference-map-workspace
+  ) a[href],.reference-travel-shell :is(
+    .hub-food-planning,.hub-food-research,.meal-card,.meal-staple-comparison,
+    .reference-map-workspace
+  ) summary{transition:none !important}
+}
+:root[data-motion=off] .reference-travel-shell :is(
+  .meal-flow-steps,.meal-staple-comparison,.meal-card,.hub-food-planning,
+  .hub-food-research,.day-plan-panel,.swiss-day-editorial,.reference-map-workspace
+) a[href],
+:root[data-motion=off] .reference-travel-shell :is(
+  .hub-food-planning,.hub-food-research,.meal-card,.meal-staple-comparison,
+  .reference-map-workspace
+) summary{transition:none !important}

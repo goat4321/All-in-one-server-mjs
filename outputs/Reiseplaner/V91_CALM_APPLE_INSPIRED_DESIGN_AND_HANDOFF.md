@@ -67,3 +67,13 @@ git log --left-right --oneline HEAD...origin/feature/v7-data-day-accommodation-r
 Lokale ungesicherte Änderungen oder abweichende Commits **nicht** mit `reset --hard`, blindem `pull` oder erzwungenem Checkout überschreiben. Erst lokalen Stand sichern und Konflikte vergleichen. Erst nach sicherer Synchronisierung: `call Start-Reiseplaner.cmd`; Browser `http://127.0.0.1:4173/?variant=interrail_swiss`.
 
 Zur vollständigen portablen Prüfung: `cd outputs\Reiseplaner`, `npm run check:portable`, `npm run test:quality`, `npm run test:stay-browser`. Die lokale SQLite-Datenbank und private Tripsy-Originale bleiben getrennt.
+
+## 3b. V93 · Eigene Apple-Skill und kleine mobile Bedienelemente
+
+**Referenzkorrektur:** Das eigene GitHub-Repository [goat4321/apple-design-skill](https://github.com/goat4321/apple-design-skill) ist erreichbar. V91 arbeitete mit einer fremden öffentlichen Skill, weil das eigene Repository dort nicht gefunden wurde. Für V93 wurden das eigene SKILL.md sowie die HIG-Referenzen `accessibility.md`, `layout.md`, `typography.md`, `color.md`, `designing-for-ios.md`, `buttons.md`, `menus.md`, `motion.md`, `dark-mode.md`, `maps.md`, `design-principles.md` und `cross-platform.md` tatsächlich gelesen.
+
+**Code:** Eine mobile, gezielte letzte Ebene in `public/calm-design-v91.css` erhöht die interaktive Fläche der gemessenen Sekundärlinks auf mindestens 36px und der betreffenden Disclosure-Zeilen auf mindestens 44px. Fotoattributionslinks auf der Karte behalten ihre Quellennachweise und erhalten mindestens 32px Höhe. Keine neuen Schattentürme, Spring-/Bounce-Effekte, JavaScript-Animate-Observer oder andere künstliche Flächen. Hintergrundfarben ändern sich nur leise bei echter Maus, Tastaturfokus bleibt sichtbar. `prefers-reduced-motion` und `data-motion=off` deaktivieren diese neuen Transitionen.
+
+**Vorher (V92, Chrome bei 390px, hell):** Essen 13, Tagesplan 8, Karte 6, Entdecken 1 unter-24px-Bedienelemente. Konkret: Rezept-/Warenkorb-Sprünge, Produktquellen, Essenskarten-Disclosure, Tagesplan-Links, Karten-Bildquelle und Quellenmenü. **Ziel:** höchstens 2 / 1 / 1 / 1, ohne horizontalen Überlauf. Neue `test/calm-design-v91.test.mjs`-Invarianten und strenge Browser-Assertions prüfen das automatisch.
+
+**Testgrenze:** Diese Notiz dokumentiert die Codeänderung, nicht einen schon bestätigten grünen GitHub-Actions-Lauf. 36px Sekundärlinks bleiben bewusst unter Apples 44pt-Empfehlung für allgemeine Touch-Ziele; wegen der dicht belegten Quellen und Kartenbilder ist es ein Kompromiss, keine vollständige HIG-/WCAG-Abnahme. Browser- und Geräteergebnis muss nach Commit geprüft werden. Daten, vier Varianten, Lizenzen, gespeicherte Planungen, Buchungen, `main` und Deployment nicht geändert.

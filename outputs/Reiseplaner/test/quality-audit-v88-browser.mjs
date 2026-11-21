@@ -355,6 +355,16 @@ try{
    'Dark header actions must match the dark material rather than white buttons');
  assert.ok(rows.every(row=>row.horizontalOverflow<=1),
    'Design changes must not introduce horizontal overflow at 390/768/1440');
+ // V93: live browser inventory of the secondary mobile controls identified
+ // in V92. Small labels remain visible; enlarge their hit regions without
+ // altering routes, photos, source URLs, or desktop/tablet geometry.
+ const mobileLinks=rows.filter(r=>r.width===390&&r.theme==='light'&&!r.reduce);
+ for(const [page,maximum] of [['food',2],['plan',1],['map',1],['discover',1]]){
+   const row=mobileLinks.find(r=>r.page===page);
+   assert.ok(row&&row.smallTargetCount<=maximum,
+     'V93 '+page+' mobile controls should have fewer under-24px hit regions: '
+       +JSON.stringify(row?.smallTargets??[]));
+ }
  // V92: the six first-screen destination photo credits and lodging/food hero
  // source links must not remain sub-24px tap targets on 390px phones.
  const mobileCreditPages=rows.filter(row=>row.width===390&&row.theme==='light'&&!row.reduce);

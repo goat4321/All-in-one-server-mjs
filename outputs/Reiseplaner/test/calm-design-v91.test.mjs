@@ -86,3 +86,20 @@ test('Mobile source-credit links are easier to tap without changing image or sou
  assert.match(css,/text-underline-offset:3px/);
  assert.match(css,/:root\[data-theme=dark\] \.reference-travel-shell a\.hub-hero-photo-credit/);
 });
+
+test('V93: observed phone links and disclosure rows have scoped hit targets',()=>{
+ assert.match(css,/V93 · Mobile interaction clarity/);
+ for(const selector of ['.meal-flow-steps','.meal-card','.day-plan-quick-bottom',
+  '.swiss-day-editorial','.reference-map-workspace','.place-photo-credit']){
+   assert.ok(css.includes(selector),selector+' missing from mobile targets');
+ }
+ assert.match(css,/min-height:36px;/);
+ assert.match(css,/min-height:44px;/);
+ assert.match(css,/\.reference-map-workspace \.place-photo-credit a\[href\]/);
+ assert.doesNotMatch(css,/@font-face/);
+});
+test('V93: animations preserve OS and app motion preferences',()=>{
+ assert.match(css,/@media \(max-width:650px\) and \(prefers-reduced-motion:reduce\)/);
+ assert.match(css,/:root\[data-motion=off\]/);
+ assert.match(css,/focus-visible/);
+});
