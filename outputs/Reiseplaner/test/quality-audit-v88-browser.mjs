@@ -107,7 +107,25 @@ try{
        inlineStyle:el.getAttribute('style'),
        ruleCount:[...document.styleSheets].filter(s=>s.href?.includes('calm-design-v91')).reduce((n,s)=>{try{return n+s.cssRules.length}catch{return n}},0),
        variable:getComputedStyle(document.documentElement).getPropertyValue('--paper').trim(),
-       transition:getComputedStyle(el).transitionDuration};})();
+       transition:getComputedStyle(el).transitionDuration,
+       elementPaper:getComputedStyle(el).getPropertyValue('--paper').trim(),
+       appliedRules:[...document.styleSheets].flatMap(sheet=>{
+         const found=[];const walk=rules=>{for(const rule of rules){
+           if(rule.selectorText&&rule.selectorText.includes('reference-global-search')){
+             try{if(el.matches(rule.selectorText)&&
+               (rule.style?.getPropertyValue('background')||rule.style?.getPropertyValue('background-color')))
+               found.push({source:sheet.href?.split('/').pop()||'inline',
+                 selector:rule.selectorText.slice(0,180),
+                 bg:rule.style.getPropertyValue('background'),
+                 bgColor:rule.style.getPropertyValue('background-color'),
+                 priority:rule.style.getPropertyPriority('background')||
+                   rule.style.getPropertyPriority('background-color')});}catch{}
+           }
+           if(rule.cssRules)walk(rule.cssRules);
+         }};
+         try{walk(sheet.cssRules)}catch{}
+         return found;
+       }).slice(-20)};})();
    const calmTopAction=document.querySelector('.reference-topbar>.top-actions .icon-btn');
    const calmTopActionBg=calmTopAction?getComputedStyle(calmTopAction).backgroundColor:null;
    const nav=performance.getEntriesByType('navigation')[0];
@@ -329,7 +347,7 @@ try{
    'Dark navigation labels must keep light, legible text across seven pages and three widths');
  const darkSearchFailures=rows.filter(row=>row.theme==='dark'&&row.width!==390&&row.calmSearchBg!=='rgb(32, 46, 37)');
  if(darkSearchFailures.length)console.log('V91_DARK_SEARCH_DIAGNOSTIC '+JSON.stringify(
-   darkSearchFailures.map(row=>({page:row.page,width:row.width,actual:row.calmSearchBg,topbar:row.calmTopbarBg,probe:row.calmSearchProbe}))));
+   darkSearchFailures.slice(0,2).map(row=>({page:row.page,width:row.width,actual:row.calmSearchBg,topbar:row.calmTopbarBg,probe:row.calmSearchProbe}))));
  assert.ok(darkSearchFailures.length===0,
    'Dark desktop/tablet search must not remain bright white');
  assert.ok(rows.filter(row=>row.theme==='dark'&&row.width!==390).every(row=>
