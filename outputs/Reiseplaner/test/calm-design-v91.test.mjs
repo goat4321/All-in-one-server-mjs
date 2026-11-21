@@ -62,6 +62,15 @@ test('Motion controller does not install per-press DOM mutation listeners',()=>{
  assert.deepEqual(registered.sort(),['error','load']);
 });
 
+test('Hover uses a quiet border tint without card elevation animation and respects reduced transparency',()=>{
+ assert.match(css,/box-shadow:var\(--calm-shadow\);\s*border-color:color-mix/);
+ assert.match(css,/transition-property:border-color,background-color,opacity !important/);
+ assert.doesNotMatch(css,/transition-property:border-color,background-color,box-shadow,opacity/);
+ assert.match(css,/@media\(prefers-reduced-transparency:reduce\)/);
+ assert.match(css,/-webkit-backdrop-filter:none !important/);
+ assert.match(css,/backdrop-filter:none !important/);
+});
+
 test('CSS braces stay balanced and do not modify map or data sources',()=>{
  const stack=[];
  for(const c of css){if(c==='{')stack.push(c);if(c==='}')assert.ok(stack.pop());}
