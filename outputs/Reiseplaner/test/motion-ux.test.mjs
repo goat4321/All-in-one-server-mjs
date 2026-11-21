@@ -57,7 +57,9 @@ test('Observer reveals only in-view nodes; no actual content is hidden',()=>{
  assert.equal(observed.length,1,'Same scene cannot replay animations on each repaint');
  controller.reveal(container,{...state,city:'barcelona'});
  assert.equal(observed.length,2,'Switching destination reveals the new scene');
- assert.ok(listeners.has('pointerdown')&&listeners.has('keydown')&&listeners.has('load'));
+ assert.ok(listeners.has('load')&&listeners.has('error'));
+ assert.equal(listeners.has('pointerdown'),false,'Calm design does not add ripple DOM');
+ assert.equal(listeners.has('keydown'),false,'Native focus remains CSS-driven');
 });
 test('Off setting prevents observers and pointer effects',()=>{
  const handlers=new Map();
@@ -69,7 +71,6 @@ test('Off setting prevents observers and pointer effects',()=>{
  let touched=false;
  controller.reveal({querySelectorAll:()=>{touched=true;return [];}},{page:'overview'});
  assert.equal(touched,false);
- handlers.get('pointerdown')({button:0,isPrimary:true,target:{
-   closest:()=>{throw Error('Should not inspect DOM when motion is off');}
- }});
+ assert.equal(handlers.has('pointerdown'),false,
+  'Press feedback uses native CSS rather than injected click effects');
 });
