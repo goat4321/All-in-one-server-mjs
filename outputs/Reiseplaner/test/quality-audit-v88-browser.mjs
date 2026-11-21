@@ -99,6 +99,15 @@ try{
    const calmInactiveNavColor=calmInactiveNavText?getComputedStyle(calmInactiveNavText).color:null;
    const calmSearchBg=document.querySelector('.reference-global-search')
      ?getComputedStyle(document.querySelector('.reference-global-search')).backgroundColor:null;
+   const calmSearchProbe=(()=>{const el=document.querySelector('.reference-global-search');
+     if(!el)return null;
+     return {rootTheme:document.documentElement.dataset.theme,
+       match:el.matches(':root[data-theme=dark] .reference-global-search'),
+       withinShell:Boolean(el.closest('.reference-travel-shell')),
+       inlineStyle:el.getAttribute('style'),
+       ruleCount:[...document.styleSheets].filter(s=>s.href?.includes('calm-design-v91')).reduce((n,s)=>{try{return n+s.cssRules.length}catch{return n}},0),
+       variable:getComputedStyle(document.documentElement).getPropertyValue('--paper').trim(),
+       transition:getComputedStyle(el).transitionDuration};})();
    const calmTopAction=document.querySelector('.reference-topbar>.top-actions .icon-btn');
    const calmTopActionBg=calmTopAction?getComputedStyle(calmTopAction).backgroundColor:null;
    const nav=performance.getEntriesByType('navigation')[0];
@@ -146,7 +155,7 @@ try{
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     searchButtonClipPx,searchLabelVisuallyHidden,
     calmStyleLoaded,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
-    calmInactiveNavColor,calmSearchBg,calmTopActionBg,
+    calmInactiveNavColor,calmSearchBg,calmSearchProbe,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
     reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,
@@ -320,7 +329,7 @@ try{
    'Dark navigation labels must keep light, legible text across seven pages and three widths');
  const darkSearchFailures=rows.filter(row=>row.theme==='dark'&&row.width!==390&&row.calmSearchBg!=='rgb(32, 46, 37)');
  if(darkSearchFailures.length)console.log('V91_DARK_SEARCH_DIAGNOSTIC '+JSON.stringify(
-   darkSearchFailures.map(row=>({page:row.page,width:row.width,actual:row.calmSearchBg,topbar:row.calmTopbarBg}))));
+   darkSearchFailures.map(row=>({page:row.page,width:row.width,actual:row.calmSearchBg,topbar:row.calmTopbarBg,probe:row.calmSearchProbe}))));
  assert.ok(darkSearchFailures.length===0,
    'Dark desktop/tablet search must not remain bright white');
  assert.ok(rows.filter(row=>row.theme==='dark'&&row.width!==390).every(row=>
