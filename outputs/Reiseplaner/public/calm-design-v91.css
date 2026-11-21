@@ -273,6 +273,26 @@ dialog[open]::backdrop{animation:ux-backdrop-in 200ms ease-out both !important}
   background:var(--paper);
   border-color:var(--line);
 }
+/* Keep contrast on filled controls: pale green is for text, not white-on-green buttons. */
+:root[data-theme=dark] .reference-travel-shell :is(
+  .button.primary,.reference-main-nav button[aria-current=page],
+  .reference-main-nav button[aria-pressed=true],.reference-brand-menu,
+  .hub-option-primary-actions>.button.primary,.hub-hero-actions .button.primary
+){
+  background:#266a45;
+  color:#ffffff;
+  border-color:#266a45;
+}
+:root[data-theme=dark] .reference-travel-shell :is(
+ .reference-stage-days .day[aria-pressed=true],.days .day[aria-pressed=true]
+){
+  background:#266a45 !important;
+  border-color:#266a45 !important;
+  color:#ffffff !important;
+}
+:root[data-theme=dark] .reference-travel-shell .reference-main-nav button:not([aria-current=page]):not([aria-pressed=true]){
+  color:var(--text);
+}
 :root[data-theme=dark] .reference-travel-shell :is(.panel,.day-plan-panel,.hub-option-card,
   .hub-food-card,.reference-discovery-card,.stay-compare-card){
   border-color:var(--line);
