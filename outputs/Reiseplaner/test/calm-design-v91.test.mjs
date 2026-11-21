@@ -77,3 +77,12 @@ test('CSS braces stay balanced and do not modify map or data sources',()=>{
  assert.equal(stack.length,0);
  assert.doesNotMatch(css,/(?:https?:\/\/|@import|url\(https?:)/);
 });
+
+
+test('Mobile source-credit links are easier to tap without changing image or source URLs',()=>{
+ assert.match(css,/\.reference-travel-shell a\.destination-credit/);
+ assert.match(css,/\.reference-travel-shell a\.hub-hero-photo-credit/);
+ assert.match(css,/min-height:32px/);
+ assert.match(css,/text-underline-offset:3px/);
+ assert.match(css,/:root\[data-theme=dark\] \.reference-travel-shell a\.hub-hero-photo-credit/);
+});
