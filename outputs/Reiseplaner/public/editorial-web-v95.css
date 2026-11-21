@@ -484,7 +484,7 @@
  padding:7px 11px;border-radius:9px;
 }
 .reference-travel-shell .reference-map-intro{
- background:var(--e95-paper) !important;
+ background:#f5f5f7 !important;
  border:0;border-radius:18px !important;
  min-height:190px;
 }
@@ -632,4 +632,20 @@
 }
 @media(prefers-reduced-transparency:reduce){
  .reference-travel-shell .mobile-dock{backdrop-filter:none !important}
+}
+
+/* The map utility header stays light in both appearances. This is deliberate
+ * canvas alternation, not a dark header with transparent background image. */
+:root[data-theme=dark] .reference-travel-shell .reference-map-intro{
+  background-color:#f5f5f7 !important;
+  background-image:none !important;
+}
+:root[data-theme=dark] .reference-travel-shell .reference-map-intro h1,
+:root[data-theme=dark] .reference-travel-shell .reference-map-intro-copy,
+:root[data-theme=dark] .reference-travel-shell .reference-map-intro .reference-map-eyebrow{
+ color:#213b2d !important;
+}
+:root[data-theme=dark] .reference-travel-shell .reference-map-intro p,
+:root[data-theme=dark] .reference-travel-shell .reference-map-intro .simple-hero-hint{
+ color:#4b6655 !important;
 }

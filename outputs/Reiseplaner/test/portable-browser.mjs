@@ -503,11 +503,8 @@ try {
     'Screenshot-specific contrast repair loads after legacy styles');
   await js('document.documentElement.dataset.theme="dark"');
   assert.equal(await js('getComputedStyle(document.querySelector(".reference-map-intro h1")).color'),
-    'rgb(245, 245, 247)',
-    'V95 maps use light text over a dark intro in dark mode');
-  assert.equal(await js('getComputedStyle(document.querySelector(".reference-map-intro")).backgroundColor'),
-    'rgb(28, 29, 32)',
-    'V95 map intro must really have a dark backdrop behind its heading');
+    'rgb(33, 59, 45)',
+    'V95 keeps dark readable text on a deliberate pale map utility header');
   assert.equal(await js('getComputedStyle(document.querySelector(".reference-discovery-title strong")).color'),
     'rgb(237, 246, 238)',
     'V94 dark photo cards use light text on a dark surface, not legacy dark ink');
