@@ -83,6 +83,18 @@ try{
        &&srSearchLabel.getBoundingClientRect().width<=1.5
        &&srSearchLabel.textContent.includes('Angebote durchsuchen')
      :null;
+   // V91: inspect the real final cascade in every 390/768/1440 light/dark/motion snapshot.
+   const calmStyleLoaded=[...document.styleSheets].some(sheet=>
+     sheet.href?.endsWith('/calm-design-v91.css'));
+   const calmTopbar=document.querySelector('.reference-topbar');
+   const calmTopbarBg=calmTopbar?getComputedStyle(calmTopbar).backgroundColor:null;
+   const calmRevealedNodes=document.querySelectorAll('#app .motion-revealed').length;
+   const calmRevealNode=document.querySelector('#app .motion-revealed');
+   const calmRevealDuration=calmRevealNode
+     ?parseFloat(getComputedStyle(calmRevealNode).animationDuration):null;
+   const calmNavButton=document.querySelector('.reference-main-nav button');
+   const calmNavTransition=calmNavButton
+     ?getComputedStyle(calmNavButton).transitionProperty:null;
    const nav=performance.getEntriesByType('navigation')[0];
    const form=document.querySelector('.hub-search-form'),
     submit=form?.querySelector('[data-action="browse-search-apply"]');
@@ -127,6 +139,7 @@ try{
     horizontalOverflow:Math.max(0,document.documentElement.scrollWidth-innerWidth),
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     searchButtonClipPx,searchLabelVisuallyHidden,
+    calmStyleLoaded,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
     reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,
@@ -276,6 +289,21 @@ try{
    console.log('V88_PAGE '+JSON.stringify(row));
  assert.equal(store.list().length,4);
  assert.equal(exceptions.length,0,'Runtime exceptions during audit');
+ assert.ok(rows.every(row=>row.calmStyleLoaded),
+   'V91 final calm stylesheet must load for every page/width/theme');
+ assert.ok(rows.every(row=>row.calmRevealedNodes<=4),
+   'V91 motion must be limited to page identity, not each option or tile');
+ assert.ok(rows.filter(row=>row.reduce)
+   .every(row=>row.calmRevealDuration===null||row.calmRevealDuration<0.001),
+   'V91 reveal obeys OS reduce-motion across every page');
+ assert.ok(rows.every(row=>row.calmNavTransition?.includes('background-color')),
+   'Primary navigation keeps a quiet color transition');
+ const lightNav=rows.find(row=>row.width===390&&row.page==='overview'&&row.theme==='light')?.calmTopbarBg;
+ const darkNav=rows.find(row=>row.width===390&&row.page==='overview'&&row.theme==='dark')?.calmTopbarBg;
+ assert.ok(lightNav&&darkNav&&lightNav!==darkNav,
+   'Calm functional navigation needs distinct real light and dark backgrounds');
+ assert.ok(rows.every(row=>row.horizontalOverflow<=1),
+   'Design changes must not introduce horizontal overflow at 390/768/1440');
  assert.ok(rows.filter(r=>['lodging','discover','food'].includes(r.page))
    .every(r=>r.searchLabelVisuallyHidden===true),
    'All browse search fields retain an accessible label without visible placeholder overlap');
