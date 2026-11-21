@@ -1,0 +1,341 @@
+/*
+ * V94 · Reiseplaner visual system — independent product identity,
+ * informed by goat4321/apple-design-skill and Apple HIG:
+ * hierarchy, legibility, discoverability, responsive adaptation and concise motion.
+ * This is a final presentation layer. No data, photo, attribution, maps,
+ * routing, click handlers, API contracts or persistence are changed.
+ */
+:root {
+  --v94-canvas:#f7f9f7;
+  --v94-surface:#ffffff;
+  --v94-surface-soft:#f2f6f3;
+  --v94-surface-raised:#fcfdfb;
+  --v94-ink:#20372a;
+  --v94-ink-secondary:#51695b;
+  --v94-stroke:#e1e8e2;
+  --v94-stroke-active:#91b59e;
+  --v94-action:#166345;
+  --v94-action-hover:#105239;
+  --v94-action-soft:#e6f2e9;
+  --v94-radius-card:18px;
+  --v94-radius-control:11px;
+  --v94-focus:0 0 0 3px #78b99674;
+  --v94-depth:0 3px 15px rgba(29,64,44,.045);
+  --v94-ease:cubic-bezier(.2,.8,.25,1);
+}
+:root[data-theme=dark] {
+  --v94-canvas:#151f19;
+  --v94-surface:#202f26;
+  --v94-surface-soft:#293a2f;
+  --v94-surface-raised:#25362b;
+  --v94-ink:#edf6ee;
+  --v94-ink-secondary:#c2d3c5;
+  --v94-stroke:#3b5141;
+  --v94-stroke-active:#80b99a;
+  --v94-action:#266a45;
+  --v94-action-hover:#2c7750;
+  --v94-action-soft:#2d4836;
+  --v94-focus:0 0 0 3px #a0d9b175;
+  --v94-depth:0 3px 18px rgba(0,0,0,.12);
+}
+
+/* Foundation: one readable rhythm, neutral backgrounds, green as an action cue. */
+.reference-travel-shell > .main-column > .workspace{
+  background:var(--v94-canvas);
+  color:var(--v94-ink);
+  padding-block-end:clamp(40px,5vw,76px);
+}
+.reference-travel-shell .page-head{margin-block:20px 24px}
+.reference-travel-shell .page-head h1{
+  font-size:clamp(1.9rem,2.6vw,2.5rem);
+  font-weight:690;line-height:1.13;letter-spacing:-.038em;
+}
+.reference-travel-shell :is(.section>h2,.panel-head h2,.hub-results-title strong,
+  .reference-discovery-head h2,.day-plan-heading h3){
+  line-height:1.24;letter-spacing:-.027em;font-weight:680;
+}
+.reference-travel-shell :is(.page-head p,.panel-head p,.hub-hero-main>p,
+  .hub-results-description,.day-plan-notes p,.hub-market-access p){
+  line-height:1.57;
+}
+.reference-travel-shell :is(.panel-pad>p,.hub-market-access>div>p,
+  .market-baskets-v86>header>p,.hub-hero-main>p){
+  max-width:76ch;
+}
+.reference-travel-shell .section{margin-block:clamp(22px,2.4vw,34px)}
+.reference-travel-shell :is(.subheading,.panel-head,.hub-results-title){gap:12px}
+.reference-travel-shell :is(.subheading,.panel-head) h2{margin:0}
+
+/* Floating-looking cards become a calm single family. Photo-led cards retain photos. */
+.reference-travel-shell :is(.panel,.day-plan-panel,.hub-option-card,.hub-food-card,
+  .reference-discovery-card,.overview-quick-card,.option-card,.day-plan-quick-bar,
+  .reference-stage-days,.hub-filter-panel,.activity-filter-panel,.stay-facets,
+  .map-context-summary,.reference-map-workspace>.map-panel,
+  .reference-map-workspace>.explorer-right){
+  border-color:var(--v94-stroke);
+  border-radius:var(--v94-radius-card);
+  box-shadow:var(--v94-depth);
+}
+.reference-travel-shell :is(.panel,.day-plan-panel,.hub-option-card,.hub-food-card,
+  .reference-discovery-card,.overview-quick-card,.option-card){
+  border-width:1px;
+}
+.reference-travel-shell :is(.hub-filter-panel,.activity-filter-panel,.stay-facets,
+  .day-plan-quick-bar,.map-context-summary){
+  background:var(--v94-surface-raised);
+}
+.reference-travel-shell :is(.overview-quick-card,.hub-option-card,.hub-food-card,
+  .reference-discovery-card,.option-card){
+  transition:border-color 180ms ease,background-color 180ms ease,opacity 180ms ease !important;
+}
+.reference-travel-shell :is(.overview-quick-card,.hub-option-card,.hub-food-card,
+  .reference-discovery-card,.option-card):focus-within{
+  border-color:var(--v94-stroke-active);
+}
+.reference-travel-shell :is(.source-notice,.hub-option-evidence,.hub-technical-details,
+  .stay-swiss-research,.meal-staple-comparison,.map-extra-details,
+  .reference-places-drawer){
+  border-color:var(--v94-stroke);
+}
+.reference-travel-shell :is(.hub-hero,.reference-map-intro){
+  border-color:var(--v94-stroke);
+  box-shadow:var(--v94-depth);
+  border-radius:22px;
+}
+.reference-travel-shell .hub-hero{background:var(--v94-surface-soft)}
+.reference-travel-shell .hub-hero-art:after{
+  background:linear-gradient(90deg,var(--v94-surface-soft) 0%,
+    color-mix(in srgb,var(--v94-surface-soft) 92%,transparent) 48%,
+    color-mix(in srgb,var(--v94-surface-soft) 26%,transparent) 100%);
+}
+:root[data-theme=dark] .reference-travel-shell .hub-hero{
+  background:#23362a;color:#edf6ee;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-hero-art:after{
+  background:linear-gradient(90deg,#23362a 0%,#23362ae8 45%,#23362a7c 100%);
+}
+
+/* Stable navigation: a functional material, not a glass layer over content. */
+.reference-travel-shell > .main-column > .reference-topbar{
+  box-shadow:0 1px 5px rgba(21,55,34,.025);
+}
+.reference-travel-shell .reference-main-nav{gap:4px}
+.reference-travel-shell .reference-main-nav button{
+  min-height:44px;padding-inline:15px;
+  font-weight:630;letter-spacing:-.012em;
+  transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease !important;
+}
+.reference-travel-shell .reference-topbar .top-actions :is(.icon-btn,.guide-launch){
+  min-width:44px;min-height:44px;
+}
+.reference-travel-shell .reference-global-search{
+  min-height:44px;border-radius:13px;
+}
+.reference-travel-shell .mobile-dock button{min-height:50px}
+.reference-travel-shell .mobile-dock button[aria-current=page]{
+  background:var(--v94-action-soft);
+}
+
+/* Actions: shape and spacing distinguish primary actions without enlarging every chip. */
+.reference-travel-shell :is(.button,.chip-button,.icon-btn,.hub-search-form button,
+  .reference-discovery-save,.day-plan-quick-chip){
+  border-radius:var(--v94-radius-control);
+}
+.reference-travel-shell .button{
+  min-height:42px;gap:8px;padding:9px 15px;
+  font-weight:640;
+}
+.reference-travel-shell .button.primary{
+  min-height:44px;background:#176244;border-color:#176244;color:#fff;
+}
+.reference-travel-shell .button.subtle{
+  background:var(--v94-action-soft);border-color:transparent;
+}
+.reference-travel-shell :is(.chip-button,.explorer-chip){
+  min-height:36px;
+}
+.reference-travel-shell :is(.reference-stage-days .day,.days .day){
+  border-radius:14px;
+}
+.reference-travel-shell .reference-stage-days .day[aria-pressed=true]{
+  box-shadow:none;
+}
+:root[data-theme=dark] .reference-travel-shell .button.primary{
+  background:#266a45;border-color:#266a45;color:#fff;
+}
+
+/* Form controls: consistent density and non-animated focus. */
+.reference-travel-shell :is(input:not([type=checkbox]),select,textarea){
+  min-height:44px;
+  border-radius:var(--v94-radius-control);
+  border-color:var(--v94-stroke);
+}
+.reference-travel-shell :is(input:not([type=checkbox]),select,textarea):focus-visible{
+  outline:2px solid var(--v94-stroke-active);outline-offset:2px;
+}
+.reference-travel-shell :is(button,a[href],summary,[role=button]):focus-visible,
+dialog :is(button,a[href],summary):focus-visible{
+  outline:3px solid color-mix(in srgb,var(--v94-stroke-active) 85%,#fff);
+  outline-offset:3px;
+}
+.reference-travel-shell :is(button,a[href],summary)[disabled]{
+  cursor:not-allowed;
+}
+.reference-travel-shell :is(.hub-search-form,.hub-filter-panel,.stay-facets)
+  :is(input,select){min-width:0}
+.reference-travel-shell :is(.hub-filter-panel,.stay-facets) label{
+  line-height:1.4;
+}
+
+/* Day plan: calendar is the navigation; actions and city detail breathe. */
+.reference-travel-shell .reference-stage-days{padding-block:10px}
+.reference-travel-shell .day-plan-quick-bar{
+  padding:clamp(14px,1.7vw,20px);
+  background:var(--v94-surface-raised);
+  box-shadow:none;
+}
+.reference-travel-shell .day-plan-quick-heading strong{
+  font-size:1.04rem;letter-spacing:-.015em;
+}
+.reference-travel-shell .day-plan-quick-chip{
+  min-height:40px;background:var(--v94-surface);
+  border-color:var(--v94-stroke);
+}
+.reference-travel-shell :is(.day-plan-panel,.day-plan-stop,.day-plan-current-row){
+  border-color:var(--v94-stroke);
+}
+.reference-travel-shell .day-plan-quick-bottom a{min-height:40px}
+
+/* Atlas: keep the map visually dominant, leave attribution and map gestures alone. */
+.reference-travel-shell .reference-map-workspace{
+  gap:clamp(12px,1.5vw,20px);
+}
+.reference-travel-shell .reference-map-workspace>.map-panel{
+  overflow:hidden;
+}
+.reference-travel-shell :is(.map-context-summary,.map-extra-details,.reference-places-drawer){
+  box-shadow:none;
+}
+.reference-travel-shell .reference-map-workspace :is(.explorer-place,.route-studio-stop){
+  border-radius:14px;
+}
+.reference-travel-shell :is(.map-context-summary,.map-active-filters,.map-tools){
+  row-gap:9px;
+}
+
+/* Stay and discovery: high-information content without visual card stacks. */
+.reference-travel-shell :is(.hub-results-title,.hub-filter-count,.hub-option-primary-actions){
+  gap:10px;
+}
+.reference-travel-shell :is(.hub-option-card,.hub-food-card,.reference-discovery-card){
+  background:var(--v94-surface);overflow-wrap:break-word;
+}
+.reference-travel-shell :is(.hub-option-evidence,.hub-technical-details)>summary{
+  min-height:44px;line-height:1.4;
+}
+.reference-travel-shell .stay-compare-board .stay-compare-card{
+  box-shadow:none;
+}
+.reference-travel-shell .market-baskets-v86>header>p{
+  line-height:1.56;
+}
+.reference-travel-shell .market-baskets-v86 .panel{
+  background:var(--v94-surface);
+}
+
+/* Dialog uses a clear content surface; no backdrop animation for every press. */
+dialog{
+  border-color:var(--v94-stroke);border-radius:20px;
+  background:var(--v94-surface);color:var(--v94-ink);
+  box-shadow:0 18px 55px rgba(10,32,22,.20);
+}
+dialog .dialog-head{border-color:var(--v94-stroke)}
+dialog .dialog-body{line-height:1.55}
+dialog[open]{animation:calm-dialog 175ms ease-out both !important}
+dialog[open]::backdrop{animation:ux-backdrop-in 175ms ease-out both !important}
+
+/* Keep motion limited to color, opacity and an optional first-entry reveal.
+ * No translateY on repeated card interaction or delayed UI state. */
+@media(hover:hover) and (pointer:fine){
+  .reference-travel-shell :is(.button,.reference-main-nav button,
+    .overview-quick-card,.hub-option-card,.reference-discovery-card,
+    .explorer-place):hover{
+    transform:none !important;
+  }
+  .reference-travel-shell .button.primary:hover{
+    background:#105138;border-color:#105138;
+  }
+  :root[data-theme=dark] .reference-travel-shell .button.primary:hover{
+    background:#2d7751;border-color:#2d7751;
+  }
+}
+:root[data-theme=dark] .reference-travel-shell :is(.day-plan-quick-bar,
+  .hub-filter-panel,.activity-filter-panel,.stay-facets,.map-context-summary){
+  background:var(--v94-surface-raised);
+}
+:root[data-theme=dark] .reference-travel-shell :is(.day-plan-quick-chip,
+  .hub-option-card,.hub-food-card,.reference-discovery-card){
+  background:var(--v94-surface);
+  border-color:var(--v94-stroke);
+}
+
+/* Shrink usable width gracefully, keep safe-area dock and text scaling. */
+@media(max-width:900px){
+  .reference-travel-shell>.main-column>.workspace{padding-inline:clamp(14px,2.2vw,24px)}
+  .reference-travel-shell .page-head{margin-block:15px 20px}
+}
+@media(max-width:650px){
+  .reference-travel-shell>.main-column>.workspace{
+    padding-inline:14px;
+    padding-bottom:calc(85px + env(safe-area-inset-bottom));
+  }
+  .reference-travel-shell .page-head h1{font-size:clamp(1.8rem,7vw,2.1rem)}
+  .reference-travel-shell .page-head{gap:12px;flex-wrap:wrap}
+  .reference-travel-shell :is(.hub-hero,.reference-map-intro){border-radius:18px}
+  .reference-travel-shell :is(.panel,.day-plan-panel,.hub-option-card,
+    .hub-food-card,.reference-discovery-card,.day-plan-quick-bar){
+    border-radius:16px;
+  }
+  .reference-travel-shell .section{margin-block:23px}
+  .reference-travel-shell .mobile-dock{
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .reference-travel-shell :is(.button.primary,.hub-search-form button){
+    min-height:44px;
+  }
+  .reference-travel-shell .day-plan-quick-heading strong{font-size:1rem}
+  .reference-travel-shell .market-baskets-v86>header>p{
+    font-size:.91rem;line-height:1.53;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .reference-travel-shell :is(.button,.chip-button,.overview-quick-card,
+    .hub-option-card,.hub-food-card,.reference-discovery-card),
+  dialog[open],dialog[open]::backdrop{
+    animation:none !important;transition:none !important;
+  }
+}
+:root[data-motion=off] .reference-travel-shell :is(.button,.chip-button,
+ .overview-quick-card,.hub-option-card,.hub-food-card,.reference-discovery-card),
+:root[data-motion=off] dialog[open],
+:root[data-motion=off] dialog[open]::backdrop{
+  animation:none !important;transition:none !important;
+}
+@media(prefers-reduced-transparency:reduce){
+  .reference-travel-shell>.main-column>.reference-topbar,
+  .reference-travel-shell .mobile-dock{
+    backdrop-filter:none !important;-webkit-backdrop-filter:none !important;
+  }
+}
+@media(prefers-contrast:more){
+  .reference-travel-shell{
+    --v94-stroke:#789b83;
+    --v94-ink-secondary:#2f4e3b;
+  }
+  :root[data-theme=dark] .reference-travel-shell{
+    --v94-stroke:#8dae95;
+    --v94-ink-secondary:#e4f3e6;
+  }
+}
+.reference-travel-shell :is(#day-plan-draft-detail,#meal-grocery-basket,
+  #meal-recipe-choices,.section[id]){scroll-margin-top:90px}

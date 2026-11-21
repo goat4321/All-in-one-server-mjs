@@ -8,9 +8,10 @@ const [html,css,motion]=await Promise.all([
  load('index.html'),load('calm-design-v91.css'),load('motion-ux.mjs')
 ]);
 
-test('Calm design is the final stylesheet; older page and map overrides stay loaded',()=>{
+test('Calm V91 stays loaded before the final V94 visual system',()=>{
  const sheets=[...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
- assert.equal(sheets.at(-1),'/calm-design-v91.css');
+ assert.equal(sheets.at(-2),'/calm-design-v91.css');
+ assert.equal(sheets.at(-1),'/apple-visual-system-v94.css');
  assert.ok(sheets.indexOf('/motion-polish.css')<sheets.indexOf('/calm-design-v91.css'));
  assert.ok(sheets.indexOf('/stay-decision.css')<sheets.indexOf('/calm-design-v91.css'));
  assert.ok(sheets.includes('/map-clarity-v72.css'));

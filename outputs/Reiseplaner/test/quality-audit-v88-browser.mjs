@@ -86,6 +86,12 @@ try{
    // V91: inspect the real final cascade in every 390/768/1440 light/dark/motion snapshot.
    const calmStyleLoaded=[...document.styleSheets].some(sheet=>
      sheet.href?.endsWith('/calm-design-v91.css'));
+   const v94StyleLoaded=[...document.styleSheets].some(sheet=>
+     sheet.href?.endsWith('/apple-visual-system-v94.css'));
+   const v94Primary=document.querySelector('.reference-travel-shell .button.primary');
+   const v94PrimaryTouch=v94Primary?.getBoundingClientRect().height??null;
+   const v94Panel=document.querySelector('.reference-travel-shell .panel');
+   const v94PanelRadius=v94Panel?getComputedStyle(v94Panel).borderTopLeftRadius:null;
    const calmTopbar=document.querySelector('.reference-topbar');
    const calmTopbarBg=calmTopbar?getComputedStyle(calmTopbar).backgroundColor:null;
    const calmRevealedNodes=document.querySelectorAll('#app .motion-revealed').length;
@@ -171,8 +177,9 @@ try{
     images:media.length,lazyImages:media.filter(i=>i.loading==='lazy').length,failedOfflineImages:failed.length,
     horizontalOverflow:Math.max(0,document.documentElement.scrollWidth-innerWidth),
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
+    v94MapCountBroken:/undefined (?:Kartenpunkte|Ortsangaben ohne Pin)/.test(document.querySelector('.reference-map-workspace')?.textContent??''),
     searchButtonClipPx,searchLabelVisuallyHidden,
-    calmStyleLoaded,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
+    calmStyleLoaded,v94StyleLoaded,v94PrimaryTouch,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
     calmInactiveNavColor,calmSearchBg,calmSearchProbe,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
@@ -193,12 +200,12 @@ try{
     await sleep(260);
     const snapshot=await js(auditExpression);
     rows.push({page,width,theme,reduce,renderMs,htmlBytes,errors:exceptions.length,...snapshot});
-    if(output&&theme==='light'&&!reduce){
+    if(output&&!reduce&&(theme==='light'||(theme==='dark'&&(width===390||width===1440)))){
      await mkdir(output,{recursive:true});
      await js('window.scrollTo(0,0)');
      await sleep(110);
      const shot=await cdp('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
-     await writeFile(join(output,'v88-'+page+'-'+width+'.png'),Buffer.from(shot.data,'base64'));
+     await writeFile(join(output,'v88-'+page+'-'+width+(theme==='dark'?'-dark':'')+'.png'),Buffer.from(shot.data,'base64'));
     }
    }
   }
@@ -326,6 +333,10 @@ try{
    console.log('V88_PAGE '+JSON.stringify(row));
  assert.equal(store.list().length,4);
  assert.equal(exceptions.length,0,'Runtime exceptions during audit');
+ assert.ok(rows.every(row=>row.v94StyleLoaded),
+   'V94 must be the loaded final design layer on every page and theme');
+ assert.ok(rows.every(row=>row.v94PrimaryTouch===null||row.v94PrimaryTouch>=42),
+   'V94 primary buttons remain usable rather than tiny');
  assert.ok(rows.every(row=>row.calmStyleLoaded),
    'V91 final calm stylesheet must load for every page/width/theme');
  assert.ok(rows.every(row=>row.calmRevealedNodes<=4),
@@ -353,6 +364,8 @@ try{
  assert.ok(rows.filter(row=>row.theme==='dark'&&row.width!==390).every(row=>
    row.calmTopActionBg==='rgb(32, 46, 37)'),
    'Dark header actions must match the dark material rather than white buttons');
+ assert.ok(rows.filter(row=>['map','plan'].includes(row.page)).every(row=>
+   !row.v94MapCountBroken), 'Map and plan must not show undefined counts');
  assert.ok(rows.every(row=>row.horizontalOverflow<=1),
    'Design changes must not introduce horizontal overflow at 390/768/1440');
  // V93: live browser inventory of the secondary mobile controls identified
