@@ -161,6 +161,9 @@ try{
    for(const [theme,reduce] of [['light',false],['dark',false],['light',true]]){
     await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:reduce?'reduce':'no-preference'}]});
     await js('document.documentElement.dataset.theme='+JSON.stringify(theme));
+    // The design intentionally transitions text color for 190ms. Audit its
+    // settled contrast rather than a transient frame after theme switching.
+    await sleep(260);
     const snapshot=await js(auditExpression);
     rows.push({page,width,theme,reduce,renderMs,htmlBytes,errors:exceptions.length,...snapshot});
     if(output&&theme==='light'&&!reduce){
