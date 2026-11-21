@@ -45,6 +45,14 @@ Das **ursprünglich vom Nutzer gemeinte, möglicherweise andere** Apple-Design-S
 
 **Noch offen:** Exakte manuelle Referenzbildübereinstimmung (Originaldateien privat), iOS-/Android-Geräte, VoiceOver/NVDA, ganze-Farbschema-WCAG-Abnahme, reale Web Vitals und synchronisierte lokale Windows-Dateien. Kein Merge nach `main`, kein Deployment, keine Buchung/Zahlung.
 
+## 3a. V92-Fortsetzung: Mobile Quellennachweise gezielt verbessern
+
+Nach der erfolgreichen V91-Abnahme (Code-HEAD `9405062e`) zeigte das 390px-Labor noch sechs zu kleine Bildquellenlinks auf der Startseite und je einen auf Unterkünfte/Entdecken/Essen. V92 erweitert **nur** die vorhandenen `a.destination-credit`- und `a.hub-hero-photo-credit`-Trefferflächen bei max. 650px auf mindestens 32px Höhe, mit ruhigem Abstand und Tastaturfokus. Andere Links, Fotos, Urheberinformationen, Reisevarianten, Karten, Routen und Daten bleiben unangetastet.
+
+**Gemessen in echter Headless-Chrome-CI:** Vorher-V91 #44912077919: 527/527 Tests, Startseite 6 und Unterkünfte 1 Link(s) unter 24px; nachher-V92 [#44921640348](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44921640348), Code-HEAD `9a157bf1103275172678fdce41146700286f1a3f8`, **success** mit **528/528** portablen Tests, 63 Chrome-Messungen und normalen App-/HTTP-/Routentests. Mobile 390px: Übersicht **6→0**, Unterkünfte **1→0**, Entdecken **2→1**, Essen **14→13** kleine Trefferflächen; weiterhin **0px Überlauf**, **0 JS-Ausnahmen**. Zugehörige Änderungen: `calm-design-v91.css`, `test/calm-design-v91.test.mjs`, `test/quality-audit-v88-browser.mjs`.
+
+**Grenzen:** Ziel ist eine eng begrenzte Verbesserung, keine vollständige 44px-Touch-Target-/WCAG-Abnahme. Bei Essen (13), Tag (8) und Karte (6) bleiben messbar kleinere Sekundärlinks/Details; vor einem weiteren pauschalen CSS-Eingriff müssen deren tatsächliche Bedienelemente und Layouts untersucht werden. Dies ist eine synthetische Chrome-Messung ohne realen iPhone-/Android- oder VoiceOver-Test.
+
 ## 4. Lokale Website sicher ansehen
 
 ```bat
