@@ -53,3 +53,14 @@ test('V95 content remains accessible, without external design assets',()=>{
  let depth=0;for(const ch of css){if(ch==='{')depth++;if(ch==='}')depth--;assert.ok(depth>=0);}
  assert.equal(depth,0);
 });
+
+test('V95 hero photographs render above their card background with explicit fallback',()=>{
+ for(const selector of ['.editorial-journey-media>img','.hub-hero-art>img',
+ '.day-editorial-media','.hub-hero[data-photo=fallback]']){
+  assert.ok(css.includes(selector),selector);
+ }
+ assert.match(css,/\.hub-hero-art>img\{\s*position:absolute/);
+ assert.match(css,/\.editorial-journey-media\{\s*z-index:0 !important/);
+ assert.match(css,/\.editorial-journey-hero h1 \.sr-only/);
+ assert.match(views,/destinationIllustration\(heroCityId\)/);
+});

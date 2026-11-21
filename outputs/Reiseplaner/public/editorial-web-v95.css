@@ -649,3 +649,111 @@
 :root[data-theme=dark] .reference-travel-shell .reference-map-intro .simple-hero-hint{
  color:#4b6655 !important;
 }
+
+
+/* V95 visual screenshot repair: image layers above the material background,
+ * dimmer between photo and text. Prior negative z-indices placed photos behind
+ * their own parent background, leaving black or vector-only hero tiles. */
+.reference-travel-shell .editorial-journey-hero{
+ isolation:isolate;
+}
+.reference-travel-shell .editorial-journey-media{
+ z-index:0 !important;
+}
+.reference-travel-shell .editorial-journey-media>svg{
+ position:absolute;inset:0;
+ height:100%;width:100%;z-index:0;
+}
+.reference-travel-shell .editorial-journey-media>img{
+ position:absolute;inset:0;
+ width:100%;height:100%;z-index:1;
+ object-fit:cover;
+}
+.reference-travel-shell .editorial-journey-hero[data-photo=true]:before{
+ z-index:1 !important;
+}
+.reference-travel-shell .editorial-journey-copy{
+ position:relative;z-index:2;
+}
+.reference-travel-shell .editorial-journey-credit{
+ z-index:3;
+}
+/* The accessible title remains present but must not appear as a large
+ * extra word in the visual headline. */
+.reference-travel-shell .editorial-journey-hero h1 .sr-only{
+ position:absolute !important;
+ width:1px !important;height:1px !important;
+ padding:0 !important;margin:-1px !important;
+ overflow:hidden !important;clip:rect(0,0,0,0) !important;
+ clip-path:inset(50%) !important;white-space:nowrap !important;
+ border:0 !important;
+}
+.reference-travel-shell .editorial-journey-hero[data-photo=fallback]{
+ background:#dce6ec;color:#16212c;
+}
+.reference-travel-shell .editorial-journey-hero[data-photo=fallback] .editorial-journey-media>img{
+ display:none;
+}
+.reference-travel-shell .editorial-journey-hero[data-photo=fallback] .editorial-journey-actions .button.subtle{
+ background:#fff;color:#1d1d1f;border-color:#aab2bb;
+}
+.reference-travel-shell .hub-hero-art{
+ z-index:0 !important;
+}
+.reference-travel-shell .hub-hero-art>svg{
+ position:absolute;inset:0;z-index:0;
+ width:100%;height:100%;
+}
+.reference-travel-shell .hub-hero-art>img{
+ position:absolute;inset:0;z-index:1;
+ width:100%;height:100%;object-fit:cover;
+}
+.reference-travel-shell .hub-hero[data-photo=true]:after{
+ z-index:1 !important;
+ pointer-events:none;
+}
+.reference-travel-shell .hub-hero-main,
+.reference-travel-shell .hub-hero-actions{
+ position:relative;z-index:2;
+}
+.reference-travel-shell .hub-hero-photo-credit{
+ z-index:3;
+}
+.reference-travel-shell .hub-hero[data-photo=fallback]{
+ background:var(--e95-paper) !important;
+ color:var(--e95-ink) !important;
+}
+.reference-travel-shell .hub-hero[data-photo=fallback] .hub-hero-art{
+ opacity:.28;
+}
+.reference-travel-shell .hub-hero[data-photo=fallback] .hub-hero-art>img{
+ display:none;
+}
+.reference-travel-shell .hub-hero[data-photo=fallback] :is(
+ .hub-hero-main>p,.hub-hero-stats>span){
+ color:var(--e95-secondary) !important;
+}
+.reference-travel-shell .day-editorial-media{
+ z-index:0 !important;
+}
+.reference-travel-shell .day-editorial-hero:after{
+ z-index:1 !important;pointer-events:none;
+}
+.reference-travel-shell .day-editorial-hero .hero-copy,
+.reference-travel-shell .day-editorial-hero>.button{
+ position:relative;z-index:2;
+}
+.reference-travel-shell .day-editorial-credit{z-index:3}
+.reference-travel-shell .day-editorial-hero[data-photo=fallback]{
+ background:#243a50;
+}
+.reference-travel-shell .day-editorial-hero[data-photo=fallback] .day-editorial-media>img{
+ display:none;
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .editorial-journey-media>img,
+ .reference-travel-shell .hub-hero-art>img,
+ .reference-travel-shell .day-editorial-media>img{
+  transition:none !important;
+ }
+}

@@ -657,6 +657,7 @@ function overview(ctx) {
   const editorialHero='<section class="editorial-journey-hero" data-photo="'
     +(heroPhoto?'true':'false')+'" aria-label="Deine Reise im Überblick">'
     +'<div class="editorial-journey-media" aria-hidden="true">'
+    +destinationIllustration(heroCityId)
     +(heroPhoto?'<img src="'+esc(heroPhoto.url)+'" alt="" loading="eager"'
       +' decoding="async" referrerpolicy="no-referrer">':destinationIllustration(heroCityId))
     +'</div><div class="editorial-journey-copy">'

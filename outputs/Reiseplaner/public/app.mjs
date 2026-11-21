@@ -2294,7 +2294,7 @@ app.addEventListener('toggle',event=>{
 app.addEventListener('error',event=>{
   const image=event.target;
   if(!(image instanceof HTMLImageElement))return;
-  const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo,.reference-intro-photo,.reference-discovery-image,.reference-hero-thumb');
+  const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo,.reference-intro-photo,.reference-discovery-image,.reference-hero-thumb,.editorial-journey-media,.hub-hero-art,.day-editorial-media');
   if(!frame||image.dataset.fallbackApplied)return;
   // The decorative backup failing must not hide a separately sourced
   // and successfully loaded individual photo.
@@ -2307,6 +2307,12 @@ app.addEventListener('error',event=>{
   image.dataset.fallbackApplied='true';
   image.style.display='none';
   frame.dataset.imageUnavailable='true';
+  const editorialHero=frame.closest('.editorial-journey-hero,.hub-hero,.day-editorial-hero');
+  if(editorialHero){
+    editorialHero.dataset.photo='fallback';
+    const credit=editorialHero.querySelector('.editorial-journey-credit,.hub-hero-photo-credit,.day-editorial-credit');
+    if(credit)credit.setAttribute('title','Originalfoto konnte nicht geladen werden – Quellenlink');
+  }
   if(frame.matches('.reference-intro-photo,.reference-discovery-image')){
     const label=document.createElement('span');
     label.className='reference-photo-fallback';
