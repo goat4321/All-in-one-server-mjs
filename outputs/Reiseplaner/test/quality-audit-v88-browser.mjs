@@ -95,6 +95,12 @@ try{
    const calmNavButton=document.querySelector('.reference-main-nav button');
    const calmNavTransition=calmNavButton
      ?getComputedStyle(calmNavButton).transitionProperty:null;
+   const calmInactiveNavText=document.querySelector('.reference-main-nav button[aria-current="false"] span');
+   const calmInactiveNavColor=calmInactiveNavText?getComputedStyle(calmInactiveNavText).color:null;
+   const calmSearchBg=document.querySelector('.reference-global-search')
+     ?getComputedStyle(document.querySelector('.reference-global-search')).backgroundColor:null;
+   const calmTopAction=document.querySelector('.reference-topbar>.top-actions .icon-btn');
+   const calmTopActionBg=calmTopAction?getComputedStyle(calmTopAction).backgroundColor:null;
    const nav=performance.getEntriesByType('navigation')[0];
    const form=document.querySelector('.hub-search-form'),
     submit=form?.querySelector('[data-action="browse-search-apply"]');
@@ -140,6 +146,7 @@ try{
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     searchButtonClipPx,searchLabelVisuallyHidden,
     calmStyleLoaded,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
+    calmInactiveNavColor,calmSearchBg,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
     reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,
@@ -302,6 +309,15 @@ try{
  const darkNav=rows.find(row=>row.width===390&&row.page==='overview'&&row.theme==='dark')?.calmTopbarBg;
  assert.ok(lightNav&&darkNav&&lightNav!==darkNav,
    'Calm functional navigation needs distinct real light and dark backgrounds');
+ assert.ok(rows.filter(row=>row.theme==='dark').every(row=>
+   row.calmInactiveNavColor==='rgb(237, 246, 238)'),
+   'Dark navigation labels must keep light, legible text across seven pages and three widths');
+ assert.ok(rows.filter(row=>row.theme==='dark'&&row.width!==390).every(row=>
+   row.calmSearchBg==='rgb(32, 46, 37)'),
+   'Dark desktop/tablet search must not remain bright white');
+ assert.ok(rows.filter(row=>row.theme==='dark'&&row.width!==390).every(row=>
+   row.calmTopActionBg==='rgb(32, 46, 37)'),
+   'Dark header actions must match the dark material rather than white buttons');
  assert.ok(rows.every(row=>row.horizontalOverflow<=1),
    'Design changes must not introduce horizontal overflow at 390/768/1440');
  assert.ok(rows.filter(r=>['lodging','discover','food'].includes(r.page))
