@@ -48,3 +48,12 @@ test('V94 CSS braces stay balanced',()=>{
  for(const char of css){if(char==='{')depth++;if(char==='}')depth--;assert.ok(depth>=0);}
  assert.equal(depth,0);
 });
+
+test('V94 dark fixes address actual light-only component overrides',()=>{
+ for(const s of ['.overview-start-copy strong','.hub-hero .hub-kicker',
+  '.hub-toolbar','.day-plan-quick-bar','.reference-discovery-body p',
+  '.reference-map-workspace>.map-panel>.panel-head p']){
+   assert.ok(css.includes(s),s+' dark override absent');
+ }
+ assert.match(css,/min-height:44px !important/);
+});

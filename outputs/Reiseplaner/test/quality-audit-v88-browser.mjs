@@ -90,6 +90,12 @@ try{
      sheet.href?.endsWith('/apple-visual-system-v94.css'));
    const v94Primary=document.querySelector('.reference-travel-shell .button.primary');
    const v94PrimaryTouch=v94Primary?.getBoundingClientRect().height??null;
+   const v94HeroTitle=document.querySelector('.hub-hero h1');
+   const v94HeroTitleColor=v94HeroTitle?getComputedStyle(v94HeroTitle).color:null;
+   const v94QuickTitle=document.querySelector('.day-plan-quick-heading strong');
+   const v94QuickTitleColor=v94QuickTitle?getComputedStyle(v94QuickTitle).color:null;
+   const v94OverviewStart=document.querySelector('.overview-start');
+   const v94OverviewStartBg=v94OverviewStart?getComputedStyle(v94OverviewStart).backgroundColor:null;
    const v94Panel=document.querySelector('.reference-travel-shell .panel');
    const v94PanelRadius=v94Panel?getComputedStyle(v94Panel).borderTopLeftRadius:null;
    const calmTopbar=document.querySelector('.reference-topbar');
@@ -179,7 +185,7 @@ try{
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     v94MapCountBroken:/undefined (?:Kartenpunkte|Ortsangaben ohne Pin)/.test(document.querySelector('.reference-map-workspace')?.textContent??''),
     searchButtonClipPx,searchLabelVisuallyHidden,
-    calmStyleLoaded,v94StyleLoaded,v94PrimaryTouch,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
+    calmStyleLoaded,v94StyleLoaded,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
     calmInactiveNavColor,calmSearchBg,calmSearchProbe,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
@@ -335,6 +341,15 @@ try{
  assert.equal(exceptions.length,0,'Runtime exceptions during audit');
  assert.ok(rows.every(row=>row.v94StyleLoaded),
    'V94 must be the loaded final design layer on every page and theme');
+ assert.ok(rows.filter(r=>r.theme==='dark'&&r.page==='plan').every(r=>
+   r.v94QuickTitleColor==='rgb(220, 239, 224)'),
+   'Dark quick-day plan must not inherit the old light-only ink');
+ assert.ok(rows.filter(r=>r.theme==='dark'&&['discover','food','lodging'].includes(r.page)).every(r=>
+   r.v94HeroTitleColor==='rgb(237, 246, 238)'),
+   'Dark photo heroes must keep clearly legible light headings');
+ assert.ok(rows.filter(r=>r.theme==='dark'&&r.page==='overview').every(r=>
+   r.v94OverviewStartBg==='rgb(32, 47, 38)'),
+   'Dark overview quick navigation must not remain stark white');
  assert.ok(rows.every(row=>row.v94PrimaryTouch===null||row.v94PrimaryTouch>=42),
    'V94 primary buttons remain usable rather than tiny');
  assert.ok(rows.every(row=>row.calmStyleLoaded),

@@ -339,3 +339,120 @@ dialog[open]::backdrop{animation:ux-backdrop-in 175ms ease-out both !important}
 }
 .reference-travel-shell :is(#day-plan-draft-detail,#meal-grocery-basket,
   #meal-recipe-choices,.section[id]){scroll-margin-top:90px}
+
+
+/* V94 dark-appearance repair from the real 390/1440px Chrome screenshots.
+ * Older readability-day-v50.css pins light-only --text and color values on
+ * several sections. Scope the correction to those actual surfaces; keep light
+ * palette, photographer credits, photos and map tiles unchanged. */
+.reference-travel-shell .button.primary{
+  min-height:44px !important; /* V94 lab found 34.86px in map action */
+}
+:root[data-theme=dark] .reference-travel-shell :is(
+  .overview-start,.overview-quick-card,.hub-toolbar,.hub-filter-panel,
+  .activity-filter-panel,.stay-facets,.hub-option-card,.hub-food-card,
+  .reference-discovery-card,.day-plan-panel,.day-plan-quick-bar,
+  .reference-stage-days,.day-plan-overview
+){
+  --text:#edf6ee;
+  --muted:#bfcfc3;
+  --green:#ade6bf;
+  --paper:#202f26;
+  --line:#3b5141;
+  --accent:#2d4836;
+  --light:#293a2f;
+  color:var(--v94-ink) !important;
+  border-color:var(--v94-stroke) !important;
+}
+:root[data-theme=dark] .reference-travel-shell :is(
+  .overview-start,.overview-quick-card,.hub-toolbar,.hub-filter-panel,
+  .activity-filter-panel,.stay-facets,.hub-option-card,.hub-food-card,
+  .reference-discovery-card,.day-plan-panel,.day-plan-overview
+){background:var(--v94-surface) !important}
+:root[data-theme=dark] .reference-travel-shell .overview-start{
+  box-shadow:var(--v94-depth);
+}
+:root[data-theme=dark] .reference-travel-shell .overview-start-copy strong,
+:root[data-theme=dark] .reference-travel-shell .overview-quick-card :is(strong,small),
+:root[data-theme=dark] .reference-travel-shell .overview-quick-card>.ui-icon{
+  color:var(--v94-ink) !important;
+}
+:root[data-theme=dark] .reference-travel-shell .overview-start-copy span,
+:root[data-theme=dark] .reference-travel-shell .overview-quick-card small{
+  color:var(--v94-ink-secondary) !important;
+}
+:root[data-theme=dark] .reference-travel-shell .overview-quick-icon{
+  background:var(--v94-action-soft);color:#bce9cc;
+}
+/* The photo-led hub hero previously rendered dark-on-dark text in dark mode. */
+:root[data-theme=dark] .reference-travel-shell .hub-hero{
+  --text:#edf6ee;--muted:#c2d3c5;--green:#c6efd4;
+  color:#edf6ee;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-hero :is(
+  h1,.hub-kicker,.hub-hero-main>p,.hub-hero-stats,.hub-hero-stats span
+){color:#edf6ee !important;opacity:1}
+:root[data-theme=dark] .reference-travel-shell .hub-hero .hub-kicker{
+  color:#b4e8c7 !important;
+}
+/* Screen-specific controls use one dark surface instead of a white toolbar
+ * floating above dark results. Selected-state styling stays semantic. */
+:root[data-theme=dark] .reference-travel-shell .hub-toolbar :is(
+  .hub-search-form,.hub-search-form input,.hub-sort-controls select,
+  .hub-filter-more>summary,.hub-filter-more>div
+){
+  background:#293a2f !important;color:#edf6ee !important;
+  border-color:#3b5141 !important;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-toolbar :is(
+ .hub-quick-filters .chip-button,.hub-scope button
+){
+  background:#293a2f;color:#edf6ee;border-color:#3b5141;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-toolbar :is(
+  .hub-quick-filters .chip-button[aria-pressed=true],
+  .hub-scope button[aria-pressed=true]
+){
+  background:#266a45;color:#fff;border-color:#266a45;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-toolbar :is(
+  .hub-filter-count,.hub-filter-count strong,.hub-sort-controls label
+){color:#c8dfcc !important}
+/* The quick-day controls had fixed light-mode text colors on a dark panel. */
+:root[data-theme=dark] .reference-travel-shell .day-plan-quick-bar{
+  background:#25372b !important;color:#edf6ee !important;
+  border-color:#3b5141;
+}
+:root[data-theme=dark] .reference-travel-shell .day-plan-quick-bar
+  :is(.day-plan-quick-heading strong,.day-plan-quick-heading>span,
+  .day-plan-quick-heading small,.day-plan-batch-cta small,
+  .day-plan-quick-empty){
+  color:#dcefe0 !important;
+}
+:root[data-theme=dark] .reference-travel-shell .day-plan-quick-bar
+  :is(.day-plan-quick-chip,.day-plan-quick-chip.is-added){
+  background:#2c4534;color:#dcf3e3 !important;
+  border-color:#4b6e56;
+}
+:root[data-theme=dark] .reference-travel-shell .day-plan-quick-bottom a{
+  color:#c6edd4 !important;
+}
+/* Original light-only CSS sets explicit !important inks on discovery cards. */
+:root[data-theme=dark] .reference-travel-shell :is(
+  .reference-discovery-head h2,.reference-discovery-card strong,
+  .reference-discovery-title strong,.reference-discovery-body,
+  .reference-discovery-euro,.reference-map-workspace>.map-panel>.panel-head h2
+){color:#edf6ee !important}
+:root[data-theme=dark] .reference-travel-shell :is(
+  .reference-discovery-body p,.reference-discovery-head p,
+  .reference-map-workspace>.map-panel>.panel-head p
+){color:#c2d3c5 !important}
+:root[data-theme=dark] .reference-travel-shell .hub-option-card :is(
+  h2,h3,strong,.hub-option-body,.hub-option-title
+){color:#edf6ee}
+:root[data-theme=dark] .reference-travel-shell .hub-option-card
+  :is(p,small,.hub-option-meta){color:#c2d3c5}
+:root[data-theme=dark] .reference-travel-shell .reference-stage-days
+  .map-scope-modes button:not([aria-pressed=true]){
+  color:#d5e7d9 !important;
+}
