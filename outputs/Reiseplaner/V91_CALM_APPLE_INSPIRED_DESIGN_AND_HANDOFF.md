@@ -77,3 +77,9 @@ Zur vollständigen portablen Prüfung: `cd outputs\Reiseplaner`, `npm run check:
 **Vorher (V92, Chrome bei 390px, hell):** Essen 13, Tagesplan 8, Karte 6, Entdecken 1 unter-24px-Bedienelemente. Konkret: Rezept-/Warenkorb-Sprünge, Produktquellen, Essenskarten-Disclosure, Tagesplan-Links, Karten-Bildquelle und Quellenmenü. **Ziel:** höchstens 2 / 1 / 1 / 1, ohne horizontalen Überlauf. Neue `test/calm-design-v91.test.mjs`-Invarianten und strenge Browser-Assertions prüfen das automatisch.
 
 **Testgrenze:** Diese Notiz dokumentiert die Codeänderung, nicht einen schon bestätigten grünen GitHub-Actions-Lauf. 36px Sekundärlinks bleiben bewusst unter Apples 44pt-Empfehlung für allgemeine Touch-Ziele; wegen der dicht belegten Quellen und Kartenbilder ist es ein Kompromiss, keine vollständige HIG-/WCAG-Abnahme. Browser- und Geräteergebnis muss nach Commit geprüft werden. Daten, vier Varianten, Lizenzen, gespeicherte Planungen, Buchungen, `main` und Deployment nicht geändert.
+
+## 3c. V93 CI-Abschluss und Messvergleich
+
+**GitHub Actions [#44932460450](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44932460450) success**, für Code-HEAD `9862427aedc193661af0b2e0790640f236bb340f`. 530/530 portable Node-Tests (528 zuvor), Browser-, Karten-, Unterkunfts-/Speicher- und HTTP-Prüfungen sowie 63 Chrome-Messungen bestanden. Bei 390px und Light-Theme: Übersicht 0, Karte **6→0**, Tagesplan **8→0**, Unterkünfte 0, Entdecken **1→1**, Essen **13→0**, Daten 0 kleine unter-24px-Trefferflächen. Durchgehend **0px** horizontaler Überlauf, **0** JS-Ausnahmen. Das nachfolgende Dokumentationsupdate verändert keinen UI-Code und sollte vom verifizierten V93-Code-HEAD unterschieden werden.
+
+Noch offen: der eine Wikimedia-Fotolink auf Entdecken, native iOS-/Android- und Screenreader-Abnahme, echte Web Vitals, lokale Windows-Synchronisierung und vertrauliche Tripsy-Regression. Keine Änderung an `main` oder Deployment.

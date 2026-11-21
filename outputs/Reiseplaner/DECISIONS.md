@@ -1,3 +1,10 @@
+## 21.11.2026 – V93: eigene Apple-Skill, gezielte Trefferflächen und ruhige Interaktion
+
+- **Referenz:** Das eigene Repository [goat4321/apple-design-skill](https://github.com/goat4321/apple-design-skill) ist zugänglich und wurde mit zwölf relevanten Richtlinien (Layout, Accessibility, Buttons, Motion, Maps etc.) ausgewertet. Frühere V91-Aussage über fehlenden Zugriff ist durch diese neue Prüfung überholt.
+- **Produktentscheidung:** Kein pauschales 44px-Umbauen jeder Quelle und kein dekorativer Glaseffekt auf Karten. Beobachtete mobile Sekundärlinks erhalten 36px echte Hit-Box, Disclosure 44px und eingebettete Fotocredits 32px. Fokus sichtbar, nur kurz und unterbrechbar animierte Farben; OS- und App-Reduce-Motion respektiert. Als bewusster Kompromiss unter Apples genereller 44pt-Empfehlung dokumentiert.
+- **Evidenz:** Vorher Chrome V92 bei 390px: Essen 13, Tagesplan 8, Karte 6, Entdecken 1. Nachher V93: 0/0/0/1, Übersicht/Unterkünfte/Daten 0, max. horizontaler Überlauf 0px, 0 JS-Ausnahmen. Code-HEAD `9862427aedc1`, [GitHub Actions #44932460450](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44932460450) success, 530/530 portable Tests und 63 Browsermessungen.
+- **Unverändert:** Reisevarianten, Foto-/Quellenlizenzen, Echtzeit-/2027-Ungewissheit, Daten und Budget, keine Buchung, kein Merge, kein Deployment. Ein kleiner Wikimedia-Fotolink auf Entdecken bleibt offen; nativer Mobilgerätetest/Screenreader nicht behauptet.
+
 ## 21.11.2026 – V92: Quellennachweise bedienbar statt visuell lauter
 
 - **Entscheidung:** Bei 390px waren sechs Bildnachweise der Startseite und je ein Bildnachweis im Unterkunfts-/Entdecken-/Essenshero als zu kleine Links messbar. Nur bestehende Quellen-Anker (`a.destination-credit`, `a.hub-hero-photo-credit`) erhalten mobil eine min. 32px hohe Trefferfläche, zusätzlichen Innenabstand und fokussichtbaren Umriss. Keine generische Vergrößerung aller Links, die lange Tabellen, Pläne oder Karten verdrängen würde.

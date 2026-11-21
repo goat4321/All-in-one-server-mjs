@@ -1,3 +1,13 @@
+## 21.11.2026 – V93: mobile Apple-Skill-Fortsetzung abgeschlossen
+
+**Verifizierter V93-Code-HEAD:** `9862427aedc193661af0b2e0790640f236bb340f`. GitHub Actions [#44932460450](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44932460450) **success**: **530/530 portable Tests**, **63** echte Headless-Chrome-Labormessungen über sieben Seiten × 390/768/1440px × hell/dunkel/reduzierte Bewegung, **0px** horizontaler Überlauf, **0** JS-Ausnahmen. Browserfunktionen, Karten, Unterkünfte mit 2er-Vergleich, Speicher- und HTTP-Regressionen bestanden.
+
+**Vorher → nachher bei 390px:** Essen **13→0**, Tagesplan **8→0**, Karte **6→0**, Entdecken **1→1**, Übersicht **0→0**, Unterkünfte **0→0**, Daten **0→0** unter-24px-Trefferflächen. Die drei priorisierten Seiten sind damit ohne gemessene kleine Trefferflächen; ein Wikimedia-Fotolink unter Entdecken bleibt für einen späteren gezielten Durchgang.
+
+**Eigene Skill:** `goat4321/apple-design-skill/SKILL.md` samt 12 relevanten Referenzseiten tatsächlich gelesen (anstelle der früher eingesetzten fremden öffentlichen Skill). V93-Styles in `public/calm-design-v91.css` ändern nur mobile hit regions und kurze Fokus-/Farbzustände: Sekundärlinks 36px, Disclaimer-/Disclosure-Zeilen 44px, Kartenfoto-Attributionslinks 32px. Kein Bounce, kein Layout-Lift, keine Änderung der Quellen-URLs, lizenzierten Fotos, Routen, vier Varianten, gespeicherten Planungen, Buchungen oder Budgets. 36px ist keine pauschale Erfüllung von Apples 44pt-Ziel.
+
+**Tests:** `test/calm-design-v91.test.mjs` +2 Invarianten, `test/quality-audit-v88-browser.mjs` mit 390px-Grenzwerten für alle priorisierten Bereiche. Dokumentation: `V91_CALM_APPLE_INSPIRED_DESIGN_AND_HANDOFF.md` Abschnitt 3b/3c. Kein Merge nach `main`, kein Deployment; lokale Windows-Synchronisierung und echte iOS-/Android-Geräteprüfungen weiterhin offen.
+
 ## 21.11.2026 – V92: mobile Bildquellen leichter treffen, Grunddesign bleibt ruhig
 
 **Verifizierter Code-Stand:** `9a157bf1103275172678fd71dcfc01f97198d319`, GitHub Actions [#44921640348](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44921640348) **success**, **528/528 portable Tests**, 63 echte Chrome-Labormessungen bei 390/768/1440 px, Light/Dark/Reduced Motion, keine JavaScript-Ausnahmen und 0 horizontaler Überlauf. Dieser CI-Lauf prüft auch Unterkünfte, Routen, Speicherfunktionen und HTTP-Smoke.
