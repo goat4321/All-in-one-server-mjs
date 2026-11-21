@@ -193,7 +193,7 @@ try{
    await js('(()=>{const b=document.createElement("button");b.dataset.action="explorer-list-focus";'+
      'b.dataset.value='+JSON.stringify(targetId)+';document.querySelector("#app").append(b);'+
      'b.click();b.remove()})()');
-   await until(()=>js('Boolean(document.querySelector(".explorer-place[data-place-id='+JSON.stringify(targetId)+']"))'),
+   await until(()=>js('[...document.querySelectorAll(".explorer-place")].some(el=>el.dataset.placeId==='+JSON.stringify(targetId)+')'),
      'Selected marker past the first page is reachable in explorer list');
   }
  }
