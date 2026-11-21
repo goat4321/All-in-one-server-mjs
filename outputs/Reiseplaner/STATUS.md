@@ -1,3 +1,11 @@
+## 21.11.2026 – V91: ruhigeres Apple-HIG-inspiriertes Grunddesign
+
+**Ausgangsstand:** `dde20b390c86` (V90-CI erfolgreich), PR #5. Öffentliches Apple-Design-GitHub-Skill plus Apples HIG-Motion-/Accessibility-Grundsätze gelesen; das möglicherweise andere private Referenz-Skill bleibt nicht überprüfbar. Plan und exakte Änderungen: [V91_CALM_APPLE_INSPIRED_DESIGN_AND_HANDOFF.md](V91_CALM_APPLE_INSPIRED_DESIGN_AND_HANDOFF.md).
+
+**Tatsächlich implementiert:** Abschließende, gemeinsame Designschicht `public/calm-design-v91.css` nach den 29 historischen Styles eingebunden: harmonisierte Hell-/Dunkel-Farben, ruhigere Schatten und Abstände, reduzierte Bewegung bei Karten, Buttons, Such-/Navigationsflächen sowie ein lesbarer dunkler Primärbutton. `public/motion-ux.mjs` erzeugt keine Klick-Ripple-DOM-Elemente oder erzwungene Reflows mehr und beschränkt Einblendungen auf Seiteneinstiege statt jeder Kartenzeile. V91-spezifische Modell- und echte Chrome-Regressionstests ergänzt.
+
+**Messbare Code-Differenz:** Observer-Obergrenze 96 → 12 (−87,5 %), keine zusätzliche Ripple-Insertion, Karten-Hover 3px Hub → 0px, Foto-Hover höchstens 1,8 % statt 6,5 %. Kein gemessener Web-Vitals-/FPS-Vorteil daraus ableitbar. Die echte V91-CI-Abnahme des finalen HEAD wird separat geprüft; ältere erfolgreiche 520/520 beziehen sich auf V90. Reisedaten, Quellen, Karten, Vergleiche und vier Reisevarianten unverändert. Kein Merge, Deployment oder lokaler Windows-Überschreibvorgang.
+
 ## 21.11.2026 – V90: Unterkunfts-Performance und mobile Vergleichsbedienung
 
 Remote-Ausgangs-HEAD `079119ec` mit erfolgreicher V89-CI, private lokale Windows-/Tripsy-/SQLite-Version weiter nicht zugänglich. V90 wurde ausschließlich im vorhandenen Branch `feature/v7-data-day-accommodation-rail` für PR #5 implementiert; **kein Merge/Deployment/Booking/Payment**.
