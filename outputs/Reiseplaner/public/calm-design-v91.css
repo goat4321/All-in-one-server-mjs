@@ -386,3 +386,13 @@ dialog[open]::backdrop{animation:ux-backdrop-in 200ms ease-out both !important}
   color:#edf6ee !important;
   border-color:#3a4b3e !important;
 }
+
+/* Avoid stale light surfaces while a legacy background-color transition runs
+ * after a theme toggle; nav text itself keeps its short color animation. */
+:root[data-theme=dark] .reference-global-search,
+:root[data-theme=dark] .reference-topbar .top-actions :is(.icon-btn,.guide-launch){
+  transition-property:none !important;
+  transition-duration:0s !important;
+  background:#202e25 !important;
+  background-color:#202e25 !important;
+}
