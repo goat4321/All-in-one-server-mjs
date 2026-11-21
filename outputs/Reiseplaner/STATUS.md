@@ -1,3 +1,17 @@
+## 21.11.2026 – V94: umfassendes Apple-inspiriertes Designsystem (erfolgreiche Abnahme)
+
+**Verifizierter Code-HEAD:** `748070f3838e253fecf97fce0c019ffd801b151a`; [GitHub Actions #44950411848](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44950411848) **success**: **539/539 portable Tests**, 63 echte Headless-Chrome-Labormessungen (7 Seiten × 3 Breiten × Light/Dark/Reduced Motion), **0px horizontaler Überlauf**, **0 Runtime-Ausnahmen**. Browserabläufe einschließlich Mahlzeiten, Warenkorb, Persistenz, Budget, Atlas, Multi-Stop-Routen und 2–4-Unterkunftsvergleich sowie HTTP-Smoke bestanden.
+
+**390px Touch-Target-Inventar unter 24px:** Startseite 0, Karte 0, Tagesplan 0, Unterkünfte 0, Entdecken **1→0**, Essen 0, Daten 0. Verbliebener Wikimedia-Fotofallback-Link erhielt eine explizite 36px-Zielfläche, ohne Lizenz oder Bildlink zu verändern. Das ist eine Laborinventur, keine pauschale Abnahme der 44pt-Apple-Empfehlung.
+
+**Umsetzung:** Neue finale Schicht `public/apple-visual-system-v94.css`, nach V91; einheitliche typografische Hierarchie, Oberflächen, Navigation, Aktionen, Karten, Formulare, Tagespläne, Unterkunfts- und Verpflegungsansichten. Dark-Mode-Konflikte historischer CSS-Regeln behoben; dunkle Fotokarten behalten helle Schrift auf gleichzeitig dunklem Untergrund, keine verfälschenden Theme-Transitions. Der Kombi-Essen-Browse zeigt zuerst Suche/Kategorien, dann Angebote und detaillierte Marktpreisrecherche; der Marktmodus zeigt den Basiskorb direkt nach den Filtern. Nicht geladene Map-Explorer-Werte zeigen keine `undefined`-Kartenpunkte mehr.
+
+**Quellen:** Eigene [Apple Design Skill](https://github.com/goat4321/apple-design-skill/blob/main/SKILL.md) und 12 relevante HIG-/Cross-Platform-Referenzen tatsächlich gelesen. HIG-Grundsätze als Orientierung für eine Web-App, keine Apple-Markennachbildung, keine fremden Assets oder Schriften.
+
+**Grenzen:** 390/768/1440px sind Chrome-Emulationen, keine echten iOS/Android-/VoiceOver-/NVDA-Gerätetests, keine vollständige WCAG-Konformitätsprüfung und keine Real-User-Web-Vitals. Die 63 Snapshots repräsentieren sieben Hauptseiten, nicht jedes aufgeklappte Untermenü. Kein Eingriff in 4 Reisevarianten, echte Fotos, Lizenzen/Quellen, Reise-/Budget-/Karten-/Buchungsdaten, keinen Merge nach `main`, kein Deployment. Privater lokaler Windows-/Tripsy-Stand muss separat sicher abgeglichen werden.
+
+**Dokumentation:** `V94_APPLE_VISUAL_SYSTEM_AND_QA.md`. Der Dokumentations-HEAD nach dieser Notiz unterscheidet sich vom oben verifizierten Code-HEAD; eine eigene Actions-Prüfung wird durch ihn ausgelöst.
+
 ## 21.11.2026 – V93: mobile Apple-Skill-Fortsetzung abgeschlossen
 
 **Verifizierter V93-Code-HEAD:** `9862427aedc193661af0b2e0790640f236bb340f`. GitHub Actions [#44932460450](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44932460450) **success**: **530/530 portable Tests**, **63** echte Headless-Chrome-Labormessungen über sieben Seiten × 390/768/1440px × hell/dunkel/reduzierte Bewegung, **0px** horizontaler Überlauf, **0** JS-Ausnahmen. Browserfunktionen, Karten, Unterkünfte mit 2er-Vergleich, Speicher- und HTTP-Regressionen bestanden.

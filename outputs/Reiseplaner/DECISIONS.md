@@ -1,3 +1,12 @@
+## 21.11.2026 – V94: ein kohärentes Apple-inspiriertes Web-Designsystem statt weiterer Einzelflicken
+
+- **Entscheidung:** Ruhige, wiederverwendbare visuelle Regeln (CSS-Tokens, einheitliche Karten-/Kontrolldichte, Navigation, Typografie und Dark Mode) in `public/apple-visual-system-v94.css` als **letztes** Stylesheet. Bestehende Layout-/Fotomodule und alle Handlers bleiben erhalten; keine vollständige Neuprogrammierung, kein unpassendes Liquid-Glass-Overlay.
+- **Benutzerhierarchie:** Die Verpflegungsseite zeigt im kombinierten Browse zuerst Suche, Kategorien und verfügbare Optionen; Marktpreisdetails sind per Sprunglink nach den Angeboten erreichbar. Im expliziten Supermarktfilter bleiben die Preise unmittelbar unter der Suche sichtbar. Quelle/Preis unverändert, nur Darstellung/Reihenfolge geändert.
+- **Dark-Mode-Kontrast:** Alte lokal erzwungene Light-Farben und eine verzögerte Kartenhintergrund-Transition verursachten kurz hell-auf-hell. Text und Flächen wechseln synchron; geprüfte dunkle Fotokarte `rgb(32,47,38)` mit weißlich-heller Schrift `rgb(237,246,238)`; vorherigen Browsertest an das tatsächliche neue, lesbare Farbpaar angepasst.
+- **Weniger Fehler:** `undefined Kartenpunkte` in der Kartenansicht ersetzt durch einen nachvollziehbaren Hinweis, solange Explorer-Daten fehlen. Letzter mobiler Wikimedia-Fallback-Link mit echter 36px Trefferfläche (kein erfundener Foto-/Lizenzlink).
+- **Prüfung:** Code-HEAD `748070f3838e253fecf97fce0c019ffd801b151a`, [GitHub Actions #44950411848](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44950411848) grün, 539/539 portable Tests, 63 Browserlabormessungen, 0px horizontaler Überlauf, 0 JS-Ausnahmen, **0 unter-24px-Ziele in allen sieben 390px-Hauptansichten**. Nicht behauptet: native Apple-Erfahrung, vollständige HIG-/44pt- oder WCAG-Abnahme, Real-User-FPS und echte Smartphone-/Assistive-Technology-Tests.
+- **Schutz:** Datenquellen, vier Reisevarianten, Quellen- und Fotorechte, Routengeometrie, persistierte Nutzeränderungen, Zahlungs-/Buchungsstatus, `main` und Deployment bewusst unverändert.
+
 ## 21.11.2026 – V93: eigene Apple-Skill, gezielte Trefferflächen und ruhige Interaktion
 
 - **Referenz:** Das eigene Repository [goat4321/apple-design-skill](https://github.com/goat4321/apple-design-skill) ist zugänglich und wurde mit zwölf relevanten Richtlinien (Layout, Accessibility, Buttons, Motion, Maps etc.) ausgewertet. Frühere V91-Aussage über fehlenden Zugriff ist durch diese neue Prüfung überholt.
