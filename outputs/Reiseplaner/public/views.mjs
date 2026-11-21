@@ -731,7 +731,12 @@ function options(ctx, lodging) {
       : [['free','0-€-Preisreferenz'],['water','Wasser & Strand erwähnt'],
         ['swimming','Schwimmen erwähnt'],['consensus','Gruppenfavoriten ≥4'],
         ['evening', 'Abend'], ['food', 'Verpflegung']])];
-  const cards=list.slice(0,ctx.browseLimit??24).map(item=>{
+  // Accommodation cards are expensive (photo, quotes, verifier and source
+  // actions); render a compact initial batch without losing filtered options
+  // or any item in the independent 2–4-stay comparison.
+  const visibleLimit=lodging?(ctx.stayBrowseLimit??8):(ctx.browseLimit??24);
+  const moreStep=lodging?8:24;
+  const cards=list.slice(0,visibleLimit).map(item=>{
     const active=activeSet.has(item.id);
     const highlighted=compareIds.has(item.id);
     const meal=ctx.catalog.mealPlans?.[item.city]?.find(plan=>plan.venue===item.id);
@@ -780,26 +785,32 @@ function options(ctx, lodging) {
        +'<p>Versuche eine andere Stadt oder entferne die aktuellen Suchfilter.</p>'
        +btn('browse-reset','Suche und Filter zurücksetzen','reset','','primary')
        +'</div>')
-    +(list.length>(ctx.browseLimit??24)
+    +(list.length>visibleLimit
       ?'<div class="hub-more-button">'
-        +btn('browse-more','Weitere '+Math.min(24,list.length-(ctx.browseLimit??24))
+        +'<p class="muted" aria-live="polite">'+Math.min(visibleLimit,list.length)
+        +' von '+list.length+' '+cardLabel+' geladen · Filter und Vergleich bleiben vollständig.</p>'
+        +btn('browse-more','Weitere '+Math.min(moreStep,list.length-visibleLimit)
           +' Optionen anzeigen','plus','','primary')+'</div>':'')
     +(lodging&&ctx.trip.id==='interrail_swiss'?'<details class="stay-swiss-research"'
+      +' data-content-loaded="'+Boolean(ctx.staySwissResearchOpen)+'"'
       +(ctx.staySwissResearchOpen?' open':'')+'><summary>Schweizer Unterkunftsrecherche · datierte Suchwerte und Ausstattung</summary>'
-      +swissDatedSearchBoardV84(ctx)+swissLodgingCompareV83(ctx)+'</details>':'')
-    +'<details class="hub-technical-details"'+(ctx.browseResearchOpen?' open':'')
+      +(ctx.staySwissResearchOpen?swissDatedSearchBoardV84(ctx)+swissLodgingCompareV83(ctx):'')
+      +'</details>':'')
+    +'<details class="hub-technical-details"'
+      +' data-content-loaded="'+Boolean(!lodging||ctx.browseResearchOpen)+'"'
+      +(ctx.browseResearchOpen?' open':'')
      +'><summary>'+icon('chevron')
      +'<span><strong>Detaillierter Preis- und Quellenvergleich</strong>'
      +'<small>Prüfpunkte, Suchwerte, Gruppenvergleich und Originaldaten</small></span></summary>'
-    +(lodging
-      ?'<p class="hub-technical-warning">Alle Unterkunftsangebote sind historische Such- oder Planwerte.'
+    +(!lodging||ctx.browseResearchOpen?(lodging
+      ?'<p class="hub-technical-warning">Alle Unterkunftsangebote sind historische Such- oder Planwerte.
        +' Keines ist automatisch für 2027 gebucht oder als Endpreis bestätigt.</p>'
        +'<div class="hub-risk-chips">'
        +comparisonGaps.map(([label,count])=>status(label+': '+count,'warn')).join('')
        +'</div>'+providerQuotePanel(ctx)
-      :'')
-    +(compared.length
-      ?'<section><h2>Tabellarischer Direktvergleich</h2>'
+      :''):'')
+    +(compared.length&&(!lodging||ctx.browseResearchOpen)
+      ?'<section><h2>Tabellarischer Direktvergleich</h2>
        +table(['Option','Gruppe','Pro Person',lodging?'Küche':'Dauer',
          lodging?'Zimmer':'Erlebnis','Anbindung',lodging?'Storno':'Einlass',
          ...(lodging?['EUR p. P./Nacht','Offene Nachweise']:[])],compareRows)
