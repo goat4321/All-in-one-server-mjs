@@ -318,8 +318,10 @@ try{
    darkNavFailures.map(row=>({page:row.page,width:row.width,actual:row.calmInactiveNavColor,topbar:row.calmTopbarBg}))));
  assert.ok(darkNavFailures.length===0,
    'Dark navigation labels must keep light, legible text across seven pages and three widths');
- assert.ok(rows.filter(row=>row.theme==='dark'&&row.width!==390).every(row=>
-   row.calmSearchBg==='rgb(32, 46, 37)'),
+ const darkSearchFailures=rows.filter(row=>row.theme==='dark'&&row.width!==390&&row.calmSearchBg!=='rgb(32, 46, 37)');
+ if(darkSearchFailures.length)console.log('V91_DARK_SEARCH_DIAGNOSTIC '+JSON.stringify(
+   darkSearchFailures.map(row=>({page:row.page,width:row.width,actual:row.calmSearchBg,topbar:row.calmTopbarBg}))));
+ assert.ok(darkSearchFailures.length===0,
    'Dark desktop/tablet search must not remain bright white');
  assert.ok(rows.filter(row=>row.theme==='dark'&&row.width!==390).every(row=>
    row.calmTopActionBg==='rgb(32, 46, 37)'),
