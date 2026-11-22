@@ -121,3 +121,29 @@ test('V97 disables animations and zoom on both OS and in-app opt-out',()=>{
  assert.match(v97,/\.destination-card:hover \.destination-cover img/);
  assert.doesNotMatch(v97,/perspective\s*:|rotate3d\(/);
 });
+
+
+test('V98 scroll, hover, and opening motion cover content without perpetual movement',()=>{
+ for(const name of [
+  '@keyframes v98-card-arrive','@keyframes v98-title-arrive',
+  '@keyframes v98-meter-grow','.motion-scroll-revealed',
+  '.destination-card:hover','.hub-option-card:hover',
+  '.hub-food-card:hover','.reference-discovery-card:hover',
+  '.button.primary:hover','.market-chain-card'
+ ]){
+  assert.ok(css.includes(name),'Missing V98 animation '+name);
+ }
+ assert.match(css,/animation:v98-card-arrive 440ms/);
+ assert.match(css,/animation:v98-title-arrive 400ms/);
+ assert.match(css,/animation:v98-meter-grow 530ms/);
+ assert.doesNotMatch(css.slice(css.indexOf('/* V98 / Scroll-led travel experience')),
+  /animation:[^;]*infinite/);
+});
+test('V98 movement is optional and cannot move Leaflet map tiles',()=>{
+ const v98=css.slice(css.indexOf('/* V98 / Scroll-led travel experience'));
+ assert.match(v98,/@media\(prefers-reduced-motion:reduce\)/);
+ assert.match(v98,/:root\[data-motion=off\]/);
+ assert.match(v98,/:hover\{transform:none !important/);
+ assert.match(v98,/\.motion-scroll-revealed/);
+ assert.doesNotMatch(v98, /(^|[\s,])(?:\.leaflet|\.maplibregl)[^{]*\{[^}]*transform:/m);
+});
