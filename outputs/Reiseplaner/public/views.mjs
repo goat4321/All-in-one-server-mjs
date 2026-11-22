@@ -642,7 +642,7 @@ function overview(ctx) {
     +(routeGraphic.stops.length>1
       ?'<svg viewBox="0 0 560 280" preserveAspectRatio="none" aria-hidden="true">'
        +'<path class="cockpit-route-under" d="'+routeGraphic.path+'"/>'
-       +'<path class="cockpit-route-line" d="'+routeGraphic.path+'"/></svg>'+routePoints
+       +'<path class="cockpit-route-line" pathLength="1" d="'+routeGraphic.path+'"/></svg>'+routePoints
       :'<div class="cockpit-route-empty">Für diese Variante sind noch keine zwei Stadt-Anker hinterlegt.</div>')
     +'</div><div class="cockpit-route-foot"><span>'+icon('map')+' Schematische Übersicht</span>'
     +'<span>'+esc(dateLabel(trip.from,trip.to))+'</span></div></section>';
