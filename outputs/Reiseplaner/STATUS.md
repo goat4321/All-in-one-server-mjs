@@ -1,3 +1,13 @@
+## 22.11.2026 – V97: flüssigere Animationen für den gesamten Reiseplaner
+
+**Verifizierter UI-Code-HEAD:** `47040dba6d9d3bb4f4e5def7843cfc2a14e511a3`, [GitHub Actions #45074473280](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45074473280) **success**: **554/554 portable Tests**, **63 Headless-Chrome-Messungen**, **0px horizontaler Überlauf** und **0 JS-Ausnahmen**.
+
+**Umgesetzt:** Animierter Seiten-/Tages-/Ortswechsel (gemessen 285ms), dezentes Scroll-Reveal für maximal zwölf strukturelle Kapitel, fotografisches Lade-Fade (240ms), minimaler Hover-Zoom echter Bildquellen, Button-/Filter-Press-Feedback, Aufklapp- und Speicherbestätigung sowie kurze Budgetbalken-Übergänge. Szenen werden bei reinen Filter-Rerenders nicht erneut abgespielt, und die Karte bleibt vom Ganzseiten-Transform ausgeschlossen. Weder Klick-Ripples noch permanente Dekorationsanimationen. `prefers-reduced-motion:reduce` und die eigene Einstellung `data-motion=off` werden gesondert geschützt und per Browser-/Unit-Test geprüft.
+
+**Technische Basis:** `public/motion-ux.mjs`, letztes Stylesheet `public/editorial-web-v95.css` (V97-Block), `test/motion-ux.test.mjs`, `test/editorial-web-v95.test.mjs`, `test/quality-audit-v88-browser.mjs`. Vollständiger Bericht: [V97_MOTION_SYSTEM_AND_QA.md](./V97_MOTION_SYSTEM_AND_QA.md).
+
+**Offen:** native iPhone-/Android-Touch-/Screenreader-Testgeräte und reale Nutzer-FPS/Web-Vitals sind nicht geprüft; externe Fotos können im Offline-Chrome nicht als live verfügbar gelten. Alle bisherigen Reise-, Karten-, Unterkunfts-, Budget-, Lizenz- und Buchungsvorbehalte bleiben bestehen. Kein Merge, kein Deployment und keine lokalen Windows-Dateien geändert.
+
 ## 22.11.2026 – V96.1/2: kompakte Recherchehinweise, Tablet-Ziele und bildlose Hero-Fallbacks
 
 **Verifizierter UI-Code-HEAD:** `b1efd2b0b8da9fc938210d580bd0798158ec3246` · [GitHub Actions #45067859734](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45067859734) **success**: **550/550 portable Tests**, **63** echte Chrome-Labormessungen, **0 px** horizontaler Überlauf, **0** JS-Ausnahmen. Aktive Branchänderungen betreffen nur den Reiseplaner in PR #5.
