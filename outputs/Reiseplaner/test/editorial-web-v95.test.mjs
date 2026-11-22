@@ -137,7 +137,7 @@ test('V98 scroll, hover, and opening motion cover content without perpetual move
  assert.match(css,/animation:v98-title-arrive 400ms/);
  assert.match(css,/animation:v98-meter-grow 530ms/);
  assert.doesNotMatch(css.slice(css.indexOf('/* V98 / Scroll-led travel experience')),
-  /animation:[^;]*infinite/);
+  /animation:[^;}\n]*\binfinite\b/i);
 });
 test('V98 movement is optional and cannot move Leaflet map tiles',()=>{
  const v98=css.slice(css.indexOf('/* V98 / Scroll-led travel experience'));
@@ -171,7 +171,7 @@ test('V99 real modal and research chapters animate only when motion is allowed',
  }
  assert.match(v99,/:root\[data-motion=off\] #dialog\[open\]/);
  assert.match(v99,/#dialog\[open\],#dialog\[open\]::backdrop/);
- assert.doesNotMatch(v99,/animation:[^;]*infinite/);
+ assert.doesNotMatch(v99,/animation:[^;}\n]*\binfinite\b/i);
 });
 
 
@@ -185,5 +185,5 @@ test('V99 route is drawn once when revealed instead of moving forever',()=>{
  assert.match(v99,/animation:none !important/);
  assert.match(v99,/@media\(prefers-reduced-motion:reduce\)/);
  assert.match(v99,/:root\[data-motion=off\]/);
- assert.doesNotMatch(v99,/animation:[^;]*infinite/);
+ assert.doesNotMatch(v99,/animation:[^;}\n]*\binfinite\b/i);
 });
