@@ -76,3 +76,16 @@ test('V96 artwork fallback is not an oversized fake photograph',()=>{
  assert.match(css,/\.hub-hero\[data-photo=fallback\] \.hub-hero-art/);
  assert.match(css,/\.editorial-journey-hero\[data-photo=false\] \.editorial-journey-media/);
 });
+
+
+test('V96.1 research warnings stay honest while visually compact',()=>{
+ assert.match(views,/data-research-status="incomplete"/);
+ assert.match(views,/Reisedaten teilweise unvollständig/);
+ assert.match(views,/Nur Forschungsdaten verfügbar/);
+ assert.match(views,/Die privaten Tripsy-Originaldateien fehlen/);
+ assert.match(css,/source-notice\[data-research-status=incomplete\]/);
+});
+test('V96.1 specific map operator link is easy to hit without widening markers',()=>{
+ assert.match(css,/\.reference-map-schedule-notice a\[href\]/);
+ assert.match(css,/min-height:36px;min-width:36px/);
+});
