@@ -94,6 +94,13 @@ try{
    const v95HomepageHeroHeight=v95HomepageHero?.getBoundingClientRect().height??null;
    const v95BrowseHero=document.querySelector('.hub-hero');
    const v95BrowseHeroHeight=v95BrowseHero?.getBoundingClientRect().height??null;
+   const v96HeroCredit=document.querySelector('.hub-hero-photo-credit');
+   const v96CreditRect=v96HeroCredit?.getBoundingClientRect();
+   const v96TitleRect=document.querySelector('.hub-hero h1')?.getBoundingClientRect();
+   const v96HeroCreditHeight=v96CreditRect?.height??null;
+   const v96HeroCreditOverlap=Boolean(v96CreditRect&&v96TitleRect
+     &&v96CreditRect.left<v96TitleRect.right&&v96CreditRect.right>v96TitleRect.left
+     &&v96CreditRect.top<v96TitleRect.bottom&&v96CreditRect.bottom>v96TitleRect.top);
    const v94Primary=document.querySelector('.reference-travel-shell .button.primary');
    const v94PrimaryTouch=v94Primary?.getBoundingClientRect().height??null;
    const v94HeroTitle=document.querySelector('.hub-hero h1');
@@ -194,7 +201,7 @@ try{
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     v94MapCountBroken:/undefined (?:Kartenpunkte|Ortsangaben ohne Pin)/.test(document.querySelector('.reference-map-workspace')?.textContent??''),
     searchButtonClipPx,searchLabelVisuallyHidden,
-    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
+    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
     calmInactiveNavColor,calmSearchBg,calmSearchProbe,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
@@ -352,6 +359,11 @@ try{
    'V95 editorial web must be loaded on all pages, widths and themes');
  assert.ok(rows.filter(row=>row.page==='overview').every(row=>row.v95HomepageHeroHeight>=300),
    'Editorial homepage hero must be a prominent image-first first screen');
+ assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page))
+   .every(row=>row.v96HeroCreditHeight===null||row.v96HeroCreditHeight<=48),
+   'V96 photo source link must be a compact attribution, never a full-height overlay');
+ assert.ok(rows.every(row=>row.v96HeroCreditOverlap===false),
+   'V96 photo credit must not overlap the primary hero headline');
  assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page))
    .every(row=>row.v95BrowseHeroHeight>=295),
    'Browse pages must have full-size editorial heroes, not admin banners');
