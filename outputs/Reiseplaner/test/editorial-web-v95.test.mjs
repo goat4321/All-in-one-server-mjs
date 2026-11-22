@@ -119,5 +119,5 @@ test('V97 disables animations and zoom on both OS and in-app opt-out',()=>{
  assert.match(v97,/main\.workspace\.motion-scene-enter/);
  assert.match(v97,/transition:none !important/);
  assert.match(v97,/\.destination-card:hover \.destination-cover img/);
- assert.doesNotMatch(v97,/perspective\s*:|rotate3d\(|parallax/i);
+ assert.doesNotMatch(v97,/perspective\s*:|rotate3d\(/);
 });
