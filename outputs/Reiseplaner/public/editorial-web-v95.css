@@ -911,3 +911,189 @@
 :root[data-motion=off] .reference-travel-shell :is(
  .panel,.day-plan-panel,.stay-compare-card,.market-chain-card,
  .hub-food-card,.hub-option-card){transition:none !important}
+
+
+/* V96 / Planning and utility surfaces: one functional grammar on every page.
+   Map symbols keep their grounded category meanings. Do not change data,
+   route geometry, overlay events or any action handlers. */
+.reference-travel-shell .day-editorial-hero:not([data-photo=true]){
+ min-height:250px !important;
+ padding-bottom:70px !important;
+}
+.reference-travel-shell .day-editorial-credit{
+ position:absolute !important;
+ inset:auto 12px 11px auto !important;
+ top:auto !important;bottom:11px !important;left:auto !important;right:12px !important;
+ display:inline-flex;align-items:center;
+ min-height:30px;height:auto !important;max-height:none !important;
+ width:max-content;max-width:calc(100% - 24px);
+ font-size:10px;line-height:1.35;white-space:normal;
+ padding:7px 9px;border-radius:9px;
+ color:#fff;background:rgba(15,20,27,.7);
+ text-decoration:underline;text-underline-offset:2px;
+ z-index:4 !important;
+}
+.reference-travel-shell .day-editorial-hero:not([data-photo=true]) .day-editorial-credit{
+ background:var(--e95-page);color:var(--e95-secondary);
+ border:1px solid var(--e95-line);
+}
+/* Neutral selection in app controls; blue signals the next action. Green
+   remains exclusively for real map/category semantics and progress. */
+.reference-travel-shell :is(.days .day,.reference-stage-days .day,
+ .map-scope-modes button,.hub-food-tabs .chip-button,.hub-scope button){
+ transition:background-color 160ms ease,color 160ms ease,border-color 160ms ease !important;
+}
+.reference-travel-shell :is(.days .day,.reference-stage-days .day)[aria-pressed=true],
+.reference-travel-shell .map-scope-modes button[aria-pressed=true],
+.reference-travel-shell .hub-food-tabs .chip-button[aria-pressed=true]{
+ background:#1d1d1f !important;color:#fff !important;
+ border-color:#1d1d1f !important;box-shadow:none !important;
+}
+:root[data-theme=dark] .reference-travel-shell
+ :is(.days .day,.reference-stage-days .day)[aria-pressed=true],
+:root[data-theme=dark] .reference-travel-shell
+ .map-scope-modes button[aria-pressed=true],
+:root[data-theme=dark] .reference-travel-shell
+ .hub-food-tabs .chip-button[aria-pressed=true]{
+ background:#f5f5f7 !important;color:#16171b !important;
+ border-color:#f5f5f7 !important;
+}
+.reference-travel-shell :is(.map-scope-modes,.hub-food-tabs,.hub-quick-filters){
+ gap:5px;
+}
+.reference-travel-shell .map-scope-modes{
+ background:var(--e95-paper) !important;
+ border:1px solid var(--e95-line);
+ box-shadow:none !important;
+}
+.reference-travel-shell :is(.map-find-button,.hub-market-access>.button.primary){
+ background:#1469ca !important;color:#fff !important;
+ border-color:#1469ca !important;
+}
+.reference-travel-shell :is(.map-find-button,.hub-market-access>.button.primary):hover{
+ background:#0756ab !important;border-color:#0756ab !important;
+}
+.reference-travel-shell .day-plan-quick-bar{
+ background:var(--e95-paper) !important;
+ border:1px solid var(--e95-line) !important;
+ box-shadow:none !important;
+}
+.reference-travel-shell .day-plan-quick-heading strong{
+ color:var(--e95-ink);font-weight:670;letter-spacing:-.025em;
+}
+.reference-travel-shell .day-plan-quick-chip{
+ border:1px solid var(--e95-line);background:var(--e95-page);
+ border-radius:11px;min-height:42px;
+}
+.reference-travel-shell .timeline-panel,
+.reference-travel-shell .day-plan-panel{
+ border-radius:17px;box-shadow:none;
+}
+.reference-travel-shell .timeline-panel .panel-head{
+ padding-block:17px;
+}
+.reference-travel-shell .timeline-panel .panel-head h2{
+ font-size:clamp(23px,2.6vw,34px);line-height:1.12;
+}
+.reference-travel-shell :is(.day-plan-stop,.day-plan-current-row,.day-plan-quick-bottom){
+ border-color:var(--e95-line);box-shadow:none !important;
+}
+.reference-travel-shell .reference-map-workspace{
+ gap:12px;
+}
+.reference-travel-shell .reference-map-workspace>.map-panel{
+ border-color:var(--e95-line);
+ box-shadow:none !important;
+}
+.reference-travel-shell .reference-map-workspace>.explorer-right{
+ border-color:var(--e95-line);box-shadow:none !important;
+}
+.reference-travel-shell :is(.map-context-summary,.map-extra-details,.reference-places-drawer){
+ background:var(--e95-paper);
+ border-color:var(--e95-line);box-shadow:none !important;
+}
+/* Data, rail, group and budget: informational layouts, not marketing
+   heroes. Maintain full source tables and disclosure behaviors below. */
+.reference-travel-shell .data-page-heading{
+ margin:25px 0 40px;align-items:center;
+}
+.reference-travel-shell .data-page-heading h1{
+ font-size:clamp(36px,4.2vw,62px);
+ font-weight:690;letter-spacing:-.05em;
+}
+.reference-travel-shell .data-page{
+ max-width:1120px;margin-inline:auto;
+}
+.reference-travel-shell :is(.data-page,.data-checks,.data-disclosure,.data-deadlines,
+ .grid-cards,.panel-pad,.grocery-section,.market-baskets-v86){
+ color:var(--e95-ink);
+}
+.reference-travel-shell .data-checks{
+ margin-top:54px;
+}
+.reference-travel-shell :is(.data-checks,.data-page) h2{
+ font-size:clamp(24px,2.5vw,35px);
+ font-weight:670;letter-spacing:-.035em;
+ line-height:1.2;
+}
+.reference-travel-shell .data-disclosure,
+.reference-travel-shell .cockpit-reference{
+ border:1px solid var(--e95-line);
+ background:var(--e95-page);
+ box-shadow:none !important;border-radius:15px;
+}
+.reference-travel-shell :is(.data-disclosure,.cockpit-reference)>summary{
+ min-height:52px;padding:13px 18px;
+ display:flex;align-items:center;gap:12px;
+}
+.reference-travel-shell .data-disclosure>summary small,
+.reference-travel-shell .cockpit-reference>summary small{
+ color:var(--e95-secondary);
+}
+.reference-travel-shell .grid-cards>.option-card,
+.reference-travel-shell .grid-cards>.panel{
+ border:1px solid var(--e95-line);
+ background:var(--e95-paper);
+ box-shadow:none !important;border-radius:17px;
+}
+.reference-travel-shell :is(.table-wrap,.table-scroll,.budget-table){
+ border-color:var(--e95-line);
+}
+/* Uniform form states across all less-visible subpages, not just discovery. */
+.reference-travel-shell :is(input:not([type=checkbox]),textarea,select){
+ border-radius:11px;border-color:var(--e95-line);
+}
+.reference-travel-shell :is(input:not([type=checkbox]),textarea,select):focus-visible{
+ outline:3px solid var(--e95-focus) !important;
+ outline-offset:2px;
+}
+.reference-travel-shell :is(.section-actions,.panel-head,.subheading){
+ row-gap:12px;
+}
+@media(max-width:650px){
+ .reference-travel-shell .day-editorial-hero:not([data-photo=true]){
+  min-height:245px !important;padding-bottom:68px !important;
+ }
+ .reference-travel-shell .day-editorial-credit{
+  font-size:9px;right:10px !important;bottom:9px !important;
+  max-width:calc(100% - 20px);
+ }
+ .reference-travel-shell .data-page-heading{gap:14px;margin-bottom:25px}
+ .reference-travel-shell .data-page-heading .section-actions{gap:8px}
+ .reference-travel-shell .data-disclosure>summary{
+  padding:12px 14px;min-height:48px;
+ }
+ .reference-travel-shell :is(.data-checks,.data-page) h2{
+  font-size:clamp(23px,6vw,29px);
+ }
+ .reference-travel-shell .timeline-panel .panel-head{padding-block:14px}
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell :is(.days .day,.reference-stage-days .day,
+ .map-scope-modes button,.hub-food-tabs .chip-button,.hub-scope button){
+  transition:none !important;
+ }
+}
+:root[data-motion=off] .reference-travel-shell :is(.days .day,
+ .reference-stage-days .day,.map-scope-modes button,
+ .hub-food-tabs .chip-button,.hub-scope button){transition:none !important}
