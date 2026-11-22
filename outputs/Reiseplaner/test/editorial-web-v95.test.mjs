@@ -89,3 +89,11 @@ test('V96.1 specific map operator link is easy to hit without widening markers',
  assert.match(css,/\.reference-map-schedule-notice a\[href\]/);
  assert.match(css,/min-height:36px;min-width:36px/);
 });
+
+
+test('V96.2 offline browse heroes shrink without suppressing real photo chapters',()=>{
+ assert.match(css,/V96\.2 · An unavailable photo/);
+ assert.match(css,/\.hub-hero:is\(\[data-photo=false\],\[data-photo=fallback\]\)/);
+ assert.match(css,/min-height:0 !important/);
+ assert.match(css,/\.hub-hero\[data-photo=true\]/);
+});
