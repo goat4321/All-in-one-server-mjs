@@ -384,6 +384,13 @@ try{
  assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page))
    .every(row=>row.v96HeroCreditHeight===null||row.v96HeroCreditHeight<=48),
    'V96 photo source link must be a compact attribution, never a full-height overlay');
+ // V96: on tablets, secondary source/route/food credits should be easier
+ // to hit without expanding Leaflet map attribution overlays.
+ const tabletRows=rows.filter(row=>row.width===768&&row.theme==='light'&&!row.reduce);
+ assert.ok(tabletRows.reduce((sum,row)=>sum+row.smallTargetCount,0)<=8,
+   'V96 tablet must reduce tiny click targets from the pre-fix baseline of 33');
+ assert.ok(tabletRows.every(row=>row.smallTargetCount<=4),
+   'V96 no tablet page should retain more than four under-24px targets');
  assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page)).every(row=>
    row.v96SecondaryActionContrast!==null&&row.v96SecondaryActionContrast>=4.5),
    'V96 browse secondary actions need >=4.5:1 computed foreground/background contrast');
