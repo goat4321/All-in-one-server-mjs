@@ -362,6 +362,40 @@ try{
  await cdp('Emulation.setEmulatedMedia',{features:[
    {name:'prefers-reduced-motion',value:'no-preference'}
  ]});
+ // V99 schematic route: actual viewport activation must trace once, rather
+ // than the historical endless nine-second moving dashed line.
+ await clickPage('plan');
+ await clickPage('overview');
+ const v99RouteProbe=await js(`(async()=>{
+   const section=document.querySelector('.cockpit-route-surface');
+   const path=section?.querySelector('.cockpit-route-line');
+   if(!path)return {missing:true};
+   const before=section.classList.contains('motion-revealed');
+   section.scrollIntoView({behavior:'instant',block:'center'});
+   await new Promise(r=>setTimeout(r,350));
+   const style=getComputedStyle(path);
+   return {before,after:section.classList.contains('motion-revealed'),
+     name:style.animationName,duration:parseFloat(style.animationDuration),
+     offset:parseFloat(style.strokeDashoffset),pathLength:path.getAttribute('pathLength')};
+ })()`);
+ console.log('V99_ROUTE_PROBE '+JSON.stringify(v99RouteProbe));
+ assert.ok(!v99RouteProbe.missing&&!v99RouteProbe.before&&v99RouteProbe.after
+   &&v99RouteProbe.name==='v99-route-trace'
+   &&v99RouteProbe.duration>=1&&v99RouteProbe.pathLength==='1'
+   &&v99RouteProbe.offset>0.02&&v99RouteProbe.offset<1.1,
+   'V99 route path must visibly trace once on entering the viewport');
+ await cdp('Emulation.setEmulatedMedia',{features:[
+   {name:'prefers-reduced-motion',value:'reduce'}
+ ]});
+ const v99RouteReduced=await js(`(()=>{
+   const style=getComputedStyle(document.querySelector('.cockpit-route-line'));
+   return {name:style.animationName,offset:parseFloat(style.strokeDashoffset)};
+ })()`);
+ assert.ok(v99RouteReduced.name==='none'&&v99RouteReduced.offset===0,
+   'V99 route remains fully visible without movement under reduced motion');
+ await cdp('Emulation.setEmulatedMedia',{features:[
+   {name:'prefers-reduced-motion',value:'no-preference'}
+ ]});
  // Separate keyboard-only focus sample and an actual browse-search update.
  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:900,deviceScaleFactor:1,mobile:true});
  await clickPage('overview');
