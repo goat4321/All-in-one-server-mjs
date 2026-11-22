@@ -841,3 +841,73 @@
   font-size:clamp(34px,9vw,44px);
  }
 }
+
+
+/* V96 / Critical screenshot repair: the legacy source-credit has top:10px;
+   V95 added bottom:12px without resetting top. This stretches an opaque
+   attribution strip over the entire right side of every mobile hero. */
+.reference-travel-shell .hub-hero-photo-credit{
+ position:absolute !important;
+ inset:auto 12px 12px auto !important;
+ top:auto !important;bottom:12px !important;right:12px !important;left:auto !important;
+ width:max-content !important;max-width:calc(100% - 24px) !important;
+ min-height:32px !important;height:auto !important;max-height:none !important;
+ padding:7px 10px !important;
+ display:inline-flex !important;align-items:center;
+ border-radius:9px !important;
+ font-size:11px !important;line-height:1.3;
+ white-space:normal;text-decoration:underline;text-underline-offset:2px;
+ background:rgba(18,23,29,.72) !important;color:#fff !important;
+ box-shadow:none !important;z-index:5 !important;
+}
+/* Source remains reachable when the photo itself is not available. On a
+   light textual fallback, don't imitate a dark opaque image overlay. */
+.reference-travel-shell .hub-hero[data-photo=false] .hub-hero-photo-credit,
+.reference-travel-shell .hub-hero[data-photo=fallback] .hub-hero-photo-credit{
+ background:var(--e95-page) !important;color:var(--e95-secondary) !important;
+ border:1px solid var(--e95-line);
+}
+/* Consistent controls for discovery, food and accommodation; save green
+   for geographic and status semantics instead of every search button. */
+.reference-travel-shell .hub-search-form button[data-action=browse-search-apply],
+.reference-travel-shell #browse-search-form button[data-action=browse-search-apply]{
+ background:#1469ca !important;border-color:#1469ca !important;
+ color:#fff !important;min-height:46px;
+}
+.reference-travel-shell .hub-search-form button[data-action=browse-search-apply]:hover{
+ background:#0756ab !important;border-color:#0756ab !important;
+}
+.reference-travel-shell .hub-toolbar{
+ background:var(--e95-paper) !important;box-shadow:none !important;
+}
+.reference-travel-shell .hub-filter-count{
+ color:var(--e95-secondary);font-size:12px;
+}
+.reference-travel-shell .hub-filter-count strong{color:var(--e95-ink)}
+/* The plan timeline, gallery and source research must not look like an
+   endless stack of elevated administrative widgets. */
+.reference-travel-shell :is(.timeline-panel,.day-plan-panel,
+ .market-baskets-v86 .panel,.stay-compare-board,.cockpit-reference){
+ box-shadow:none !important;border-color:var(--e95-line);
+}
+.reference-travel-shell :is(.panel,.day-plan-panel,.stay-compare-card,
+ .market-chain-card,.hub-food-card,.hub-option-card){
+ transition:opacity 160ms ease,border-color 160ms ease !important;
+}
+@media(max-width:650px){
+ .reference-travel-shell .hub-hero-photo-credit{
+  right:9px !important;bottom:9px !important;
+  max-width:calc(100% - 18px) !important;
+  min-height:32px !important;padding:6px 8px !important;
+ }
+ .reference-travel-shell .hub-search-form button[data-action=browse-search-apply]{
+  min-height:44px;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell :is(.panel,.day-plan-panel,.stay-compare-card,
+ .market-chain-card,.hub-food-card,.hub-option-card){transition:none !important}
+}
+:root[data-motion=off] .reference-travel-shell :is(
+ .panel,.day-plan-panel,.stay-compare-card,.market-chain-card,
+ .hub-food-card,.hub-option-card){transition:none !important}
