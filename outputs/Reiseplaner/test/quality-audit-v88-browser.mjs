@@ -243,6 +243,12 @@ try{
  for(const width of [1440,768,390]){
   await cdp('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:width===390});
   for(const page of pageNames){
+   // V97: reset the previous page's reduced-motion emulation BEFORE
+   // navigation. Otherwise the last reduced-motion snapshot suppresses every
+   // new scene entrance, making the default-motion audit a false negative.
+   await cdp('Emulation.setEmulatedMedia',{features:[
+     {name:'prefers-reduced-motion',value:'no-preference'}
+   ]});
    const renderMs=await clickPage(page);
    for(const [theme,reduce] of [['light',false],['dark',false],['light',true]]){
     await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:reduce?'reduce':'no-preference'}]});
