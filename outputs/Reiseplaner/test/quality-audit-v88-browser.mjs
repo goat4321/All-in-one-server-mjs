@@ -145,6 +145,12 @@ try{
    const calmRevealNode=document.querySelector('#app .motion-revealed');
    const calmRevealDuration=calmRevealNode
      ?parseFloat(getComputedStyle(calmRevealNode).animationDuration):null;
+   const v98ScrollRevealCount=document.querySelectorAll('#app .motion-scroll-revealed').length;
+   const v98ScrollRevealNode=document.querySelector('#app .motion-scroll-revealed');
+   const v98ScrollRevealDuration=v98ScrollRevealNode
+     ?parseFloat(getComputedStyle(v98ScrollRevealNode).animationDuration):null;
+   const v98ScrollRevealName=v98ScrollRevealNode
+     ?getComputedStyle(v98ScrollRevealNode).animationName:null;
    const v97SceneNode=document.querySelector('main.workspace.motion-scene-enter');
    const v97SceneDuration=v97SceneNode
      ?parseFloat(getComputedStyle(v97SceneNode).animationDuration):null;
@@ -231,7 +237,7 @@ try{
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     v94MapCountBroken:/undefined (?:Kartenpunkte|Ortsangaben ohne Pin)/.test(document.querySelector('.reference-map-workspace')?.textContent??''),
     searchButtonClipPx,searchLabelVisuallyHidden,
-    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v962BrowseHeroMode,v961ResearchNoticeHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v96DayCreditOverlap,v96SecondaryActionContrast,v96ScopeActiveContrast,v96FoodActiveContrast,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,v97SceneDuration,v97SceneName,calmNavTransition,
+    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v962BrowseHeroMode,v961ResearchNoticeHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v96DayCreditOverlap,v96SecondaryActionContrast,v96ScopeActiveContrast,v96FoodActiveContrast,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,v98ScrollRevealCount,v98ScrollRevealDuration,v98ScrollRevealName,v97SceneDuration,v97SceneName,calmNavTransition,
     calmInactiveNavColor,calmSearchBg,calmSearchProbe,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
@@ -268,6 +274,28 @@ try{
    }
   }
  }
+ // V98: exercise a genuinely lower section using the browser's scroll
+ // engine, not only static CSS searches. It must animate when it enters view.
+ await cdp('Emulation.setEmulatedMedia',{features:[
+   {name:'prefers-reduced-motion',value:'no-preference'}
+ ]});
+ await clickPage('overview');
+ const v98ScrollProbe=await js(`(async()=>{
+   const target=document.querySelector('.cockpit-progress-item:last-child');
+   if(!target)return {missing:true};
+   const before=target.classList.contains('motion-scroll-revealed');
+   target.scrollIntoView({block:'center',inline:'center',behavior:'instant'});
+   await new Promise(resolve=>setTimeout(resolve,220));
+   const style=getComputedStyle(target);
+   return {before,after:target.classList.contains('motion-scroll-revealed'),
+     name:style.animationName,duration:parseFloat(style.animationDuration)};
+ })()`);
+ console.log('V98_SCROLL_PROBE '+JSON.stringify(v98ScrollProbe));
+ assert.ok(!v98ScrollProbe.missing&&v98ScrollProbe.after
+   &&v98ScrollProbe.name==='v98-card-arrive'
+   &&v98ScrollProbe.duration>=0.3,
+   'V98 a below-fold planning card must animate when scrolled into view');
+ await js('window.scrollTo(0,0)');
  // Separate keyboard-only focus sample and an actual browse-search update.
  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:900,deviceScaleFactor:1,mobile:true});
  await clickPage('overview');
@@ -444,6 +472,14 @@ try{
    'V91 final calm stylesheet must load for every page/width/theme');
  assert.ok(rows.every(row=>row.calmRevealedNodes<=12),
    'V97 section motion stays bounded to structural chapters, never hundreds of cards');
+ assert.ok(rows.every(row=>row.v98ScrollRevealCount<=42),
+   'V98 visible content reveals stay bounded rather than animating all result cards');
+ assert.ok(rows.some(row=>row.page==='overview'&&!row.reduce
+   &&row.v98ScrollRevealCount>0&&row.v98ScrollRevealName==='v98-card-arrive'),
+   'V98 scroll reveal must visibly animate real travel cards in Chrome');
+ assert.ok(rows.filter(row=>row.reduce).every(row=>
+   row.v98ScrollRevealDuration===null||row.v98ScrollRevealDuration<0.001),
+   'V98 scroll reveal must respect the operating system reduced-motion setting');
  assert.ok(rows.some(row=>row.page==='overview'&&!row.reduce
    &&row.v97SceneName==='v97-scene-in'&&row.v97SceneDuration>=0.2),
    'V97 meaningful navigation must visibly animate the content scene');
