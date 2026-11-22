@@ -1,3 +1,11 @@
+## 22.11.2026 – V98: mehr Scroll-, Hover- und Öffnungsanimationen
+
+**Geprüfter Code-HEAD:** `43a36b00aafff6dfb2d08d625d00bdd2a489b51b`. [CI #45076798228](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45076798228) **success**: **558/558 portable Tests**, **63** echte Chrome-Messungen, **0px** Overflow, **0** JS-Ausnahmen.
+
+**Änderungen:** Maximal 42 echte Angebots-, Food-, Ziel- und Fortschrittskarten pro Seite mit jeweils einmaligem 440-ms-Scroll-Reveal; auf gleicher Seite nicht wiederholt nach Filter-Rerender; mehr Hover-Tiefe (4px Karte, 5,5% Fotozoom), Header-/CTA-Eintritt, Aufklappanimationen und 530-ms-Fortschrittsanzeige. Browser hat einen zunächst unsichtbaren Fortschrittseintrag beim echten Scrollen nachgewiesen (`v98-card-arrive`, 0,44s, Zwischenversatz 10,1689px). OS-Reduce-Motion und App-`motion=off` schalten alles ab. Kein Ganzseiten-Transform auf der Live-Karte.
+
+**Details und Grenzen:** [V98_SCROLL_HOVER_MOTION_AND_QA.md](./V98_SCROLL_HOVER_MOTION_AND_QA.md). Nicht geprüft: native Geräte / Nutzer-FPS / externe Fotos online. PR #5 Draft, kein Merge/Deployment, keine lokalen Windows-Dateien geändert.
+
 ## 22.11.2026 – V97: flüssigere Animationen für den gesamten Reiseplaner
 
 **Verifizierter UI-Code-HEAD:** `47040dba6d9d3bb4f4e5def7843cfc2a14e511a3`, [GitHub Actions #45074473280](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45074473280) **success**: **554/554 portable Tests**, **63 Headless-Chrome-Messungen**, **0px horizontaler Überlauf** und **0 JS-Ausnahmen**.

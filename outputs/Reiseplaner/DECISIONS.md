@@ -1,3 +1,11 @@
+## 22.11.2026 – V98: mehr Bewegung, aber nur an tatsächlichen Erkundungspunkten
+
+- **Scrollen:** Ein neuer `IntersectionObserver` ergänzt V97 um bis zu 42 Karten je Szene. Erst der echte Sichtkontakt startet 440ms mit 17px Aufwärtsbewegung; HTML bleibt von Beginn an sichtbar. Bereits gesehene Karten werden nach Filter-Rerender nicht erneut animiert, neue Karten schon. Keine 3D-Bewegungen oder Animationen von Karten-Pins.
+- **Hover und Details:** Karten auf präzisen Mauszeigern 4px Lift, Fotozoom 5,5%; primäre Buttons 2px Lift, Icons 2px Versatz; Headline/CTA getaktet, aufklappbare Bereiche 280ms, Fortschrittsbalken 530ms. Alles endliche Animationen, keine endlosen Loops oder Klick-Verzögerungen.
+- **Accessibility:** `prefers-reduced-motion:reduce` und `data-motion=off` schalten die Effekte vollständig aus; Tastatur- und gespeicherte Statusanzeigen bleiben sichtbar. Der JS-Observer erzeugt keine DOM-Ripple-Elemente.
+- **Abnahme:** Code-SHA `43a36b00aafff6dfb2d08d625d00bdd2a489b51b` mit [CI #45076798228](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45076798228), 558/558 Node-Tests und 63 Chrome-Labormessungen. Ein echter Scrolltest misst **10,1689px** Zwischenbewegung der zuvor unsichtbaren Karte; 0px horizontaler Overflow und 0 JS-Ausnahmen. Weitere QA: [V98_SCROLL_HOVER_MOTION_AND_QA.md](./V98_SCROLL_HOVER_MOTION_AND_QA.md).
+- **Unverändert:** Reisedaten, Varianten, Quellen, Bildlizenznachweise, MapLibre/Leaflet-Instanz, Routing, Buchungsstatus, `main`, Deployment und nicht synchronisierte lokale Windows-Dateien. Real Device/Real User Performance weiter offen.
+
 ## 22.11.2026 – V97: bewusst mehr Bewegung und weiterhin zugängliche Bedienung
 
 - **Entscheidung:** Der Nutzer wünscht allgemein mehr Animationen, ohne das Apple-inspirierte ruhige Reise-Layout wieder in springende Karten zu verwandeln. Kurze, gezielte Übergänge auf echten Navigationswechseln (285 ms), sichtbaren Inhaltsabschnitten (345 ms), geladenen Fotos (240 ms), gedrückten Buttons (95–175 ms), aufgeklappten Details (235 ms) und gespeicherten Orten (390 ms) bringen fühlbares Feedback.
