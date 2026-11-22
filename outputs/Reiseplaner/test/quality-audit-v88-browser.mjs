@@ -94,6 +94,8 @@ try{
    const v95HomepageHeroHeight=v95HomepageHero?.getBoundingClientRect().height??null;
    const v95BrowseHero=document.querySelector('.hub-hero');
    const v95BrowseHeroHeight=v95BrowseHero?.getBoundingClientRect().height??null;
+   const v961ResearchNotice=document.querySelector('.source-notice[data-research-status=incomplete]');
+   const v961ResearchNoticeHeight=v961ResearchNotice?.getBoundingClientRect().height??null;
    const v96HeroCredit=document.querySelector('.hub-hero-photo-credit');
    const v96CreditRect=v96HeroCredit?.getBoundingClientRect();
    const v96TitleRect=document.querySelector('.hub-hero h1')?.getBoundingClientRect();
@@ -223,7 +225,7 @@ try{
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     v94MapCountBroken:/undefined (?:Kartenpunkte|Ortsangaben ohne Pin)/.test(document.querySelector('.reference-map-workspace')?.textContent??''),
     searchButtonClipPx,searchLabelVisuallyHidden,
-    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v96DayCreditOverlap,v96SecondaryActionContrast,v96ScopeActiveContrast,v96FoodActiveContrast,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
+    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v961ResearchNoticeHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v96DayCreditOverlap,v96SecondaryActionContrast,v96ScopeActiveContrast,v96FoodActiveContrast,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
     calmInactiveNavColor,calmSearchBg,calmSearchProbe,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
@@ -387,10 +389,11 @@ try{
  // V96: on tablets, secondary source/route/food credits should be easier
  // to hit without expanding Leaflet map attribution overlays.
  const tabletRows=rows.filter(row=>row.width===768&&row.theme==='light'&&!row.reduce);
- assert.ok(tabletRows.reduce((sum,row)=>sum+row.smallTargetCount,0)<=8,
-   'V96 tablet must reduce tiny click targets from the pre-fix baseline of 33');
- assert.ok(tabletRows.every(row=>row.smallTargetCount<=4),
-   'V96 no tablet page should retain more than four under-24px targets');
+ assert.ok(tabletRows.length===7&&tabletRows.every(row=>row.smallTargetCount===0),
+   'V96.1 every tablet page must have zero under-24px clickable regions');
+ assert.ok(rows.filter(row=>row.width===390&&row.v961ResearchNoticeHeight!==null)
+   .every(row=>row.v961ResearchNoticeHeight<=64),
+   'V96.1 collapsed research warning stays compact without hiding its details on phones');
  assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page)).every(row=>
    row.v96SecondaryActionContrast!==null&&row.v96SecondaryActionContrast>=4.5),
    'V96 browse secondary actions need >=4.5:1 computed foreground/background contrast');
