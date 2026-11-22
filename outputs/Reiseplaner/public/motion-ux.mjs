@@ -21,7 +21,11 @@ const SCROLL_TARGETS=[
   '.cockpit-progress-item','.hub-option-grid .hub-option-card',
   '.hub-food-grid .hub-food-card','.timeline-event',
   '.reference-discovery-card','.swiss-editorial-grid article',
-  '.market-chain-list .market-chain-card','.hub-compare-summary'
+  '.market-chain-list .market-chain-card','.hub-compare-summary',
+  // V99 editorial chapters: reveal as they actually reach the reader.
+  '.swiss-editorial-head','.hub-market-access','.hub-food-planning',
+  '.day-plan-quick-bar','.stay-swiss-research',
+  '.data-disclosure','.cockpit-reference.section'
 ].join(',');
 const MAX_SCROLL_REVEALS=42;
 const scrollIdentity=(node,index)=>{
