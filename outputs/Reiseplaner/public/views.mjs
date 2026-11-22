@@ -70,9 +70,9 @@ export function renderShell(ctx) {
   const places = [...new Set(trip.route)];
   const currentTitle = variant.state.title ?? trip.title;
   const sourceNotice = trip.dataMode === 'research_seed_fallback'
-    ? '<details class="source-notice"><summary>'+icon('alert')
-      +'<strong>Forschungsstand · Reisedaten teilweise unvollständig</strong><span>Mehr erfahren</span></summary>'
-      +'<p>Nur Forschungsdaten verfügbar: Die privaten Tripsy-Originaldateien fehlen in diesem Projektordner. Termine, Quellenbezüge und Buchungsdetails sind unvollständig. Es wurden keine Buchungen oder Live-Fahrpläne importiert.</p></details>'
+    ? '<details class="source-notice" data-research-status="incomplete"><summary>'+icon('alert')
+      +'<strong>Reisedaten teilweise unvollständig</strong><span>Details</span></summary>'
+      +'<p>Forschungsstand: Nur Forschungsdaten verfügbar. Die privaten Tripsy-Originaldateien fehlen in diesem Projektordner. Termine, Quellenbezüge und Buchungsdetails sind unvollständig. Es wurden keine Buchungen oder Live-Fahrpläne importiert.</p></details>'
     : '';
   const activeNav=navSections.map(section=>
     '<section class="sidebar-section"><div class="side-label">'+esc(section.title)+'</div><nav aria-label="'+esc(section.title)+'">'
