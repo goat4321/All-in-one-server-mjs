@@ -1592,7 +1592,8 @@
   .destination-card,.overview-quick-card,.hub-option-card,
   .hub-food-card,.reference-discovery-card,.cockpit-progress-item
  ){
-  transform:translateY(0) !important;
+  /* Allow the one-time scroll keyframes to control the initial transform. */
+  transform:translateY(0);
   transition:transform 270ms cubic-bezier(.16,.82,.24,1),
    box-shadow 270ms ease,border-color 190ms ease !important;
  }
