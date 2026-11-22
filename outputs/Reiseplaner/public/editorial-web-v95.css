@@ -1345,3 +1345,181 @@
  .reference-travel-shell .hub-hero:is([data-photo=false],[data-photo=fallback])
   .hub-hero-actions{margin-top:8px}
 }
+
+
+/* V97 · Purposeful motion system
+ * Reference: owner apple-design-skill / HIG Motion.
+ * A short entrance on NEW scenes, visible sections on scroll, lightweight
+ * direct interaction feedback. No parallax, looping decoration, or card jumps.
+ * No motion if OS reduced-motion or the app's motion toggle is off.
+ */
+@keyframes v97-scene-in{
+  from{opacity:.91;transform:translateY(7px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes v97-section-in{
+  from{opacity:.89;transform:translateY(9px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes v97-photo-in{
+  from{opacity:.78}
+  to{opacity:1}
+}
+@keyframes v97-panel-in{
+  from{opacity:.86;transform:translateY(5px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes v97-confirm{
+  0%{box-shadow:0 0 0 0 rgba(20,105,202,.2)}
+  65%{box-shadow:0 0 0 5px rgba(20,105,202,.1)}
+  100%{box-shadow:0 0 0 0 rgba(20,105,202,0)}
+}
+@keyframes v97-budget-bar{
+  from{transform:scaleX(.25)}
+  to{transform:scaleX(1)}
+}
+
+/* Animated once for actual page/day/city changes. Filters and text edits
+ * re-render without replaying it. The map workspace is expressly excluded. */
+#app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter{
+  animation:v97-scene-in 285ms cubic-bezier(.2,.75,.2,1) both !important;
+}
+#app .motion-revealed{
+  animation:v97-section-in 345ms cubic-bezier(.2,.78,.2,1) both !important;
+  animation-delay:var(--motion-delay,0ms) !important;
+}
+#app img.motion-photo-loaded{
+  animation:v97-photo-in 240ms ease-out both !important;
+}
+/* Real photos move subtly under a clipped image container. Whole cards
+ * stay in place, so grids never bounce or alter their hit targets. */
+@media(hover:hover) and (pointer:fine){
+  .reference-travel-shell :is(
+    .destination-card .destination-cover,
+    .hub-option-card .hub-option-media,
+    .hub-food-card>.place-photo,
+    .reference-discovery-card .reference-discovery-image
+  ){overflow:hidden}
+  .reference-travel-shell :is(
+    .destination-card .destination-cover img,
+    .hub-option-card .hub-option-media img,
+    .hub-food-card>.place-photo img,
+    .reference-discovery-card .reference-discovery-image img
+  ){
+    transform:scale(1) !important;
+    transition:transform 340ms cubic-bezier(.22,.72,.23,1) !important;
+    will-change:auto;
+  }
+  .reference-travel-shell :is(
+    .destination-card:hover .destination-cover img,
+    .hub-option-card:hover .hub-option-media img,
+    .hub-food-card:hover>.place-photo img,
+    .reference-discovery-card:hover .reference-discovery-image img
+  ){transform:scale(1.028) !important}
+  .reference-travel-shell :is(
+    .overview-quick-card,.hub-option-card,.hub-food-card,
+    .reference-discovery-card
+  ){
+    transition:border-color 190ms ease,background-color 190ms ease !important;
+  }
+  .reference-travel-shell :is(
+    .overview-quick-card,.hub-option-card,.hub-food-card,
+    .reference-discovery-card
+  ):hover{border-color:color-mix(in srgb,var(--e95-link) 22%,var(--e95-line)) !important}
+}
+/* Instant response to pressing a button; no injected ripple nodes,
+ * no delayed actions, and no movement of Leaflet/MapLibre controls. */
+.reference-travel-shell :is(
+ .button,.chip-button,.icon-btn,.overview-quick-card,
+ .hub-food-tabs button,.hub-scope button
+){
+  transition:background-color 175ms ease,color 175ms ease,
+    border-color 175ms ease,transform 125ms ease-out !important;
+}
+.reference-travel-shell :is(
+ .button,.chip-button,.icon-btn,.overview-quick-card,
+ .hub-food-tabs button,.hub-scope button
+):active{
+  transform:scale(.985) !important;
+  transition-duration:95ms !important;
+}
+.reference-travel-shell .mobile-dock button .ui-icon{
+  transition:transform 175ms cubic-bezier(.2,.78,.2,1) !important;
+}
+.reference-travel-shell .mobile-dock button:active .ui-icon{
+  transform:scale(.91) !important;
+}
+/* Disclosures visually confirm opening, without animating height or
+ * pushing the page around. Closed content remains normal HTML. */
+.reference-travel-shell :is(
+ .data-disclosure[open]>.data-disclosure-body,
+ .map-extra-details[open]>.map-extra-content,
+ .source-notice[open]>p,
+ .meal-staple-comparison[open]>p,
+ .stay-swiss-research[open]>.stay-research-body
+){
+  animation:v97-panel-in 235ms ease-out both !important;
+}
+.reference-travel-shell :is(
+ .data-disclosure,.map-extra-details,.source-notice
+)>summary .ui-icon:last-child{
+  transition:transform 180ms ease !important;
+}
+/* Feedback on saved/selected places, without an endless pulse, zoom or
+ * misleading booking-confirmation animation. */
+#app .reference-travel-shell :is(
+ .explorer-place.motion-saved-success,
+ .reference-discovery-card.motion-saved-success,
+ .explorer-place.motion-spotlight,
+ .reference-agenda-select.motion-spotlight
+){
+  animation:v97-confirm 390ms ease-out 1 both !important;
+}
+#app .motion-scene-enter .bar-track>span{
+  transform-origin:left center;
+  animation:v97-budget-bar 420ms cubic-bezier(.2,.78,.2,1) both !important;
+}
+/* All animation and transform feedback becomes instant when requested.
+ * Keep basic focus, selected states and all semantic text unchanged. */
+@media(prefers-reduced-motion:reduce){
+  #app .reference-travel-shell main.workspace.motion-scene-enter,
+  #app .motion-revealed,#app img.motion-photo-loaded,
+  #app .reference-travel-shell .motion-scene-enter .bar-track>span,
+  #app .reference-travel-shell :is(
+   .explorer-place.motion-saved-success,.reference-discovery-card.motion-saved-success,
+   .explorer-place.motion-spotlight,.reference-agenda-select.motion-spotlight
+  ),
+  .reference-travel-shell :is(
+   .data-disclosure[open]>.data-disclosure-body,.map-extra-details[open]>.map-extra-content,
+   .source-notice[open]>p,.meal-staple-comparison[open]>p
+  ){animation:none !important;animation-delay:0ms !important}
+  .reference-travel-shell :is(.button,.chip-button,.icon-btn,.overview-quick-card,
+   .hub-food-tabs button,.hub-scope button):active{transform:none !important}
+  .reference-travel-shell .mobile-dock button:active .ui-icon{transform:none !important}
+  .reference-travel-shell :is(.destination-card,.hub-option-card,
+   .hub-food-card,.reference-discovery-card) img{
+    transform:none !important;transition:none !important;
+  }
+}
+:root[data-motion=off] #app .reference-travel-shell main.workspace.motion-scene-enter,
+:root[data-motion=off] #app .motion-revealed,
+:root[data-motion=off] #app img.motion-photo-loaded,
+:root[data-motion=off] #app .motion-scene-enter .bar-track>span,
+:root[data-motion=off] #app .reference-travel-shell :is(
+ .explorer-place.motion-saved-success,.reference-discovery-card.motion-saved-success,
+ .explorer-place.motion-spotlight,.reference-agenda-select.motion-spotlight
+),
+:root[data-motion=off] .reference-travel-shell :is(
+ .data-disclosure[open]>.data-disclosure-body,.map-extra-details[open]>.map-extra-content,
+ .source-notice[open]>p,.meal-staple-comparison[open]>p
+){animation:none !important;animation-delay:0ms !important}
+:root[data-motion=off] .reference-travel-shell :is(
+ .button,.chip-button,.icon-btn,.overview-quick-card,
+ .hub-food-tabs button,.hub-scope button
+):active{transform:none !important}
+:root[data-motion=off] .reference-travel-shell .mobile-dock button:active .ui-icon{
+ transform:none !important;
+}
+:root[data-motion=off] .reference-travel-shell :is(
+ .destination-card,.hub-option-card,.hub-food-card,.reference-discovery-card
+) img{transform:none !important;transition:none !important}
