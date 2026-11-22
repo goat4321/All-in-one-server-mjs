@@ -1,3 +1,11 @@
+## 22.11.2026 – V97: bewusst mehr Bewegung und weiterhin zugängliche Bedienung
+
+- **Entscheidung:** Der Nutzer wünscht allgemein mehr Animationen, ohne das Apple-inspirierte ruhige Reise-Layout wieder in springende Karten zu verwandeln. Kurze, gezielte Übergänge auf echten Navigationswechseln (285 ms), sichtbaren Inhaltsabschnitten (345 ms), geladenen Fotos (240 ms), gedrückten Buttons (95–175 ms), aufgeklappten Details (235 ms) und gespeicherten Orten (390 ms) bringen fühlbares Feedback.
+- **Keine Dauer-Dekoration:** Keine Endlosschleifen, globalen Kartenzooms, Click-Ripples, Parallax oder Änderungen an der realen Karten-/Reisegeometrie. Bei reinen Filteränderungen wird die Seitentransition nicht wiederholt; Live-Atlas/Leaflet-Gestik bleibt von Ganzseitenanimationen ausgenommen.
+- **Systemberechtigungen:** Browser-OS-Einstellung `prefers-reduced-motion:reduce` und manuelle App-Einstellung `data-motion=off` deaktivieren alle V97-Bewegungen, einschließlich Bild-Hover und Press-Transformationen. CSS-Spezifität der Opt-out-Regel wurde in echter Chrome-Abnahme korrigiert, statt nur nach Codeeinsicht freigegeben.
+- **Verifiziert:** UI-Commit `47040dba6d9d3bb4f4e5def7843cfc2a14e511a3`; [Actions #45074473280](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45074473280) success: 554/554 portable Tests, 63 echte Labormessungen, 0px horizontaler Overflow, 0 JS-Ausnahmen. Dokumentationsdetails: [V97_MOTION_SYSTEM_AND_QA.md](./V97_MOTION_SYSTEM_AND_QA.md).
+- **Grenzen:** Keine gemessenen Real-User-FPS, keine native Safari-/iPhone-/Screenreader-Abnahme, keine Online-Fotoverfügbarkeit. Branch PR #5 bleibt Draft, keine Änderung an `main`, Deployment, lokalen Windows-Dateien, Buchungen oder Reisedaten.
+
 ## 22.11.2026 – V96.1/2: hilfreiche Erstansicht statt leerem Hero und Warnungsdominanz
 
 - **Quellenvorbehalt bleibt sichtbar:** Globale Forschungswarnung auf eine maximal kompakte Statuszeile mit `Details` verkürzt; in der aufgeklappten Beschreibung bleibt der vollständige Hinweis auf fehlende private Tripsy-Originaldaten, fehlende Buchungen und nicht importierte Live-Fahrpläne. Belegte Höhe 42px bei 390px.
