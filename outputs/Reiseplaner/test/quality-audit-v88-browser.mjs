@@ -106,6 +106,23 @@ try{
    const v96DayCreditOverlap=Boolean(v96DayCreditRect&&v96DayMetaRect
      &&v96DayCreditRect.left<v96DayMetaRect.right&&v96DayCreditRect.right>v96DayMetaRect.left
      &&v96DayCreditRect.top<v96DayMetaRect.bottom&&v96DayCreditRect.bottom>v96DayMetaRect.top);
+   // V96: measure real foreground/background pairs rather than merely checking
+   // if a CSS rule exists. The dark browse secondary button was white-on-white.
+   const v96Contrast=selector=>{
+     const el=document.querySelector(selector);
+     if(!el)return null;
+     const style=getComputedStyle(el);
+     const rgb=value=>(value.match(/[0-9.]+/g)??[]).slice(0,3).map(Number);
+     const luminance=value=>{
+       const a=rgb(value).map(n=>{const x=n/255;return x<=.04045?x/12.92:((x+.055)/1.055)**2.4});
+       return .2126*(a[0]??0)+.7152*(a[1]??0)+.0722*(a[2]??0);
+     };
+     const fg=luminance(style.color),bg=luminance(style.backgroundColor);
+     return Math.round((Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05)*100)/100;
+   };
+   const v96SecondaryActionContrast=v96Contrast('.hub-hero-actions .button:not(.primary)');
+   const v96ScopeActiveContrast=v96Contrast('.hub-toolbar .hub-scope button[aria-pressed=true]');
+   const v96FoodActiveContrast=v96Contrast('.hub-food-tabs button[aria-pressed=true]');
    const v94Primary=document.querySelector('.reference-travel-shell .button.primary');
    const v94PrimaryTouch=v94Primary?.getBoundingClientRect().height??null;
    const v94HeroTitle=document.querySelector('.hub-hero h1');
@@ -206,7 +223,7 @@ try{
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     v94MapCountBroken:/undefined (?:Kartenpunkte|Ortsangaben ohne Pin)/.test(document.querySelector('.reference-map-workspace')?.textContent??''),
     searchButtonClipPx,searchLabelVisuallyHidden,
-    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v96DayCreditOverlap,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
+    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v96DayCreditOverlap,v96SecondaryActionContrast,v96ScopeActiveContrast,v96FoodActiveContrast,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
     calmInactiveNavColor,calmSearchBg,calmSearchProbe,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
@@ -367,6 +384,15 @@ try{
  assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page))
    .every(row=>row.v96HeroCreditHeight===null||row.v96HeroCreditHeight<=48),
    'V96 photo source link must be a compact attribution, never a full-height overlay');
+ assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page)).every(row=>
+   row.v96SecondaryActionContrast!==null&&row.v96SecondaryActionContrast>=4.5),
+   'V96 browse secondary actions need >=4.5:1 computed foreground/background contrast');
+ assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page)).every(row=>
+   row.v96ScopeActiveContrast!==null&&row.v96ScopeActiveContrast>=4.5),
+   'V96 selected city/trip scope needs >=4.5:1 computed contrast');
+ assert.ok(rows.filter(row=>row.page==='food').every(row=>
+   row.v96FoodActiveContrast!==null&&row.v96FoodActiveContrast>=4.5),
+   'V96 active food tabs need >=4.5:1 computed contrast');
  assert.ok(rows.every(row=>row.v96DayCreditOverlap===false),
    'V96 day plan source attribution must not cover day metadata at any width');
  assert.ok(rows.every(row=>row.v96HeroCreditOverlap===false),
