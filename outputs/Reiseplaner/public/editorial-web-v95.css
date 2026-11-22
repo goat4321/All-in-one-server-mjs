@@ -1523,3 +1523,21 @@
 :root[data-motion=off] .reference-travel-shell :is(
  .destination-card,.hub-option-card,.hub-food-card,.reference-discovery-card
 ) img{transform:none !important;transition:none !important}
+
+
+/* V97 strict accessibility precedence: the hover selector above is more
+ * specific than the generic media opt-out. Cover those exact hover states. */
+@media(prefers-reduced-motion:reduce){
+  .reference-travel-shell :is(
+    .destination-card:hover .destination-cover img,
+    .hub-option-card:hover .hub-option-media img,
+    .hub-food-card:hover>.place-photo img,
+    .reference-discovery-card:hover .reference-discovery-image img
+  ){transform:none !important;transition:none !important}
+}
+:root[data-motion=off] .reference-travel-shell :is(
+ .destination-card:hover .destination-cover img,
+ .hub-option-card:hover .hub-option-media img,
+ .hub-food-card:hover>.place-photo img,
+ .reference-discovery-card:hover .reference-discovery-image img
+){transform:none !important;transition:none !important}
