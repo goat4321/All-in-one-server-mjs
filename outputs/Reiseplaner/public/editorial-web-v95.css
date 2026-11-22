@@ -1097,3 +1097,87 @@
 :root[data-motion=off] .reference-travel-shell :is(.days .day,
  .reference-stage-days .day,.map-scope-modes button,
  .hub-food-tabs .chip-button,.hub-scope button){transition:none !important}
+
+
+/* V96 / Dark-mode accessibility: secondary action and segmented controls.
+ * Browser screenshots showed white text on a white hero action in dark mode;
+ * use explicit foreground/background pairs and no green selection bleed. */
+.reference-travel-shell .hub-hero[data-photo=false] .hub-hero-actions .button:not(.primary),
+.reference-travel-shell .hub-hero[data-photo=fallback] .hub-hero-actions .button:not(.primary){
+ background:#fff !important;color:#1d1d1f !important;
+ border:1px solid #d7d8dd !important;box-shadow:none !important;
+}
+:root[data-theme=dark] .reference-travel-shell
+ .hub-hero[data-photo=false] .hub-hero-actions .button:not(.primary),
+:root[data-theme=dark] .reference-travel-shell
+ .hub-hero[data-photo=fallback] .hub-hero-actions .button:not(.primary){
+ background:#32343a !important;color:#f5f5f7 !important;
+ border-color:#656871 !important;
+}
+:root[data-theme=dark] .reference-travel-shell
+ .hub-hero[data-photo=true] .hub-hero-actions .button:not(.primary){
+ background:rgba(17,20,26,.55) !important;
+ color:#fff !important;border:1px solid rgba(255,255,255,.84) !important;
+}
+.reference-travel-shell .hub-food-tabs button[aria-pressed=true]{
+ background:#1d1d1f !important;color:#fff !important;
+ border-color:#1d1d1f !important;box-shadow:none !important;
+}
+.reference-travel-shell .hub-food-tabs button:not([aria-pressed=true]){
+ background:#fff !important;color:#51525a !important;
+ border:1px solid #e1e2e7 !important;
+}
+:root[data-theme=dark] .reference-travel-shell
+ .hub-food-tabs button[aria-pressed=true]{
+ background:#f5f5f7 !important;color:#18191d !important;
+ border-color:#f5f5f7 !important;
+}
+:root[data-theme=dark] .reference-travel-shell
+ .hub-food-tabs button:not([aria-pressed=true]){
+ background:#282a30 !important;color:#e1e2e8 !important;
+ border-color:#42454c !important;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-toolbar .hub-scope button[aria-pressed=true]{
+ background:#f5f5f7 !important;color:#16171b !important;
+ border-color:#f5f5f7 !important;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-toolbar .hub-scope button:not([aria-pressed=true]){
+ background:#2b2d33 !important;color:#e4e5e9 !important;
+ border-color:#3e4048 !important;
+}
+:root[data-theme=dark] .reference-travel-shell
+ .hub-toolbar .hub-quick-filters .chip-button[aria-pressed=true]{
+ background:#f5f5f7 !important;color:#18191d !important;
+ border-color:#f5f5f7 !important;
+}
+:root[data-theme=dark] .reference-travel-shell
+ .hub-toolbar .hub-quick-filters .chip-button:not([aria-pressed=true]){
+ background:#282a30 !important;color:#e1e2e8 !important;
+ border-color:#42454c !important;
+}
+/* A quiet dark chrome contrasts the content, rather than tinting the whole
+ * navigation green; geographic pins and positive statuses stay unchanged. */
+:root[data-theme=dark] .reference-travel-shell>.main-column>.reference-topbar{
+ background:#1b1c1f !important;border-color:#35363b !important;
+}
+:root[data-theme=dark] .reference-travel-shell .mobile-dock{
+ background:#1b1c1f !important;border-color:#383a41 !important;
+ color:#f5f5f7 !important;
+}
+:root[data-theme=dark] .reference-travel-shell .mobile-dock button{
+ color:#c8c9cf !important;
+}
+:root[data-theme=dark] .reference-travel-shell .mobile-dock button[aria-current=page]{
+ background:#31363e !important;color:#86b9ff !important;
+}
+:root[data-theme=dark] .reference-travel-shell .hub-toolbar :is(
+ .hub-search-form input,.hub-city-selector select){
+ background:#2b2d33 !important;color:#f5f5f7 !important;
+ border-color:#555760 !important;
+}
+:root[data-theme=dark] .reference-travel-shell
+ .hub-toolbar input::placeholder{color:#aeb1bd !important}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell :is(.hub-food-tabs button,.hub-scope button,
+ .hub-quick-filters .chip-button){transition:none !important}
+}
