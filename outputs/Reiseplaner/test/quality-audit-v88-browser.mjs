@@ -145,6 +145,11 @@ try{
    const calmRevealNode=document.querySelector('#app .motion-revealed');
    const calmRevealDuration=calmRevealNode
      ?parseFloat(getComputedStyle(calmRevealNode).animationDuration):null;
+   const v97SceneNode=document.querySelector('main.workspace.motion-scene-enter');
+   const v97SceneDuration=v97SceneNode
+     ?parseFloat(getComputedStyle(v97SceneNode).animationDuration):null;
+   const v97SceneName=v97SceneNode
+     ?getComputedStyle(v97SceneNode).animationName:null;
    const calmNavButton=document.querySelector('.reference-main-nav button');
    const calmNavTransition=calmNavButton
      ?getComputedStyle(calmNavButton).transitionProperty:null;
@@ -226,7 +231,7 @@ try{
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     v94MapCountBroken:/undefined (?:Kartenpunkte|Ortsangaben ohne Pin)/.test(document.querySelector('.reference-map-workspace')?.textContent??''),
     searchButtonClipPx,searchLabelVisuallyHidden,
-    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v962BrowseHeroMode,v961ResearchNoticeHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v96DayCreditOverlap,v96SecondaryActionContrast,v96ScopeActiveContrast,v96FoodActiveContrast,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
+    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v962BrowseHeroMode,v961ResearchNoticeHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v96DayCreditOverlap,v96SecondaryActionContrast,v96ScopeActiveContrast,v96FoodActiveContrast,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,v97SceneDuration,v97SceneName,calmNavTransition,
     calmInactiveNavColor,calmSearchBg,calmSearchProbe,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
@@ -431,8 +436,16 @@ try{
    'V94 primary buttons remain usable rather than tiny');
  assert.ok(rows.every(row=>row.calmStyleLoaded),
    'V91 final calm stylesheet must load for every page/width/theme');
- assert.ok(rows.every(row=>row.calmRevealedNodes<=4),
-   'V91 motion must be limited to page identity, not each option or tile');
+ assert.ok(rows.every(row=>row.calmRevealedNodes<=12),
+   'V97 section motion stays bounded to structural chapters, never hundreds of cards');
+ assert.ok(rows.some(row=>row.page==='overview'&&!row.reduce
+   &&row.v97SceneName==='v97-scene-in'&&row.v97SceneDuration>=0.2),
+   'V97 meaningful navigation must visibly animate the content scene');
+ assert.ok(rows.filter(row=>row.reduce).every(row=>
+   row.v97SceneDuration===null||row.v97SceneDuration<0.001),
+   'V97 whole-page transition must respect system reduced motion');
+ assert.ok(rows.filter(row=>row.page==='map').every(row=>row.v97SceneDuration===null),
+   'V97 never transforms the live map canvas');
  assert.ok(rows.filter(row=>row.reduce)
    .every(row=>row.calmRevealDuration===null||row.calmRevealDuration<0.001),
    'V91 reveal obeys OS reduce-motion across every page');
