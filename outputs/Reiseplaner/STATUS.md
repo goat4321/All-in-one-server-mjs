@@ -1,3 +1,13 @@
+## 22.11.2026 – V96: Apple-Web-Komposition, Dark Mode und browsergestützte Nachprüfung
+
+**Geprüfter UI-Code-HEAD:** `ea69aaf2f95eb7a3fb0c89ea535a1263ff19702e` (spätere Commits sind Dokumentation), GitHub Actions [#45030591429](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45030591429) **success**: **547/547 portable Tests**, **63** Chrome-Labormessungen (7 Ansichten × 390/768/1440px × Light/Dark/Reduced Motion), **0px** horizontaler Überlauf, **0** protokollierte JS-Ausnahmen.
+
+**Umgesetzt:** Tatsächliche Route-Anfangs-/Endpunkte statt generischer Startseitenwerbung; ausgelagerte voluminöse SVG-Fallbacks bei offline/lizenzbedingt nicht geladenen Fotoheros; Fotoquellen-Links mit begrenzter Position statt überlappenden weißen Balken; ruhigere, einheitliche Such-/Tages-/Karten-/Budget-/Datenoberflächen. Dark Mode: sekundäre Aktionen und ausgewählte Suche-/Filterbuttons explizit mit lesbaren Flächen/Schriftfarben statt Weiß-auf-Weiß. Letzter Chrome-Lauf bestätigt tatsächlich berechneten Text-/Hintergrundkontrast der Hero-Sekundäraktion von **11,43:1 im Dark Mode**; aktive Filter im Test ebenfalls >=4,5:1. Neue browsergestützte Überlagerungsprüfungen für Hero-Fotoquellen und Tagesplan-Quellen.
+
+**Katalog:** [V96_APPLE_REDESIGN_EXECUTION_CATALOG.md](./V96_APPLE_REDESIGN_EXECUTION_CATALOG.md) enthält zehn nummerierte Arbeitspakete, wiederverwendbare Ausführungsvorgaben, Status, Abnahmekriterien und offene Punkte.
+
+**Noch offen:** Online-Fotoauslieferung der Wikimedia-Links prüfen (CI bewusst offline), ausführliche manuelle Sichtprüfung aller expandierten Unteransichten, echte iPhone-/Android-Safari/VoiceOver-Testgeräte, CSS-Historie konsolidieren. Keine Änderung von Reisevarianten, Preisen, Quellen-Lizenz-URLs, Routen, Speicherlogik, `main` oder Deployment. Die lokale Windows-Version wird nicht stillschweigend überschrieben.
+
 ## 21.11.2026 – V94: umfassendes Apple-inspiriertes Designsystem (erfolgreiche Abnahme)
 
 **Verifizierter Code-HEAD:** `748070f3838e253fecf97fce0c019ffd801b151a`; [GitHub Actions #44950411848](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/44950411848) **success**: **539/539 portable Tests**, 63 echte Headless-Chrome-Labormessungen (7 Seiten × 3 Breiten × Light/Dark/Reduced Motion), **0px horizontaler Überlauf**, **0 Runtime-Ausnahmen**. Browserabläufe einschließlich Mahlzeiten, Warenkorb, Persistenz, Budget, Atlas, Multi-Stop-Routen und 2–4-Unterkunftsvergleich sowie HTTP-Smoke bestanden.
