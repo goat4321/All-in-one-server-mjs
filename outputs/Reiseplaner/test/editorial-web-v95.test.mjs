@@ -147,3 +147,29 @@ test('V98 movement is optional and cannot move Leaflet map tiles',()=>{
  assert.match(v98,/\.motion-scroll-revealed/);
  assert.doesNotMatch(v98, /(^|[\s,])(?:\.leaflet|\.maplibregl)[^{]*\{[^}]*transform:/m);
 });
+
+
+test('V99 scroll indicator uses native scroll timeline and only content pages',()=>{
+ const v99=css.slice(css.indexOf('/* V99 / scroll progress and modal choreography'));
+ assert.match(v99,/@keyframes v99-reading-progress/);
+ assert.match(v99,/\.reference-travel-shell\.is-content-page>.main-column>.reference-topbar::after/);
+ assert.match(v99,/@supports\(animation-timeline:scroll\(root block\)\)/);
+ assert.match(v99,/animation-timeline:scroll\(root block\)/);
+ assert.match(v99,/pointer-events:none/);
+ assert.match(v99,/:root\[data-motion=off\]/);
+ assert.match(v99,/@media\(prefers-reduced-motion:reduce\)/);
+ assert.doesNotMatch(v99,/\.reference-travel-shell\.is-map-page[^{}]*reading-progress/);
+});
+test('V99 real modal and research chapters animate only when motion is allowed',()=>{
+ const v99=css.slice(css.indexOf('/* V99 / scroll progress and modal choreography'));
+ for(const token of ['@keyframes v99-modal-arrive',
+  '@keyframes v99-backdrop-arrive','#dialog[open]',
+  '#dialog[open]::backdrop','@keyframes v99-chapter-arrive',
+  '.hub-food-planning','.swiss-editorial-head','.data-disclosure',
+  'prefers-reduced-transparency:reduce']){
+  assert.ok(v99.includes(token),token);
+ }
+ assert.match(v99,/:root\[data-motion=off\] #dialog\[open\]/);
+ assert.match(v99,/#dialog\[open\],#dialog\[open\]::backdrop/);
+ assert.doesNotMatch(v99,/animation:[^;]*infinite/);
+});
