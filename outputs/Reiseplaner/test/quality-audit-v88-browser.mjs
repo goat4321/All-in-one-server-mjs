@@ -101,6 +101,11 @@ try{
    const v96HeroCreditOverlap=Boolean(v96CreditRect&&v96TitleRect
      &&v96CreditRect.left<v96TitleRect.right&&v96CreditRect.right>v96TitleRect.left
      &&v96CreditRect.top<v96TitleRect.bottom&&v96CreditRect.bottom>v96TitleRect.top);
+   const v96DayCreditRect=document.querySelector('.day-editorial-credit')?.getBoundingClientRect();
+   const v96DayMetaRect=document.querySelector('.day-editorial-hero .hero-meta')?.getBoundingClientRect();
+   const v96DayCreditOverlap=Boolean(v96DayCreditRect&&v96DayMetaRect
+     &&v96DayCreditRect.left<v96DayMetaRect.right&&v96DayCreditRect.right>v96DayMetaRect.left
+     &&v96DayCreditRect.top<v96DayMetaRect.bottom&&v96DayCreditRect.bottom>v96DayMetaRect.top);
    const v94Primary=document.querySelector('.reference-travel-shell .button.primary');
    const v94PrimaryTouch=v94Primary?.getBoundingClientRect().height??null;
    const v94HeroTitle=document.querySelector('.hub-hero h1');
@@ -201,7 +206,7 @@ try{
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     v94MapCountBroken:/undefined (?:Kartenpunkte|Ortsangaben ohne Pin)/.test(document.querySelector('.reference-map-workspace')?.textContent??''),
     searchButtonClipPx,searchLabelVisuallyHidden,
-    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
+    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v96DayCreditOverlap,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
     calmInactiveNavColor,calmSearchBg,calmSearchProbe,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
@@ -362,6 +367,8 @@ try{
  assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page))
    .every(row=>row.v96HeroCreditHeight===null||row.v96HeroCreditHeight<=48),
    'V96 photo source link must be a compact attribution, never a full-height overlay');
+ assert.ok(rows.every(row=>row.v96DayCreditOverlap===false),
+   'V96 day plan source attribution must not cover day metadata at any width');
  assert.ok(rows.every(row=>row.v96HeroCreditOverlap===false),
    'V96 photo credit must not overlap the primary hero headline');
  assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page))
