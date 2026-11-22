@@ -1,3 +1,11 @@
+## 22.11.2026 – V96.1/2: hilfreiche Erstansicht statt leerem Hero und Warnungsdominanz
+
+- **Quellenvorbehalt bleibt sichtbar:** Globale Forschungswarnung auf eine maximal kompakte Statuszeile mit `Details` verkürzt; in der aufgeklappten Beschreibung bleibt der vollständige Hinweis auf fehlende private Tripsy-Originaldaten, fehlende Buchungen und nicht importierte Live-Fahrpläne. Belegte Höhe 42px bei 390px.
+- **Tablet-Klickziele:** Der einzige verbliebene kleine 768px-Betreiberlink wurde nur innerhalb der bestehenden Karten-Fahrplan-Disclosure erweitert, keine künstliche Vergrößerung von Leaflet-Pins. Alle sieben Hauptseiten bei 390/768 jeweils 0 Trefferflächen unter 24px im Browserinventar; die Zahl bestätigt nicht pauschale Apple-44pt-Konformität.
+- **Fotofallback:** Das Apple-inspirierte großflächige Foto kapitel bleibt nur bei tatsächlich geladenen, individuell lizenzierten Originalbildern dominant. Fehlt das Bild, werden Herohöhe, Typografie und Abstand so reduziert, dass die Suche früher beginnt. 390px: Unterkünfte 356→271, Entdecken 303→255, Essen 319→271px. Keine gemalten Ersatz-Ortsfotos oder irreführenden Zuordnungen.
+- **Tests / Grenzen:** Code-HEAD `b1efd2b0b8da9fc938210d580bd0798158ec3246`; [Actions #45067859734](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45067859734) 550/550 bestanden, 63 Headless-Chrome-Zustände, 0px horizontaler Überlauf und 0 JS-Ausnahmen. Quelle online, echte Touchgeräte, WCAG vollumfänglich und tatsächliche Web-Vitals bleiben offen.
+- **Schutz:** Keine Änderung an den vier Varianten, Reise-/Preisdaten, Foto-Credits und Lizenz-URLs, Routen-/Karten-/Buchungsdaten, `main` oder Deployment. Nächste Runde prioritär: echte foto-taugliche Online-Auslieferung mit Rechteprüfung, visuelle Nebenansichten und 1440px-Quellenlink-Dichte.
+
 ## 22.11.2026 – V96: konkrete gestalterische Abweichungen statt zusätzliche Glass-Optik
 
 - **Designentscheidung:** `goat4321/apple-design-skill` und die Kompositionsprinzipien von apple.com als Orientierung, nicht als Identitätskopie. Neutrale produktive Oberflächen und großformatige Typografie; reale Reiseinhalte statt generischer Reklamesätze.

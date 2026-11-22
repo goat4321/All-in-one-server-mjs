@@ -1,3 +1,13 @@
+## 22.11.2026 – V96.1/2: kompakte Recherchehinweise, Tablet-Ziele und bildlose Hero-Fallbacks
+
+**Verifizierter UI-Code-HEAD:** `b1efd2b0b8da9fc938210d580bd0798158ec3246` · [GitHub Actions #45067859734](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45067859734) **success**: **550/550 portable Tests**, **63** echte Chrome-Labormessungen, **0 px** horizontaler Überlauf, **0** JS-Ausnahmen. Aktive Branchänderungen betreffen nur den Reiseplaner in PR #5.
+
+**UX-Reparatur:** Die globale Warnung zum unvollständigen Forschungsdatenstand wird kompakt und wahrheitsgetreu angezeigt, die vollständige Erklärung zu fehlenden privaten Tripsy-Dateien, Buchungen und Live-Fahrplänen bleibt im `<details>` erhalten. Browserhöhe der eingeklappten Warnung: **42 px bei 390px**, **40 px bei 768px**. Der letzte kleine Tablet-Link („Beim Betreiber prüfen“ in der ÖPNV-Quelleninfo) erhielt eine echte größere Trefferfläche. **Alle sieben geprüften Hauptseiten haben bei 390px und 768px jeweils 0 unter-24px-Trefferflächen.** Auf 1440px bestehen weiterhin 46 kleine vorwiegend sekundäre Foto-/Quellenlinks in diesen sieben Light-Snapshots; Desktop-Mausbedienung wurde nicht mit vollständiger Touch-/WCAG-Abnahme gleichgesetzt.
+
+**Bild-Fallbacks ohne erfundene Fotos:** Wenn das individuell zugeordnete Commons-Bild im Browser nicht geladen werden kann, ist das Titelkapitel in Entdecken, Essen und Unterkünften jetzt bewusst kompakter (390px Vorher → Nachher: Unterkunft **356→271px**, Entdecken **303→255px**, Essen **319→271px**). Bei tatsächlich geladenem Foto bleibt der große Hero unverändert. Neue Browser-Assertionen prüfen beide Zustände. Lizenz-/Quellenlinks sowie Reise-/Karten-/Preis-/Speicherdaten bleiben erhalten.
+
+**Offen:** Externe echte Fotoauslieferung muss in einer online erreichbaren Umgebung und mit Lizenznachweisen geprüft werden. Mobile Screenreader/VoiceOver, Android-/iOS-Safari, 200%-Zoom, alle ausgeklappten Unteransichten und Live-Web-Vitals nicht getestet. Keine Änderung an `main`, Deployment, Buchung, privater Tripsy-Quelle oder lokalen nicht synchronisierten Windows-Dateien. Siehe `V96_APPLE_REDESIGN_EXECUTION_CATALOG.md` für die nächsten präzisen Teilaufträge.
+
 ## 22.11.2026 – V96: Apple-Web-Komposition, Dark Mode und browsergestützte Nachprüfung
 
 **Geprüfter UI-Code-HEAD:** `ea69aaf2f95eb7a3fb0c89ea535a1263ff19702e` (spätere Commits sind Dokumentation), GitHub Actions [#45030591429](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45030591429) **success**: **547/547 portable Tests**, **63** Chrome-Labormessungen (7 Ansichten × 390/768/1440px × Light/Dark/Reduced Motion), **0px** horizontaler Überlauf, **0** protokollierte JS-Ausnahmen.

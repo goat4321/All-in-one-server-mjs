@@ -1,8 +1,8 @@
 # V96 – Apple-Webdesign: Arbeits- und Promptkatalog
 
 **Stand:** 22.11.2026 · **Repository:** `goat4321/All-in-one-server-mjs` · **Branch:** `feature/v7-data-day-accommodation-rail` · **PR #5:** offen, Draft.  
-**Letzter vollständig geprüfter UI-HEAD:** `ea69aaf2f95eb7a3fb0c89ea535a1263ff19702e`.  
-**CI:** [#45030591429](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45030591429) **success**, 547/547 portable Tests, 63 Chrome-Messungen; 0 px horizontaler Überlauf und 0 protokollierte JavaScript-Ausnahmen. **Keine native iPhone-/VoiceOver-Abnahme.**
+**Letzter vollständig geprüfter UI-HEAD:** `b1efd2b0b8da9fc938210d580bd0798158ec3246`.  
+**CI:** [#45067859734](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45067859734) **success**, 550/550 portable Tests, 63 Chrome-Messungen; 0 px horizontaler Überlauf und 0 protokollierte JavaScript-Ausnahmen. **Keine native iPhone-/VoiceOver-Abnahme.**
 
 ## Zielbild, das NICHT verloren gehen darf
 
@@ -114,3 +114,25 @@ Verwechsle grünen Code-Test nicht mit optischer Abnahme.
 `Nr. | GitHub-HEAD vorher → nachher | Dateien | Sichtänderung | Tests tatsächlich ausgeführt | Screenshotvergleich | offene Risiken | nächster Auftrag`
 
 **Keine Erfolgsmeldung ohne Code-/Screenshotbefund.**
+
+## V96.1/2 – Abgearbeitete Fortsetzung und neuer Ausgangspunkt (22.11.2026)
+
+| Arbeit | Geprüfter Befund | Stand |
+|---|---|---|
+| 08 – kleine Tablet-Bedienflächen | 768px von zuvor 33→1→**0** unter-24px-Trefferflächen; auch 390px **0** auf sieben Hauptseiten | **Abgeschlossen im synthetischen Labor** |
+| 02 / 08 – Forschungswarnung | Zusammengeklappt 42px auf Mobilgeräten, volle Caveats innerhalb `details` verfügbar | **Abgeschlossen im Browser** |
+| 03 / 05 – fehlende Bildquellen | 390px Offline-Hero Unterkünfte **356→271px**, Entdecken **303→255px**, Essen **319→271px**; Fotos bei realer Auslieferung bleiben groß | **Offline-Fallback abgeschlossen, Online-Fotoprüfung offen** |
+| 09 – Regression | [Actions #45067859734](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45067859734) **550/550**, 63 echte Chrome-Labors, 0px Overflow, 0 JS-Ausnahmen | **Für Code-HEAD bestätigt** |
+| 10 – Bericht / Übergabe | STATUS, DECISIONS und dieser Katalog mit exaktem Code-HEAD aktualisiert | **Dokumentiert; weitere Online-Abnahme offen** |
+
+### Unmittelbare nächste Aufträge
+
+**Prompt 11 · Fotoauslieferung mit tatsächlichen Quellen:** Ermittle für die Top-Destinationen aus `curated-place-photos.mjs`, welche Commons-Bilder in einem online angebundenen Browser tatsächlich laden. Dokumentiere Source-URL, Lizenz, Autor, fotografierten Ort und Dateinamen. Nutze keine KI-Bilder, unbekannte Lizenz oder Hotelbilder als Ortsersatz. Plane einen überprüfbaren lokalen Cache nur bei klarer Attribution und rechtlich erlaubter Speicherung; erfinde keine Foto-Verifikation. Bewahre alle vorhandenen Belege und Überschreibmöglichkeiten. Messe tatsächliche Hero-Foto-Ladequoten vor und nach der Implementierung.
+
+**Prompt 12 · Sekundäre Desktop-Quellenlinks:** Die 1440px-Chrome-Inventur zählt 46 unter-24px-Trefferflächen über sieben Seiten (6 Übersicht, 6 Karte, 6 Plan, 0 Unterkunft, 3 Entdecken, 25 Essen, 0 Daten). Analysiere die konkreten Linkklassen und vergrößere ihre Hitbox ohne weitere unnötige visuelle Karten- oder Tabellenflächen. Trenne Quellen-/Fotonachweis von primären CTAs; erhalte Links exakt. Prüfe responsive Tabellen und 63 Browserzustände.
+
+**Prompt 13 · Gerätetests und echte Interaktionen:** Reproduziere den Browserstand auf iPhone Safari und Android Chrome, teste Systemvergrößerung, Touch, offene Dialoge, Scrollleisten, feste Navigation, Dark Mode und VoiceOver/NVDA. Behaupte die Prüfung nur, wenn sie tatsächlich möglich war; sonst explizit als offen kennzeichnen.
+
+**Prompt 14 · CSS-Altlasten konsolidieren:** Identifiziere redundante/konfliktäre Regeln in V91/V94/V95 und historischen Reiseplaner-CSS. Konsolidiere kontrolliert in kleinen Subsets, mit fotografischer und funktionaler Vorher-/Nachher-Abnahme. Kein globaler Austausch, der den Atlas oder individuelle Reisevarianten zerstört.
+
+**Wichtig:** Dieses Dokument nennt weiterhin offene Teilbereiche; das grüne V96.2-Labor ist keine vollständige ästhetische, HIG-, WCAG-, Geräte- oder Online-Fotoabnahme.
