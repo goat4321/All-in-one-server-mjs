@@ -62,5 +62,17 @@ test('V95 hero photographs render above their card background with explicit fall
  assert.match(css,/\.hub-hero-art>img\{\s*position:absolute/);
  assert.match(css,/\.editorial-journey-media\{\s*z-index:0 !important/);
  assert.match(css,/\.editorial-journey-hero h1 \.sr-only/);
- assert.match(views,/destinationIllustration\(heroCityId\)/);
+ assert.match(views,/const heroRouteText=/);
+ assert.match(views,/heroRouteText\+'<\/h1>'/);
+});
+
+test('V96 route-led editorial heading uses actual trip destinations',()=>{
+ assert.match(views,/uniqueDestinations=\[\.\.\.new Set\(trip\.route\)\]/);
+ assert.match(views,/const heroRouteText=/);
+ assert.doesNotMatch(views,/Mehr sehen\.<br>/);
+});
+test('V96 artwork fallback is not an oversized fake photograph',()=>{
+ assert.match(css,/\.hub-hero\[data-photo=false\] \.hub-hero-art/);
+ assert.match(css,/\.hub-hero\[data-photo=fallback\] \.hub-hero-art/);
+ assert.match(css,/\.editorial-journey-hero\[data-photo=false\] \.editorial-journey-media/);
 });
