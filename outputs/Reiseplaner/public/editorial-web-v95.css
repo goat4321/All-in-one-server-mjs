@@ -1916,3 +1916,17 @@
  animation:none !important;animation-delay:0ms !important;
  stroke-dashoffset:0;opacity:1;filter:none;
 }
+
+
+/* V99 / stable attribution fallback contrast.
+ * External Commons photos can fail AFTER an initial hero is painted.
+ * Do not interpolate white text over a newly white fallback button. */
+.reference-travel-shell .hub-hero:is([data-photo=false],[data-photo=fallback])
+ .hub-hero-actions .button:not(.primary){
+ transition:none !important;
+}
+:root[data-theme=dark] .reference-travel-shell
+ .hub-hero:is([data-photo=false],[data-photo=fallback])
+ .hub-hero-actions .button:not(.primary){
+ transition:none !important;
+}
