@@ -116,3 +116,75 @@ test('V97 reduced motion never assigns a scene class or creates observers',()=>{
  createMotionController(doc).reveal(container,{page:'overview',variant:{id:'demo'}});
  assert.equal(calls,0);
 });
+
+
+test('V98 scroll cards enter once, including new cards after a filter repaint',()=>{
+ const observers=[],events=[];
+ class FakeIntersectionObserver{
+  constructor(callback){this.callback=callback;this.observed=[];observers.push(this);}
+  observe(node){this.observed.push(node);}
+  unobserve(node){events.push('unobserve:'+node.label);}
+  disconnect(){events.push('disconnect');}
+  emit(node,intersects=true){this.callback([{isIntersecting:intersects,target:node}]);}
+ }
+ const node=(label,value)=>({
+  label,className:'hub-option-card',dataset:{},
+  querySelector(selector){
+   return selector==='[data-action][data-value]'?{dataset:{value}}:null;
+  },
+  style:{setProperty(k,v){events.push(label+':'+k+'='+v);}},
+  classList:{add(v){events.push(label+':'+v);}}
+ });
+ const a=node('a','hotel-a'),b=node('b','hotel-b');
+ const a2=node('a2','hotel-a'),c=node('c','hotel-c');
+ let cards=[a,b];
+ const heading=node('heading','');
+ const workspace={classList:{add(v){events.push('workspace:'+v);}}};
+ const container={
+  querySelector(s){return s==='main.workspace'?workspace:null;},
+  querySelectorAll(s){
+   return s.startsWith('.editorial-journey-hero')?[heading]:cards;
+  }
+ };
+ const doc={
+  documentElement:{dataset:{motion:'auto'}},
+  defaultView:{matchMedia:()=>({matches:false}),IntersectionObserver:FakeIntersectionObserver},
+  addEventListener(){}
+ };
+ const ctl=createMotionController(doc);
+ const ctx={variant:{id:'test'},page:'lodging',date:'2027-09-01',city:'paris'};
+ ctl.reveal(container,ctx);
+ assert.equal(observers.length,1);
+ assert.equal(observers[0].observed.length,3);
+ assert.equal(events.filter(v=>v==='workspace:motion-scene-enter').length,1);
+ assert.equal(events.some(v=>v==='b:motion-scroll-revealed'),false,
+  'Offscreen items must not animate until the observer reports intersection');
+ observers[0].emit(a,true);
+ observers[0].emit(b,false);
+ assert.ok(events.includes('a:motion-scroll-revealed'));
+ assert.ok(!events.includes('b:motion-scroll-revealed'));
+ observers[0].emit(b,true);
+ cards=[a2,c];
+ ctl.reveal(container,ctx);
+ assert.equal(observers.length,2);
+ assert.deepEqual(observers[1].observed.map(n=>n.label),['c'],
+  'Previously visible cards should not replay after filter repaint');
+ observers[1].emit(c,true);
+ assert.ok(events.includes('c:motion-scroll-revealed'));
+ assert.equal(events.filter(v=>v==='workspace:motion-scene-enter').length,1);
+ ctl.reveal(container,{...ctx,city:'barcelona'});
+ assert.equal(events.filter(v=>v==='workspace:motion-scene-enter').length,2);
+});
+test('V98 scroll reveals are optional when motion is disabled',()=>{
+ let calls=0;
+ const doc={
+  documentElement:{dataset:{motion:'off'}},
+  defaultView:{matchMedia:()=>({matches:false}),IntersectionObserver:class{}},
+  addEventListener(){}
+ };
+ const ctl=createMotionController(doc);
+ ctl.reveal({querySelectorAll(){calls++;return[]},querySelector(){calls++;return null}},
+  {page:'overview'});
+ assert.equal(calls,0);
+ assert.equal(ctl.enabled(),false);
+});
