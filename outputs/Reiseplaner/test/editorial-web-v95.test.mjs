@@ -97,3 +97,27 @@ test('V96.2 offline browse heroes shrink without suppressing real photo chapters
  assert.match(css,/min-height:0 !important/);
  assert.match(css,/\.hub-hero\[data-photo=true\]/);
 });
+
+
+test('V97 page, chapter and photo motion is discoverable and restrained',()=>{
+ for(const token of ['@keyframes v97-scene-in','@keyframes v97-section-in',
+  '@keyframes v97-photo-in','@keyframes v97-panel-in',
+  '@keyframes v97-confirm','@keyframes v97-budget-bar',
+  'main.workspace.motion-scene-enter','#app .motion-revealed',
+  '.motion-photo-loaded','.motion-saved-success']){
+   assert.ok(css.includes(token),'Missing motion affordance: '+token);
+ }
+ assert.match(css,/animation:v97-scene-in 285ms/);
+ assert.match(css,/animation:v97-section-in 345ms/);
+ assert.match(css,/animation-delay:var\(--motion-delay,0ms\)/);
+ assert.doesNotMatch(css,/v97.*infinite/);
+});
+test('V97 disables animations and zoom on both OS and in-app opt-out',()=>{
+ const v97=css.slice(css.indexOf('/* V97 · Purposeful motion system'));
+ assert.match(v97,/@media\(prefers-reduced-motion:reduce\)/);
+ assert.match(v97,/:root\[data-motion=off\]/);
+ assert.match(v97,/main\.workspace\.motion-scene-enter/);
+ assert.match(v97,/transition:none !important/);
+ assert.match(v97,/\.destination-card:hover \.destination-cover img/);
+ assert.doesNotMatch(v97,/perspective\s*:|rotate3d\(|parallax/i);
+});
