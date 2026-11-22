@@ -757,3 +757,87 @@
   transition:none !important;
  }
 }
+
+
+/* V96 / Editorial hero fallback. Real sourced Commons photos remain unchanged.
+   Offline: strong typography, never huge invented SVG-city scenery. */
+.reference-travel-shell .editorial-journey-hero[data-photo=false],
+.reference-travel-shell .editorial-journey-hero[data-photo=fallback]{
+ background:linear-gradient(140deg,#111a23,#2b3949) !important;color:#fff !important;
+}
+.reference-travel-shell .editorial-journey-hero[data-photo=false] .editorial-journey-media,
+.reference-travel-shell .editorial-journey-hero[data-photo=fallback] .editorial-journey-media{
+ display:none !important;
+}
+.reference-travel-shell .editorial-journey-hero h1{
+ max-width:920px;font-size:clamp(46px,6vw,82px);
+}
+.reference-travel-shell .editorial-journey-facts{
+ display:flex;flex-wrap:wrap;justify-content:center;
+ gap:12px 22px;margin:18px 0 0;color:rgba(255,255,255,.9);font-size:13px;
+}
+.reference-travel-shell .editorial-journey-hero[data-photo=false] .editorial-journey-actions .button.subtle,
+.reference-travel-shell .editorial-journey-hero[data-photo=fallback] .editorial-journey-actions .button.subtle{
+ background:transparent !important;color:#fff !important;
+ border:1px solid rgba(255,255,255,.8) !important;
+}
+.reference-travel-shell .hub-hero[data-photo=false],
+.reference-travel-shell .hub-hero[data-photo=fallback]{
+ min-height:330px !important;padding:45px 25px !important;
+ background:var(--e95-paper) !important;color:var(--e95-ink) !important;
+}
+.reference-travel-shell .hub-hero[data-photo=false] .hub-hero-art,
+.reference-travel-shell .hub-hero[data-photo=fallback] .hub-hero-art{
+ display:none !important;
+}
+.reference-travel-shell .hub-hero[data-photo=false]:after,
+.reference-travel-shell .hub-hero[data-photo=fallback]:after{content:none !important}
+.reference-travel-shell .hub-hero[data-photo=false] :is(.hub-hero-main>p,.hub-hero-stats>span),
+.reference-travel-shell .hub-hero[data-photo=fallback] :is(.hub-hero-main>p,.hub-hero-stats>span){
+ color:var(--e95-secondary) !important;
+}
+.reference-travel-shell .hub-hero[data-photo=false] .hub-kicker,
+.reference-travel-shell .hub-hero[data-photo=fallback] .hub-kicker{
+ color:var(--e95-link) !important;
+}
+.reference-travel-shell .hub-hero h1{max-width:15ch;text-wrap:balance}
+.reference-travel-shell .day-editorial-hero:not([data-photo=true]){
+ min-height:220px !important;background:var(--e95-paper) !important;
+ color:var(--e95-ink) !important;
+}
+.reference-travel-shell .day-editorial-hero:not([data-photo=true]):after{display:none !important}
+.reference-travel-shell .day-editorial-hero:not([data-photo=true])
+ :is(h1,.hero-tag,.hero-meta,.hero-meta span){
+ color:var(--e95-ink) !important;text-shadow:none !important;
+}
+.reference-travel-shell :is(.destination-card,.hub-option-card,
+ .hub-food-card,.reference-discovery-card) img{
+ transform:none !important;transition:none !important;
+}
+@media(max-width:650px){
+ .reference-travel-shell .editorial-journey-hero{
+  min-height:410px !important;padding:54px 17px 56px !important;
+ }
+ .reference-travel-shell .editorial-journey-hero h1{
+  font-size:clamp(39px,10vw,54px);overflow-wrap:anywhere;
+ }
+ .reference-travel-shell .hub-hero[data-photo=false],
+ .reference-travel-shell .hub-hero[data-photo=fallback]{
+  min-height:300px !important;padding:32px 16px !important;
+ }
+ .reference-travel-shell .hub-hero[data-photo=false] h1,
+ .reference-travel-shell .hub-hero[data-photo=fallback] h1{
+  font-size:clamp(33px,9vw,42px) !important;max-width:100%;
+ }
+ .reference-travel-shell .hub-hero-main{max-width:100%;width:100%}
+ .reference-travel-shell .hub-hero-main>p{font-size:15px !important}
+ .reference-travel-shell .hub-hero-actions .button{
+  min-width:0;max-width:100%;white-space:normal;
+ }
+ .reference-travel-shell .day-editorial-hero:not([data-photo=true]){
+  min-height:180px !important;
+ }
+ .reference-travel-shell .day-editorial-hero:not([data-photo=true]) h1{
+  font-size:clamp(34px,9vw,44px);
+ }
+}
