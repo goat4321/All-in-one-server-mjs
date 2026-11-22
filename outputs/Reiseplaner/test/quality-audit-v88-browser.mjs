@@ -298,6 +298,70 @@ try{
    &&v98ScrollProbe.translateY>0.5&&v98ScrollProbe.translateY<20,
    'V98 a below-fold planning card must visibly translate upward during its reveal');
  await js('window.scrollTo(0,0)');
+ // V99: browser-test the native scroll-timeline progress and the real
+ // <dialog> backdrop. All effects must disappear with reduced motion.
+ await cdp('Emulation.setEmulatedMedia',{features:[
+   {name:'prefers-reduced-motion',value:'no-preference'}
+ ]});
+ await clickPage('overview');
+ const v99ReadingProbe=await js(`(async()=>{
+   const bar=document.querySelector('.reference-travel-shell.is-content-page .reference-topbar');
+   const sample=()=>{
+     const style=getComputedStyle(bar,'::after');
+     return {content:style.content,display:style.display,
+       name:style.animationName,scale:new DOMMatrixReadOnly(style.transform).a};
+   };
+   const tick=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+   window.scrollTo({top:0,behavior:'instant'});await tick();
+   const top=sample();
+   const scrollMax=document.scrollingElement.scrollHeight-innerHeight;
+   window.scrollTo({top:scrollMax,behavior:'instant'});await tick();
+   const bottom=sample();
+   window.scrollTo({top:0,behavior:'instant'});await tick();
+   return {supported:CSS.supports('animation-timeline:scroll(root block)'),
+     scrollMax,top,bottom};
+ })()`);
+ console.log('V99_READING_PROBE '+JSON.stringify(v99ReadingProbe));
+ assert.ok(v99ReadingProbe.supported&&v99ReadingProbe.scrollMax>250
+   &&v99ReadingProbe.top.name==='v99-reading-progress'
+   &&v99ReadingProbe.bottom.scale>v99ReadingProbe.top.scale+0.6,
+   'V99 native reading indicator must advance from page top to bottom');
+ const v99Modal=await js(`(()=>{
+   const d=document.querySelector('#dialog'),old=d.innerHTML;
+   if(d.open)d.close();
+   d.innerHTML='<h2>Animationstest</h2><button>Schließen</button>';
+   d.showModal();
+   const modal=getComputedStyle(d);
+   const backdrop=getComputedStyle(d,'::backdrop');
+   const result={name:modal.animationName,duration:parseFloat(modal.animationDuration),
+     backdrop:backdrop.animationName,
+     backDuration:parseFloat(backdrop.animationDuration),
+     hasFocus:d.contains(document.activeElement)};
+   d.close();d.innerHTML=old;return result;
+ })()`);
+ console.log('V99_MODAL_PROBE '+JSON.stringify(v99Modal));
+ assert.ok(v99Modal.name==='v99-modal-arrive'&&v99Modal.duration>=0.25
+  &&v99Modal.backdrop==='v99-backdrop-arrive'
+  &&v99Modal.hasFocus,
+  'V99 dialog open and backdrop must animate while preserving native focus');
+ await cdp('Emulation.setEmulatedMedia',{features:[
+   {name:'prefers-reduced-motion',value:'reduce'}
+ ]});
+ const v99Reduced=await js(`(()=>{
+   const bar=document.querySelector('.reference-travel-shell.is-content-page .reference-topbar');
+   const progress=getComputedStyle(bar,'::after').display;
+   const d=document.querySelector('#dialog');d.showModal();
+   const modal=getComputedStyle(d).animationName,
+     backdrop=getComputedStyle(d,'::backdrop').animationName;
+   d.close();return {progress,modal,backdrop};
+ })()`);
+ console.log('V99_REDUCED_PROBE '+JSON.stringify(v99Reduced));
+ assert.ok(v99Reduced.progress==='none'
+   &&v99Reduced.modal==='none'&&v99Reduced.backdrop==='none',
+   'V99 progress and modal effects must be disabled with OS reduced motion');
+ await cdp('Emulation.setEmulatedMedia',{features:[
+   {name:'prefers-reduced-motion',value:'no-preference'}
+ ]});
  // Separate keyboard-only focus sample and an actual browse-search update.
  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:900,deviceScaleFactor:1,mobile:true});
  await clickPage('overview');
