@@ -654,19 +654,24 @@ function overview(ctx) {
   const heroItem=(ctx.all??[]).find(item=>item.city===heroCityId
     &&item.kind==='activity'&&curatedPlacePhoto(item));
   const heroPhoto=heroItem?curatedPlacePhoto(heroItem):null;
+  const uniqueDestinations=[...new Set(trip.route)];
+  const firstCity=uniqueDestinations[0],lastCity=uniqueDestinations.at(-1);
+  const heroRouteText=uniqueDestinations.length>1
+    ?esc(ctx.cities[firstCity]?.name??'Deine Reise')+'.<br>'
+      +esc(ctx.cities[lastCity]?.name??'Europa')+'.'
+    :esc(ctx.cities[firstCity]?.name??'Deine Reise')+'.';
   const editorialHero='<section class="editorial-journey-hero" data-photo="'
     +(heroPhoto?'true':'false')+'" aria-label="Deine Reise im Überblick">'
     +'<div class="editorial-journey-media" aria-hidden="true">'
-    +destinationIllustration(heroCityId)
     +(heroPhoto?'<img src="'+esc(heroPhoto.url)+'" alt="" loading="eager"'
-      +' decoding="async" referrerpolicy="no-referrer">':destinationIllustration(heroCityId))
+      +' decoding="async" referrerpolicy="no-referrer">':'')
     +'</div><div class="editorial-journey-copy">'
     +'<span class="editorial-journey-eyebrow">DEINE REISE · '
       +esc(dateLabel(trip.from,trip.to))+'</span>'
-    +'<h1><span class="sr-only">Reiseübersicht: </span>Mehr sehen.<br>'
-      +'Mehr erleben.</h1>'
-    +'<p>'+esc(ctx.variant.state.title??trip.title)+' · '
-      +new Set(trip.route).size+' Reiseorte · '+ctx.people.length+' Reisende</p>'
+    +'<h1><span class="sr-only">Reiseübersicht: </span>'+heroRouteText+'</h1>'
+    +'<p>'+esc(ctx.variant.state.title??trip.title)+'</p>'
+    +'<div class="editorial-journey-facts"><span>'+uniqueDestinations.length+' Reiseorte</span>'
+    +'<span>'+ctx.people.length+' Reisende</span></div>'
     +'<div class="editorial-journey-actions">'
     +btn('page','Tagesplan öffnen','calendar','plan','primary')
     +btn('show-route','Route entdecken','arrow','','subtle')
