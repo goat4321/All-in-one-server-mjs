@@ -173,3 +173,17 @@ test('V99 real modal and research chapters animate only when motion is allowed',
  assert.match(v99,/#dialog\[open\],#dialog\[open\]::backdrop/);
  assert.doesNotMatch(v99,/animation:[^;]*infinite/);
 });
+
+
+test('V99 route is drawn once when revealed instead of moving forever',()=>{
+ const v99=css.slice(css.indexOf('/* V99 / deliberate travel route tracing'));
+ assert.match(views,/class="cockpit-route-line" pathLength="1"/);
+ assert.match(v99,/@keyframes v99-route-trace/);
+ assert.match(v99,/\.cockpit-route-surface\.motion-revealed/);
+ assert.match(v99,/animation:v99-route-trace 1100ms/);
+ assert.match(v99,/\.cockpit-route-line\{\s*stroke-dasharray:1 !important;/);
+ assert.match(v99,/animation:none !important/);
+ assert.match(v99,/@media\(prefers-reduced-motion:reduce\)/);
+ assert.match(v99,/:root\[data-motion=off\]/);
+ assert.doesNotMatch(v99,/animation:[^;]*infinite/);
+});
