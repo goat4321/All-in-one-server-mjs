@@ -187,3 +187,11 @@ test('V99 route is drawn once when revealed instead of moving forever',()=>{
  assert.match(v99,/:root\[data-motion=off\]/);
  assert.doesNotMatch(v99,/animation:[^;}\n]*\binfinite\b/i);
 });
+
+
+test('V99 external photo failure switches to a readable action without tweening',()=>{
+ const v99=css.slice(css.indexOf('/* V99 / stable attribution fallback contrast'));
+ assert.match(v99,/\.hub-hero:is\(\[data-photo=false\],\[data-photo=fallback\]\)/);
+ assert.match(v99,/\.hub-hero-actions \.button:not\(\.primary\)/);
+ assert.match(v99,/transition:none !important/);
+});
