@@ -74,3 +74,45 @@ test('Off setting prevents observers and pointer effects',()=>{
  assert.equal(handlers.has('pointerdown'),false,
   'Press feedback uses native CSS rather than injected click effects');
 });
+
+
+test('V97 scene motion occurs once per meaningful navigation, not each filter repaint',()=>{
+ const observed=[],created=[],listeners=[];
+ class Observer{
+  constructor(cb){this.cb=cb;created.push(this);}
+  observe(n){observed.push(n);this.cb([{isIntersecting:true,target:n}]);}
+  unobserve(){}
+  disconnect(){}
+ }
+ const workspace={classList:{add:x=>observed.push(x)}};
+ const chapter={style:{setProperty(){}},classList:{add:x=>observed.push(x)}};
+ const container={querySelector:q=>q==='main.workspace'?workspace:null,
+  querySelectorAll:()=>[chapter]};
+ const doc={documentElement:{dataset:{motion:'auto'}},
+  defaultView:{matchMedia:()=>({matches:false}),IntersectionObserver:Observer},
+  addEventListener:x=>listeners.push(x)};
+ const controller=createMotionController(doc);
+ const trip={page:'overview',variant:{id:'demo'},city:'paris',date:'2027-09-01'};
+ controller.reveal(container,trip);
+ assert.equal(observed.filter(x=>x==='motion-scene-enter').length,1);
+ assert.equal(observed.filter(x=>x==='motion-revealed').length,1);
+ controller.reveal(container,trip);
+ assert.equal(observed.filter(x=>x==='motion-scene-enter').length,1,
+  'A new filter or saved state must not replay the scene transition');
+ controller.reveal(container,{...trip,page:'plan'});
+ assert.equal(observed.filter(x=>x==='motion-scene-enter').length,2);
+ controller.reveal(container,{...trip,page:'map'});
+ assert.equal(observed.filter(x=>x==='motion-scene-enter').length,2,
+  'Map navigation cannot animate the entire canvas or map controls');
+ assert.deepEqual(listeners.sort(),['error','load']);
+});
+test('V97 reduced motion never assigns a scene class or creates observers',()=>{
+ let calls=0;
+ const container={querySelector(){calls++;return null},
+  querySelectorAll(){calls++;return []}};
+ const doc={documentElement:{dataset:{motion:'auto'}},
+  defaultView:{matchMedia:()=>({matches:true}),IntersectionObserver:class{}},
+  addEventListener(){}};
+ createMotionController(doc).reveal(container,{page:'overview',variant:{id:'demo'}});
+ assert.equal(calls,0);
+});
