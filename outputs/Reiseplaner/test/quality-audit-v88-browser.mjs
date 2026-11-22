@@ -288,13 +288,15 @@ try{
    await new Promise(resolve=>setTimeout(resolve,220));
    const style=getComputedStyle(target);
    return {before,after:target.classList.contains('motion-scroll-revealed'),
-     name:style.animationName,duration:parseFloat(style.animationDuration)};
+     name:style.animationName,duration:parseFloat(style.animationDuration),
+     translateY:new DOMMatrixReadOnly(style.transform).m42};
  })()`);
  console.log('V98_SCROLL_PROBE '+JSON.stringify(v98ScrollProbe));
  assert.ok(!v98ScrollProbe.missing&&v98ScrollProbe.after
    &&v98ScrollProbe.name==='v98-card-arrive'
-   &&v98ScrollProbe.duration>=0.3,
-   'V98 a below-fold planning card must animate when scrolled into view');
+   &&v98ScrollProbe.duration>=0.3
+   &&v98ScrollProbe.translateY>0.5&&v98ScrollProbe.translateY<20,
+   'V98 a below-fold planning card must visibly translate upward during its reveal');
  await js('window.scrollTo(0,0)');
  // Separate keyboard-only focus sample and an actual browse-search update.
  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:900,deviceScaleFactor:1,mobile:true});
