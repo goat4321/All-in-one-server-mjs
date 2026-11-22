@@ -1770,10 +1770,15 @@
   animation-timeline:scroll(root block);
  }
 }
-/* Smooth user-triggered in-page anchor navigation, not page transitions or
- * the dedicated route/map gestures. Explicit JS instant scroll still wins. */
-@media(prefers-reduced-motion:no-preference){
- :root:not([data-motion=off]){scroll-behavior:smooth}
+/* Anchor-target feedback without changing programmatic scroll timing in the
+ * map, browser screenshot captures, keyboard navigation or route controls. */
+@keyframes v99-anchor-focus{
+ from{outline-color:rgba(20,105,202,.3);outline-offset:8px}
+ to{outline-color:transparent;outline-offset:0}
+}
+#app .reference-travel-shell #market-price-research:target{
+ outline:2px solid transparent;
+ animation:v99-anchor-focus 450ms ease-out both;
 }
 /* A focused, accessible modal entrance: no waiting before actions, no
  * animated height or layout movement. Native dialog traps focus as before. */
@@ -1848,8 +1853,7 @@
  ).motion-scroll-revealed{
   animation:none !important;animation-delay:0ms !important;
  }
- :root{scroll-behavior:auto !important}
-}
+ }
 :root[data-motion=off]
  .reference-travel-shell.is-content-page>.main-column>.reference-topbar::after{
  display:none !important;animation:none !important;
@@ -1863,4 +1867,7 @@
 ).motion-scroll-revealed{
  animation:none !important;animation-delay:0ms !important;
 }
-:root[data-motion=off]{scroll-behavior:auto !important}
+@media(prefers-reduced-motion:reduce){
+ #app .reference-travel-shell #market-price-research:target{animation:none !important}
+}
+:root[data-motion=off] #app .reference-travel-shell #market-price-research:target{animation:none !important}
