@@ -1739,3 +1739,128 @@
  .reference-main-nav button:hover,.overview-quick-card:hover,
  .hub-food-tabs button:hover,.hub-scope button:hover
 ) .ui-icon{transform:none !important;transition:none !important}
+
+
+/* V99 / scroll progress and modal choreography
+ * Native CSS Scroll-Driven Animation: compositor-friendly progressive
+ * enhancement. The indicator shows reading position on long content pages;
+ * never on the map. No scroll listener, requestAnimationFrame polling, or
+ * dependence on the indicator for understanding the travel content.
+ */
+@keyframes v99-reading-progress{
+ from{transform:scaleX(0)}
+ to{transform:scaleX(1)}
+}
+.reference-travel-shell.is-content-page>.main-column>.reference-topbar::after{
+ content:"";
+ position:fixed;
+ inset:0 auto auto 0;
+ width:100vw;height:3px;
+ transform:scaleX(0);transform-origin:left center;
+ pointer-events:none;
+ background:var(--e95-link,#1469ca);
+ border-radius:0 2px 2px 0;
+ box-shadow:0 1px 4px rgba(20,105,202,.14);
+ z-index:1100;
+}
+/* Browsers without Scroll-Driven Animations see no extra line. */
+@supports(animation-timeline:scroll(root block)){
+ .reference-travel-shell.is-content-page>.main-column>.reference-topbar::after{
+  animation:v99-reading-progress linear both;
+  animation-timeline:scroll(root block);
+ }
+}
+/* Smooth user-triggered in-page anchor navigation, not page transitions or
+ * the dedicated route/map gestures. Explicit JS instant scroll still wins. */
+@media(prefers-reduced-motion:no-preference){
+ :root:not([data-motion=off]){scroll-behavior:smooth}
+}
+/* A focused, accessible modal entrance: no waiting before actions, no
+ * animated height or layout movement. Native dialog traps focus as before. */
+@keyframes v99-modal-arrive{
+ from{opacity:.2;transform:translateY(14px) scale(.97)}
+ to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes v99-backdrop-arrive{
+ from{opacity:0;backdrop-filter:blur(0)}
+ to{opacity:1;backdrop-filter:blur(5px)}
+}
+#dialog[open]{
+ animation:v99-modal-arrive 290ms cubic-bezier(.18,.8,.22,1) both !important;
+ border:1px solid var(--e95-line,#e7e7eb);
+ box-shadow:0 22px 75px rgba(8,15,25,.23);
+}
+#dialog[open]::backdrop{
+ background:rgba(12,19,28,.56);
+ -webkit-backdrop-filter:blur(5px);
+ backdrop-filter:blur(5px);
+ animation:v99-backdrop-arrive 280ms ease-out both !important;
+}
+:root[data-theme=dark] #dialog[open]{
+ background:#222329 !important;color:#f5f5f7 !important;
+ border-color:#42444b;
+ box-shadow:0 24px 85px rgba(0,0,0,.52);
+}
+:root[data-theme=dark] #dialog[open] .dialog-head{
+ border-color:#42444b;
+}
+:root[data-theme=dark] #dialog[open]::backdrop{
+ background:rgba(0,0,0,.69);
+}
+/* More chapters enter the viewport once rather than every time a search
+ * filter changes. The observer is shared with V98, no timers per card. */
+@keyframes v99-chapter-arrive{
+ from{opacity:.55;transform:translateY(19px)}
+ to{opacity:1;transform:translateY(0)}
+}
+#app .reference-travel-shell :is(
+ .swiss-editorial-head,.hub-market-access,.hub-food-planning,
+ .day-plan-quick-bar,.stay-swiss-research,.data-disclosure,
+ .cockpit-reference.section,.hub-results-title
+).motion-scroll-revealed{
+ animation:v99-chapter-arrive 500ms cubic-bezier(.16,.82,.24,1) both !important;
+ animation-delay:var(--motion-delay,0ms) !important;
+}
+/* Give selected tabs a smooth, visually grounded color feedback.
+ * No infinite pulses, aggressive scale or dragging side effects. */
+.reference-travel-shell :is(
+ .hub-scope button,.hub-food-tabs button,.hub-quick-filters .chip-button,
+ .reference-main-nav button
+){
+ transition:background-color 215ms ease,color 215ms ease,
+   border-color 215ms ease,box-shadow 215ms ease !important;
+}
+@media(prefers-reduced-transparency:reduce){
+ #dialog[open]::backdrop{
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell.is-content-page>.main-column>.reference-topbar::after{
+  display:none !important;animation:none !important;
+ }
+ #dialog[open],#dialog[open]::backdrop,
+ #app .reference-travel-shell :is(
+  .swiss-editorial-head,.hub-market-access,.hub-food-planning,
+  .day-plan-quick-bar,.stay-swiss-research,.data-disclosure,
+  .cockpit-reference.section,.hub-results-title
+ ).motion-scroll-revealed{
+  animation:none !important;animation-delay:0ms !important;
+ }
+ :root{scroll-behavior:auto !important}
+}
+:root[data-motion=off]
+ .reference-travel-shell.is-content-page>.main-column>.reference-topbar::after{
+ display:none !important;animation:none !important;
+}
+:root[data-motion=off] #dialog[open],
+:root[data-motion=off] #dialog[open]::backdrop,
+:root[data-motion=off] #app .reference-travel-shell :is(
+ .swiss-editorial-head,.hub-market-access,.hub-food-planning,
+ .day-plan-quick-bar,.stay-swiss-research,.data-disclosure,
+ .cockpit-reference.section,.hub-results-title
+).motion-scroll-revealed{
+ animation:none !important;animation-delay:0ms !important;
+}
+:root[data-motion=off]{scroll-behavior:auto !important}
