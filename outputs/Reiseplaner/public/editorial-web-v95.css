@@ -1181,3 +1181,47 @@
  .reference-travel-shell :is(.hub-food-tabs button,.hub-scope button,
  .hub-quick-filters .chip-button){transition:none !important}
 }
+
+
+/* V96 / Tablet interaction cleanup (651–900 px): Chrome inventory flagged
+ * compact photo-source, route and recipe links even though phone was clean.
+ * Limit touch expansion to readable source/action regions, not Leaflet tiles. */
+@media(min-width:651px) and (max-width:900px){
+  .reference-travel-shell :is(
+    .destination-card,.day-plan-panel,.day-plan-quick-bottom,
+    .plan-grid,.swiss-day-editorial,.hub-food-card,.hub-food-research,
+    .hub-food-planning,.meal-staple-comparison,.meal-flow-steps,
+    .reference-discovery,.reference-discovery-card,
+    .reference-map-workspace .explorer-right,
+    .reference-map-workspace .map-context-summary,
+    .reference-map-workspace .map-extra-details,
+    .reference-map-workspace .reference-places-drawer,
+    .reference-map-workspace .map-panel .panel-head
+  ) a[href]:not(.button){
+    box-sizing:border-box;
+    display:inline-flex;align-items:center;gap:4px;
+    min-height:32px;min-width:32px;
+    max-width:100%;
+    padding:6px 8px;
+    line-height:1.4;
+    border-radius:9px;vertical-align:middle;
+    overflow-wrap:anywhere;
+    text-underline-offset:3px;
+  }
+  .reference-travel-shell :is(.destination-credit,.place-photo-unavailable-source){
+    display:inline-flex;align-items:center;
+    min-height:32px;min-width:32px;max-width:100%;
+    padding:6px 8px;line-height:1.4;
+    border-radius:8px;
+  }
+  .reference-travel-shell :is(.hub-food-research,.hub-food-planning,
+    .meal-staple-comparison,.reference-map-workspace .map-extra-details,
+    .reference-map-workspace .reference-places-drawer) summary{
+    box-sizing:border-box;min-height:44px;
+    display:flex;align-items:center;gap:7px;
+  }
+  .reference-travel-shell :is(.destination-credit,.place-photo-unavailable-source,
+    .reference-map-workspace a[href],.day-plan-panel a[href]):focus-visible{
+    outline:3px solid var(--e95-focus) !important;outline-offset:2px;
+  }
+}
