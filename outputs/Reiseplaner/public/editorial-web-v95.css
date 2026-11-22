@@ -1541,3 +1541,200 @@
  .hub-food-card:hover>.place-photo img,
  .reference-discovery-card:hover .reference-discovery-image img
 ){transform:none !important;transition:none !important}
+
+
+/* V98 / Scroll-led travel experience.
+ * More visible motion where it communicates discovery: cards entering the
+ * viewport, scenic image hover, interactive travel controls and progress.
+ * No perpetual animations, no scroll-linked layout recalculation, no pin
+ * movement, no loss of focus/keyboard behavior. See owner HIG Motion skill.
+ */
+@keyframes v98-card-arrive{
+ from{opacity:.38;transform:translateY(17px) scale(.985)}
+ to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes v98-title-arrive{
+ from{opacity:.68;transform:translateY(13px)}
+ to{opacity:1;transform:translateY(0)}
+}
+@keyframes v98-meter-grow{
+ from{transform:scaleX(.12)}
+ to{transform:scaleX(1)}
+}
+#app .reference-travel-shell .motion-scroll-revealed{
+ animation:v98-card-arrive 440ms cubic-bezier(.16,.82,.24,1) both !important;
+ animation-delay:var(--motion-delay,0ms) !important;
+}
+#app .reference-travel-shell .motion-scroll-revealed .cockpit-progress-line>i{
+ transform-origin:left center;
+ animation:v98-meter-grow 530ms cubic-bezier(.16,.82,.24,1) both !important;
+ animation-delay:var(--motion-delay,0ms) !important;
+}
+#app .reference-travel-shell.is-content-page
+ main.workspace.motion-scene-enter :is(
+  .editorial-journey-hero h1,.hub-hero h1,.day-editorial-hero h1,
+  .page-head h1,.data-page-heading h1
+ ){
+ animation:v98-title-arrive 400ms cubic-bezier(.16,.78,.24,1) both !important;
+ animation-delay:65ms !important;
+}
+#app .reference-travel-shell.is-content-page
+ main.workspace.motion-scene-enter :is(
+  .editorial-journey-actions,.hub-hero-actions
+ ){
+ animation:v98-title-arrive 450ms cubic-bezier(.16,.78,.24,1) both !important;
+ animation-delay:125ms !important;
+}
+/* Visual depth only for precise hover-capable pointers. The map, marker
+ * clusters, timeline positions and dragging handles remain stationary. */
+@media(hover:hover) and (pointer:fine){
+ .reference-travel-shell :is(
+  .destination-card,.overview-quick-card,.hub-option-card,
+  .hub-food-card,.reference-discovery-card,.cockpit-progress-item
+ ){
+  transform:translateY(0) !important;
+  transition:transform 270ms cubic-bezier(.16,.82,.24,1),
+   box-shadow 270ms ease,border-color 190ms ease !important;
+ }
+ .reference-travel-shell :is(
+  .destination-card,.overview-quick-card,.hub-option-card,
+  .hub-food-card,.reference-discovery-card,.cockpit-progress-item
+ ):hover{
+  transform:translateY(-4px) !important;
+  box-shadow:0 12px 30px rgba(12,22,33,.11) !important;
+ }
+ :root[data-theme=dark] .reference-travel-shell :is(
+  .destination-card,.overview-quick-card,.hub-option-card,
+  .hub-food-card,.reference-discovery-card,.cockpit-progress-item
+ ):hover{box-shadow:0 14px 34px rgba(0,0,0,.28) !important}
+ .reference-travel-shell :is(
+  .destination-card .destination-cover img,
+  .hub-option-card .hub-option-media img,
+  .hub-food-card>.place-photo img,
+  .reference-discovery-card .reference-discovery-image img
+ ){
+  transition:transform 460ms cubic-bezier(.16,.82,.24,1) !important;
+ }
+ .reference-travel-shell :is(
+  .destination-card:hover .destination-cover img,
+  .hub-option-card:hover .hub-option-media img,
+  .hub-food-card:hover>.place-photo img,
+  .reference-discovery-card:hover .reference-discovery-image img
+ ){
+  transform:scale(1.055) !important;
+ }
+ .reference-travel-shell :is(
+  .reference-main-nav button,.overview-quick-card,
+  .hub-food-tabs button,.hub-scope button
+ ) .ui-icon{
+  transition:transform 245ms cubic-bezier(.2,.75,.2,1) !important;
+ }
+ .reference-travel-shell :is(
+  .reference-main-nav button:hover,.overview-quick-card:hover,
+  .hub-food-tabs button:hover,.hub-scope button:hover
+ ) .ui-icon{transform:translateY(-2px) scale(1.08) !important}
+ .reference-travel-shell .button.primary:hover{
+  transform:translateY(-2px) !important;
+  box-shadow:0 8px 20px rgba(20,105,202,.22) !important;
+ }
+ .reference-travel-shell :is(
+  .hub-quick-filters .chip-button,.hub-food-tabs button,
+  .hub-scope button
+ ):hover{
+  border-color:color-mix(in srgb,var(--e95-link) 42%,var(--e95-line)) !important;
+ }
+}
+/* A clear click response, overridden by the native selected/pressed state
+ * rather than scheduling actions or reflowing the page. */
+.reference-travel-shell :is(
+ .hub-option-card,.hub-food-card,.destination-card,.reference-discovery-card
+ ):focus-within{
+ border-color:color-mix(in srgb,var(--e95-link) 55%,var(--e95-line)) !important;
+}
+.reference-travel-shell :is(
+ .hub-filter-more,.hub-food-planning,.hub-technical-details,
+ .stay-swiss-research,.cockpit-reference,.reference-places-drawer,
+ .market-chain-card
+ )[open]>:not(summary){
+ animation:v97-panel-in 280ms cubic-bezier(.16,.82,.24,1) both !important;
+}
+.reference-travel-shell :is(
+ .hub-filter-more,.hub-food-planning,.hub-technical-details,
+ .stay-swiss-research,.cockpit-reference,.reference-places-drawer,
+ .market-chain-card
+ )>summary .ui-icon:last-child{
+ transition:transform 230ms cubic-bezier(.2,.78,.2,1) !important;
+}
+.reference-travel-shell :is(
+ .hub-filter-more,.hub-food-planning,.hub-technical-details,
+ .stay-swiss-research,.cockpit-reference,.reference-places-drawer,
+ .market-chain-card
+ )[open]>summary .ui-icon:last-child{
+ transform:rotate(90deg) !important;
+}
+/* Motion is never the only selected-state or focus indicator. */
+@media(prefers-reduced-motion:reduce){
+ #app .reference-travel-shell .motion-scroll-revealed,
+ #app .reference-travel-shell .motion-scroll-revealed .cockpit-progress-line>i,
+ #app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter
+  :is(.editorial-journey-hero h1,.hub-hero h1,.day-editorial-hero h1,
+    .page-head h1,.data-page-heading h1,.editorial-journey-actions,.hub-hero-actions),
+ .reference-travel-shell :is(.hub-filter-more,.hub-food-planning,
+  .hub-technical-details,.stay-swiss-research,.cockpit-reference,
+  .reference-places-drawer,.market-chain-card)[open]>:not(summary){
+   animation:none !important;animation-delay:0ms !important;
+ }
+ .reference-travel-shell :is(
+  .hub-filter-more,.hub-food-planning,.hub-technical-details,
+  .stay-swiss-research,.cockpit-reference,.reference-places-drawer,
+  .market-chain-card
+ )>summary .ui-icon:last-child{transition:none !important}
+}
+:root[data-motion=off] #app .reference-travel-shell .motion-scroll-revealed,
+:root[data-motion=off] #app .reference-travel-shell .motion-scroll-revealed
+ .cockpit-progress-line>i,
+:root[data-motion=off] #app .reference-travel-shell.is-content-page
+ main.workspace.motion-scene-enter :is(.editorial-journey-hero h1,
+ .hub-hero h1,.day-editorial-hero h1,.page-head h1,.data-page-heading h1,
+ .editorial-journey-actions,.hub-hero-actions),
+:root[data-motion=off] .reference-travel-shell :is(
+ .hub-filter-more,.hub-food-planning,.hub-technical-details,
+ .stay-swiss-research,.cockpit-reference,.reference-places-drawer,
+ .market-chain-card)[open]>:not(summary){
+ animation:none !important;animation-delay:0ms !important;
+}
+:root[data-motion=off] .reference-travel-shell :is(
+ .hub-filter-more,.hub-food-planning,.hub-technical-details,
+ .stay-swiss-research,.cockpit-reference,.reference-places-drawer,
+ .market-chain-card)>summary .ui-icon:last-child{transition:none !important}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell :is(.destination-card,.overview-quick-card,
+ .hub-option-card,.hub-food-card,.reference-discovery-card,
+ .cockpit-progress-item,.button.primary):hover{
+  transform:none !important;box-shadow:none !important;
+  transition:none !important;
+ }
+ .reference-travel-shell :is(
+  .destination-card:hover .destination-cover img,
+  .hub-option-card:hover .hub-option-media img,
+  .hub-food-card:hover>.place-photo img,
+  .reference-discovery-card:hover .reference-discovery-image img
+ ){transform:none !important;transition:none !important}
+ .reference-travel-shell :is(.reference-main-nav button:hover,
+  .overview-quick-card:hover,.hub-food-tabs button:hover,
+  .hub-scope button:hover) .ui-icon{transform:none !important;transition:none !important}
+}
+:root[data-motion=off] .reference-travel-shell :is(
+ .destination-card,.overview-quick-card,.hub-option-card,.hub-food-card,
+ .reference-discovery-card,.cockpit-progress-item,.button.primary
+):hover{transform:none !important;box-shadow:none !important;transition:none !important}
+:root[data-motion=off] .reference-travel-shell :is(
+ .destination-card:hover .destination-cover img,
+ .hub-option-card:hover .hub-option-media img,
+ .hub-food-card:hover>.place-photo img,
+ .reference-discovery-card:hover .reference-discovery-image img
+){transform:none !important;transition:none !important}
+:root[data-motion=off] .reference-travel-shell :is(
+ .reference-main-nav button:hover,.overview-quick-card:hover,
+ .hub-food-tabs button:hover,.hub-scope button:hover
+) .ui-icon{transform:none !important;transition:none !important}
