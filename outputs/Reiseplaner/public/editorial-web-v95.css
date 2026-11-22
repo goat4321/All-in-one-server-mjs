@@ -1309,3 +1309,39 @@
   font-size:11px !important;
  }
 }
+
+
+/* V96.2 · An unavailable photo is not a reason for a giant empty hero.
+ * Keep the full-sized editorial image layout for genuine loaded photos.
+ * Fallback titles reflow into a shorter, content-first search introduction. */
+.reference-travel-shell .hub-hero:is([data-photo=false],[data-photo=fallback]){
+ min-height:0 !important;
+ height:auto !important;
+ padding:30px 22px !important;
+ margin-bottom:20px !important;
+}
+.reference-travel-shell .hub-hero:is([data-photo=false],[data-photo=fallback])
+ .hub-hero-main{gap:10px;max-width:870px}
+.reference-travel-shell .hub-hero:is([data-photo=false],[data-photo=fallback])
+ h1{
+ font-size:clamp(34px,4.2vw,53px) !important;
+ line-height:1.08 !important;letter-spacing:-.045em;
+ max-width:18ch;
+}
+.reference-travel-shell .hub-hero:is([data-photo=false],[data-photo=fallback])
+ .hub-hero-stats{margin-top:0}
+.reference-travel-shell .hub-hero:is([data-photo=false],[data-photo=fallback])
+ .hub-hero-actions{margin-top:10px}
+@media(max-width:650px){
+ .reference-travel-shell .hub-hero:is([data-photo=false],[data-photo=fallback]){
+  min-height:0 !important;
+  padding:23px 15px !important;
+  margin-bottom:14px !important;
+ }
+ .reference-travel-shell .hub-hero:is([data-photo=false],[data-photo=fallback])
+  h1{font-size:clamp(31px,8.8vw,40px) !important}
+ .reference-travel-shell .hub-hero:is([data-photo=false],[data-photo=fallback])
+  .hub-hero-main{gap:8px}
+ .reference-travel-shell .hub-hero:is([data-photo=false],[data-photo=fallback])
+  .hub-hero-actions{margin-top:8px}
+}
