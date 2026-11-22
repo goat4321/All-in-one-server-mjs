@@ -94,6 +94,7 @@ try{
    const v95HomepageHeroHeight=v95HomepageHero?.getBoundingClientRect().height??null;
    const v95BrowseHero=document.querySelector('.hub-hero');
    const v95BrowseHeroHeight=v95BrowseHero?.getBoundingClientRect().height??null;
+   const v962BrowseHeroMode=v95BrowseHero?.dataset.photo??null;
    const v961ResearchNotice=document.querySelector('.source-notice[data-research-status=incomplete]');
    const v961ResearchNoticeHeight=v961ResearchNotice?.getBoundingClientRect().height??null;
    const v96HeroCredit=document.querySelector('.hub-hero-photo-credit');
@@ -225,7 +226,7 @@ try{
     mainWidth:Math.round(document.querySelector('main')?.getBoundingClientRect().width??0),
     v94MapCountBroken:/undefined (?:Kartenpunkte|Ortsangaben ohne Pin)/.test(document.querySelector('.reference-map-workspace')?.textContent??''),
     searchButtonClipPx,searchLabelVisuallyHidden,
-    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v961ResearchNoticeHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v96DayCreditOverlap,v96SecondaryActionContrast,v96ScopeActiveContrast,v96FoodActiveContrast,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
+    calmStyleLoaded,v94StyleLoaded,v95StyleLoaded,v95HomepageHeroHeight,v95BrowseHeroHeight,v962BrowseHeroMode,v961ResearchNoticeHeight,v96HeroCreditHeight,v96HeroCreditOverlap,v96DayCreditOverlap,v96SecondaryActionContrast,v96ScopeActiveContrast,v96FoodActiveContrast,v94PrimaryTouch,v94HeroTitleColor,v94QuickTitleColor,v94OverviewStartBg,v94FoodSearchFirst,v94PanelRadius,calmTopbarBg,calmRevealedNodes,calmRevealDuration,calmNavTransition,
     calmInactiveNavColor,calmSearchBg,calmSearchProbe,calmTopActionBg,
     navDomInteractiveMs:Math.round(nav?.domInteractive??0),navLoadMs:Math.round(nav?.loadEventEnd??0),
     scrollFrameMs:Math.round((performance.now()-started)*10)/10,
@@ -408,8 +409,11 @@ try{
  assert.ok(rows.every(row=>row.v96HeroCreditOverlap===false),
    'V96 photo credit must not overlap the primary hero headline');
  assert.ok(rows.filter(row=>['discover','lodging','food'].includes(row.page))
-   .every(row=>row.v95BrowseHeroHeight>=295),
-   'Browse pages must have full-size editorial heroes, not admin banners');
+   .every(row=>row.v962BrowseHeroMode==='true'
+     ?row.v95BrowseHeroHeight>=295
+     :(row.v95BrowseHeroHeight>=180
+       &&row.v95BrowseHeroHeight<=(row.width===390?340:390))),
+   'V96.2 loaded photo heroes stay immersive; unavailable-photo heroes stay compact');
  assert.ok(rows.every(row=>row.v94StyleLoaded),
    'V94 must be the loaded final design layer on every page and theme');
  assert.ok(rows.filter(r=>r.page==='food').every(r=>r.v94FoodSearchFirst===true),
