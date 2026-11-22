@@ -1871,3 +1871,48 @@
  #app .reference-travel-shell #market-price-research:target{animation:none !important}
 }
 :root[data-motion=off] #app .reference-travel-shell #market-price-research:target{animation:none !important}
+
+
+/* V99 / deliberate travel route tracing
+ * The historic routeFlow CSS moved a dotted line forever (9s infinite).
+ * A single drawing event at the route's first viewport entrance now conveys
+ * progression without background distraction or misleading train schedules.
+ * Only the schematic overview is affected, never actual atlas geometry.
+ */
+@keyframes v99-route-trace{
+ from{stroke-dashoffset:1;opacity:.6}
+ to{stroke-dashoffset:0;opacity:1}
+}
+#app .reference-travel-shell .cockpit-route-line{
+ stroke-dasharray:1 !important;
+ stroke-dashoffset:0;
+ animation:none !important;
+}
+#app .reference-travel-shell .cockpit-route-surface.motion-revealed
+ .cockpit-route-line{
+ animation:v99-route-trace 1100ms cubic-bezier(.15,.78,.21,1) both !important;
+ animation-delay:140ms !important;
+}
+@keyframes v99-route-stop-enter{
+ from{opacity:.45;filter:saturate(.7)}
+ to{opacity:1;filter:saturate(1)}
+}
+#app .reference-travel-shell .cockpit-route-surface.motion-revealed
+ .cockpit-route-point{
+ animation:v99-route-stop-enter 410ms ease-out both !important;
+ animation-delay:320ms !important;
+}
+/* The route still appears fully without JavaScript, the observer or motion. */
+@media(prefers-reduced-motion:reduce){
+ #app .reference-travel-shell .cockpit-route-surface.motion-revealed
+  :is(.cockpit-route-line,.cockpit-route-point){
+  animation:none !important;animation-delay:0ms !important;
+  stroke-dashoffset:0;opacity:1;filter:none;
+ }
+}
+:root[data-motion=off] #app .reference-travel-shell
+ .cockpit-route-surface.motion-revealed
+ :is(.cockpit-route-line,.cockpit-route-point){
+ animation:none !important;animation-delay:0ms !important;
+ stroke-dashoffset:0;opacity:1;filter:none;
+}
