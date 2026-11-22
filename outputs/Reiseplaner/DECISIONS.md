@@ -1,3 +1,12 @@
+## 22.11.2026 – V96: konkrete gestalterische Abweichungen statt zusätzliche Glass-Optik
+
+- **Designentscheidung:** `goat4321/apple-design-skill` und die Kompositionsprinzipien von apple.com als Orientierung, nicht als Identitätskopie. Neutrale produktive Oberflächen und großformatige Typografie; reale Reiseinhalte statt generischer Reklamesätze.
+- **Foto-Ehrlichkeit:** Wikimedia Commons-Fotos, ihre Quellen und die Lizenzhinweise bleiben erhalten. Falls der externe Bilddienst im Browser nicht lädt, nutzt der Hero eine reduzierte typografische Gestaltung statt einer großen künstlich wirkenden Illustration. Fehlende Fotos werden weder als verfügbar behauptet noch durch unpassende Hotels/Ortsaufnahmen ersetzt. Die Online-Auslieferung wird nicht aus dem Offline-CI abgeleitet.
+- **Kontrast gegen CSS-Altlasten:** Die Screenshot-Analyse fand im Dark Mode weiße Schrift auf einem weißen Sekundärbutton. Die Korrektur setzt explizite Dark-/Light-Vordergrund-/Hintergrundpaare für Heroaktionen, Reiseort-Auswahl und Essensfilter und misst deren tatsächliche Farbkontraste per Headless Chrome. Bei Dark-Mode-Sekundäraktionen 11,43:1 im geprüften Laborszenario, Testschwelle 4,5:1.
+- **Quellenplatzierung:** Die Foto-Attribution ist ein kleiner Link am Bildrand, kein gestrecktes Overlay über dem Titel. Auch der Tagesplan prüft Meta-/Quellenüberschneidung in den 63 Laborzuständen.
+- **Tests und Grenze:** Code-HEAD `ea69aaf2f95eb7a3fb0c89ea535a1263ff19702e`, [CI #45030591429](https://github.com/goat4321/All-in-one-server-mjs/actions/runs/45030591429) success: 547/547 portable Tests; 63 Chrome-Zustände; 0px Überlauf, 0 JS-Ausnahmen. Keine Behauptung vollständiger HIG-/WCAG-Konformität oder nativer Geräteabnahme.
+- **Fortsetzung:** [V96_APPLE_REDESIGN_EXECUTION_CATALOG.md](./V96_APPLE_REDESIGN_EXECUTION_CATALOG.md), vor allem Online-Fotos, komplexe Trefferkarten und offene mobile Unteransichten. GitHub-Branch PR #5 bleibt Draft; `main`, Deployment, lokale nicht synchronisierte Dateien und Buchungen bleiben unverändert.
+
 ## 21.11.2026 – V94: ein kohärentes Apple-inspiriertes Web-Designsystem statt weiterer Einzelflicken
 
 - **Entscheidung:** Ruhige, wiederverwendbare visuelle Regeln (CSS-Tokens, einheitliche Karten-/Kontrolldichte, Navigation, Typografie und Dark Mode) in `public/apple-visual-system-v94.css` als **letztes** Stylesheet. Bestehende Layout-/Fotomodule und alle Handlers bleiben erhalten; keine vollständige Neuprogrammierung, kein unpassendes Liquid-Glass-Overlay.
