@@ -13,6 +13,25 @@ const REVEAL_TARGETS=[
   '.hub-results-title','.page-head','.data-page-heading',
   '.data-checks','.timeline-panel','.day-editorial-hero'
 ].join(',');
+// V98: More motion appears when actual content scrolls into view, not every
+// time the user adjusts a search filter or a map marker. Never observe the
+// virtualized map canvas, Leaflet tiles, or hundreds of result elements.
+const SCROLL_TARGETS=[
+  '.overview-quick-card','.destination-filmstrip .destination-card',
+  '.cockpit-progress-item','.hub-option-grid .hub-option-card',
+  '.hub-food-grid .hub-food-card','.timeline-event',
+  '.reference-discovery-card','.swiss-editorial-grid article',
+  '.market-chain-list .market-chain-card','.hub-compare-summary'
+].join(',');
+const MAX_SCROLL_REVEALS=42;
+const scrollIdentity=(node,index)=>{
+  const identity=node.dataset?.placeId??node.dataset?.eventId
+    ??node.querySelector?.('[data-event-id]')?.dataset?.eventId
+    ??node.querySelector?.('[data-action][data-value]')?.dataset?.value
+    ??node.querySelector?.('h3')?.textContent?.trim()
+    ??node.querySelector?.('strong')?.textContent?.trim()??index;
+  return String(node.className??'item')+'|'+String(identity);
+};
 const IMAGE_TARGETS=[
   '.destination-cover img','.reference-discovery-image img',
   '.reference-intro-photo img','.reference-hero-thumb img',
@@ -30,6 +49,7 @@ export const motionSceneKey=ctx=>[
 export function createMotionController(doc){
   const view=doc.defaultView;
   let observer=null,lastScene=null;
+  let completedReveals=new Set();
   const canMove=()=>motionEnabled(doc.documentElement.dataset.motion,
     Boolean(view?.matchMedia?.('(prefers-reduced-motion: reduce)').matches));
   const imageReady=image=>{
@@ -61,26 +81,48 @@ export function createMotionController(doc){
   // Keyboard focus never depends on forced synchronous layout or animation.
   const reveal=(container,ctx)=>{
     if(observer){observer.disconnect();observer=null;}
-    if(!canMove())return;
+    if(!canMove()){
+      // Re-enabling motion later should start a fresh, optional scene.
+      lastScene=null;completedReveals.clear();
+      return;
+    }
     const scene=motionSceneKey(ctx);
-    if(scene===lastScene)return;
-    lastScene=scene;
-    // One short whole-page crossfade for meaningful navigation changes.
-    // Never transform the Leaflet/MapLibre atlas or intercept user input.
-    if(ctx?.page!=='map')container.querySelector?.('main.workspace')
+    const changed=scene!==lastScene;
+    if(changed){lastScene=scene;completedReveals.clear();}
+    // One short scene transition for genuine navigation, never a filter repaint.
+    // Leaflet and MapLibre map surfaces must never be transformed.
+    if(changed&&ctx?.page!=='map')container.querySelector?.('main.workspace')
       ?.classList.add('motion-scene-enter');
     if(typeof view?.IntersectionObserver!=='function')return;
-    const nodes=Array.from(container.querySelectorAll(REVEAL_TARGETS)).slice(0,12);
-    observer=new view.IntersectionObserver(entries=>{
-      for(const entry of entries)if(entry.isIntersecting){
-        entry.target.classList.add('motion-revealed');
-        observer?.unobserve(entry.target);
+    const structural=changed
+      ?Array.from(container.querySelectorAll(REVEAL_TARGETS)).slice(0,12):[];
+    const scrolling=Array.from(container.querySelectorAll(SCROLL_TARGETS))
+      .slice(0,MAX_SCROLL_REVEALS).map((node,index)=>({
+        node,key:scrollIdentity(node,index),index
+      })).filter(entry=>!completedReveals.has(entry.key));
+    const entries=[
+      ...structural.map((node,index)=>({
+        node,key:'section:'+index,index,kind:'motion-revealed'
+      })),
+      ...scrolling.filter(entry=>!structural.includes(entry.node))
+        .map(entry=>({...entry,kind:'motion-scroll-revealed'}))
+    ];
+    if(!entries.length)return;
+    const pending=new Map(entries.map(entry=>[entry.node,entry]));
+    observer=new view.IntersectionObserver(items=>{
+      for(const item of items)if(item.isIntersecting){
+        const entry=pending.get(item.target);
+        if(!entry)continue;
+        completedReveals.add(entry.key);
+        item.target.classList.add(entry.kind);
+        observer?.unobserve(item.target);
+        pending.delete(item.target);
       }
-    },{root:null,rootMargin:'0px 0px -25px 0px',threshold:.02});
-    nodes.forEach((node,i)=>{
-      node.style.setProperty('--motion-delay',motionStagger(i)+'ms');
-      observer.observe(node);
-    });
+    },{root:null,rootMargin:'0px 0px -45px 0px',threshold:.08});
+    for(const entry of entries){
+      entry.node.style.setProperty('--motion-delay',motionStagger(entry.index)+'ms');
+      observer.observe(entry.node);
+    }
   };
   const images=container=>{
     if(!canMove())return;
