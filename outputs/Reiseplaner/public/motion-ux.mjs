@@ -114,6 +114,10 @@ export function createMotionController(doc){
         const entry=pending.get(item.target);
         if(!entry)continue;
         completedReveals.add(entry.key);
+        // A structural node may also match the card selector. Its first
+        // reveal must count for both to prevent replays after filter updates.
+        if(entry.kind==='motion-revealed')
+          completedReveals.add(scrollIdentity(item.target,entry.index));
         item.target.classList.add(entry.kind);
         observer?.unobserve(item.target);
         pending.delete(item.target);
