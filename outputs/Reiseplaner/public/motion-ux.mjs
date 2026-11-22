@@ -4,9 +4,14 @@
  * Every enhancement is optional; without JS or IntersectionObserver, all
  * content remains visible and usable.
  */
-// Only page identity enters softly. Cards remain stable when filtered or repainted.
+// Scene transitions on actual page/date/city changes, never on filter repaints.
+// Reveal a few structural chapters, not hundreds of cards or map markers.
 const REVEAL_TARGETS=[
-  '.cockpit-welcome','.reference-map-intro','.hub-hero','.page-head'
+  '.editorial-journey-hero','.cockpit-welcome','.overview-start',
+  '.editorial-research-heading','.cockpit-route-surface',
+  '.reference-map-intro','.hub-hero','.hub-toolbar',
+  '.hub-results-title','.page-head','.data-page-heading',
+  '.data-checks','.timeline-panel','.day-editorial-hero'
 ].join(',');
 const IMAGE_TARGETS=[
   '.destination-cover img','.reference-discovery-image img',
@@ -60,6 +65,10 @@ export function createMotionController(doc){
     const scene=motionSceneKey(ctx);
     if(scene===lastScene)return;
     lastScene=scene;
+    // One short whole-page crossfade for meaningful navigation changes.
+    // Never transform the Leaflet/MapLibre atlas or intercept user input.
+    if(ctx?.page!=='map')container.querySelector?.('main.workspace')
+      ?.classList.add('motion-scene-enter');
     if(typeof view?.IntersectionObserver!=='function')return;
     const nodes=Array.from(container.querySelectorAll(REVEAL_TARGETS)).slice(0,12);
     observer=new view.IntersectionObserver(entries=>{
