@@ -1482,7 +1482,7 @@
 /* All animation and transform feedback becomes instant when requested.
  * Keep basic focus, selected states and all semantic text unchanged. */
 @media(prefers-reduced-motion:reduce){
-  #app .reference-travel-shell main.workspace.motion-scene-enter,
+  #app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter,
   #app .motion-revealed,#app img.motion-photo-loaded,
   #app .reference-travel-shell .motion-scene-enter .bar-track>span,
   #app .reference-travel-shell :is(
