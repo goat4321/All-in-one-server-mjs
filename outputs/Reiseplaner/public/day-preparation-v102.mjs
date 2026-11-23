@@ -78,7 +78,7 @@ export function renderDayPreparationV102(ctx){
       +'<small>Plan '+esc(t.departure??'Zeit offen')+' – '
       +esc(t.arrival??'Zeit offen')+' · nicht für 2027 bestätigt</small></li>').join('')
    +'</ul></div>':'';
- return '<section class="day102-preparation" aria-label="Persönliche Vorbereitung für diesen Tag">'
+ return '<section class="day102-preparation" id="day103-preparation" tabindex="-1" aria-label="Persönliche Vorbereitung für diesen Tag">'
     +'<header class="day102-preparation-head"><div><small>VORBEREITUNG · PERSÖNLICHE LISTE</small>'
     +'<h2>Was ist vor diesem Tag zu klären?</h2>'
     +'<p>Ein Haken bedeutet nur, dass du den Punkt für dich geprüft hast.'
