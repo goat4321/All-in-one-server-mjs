@@ -1195,6 +1195,13 @@ try {
   assert.equal(await js('document.querySelectorAll(".day103-picker-list [data-action=day-plan-go]").length'),14);
   assert.equal(await js('document.querySelectorAll(".day103-picker-list [aria-current=date]").length'),1);
   assert.equal(await js('getComputedStyle(document.querySelector(".day103-navigation")).position'),'sticky');
+  assert.ok(await js('(()=>{const nav=document.querySelector(".day103-jump-links");'
+    +'const box=nav.getBoundingClientRect(),links=[...nav.querySelectorAll("a")];'
+    +'return links.length===4&&links.every(link=>{const r=link.getBoundingClientRect();'
+    +'return r.left>=box.left-2&&r.right<=box.right+2&&r.width>35&&r.height>=40;});})()'),
+    'V103.1 every mobile section link must be visible, without hidden horizontal scroll');
+  await js('document.querySelector(".day103-navigation").scrollIntoView({behavior:"instant",block:"start"})');
+  await screenshot('v103-interrail-schweiz-shortcuts-mobile.png');
   await click('.day103-picker>summary');
   assert.ok(await js('document.querySelector(".day103-picker")?.open'),
     'V103 day picker opens with native keyboard-accessible details');
