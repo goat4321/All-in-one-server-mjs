@@ -35,7 +35,8 @@ import {mapUnlocatedReview,mapUnverifiedPointsReview} from './map-unlocated-v39.
 import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
   mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview,dayPlanQuickBar} from './day-plans-ui.mjs';
-import {renderSwiss14DayOverviewV100,renderSwissDayBriefV100} from './swiss-14-day-overview-v100.mjs';
+import {renderSwiss14DayOverviewV100} from './swiss-14-day-overview-v100.mjs';
+import {renderDayNavigatorV101,renderSwissDayExperienceV101} from './day-experience-v101.mjs';
 import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
 import {swissLodgingSummaryV83,swissLodgingCompareV83,swissLodgingRailNoteV83} from './swiss-lodging-v83.mjs';
 import {swissDatedSearchBoardV84,swissRailPrecisionV84} from './swiss-dated-search-v84.mjs';
@@ -215,8 +216,9 @@ function plan(ctx, name) {
     <div class="subheading"><div><h2>Reiseplan</h2><p>${dateLabel(trip.from, trip.to)} · ${dates.length} Reisetage im Kalender</p></div>
     <div class="mobile-switch" aria-label="Ansicht">${chip('mobile', 'Liste', mobile === 'plan', 'plan', 'list')}${chip('mobile', 'Karte', mobile === 'map', 'map', 'map')}</div></div>
     <div class="days" aria-label="Reisetage">${dates.map(d => '<button type="button" class="day" data-action="day" data-value="' + d + '" aria-pressed="' + (d === date) + '"><strong>' + esc(shortDay(d)) + '</strong><small>' + esc(ctx.cities[ctx.cityForDay(d)]?.name ?? 'Reise') + '</small></button>').join('')}</div>
+    ${renderDayNavigatorV101(ctx)}
     ${dayPlaces(ctx)}
-    ${renderSwissDayBriefV100(ctx)}
+    ${renderSwissDayExperienceV101(ctx)}
     ${dayPlanQuickBar(ctx)}
     <div class="plan-grid" data-mobile="${mobile}">
       <section class="panel timeline-panel"><div class="panel-head"><div><h2>Tagesablauf</h2><p>${day.length} ${day.length === 1 ? 'Eintrag' : 'Einträge'} · ${dayTotal ? money(dayTotal) + ' erfasst' : 'Kosten zum Teil offen'}</p></div>
