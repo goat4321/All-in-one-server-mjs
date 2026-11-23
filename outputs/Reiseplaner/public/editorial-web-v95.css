@@ -2517,3 +2517,9 @@
  .day101-progress-meter>i),
 :root[data-motion=off] .reference-travel-shell .day101-source-details[open]
  .day101-fact{animation:none !important;animation-delay:0ms !important}
+
+
+/* V101: the icon library exposes a right chevron; reflect it for back. */
+.reference-travel-shell .day101-navigation-button:first-child .ui-icon{
+ transform:rotate(180deg);
+}
