@@ -1211,6 +1211,9 @@ async function action(name, value = '') {
       if(!ctx.trip.dayPlansV32?.some(row=>row.date===value))break;
       view.page='plan';view.mobile='plan';
       showCity(ctx.cityForDay(value),value,ctx.trip.id==='swiss_lakes');
+      // A jump from a deeply scrolled overview must land on the new day,
+      // not in the middle of the previous page's scroll position.
+      window.scrollTo({top:0,behavior:'instant'});
       break;
     case 'day-quick-add':
     case 'day-quick-move':
@@ -2287,6 +2290,19 @@ document.addEventListener('keydown', event => {
 document.addEventListener('click', event => {
   const button = event.target.closest('[data-action]');
   if (button) void action(button.dataset.action, button.dataset.value).catch(error => say(error.message));
+});
+document.addEventListener('click',event=>{
+  const link=event.target.closest?.('a.day103-jump-link[href^="#day"]');
+  if(!link||!app.contains(link))return;
+  const target=document.getElementById(link.hash.slice(1));
+  if(!target)return;
+  event.preventDefault();
+  // Scope smooth scrolling to explicit itinerary anchors; don't alter
+  // map, keyboard, programmatic navigation or browser-wide scrolling.
+  const reduced=document.documentElement.dataset.motion==='off'
+    ||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  target.scrollIntoView({block:'start',behavior:reduced?'instant':'smooth'});
+  target.focus?.({preventScroll:true});
 });
 // Two-way visual focus, without re-rendering Leaflet or changing the selected
 // POI, bookings or map viewport. Clustered markers may not have DOM elements.
