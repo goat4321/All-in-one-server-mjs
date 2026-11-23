@@ -2523,3 +2523,182 @@
 .reference-travel-shell .day101-navigation-button:first-child .ui-icon{
  transform:rotate(180deg);
 }
+
+
+/* V102 / daily Swiss Interrail preparation: persistent personal checkmarks
+ * do not imply a booking or externally verified rail timetable. */
+.reference-travel-shell .day102-preparation{
+ display:grid;gap:14px;padding:clamp(16px,2.6vw,26px);
+ margin:0 0 18px;border:1px solid var(--e95-line);
+ border-radius:20px;background:var(--e95-paper);
+ color:var(--e95-ink);min-width:0;
+}
+.reference-travel-shell .day102-preparation-head{
+ display:flex;align-items:flex-start;justify-content:space-between;
+ gap:16px;
+}
+.reference-travel-shell .day102-preparation-head>div{
+ max-width:750px;display:grid;gap:7px;
+}
+.reference-travel-shell .day102-preparation-head small{
+ color:var(--e95-link);font-size:10px;font-weight:730;
+ letter-spacing:.105em;
+}
+.reference-travel-shell .day102-preparation-head h2{
+ font-size:clamp(23px,2.65vw,34px);letter-spacing:-.04em;
+ line-height:1.15;margin:0;
+}
+.reference-travel-shell .day102-preparation-head p{
+ color:var(--e95-secondary);font-size:12px;line-height:1.55;
+ margin:0;
+}
+.reference-travel-shell .day102-count{
+ display:grid;justify-items:center;gap:2px;
+ padding:11px 14px;border-radius:14px;
+ flex:none;background:var(--e95-page);
+}
+.reference-travel-shell .day102-count strong{
+ font-size:21px;font-weight:710;letter-spacing:-.045em;
+ white-space:nowrap;
+}
+.reference-travel-shell .day102-count span{
+ font-size:10px;color:var(--e95-secondary);
+}
+.reference-travel-shell .day102-meter{
+ height:7px;background:var(--e95-line);border-radius:99px;
+ overflow:hidden;
+}
+.reference-travel-shell .day102-meter i{
+ display:block;height:100%;width:0;
+ background:#1469ca;border-radius:inherit;
+ transition:width 460ms cubic-bezier(.17,.83,.19,1);
+}
+.reference-travel-shell .day102-checklist{
+ list-style:none;display:grid;gap:8px;
+ margin:0;padding:0;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.reference-travel-shell .day102-checklist li{min-width:0}
+.reference-travel-shell .day102-check{
+ display:flex;align-items:flex-start;gap:12px;
+ text-align:left;width:100%;height:100%;min-height:75px;
+ padding:14px;border:1px solid var(--e95-line);
+ background:var(--e95-page);color:var(--e95-ink);
+ border-radius:13px;cursor:pointer;
+ transition:border-color 190ms ease,background-color 190ms ease,
+  transform 180ms ease,box-shadow 180ms ease;
+}
+.reference-travel-shell .day102-check:hover{
+ border-color:color-mix(in srgb,var(--e95-link) 45%,var(--e95-line));
+}
+.reference-travel-shell .day102-check:active{transform:scale(.988)}
+.reference-travel-shell .day102-check:focus-visible,
+.reference-travel-shell .day102-copy:focus-visible{
+ outline:3px solid var(--e95-focus);
+ outline-offset:3px;
+}
+.reference-travel-shell .day102-check.is-done{
+ background:color-mix(in srgb,var(--e95-link) 7%,var(--e95-paper));
+ border-color:color-mix(in srgb,var(--e95-link) 36%,var(--e95-line));
+}
+.reference-travel-shell .day102-check-symbol{
+ width:29px;height:29px;display:grid;place-items:center;flex:none;
+ border-radius:10px;border:1px solid var(--e95-line);
+ background:var(--e95-paper);color:var(--e95-secondary);
+ transition:background-color 180ms ease,color 180ms ease,
+  transform 220ms cubic-bezier(.18,.8,.2,1);
+}
+.reference-travel-shell .day102-check-symbol svg{
+ width:15px;height:15px;
+}
+.reference-travel-shell .day102-check.is-done .day102-check-symbol{
+ background:#1469ca;color:#fff;border-color:#1469ca;
+ transform:scale(1.045);
+}
+.reference-travel-shell .day102-check-label{
+ display:grid;gap:6px;min-width:0;
+}
+.reference-travel-shell .day102-check-label strong{
+ font-weight:630;font-size:13px;line-height:1.3;
+}
+.reference-travel-shell .day102-check-label small{
+ font-size:11px;color:var(--e95-secondary);line-height:1.45;
+}
+.reference-travel-shell .day102-rides{
+ border-top:1px solid var(--e95-line);
+ padding-top:14px;display:grid;gap:10px;
+}
+.reference-travel-shell .day102-rides>strong{
+ display:flex;align-items:center;gap:7px;font-size:13px;
+}
+.reference-travel-shell .day102-rides svg{width:16px;height:16px}
+.reference-travel-shell .day102-rides ul{
+ list-style:none;display:grid;gap:7px;padding:0;margin:0;
+}
+.reference-travel-shell .day102-rides li{
+ display:flex;justify-content:space-between;flex-wrap:wrap;gap:7px;
+ border-radius:11px;padding:12px 13px;background:var(--e95-page);
+ font-size:12px;
+}
+.reference-travel-shell .day102-rides li span{
+ font-weight:650;
+}
+.reference-travel-shell .day102-rides li small{
+ color:var(--e95-secondary);font-size:11px;
+}
+.reference-travel-shell .day102-actions{
+ display:flex;align-items:center;flex-wrap:wrap;gap:12px;
+}
+.reference-travel-shell .day102-copy{
+ display:inline-flex;align-items:center;gap:8px;
+ border:1px solid var(--e95-line);border-radius:11px;
+ background:var(--e95-paper);color:var(--e95-link);
+ min-height:43px;padding:9px 14px;cursor:pointer;
+ font-size:12px;font-weight:650;
+ transition:background-color 170ms ease,border-color 170ms ease;
+}
+.reference-travel-shell .day102-copy:hover{
+ border-color:var(--e95-link);
+ background:color-mix(in srgb,var(--e95-link) 5%,var(--e95-paper));
+}
+.reference-travel-shell .day102-copy svg{
+ width:16px;height:16px;
+}
+.reference-travel-shell .day102-copy-result{
+ color:var(--e95-secondary);font-size:12px;
+}
+@keyframes day102-feedback{
+ from{opacity:.5;transform:translateY(5px)}
+ to{opacity:1;transform:translateY(0)}
+}
+#app .reference-travel-shell.is-content-page
+ main.workspace.motion-scene-enter .day102-preparation{
+ animation:day102-feedback 380ms ease-out both;
+}
+@media(max-width:700px){
+ .reference-travel-shell .day102-checklist{
+  grid-template-columns:1fr;
+ }
+ .reference-travel-shell .day102-preparation-head{
+  flex-wrap:wrap;
+ }
+ .reference-travel-shell .day102-count{
+  display:flex;align-items:baseline;gap:8px;
+  padding:8px 12px;
+ }
+ .reference-travel-shell .day102-check{min-height:66px}
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell :is(.day102-meter i,.day102-check,
+ .day102-check-symbol,.day102-copy){
+  transition:none !important;transform:none !important;
+ }
+ #app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter
+ .day102-preparation{animation:none !important}
+}
+:root[data-motion=off] .reference-travel-shell :is(
+ .day102-meter i,.day102-check,.day102-check-symbol,.day102-copy){
+ transition:none !important;transform:none !important;
+}
+:root[data-motion=off] #app .reference-travel-shell.is-content-page
+ main.workspace.motion-scene-enter .day102-preparation{animation:none !important}
