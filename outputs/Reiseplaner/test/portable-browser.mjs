@@ -1185,6 +1185,10 @@ try {
   assert.equal(JSON.stringify(store.current('interrail_swiss').state.edits),beforeSwissChecks,
     'V102 personal review checkboxes must not mutate actual trip entries');
   await js('document.querySelector(".day102-preparation").scrollIntoView({behavior:"instant",block:"start"})');
+  assert.ok(await js('(()=>{const t=document.querySelector(".day102-preparation")?.getBoundingClientRect();const h=document.querySelector(".reference-topbar")?.getBoundingClientRect();return t&&h&&t.top>=h.bottom-2})()'),
+    'V102 day preparation title must remain below sticky top bar on mobile');
+  assert.ok(await js('document.querySelector(".day102-copy svg")?.querySelector("rect")!==null'),
+    'V102 copy action must use an actual copy icon, not the generic pin');
   await screenshot('v102-interrail-schweiz-tagescheck-mobile.png');
 
   await cdp('Emulation.setDeviceMetricsOverride',{
