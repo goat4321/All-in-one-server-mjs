@@ -2154,3 +2154,366 @@
 :root[data-motion=off] .reference-travel-shell .swiss-14-day-card>button{
  transform:none !important;transition:none !important;
 }
+
+
+/* V101 / richer daily itinerary — four-variant navigation and one authentic
+ * Swiss Interrail editorial, never a new source of booking/route truth. */
+.reference-travel-shell .day101-navigator{
+ display:grid;grid-template-columns:minmax(120px,1fr) minmax(0,1.65fr) minmax(120px,1fr);
+ align-items:stretch;gap:10px;
+ margin:12px 0;
+}
+.reference-travel-shell .day101-navigation-button{
+ display:flex;align-items:center;justify-content:center;gap:7px;
+ padding:14px 10px;min-height:58px;
+ border:1px solid var(--e95-line);border-radius:14px;
+ background:var(--e95-paper);color:var(--e95-ink);
+ cursor:pointer;font-size:13px;font-weight:620;line-height:1.25;
+ transition:transform 170ms cubic-bezier(.2,.7,.2,1),
+   border-color 170ms ease,background-color 170ms ease;
+}
+.reference-travel-shell .day101-navigation-button:not(:disabled):hover{
+ border-color:var(--e95-link);
+ background:color-mix(in srgb,var(--e95-link) 5%,var(--e95-paper));
+}
+.reference-travel-shell .day101-navigation-button:not(:disabled):active{
+ transform:scale(.974);
+}
+.reference-travel-shell .day101-navigation-button:disabled{
+ opacity:.4;cursor:not-allowed;
+}
+.reference-travel-shell .day101-navigation-button svg{
+ width:16px;height:16px;flex:none;
+}
+.reference-travel-shell .day101-navigation-current{
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+ text-align:center;min-width:0;
+ padding:11px 15px;border-radius:14px;
+ border:1px solid var(--e95-line);
+ background:var(--e95-paper);
+}
+.reference-travel-shell .day101-navigation-current>span{
+ font-size:10px;font-weight:740;letter-spacing:.12em;color:var(--e95-link);
+}
+.reference-travel-shell .day101-navigation-current>strong{
+ font-size:clamp(15px,1.6vw,18px);font-weight:680;line-height:1.25;
+ letter-spacing:-.027em;color:var(--e95-ink);
+}
+.reference-travel-shell .day101-navigation-current>small{
+ font-size:11px;color:var(--e95-secondary);
+ line-height:1.4;max-width:40ch;
+}
+.reference-travel-shell .day101-progress{
+ display:grid;gap:7px;margin:0 0 15px;
+ padding:13px 17px;
+ border:1px solid var(--e95-line);border-radius:14px;
+ background:var(--e95-paper);
+}
+.reference-travel-shell .day101-progress-header{
+ display:flex;justify-content:space-between;align-items:center;
+ flex-wrap:wrap;gap:7px;
+ font-size:12px;color:var(--e95-secondary);
+}
+.reference-travel-shell .day101-progress-header strong{
+ color:var(--e95-ink);font-size:13px;font-weight:650;
+}
+.reference-travel-shell .day101-progress-meter{
+ height:7px;border-radius:99px;overflow:hidden;
+ background:color-mix(in srgb,var(--e95-link) 12%,var(--e95-line));
+}
+.reference-travel-shell .day101-progress-meter>i{
+ display:block;height:100%;width:0;
+ border-radius:inherit;background:var(--e95-link);
+ transition:width 320ms ease;
+}
+.reference-travel-shell .day101-progress>p{
+ margin:0;font-size:11px;line-height:1.5;color:var(--e95-secondary);
+}
+.reference-travel-shell .day101-board{
+ display:grid;gap:15px;margin:3px 0 16px;
+ padding:clamp(17px,2.7vw,29px);
+ background:var(--e95-paper);border:1px solid var(--e95-line);
+ border-radius:21px;color:var(--e95-ink);
+}
+.reference-travel-shell .day101-board-heading{
+ display:flex;justify-content:space-between;align-items:end;
+ flex-wrap:wrap;gap:16px;
+}
+.reference-travel-shell .day101-board-heading>div{
+ display:grid;gap:8px;max-width:760px;
+}
+.reference-travel-shell .day101-board-heading small{
+ color:var(--e95-link);font-size:10px;letter-spacing:.11em;font-weight:730;
+}
+.reference-travel-shell .day101-board-heading h2{
+ margin:0;font-size:clamp(26px,3.1vw,40px);
+ line-height:1.1;letter-spacing:-.048em;font-weight:690;
+}
+.reference-travel-shell .day101-board-heading p{
+ color:var(--e95-secondary);line-height:1.55;
+ margin:0;font-size:13px;max-width:65ch;
+}
+.reference-travel-shell .day101-board-heading>a{
+ font-size:12px;font-weight:620;
+ color:var(--e95-link);
+ text-underline-offset:3px;min-height:38px;
+ display:inline-flex;align-items:center;
+}
+.reference-travel-shell .day101-filters{
+ display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+ background:var(--e95-page);padding:5px;border-radius:13px;
+ width:max-content;max-width:100%;
+}
+.reference-travel-shell .day101-filter{
+ appearance:none;min-height:39px;
+ padding:9px 15px;
+ border:1px solid transparent;border-radius:10px;
+ cursor:pointer;
+ background:transparent;color:var(--e95-secondary);
+ font-size:12px;font-weight:620;
+ transition:background-color 190ms ease,color 190ms ease,
+  border-color 190ms ease,transform 130ms ease;
+}
+.reference-travel-shell .day101-filter[aria-pressed=true]{
+ color:#fff;background:#1d1d1f;border-color:#1d1d1f;
+}
+:root[data-theme=dark] .reference-travel-shell .day101-filter[aria-pressed=true]{
+ color:#17191d;background:#f4f5f7;border-color:#f4f5f7;
+}
+.reference-travel-shell .day101-filter:active{transform:scale(.97)}
+.reference-travel-shell .day101-filter-status{
+ font-size:11px;color:var(--e95-secondary);
+ margin:-7px 0 0;
+}
+.reference-travel-shell .day101-period-grid{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:12px;align-items:stretch;
+}
+.reference-travel-shell .day101-period-grid:has(.day101-period-card[hidden]){
+ grid-template-columns:minmax(0,1fr);
+}
+.reference-travel-shell .day101-period-card[hidden]{display:none !important}
+.reference-travel-shell .day101-period-card{
+ display:flex;flex-direction:column;min-width:0;gap:11px;
+ border:1px solid var(--e95-line);border-radius:16px;
+ background:var(--e95-page);padding:19px;
+ transition:box-shadow 230ms ease,border-color 230ms ease,
+  transform 230ms cubic-bezier(.22,.7,.2,1);
+}
+.reference-travel-shell .day101-period-top{
+ display:flex;align-items:center;gap:9px;
+ color:var(--e95-secondary);font-weight:670;font-size:12px;
+}
+.reference-travel-shell .day101-period-index{
+ width:29px;height:29px;border-radius:9px;flex:none;
+ display:grid;place-items:center;
+ background:color-mix(in srgb,var(--e95-link) 12%,var(--e95-paper));
+ color:var(--e95-link);font-size:12px;font-weight:780;
+}
+.reference-travel-shell .day101-period-top>small{
+ margin-left:auto;font-size:9px;font-weight:760;letter-spacing:.07em;
+ color:var(--e95-link);
+}
+.reference-travel-shell .day101-period-card>h3{
+ margin:0;font-size:clamp(17px,1.65vw,22px);
+ line-height:1.22;letter-spacing:-.035em;font-weight:675;
+ overflow-wrap:anywhere;
+}
+.reference-travel-shell .day101-period-card>p{
+ margin:0;line-height:1.6;font-size:13px;
+ color:var(--e95-secondary);flex:1;
+}
+.reference-travel-shell .day101-period-footer{
+ padding-top:9px;border-top:1px solid var(--e95-line);
+ min-height:44px;display:flex;align-items:center;
+}
+.reference-travel-shell .day101-period-footer :is(button,.day101-added,
+ .day101-unavailable,.day101-advisory){
+ display:inline-flex;align-items:center;gap:7px;
+ font-size:12px;line-height:1.35;font-weight:610;
+}
+.reference-travel-shell .day101-period-footer button{
+ cursor:pointer;min-height:42px;
+ border:1px solid var(--e95-line);
+ border-radius:10px;padding:8px 11px;
+ color:var(--e95-ink);background:var(--e95-paper);
+ transition:background-color 180ms ease,border-color 180ms ease,
+  transform 125ms ease;
+}
+.reference-travel-shell .day101-period-footer .day101-add{
+ background:#1469ca;color:#fff;border-color:#1469ca;
+}
+.reference-travel-shell .day101-period-footer button:active{transform:scale(.97)}
+.reference-travel-shell .day101-period-footer .day101-added{
+ color:var(--e95-link);
+}
+.reference-travel-shell .day101-period-footer :is(.day101-unavailable,
+ .day101-advisory){color:var(--e95-secondary);font-weight:520}
+.reference-travel-shell .day101-period-footer svg{
+ width:15px;height:15px;flex:none;
+}
+.reference-travel-shell .day101-board-bottom{
+ display:flex;justify-content:space-between;
+ gap:9px;flex-wrap:wrap;
+ color:var(--e95-secondary);font-size:11px;
+}
+.reference-travel-shell .day101-board-bottom>span{
+ display:inline-flex;align-items:center;gap:5px;
+}
+.reference-travel-shell .day101-board-bottom svg{width:14px;height:14px}
+.reference-travel-shell .day101-source-details{
+ border-top:1px solid var(--e95-line);padding-top:12px;
+}
+.reference-travel-shell .day101-source-details>summary{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:12px;cursor:pointer;min-height:43px;
+ font-size:13px;font-weight:650;color:var(--e95-ink);
+ list-style:none;
+}
+.reference-travel-shell .day101-source-details>summary::-webkit-details-marker{
+ display:none;
+}
+.reference-travel-shell .day101-source-details>summary svg{
+ margin-left:auto;width:16px;height:16px;
+ transition:transform 200ms ease;
+}
+.reference-travel-shell .day101-source-details[open]>summary svg{
+ transform:rotate(90deg);
+}
+.reference-travel-shell .day101-facts{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:10px;padding:12px 0;
+}
+.reference-travel-shell .day101-fact{
+ border-radius:12px;background:var(--e95-page);
+ padding:14px;min-width:0;
+}
+.reference-travel-shell .day101-fact strong{
+ display:block;font-size:12px;margin-bottom:7px;
+}
+.reference-travel-shell .day101-fact p{
+ margin:0;font-size:12px;line-height:1.55;color:var(--e95-secondary);
+}
+.reference-travel-shell .day101-official{
+ display:grid;gap:9px;padding:13px 0 3px;
+ border-top:1px solid var(--e95-line);
+}
+.reference-travel-shell .day101-official>strong{font-size:12px}
+.reference-travel-shell .day101-official>div{
+ display:flex;gap:10px;flex-wrap:wrap;
+}
+.reference-travel-shell .day101-official a{
+ min-height:38px;display:inline-flex;align-items:center;
+ color:var(--e95-link);font-size:12px;line-height:1.45;
+ padding:8px 10px;border-radius:10px;
+ border:1px solid var(--e95-line);
+ text-underline-offset:2px;
+}
+@media(hover:hover) and (pointer:fine){
+ .reference-travel-shell .day101-period-card:hover{
+  transform:translateY(-4px);
+  border-color:color-mix(in srgb,var(--e95-link) 34%,var(--e95-line));
+  box-shadow:0 13px 32px rgba(16,27,43,.09);
+ }
+ .reference-travel-shell .day101-period-footer button:hover{
+  border-color:var(--e95-link);
+ }
+ .reference-travel-shell .day101-period-footer .day101-add:hover{
+  background:#0857a9;
+ }
+}
+@keyframes day101-card-enter{
+ from{opacity:.57;transform:translateY(17px)}
+ to{opacity:1;transform:translateY(0)}
+}
+@keyframes day101-meter-enter{
+ from{transform:scaleX(.1)}
+ to{transform:scaleX(1)}
+}
+@keyframes day101-fact-enter{
+ from{opacity:.35;transform:translateY(7px)}
+ to{opacity:1;transform:translateY(0)}
+}
+#app .reference-travel-shell.is-content-page
+ main.workspace.motion-scene-enter :is(.day101-navigator,.day101-progress,.day101-board){
+ animation:day101-card-enter 360ms cubic-bezier(.18,.8,.2,1) both !important;
+}
+#app .reference-travel-shell.is-content-page
+ main.workspace.motion-scene-enter .day101-period-card{
+ animation:day101-card-enter 410ms cubic-bezier(.18,.8,.2,1) both !important;
+ animation-delay:calc(var(--day101-step,0)*70ms) !important;
+}
+#app .reference-travel-shell.is-content-page
+ main.workspace.motion-scene-enter .day101-progress-meter>i{
+ transform-origin:left center;
+ animation:day101-meter-enter 480ms cubic-bezier(.18,.8,.2,1) both !important;
+}
+.reference-travel-shell .day101-source-details[open] .day101-fact{
+ animation:day101-fact-enter 250ms ease-out both;
+}
+@media(max-width:950px){
+ .reference-travel-shell .day101-period-grid{
+  grid-template-columns:1fr;
+ }
+ .reference-travel-shell .day101-period-card{
+  padding:16px;
+ }
+ .reference-travel-shell .day101-period-grid:has(.day101-period-card[hidden]){
+  grid-template-columns:1fr;
+ }
+}
+@media(max-width:650px){
+ .reference-travel-shell .day101-navigator{
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+ }
+ .reference-travel-shell .day101-navigation-current{
+  grid-column:1/-1;grid-row:1;
+ }
+ .reference-travel-shell .day101-navigation-button{
+  grid-row:2;min-height:49px;
+  font-size:12px;padding:9px 6px;
+ }
+ .reference-travel-shell .day101-navigation-button:first-child{grid-column:1}
+ .reference-travel-shell .day101-navigation-button:last-child{grid-column:2}
+ .reference-travel-shell .day101-progress{padding:12px}
+ .reference-travel-shell .day101-board{
+  padding:17px 13px;border-radius:17px;
+ }
+ .reference-travel-shell .day101-filters{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:3px;width:100%;
+ }
+ .reference-travel-shell .day101-filter{
+  min-width:0;padding:9px 4px;font-size:11px;
+ }
+ .reference-travel-shell .day101-period-card{padding:14px}
+ .reference-travel-shell .day101-facts{grid-template-columns:1fr}
+ .reference-travel-shell .day101-board-heading h2{font-size:29px}
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .day101-navigation-button,
+ .reference-travel-shell .day101-period-card,
+ .reference-travel-shell .day101-filter,
+ .reference-travel-shell .day101-period-footer button,
+ .reference-travel-shell .day101-source-details>summary svg{
+  transition:none !important;transform:none !important;
+ }
+ #app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter
+ :is(.day101-navigator,.day101-progress,.day101-board,.day101-period-card,
+  .day101-progress-meter>i),
+ .reference-travel-shell .day101-source-details[open] .day101-fact{
+  animation:none !important;animation-delay:0ms !important;
+ }
+}
+:root[data-motion=off] .reference-travel-shell :is(.day101-navigation-button,
+ .day101-period-card,.day101-filter,.day101-period-footer button),
+:root[data-motion=off] .reference-travel-shell .day101-source-details>summary svg{
+ transition:none !important;transform:none !important;
+}
+:root[data-motion=off] #app .reference-travel-shell.is-content-page
+ main.workspace.motion-scene-enter :is(
+ .day101-navigator,.day101-progress,.day101-board,.day101-period-card,
+ .day101-progress-meter>i),
+:root[data-motion=off] .reference-travel-shell .day101-source-details[open]
+ .day101-fact{animation:none !important;animation-delay:0ms !important}
