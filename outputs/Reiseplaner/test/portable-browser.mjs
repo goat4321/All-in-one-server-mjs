@@ -1126,6 +1126,24 @@ try {
   await click('.sidebar [data-action=page][data-value=overview]');
   await text('.swiss-focus-overview', 'Schweiz-Finale');
   await text('.swiss-focus-overview', 'Wasserauen');
+  // V100: all fourteen existing day drafts must be immediately visible in
+  // the correct variant, not hidden inside an overview disclosure.
+  assert.equal(await js('document.querySelectorAll(".swiss-14-day-card").length'),14);
+  assert.equal(await js('document.querySelectorAll(".swiss-14-day-block").length'),42);
+  assert.equal(await js('document.querySelectorAll(".swiss-14-day-card [data-action=day-plan-go]").length'),14);
+  assert.equal(await js('document.querySelector(".swiss-14-day-overview")?.closest("details")'),null,
+    'V100 itinerary cannot be hidden in a collapsed details section');
+  await js('document.querySelector(".swiss-14-day-overview").scrollIntoView({behavior:"instant",block:"start"})');
+  await screenshot('v100-interrail-schweiz-14-tage-desktop.png');
+  await click('.swiss-14-day-card [data-action=day-plan-go][data-value="2027-09-11"]');
+  await until(()=>js('document.querySelector(".swiss-today-brief")?.textContent.includes("Oeschinensee")'),
+    'V100 day card opens day-specific Morning/Noon/Evening preview');
+  assert.equal(await js('document.querySelectorAll(".swiss-today-step").length'),3,
+    'Swiss day view has exactly three compact time windows');
+  assert.equal(store.current('interrail_swiss').state.edits['survey-v19:act-053']?.selected??false,false,
+    'Opening a day overview never silently selects optional trips');
+  await click('.sidebar [data-action=page][data-value=overview]');
+
   assert.equal(await js('document.querySelectorAll(".swiss-focus-day-shortcuts [data-action=day-plan-go]").length'),5,
     'Five exact Swiss final-day navigation targets, no separate Swiss-lakes leakage');
   await click('.swiss-focus-day-shortcuts [data-action=day-plan-go][data-value="2027-09-11"]');
