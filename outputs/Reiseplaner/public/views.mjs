@@ -37,6 +37,7 @@ import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
 import {dayPlanPanel,dayPlanOverview,dayPlanQuickBar} from './day-plans-ui.mjs';
 import {renderSwiss14DayOverviewV100} from './swiss-14-day-overview-v100.mjs';
 import {renderDayNavigatorV101,renderSwissDayExperienceV101} from './day-experience-v101.mjs';
+import {renderDayJumpV103,renderDayReturnV103} from './day-navigation-v103.mjs';
 import {renderDayPreparationV102} from './day-preparation-v102.mjs';
 import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
 import {swissLodgingSummaryV83,swissLodgingCompareV83,swissLodgingRailNoteV83} from './swiss-lodging-v83.mjs';
@@ -218,12 +219,13 @@ function plan(ctx, name) {
     <div class="mobile-switch" aria-label="Ansicht">${chip('mobile', 'Liste', mobile === 'plan', 'plan', 'list')}${chip('mobile', 'Karte', mobile === 'map', 'map', 'map')}</div></div>
     <div class="days" aria-label="Reisetage">${dates.map(d => '<button type="button" class="day" data-action="day" data-value="' + d + '" aria-pressed="' + (d === date) + '"><strong>' + esc(shortDay(d)) + '</strong><small>' + esc(ctx.cities[ctx.cityForDay(d)]?.name ?? 'Reise') + '</small></button>').join('')}</div>
     ${renderDayNavigatorV101(ctx)}
+    ${renderDayJumpV103(ctx)}
     ${dayPlaces(ctx)}
     ${renderSwissDayExperienceV101(ctx)}
     ${renderDayPreparationV102(ctx)}
     ${dayPlanQuickBar(ctx)}
     <div class="plan-grid" data-mobile="${mobile}">
-      <section class="panel timeline-panel"><div class="panel-head"><div><h2>Tagesablauf</h2><p>${day.length} ${day.length === 1 ? 'Eintrag' : 'Einträge'} · ${dayTotal ? money(dayTotal) + ' erfasst' : 'Kosten zum Teil offen'}</p></div>
+      <section class="panel timeline-panel" id="day103-timeline" tabindex="-1"><div class="panel-head"><div><h2>Tagesablauf</h2><p>${day.length} ${day.length === 1 ? 'Eintrag' : 'Einträge'} · ${dayTotal ? money(dayTotal) + ' erfasst' : 'Kosten zum Teil offen'}</p></div>
       ${iconBtn('add', 'Planeintrag hinzufügen', 'plus')}</div>
       ${warnings.length ? '<div class="panel-pad">' + warnings.map(w => alert(w.text)).join('') + '</div>' : ''}
       <div class="timeline">${day.length ? [
@@ -258,7 +260,7 @@ function plan(ctx, name) {
       ${ctx.wholeDay ? '' : '<div class="insight">' + icon('spark') + '<div><strong>' + (anchor ? 'Unterkunft als Tagesanker' : 'Unterkunft vergleichen') + '</strong><div>'
         + (anchor ? esc(anchor.name) + ' fließt in verfügbare Hin- und Rückwege ein.' : 'Standorte und Gruppenpreise für diesen Aufenthalt ansehen.') + '</div></div></div>'}
       <div class="panel-pad inline">${btn('page', 'Unterkünfte', 'bed', 'lodging')}${btn('page', 'Aktivitäten', 'compass', 'discover')}${btn('page', 'Verpflegung', 'food', 'food')}${day.length > 1 ? btn('optimize', 'Tag prüfen', 'spark') : ''}</div>
-    </section>${mapPanel(ctx)}</div>${dayPlanPanel(ctx)}${surveyV19DayPanel(ctx)}`;
+    </section>${mapPanel(ctx)}</div>${dayPlanPanel(ctx)}${surveyV19DayPanel(ctx)}${renderDayReturnV103(ctx)}`;
 }
 
 function dayPlaces(ctx) {
