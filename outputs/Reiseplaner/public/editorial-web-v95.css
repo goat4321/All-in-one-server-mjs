@@ -1930,3 +1930,227 @@
  .hub-hero-actions .button:not(.primary){
  transition:none !important;
 }
+
+
+/* V100 / Interrail Switzerland daily itineraries
+ * Scoped to the named 14-day trip; the other three variants and Swiss Lakes
+ * remain untouched. Existing V32 and V85 plans are the only content source.
+ */
+.reference-travel-shell .swiss-14-day-overview{
+  margin:clamp(35px,4.5vw,70px) 0;
+  padding:clamp(22px,3vw,42px);
+  border-radius:24px;
+  background:var(--e95-paper);
+  border:1px solid var(--e95-line);
+  color:var(--e95-ink);
+}
+.reference-travel-shell .swiss-14-day-heading{
+  max-width:890px;
+  margin:0 0 24px;
+  display:grid;gap:9px;
+}
+.reference-travel-shell .swiss-14-day-heading>span{
+  color:var(--e95-link);
+  letter-spacing:.12em;font-size:11px;font-weight:760;
+}
+.reference-travel-shell .swiss-14-day-heading h2{
+  font-size:clamp(28px,3.6vw,52px);
+  line-height:1.08;letter-spacing:-.047em;
+  font-weight:690;margin:0;
+}
+.reference-travel-shell .swiss-14-day-heading p{
+  font-size:clamp(14px,1.1vw,17px);
+  line-height:1.6;color:var(--e95-secondary);
+  max-width:72ch;margin:0;
+}
+.reference-travel-shell .swiss-14-day-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;list-style:none;padding:0;margin:0;
+}
+.reference-travel-shell .swiss-14-day-card{
+  display:flex;min-width:0;
+}
+.reference-travel-shell .swiss-14-day-card>button{
+  display:flex;flex-direction:column;align-items:stretch;
+  width:100%;min-width:0;min-height:300px;
+  padding:19px;
+  text-align:left;
+  background:var(--e95-page);
+  color:var(--e95-ink);
+  border:1px solid var(--e95-line);
+  border-radius:17px;
+  cursor:pointer;
+  box-shadow:none;
+  transition:border-color 190ms ease,background-color 190ms ease,
+    transform 210ms cubic-bezier(.2,.75,.2,1),
+    box-shadow 210ms ease;
+}
+.reference-travel-shell .swiss-14-day-card>button:hover{
+  border-color:color-mix(in srgb,var(--e95-link) 48%,var(--e95-line));
+  box-shadow:0 9px 24px rgba(10,22,34,.075);
+}
+.reference-travel-shell .swiss-14-day-card>button:active{
+  transform:scale(.99);
+}
+.reference-travel-shell .swiss-14-day-card>button:focus-visible{
+  outline:3px solid var(--e95-focus);
+  outline-offset:3px;
+}
+.reference-travel-shell .swiss-14-day-card.is-current>button{
+  border-color:var(--e95-link);
+  background:color-mix(in srgb,var(--e95-link) 7%,var(--e95-paper));
+}
+.reference-travel-shell .swiss-14-day-top{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;margin-bottom:15px;
+}
+.reference-travel-shell .swiss-14-day-index{
+  display:grid;place-items:center;
+  width:37px;height:37px;flex:0 0 37px;
+  border-radius:11px;
+  background:var(--e95-ink);
+  color:var(--e95-page);
+  font-size:13px;font-weight:730;
+}
+.reference-travel-shell .swiss-14-day-date{
+  font-size:12px;color:var(--e95-secondary);font-weight:650;
+}
+.reference-travel-shell .swiss-14-day-city{
+  font-size:11px;font-weight:730;
+  color:var(--e95-link);text-transform:uppercase;
+  letter-spacing:.07em;margin-bottom:5px;
+}
+.reference-travel-shell .swiss-14-day-title{
+  display:block;
+  font-size:clamp(17px,1.4vw,21px);
+  line-height:1.22;letter-spacing:-.028em;
+  font-weight:680;margin-bottom:14px;
+  overflow-wrap:anywhere;
+}
+.reference-travel-shell .swiss-14-day-parts{display:none}
+.reference-travel-shell .swiss-14-day-blocks{
+  display:grid;gap:8px;margin-bottom:15px;
+}
+.reference-travel-shell .swiss-14-day-block{
+  display:grid;grid-template-columns:54px minmax(0,1fr);
+  gap:8px;align-items:start;
+}
+.reference-travel-shell .swiss-14-day-block>span{
+  font-size:11px;color:var(--e95-secondary);
+  font-weight:560;padding-top:2px;
+}
+.reference-travel-shell .swiss-14-day-block>strong{
+  font-size:12px;line-height:1.36;font-weight:570;
+  overflow-wrap:anywhere;color:var(--e95-ink);
+}
+.reference-travel-shell .swiss-14-day-foot{
+  display:flex;align-items:center;flex-wrap:wrap;
+  gap:4px;margin-top:auto;padding-top:14px;
+  border-top:1px solid var(--e95-line);
+  font-size:11px;font-weight:530;
+  line-height:1.4;color:var(--e95-secondary);
+}
+.reference-travel-shell .swiss-14-day-foot svg{
+  width:13px;height:13px;flex:none;
+}
+.reference-travel-shell .swiss-14-day-caveat{
+  margin:15px 0 0;
+  color:var(--e95-secondary);
+  font-size:12px;line-height:1.55;
+}
+.reference-travel-shell .swiss-today-brief{
+  display:grid;gap:14px;
+  padding:19px clamp(16px,2.4vw,25px);
+  border-radius:17px;
+  background:var(--e95-paper);
+  border:1px solid var(--e95-line);
+  margin:0 0 16px;
+  color:var(--e95-ink);
+}
+.reference-travel-shell .swiss-today-heading{
+  display:flex;justify-content:space-between;
+  flex-wrap:wrap;align-items:center;gap:10px;
+}
+.reference-travel-shell .swiss-today-heading>div{
+  display:grid;gap:3px;
+}
+.reference-travel-shell .swiss-today-heading small{
+  font-size:10px;letter-spacing:.09em;
+  color:var(--e95-link);font-weight:740;
+}
+.reference-travel-shell .swiss-today-heading strong{
+  font-size:clamp(18px,1.8vw,24px);
+  font-weight:670;letter-spacing:-.035em;line-height:1.2;
+}
+.reference-travel-shell .swiss-today-heading>span{
+  color:var(--e95-secondary);font-size:12px;
+}
+.reference-travel-shell .swiss-today-steps{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.reference-travel-shell .swiss-today-step{
+  display:grid;align-content:start;gap:4px;
+  padding:13px;border-radius:12px;
+  background:var(--e95-page);
+}
+.reference-travel-shell .swiss-today-step small{
+  color:var(--e95-secondary);font-weight:640;font-size:11px;
+}
+.reference-travel-shell .swiss-today-step strong{
+  color:var(--e95-ink);font-weight:600;line-height:1.35;
+  font-size:14px;
+}
+.reference-travel-shell .swiss-today-brief>p{
+  font-size:12px;color:var(--e95-secondary);
+  line-height:1.55;margin:0;
+}
+@media(min-width:651px) and (max-width:1100px){
+  .reference-travel-shell .swiss-14-day-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  .reference-travel-shell .swiss-14-day-overview{
+    padding:20px 14px;margin-block:27px;border-radius:18px;
+  }
+  .reference-travel-shell .swiss-14-day-heading{margin-bottom:18px}
+  .reference-travel-shell .swiss-14-day-heading h2{
+    font-size:clamp(28px,8.8vw,38px);
+  }
+  .reference-travel-shell .swiss-14-day-grid{
+    grid-template-columns:none;
+    grid-auto-flow:column;
+    grid-auto-columns:minmax(245px,82%);
+    overflow-x:auto;overflow-y:hidden;
+    scroll-snap-type:x proximity;
+    overscroll-behavior-inline:contain;
+    scrollbar-width:thin;
+    padding:3px 4px 13px;gap:10px;
+  }
+  .reference-travel-shell .swiss-14-day-card{scroll-snap-align:start}
+  .reference-travel-shell .swiss-14-day-card>button{
+    min-height:335px;padding:15px;
+  }
+  .reference-travel-shell .swiss-14-day-title{font-size:18px}
+  .reference-travel-shell .swiss-14-day-heading>span{font-size:10px}
+  .reference-travel-shell .swiss-today-brief{padding:16px 13px}
+  .reference-travel-shell .swiss-today-steps{
+    grid-template-columns:1fr;gap:7px;
+  }
+  .reference-travel-shell .swiss-today-step{
+    display:grid;grid-template-columns:70px minmax(0,1fr);
+    align-items:center;gap:8px;padding:10px 12px;
+  }
+  .reference-travel-shell .swiss-today-step strong{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){
+  .reference-travel-shell .swiss-14-day-card>button{
+    transform:none !important;
+    transition:none !important;
+  }
+  .reference-travel-shell .swiss-14-day-grid{scroll-behavior:auto !important}
+}
+:root[data-motion=off] .reference-travel-shell .swiss-14-day-card>button{
+ transform:none !important;transition:none !important;
+}
