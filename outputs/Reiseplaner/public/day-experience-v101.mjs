@@ -31,8 +31,8 @@ export function renderDayNavigatorV101(ctx){
  const s=dayExperienceStatsV101(ctx);
  if(!s)return '';
  const previous=s.previous?
-  '<button class="day101-navigation-button" type="button" data-action="day-plan-go" data-value="'+esc(s.previous)+'" aria-label="Vorheriger Reisetag, '+esc(shortDay(s.previous))+'">'+icon('chevron-left')+'<span>Vorheriger Tag</span></button>':
-  '<button class="day101-navigation-button" type="button" disabled aria-label="Erster Reisetag">'+icon('chevron-left')+'<span>Vorheriger Tag</span></button>';
+  '<button class="day101-navigation-button" type="button" data-action="day-plan-go" data-value="'+esc(s.previous)+'" aria-label="Vorheriger Reisetag, '+esc(shortDay(s.previous))+'">'+icon('chevron')+'<span>Vorheriger Tag</span></button>':
+  '<button class="day101-navigation-button" type="button" disabled aria-label="Erster Reisetag">'+icon('chevron')+'<span>Vorheriger Tag</span></button>';
  const next=s.next?
   '<button class="day101-navigation-button" type="button" data-action="day-plan-go" data-value="'+esc(s.next)+'" aria-label="Nächster Reisetag, '+esc(shortDay(s.next))+'"><span>Nächster Tag</span>'+icon('chevron')+'</button>':
   '<button class="day101-navigation-button" type="button" disabled aria-label="Letzter Reisetag"><span>Nächster Tag</span>'+icon('chevron')+'</button>';
