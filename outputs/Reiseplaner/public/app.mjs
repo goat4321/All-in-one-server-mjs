@@ -2292,7 +2292,7 @@ document.addEventListener('click', event => {
   if (button) void action(button.dataset.action, button.dataset.value).catch(error => say(error.message));
 });
 document.addEventListener('click',event=>{
-  const link=event.target.closest?.('a.day103-jump-link[href^="#day"]');
+  const link=event.target.closest?.('a.day103-jump-link[href^="#"]');
   if(!link||!app.contains(link))return;
   const target=document.getElementById(link.hash.slice(1));
   if(!target)return;
