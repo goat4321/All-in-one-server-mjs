@@ -36,8 +36,8 @@ export function renderSwiss14DayOverviewV100(ctx){
  const cards=rows.map(row=>{
   const city=ctx.cities?.[row.city]?.name??row.city;
   const pieces=row.blocks.map(block=>
-   '<li><span>'+esc(periods[block.period]??block.period)+'</span>'
-    +'<strong>'+esc(block.title)+'</strong></li>').join('');
+   '<span class="swiss-14-day-block"><span>'+esc(periods[block.period]??block.period)+'</span>'
+    +'<strong>'+esc(block.title)+'</strong></span>').join('');
   return '<li class="swiss-14-day-card'+(row.current?' is-current':'')+'">'
     +'<button type="button" data-action="day-plan-go" data-value="'+esc(row.date)+'"'
     +' aria-label="Tag '+row.index+', '+esc(row.date)+': '+esc(row.title)
@@ -49,7 +49,7 @@ export function renderSwiss14DayOverviewV100(ctx){
     +'<strong class="swiss-14-day-title">'+esc(row.title)+'</strong>'
     +'<span class="swiss-14-day-parts"><span>Morgen</span><span>Mittag</span>'
     +'<span>Abend</span></span>'
-    +'<ol class="swiss-14-day-blocks">'+pieces+'</ol>'
+    +'<span class="swiss-14-day-blocks">'+pieces+'</span>'
     +'<span class="swiss-14-day-foot">'
     +(row.rides?icon('train')+' Vorläufiger Transfer':'Ideen für diesen Tag')
     +(row.slots?' · '+row.slots+' optionale Aktivitäten':' · ohne zusätzliche Pflichtaktivitäten')
@@ -57,7 +57,7 @@ export function renderSwiss14DayOverviewV100(ctx){
  }).join('');
  return '<section class="swiss-14-day-overview" id="interrail-schweiz-tagesplaene"'
     +' aria-label="Alle vierzehn Tagespläne Interrail mit Schweiz">'
-    +'<header class="swiss-14-day-heading"><span>INTER RAIL · SCHWEIZ-VARIANTE</span>'
+    +'<header class="swiss-14-day-heading"><span>INTERRAIL · SCHWEIZ-VARIANTE</span>'
     +'<h2>14 Tage. Jeder Tag im Blick.</h2>'
     +'<p>Paris, Barcelona, Sète, Nizza, Kandersteg und Appenzell –'
     +' vom 1. bis 14. September 2027 für drei Reisende.'
