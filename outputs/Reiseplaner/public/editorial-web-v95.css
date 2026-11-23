@@ -2888,3 +2888,39 @@
  #day103-timeline,#interrail-schweiz-tagesablauf,#day-plan-draft-detail):target{
  animation:none;
 }
+
+
+/* V103.1 / all section shortcuts stay visible on small screens.
+ * The first 390px screenshot hid "Tagesideen" and "Vorbereitung" off the
+ * left side of the horizontally scrolled link rail. A short 2-row surface
+ * is preferable to inaccessible, unadvertised scroll-only controls. */
+@media(max-width:650px){
+ .reference-travel-shell .day103-navigation{
+  display:grid;grid-template-columns:minmax(0,1fr);
+  gap:5px;padding:6px;
+ }
+ .reference-travel-shell .day103-picker{
+  width:100%;min-width:0;
+ }
+ .reference-travel-shell .day103-picker>summary{
+  width:100%;box-sizing:border-box;
+ }
+ .reference-travel-shell .day103-picker>summary>strong{
+  margin-left:auto;
+ }
+ .reference-travel-shell .day103-jump-links{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:2px;overflow:visible;width:100%;
+  justify-content:stretch;
+ }
+ .reference-travel-shell .day103-jump-links a{
+  display:flex;align-items:center;justify-content:center;
+  min-width:0;min-height:42px;padding:6px 2px;
+  font-size:10px;line-height:1.25;text-align:center;
+  white-space:normal;overflow-wrap:break-word;
+ }
+ .reference-travel-shell :is(#day103-navigation,#day103-preparation,
+  #day103-timeline,#interrail-schweiz-tagesablauf,#day-plan-draft-detail){
+  scroll-margin-top:169px;
+ }
+}
