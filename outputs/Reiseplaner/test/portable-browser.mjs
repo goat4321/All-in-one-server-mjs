@@ -1164,7 +1164,19 @@ try {
   assert.equal(await js('document.querySelector(".day101-filter[data-value=morning]").getAttribute("aria-pressed")'),'true');
   await click('.day101-filter[data-value=all]');
   assert.equal(await js('document.querySelectorAll(".day101-period-card:not([hidden])").length'),3);
+  await js('document.querySelector("#interrail-schweiz-tagesablauf").scrollIntoView({behavior:"instant",block:"start"})');
   await screenshot('v101-interrail-schweiz-tagesplanung-desktop.png');
+  await cdp('Emulation.setDeviceMetricsOverride',{
+    width:390,height:844,deviceScaleFactor:1,mobile:true
+  });
+  assert.ok(await js('document.documentElement.scrollWidth<=innerWidth+3'),
+    'V101 Swiss day planning must fit a 390px viewport without horizontal overflow');
+  assert.equal(await js('document.querySelectorAll(".day101-filter").length'),4);
+  await js('document.querySelector("#interrail-schweiz-tagesablauf").scrollIntoView({behavior:"instant",block:"start"})');
+  await screenshot('v101-interrail-schweiz-tagesplanung-mobile.png');
+  await cdp('Emulation.setDeviceMetricsOverride',{
+    width:1440,height:1000,deviceScaleFactor:1,mobile:false
+  });
   await click('.day101-navigation-button[data-value="2027-09-12"]');
   await until(()=>js('document.querySelector(".day101-navigator")?.textContent.includes("TAG 12 VON 14")'),
     'V101 next-day action reaches the actual following day');
