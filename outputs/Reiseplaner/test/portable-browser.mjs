@@ -1135,6 +1135,21 @@ try {
     'V100 itinerary cannot be hidden in a collapsed details section');
   await js('document.querySelector(".swiss-14-day-overview").scrollIntoView({behavior:"instant",block:"start"})');
   await screenshot('v100-interrail-schweiz-14-tage-desktop.png');
+  await cdp('Emulation.setDeviceMetricsOverride',{
+    width:390,height:844,deviceScaleFactor:1,mobile:true
+  });
+  await until(()=>js('getComputedStyle(document.querySelector(".swiss-14-day-grid")).gridAutoFlow==="column"'),
+    'V100 mobile day list is a horizontal swipe carousel');
+  assert.equal(await js('document.querySelectorAll(".swiss-14-day-card").length'),14);
+  assert.ok(await js('document.documentElement.scrollWidth <= innerWidth + 5'),
+    'V100 carousel never creates page-wide mobile overflow');
+  await js('document.querySelector(".swiss-14-day-overview").scrollIntoView({behavior:"instant",block:"start"})');
+  await screenshot('v100-interrail-schweiz-14-tage-mobile.png');
+  assert.ok(await js('(()=>{const list=document.querySelector(".swiss-14-day-grid");list.scrollLeft=list.scrollWidth;return list.scrollLeft>0})()'),
+    'The final Swiss Interrail day is reachable by horizontal scrolling');
+  await cdp('Emulation.setDeviceMetricsOverride',{
+    width:1440,height:1000,deviceScaleFactor:1,mobile:false
+  });
   const swissDraftBefore=JSON.stringify(store.current('interrail_swiss').state.edits);
   await click('.swiss-14-day-card [data-action=day-plan-go][data-value="2027-09-11"]');
   await until(()=>js('document.querySelector(".swiss-today-brief")?.textContent.includes("Oeschinensee")'),
