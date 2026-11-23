@@ -1190,10 +1190,35 @@ try {
   assert.ok(await js('document.querySelector(".day102-copy svg")?.querySelector("rect")!==null'),
     'V102 copy action must use an actual copy icon, not the generic pin');
   await screenshot('v102-interrail-schweiz-tagescheck-mobile.png');
+  // V103: the native date chooser must expose all fourteen valid days while
+  // compact, and opening a day must reset the obsolete scroll position.
+  assert.equal(await js('document.querySelectorAll(".day103-picker-list [data-action=day-plan-go]").length'),14);
+  assert.equal(await js('document.querySelectorAll(".day103-picker-list [aria-current=date]").length'),1);
+  assert.equal(await js('getComputedStyle(document.querySelector(".day103-navigation")).position'),'sticky');
+  await click('.day103-picker>summary');
+  assert.ok(await js('document.querySelector(".day103-picker")?.open'),
+    'V103 day picker opens with native keyboard-accessible details');
+  await screenshot('v103-interrail-schweiz-day-picker-mobile.png');
+  await click('.day103-picker-list [data-action=day-plan-go][data-value="2027-09-12"]');
+  await until(()=>js('document.querySelector(".day101-navigation-current")?.textContent.includes("TAG 12 VON 14")'),
+    'V103 date picker opens the selected next day');
+  assert.ok(await js('window.scrollY<10'),
+    'V103 day selection returns to the beginning of the new plan');
+  await click('.day103-picker>summary');
+  await click('.day103-picker-list [data-action=day-plan-go][data-value="2027-09-11"]');
+  await until(()=>js('document.querySelector(".day101-navigation-current")?.textContent.includes("TAG 11 VON 14")'),
+    'V103 day picker can return to the original date');
+  assert.equal(await js('document.querySelector(".day102-check[data-value=food]").getAttribute("aria-pressed")'),'true',
+    'V103 switching dates must preserve personally checked tasks');
 
   await cdp('Emulation.setDeviceMetricsOverride',{
     width:1440,height:1000,deviceScaleFactor:1,mobile:false
   });
+  assert.ok(await js('document.querySelectorAll(".day103-jump-links a").length===4'));
+  await click('.day103-jump-links a[href="#day103-preparation"]');
+  await until(()=>js('(()=>{const e=document.querySelector("#day103-preparation"),h=document.querySelector(".reference-topbar");if(!e||!h)return false;const t=e.getBoundingClientRect().top;return t>=h.getBoundingClientRect().bottom&&t<200})()'),
+    'V103 scroll-to-preparation stays visible below the sticky header');
+  await screenshot('v103-interrail-schweiz-day-shortcuts-desktop.png');
   await click('.day101-navigation-button[data-value="2027-09-12"]');
   await until(()=>js('document.querySelector(".day101-navigator")?.textContent.includes("TAG 12 VON 14")'),
     'V101 next-day action reaches the actual following day');
