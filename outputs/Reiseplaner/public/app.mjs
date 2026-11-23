@@ -56,7 +56,7 @@ const view = {
   activityCategory:'all',activitySavedOnly:false,activityOrder:'source',activityEvidenceFilter:'all',
   browseFoodSavedOnly:false,browseMarketLoadingCity:null,browseMarketError:null,
   browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
-  dayPlanOpen:false,hikePreviewId:null,mealSlot:'dinner',dataOpenSections:[],mapPinPicking:false,mapPinDraft:null,mapPinEditingId:null,mapPinsOpen:false,
+  dayPlanOpen:false,dayPlanFocus:'all',hikePreviewId:null,mealSlot:'dinner',dataOpenSections:[],mapPinPicking:false,mapPinDraft:null,mapPinEditingId:null,mapPinsOpen:false,
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
@@ -673,6 +673,7 @@ function refreshMarketsOnCityChange(cityId){
 function showCity(id, date, wholeDay = false) {
   if (!context.trip.route.includes(id)) return;
   if (id !== view.city || (date && date !== view.date)) {
+    view.dayPlanFocus='all';
     view.mapPinPicking=false;view.mapPinDraft=null;view.mapPinEditingId=null;
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0;
   }
@@ -1150,6 +1151,22 @@ async function action(name, value = '') {
     }
     case 'hike-preview-close':
       view.hikePreviewId=null;render({focusMap:true,fetchRoutes:false});break;
+    case 'day-plan-focus': {
+      if(!['all','morning','noon','evening'].includes(value)
+         ||ctx.trip.id!=='interrail_swiss'||view.page!=='plan')break;
+      view.dayPlanFocus=value;
+      const board=app.querySelector('#interrail-schweiz-tagesablauf');
+      if(!board)break;
+      board.querySelectorAll('.day101-filter').forEach(button=>
+        button.setAttribute('aria-pressed',String(button.dataset.value===value)));
+      board.querySelectorAll('.day101-period-card').forEach(card=>{
+        card.hidden=value!=='all'&&card.dataset.period!==value;
+      });
+      const status=board.querySelector('.day101-filter-status');
+      if(status)status.textContent=value==='all'?'Alle drei Abschnitte'
+        :({morning:'Morgen',noon:'Mittag',evening:'Abend'}[value]+' ausgewählt');
+      break;
+    }
     case 'day-plan-go':
       if(!ctx.trip.dayPlansV32?.some(row=>row.date===value))break;
       view.page='plan';view.mobile='plan';
