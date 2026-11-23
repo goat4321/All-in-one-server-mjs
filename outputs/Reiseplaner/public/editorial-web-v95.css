@@ -2702,3 +2702,18 @@
 }
 :root[data-motion=off] #app .reference-travel-shell.is-content-page
  main.workspace.motion-scene-enter .day102-preparation{animation:none !important}
+
+
+/* V102 / sticky navigation offset: direct day-plan anchors and the
+ * 'scroll into view' screenshot/keyboard navigation must not hide titles
+ * behind the fixed travel header at smartphone or desktop widths. */
+.reference-travel-shell :is(
+ .day102-preparation,#interrail-schweiz-tagesablauf,
+ #day-plan-draft-detail,.day101-navigator
+){scroll-margin-top:84px}
+@media(max-width:650px){
+ .reference-travel-shell :is(
+  .day102-preparation,#interrail-schweiz-tagesablauf,
+  #day-plan-draft-detail,.day101-navigator
+ ){scroll-margin-top:76px}
+}
