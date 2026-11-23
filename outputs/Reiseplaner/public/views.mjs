@@ -35,6 +35,7 @@ import {mapUnlocatedReview,mapUnverifiedPointsReview} from './map-unlocated-v39.
 import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
   mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview,dayPlanQuickBar} from './day-plans-ui.mjs';
+import {renderSwiss14DayOverviewV100,renderSwissDayBriefV100} from './swiss-14-day-overview-v100.mjs';
 import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
 import {swissLodgingSummaryV83,swissLodgingCompareV83,swissLodgingRailNoteV83} from './swiss-lodging-v83.mjs';
 import {swissDatedSearchBoardV84,swissRailPrecisionV84} from './swiss-dated-search-v84.mjs';
@@ -215,6 +216,7 @@ function plan(ctx, name) {
     <div class="mobile-switch" aria-label="Ansicht">${chip('mobile', 'Liste', mobile === 'plan', 'plan', 'list')}${chip('mobile', 'Karte', mobile === 'map', 'map', 'map')}</div></div>
     <div class="days" aria-label="Reisetage">${dates.map(d => '<button type="button" class="day" data-action="day" data-value="' + d + '" aria-pressed="' + (d === date) + '"><strong>' + esc(shortDay(d)) + '</strong><small>' + esc(ctx.cities[ctx.cityForDay(d)]?.name ?? 'Reise') + '</small></button>').join('')}</div>
     ${dayPlaces(ctx)}
+    ${renderSwissDayBriefV100(ctx)}
     ${dayPlanQuickBar(ctx)}
     <div class="plan-grid" data-mobile="${mobile}">
       <section class="panel timeline-panel"><div class="panel-head"><div><h2>Tagesablauf</h2><p>${day.length} ${day.length === 1 ? 'Eintrag' : 'Einträge'} · ${dayTotal ? money(dayTotal) + ' erfasst' : 'Kosten zum Teil offen'}</p></div>
@@ -707,6 +709,7 @@ function overview(ctx) {
     +btn('show-route','Route öffnen','arrow')+'</div>'
     +'<div class="destination-filmstrip" aria-label="Reiseorte mit Quellenfotos">'+destinationCards+'</div></div></section>'
     +overviewRoute+'</div>'
+    +renderSwiss14DayOverviewV100(ctx)
     + '<div class="editorial-research-heading"><small>DEINE VORBEREITUNG</small>'
     +'<h2>Alles Wichtige. Klar geordnet.</h2>'
     +'<p>Hinweise, Tagesideen und Quellen bleiben vollständig verfügbar –'
