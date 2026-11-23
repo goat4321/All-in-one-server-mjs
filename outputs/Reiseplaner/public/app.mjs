@@ -3,6 +3,7 @@ import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './pub
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
 import {dayPlanDraftEdits} from './day-plans-logic.mjs';
+import {readPreparationV102,togglePreparationV102,preparationTextV102} from './day-preparation-v102.mjs';
 import {quickDayEdit} from './day-quick-edits-v50.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
 import { renderShell, mapDetail, mapSelectionPreview } from './views.mjs';
@@ -247,6 +248,7 @@ function buildContext() {
     ...view, catalog, variant, variants: catalog.variants, trip, cities: catalog.cities, state, people, all, active, activeSet,
     budget: calculateBudget(active, state), day, fullDay, dates, date, city, cityForDay, dayCities, wholeDay, dayTravel, detail, hotelWalks, station,
     dayPlan:trip.dayPlansV32?.find(row=>row.date===date)??null,
+    preparationDone:readPreparationV102(localStorage,trip.id,date),
     mealHotel, foodPlaces, foodWalks, explorer, marketItems,foodMarketCoverage,
     browseSavedIds:savedIds,
     dayRoute: { items: view.dayQueueIds.map(id => all.find(x => x.id === id)).filter(Boolean),
@@ -1151,6 +1153,44 @@ async function action(name, value = '') {
     }
     case 'hike-preview-close':
       view.hikePreviewId=null;render({focusMap:true,fetchRoutes:false});break;
+    case 'day-preparation-toggle': {
+      if(ctx.trip.id!=='interrail_swiss'||view.page!=='plan')break;
+      const next=togglePreparationV102(localStorage,ctx.trip.id,ctx.date,value);
+      if(!next){say('Die persönliche Checkliste konnte nicht gespeichert werden.');break;}
+      const panel=app.querySelector('.day102-preparation');
+      if(!panel)break;
+      const checked=next.includes(value);
+      const button=[...panel.querySelectorAll('.day102-check')]
+        .find(node=>node.dataset.value===value);
+      if(button){
+        button.setAttribute('aria-pressed',String(checked));
+        button.classList.toggle('is-done',checked);
+        button.setAttribute('aria-label',button.querySelector('strong').textContent
+          +(checked?', persönlich geprüft':', noch nicht abgehakt'));
+        const symbol=button.querySelector('.day102-check-symbol');
+        if(symbol)symbol.textContent=checked?'✓':'+';
+      }
+      const indicator=panel.querySelector('.day102-count strong');
+      if(indicator)indicator.textContent=next.length+' / 5';
+      const bar=panel.querySelector('.day102-meter');
+      if(bar){bar.setAttribute('aria-valuenow',String(next.length));
+        const inner=bar.querySelector('i');
+        if(inner)inner.style.width=(next.length*20)+'%';
+      }
+      break;
+    }
+    case 'day-preparation-copy': {
+      if(ctx.trip.id!=='interrail_swiss'||view.page!=='plan')break;
+      const text=preparationTextV102(ctx);
+      if(!text)break;
+      try{
+        if(!navigator.clipboard?.writeText)throw new Error('Clipboard nicht verfügbar');
+        await navigator.clipboard.writeText(text);
+        const feedback=app.querySelector('.day102-copy-result');
+        if(feedback)feedback.textContent='Tagesablauf einschließlich Quellen kopiert.';
+      }catch{say('Kopieren nicht verfügbar. Prüfe die Berechtigung deiner Browser-Zwischenablage.');}
+      break;
+    }
     case 'day-plan-focus': {
       if(!['all','morning','noon','evening'].includes(value)
          ||ctx.trip.id!=='interrail_swiss'||view.page!=='plan')break;
