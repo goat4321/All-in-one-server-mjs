@@ -1174,6 +1174,19 @@ try {
   assert.equal(await js('document.querySelectorAll(".day101-filter").length'),4);
   await js('document.querySelector("#interrail-schweiz-tagesablauf").scrollIntoView({behavior:"instant",block:"start"})');
   await screenshot('v101-interrail-schweiz-tagesplanung-mobile.png');
+  // V102: practical daily preparation is per-day, keyboard-friendly and
+  // persistent in browser storage, but it never changes the actual trip.
+  assert.equal(await js('document.querySelectorAll(".day102-check").length'),5);
+  assert.ok(await js('document.querySelector(".day102-preparation")?.textContent.includes("kein Nachweis für eine Buchung")'));
+  const beforeSwissChecks=JSON.stringify(store.current('interrail_swiss').state.edits);
+  await click('.day102-check[data-value=food]');
+  assert.equal(await js('document.querySelector(".day102-check[data-value=food]").getAttribute("aria-pressed")'),'true');
+  assert.equal(await js('document.querySelector(".day102-meter").getAttribute("aria-valuenow")'),'1');
+  assert.equal(JSON.stringify(store.current('interrail_swiss').state.edits),beforeSwissChecks,
+    'V102 personal review checkboxes must not mutate actual trip entries');
+  await js('document.querySelector(".day102-preparation").scrollIntoView({behavior:"instant",block:"start"})');
+  await screenshot('v102-interrail-schweiz-tagescheck-mobile.png');
+
   await cdp('Emulation.setDeviceMetricsOverride',{
     width:1440,height:1000,deviceScaleFactor:1,mobile:false
   });
@@ -1181,6 +1194,10 @@ try {
   await until(()=>js('document.querySelector(".day101-navigator")?.textContent.includes("TAG 12 VON 14")'),
     'V101 next-day action reaches the actual following day');
   await click('.day101-navigation-button[data-value="2027-09-11"]');
+  assert.equal(await js('document.querySelector(".day102-check[data-value=food]").getAttribute("aria-pressed")'),'true',
+    'V102 checklist must survive leaving and revisiting the day');
+  await click('.day102-check[data-value=food]');
+  assert.equal(await js('document.querySelector(".day102-meter").getAttribute("aria-valuenow")'),'0');
   assert.equal(await js('document.querySelectorAll(".day101-period-card:not([hidden])").length'),3,
     'V101 changing days resets the period filter');
 
