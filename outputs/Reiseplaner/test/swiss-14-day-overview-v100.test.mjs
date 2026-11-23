@@ -59,7 +59,8 @@ test('V100 actual page imports summary and daily preview without changing source
   readFile(new URL('../public/editorial-web-v95.css',import.meta.url),'utf8')
  ]);
  assert.match(views,/renderSwiss14DayOverviewV100\(ctx\)/);
- assert.match(views,/renderSwissDayBriefV100\(ctx\)/);
+ assert.match(views,/renderSwissDayExperienceV101\\(ctx\\)/);
+ assert.match(views,/renderDayNavigatorV101\\(ctx\\)/);
  assert.match(styles,/\.swiss-14-day-overview\{/);
  assert.match(styles,/\.swiss-14-day-grid\{/);
  assert.match(styles,/@media\(max-width:650px\)/);
