@@ -17,7 +17,7 @@ const REVEAL_TARGETS=[
 // time the user adjusts a search filter or a map marker. Never observe the
 // virtualized map canvas, Leaflet tiles, or hundreds of result elements.
 const SCROLL_TARGETS=[
-  '.overview-quick-card','.destination-filmstrip .destination-card',
+  '.overview-quick-card','.swiss-14-day-card','.destination-filmstrip .destination-card',
   '.cockpit-progress-item','.hub-option-grid .hub-option-card',
   '.hub-food-grid .hub-food-card','.timeline-event',
   '.reference-discovery-card','.swiss-editorial-grid article',
