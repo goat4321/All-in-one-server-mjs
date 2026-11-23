@@ -35,6 +35,7 @@ const paths = {
   bookmark:'<path d="M6 4h12v17l-6-4-6 4z"/>',
   check:'<path d="m5 12 4 4L19 6"/>',
   alert:'<path d="m12 3 10 18H2L12 3zm0 6v5m0 3h.01"/>',
+  copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
   download:'<path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/>',
   upload:'<path d="M12 15V3M7 8l5-5 5 5M4 17v4h16v-4"/>',
   external:'<path d="M13 4h7v7m0-7-9 9m7-1v7H5V6h7"/>',
