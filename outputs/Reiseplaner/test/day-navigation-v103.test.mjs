@@ -61,7 +61,7 @@ test('V103 integrates semantic anchors, scoped smooth scrolling and opt-outs',as
  assert.match(views,/renderDayReturnV103\(ctx\)/);
  assert.match(views,/id="day103-timeline"/);
  assert.match(prep,/id="day103-preparation"/);
- assert.match(app,/a\.day103-jump-link\[href\^="#day"\]/);
+ assert.match(app,/a\.day103-jump-link\[href\^="#"\]/);
  assert.match(app,/target\.scrollIntoView/);
  assert.match(app,/window\.scrollTo\(\{top:0,behavior:'instant'\}\)/);
  assert.match(css,/\.day103-navigation\{/);
