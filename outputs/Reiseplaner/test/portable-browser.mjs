@@ -1152,10 +1152,26 @@ try {
   });
   const swissDraftBefore=JSON.stringify(store.current('interrail_swiss').state.edits);
   await click('.swiss-14-day-card [data-action=day-plan-go][data-value="2027-09-11"]');
-  await until(()=>js('document.querySelector(".swiss-today-brief")?.textContent.includes("Oeschinensee")'),
-    'V100 day card opens day-specific Morning/Noon/Evening preview');
-  assert.equal(await js('document.querySelectorAll(".swiss-today-step").length'),3,
-    'Swiss day view has exactly three compact time windows');
+  await until(()=>js('document.querySelector(".day101-board")?.textContent.includes("Oeschinensee")'),
+    'V101 day card opens the full three-part interactive day board');
+  assert.equal(await js('document.querySelectorAll(".day101-period-card").length'),3,
+    'V101 Swiss day view has all three morning/noon/evening plans');
+  assert.ok(await js('document.querySelector(".day101-navigator")?.textContent.includes("TAG 11 VON 14")'),
+    'V101 navigator must use the actual September 2027 date sequence');
+  await click('.day101-filter[data-value=morning]');
+  assert.equal(await js('document.querySelectorAll(".day101-period-card:not([hidden])").length'),1,
+    'V101 morning filter shows only the morning editorial plan');
+  assert.equal(await js('document.querySelector(".day101-filter[data-value=morning]").getAttribute("aria-pressed")'),'true');
+  await click('.day101-filter[data-value=all]');
+  assert.equal(await js('document.querySelectorAll(".day101-period-card:not([hidden])").length'),3);
+  await screenshot('v101-interrail-schweiz-tagesplanung-desktop.png');
+  await click('.day101-navigation-button[data-value="2027-09-12"]');
+  await until(()=>js('document.querySelector(".day101-navigator")?.textContent.includes("TAG 12 VON 14")'),
+    'V101 next-day action reaches the actual following day');
+  await click('.day101-navigation-button[data-value="2027-09-11"]');
+  assert.equal(await js('document.querySelectorAll(".day101-period-card:not([hidden])").length'),3,
+    'V101 changing days resets the period filter');
+
   assert.equal(JSON.stringify(store.current('interrail_swiss').state.edits),swissDraftBefore,
     'Opening a day overview never silently changes the active Swiss trip plan');
   await click('.sidebar [data-action=page][data-value=overview]');
