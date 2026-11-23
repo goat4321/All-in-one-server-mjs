@@ -2717,3 +2717,174 @@
   #day-plan-draft-detail,.day101-navigator
  ){scroll-margin-top:76px}
 }
+
+
+/* V103 / itinerary quick navigation – no second data store, only native
+ * details + existing day-plan-go commands and accessible HTML anchors. */
+.reference-travel-shell .day103-navigation{
+ position:sticky;top:59px;z-index:18;
+ display:flex;align-items:center;gap:8px;
+ padding:8px;margin:0 0 14px;
+ max-width:100%;min-width:0;
+ background:color-mix(in srgb,var(--e95-paper) 94%,transparent);
+ border:1px solid var(--e95-line);
+ border-radius:14px;
+ -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+ box-shadow:0 4px 14px rgba(10,20,31,.055);
+}
+.reference-travel-shell .day103-picker{
+ flex:0 0 auto;position:relative;min-width:0;
+}
+.reference-travel-shell .day103-picker>summary{
+ display:inline-flex;align-items:center;gap:7px;
+ min-height:43px;padding:9px 12px;
+ border-radius:10px;border:1px solid var(--e95-line);
+ background:var(--e95-page);color:var(--e95-ink);
+ cursor:pointer;list-style:none;font-size:12px;font-weight:670;
+}
+.reference-travel-shell .day103-picker>summary::-webkit-details-marker{display:none}
+.reference-travel-shell .day103-picker>summary>strong{
+ color:var(--e95-link);font-weight:720;font-size:12px;
+}
+.reference-travel-shell .day103-picker>summary .ui-icon{
+ width:15px;height:15px;flex:none;
+}
+.reference-travel-shell .day103-picker>summary .ui-icon:last-child{
+ transition:transform 200ms ease;
+}
+.reference-travel-shell .day103-picker[open]>summary .ui-icon:last-child{
+ transform:rotate(90deg);
+}
+.reference-travel-shell .day103-picker-list{
+ position:absolute;top:calc(100% + 8px);left:0;
+ z-index:20;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:7px;width:min(570px,calc(100vw - 38px));
+ max-height:min(55vh,460px);overflow:auto;
+ padding:12px;
+ border:1px solid var(--e95-line);border-radius:15px;
+ background:var(--e95-paper);
+ box-shadow:0 18px 50px rgba(10,20,30,.18);
+}
+.reference-travel-shell .day103-picker-list button{
+ display:flex;flex-direction:column;align-items:flex-start;
+ justify-content:center;gap:3px;text-align:left;
+ border:1px solid var(--e95-line);border-radius:10px;
+ background:var(--e95-page);color:var(--e95-ink);
+ padding:10px;min-height:70px;cursor:pointer;
+ transition:background-color 175ms ease,border-color 175ms ease,
+   transform 145ms ease;
+}
+.reference-travel-shell .day103-picker-list button>small{
+ font-size:10px;letter-spacing:.08em;
+ color:var(--e95-secondary);font-weight:720;
+}
+.reference-travel-shell .day103-picker-list button>strong{
+ font-size:12px;font-weight:720;
+}
+.reference-travel-shell .day103-picker-list button>span{
+ font-size:11px;color:var(--e95-secondary);
+}
+.reference-travel-shell .day103-picker-list button[aria-current=date]{
+ background:color-mix(in srgb,var(--e95-link) 10%,var(--e95-paper));
+ border-color:var(--e95-link);
+}
+.reference-travel-shell .day103-picker-list button:hover{
+ border-color:var(--e95-link);
+ transform:translateY(-2px);
+}
+.reference-travel-shell .day103-jump-links{
+ display:flex;flex:1;justify-content:flex-end;
+ align-items:center;gap:3px;
+ min-width:0;overflow-x:auto;scrollbar-width:none;
+}
+.reference-travel-shell .day103-jump-links::-webkit-scrollbar{display:none}
+.reference-travel-shell .day103-jump-links a{
+ display:inline-flex;align-items:center;justify-content:center;
+ white-space:nowrap;min-height:41px;
+ padding:9px 11px;border-radius:9px;
+ text-decoration:none;color:var(--e95-secondary);
+ font-size:12px;font-weight:625;
+ transition:background-color 170ms ease,color 170ms ease;
+}
+.reference-travel-shell .day103-jump-links a:hover{
+ background:var(--e95-page);color:var(--e95-link);
+}
+.reference-travel-shell .day103-navigation :is(button,a,summary):focus-visible,
+.reference-travel-shell .day103-return a:focus-visible{
+ outline:3px solid var(--e95-focus) !important;outline-offset:2px;
+}
+.reference-travel-shell :is(#day103-navigation,#day103-preparation,
+ #day103-timeline,#interrail-schweiz-tagesablauf,#day-plan-draft-detail){
+ scroll-margin-top:122px;
+}
+.reference-travel-shell .day103-return{
+ padding:24px 0 12px;display:flex;justify-content:center;
+}
+.reference-travel-shell .day103-return a{
+ display:inline-flex;gap:8px;align-items:center;
+ min-height:44px;padding:10px 18px;
+ border:1px solid var(--e95-line);border-radius:12px;
+ background:var(--e95-paper);color:var(--e95-link);
+ text-decoration:none;font-size:13px;font-weight:650;
+}
+.reference-travel-shell .day103-return .ui-icon{
+ width:15px;height:15px;transform:rotate(-90deg);
+}
+@keyframes day103-target-arrive{
+ from{outline-color:rgba(20,105,202,.42);outline-offset:6px}
+ to{outline-color:transparent;outline-offset:0}
+}
+.reference-travel-shell :is(#day103-preparation,#day103-timeline,
+ #interrail-schweiz-tagesablauf,#day-plan-draft-detail):target{
+ outline:2px solid transparent;
+ animation:day103-target-arrive 520ms ease-out both;
+}
+@media(max-width:650px){
+ .reference-travel-shell .day103-navigation{
+  top:58px;padding:6px;gap:5px;border-radius:12px;
+ }
+ .reference-travel-shell .day103-picker>summary{
+  min-height:43px;padding:8px 9px;gap:5px;
+ }
+ .reference-travel-shell .day103-picker>summary>span{
+  font-size:11px;
+ }
+ .reference-travel-shell .day103-picker-list{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  width:min(340px,calc(100vw - 26px));padding:9px;
+ }
+ .reference-travel-shell .day103-jump-links a{
+  min-height:43px;padding:8px 8px;font-size:11px;
+ }
+ .reference-travel-shell :is(#day103-navigation,#day103-preparation,
+  #day103-timeline,#interrail-schweiz-tagesablauf,#day-plan-draft-detail){
+  scroll-margin-top:115px;
+ }
+}
+@media(prefers-reduced-transparency:reduce){
+ .reference-travel-shell .day103-navigation{
+  -webkit-backdrop-filter:none;backdrop-filter:none;
+  background:var(--e95-paper);
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .day103-picker-list button:hover{
+  transform:none;
+ }
+ .reference-travel-shell .day103-picker-list button,
+ .reference-travel-shell .day103-jump-links a,
+ .reference-travel-shell .day103-picker>summary .ui-icon:last-child{
+  transition:none;
+ }
+ .reference-travel-shell :is(#day103-preparation,#day103-timeline,
+  #interrail-schweiz-tagesablauf,#day-plan-draft-detail):target{
+  animation:none;
+ }
+}
+:root[data-motion=off] .reference-travel-shell .day103-picker-list button:hover{
+ transform:none;
+}
+:root[data-motion=off] .reference-travel-shell :is(#day103-preparation,
+ #day103-timeline,#interrail-schweiz-tagesablauf,#day-plan-draft-detail):target{
+ animation:none;
+}
