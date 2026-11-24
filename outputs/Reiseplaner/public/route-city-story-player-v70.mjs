@@ -62,11 +62,12 @@ export class RouteCityStoryPlayer{
   this.revealed=new Set();
   this.tick=this.tick.bind(this);
  }
+ dwellDuration(){return this.immersive?Math.max(STAY_MS,Math.min(30000,6000*(this.stops[this.index]?.previewDays??1))):STAY_MS;}
  state(){
   const stop=this.stops[this.index]??null;
   const next=this.stops[this.index+1]??null;
   return {status:this.status,phase:this.phase,index:this.index,total:this.stops.length,
-   phaseProgress:this.status==='complete'?1:Math.max(0,Math.min(1,this.elapsed/(this.phase==='dwell'?STAY_MS:TRAVEL_MS))),
+   phaseProgress:this.status==='complete'?1:Math.max(0,Math.min(1,this.elapsed/(this.phase==='dwell'?this.dwellDuration():TRAVEL_MS))),
    cityId:stop?.id??null,name:stop?.name??'',symbol:stop?.symbol??'🧭',
    description:stop?.description??'',nextName:next?.name??'',
    progress:storyProgress(this.index,this.part,this.stops),speed:this.speed,
@@ -115,8 +116,8 @@ export class RouteCityStoryPlayer{
   this.trail?.setLatLngs(points);
   this.dot?.setLatLng(last);
  }
- play(stops=[]){
-  this.stop(true);
+ play(stops=[],{immersive=false}={}){
+  this.stop(true);this.immersive=immersive;
   if(!Array.isArray(stops)||!stops.length){this.emit();return false;}
   this.stops=stops.map(stop=>({...stop,point:[...stop.point],
    ideas:Array.isArray(stop.ideas)?stop.ideas.map(idea=>({...idea})):[]}));
@@ -147,7 +148,7 @@ export class RouteCityStoryPlayer{
   this.elapsed+=Math.max(0,Math.min(80,now-this.lastTime))*this.speed;
   this.lastTime=now;
   if(this.phase==='dwell'){
-   if(this.elapsed>=STAY_MS){
+   if(this.elapsed>=this.dwellDuration()){
     this.elapsed=0;
     if(this.index>=this.stops.length-1){this.clearArrival();this.finish();return;}
     this.clearArrival();
