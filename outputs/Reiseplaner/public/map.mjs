@@ -55,8 +55,8 @@ function dataFile(file) {
 }
 
 export class TripMap {
-  constructor(element, { focus, select, leg, visitCity, report, routeStop, hover, storyState,placePin }) {
-    this.handlers = { focus, select, leg, visitCity, report, routeStop, hover, storyState,placePin };
+  constructor(element, { focus, select, leg, visitCity, report, routeStop, hover, storyState,placePin,dayJourneyStop }) {
+    this.handlers = { focus, select, leg, visitCity, report, routeStop, hover, storyState,placePin,dayJourneyStop };
     this.map = L.map(element, {zoomControl:true,scrollWheelZoom:true,
       preferCanvas:false,fadeAnimation:true,zoomAnimation:true,
       markerZoomAnimation:true,minZoom:3,maxZoom:19,zoomSnap:.5,
@@ -189,7 +189,9 @@ export class TripMap {
     return marker;
   }
 
-  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null, profileCtx = null, dayPreview = null, hikeRoute = null }) {
+  paint({ trip, city, cities, entries, stops, dayTravel, routes, options, total, filters, focused, timetablePreview, explorer = null, dayRoute = null, profileCtx = null, dayPreview = null, hikeRoute = null, dayJourney = null }) {
+    this.stopDayJourneyMotion();
+    this.dayJourney=null;this.journeyFocus=-1;this.journeyDot=null;
     if(!total&&this.cityStory.state().status!=='idle')this.cityStory.stop();
     this.city = city;
     this.features.clearLayers();
@@ -202,6 +204,12 @@ export class TripMap {
     this.storySegments = [];
     this.storyBounds = [];
     const area = [];
+    if(dayJourney&&!total){
+      this.paintDayJourney(dayJourney);
+      this.bounds=dayJourney.stops.filter(s=>s.point).map(s=>s.point);
+      if(!this.bounds.length&&cities[city]?.point)this.bounds=[cities[city].point];
+      return;
+    }
     if (total) {
       const ordered = trip.route.filter(id => cities[id]?.point);
       const coords = ordered.map(id => cities[id].point);
@@ -457,6 +465,67 @@ export class TripMap {
     }
     if (!area.length && cities[city]?.point) area.push(cities[city].point);
     this.bounds = area;
+  }
+
+
+  stopDayJourneyMotion(){
+    if(this.journeyFrame!=null)cancelAnimationFrame(this.journeyFrame);
+    this.journeyFrame=null;
+  }
+
+  paintDayJourney(model){
+    this.dayJourney=model;this.journeyPins=new Map();
+    for(const leg of model.legs){
+      if(!leg.points.length)continue;
+      const routed=leg.type==='routed';
+      L.polyline(leg.points,{color:'#fff',weight:8,opacity:.8,interactive:false}).addTo(this.features);
+      L.polyline(leg.points,{color:routed?'#16845b':'#748397',weight:4,opacity:.94,
+        dashArray:routed?null:'6 9',className:routed?'day110-routed':'day110-schematic'})
+        .addTo(this.features).bindTooltip(labelNode(routed?'Berechneter Fußweg · '+leg.minutes+' Min.':'Schematische Luftlinie · keine Gehzeit'));
+    }
+    for(const stop of model.stops){
+      if(!stop.point)continue;
+      const icon=L.divIcon({className:'day110-map-icon',html:'<span class="day110-map-pin">'+stop.ordinal+'</span>',
+        iconSize:[27,27],iconAnchor:[13,13]});
+      const marker=L.marker(stop.point,{icon,keyboard:true,title:stop.ordinal+'. '+stop.name,alt:stop.name})
+        .addTo(this.features).bindTooltip(labelNode(stop.ordinal+'. '+stop.name+' · '+(stop.selected?'Im Plan':'Vorschlag')));
+      marker.on('click',()=>this.handlers.dayJourneyStop?.(stop.index));
+      this.journeyPins.set(stop.index,marker);
+    }
+  }
+
+  focusDayJourney(index,{animate=true}={}){
+    if(!this.dayJourney)return false;
+    const stop=this.dayJourney.stops[index];
+    if(!stop)return false;
+    this.stopDayJourneyMotion();
+    const previous=this.journeyFocus;this.journeyFocus=index;
+    for(const [i,marker] of this.journeyPins){
+      marker.getElement()?.classList.toggle('day110-current',i===index);
+      marker.setZIndexOffset(i===index?1800:0);
+    }
+    if(this.journeyDot){this.features.removeLayer(this.journeyDot);this.journeyDot=null;}
+    if(!stop.point)return false;
+    const leg=previous===index-1?this.dayJourney.legs[previous]:null;
+    const points=leg?.points;
+    const canAnimate=animate&&!quietMotion()&&points?.length>=2;
+    this.journeyDot=L.circleMarker(canAnimate?points[0]:stop.point,{radius:6,color:'#fff',weight:2,
+      fillColor:'#1469ca',fillOpacity:1,interactive:false,className:'day110-position-dot'}).addTo(this.features);
+    this.map.panTo(stop.point,{animate:animate&&!quietMotion(),duration:.45});
+    if(canAnimate){
+      const start=performance.now(),dot=this.journeyDot;
+      const tick=now=>{
+        if(this.journeyDot!==dot||this.destroyed)return;
+        const fraction=Math.min(1,(now-start)/1250);
+        const p=pointAlongRoute(points,fraction);
+        if(p)dot.setLatLng(p);
+        if(fraction<1)this.journeyFrame=requestAnimationFrame(tick);
+        else {dot.setLatLng(stop.point);this.journeyFrame=null;}
+      };
+      this.journeyFrame=requestAnimationFrame(tick);
+    }
+    this.journeyPins.get(index)?.openTooltip();
+    return true;
   }
 
   // Leaflet zoom clustering only groups real recorded POI points. A cluster
@@ -724,6 +793,7 @@ export class TripMap {
     if(this.vectorGL&&this.vectorGLOnError)
       this.vectorGL.off?.('error',this.vectorGLOnError);
     this.map.stop();
+    this.stopDayJourneyMotion();
     this.cityStory.destroy();
     this.map.remove();
   }
