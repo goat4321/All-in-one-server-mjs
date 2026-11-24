@@ -127,3 +127,25 @@ test('V122 day progression is bounded by the actual playback phase and uses only
  assert.match(routePreviewHtmlV122(ctx,{...state,phase:'travel'}),/Fahrtzeit offen/);
  assert.equal(routePreviewDayV122(ctx,{...state,cityId:'barcelona'}),null);
 });
+
+test('V123 immersive timeline follows the same day and phase clock; excludes optional and unlocated points',async()=>{
+ const {immersiveSceneV123,immersiveHtmlV123,exactPreviewPointV123}=await import('../public/immersive-route-v123.mjs');
+ const {RouteCityStoryPlayer,STAY_MS}=await import('../public/route-city-story-player-v70.mjs');
+ const a={id:'a',city:'paris',kind:'activity',name:'Museum A',point:[48.8,2.3],locationReferenceV07:{exactKnown:true}};
+ const b={id:'b',city:'paris',kind:'activity',name:'Museum B',point:[48.9,2.4],geoEvidence:{isCentroid:true},locationReferenceV07:{exactKnown:true}};
+ const c={id:'c',city:'paris',kind:'activity',name:'Optional'};
+ const items=[a,b,c],day={city:'paris',date:'2027-09-01',slots:[{id:'a',period:'morning',minutes:60},{id:'b',period:'afternoon'},{id:'c',optional:true}]};
+ const ctx={trip:{route:['paris','barcelona'],items,dayPlansV32:[day]},all:items,activeSet:new Set(),cities:{paris:{name:'Paris'},barcelona:{name:'Barcelona'}}};
+ const state={cityId:'paris',index:0,total:2,phase:'dwell',routeOverview:[{id:'paris'},{id:'barcelona'}]};
+ const first=immersiveSceneV123(ctx,{...state,phaseProgress:0}),second=immersiveSceneV123(ctx,{...state,phaseProgress:.75});
+ assert.equal(first.stop.id,'a');assert.deepEqual(first.stop.point,a.point);
+ assert.equal(second.stop.id,'b');assert.equal(second.stop.point,null);
+ assert.equal(second.stops.length,2);assert.equal(first.contentKey,second.contentKey);assert.notEqual(first.key,second.key);
+ assert.equal(exactPreviewPointV123({...a,locationReferenceV07:{exactKnown:true,precision:'sourced_area_center'}}),null);
+ const html=immersiveHtmlV123(ctx,{...state,phaseProgress:.75},second);
+ assert.match(html,/aria-current="step"/);assert.match(html,/Position offen/);assert.match(html,/data-action="route123-day" data-value="2027-09-01"/);
+ assert.doesNotMatch(html,/Optional/);
+ assert.equal(immersiveSceneV123(ctx,{...state,phase:'travel',phaseProgress:.5}).stop,null);
+ const player=Object.assign(Object.create(RouteCityStoryPlayer.prototype),{stops:[{previewDays:3}],index:0,immersive:true});
+ assert.equal(player.dwellDuration(),18000);player.immersive=false;assert.equal(player.dwellDuration(),STAY_MS);
+});
