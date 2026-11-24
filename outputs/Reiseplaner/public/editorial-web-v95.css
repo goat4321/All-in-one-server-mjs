@@ -3340,3 +3340,30 @@ dialog.photo118-viewer::backdrop{background:#000b}
 .reference-travel-shell .journey121-links a[aria-current=location]{box-shadow:inset 0 -2px var(--e95-link)}
 .reference-travel-shell .journey121-media .photo119-item figcaption{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
 @media(max-width:760px){.reference-travel-shell .journey121-copy h3{font-size:clamp(30px,8vw,42px)}.reference-travel-shell .journey121-days button{flex:0 0 auto}}
+
+/* V122 — one synchronized route player, with a bounded photographic stage. */
+.reference-travel-shell .route-story-player{width:min(570px,calc(100% - 26px));box-sizing:border-box;max-height:min(65vh,510px);overflow-y:auto;overscroll-behavior:contain}
+.reference-travel-shell .route122-scene{display:grid;grid-template-columns:minmax(0,145px) minmax(0,1fr);gap:12px;align-items:start;min-width:0}
+.reference-travel-shell .route122-scene:not(:has(.route122-media)){grid-template-columns:1fr}
+.reference-travel-shell .route122-media{display:block;width:100%;max-width:100%;padding:0;overflow:visible}
+.reference-travel-shell .route122-media .photo119-item>a{aspect-ratio:4/3;border-radius:10px}
+.reference-travel-shell .route122-media .photo119-item figcaption{color:#d0e8de;font-size:10px;line-height:1.3;padding:4px 0}
+.reference-travel-shell .route122-media .photo119-item figcaption a{color:#d8fff0;min-height:44px}
+.reference-travel-shell .route122-copy{min-width:0;overflow-wrap:anywhere}
+.reference-travel-shell .route122-copy>strong{font-size:16px;color:inherit}
+.reference-travel-shell .route122-copy ul{padding-left:17px;margin:6px 0;font-size:12px;line-height:1.4}
+.reference-travel-shell .route122-dates{display:flex;flex-wrap:wrap;gap:5px;margin:5px 0}
+.reference-travel-shell .route122-dates button{min-height:44px;padding:5px 8px;border:1px solid #ffffff45;background:#ffffff15;color:inherit;border-radius:8px;font:inherit;font-size:12px;cursor:pointer}
+.reference-travel-shell .route122-travel{font-size:11px;color:#d0e8de;margin:5px 0}
+.reference-travel-shell button.route-story-rail-dot{appearance:none;cursor:pointer;min-width:26px;min-height:26px;border:0;border-radius:6px;background:#ffffff30;flex:1}
+.reference-travel-shell button.route-story-rail-dot.current{background:#bfead5}
+.reference-travel-shell button.route-story-rail-dot.complete{background:#67d9b6}
+.reference-travel-shell .route-story-actions button{min-height:44px}
+.reference-travel-shell :is(.route122-dates button,button.route-story-rail-dot):focus-visible{outline:2px solid white;outline-offset:2px}
+@media(max-width:650px){
+ .reference-travel-shell .route-story-player{width:calc(100% - 18px);max-height:min(62vh,460px)}
+ .reference-travel-shell .route122-scene{grid-template-columns:minmax(0,100px) minmax(0,1fr);gap:8px}
+ .reference-travel-shell .route122-copy ul{font-size:11px}
+ .reference-travel-shell .route-story-stoprail{overflow-x:auto}
+ .reference-travel-shell button.route-story-rail-dot{min-width:28px;min-height:28px}
+}
