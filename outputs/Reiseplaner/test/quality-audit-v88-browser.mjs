@@ -677,6 +677,29 @@ try{
  }.toString()+')()');
  assert.deepEqual(v118,{filterOK:true,opened:true,next:true,back:true,controls:true,closed:true});
  console.log('PASS V118 gallery search, native modal, keyboard navigation and focus restoration');
+ // V119: real scroll control and lightbox entry on an editorial story, no network required.
+ const v119=await js('('+async function(){
+  const fixture=document.createElement('section');fixture.className='photo119-story';
+  fixture.innerHTML='<button data-photo119-scroll="1">Weitere Fotos</button><div class="photo119-rail" style="display:flex;overflow:auto;width:200px;gap:16px;scroll-snap-type:x mandatory"></div>';
+  const rail=fixture.querySelector('.photo119-rail');
+  for(let i=0;i<3;i++){
+   const fig=document.createElement('figure');fig.className='photo119-item';fig.style.flex='0 0 180px';
+   const a=document.createElement('a');a.href='#';const img=document.createElement('img');img.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';img.alt='Tagesmotiv '+i;a.append(img);fig.append(a);rail.append(fig);
+  }
+  document.body.append(fixture);
+  const previous=document.documentElement.dataset.motion;document.documentElement.dataset.motion='off';
+  fixture.querySelector('button').click();await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+  const scrolled=rail.scrollLeft>0;
+  rail.querySelector('a').click();const dialog=document.querySelector('.photo118-viewer');
+  const opened=dialog?.open&&dialog.querySelector('[data-photo118-count]').textContent==='1 / 3';
+  dialog?.querySelector('[data-photo118-close]')?.click();
+  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+  if(previous===undefined)delete document.documentElement.dataset.motion;else document.documentElement.dataset.motion=previous;
+  fixture.remove();return {scrolled,opened};
+ }.toString()+')()');
+ assert.deepEqual(v119,{scrolled:true,opened:true});
+ console.log('PASS V119 editorial photo story controls and shared viewer');
+
  console.log('PASS V88 lab snapshots: seven pages × three widths × light/dark/reduced-motion');
 }finally{
  socket?.close();
