@@ -1,4 +1,5 @@
 import {esc,shortDay,icon} from './ui.mjs';
+import {itineraryDayImageV112,itineraryPhotoHtmlV112} from './place-profile.mjs';
 import {SWISS_DAY_EDITORIAL_V85} from './swiss-day-editorial-v85.mjs';
 
 /**
@@ -45,6 +46,7 @@ export function renderSwiss14DayOverviewV100(ctx){
     +'<span class="swiss-14-day-top"><span class="swiss-14-day-index">'
     +String(row.index).padStart(2,'0')+'</span>'
     +'<span class="swiss-14-day-date">'+esc(shortDay(row.date))+'</span></span>'
+    +itineraryDayImageV112(ctx,row.date)
     +'<span class="swiss-14-day-city">'+esc(city)+'</span>'
     +'<strong class="swiss-14-day-title">'+esc(row.title)+'</strong>'
     +'<span class="swiss-14-day-parts"><span>Morgen</span><span>Mittag</span>'
@@ -77,7 +79,7 @@ export function renderSwissDayBriefV100(ctx){
  const day=byDate.get(ctx.date);
  if(!day||ctx.dayPlan.date!==day.date||ctx.dayPlan.city!==day.city)return '';
  const blocks=day.blocks.map(block=>
-  '<div class="swiss-today-step"><small>'+esc(periods[block.period]??block.period)
+  '<div class="swiss-today-step">'+(block.activity?itineraryPhotoHtmlV112((ctx.all??ctx.trip.items??[]).find(i=>i.id==='survey-v19:'+block.activity),ctx,{compact:true}):'')+'<small>'+esc(periods[block.period]??block.period)
     +'</small><strong>'+esc(block.title)+'</strong></div>').join('');
  return '<section class="swiss-today-brief" aria-label="Vorschlag für diesen Interrail-Tag">'
   +'<div class="swiss-today-heading"><div><small>DEIN HEUTIGER ENTWURF · SCHWEIZ-VARIANTE</small>'
