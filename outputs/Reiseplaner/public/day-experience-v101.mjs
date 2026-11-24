@@ -1,6 +1,7 @@
 import {esc,shortDay,icon,urlLink} from './ui.mjs';
 import {dayPlanCandidates} from './day-plans-logic.mjs';
 import {localParts} from './model.mjs';
+import {itineraryDayImageV112,itineraryPhotoHtmlV112} from './place-profile.mjs';
 import {SWISS_DAY_EDITORIAL_V85} from './swiss-day-editorial-v85.mjs';
 
 const editorialByDate=new Map(SWISS_DAY_EDITORIAL_V85.map(day=>[day.date,day]));
@@ -93,6 +94,7 @@ export function renderSwissDayExperienceV101(ctx){
     +'<div class="day101-period-top"><span class="day101-period-index">'+(index+1)+'</span>'
     +'<span>'+esc(labels[block.period])+'</span>'
     +(block.selected?'<small>IM PLAN</small>':'')+'</div>'
+    +itineraryPhotoHtmlV112(block.item,ctx,{compact:true})
     +'<h3>'+esc(block.title)+'</h3>'
     +'<p>'+esc(block.detail)+'</p>'
     +'<div class="day101-period-footer">'+action+'</div></article>';
@@ -163,6 +165,7 @@ export function renderTripDayCoverageV104(ctx){
   return '<button type="button" class="day104-card" data-action="day-plan-go" data-value="'+esc(r.date)+'"'
    +(r.current?' aria-current="date"':'')
    +' style="--day104-step:'+Math.min(index,12)+';--day104-progress:'+percent+'%">'
+   +itineraryDayImageV112(ctx,r.date)
    +'<small>TAG '+r.index+' · '+esc(shortDay(r.date))+'</small><strong>'+esc(r.city)+'</strong>'
    +'<span>'+status+'</span>'
    +(r.core?'<span class="day104-track" aria-hidden="true"><i></i></span>':'')
