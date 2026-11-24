@@ -350,13 +350,15 @@ function updateRouteStoryUi(state){
   const panel=app.querySelector('#route-story-player');
   if(!panel)return;
   panel.hidden=!visible;panel.dataset.status=status;
-  if(!visible){panel.dataset.previewKey='';panel.dataset.immersiveKey='';return;}
+  if(!visible){panel.dataset.previewKey='';panel.dataset.immersiveKey='';panel.dataset.immersiveContent='';return;}
   const immersive=panel.querySelector('#route123-preview');
   if(immersive){immersive.hidden=!view.routeImmersive;
    if(view.routeImmersive){
     const scene=immersiveSceneV123(context,state);
     if(panel.dataset.immersiveKey!==scene.key){
-     panel.dataset.immersiveKey=scene.key;immersive.innerHTML=immersiveHtmlV123(context,state,scene);
+     panel.dataset.immersiveKey=scene.key;
+     if(panel.dataset.immersiveContent!==scene.contentKey){immersive.innerHTML=immersiveHtmlV123(context,state,scene);panel.dataset.immersiveContent=scene.contentKey;}
+     else immersive.querySelectorAll('.route123-timeline li').forEach((row,index)=>{if(index===scene.index)row.setAttribute('aria-current','step');else row.removeAttribute('aria-current');});
      const map=currentMap?.map,point=context.cities[state.cityId]?.point;
      const next=context.cities[state.routeOverview?.[state.index+1]?.id]?.point;
      const animate=motion.enabled()&&state.status==='playing';
