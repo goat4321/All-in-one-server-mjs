@@ -86,3 +86,12 @@ export async function mountPhotoLibraryV114(detail,fetcher=globalThis.fetch){
  }finally{delete body.dataset.loading;}
 }
 export {PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114};
+
+/** Specific activity links only, never a venue/property inferred from city imagery. */
+export function renderItemPhotoGroupV114(item){
+ if(!item||item.kind!=='activity'||item.mealSlot)return '';
+ const id=item.id?.replace(/^survey-v19:/,'');
+ const g=PHOTO_GROUPS_V114.find(g=>g.city===item.city&&g.ids.includes(id));
+ if(!g)return '';
+ return '<details class="photo114-group" data-photo114-group="'+esc(g.city)+'"><summary><strong>Weitere Bilder · '+esc(g.title)+'</strong><span>'+g.files.length+' Referenzen</span></summary><div class="photo114-body" aria-live="polite"><p>Lizenzdaten werden beim Öffnen abgerufen.</p></div><p class="photo114-source">'+link('https://commons.wikimedia.org/wiki/Category:'+encodeURIComponent(g.category.replaceAll(' ','_')),'Wikimedia-Quellkategorie')+'</p></details>';
+}
