@@ -270,3 +270,20 @@ test('V112 source-backed image coverage for all 14 days, no false lodging photos
  const saved={url:'https://example.org/photo.jpg',sourceUrl:'https://example.org/source',credit:'Test CC BY 4.0'};
  assert.equal(itineraryPhotosV112(lodging,{state:{placePhotos:{[lodging.id]:[saved,saved]}}}).length,1);
 });
+
+test('V113 six new licensed pictures extend the itinerary without changing primary photos',()=>{
+ const ids=['act-001','act-009','act-019','act-023','act-053','act-045'];
+ for(const id of ids){
+  const item=swiss.items.find(x=>x.id==='survey-v19:'+id);
+  assert.ok(item,id);
+  const photos=itineraryPhotosV112(item,{}, {context:false});
+  assert.ok(photos.length>=2,id+' should show two different photos');
+  assert.equal(new Set(photos.map(p=>p.url)).size,photos.length);
+  const extra=photos.at(-1);
+  assert.match(extra.licenseUrl,/^https:\/\/creativecommons\.org\/licenses\/by-sa\//);
+  assert.match(extra.sourceUrl,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+  const html=itineraryPhotoHtmlV112(item);
+  assert.match(html,/CSS-Bildausschnitt/);
+  assert.ok((html.match(/<figure /g)??[]).length>=2,id);
+ }
+});
