@@ -3440,3 +3440,11 @@ body.route123-active .reference-travel-shell button.route-story-rail-dot{min-wid
 }
 @media(prefers-reduced-motion:reduce){.route123-scene,.route123-scene *{animation:none!important;transition:none!important}}
 :root[data-motion=off] .route123-scene,:root[data-motion=off] .route123-scene *{animation:none!important;transition:none!important}
+
+/* V123 controls stay reachable while the timeline scrolls. */
+body.route123-active .reference-travel-shell .route123-topline{position:sticky;top:0;z-index:2;background:#142c27;padding:4px 0}
+body.route123-active .reference-travel-shell .route-story-actions{position:sticky;bottom:0;z-index:2;background:#142c27;padding:8px 0 2px}
+body.route123-active .reference-travel-shell .route-story-disclaimer{position:static!important;width:auto!important;height:auto!important;clip:auto!important;margin:0!important;white-space:normal!important;overflow:visible!important;font-size:11px}
+body.route123-active .reference-travel-shell .route123-timeline li[aria-current=step]{scroll-margin-top:60px}
+body.route123-active .reference-travel-shell .route-story-player{padding-top:max(12px,env(safe-area-inset-top))!important}
+@media(max-width:760px){body.route123-active .reference-travel-shell .route-story-player{padding-top:10px!important}}
