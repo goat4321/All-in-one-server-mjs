@@ -3,6 +3,7 @@ import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './pub
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
 import {mountJourneyStoryV121} from './journey-story-v121.mjs';
+import {immersiveSceneV123,immersiveHtmlV123} from './immersive-route-v123.mjs';
 import {routePreviewHtmlV122,routePreviewDayV122} from './route-preview-v122.mjs';
 import {dayPlanDraftEdits,timelineReorderV105} from './day-plans-logic.mjs';
 import {journeyModelV110,dayMoveOptionsV110} from './day-journey-v110.mjs';
@@ -74,7 +75,7 @@ const view = {
   mapTone: ['standard','midnight','sand'].includes(localStorage.getItem('reiseplan-map-tone'))
     ? localStorage.getItem('reiseplan-map-tone') : 'standard',
   mapExpanded: false,
-  mapFullscreen: false,mapFullscreenDrawer:false,
+  mapFullscreen: false,mapFullscreenDrawer:false,routeImmersive:false,
   mapDesignOpen:false,
   mapAdvancedOpen:false,
   mapDayNotesOpen:false,
@@ -349,11 +350,27 @@ function updateRouteStoryUi(state){
   const panel=app.querySelector('#route-story-player');
   if(!panel)return;
   panel.hidden=!visible;panel.dataset.status=status;
-  if(!visible){panel.dataset.previewKey='';return;}
+  if(!visible){panel.dataset.previewKey='';panel.dataset.immersiveKey='';return;}
+  const immersive=panel.querySelector('#route123-preview');
+  if(immersive){immersive.hidden=!view.routeImmersive;
+   if(view.routeImmersive){
+    const scene=immersiveSceneV123(context,state);
+    if(panel.dataset.immersiveKey!==scene.key){
+     panel.dataset.immersiveKey=scene.key;immersive.innerHTML=immersiveHtmlV123(context,state,scene);
+     const map=currentMap?.map,point=context.cities[state.cityId]?.point;
+     const next=context.cities[state.routeOverview?.[state.index+1]?.id]?.point;
+     const animate=motion.enabled()&&state.status==='playing';
+     if(map&&point){map.stop();
+      if(state.phase==='travel'&&next){const options={padding:[70,70],maxZoom:9,animate,duration:.65};if(animate&&map.flyToBounds)map.flyToBounds([point,next],options);else map.fitBounds([point,next],options);}
+      else{const target=scene.stop?.point??point,zoom=scene.stop?.point?13:10;if(animate&&map.flyTo)map.flyTo(target,zoom,{duration:.65});else map.setView(target,zoom,{animate:false});}
+     }
+    }
+   }
+  }
   const preview=panel.querySelector('#route122-preview');
   const previewKey=[state.index,state.cityId,state.phase,routePreviewDayV122(context,state)?.date].join('|');
-  if(preview&&panel.dataset.photoExpanded==='true'&&panel.dataset.previewKey!==previewKey){preview.innerHTML=routePreviewHtmlV122(context,state);panel.dataset.previewKey=previewKey;}
-  if(preview)preview.hidden=panel.dataset.photoExpanded!=='true';
+  if(preview&&!view.routeImmersive&&panel.dataset.photoExpanded==='true'&&panel.dataset.previewKey!==previewKey){preview.innerHTML=routePreviewHtmlV122(context,state);panel.dataset.previewKey=previewKey;}
+  if(preview)preview.hidden=view.routeImmersive||panel.dataset.photoExpanded!=='true';
   const write=(selector,value)=>{
     const el=panel.querySelector(selector);
     if(el&&el.textContent!==String(value))el.textContent=String(value);
@@ -596,7 +613,9 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   else{oldMap?.destroy();currentMap=null}
   document.documentElement.dataset.theme = view.theme;
   document.documentElement.dataset.motion = view.mapMotion;
+  if(view.page!=='map'||!view.mapFullscreen)view.routeImmersive=false;
   document.body.classList.toggle('map-fullscreen-active',view.page==='map'&&view.mapFullscreen);
+  document.body.classList.toggle('route123-active',view.routeImmersive);
   unmountJourneyStory?.();
   app.innerHTML = renderShell(context);
   unmountJourneyStory=mountJourneyStoryV121(app);
@@ -1842,6 +1861,7 @@ async function action(name, value = '') {
       break;
     case 'map-fullscreen':
       if(view.page!=='map')break;
+      if(view.routeImmersive){await action('route123-exit');break;}
       view.mapFullscreen=!view.mapFullscreen;
       view.mapFullscreenDrawer=false;
       render({restoreView:true,fetchRoutes:false});
@@ -1857,6 +1877,18 @@ async function action(name, value = '') {
       if(view.mapFullscreenDrawer)app.querySelector('#map-search')?.focus({preventScroll:true});
       else app.querySelector('.map-fullscreen-drawer-toggle')?.focus({preventScroll:true});
       break;
+    case 'route123-launch':
+      view.routeImmersive=true;view.mapFullscreen=true;view.mapFullscreenDrawer=false;view.total=true;view.mapScope='trip';changePage('map');
+      await action('route-story-play');
+      if(!currentMap||currentMap.storyState().status==='idle')await action('route123-exit');
+      else app.querySelector('[data-action=route123-exit]')?.focus({preventScroll:true});break;
+    case 'route123-exit':
+      currentMap?.stopCityStory();currentMap?.map.stop();view.routeImmersive=false;view.mapFullscreen=false;view.mapFullscreenDrawer=false;
+      render({fetchRoutes:false});app.querySelector('.map-fullscreen-launch')?.focus({preventScroll:true});break;
+    case 'route123-day':
+      if(!ctx.trip.dayPlansV32?.some(d=>d.date===value))break;
+      currentMap?.stopCityStory();currentMap?.map.stop();view.routeImmersive=false;view.mapFullscreen=false;view.mapFullscreenDrawer=false;
+      await action('day-plan-go',value);openDay110('draft');break;
     case 'route122-launch':
       view.total=true;view.mapScope='trip';changePage('map');
       await action('route-story-play');
@@ -1892,7 +1924,7 @@ async function action(name, value = '') {
         view.mapFullscreenDrawer=false;view.selected=null;
         render({fetchRoutes:false});
       }
-      if(!currentMap?.playCityStory(context.trip,context.cities,context.all,context.activeSet))
+      if(!currentMap?.playCityStory(context.trip,context.cities,context.all,context.activeSet,{immersive:view.routeImmersive}))
         say('Für die Routenanimation werden mindestens zwei Reisestädte mit Kartenposition benötigt.');
       break;
     case 'route-story-ideas-toggle': {
@@ -1917,6 +1949,7 @@ async function action(name, value = '') {
       break;
     }
     case 'route-story-stop':
+      if(view.routeImmersive){await action('route123-exit');break;}
       currentMap?.stopCityStory();
       break;
     case 'route-story-explore': {
@@ -2437,8 +2470,9 @@ document.addEventListener('keydown',event=>{
     event.preventDefault();void action('map-pin-cancel');return;
   }
   if(event.key!=='Escape'||!view.mapFullscreen||view.page!=='map')return;
-  if(document.querySelector('#dialog')?.open||guideStep(view.guideIndex))return;
+  if(document.querySelector('#dialog')?.open||document.querySelector('.photo118-viewer[open]')||guideStep(view.guideIndex))return;
   event.preventDefault();
+  if(view.routeImmersive){void action('route123-exit');return;}
   if(view.mapFullscreenDrawer){
     view.mapFullscreenDrawer=false;
     render({restoreView:true,fetchRoutes:false});
@@ -2463,7 +2497,7 @@ document.addEventListener('keydown', event => {
   }
 });
 document.addEventListener('click', event => {
-  if(event.target.closest('#route122-preview :is(.photo119-item>a,[data-action=details])')&&currentMap?.storyState().status==='playing')currentMap.pauseCityStory();
+  if(event.target.closest(':is(#route122-preview,#route123-preview) :is(.photo119-item>a,[data-action=details])')&&currentMap?.storyState().status==='playing')currentMap.pauseCityStory();
   const button = event.target.closest('[data-action]');
   if (button) void action(button.dataset.action, button.dataset.value).catch(error => say(error.message));
 });
