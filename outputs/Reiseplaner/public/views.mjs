@@ -471,6 +471,7 @@ function mapPanel(ctx, full = false) {
         </div>
         <span class="route-story-count" id="route-story-count">0 / 0</span>
       </div>
+      <div id="route122-preview" class="route122-preview" aria-label="Aktuelle Etappe mit Foto und Reisetagen"></div>
       <div class="route-story-ideas" id="route-story-ideas" hidden
         aria-label="Vorhandene Aktivitäten, Restaurants und Ideen für diese Stadt">
         <div class="route-story-ideas-top">
@@ -695,6 +696,7 @@ function overview(ctx) {
     +'<div class="editorial-journey-actions">'
     +btn('page','Tagesplan öffnen','calendar','plan','primary')
     +btn('show-route','Route entdecken','arrow','','subtle')
+    +btn('route122-launch','Reisevorschau abspielen','play','','subtle')
     +'</div></div>'
     +(heroPhoto?'<a class="editorial-journey-credit" href="'
       +esc(heroPhoto.sourceUrl)+'" target="_blank" rel="noopener noreferrer">'
