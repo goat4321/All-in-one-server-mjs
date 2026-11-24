@@ -9,7 +9,7 @@ import {
 } from '../public/day-experience-v101.mjs';
 import {ALL_PHOTO_GROUPS_V118,PHOTO_TOTAL_V118,PHOTO_GROUPS_V118,PHOTO_CANDIDATE_COUNT_V118,PHOTO_GROUPS_V116,PHOTO_CANDIDATE_COUNT_V116,ALL_PHOTO_GROUPS_V116,PHOTO_TOTAL_V116,renderItemPhotoGroupV114,PHOTO_GROUPS_V115,PHOTO_CANDIDATE_COUNT_V115,ALL_PHOTO_GROUPS_V115,PHOTO_TOTAL_V115,loadPhotoGroupV115,PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114,photoMetadataUrlV114,licensedGroupV114,renderPhotoLibraryV114,photoCardV114} from '../public/photo-library-v114.mjs';
 import {curatedLibraryV114} from '../public/curated-place-photos.mjs';
-import {itineraryPhotosV112,itineraryPhotoHtmlV112,itineraryDayImageV112,editorialCityPhotoV119,editorialDayPhotosV119,editorialDayRailV119,mapPhotoRailV119,editorialPhotoScoreV119} from '../public/place-profile.mjs';
+import {itineraryPhotosV112,itineraryPhotoHtmlV112,itineraryDayImageV112,editorialCityPhotoV119,editorialDayPhotosV119,editorialDayRailV119,mapPhotoRailV119,editorialPhotoScoreV119,photoIdentityV120,photoCropV120} from '../public/place-profile.mjs';
 import {SWISS_PROGRAM_V111,detailedDayModelV111,renderDetailedDayV111} from '../public/day-program-v111.mjs';
 import {journeyModelV110,dayBudgetV110,dayMoveOptionsV110,renderDayJourneyControlsV110} from '../public/day-journey-v110.mjs';
 import {dayEntries} from '../public/model.mjs';
@@ -423,4 +423,23 @@ test('V119 day rail is bounded, source-specific, deduplicated and does not intro
  assert.equal(editorialDayRailV119(input,[{kind:'lodging',city:'paris',name:'Unknown hotel'}]),'');
  assert.equal(mapPhotoRailV119({kind:'lodging',city:'paris',name:'Unknown hotel'},input),'');
  assert.match(mapPhotoRailV119(entries[0].item,input),/photo119-map-rail/);
+});
+
+test('V120 normalizes Commons identities, prefers alternate city photos and keeps a bounded diverse story',()=>{
+ const a={sourceUrl:'https://commons.wikimedia.org/wiki/File:Example_photo.jpg',url:'https://commons.wikimedia.org/wiki/Special:FilePath/Example_photo.jpg?width=960'};
+ const b={sourceUrl:'https://commons.wikimedia.org/wiki/File:Example%20photo.jpg#details'};
+ assert.equal(photoIdentityV120(a),photoIdentityV120(b));
+ assert.equal(photoCropV120({name:'Eiffelturm'},a),'architecture');
+ assert.equal(photoCropV120({name:'Oeschinensee'},a),'landscape');
+ assert.equal(photoCropV120({name:'Museum'},a),'balanced');
+ const input={all:swiss.items,city:'paris',state:{placePhotos:{}}};
+ const first=editorialCityPhotoV119(input,'paris');
+ assert.ok(first);
+ const next=editorialCityPhotoV119(input,'paris',{exclude:[photoIdentityV120(first.photo)]});
+ assert.ok(next);assert.notEqual(photoIdentityV120(first.photo),photoIdentityV120(next.photo));
+ const rows=swiss.items.filter(i=>i.kind==='activity'&&i.city==='paris');
+ const entries=editorialDayPhotosV119(input,rows);
+ assert.ok(entries.length>0&&entries.length<=6);
+ assert.equal(new Set(entries.map(e=>photoIdentityV120(e.photo))).size,entries.length);
+ assert.match(editorialDayRailV119(input,rows),/data-photo120-crop=/);
 });
