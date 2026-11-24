@@ -3393,3 +3393,50 @@ dialog.photo118-viewer::backdrop{background:#000b}
 .reference-travel-shell .route-story-player[data-photo-expanded=true] button.route-story-rail-dot{min-width:44px!important;min-height:44px!important}
 .reference-travel-shell .route-story-player[data-photo-expanded=true] .route-story-pause span{display:inline!important}
 .reference-travel-shell .route122-copy li button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* V123: immersive cinema uses the same live Leaflet map, never a second map. */
+.route123-topline,#route123-preview[hidden]{display:none!important}
+body.route123-active .reference-travel-shell .map-fullscreen-mode .map-fullscreen-toolbar,
+body.route123-active .reference-travel-shell .map-fullscreen-mode .map-fullscreen-categories,
+body.route123-active .reference-travel-shell .map-fullscreen-mode .reference-map-floating,
+body.route123-active .reference-travel-shell .map-fullscreen-mode .map-selection-preview{display:none!important}
+body.route123-active .reference-travel-shell .map-fullscreen-mode .route-story-player{
+ left:12px!important;right:auto!important;top:12px!important;bottom:12px!important;
+ width:min(430px,40vw)!important;max-height:none!important;height:auto!important;overflow:auto!important;
+ display:flex!important;flex-direction:column!important;gap:12px!important;padding:16px!important;
+ background:#142c27f5!important;border-radius:20px!important;color:#fff!important;overscroll-behavior:contain
+}
+body.route123-active .reference-travel-shell .route-story-player[hidden]{display:none!important}
+body.route123-active .reference-travel-shell .map-fullscreen-mode #map{left:min(454px,calc(40vw + 24px))!important;width:calc(100% - min(454px,calc(40vw + 24px)))!important}
+body.route123-active .reference-travel-shell .route123-topline{display:flex!important;justify-content:space-between;align-items:center;gap:8px;font-size:11px;letter-spacing:.09em}
+.route123-topline button,.route123-day-open{border:1px solid #ffffff40;border-radius:10px;background:#ffffff12;color:white;font:inherit;padding:8px 12px;min-height:44px;cursor:pointer}
+body.route123-active .reference-travel-shell .route-story-leading{display:none!important}
+body.route123-active .reference-travel-shell :is(#route-story-ideas,[data-action=route-story-ideas-toggle],[data-action=route122-toggle]){display:none!important}
+body.route123-active .reference-travel-shell .route-story-player .route122-step{display:inline-flex!important;align-items:center;justify-content:center}
+body.route123-active .reference-travel-shell .route-story-actions{flex-wrap:wrap!important;gap:6px!important}
+body.route123-active .reference-travel-shell .route-story-actions button{min-height:44px!important;min-width:44px!important;font-size:13px!important}
+body.route123-active .reference-travel-shell .route-story-actions .route-story-pause span{display:inline!important}
+body.route123-active .reference-travel-shell .route122-phase-track{display:block}
+body.route123-active .reference-travel-shell button.route-story-rail-dot{min-width:32px!important;min-height:32px!important}
+.route123-scene{min-width:0}
+.route123-hero .photo119-item>a{aspect-ratio:16/10;border-radius:14px}
+.route123-hero .photo119-item figcaption,.route123-hero .photo119-item figcaption a{color:#d4eee4}
+.route123-hero .photo119-item figcaption a{min-height:44px}
+.route123-heading small{font-size:11px;letter-spacing:.09em;color:#c0e5d7}
+.route123-heading h2{font-size:clamp(28px,4vw,52px);line-height:1.05;letter-spacing:-.045em;margin:6px 0;color:#fff}
+.route123-heading p,.route123-transfer,.route123-note{font-size:12px;color:#d1e3dc;margin:5px 0 12px}
+.route123-timeline{list-style:none;padding:0;margin:10px 0;display:grid;gap:6px}
+.route123-timeline li{display:grid;gap:2px;border-left:2px solid #ffffff30;padding:6px 10px;color:#d1e3dc}
+.route123-timeline li[aria-current=step]{background:#bfead51b;border-color:#bfead5;color:white;border-radius:0 8px 8px 0}
+.route123-timeline li span,.route123-timeline li small{font-size:11px}
+.route123-timeline li button{text-align:left;border:0;background:none;color:#fff;font:inherit;font-weight:600;min-height:44px;padding:4px 0;cursor:pointer}
+.route123-no-photo{display:grid;place-items:center;min-height:140px;background:#ffffff0d;border-radius:12px}
+.route123-scene button:focus-visible,.route123-topline button:focus-visible{outline:2px solid #bfead5;outline-offset:3px}
+@media(max-width:760px){
+ body.route123-active .reference-travel-shell .map-fullscreen-mode .route-story-player{left:8px!important;right:8px!important;top:auto!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;width:auto!important;height:52dvh!important;padding:12px!important;gap:8px!important}
+ body.route123-active .reference-travel-shell .map-fullscreen-mode #map{left:0!important;width:100%!important;height:calc(48dvh - 16px)!important}
+ .route123-hero .photo119-item>a{aspect-ratio:16/9}
+ .route123-heading h2{font-size:32px}
+}
+@media(prefers-reduced-motion:reduce){.route123-scene,.route123-scene *{animation:none!important;transition:none!important}}
+:root[data-motion=off] .route123-scene,:root[data-motion=off] .route123-scene *{animation:none!important;transition:none!important}
