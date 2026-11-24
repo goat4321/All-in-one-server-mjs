@@ -3282,3 +3282,9 @@ dialog.photo118-viewer::backdrop{background:#000b}
  .reference-travel-shell .day-editorial-hero[data-photo=true]{min-height:clamp(300px,78vw,420px)!important}
  .reference-travel-shell .editorial-journey-hero[data-photo=true]{min-height:clamp(410px,112vw,490px)!important}
 }
+
+/* V120: move content, never the live map or its tiles. */
+@keyframes v120-map-intro{from{opacity:.82}to{opacity:1}}
+#app .reference-travel-shell .reference-map-intro.motion120-map-intro{animation:v120-map-intro 285ms ease-out both!important}
+@media(prefers-reduced-motion:reduce){#app .reference-travel-shell .reference-map-intro.motion120-map-intro{animation:none!important}}
+:root[data-motion=off] #app .reference-travel-shell .reference-map-intro.motion120-map-intro{animation:none!important}
