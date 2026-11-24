@@ -72,3 +72,36 @@ test('V70 motion, map schema and access to source details remain separate',async
  assert.match(html,/route-city-story-v70\.css/);
  assert.doesNotMatch(player,/fetch\(|\/api\//);
 });
+
+test('V122 previews use the current map city, real itinerary slots and an explicit archived transport only',async()=>{
+ const {routePreviewModelV122,routePreviewHtmlV122}=await import('../public/route-preview-v122.mjs');
+ const items=[
+  {id:'a',kind:'activity',city:'paris',name:'Eiffelturm'},
+  {id:'b',kind:'activity',city:'barcelona',name:'Sagrada Família'},
+  {id:'ride',kind:'transport',city:'paris',toCity:'barcelona',start:'2025-09-01T08:00:00Z',end:'2025-09-01T14:30:00Z',zone:'Europe/Paris'}
+ ];
+ const ctx={trip:{route:['paris','barcelona'],items,dayPlansV32:[{city:'paris',date:'2027-09-01',slots:[{id:'a'}]},{city:'barcelona',date:'2027-09-02',slots:[{id:'b'}]}]},all:items,cities:{paris:{name:'Paris'},barcelona:{name:'Barcelona'}}};
+ const state={cityId:'paris',index:0,phase:'travel',routeOverview:[{id:'paris'},{id:'barcelona'}]};
+ const m=routePreviewModelV122(ctx,state);
+ assert.equal(m.reference.minutes,390);assert.deepEqual(m.days.map(d=>d.date),['2027-09-01']);
+ assert.deepEqual(m.activities.map(i=>i.id),['a']);
+ assert.match(routePreviewHtmlV122(ctx,state),/Archiv.*Fahrplan 2027 offen/);
+ assert.match(routePreviewHtmlV122(ctx,state),/data-value="2027-09-01"/);
+ assert.doesNotMatch(routePreviewHtmlV122(ctx,state),/Sagrada Família/);
+ assert.equal(routePreviewModelV122({...ctx,trip:{...ctx.trip,items:[...items,{...items[2],id:'ride2'}]}},state).reference,null);
+ assert.equal(routePreviewModelV122(ctx,{...state,cityId:'unknown'}),null);
+ const second=routePreviewModelV122(ctx,{...state,cityId:'barcelona',index:1,phase:'dwell'});
+ assert.deepEqual(second.activities.map(i=>i.id),['b']);assert.equal(second.reference,null);
+});
+test('V122 manual seek resets interpolation and uses the existing player rather than a separate clock',async()=>{
+ const {RouteCityStoryPlayer}=await import('../public/route-city-story-player-v70.mjs');
+ const player=Object.assign(Object.create(RouteCityStoryPlayer.prototype),{
+  stops:[{id:'a'},{id:'b'},{id:'c'}],status:'playing',frame:null,index:0,part:.5,elapsed:220,
+  cityMarkers:[],revealed:new Set(),clearArrival(){},reveal(i){this.revealed.add(i);},
+  draw(){this.drawn=this.index;},emit(){this.emitted=this.index;}
+ });
+ assert.equal(player.seek(2),true);assert.equal(player.status,'paused');assert.equal(player.index,2);
+ assert.equal(player.part,0);assert.equal(player.elapsed,0);assert.equal(player.phase,'dwell');
+ assert.equal(player.drawn,2);assert.equal(player.emitted,2);
+ assert.deepEqual([...player.revealed],[1,2]);assert.equal(player.seek(3),false);
+});
