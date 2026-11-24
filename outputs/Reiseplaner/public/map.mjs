@@ -733,6 +733,7 @@ export class TripMap {
   stopCityStory(){this.cityStory.stop();}
   storyState(){return this.cityStory.state();}
   storySpeed(speed){return this.cityStory.setSpeed(speed);}
+  seekCityStory(index){return this.cityStory.seek(index);}
 
   fit() {
     this.map.invalidateSize({ pan: false });
