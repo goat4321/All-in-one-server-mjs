@@ -733,6 +733,36 @@ try{
  if(output)await writeFile(join(output,'v120-photo-audit.json'),JSON.stringify(photoAudit,null,2));
 
 
+
+ // V121: exercise actual overview chapters and their navigation at mobile and desktop widths.
+ const storyAudit=[];
+ for(const width of [390,1440]){
+  await cdp('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:width===390});
+  await clickPage('overview');
+  const sample=await js('('+async function(){
+   const story=document.querySelector('.journey121');if(!story)return {missing:true};
+   const links=[...story.querySelectorAll('[data-journey121-index]')];
+   const chapters=[...story.querySelectorAll('[data-journey121-chapter]')];
+   const index=Math.min(1,chapters.length-1);
+   const previous=document.documentElement.dataset.motion;document.documentElement.dataset.motion='off';
+   links[index].click();await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+   const current=story.querySelector('[aria-current=location]');
+   const status=story.querySelector('[data-journey121-status]')?.textContent;
+   const box=chapters[index].getBoundingClientRect();
+   const result={count:chapters.length,current:current?.dataset.journey121Index===String(index),status:status===(index+1)+' / '+chapters.length,visible:box.top>=0&&box.top<innerHeight,overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth)};
+   if(previous===undefined)delete document.documentElement.dataset.motion;else document.documentElement.dataset.motion=previous;
+   return result;
+  }.toString()+')()');
+  storyAudit.push({width,...sample});
+  if(output&&!sample.missing){
+   await mkdir(output,{recursive:true});
+   const shot=await cdp('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
+   await writeFile(join(output,'v121-city-chapter-'+width+'.png'),Buffer.from(shot.data,'base64'));
+  }
+ }
+ console.log('V121_STORY_AUDIT '+JSON.stringify(storyAudit));
+ assert.ok(storyAudit.every(s=>!s.missing&&s.count>0&&s.current&&s.status&&s.visible&&s.overflow<=1));
+ if(output)await writeFile(join(output,'v121-story-audit.json'),JSON.stringify(storyAudit,null,2));
  console.log('PASS V88 lab snapshots: seven pages × three widths × light/dark/reduced-motion');
 }finally{
  socket?.close();
