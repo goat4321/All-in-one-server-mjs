@@ -8,6 +8,7 @@ import {
  tripDayCoverageV104,renderTripDayCoverageV104
 } from '../public/day-experience-v101.mjs';
 import {ALL_PHOTO_GROUPS_V118,PHOTO_TOTAL_V118,PHOTO_GROUPS_V118,PHOTO_CANDIDATE_COUNT_V118,PHOTO_GROUPS_V116,PHOTO_CANDIDATE_COUNT_V116,ALL_PHOTO_GROUPS_V116,PHOTO_TOTAL_V116,renderItemPhotoGroupV114,PHOTO_GROUPS_V115,PHOTO_CANDIDATE_COUNT_V115,ALL_PHOTO_GROUPS_V115,PHOTO_TOTAL_V115,loadPhotoGroupV115,PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114,photoMetadataUrlV114,licensedGroupV114,renderPhotoLibraryV114,photoCardV114} from '../public/photo-library-v114.mjs';
+import {journeyChaptersV121,renderJourneyStoryV121} from '../public/journey-story-v121.mjs';
 import {curatedLibraryV114} from '../public/curated-place-photos.mjs';
 import {itineraryPhotosV112,itineraryPhotoHtmlV112,itineraryDayImageV112,editorialCityPhotoV119,editorialDayPhotosV119,editorialDayRailV119,mapPhotoRailV119,editorialPhotoScoreV119,photoIdentityV120,photoCropV120} from '../public/place-profile.mjs';
 import {SWISS_PROGRAM_V111,detailedDayModelV111,renderDetailedDayV111} from '../public/day-program-v111.mjs';
@@ -442,4 +443,23 @@ test('V120 normalizes Commons identities, prefers alternate city photos and keep
  assert.ok(entries.length>0&&entries.length<=6);
  assert.equal(new Set(entries.map(e=>photoIdentityV120(e.photo))).size,entries.length);
  assert.match(editorialDayRailV119(input,rows),/data-photo120-crop=/);
+});
+
+test('V121 city chapters follow all four actual routes and only link existing itinerary days and activities',()=>{
+ for(const trip of catalog.trips){
+  const input=ctx(trip),chapters=journeyChaptersV121(input);
+  assert.deepEqual(chapters.map(c=>c.city),[...new Set(trip.route)]);
+  const html=renderJourneyStoryV121(input);
+  assert.equal((html.match(/data-journey121-chapter=/g)??[]).length,chapters.length);
+  assert.equal((html.match(/data-action="journey121-map"/g)??[]).length,chapters.length);
+  for(const c of chapters){
+   assert.deepEqual(c.plans,trip.dayPlansV32.filter(d=>d.city===c.city));
+   const ids=new Set(c.plans.flatMap(d=>d.slots.map(s=>s.id)));
+   assert.ok(c.activities.length<=3&&c.activities.every(a=>ids.has(a.id)&&a.city===c.city));
+   if(c.editorial){assert.equal(c.editorial.item.city,c.city);assert.ok(c.editorial.photo.credit&&c.editorial.photo.sourceUrl);}
+   assert.ok(html.includes('id="journey121-'+c.index+'"'));
+  }
+  assert.equal((html.match(/class="journey121-connector"/g)??[]).length,Math.max(0,chapters.length-1));
+ }
+ assert.equal(renderJourneyStoryV121({trip:{route:[]}}),'');
 });
