@@ -4,6 +4,7 @@ import {markerProvenance,hasIndependentPointEvidence} from './poi-location-prove
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, googleMapsLocationStatus } from './google-maps.mjs';
 import { esc, sourceList, urlLink } from './ui.mjs';
 import { curatedPlacePhoto,curatedCityBackdrop,curatedAdditionalPhotosV113 } from './curated-place-photos.mjs';
+import {renderItemPhotoGroupV114} from './photo-library-v114.mjs';
 import {commonsDefaultQuery,commonsWebSearchUrl} from './commons-photo-search.mjs';
 import {venueAlternativesHtml} from './venue-alternatives-v80.mjs';
 import { planCostSignal } from './visual-experience.mjs';
@@ -436,7 +437,7 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
   const coverage=compact?null:entryCompleteness(item,ctx);
   return '<section class="place-profile'+(compact?' compact':'')+'" aria-label="Objektdetails: '+esc(p.name)+'">'
     + placeImageHtml(item,ctx,{small:compact})
-    + (compact?'':placeGalleryHtml(item,ctx))
+    + (compact?'':placeGalleryHtml(item,ctx)+renderItemPhotoGroupV114(item))
     + '<div class="place-profile-top"><div><span class="place-profile-eyebrow">'+esc(p.facts[0][1])
     + '</span><h3>'+esc(p.name)+'</h3><p>'+esc(p.description)+'</p></div></div>'
     + (p.operationalNotice?'<p class="place-profile-access-warning"><strong>Planungshinweis:</strong> '
