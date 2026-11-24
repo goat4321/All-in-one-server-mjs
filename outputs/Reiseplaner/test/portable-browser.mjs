@@ -1608,6 +1608,26 @@ try {
 
   // V110: actual day playback with synchronized timeline, map and variant isolation.
   await showEditorialDay('2027-09-02',false);
+
+  // V111: detailed proposed schedule is visible without adopting activities.
+  await until(()=>js('document.querySelectorAll(".day111-timeline > .day111-row").length===9'),'V111 Paris full timeline');
+  assert.ok(await js('document.querySelector(".day111-program").textContent.includes("09:45–10:35")'));
+  assert.equal(await js('document.querySelectorAll(".day111-row[data-kind=activity]").length'),3);
+  assert.ok(await js('document.querySelector(".day111-program").textContent.includes("Mittagspause")'));
+  await js('document.querySelector(".day111-program").scrollIntoView({block:"start",behavior:"instant"})');
+  await screenshot('v111-paris-programme-desktop.png');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  await js('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+  assert.ok(await js('document.documentElement.scrollWidth<=innerWidth+3'),'V111 detailed mobile timeline no overflow');
+  await screenshot('v111-paris-programme-mobile.png');
+  await click('.day111-row [data-action=day111-map-stop][data-value="survey-v19:act-001"]');
+  await until(()=>js('document.querySelector(".day110-stop[aria-pressed=true]")?.textContent.includes("Trocad")'),'V111 activity links to route stop');
+  await click('[data-action=day110-close]');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false});
+  await showEditorialDay('2027-09-10',false);
+  assert.equal(await js('document.querySelectorAll(".day111-row[data-kind=activity]").length'),0);
+  assert.ok(await js('document.querySelector(".day111-row[data-kind=transfer]").textContent.includes("Kandersteg")'));
+  await showEditorialDay('2027-09-02',false);
   const beforeJourney=JSON.stringify(store.current('interrail_swiss').state.edits);
   await click('[data-action=day110-open]');
   await until(()=>js('document.querySelector(".day110-player")&&document.querySelector(".day110-map-pin")'), 'V110 day route pins');
