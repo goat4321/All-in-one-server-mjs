@@ -17,7 +17,8 @@ test('V95 homepage presents licensed image first and keeps journey planning',()=
  const start=views.indexOf("const quickStartHtml=");
  const returnStart=views.indexOf("  return '<div class=\"editorial-overview-tools\"");
  assert.ok(hero>0&&hero<start&&returnStart>start);
- assert.match(views,/heroItem\?curatedPlacePhoto\(heroItem\):null/);
+ assert.match(views,/heroEditorial=trip\.route\.map\(id=>editorialCityPhotoV119\(ctx,id\)\)\.find\(Boolean\)/);
+ assert.match(views,/heroPhoto=heroEditorial\?\.photo\?\?null/);
  assert.match(views,/esc\(heroPhoto\.sourceUrl\)/);
  const following=views.slice(returnStart,views.indexOf("\n}\n\nfunction ",returnStart));
  assert.ok(following.indexOf('editorialHero')<following.indexOf('quickStartHtml'));
@@ -28,7 +29,8 @@ test('V95 homepage presents licensed image first and keeps journey planning',()=
 test('V95 browse and day heroes preserve existing actions and sourced photo credits',()=>{
  assert.match(browse,/data-photo=/);
  assert.match(browse,/esc\(photo\.sourceUrl\)/);
- assert.match(views,/dayHeroItem\?curatedPlacePhoto\(dayHeroItem\):null/);
+ assert.match(views,/dayEditorial=editorialCityPhotoV119\(ctx,city,\{day:true\}\)/);
+ assert.match(views,/dayHeroPhoto=dayEditorial\?\.photo\?\?null/);
  assert.match(views,/day-editorial-credit/);
  assert.match(views,/data-action/);
 });
