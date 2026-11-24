@@ -1575,6 +1575,36 @@ try {
   assert.equal(store.current('swiss_lakes').state.people.length,4,
     'The separate Swiss lakes four-person itinerary remains unchanged');
   console.log('PASS V85 Browser: days 10-13, Paris 02, Barcelona 05, 390px, source links, no budget writes');
+  // V105: test actual persisted movement of flexible Paris suggestions on mobile.
+  await showEditorialDay('2027-09-02',false);
+  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  await js('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+  await click('.day-plan-quick-bar [data-action=day-plan-adopt]');
+  await until(()=>js('document.querySelectorAll(".day105-move:not(:disabled)").length>=2'),
+    'V105 adopted activity suggestions expose movement controls');
+  const movePair=await js('JSON.parse(document.querySelector(".day105-move:not(:disabled)").dataset.value)');
+  const rowIds=()=>js('Array.from(document.querySelectorAll(".timeline .event-card[data-event-id]"),e=>e.dataset.eventId)');
+  const beforeOrder=await rowIds();
+  const beforeMove=JSON.stringify(store.current('interrail_swiss').state.edits);
+  // Avoid CSS escaping ambiguity for JSON-valued data attributes.
+  await js('Array.from(document.querySelectorAll(".day105-move:not(:disabled)")).find(b=>b.dataset.value==='+JSON.stringify(JSON.stringify(movePair))+').click()');
+  await until(async()=>{
+    const ids=await rowIds();
+    return ids.indexOf(movePair[0])===beforeOrder.indexOf(movePair[1]);
+  },'V105 movement changes the timeline order');
+  assert.equal(store.current('interrail_swiss').state.edits[movePair[0]].start,null);
+  assert.equal(store.current('interrail_swiss').state.edits[movePair[0]].date,'2027-09-02');
+  assert.ok(await js('document.documentElement.scrollWidth<=innerWidth+3'),
+    'V105 mobile timeline must not overflow');
+  await js('document.querySelector(".day105-controls").scrollIntoView({block:"center",behavior:"instant"})');
+  await screenshot('v105-timeline-reorder-mobile.png');
+  await click('.top-actions [data-action=undo]');
+  await until(()=>JSON.stringify(store.current('interrail_swiss').state.edits)===beforeMove,
+    'V105 undo restores exact edits');
+  await until(async()=>JSON.stringify(await rowIds())===JSON.stringify(beforeOrder),
+    'V105 undo restores rendered ordering');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false});
+
   await cdp('Page.navigate',{url:address+'&variant=interrail_classic'});
   await text('h1','Reiseübersicht');await openMeals();
   await text('.meal-day-slot[data-meal-slot=breakfast]','Noch keine Mahlzeit');
