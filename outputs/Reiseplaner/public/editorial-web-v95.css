@@ -3140,3 +3140,31 @@
  .reference-travel-shell .day111-photo.day112-large .day112-gallery{grid-template-columns:1fr}
  .reference-travel-shell .day111-photo.day112-large .day112-photo img{aspect-ratio:4/3;max-height:none}
 }
+
+/* V114: expandable photographic library. No hidden gallery images mounted initially. */
+.reference-travel-shell .photo114-library{margin:20px 0;padding:clamp(12px,2vw,24px);border:1px solid var(--e95-line);border-radius:20px;background:var(--e95-paper);min-width:0}
+.reference-travel-shell .photo114-library header small{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--e95-link)}
+.reference-travel-shell .photo114-library h2{font-size:clamp(24px,3vw,34px);letter-spacing:-.04em;margin:6px 0}
+.reference-travel-shell .photo114-library p{font-size:13px;color:var(--e95-secondary);line-height:1.5;margin:8px 0}
+.reference-travel-shell .photo114-group{border:1px solid var(--e95-line);border-radius:12px;margin:8px 0;overflow:hidden;min-width:0}
+.reference-travel-shell .photo114-group summary{cursor:pointer;padding:12px;display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:44px;flex-wrap:wrap;background:var(--e95-page)}
+.reference-travel-shell .photo114-group summary:before{content:'+';font-size:18px;font-weight:700}
+.reference-travel-shell .photo114-group[open] summary:before{content:'−'}
+.reference-travel-shell .photo114-group summary strong{flex:1;min-width:0}
+.reference-travel-shell .photo114-group summary span{font-size:12px;color:var(--e95-secondary)}
+.reference-travel-shell .photo114-body{padding:12px;min-width:0}
+.reference-travel-shell .photo114-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px;min-width:0}
+.reference-travel-shell .photo114-card{margin:0;border:1px solid var(--e95-line);border-radius:14px;overflow:hidden;background:var(--e95-page);min-width:0}
+.reference-travel-shell .photo114-card>a{display:block;aspect-ratio:4/3;overflow:hidden;background:var(--e95-page)}
+.reference-travel-shell .photo114-card img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 220ms ease}
+.reference-travel-shell .photo114-card>a:hover img{transform:scale(1.035)}
+.reference-travel-shell .photo114-card figcaption{display:grid;gap:5px;padding:10px;overflow-wrap:anywhere}
+.reference-travel-shell .photo114-card figcaption strong{font-size:12px;line-height:1.4}
+.reference-travel-shell .photo114-card figcaption small{font-size:10px;line-height:1.4;color:var(--e95-secondary)}
+.reference-travel-shell .photo114-card.photo114-unavailable>a:after{content:'Bild derzeit nicht erreichbar · Quelle öffnen';display:grid;place-items:center;text-align:center;height:100%;padding:10px;font-size:12px}
+.reference-travel-shell .photo114-card img[hidden]{display:none}
+.reference-travel-shell .photo114-source{padding:0 12px 10px}
+@media(max-width:600px){.reference-travel-shell .photo114-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.reference-travel-shell .photo114-body{padding:8px}.reference-travel-shell .photo114-card figcaption{padding:8px}}
+@media(max-width:350px){.reference-travel-shell .photo114-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.reference-travel-shell .photo114-card img{transition:none!important;transform:none!important}}
+:root[data-motion=off] .reference-travel-shell .photo114-card img{transition:none!important;transform:none!important}
