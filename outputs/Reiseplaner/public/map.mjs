@@ -471,24 +471,26 @@ export class TripMap {
   stopDayJourneyMotion(){
     if(this.journeyFrame!=null)cancelAnimationFrame(this.journeyFrame);
     this.journeyFrame=null;
+    const stop=this.dayJourney?.stops[this.journeyFocus];
+    if(stop?.point&&this.journeyDot)this.journeyDot.setLatLng(stop.point);
   }
 
   paintDayJourney(model){
     this.dayJourney=model;this.journeyPins=new Map();
     for(const leg of model.legs){
       if(!leg.points.length)continue;
-      const routed=leg.type==='routed';
+      const routed=leg.type==='routed',transfer=leg.type==='transfer';
       L.polyline(leg.points,{color:'#fff',weight:8,opacity:.8,interactive:false}).addTo(this.features);
-      L.polyline(leg.points,{color:routed?'#16845b':'#748397',weight:4,opacity:.94,
-        dashArray:routed?null:'6 9',className:routed?'day110-routed':'day110-schematic'})
-        .addTo(this.features).bindTooltip(labelNode(routed?'Berechneter Fußweg · '+leg.minutes+' Min.':'Schematische Luftlinie · keine Gehzeit'));
+      L.polyline(leg.points,{color:routed?'#16845b':transfer?'#71598c':'#748397',weight:4,opacity:.94,
+        dashArray:routed?null:'6 9',className:routed?'day110-routed':transfer?'day110-transfer':'day110-schematic'})
+        .addTo(this.features).bindTooltip(labelNode(routed?'Berechneter Fußweg · '+leg.minutes+' Min.':transfer?'Vorläufiger Transfer · keine Bahngleise':'Schematische Luftlinie · keine Gehzeit'));
     }
     for(const stop of model.stops){
       if(!stop.point)continue;
       const icon=L.divIcon({className:'day110-map-icon',html:'<span class="day110-map-pin">'+stop.ordinal+'</span>',
         iconSize:[27,27],iconAnchor:[13,13]});
       const marker=L.marker(stop.point,{icon,keyboard:true,title:stop.ordinal+'. '+stop.name,alt:stop.name})
-        .addTo(this.features).bindTooltip(labelNode(stop.ordinal+'. '+stop.name+' · '+(stop.selected?'Im Plan':'Vorschlag')));
+        .addTo(this.features).bindTooltip(labelNode(stop.ordinal+'. '+stop.name+' · '+(stop.transfer?'Transfer · 2027 ungeprüft':stop.selected?'Im Plan':'Vorschlag')));
       marker.on('click',()=>this.handlers.dayJourneyStop?.(stop.index));
       this.journeyPins.set(stop.index,marker);
     }
