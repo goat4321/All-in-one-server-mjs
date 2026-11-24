@@ -1190,6 +1190,23 @@ try {
   assert.ok(await js('document.querySelector(".day102-copy svg")?.querySelector("rect")!==null'),
     'V102 copy action must use an actual copy icon, not the generic pin');
   await screenshot('v102-interrail-schweiz-tagescheck-mobile.png');
+  // V104: trip-wide progress opens without changing the itinerary.
+  assert.equal(await js('document.querySelectorAll(".day104-card").length'),14);
+  assert.equal(await js('document.querySelectorAll(".day104-card[aria-current=date]").length'),1);
+  const beforeCoverage=JSON.stringify(store.current('interrail_swiss').state.edits);
+  await click('.day104-details>summary');
+  assert.ok(await js('document.querySelector(".day104-details").open'));
+  assert.ok(await js('document.documentElement.scrollWidth<=innerWidth+3'),
+    'V104 expanded coverage must fit the 390px mobile viewport');
+  assert.equal(JSON.stringify(store.current('interrail_swiss').state.edits),beforeCoverage);
+  await js('document.querySelector(".day104-overview").scrollIntoView({behavior:"instant",block:"start"})');
+  await screenshot('v104-trip-planning-overview-mobile.png');
+  await click('.day104-card[data-value="2027-09-12"]');
+  await until(()=>js('document.querySelector(".day101-navigation-current")?.textContent.includes("TAG 12 VON 14")'),
+    'V104 coverage card switches to selected day');
+  await click('.day101-navigation-button[data-value="2027-09-11"]');
+  await until(()=>js('document.querySelector(".day101-navigation-current")?.textContent.includes("TAG 11 VON 14")'),
+    'V104 returns to previous date');
   // V103: the native date chooser must expose all fourteen valid days while
   // compact, and opening a day must reset the obsolete scroll position.
   assert.equal(await js('document.querySelectorAll(".day103-picker-list [data-action=day-plan-go]").length'),14);
