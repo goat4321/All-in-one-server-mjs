@@ -3172,3 +3172,47 @@
 /* V114: keep small source/credit labels independently touchable on all sizes. */
 .reference-travel-shell .day112-photo figcaption a,.reference-travel-shell .photo114-card figcaption a,.reference-travel-shell .photo114-source a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 5px;box-sizing:border-box}
 .reference-travel-shell .photo114-group summary{min-height:44px;box-sizing:border-box}
+
+/* V118 — photography as content, restrained chrome, accessible full-photo viewer. */
+.reference-travel-shell .photo114-library{border:0;border-radius:0;background:transparent;padding:clamp(8px,1.8vw,22px) 0;margin:clamp(18px,3vw,36px) 0}
+.reference-travel-shell .photo114-library h2{font-size:clamp(26px,3.6vw,40px);font-weight:650;line-height:1.1;letter-spacing:-.045em}
+.reference-travel-shell .photo114-library header small{font-size:11px;letter-spacing:.07em}
+.reference-travel-shell .photo115-total{font-variant-numeric:tabular-nums}
+.reference-travel-shell .photo118-search{display:grid;gap:6px;max-width:440px;font-size:13px;font-weight:600;color:var(--e95-ink);margin:18px 0 10px}
+.reference-travel-shell .photo118-search input{min-height:44px;width:100%;box-sizing:border-box;border-radius:12px;padding:10px 14px;background:var(--e95-paper);color:var(--e95-ink);border:1px solid var(--e95-line);font:inherit;font-size:16px}
+.reference-travel-shell .photo114-group{border:0;border-bottom:1px solid var(--e95-line);border-radius:0;margin:0;overflow:visible;background:transparent}
+.reference-travel-shell .photo114-group summary{background:transparent;padding:14px 4px;min-height:52px;gap:12px}
+.reference-travel-shell .photo114-group summary strong{font-size:15px;font-weight:600;overflow-wrap:anywhere}
+.reference-travel-shell .photo114-group summary:before{content:'›';font-size:22px;line-height:1;transition:transform .18s ease;color:var(--e95-secondary)}
+.reference-travel-shell .photo114-group[open] summary:before{content:'›';transform:rotate(90deg)}
+.reference-travel-shell .photo114-body{padding:8px 0 18px}
+.reference-travel-shell .photo114-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1.6vw,18px)}
+.reference-travel-shell .photo114-card{border:0;background:transparent;border-radius:0;overflow:visible;min-width:0}
+.reference-travel-shell .photo114-card>a{border-radius:16px;position:relative;background:var(--e95-paper);aspect-ratio:4/3;cursor:zoom-in}
+.reference-travel-shell .photo114-card>a:focus-visible,.reference-travel-shell .photo118-search input:focus-visible,.photo118-viewer button:focus-visible,.photo118-viewer a:focus-visible{outline:3px solid #4c9aff;outline-offset:3px}
+.reference-travel-shell .photo114-card figcaption{padding:8px 2px;gap:4px}
+.reference-travel-shell .photo114-card figcaption strong{font-size:13px;font-weight:600;line-height:1.4}
+.reference-travel-shell .photo114-card figcaption small{font-size:12px;line-height:1.4}
+.reference-travel-shell .photo114-more{display:block;margin:16px auto 0;min-height:44px;border:1px solid var(--e95-line);background:var(--e95-paper);color:var(--e95-link);border-radius:999px;padding:10px 22px;font:inherit;font-weight:600;cursor:pointer}
+.reference-travel-shell .photo114-more:disabled{opacity:.65;cursor:wait}
+.reference-travel-shell .photo114-more[hidden],.reference-travel-shell .photo114-group[hidden],.reference-travel-shell .photo115-other[hidden]{display:none!important}
+.reference-travel-shell .day112-photo>a,.reference-travel-shell .place-gallery-item>a{cursor:zoom-in}
+dialog.photo118-viewer{box-sizing:border-box;position:fixed;inset:0;margin:auto;width:min(94vw,1100px);max-width:94vw;max-height:94dvh;padding:12px 16px 16px;border:1px solid #444;border-radius:22px;background:#18191c;color:#f5f5f7;overflow:auto;box-shadow:0 24px 80px #0007}
+dialog.photo118-viewer:not([open]){display:none}
+dialog.photo118-viewer::backdrop{background:#000b}
+.photo118-toolbar{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+.photo118-toolbar button{box-sizing:border-box;min-width:44px;min-height:44px;border:0;border-radius:999px;background:#34353a;color:#fff;font:600 25px/1 system-ui;cursor:pointer;padding:0 12px}
+.photo118-toolbar button:disabled{opacity:.42;cursor:default}
+.photo118-toolbar button[data-photo118-close]{margin-inline-start:auto}
+.photo118-toolbar [data-photo118-count]{font:500 14px system-ui;font-variant-numeric:tabular-nums;min-width:64px;text-align:center}
+.photo118-stage{display:grid;place-items:center;min-height:100px;background:#101114;border-radius:12px;overflow:hidden;touch-action:pan-y}
+.photo118-stage img{display:block;width:100%;height:min(64dvh,690px);object-fit:contain}
+.photo118-stage img[hidden],.photo118-stage p[hidden]{display:none}
+.photo118-stage p{padding:18px}
+.photo118-caption{font:400 13px/1.5 system-ui;color:#e1e2e6;overflow-wrap:anywhere;padding:10px 2px 0}
+.photo118-caption strong,.photo118-caption small{display:block;font-size:inherit}
+.photo118-caption a{color:#a8ceff;display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
+@media(max-width:760px){.reference-travel-shell .photo114-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.reference-travel-shell .photo114-card>a{border-radius:12px}dialog.photo118-viewer{width:100%;max-width:100%;max-height:96dvh;padding:10px;border-radius:16px}.photo118-stage img{height:52dvh}}
+@media(max-width:350px){.reference-travel-shell .photo114-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.reference-travel-shell .photo114-group summary:before,.reference-travel-shell .photo114-card img{transition:none!important}}
+:root[data-motion=off] .reference-travel-shell .photo114-group summary:before,:root[data-motion=off] .reference-travel-shell .photo114-card img{transition:none!important}
