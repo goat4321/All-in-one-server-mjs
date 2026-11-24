@@ -7,6 +7,8 @@ import {
  swissDayExperienceModelV101,renderSwissDayExperienceV101,
  tripDayCoverageV104,renderTripDayCoverageV104
 } from '../public/day-experience-v101.mjs';
+import {journeyModelV110,dayBudgetV110,dayMoveOptionsV110,renderDayJourneyControlsV110} from '../public/day-journey-v110.mjs';
+import {dayEntries} from '../public/model.mjs';
 import {SWISS_DAY_EDITORIAL_V85} from '../public/swiss-day-editorial-v85.mjs';
 
 const catalog=await loadCatalog();
@@ -151,4 +153,62 @@ test('V104 counts unique active core ideas on the correct date and skips optiona
  assert.equal(moved.rows.find(r=>r.current).adopted,0);
  assert.equal(JSON.stringify(input.trip.dayPlansV32),before);
  assert.equal(tripDayCoverageV104({...input,date:'2028-01-01'}),null);
+});
+
+test('V110 all 46 day models, including all 42 Swiss editorial blocks, remain read-only',()=>{
+ let total=0,blocks=0;
+ for(const trip of catalog.trips)for(const d of trip.dayPlansV32){
+  const input=ctx(trip,d.date);
+  const before=JSON.stringify(d);
+  const m=journeyModelV110(input);
+  assert.ok(m);assert.equal(m.stops.length,d.slots.filter(s=>!s.optional).length);
+  assert.equal(m.legs.length,Math.max(0,m.stops.length-1));
+  const html=renderDayJourneyControlsV110(input,m);
+  assert.match(html,/KEIN LIVE-STANDORT/);
+  if(trip.id==='interrail_swiss'){
+   assert.equal(m.editorial.blocks.length,3);blocks+=3;
+   assert.match(html,/Vollständiger Tagesablauf/);
+   for(const b of m.editorial.blocks)assert.ok(html.includes(b.title.replaceAll('&','&amp;')));
+  }else assert.equal(m.editorial,null);
+  assert.equal(JSON.stringify(d),before);total++;
+ }
+ assert.equal(total,46);assert.equal(blocks,42);
+});
+test('V110 transfer endpoints are distinct and never presented as routed footpaths',()=>{
+ const date='2027-09-10',input=ctx(swiss,date);
+ const a={id:'rail',entryKey:'rail:Abfahrt',kind:'transport',role:'Abfahrt',name:'Nizza–Kandersteg',departure:'Nice',city:'nice',placeCity:'nice',point:[43.7,7.26],time:'08:00'};
+ const b={...a,entryKey:'rail:Ankunft',role:'Ankunft',arrival:'Kandersteg',placeCity:'kandersteg',point:[46.49,7.67],time:'20:00'};
+ const m=journeyModelV110({...input,fullDay:[a,b]});
+ assert.equal(m.stops.length,2);assert.equal(m.located,2);
+ assert.equal(m.legs[0].type,'transfer');assert.equal(m.legs[0].minutes,null);
+ assert.ok(m.stops.every(x=>x.transfer));
+ assert.match(renderDayJourneyControlsV110(input,m),/2027 ungeprüft/);
+});
+test('V110 only uses exact non-provider non-area POI positions; missing stop interrupts a route',()=>{
+ const date='2027-09-02',input=ctx(swiss,date),slots=input.dayPlan.slots.filter(s=>!s.optional);
+ assert.equal(slots.length,3);
+ const points=[[48.86,2.29],[48.87,2.30],[48.88,2.31]];
+ const source=slots.map((s,i)=>({id:s.id,kind:'activity',city:'paris',point:points[i],locationReferenceV07:{exactKnown:true}}));
+ const testCtx={...input,all:source};
+ const route={points:[points[0],points[1]],walkOnly:true,minutes:17};
+ const m=journeyModelV110(testCtx,'draft',(a,b)=>a.id===slots[0].id?route:null);
+ assert.equal(m.located,3);assert.equal(m.legs[0].type,'routed');assert.equal(m.legs[1].type,'schematic');
+ for(const precision of ['provider_reported_unverified','sourced_area_center']){
+  const broken=journeyModelV110({...testCtx,all:source.map((x,i)=>i===1?{...x,locationReferenceV07:{exactKnown:true,precision}}:x)});
+  assert.equal(broken.located,2);assert.ok(broken.legs.every(l=>l.type==='gap'));
+ }
+ const stale=journeyModelV110(testCtx,'draft',()=>({...route,points:[[0,1],[0,2]]}));
+ assert.ok(stale.legs.every(l=>l.type==='schematic'));
+});
+test('V110 budget uses each ledger row once, preserves unknown CHF and excludes undated trip costs',()=>{
+ const date='2027-09-02';
+ const rows=[{id:'a',date,category:'activity',euros:1200},{id:'b',date,category:'food',euros:null,original:900,currency:'CHF'},{id:'c',date,category:'food',euros:null},{id:'d',date:'2027-09-03',euros:4000},{id:'pass:interrail',euros:9000}];
+ const b=dayBudgetV110({date,people:[{},{},{}],budget:{rows}});
+ assert.equal(b.rows,3);assert.equal(b.eur,1200);assert.equal(b.known,1);assert.equal(b.unknown,2);
+ assert.equal(b.groups.find(g=>g.key==='food').other.CHF,900);
+});
+test('V110 cross-day proposals exclude booked, timed and meal entries',()=>{
+ const date='2027-09-02',input=ctx(swiss,date),base={id:'free',name:'Test',kind:'activity',city:'paris',date,start:null,end:null};
+ const m=dayMoveOptionsV110({...input,dates:['2027-09-01',date,'2027-09-03'],cityForDay:d=>d==='2027-09-03'?'barcelona':'paris',fullDay:[base,{...base,id:'locked',locked:true},{...base,id:'meal',mealSlot:'lunch'},{...base,id:'timed',start:'2027-09-02T09:00:00Z'}]});
+ assert.deepEqual(m,[{id:'free',name:'Test',date:'2027-09-01'}]);
 });
