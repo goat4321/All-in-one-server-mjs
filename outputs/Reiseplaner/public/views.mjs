@@ -46,7 +46,7 @@ import {renderDayBudgetV110,renderDayAlternativesV110,renderDayJourneyIntroV110,
 import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
 import {swissLodgingSummaryV83,swissLodgingCompareV83,swissLodgingRailNoteV83} from './swiss-lodging-v83.mjs';
 import {swissDatedSearchBoardV84,swissRailPrecisionV84} from './swiss-dated-search-v84.mjs';
-import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml, editorialCityPhotoV119, editorialDayRailV119 } from './place-profile.mjs';
+import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml, editorialCityPhotoV119, editorialDayRailV119, mapPhotoRailV119 } from './place-profile.mjs';
 import { dayPeriod,planCostSignal } from './visual-experience.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
@@ -335,7 +335,7 @@ export function mapSelectionPreview(ctx) {
   return '<div class="map-selected-place" role="group" aria-label="Ausgewählter Reiseort">'
     +'<button class="map-selected-dismiss" type="button" data-action="map-clear-selection"'
     +' aria-label="Ortskarte schließen" title="Schließen">'+icon('close')+'</button>'
-    +placeThumbnailHtml(item,ctx)
+    + (mapPhotoRailV119(item,ctx)||placeThumbnailHtml(item,ctx))
     +'<div class="map-selected-copy"><strong>'+esc(item.name)+'</strong><small>'
     +esc(ctx.cities[item.city]?.name??item.city)+' · '+esc(category)
     +' · '+esc(locationLabel)
