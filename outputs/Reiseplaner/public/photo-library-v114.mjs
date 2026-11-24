@@ -38,7 +38,7 @@ export function photoCardV114(p,{archive=false}={}){
 }
 export function renderPhotoLibraryV114(ctx,{day=false}={}){
  const route=new Set(ctx.trip?.route??[]);
- const city=ctx.dayPlan?.city??ctx.city;
+ const city=ctx.city??ctx.dayPlan?.city;
  const groups=PHOTO_GROUPS_V114.filter(g=>day?g.city===city:route.has(g.city));
  const archive=curatedLibraryV114();
  const relevant=archive.filter(p=>p.cities.some(c=>day?c===city:route.has(c)));
