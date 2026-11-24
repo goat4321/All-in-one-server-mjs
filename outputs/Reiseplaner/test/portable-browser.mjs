@@ -427,6 +427,17 @@ try {
   await click('#route-story-player [data-action=route-story-stop]');
   await until(()=>js('document.querySelector("#route-story-player")?.hidden===true'),
     'V74 player closes and returns control of map to the user');
+  // V123 reuses the existing map player in a separate fullscreen layout.
+  await click('.map-panel>.panel-head [data-action=route123-launch]');
+  await until(()=>js('document.body.classList.contains("route123-active")&&!!document.querySelector(".route123-scene")'),'V123 immersive scene launches');
+  assert.ok(await js('document.body.classList.contains("map-fullscreen-active")&&document.querySelector("#route123-preview").hidden===false&&document.querySelector("#route122-preview").hidden===true'));
+  await click('#route-story-player [data-action=route122-next]');
+  assert.equal(await js('document.querySelector("#route-story-player").dataset.status'),'paused');
+  assert.ok(await js('document.querySelector(".route123-heading h2").textContent===document.querySelector("#route-story-city").textContent'));
+  await screenshot('31-v123-immersive-route-desktop.png');
+  await click('[data-action=route123-exit]');
+  assert.ok(await js('!document.body.classList.contains("route123-active")&&!document.body.classList.contains("map-fullscreen-active")&&document.querySelector("#route-story-player").hidden'));
+
   assert.ok(await js('(() => { const m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect(),a=document.querySelector(".reference-map-workspace>.explorer-right")?.getBoundingClientRect();return m&&a&&m.left>a.left&&m.width>a.width*1.12; })()'),
     'Reference layout uses compact agenda on left and wider interactive map on right');
   assert.ok(await js('Boolean(document.querySelector(".reference-map-intro h1"))'),
