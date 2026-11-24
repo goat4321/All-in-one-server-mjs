@@ -7,6 +7,8 @@ import {
  swissDayExperienceModelV101,renderSwissDayExperienceV101,
  tripDayCoverageV104,renderTripDayCoverageV104
 } from '../public/day-experience-v101.mjs';
+import {PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114,photoMetadataUrlV114,licensedGroupV114,renderPhotoLibraryV114,photoCardV114} from '../public/photo-library-v114.mjs';
+import {curatedLibraryV114} from '../public/curated-place-photos.mjs';
 import {itineraryPhotosV112,itineraryPhotoHtmlV112,itineraryDayImageV112} from '../public/place-profile.mjs';
 import {SWISS_PROGRAM_V111,detailedDayModelV111,renderDetailedDayV111} from '../public/day-program-v111.mjs';
 import {journeyModelV110,dayBudgetV110,dayMoveOptionsV110,renderDayJourneyControlsV110} from '../public/day-journey-v110.mjs';
@@ -286,4 +288,39 @@ test('V113 six new licensed pictures extend the itinerary without changing prima
   assert.match(html,/CSS-Bildausschnitt/);
   assert.ok((html.match(/<figure /g)??[]).length>=2,id);
  }
+});
+
+test('V114 120 new unique named photo references, all six destinations and over 100 existing archive photographs',()=>{
+ const normalized=s=>s.replaceAll('_',' ').normalize('NFC').toLowerCase();
+ const all=PHOTO_GROUPS_V114.flatMap(g=>g.files);
+ assert.equal(PHOTO_CANDIDATE_COUNT_V114,120);
+ assert.equal(new Set(all.map(normalized)).size,120);
+ const library=curatedLibraryV114();
+ assert.ok(library.length>=100);
+ assert.equal(new Set(library.map(p=>normalized(p.file))).size,library.length);
+ const old=new Set(library.map(p=>normalized(p.file)));
+ assert.ok(all.every(f=>!old.has(normalized(f))));
+ assert.deepEqual(PHOTO_GROUPS_V114.map(g=>g.city),['paris','barcelona','sete','nice','kandersteg','appenzell']);
+ for(const g of PHOTO_GROUPS_V114){
+  const url=new URL(photoMetadataUrlV114(g.files));
+  assert.equal(url.hostname,'commons.wikimedia.org');
+  assert.equal(url.searchParams.get('titles').split('|').length,20);
+  const html=renderPhotoLibraryV114({trip:swiss,city:g.city},{day:true});
+  assert.match(html,/20 zusätzliche Bildreferenzen/);
+  assert.doesNotMatch(html,/<img /,'gallery remains lazy until opened');
+ }
+ const overview=renderPhotoLibraryV114({trip:swiss,city:'paris'});
+ assert.match(overview,/120 zusätzliche Bildreferenzen/);
+ assert.equal((overview.match(/data-photo114-group=/g)??[]).length,6);
+});
+test('V114 accepts only requested image titles with usable licenses and attribution',()=>{
+ const g=PHOTO_GROUPS_V114[0],name=g.files[0];
+ const item=(file,over={})=>({title:'File:'+file,imageinfo:[{mime:'image/jpeg',thumburl:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/test.jpg/800px-test.jpg',descriptionurl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(file),extmetadata:{LicenseShortName:{value:'CC BY-SA 4.0'},LicenseUrl:{value:'https://creativecommons.org/licenses/by-sa/4.0/'},Artist:{value:'Example photographer'},...over}}]});
+ const rows=licensedGroupV114(g,{query:{pages:[item(name),item(g.files[1],{Restrictions:{value:'restricted'}}),item(g.files[2],{LicenseShortName:{value:'All rights reserved'}}),item('Unrelated.jpg')]}});
+ assert.equal(rows.length,1);assert.equal(rows[0].name,name);
+ assert.equal(rows[0].identityVerified,false);
+ const card=photoCardV114(rows[0]);
+ assert.match(card,/loading="lazy"/);
+ assert.match(card,/Motiv nicht einzeln geprüft/);
+ assert.match(card,/creativecommons.org\/licenses\/by-sa\/4.0/);
 });
