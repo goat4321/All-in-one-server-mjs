@@ -290,7 +290,7 @@ function focusDay110(index,animate=true){
  }
  const status=panel.querySelector('.day110-status');
  if(status)status.textContent='Stopp '+(index+1)+' / '+m.stops.length+' · '+stop.name
-  +(stop.point?'':' · ohne belegten Pin')+(leg?.type==='routed'?' · Fußweg '+leg.minutes+' Min.':leg?.type==='schematic'?' · Luftlinie':leg?.type==='gap'?' · Weg offen':'');
+  +(stop.point?'':' · ohne belegten Pin')+(leg?.type==='routed'?' · Fußweg '+leg.minutes+' Min.':leg?.type==='transfer'?' · Transfer schematisch':leg?.type==='schematic'||leg?.type==='connection'?' · Luftlinie':leg?.type==='gap'?' · Weg offen':'');
  const progress=panel.querySelector('.day110-track');
  const pct=Math.round((index+1)/m.stops.length*100);
  if(progress){progress.setAttribute('aria-valuenow',String(pct));progress.querySelector('i').style.width=pct+'%';}
@@ -304,6 +304,7 @@ function playDay110(){
  day110Timer=setInterval(()=>{
   if(day110Key()!==key||day110Index>=m.stops.length-1){pauseDay110(false);return;}
   focusDay110(day110Index+1);
+  if(day110Index===m.stops.length-1){clearInterval(day110Timer);day110Timer=null;}
  },2100);
 }
 async function checkDay110Routes(){
@@ -722,7 +723,7 @@ async function switchVariant(id) {
     variant = await api('/api/variant/' + encodeURIComponent(id));
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
-    view.dayJourneyMode=null;day110Index=-1;
+    view.dayJourneyMode=null;day110Index=-1;day110Request++;
     view.mapFrom = view.mapTo = view.mapRouteResult = null;
     view.mapNearPointId=null;view.mapViewportOnly=false;view.mapViewportBounds=null;view.mapSavedOnly=false;
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0; view.geocodeReview=null;
@@ -758,7 +759,7 @@ function refreshMarketsOnCityChange(cityId){
 function showCity(id, date, wholeDay = false) {
   if (!context.trip.route.includes(id)) return;
   if (id !== view.city || (date && date !== view.date)) {
-    view.dayPlanFocus='all';view.dayJourneyMode=null;day110Index=-1;
+    view.dayPlanFocus='all';view.dayJourneyMode=null;day110Index=-1;day110Request++;
     view.mapPinPicking=false;view.mapPinDraft=null;view.mapPinEditingId=null;
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0;
   }
@@ -921,7 +922,7 @@ function changePage(page) {
   view.menu = false;
   view.optionFilter = 'all';
   if (page !== 'map') view.total = false;
-  if(page!=='plan'){view.dayJourneyMode=null;day110Index=-1;}
+  if(page!=='plan'){view.dayJourneyMode=null;day110Index=-1;day110Request++;}
   if (page === 'map' && view.mapScope === 'trip') view.total = true;
   window.scrollTo({ top: 0, behavior: 'instant' });
   render();
