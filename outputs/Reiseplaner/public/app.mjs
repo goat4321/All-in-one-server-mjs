@@ -353,6 +353,7 @@ function updateRouteStoryUi(state){
   const preview=panel.querySelector('#route122-preview');
   const previewKey=[state.index,state.cityId,state.phase].join('|');
   if(preview&&panel.dataset.previewKey!==previewKey){preview.innerHTML=routePreviewHtmlV122(context,state);panel.dataset.previewKey=previewKey;}
+  if(preview)preview.hidden=panel.dataset.photoExpanded!=='true';
   const write=(selector,value)=>{
     const el=panel.querySelector(selector);
     if(el&&el.textContent!==String(value))el.textContent=String(value);
@@ -1854,7 +1855,14 @@ async function action(name, value = '') {
       break;
     case 'route122-launch':
       view.total=true;view.mapScope='trip';changePage('map');
-      await action('route-story-play');break;
+      await action('route-story-play');
+      if(currentMap?.storyState().status!=='idle')await action('route122-toggle');break;
+    case 'route122-toggle': {
+      const panel=app.querySelector('#route-story-player');if(!panel||panel.hidden)break;
+      const expanded=panel.dataset.photoExpanded!=='true';panel.dataset.photoExpanded=String(expanded);
+      const preview=panel.querySelector('#route122-preview');if(preview)preview.hidden=!expanded;
+      panel.querySelector('[data-action=route122-toggle]')?.setAttribute('aria-expanded',String(expanded));break;
+    }
     case 'route-story-seek':
       if(view.page==='map'&&/^\d+$/.test(value))currentMap?.seekCityStory(Number(value));
       break;
@@ -1865,6 +1873,8 @@ async function action(name, value = '') {
       if(app.querySelector('#route-story-player')){
         app.querySelector('#route-story-player').dataset.expanded='false';
         app.querySelector('#route-story-player').dataset.previewKey='';
+        app.querySelector('#route-story-player').dataset.photoExpanded='false';
+        app.querySelector('[data-action=route122-toggle]')?.setAttribute('aria-expanded','false');
       }
       if(!view.total||view.mapScope!=='trip'){
         view.mapScope='trip';view.total=true;view.mapSavedOnly=false;
@@ -2444,6 +2454,7 @@ document.addEventListener('keydown', event => {
   }
 });
 document.addEventListener('click', event => {
+  if(event.target.closest('#route122-preview .photo119-item>a')&&currentMap?.storyState().status==='playing')currentMap.pauseCityStory();
   const button = event.target.closest('[data-action]');
   if (button) void action(button.dataset.action, button.dataset.value).catch(error => say(error.message));
 });
