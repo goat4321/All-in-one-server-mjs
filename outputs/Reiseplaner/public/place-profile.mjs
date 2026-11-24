@@ -498,3 +498,40 @@ export function placeProfileHtml(item,ctx={}, {compact=false}={}) {
       +sourceList(item,ctx.catalog?.sources??{})+'</details>')
     + '</section>';
 }
+
+/** V112: bounded, lazy-loaded, credited images for itinerary surfaces.
+ * Context is explicitly labelled; never substitute a city image as a property photo.
+ * The compact version is safe inside a button (no nested links).
+ */
+export function itineraryPhotosV112(item,ctx={}, {context=true}={}){
+ if(!item)return [];
+ const saved=ctx.state?.placePhotos?.[item.id];
+ const own=(Array.isArray(saved)?saved:saved?[saved]:[]).filter(p=>p&&/^https:\/\//.test(p.url??'')&&/^https:\/\//.test(p.sourceUrl??'')&&typeof p.credit==='string'&&p.credit.trim());
+ const curated=curatedPlacePhoto(item);
+ const photos=[...own,...(curated?[curated]:[])];
+ if(!photos.length&&context){
+  const bg=curatedCityBackdrop(item);if(bg)photos.push(bg);
+ }
+ return [...new Map(photos.map(p=>[p.url,p])).values()].slice(0,3);
+}
+export function itineraryPhotoHtmlV112(item,ctx={}, {compact=false,context=true}={}){
+ const photos=itineraryPhotosV112(item,ctx,{context});
+ if(!photos.length)return '';
+ const thumb=(photo)=>{
+  const url=photo.curated||photo.contextualOnly?photo.url.replace(/\?width=960$/,'?width='+ (compact?360:720)):photo.url;
+  const label=photo.contextualOnly?'Stadtmotiv · kein Objektfoto':photo.subjectDisclaimer??'Historisches / hinterlegtes Ortsfoto';
+  const img='<img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(url)+'" alt="'+esc(photo.contextualOnly?'Stadtmotiv':item.name??'Ortsfoto')+'" title="'+esc(label+' · '+photo.credit)+'">';
+  const credit='<small class="day112-photo-credit">'+esc((photo.contextualOnly?'Stadtmotiv · ':'')+photo.credit)+'</small>';
+  return compact?'<span class="day112-photo" data-photo-scope="'+esc(photo.photoScope??'stored')+'">'+img+credit+'</span>':
+   '<figure class="day112-photo" data-photo-scope="'+esc(photo.photoScope??'stored')+'"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Foto größer öffnen">'+img+'</a><figcaption>'+credit+' <a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Quelle</a>'
+   +(ccLicenseUrl(photo)?' · <a href="'+esc(ccLicenseUrl(photo))+'" target="_blank" rel="noopener noreferrer">Lizenz</a>':'')+'</figcaption></figure>';
+ };
+ return '<span class="day112-gallery'+(compact?' is-compact':'')+'">'+(compact?photos.slice(0,1):photos).map(thumb).join('')+'</span>';
+}
+export function itineraryDayImageV112(ctx,date){
+ const plan=ctx.trip?.dayPlansV32?.find(d=>d.date===date);
+ if(!plan)return '';
+ const all=ctx.all??ctx.trip?.items??[];
+ const item=plan.slots.map(s=>all.find(i=>i.id===s.id)).find(i=>i&&itineraryPhotosV112(i,ctx,{context:false}).length);
+ return itineraryPhotoHtmlV112(item??{id:'day:'+date,city:plan.city,name:ctx.cities?.[plan.city]?.name??plan.city,kind:'context'},ctx,{compact:true});
+}
