@@ -471,7 +471,7 @@ function mapPanel(ctx, full = false) {
         </div>
         <span class="route-story-count" id="route-story-count">0 / 0</span>
       </div>
-      <div id="route122-preview" class="route122-preview" aria-label="Aktuelle Etappe mit Foto und Reisetagen"></div>
+      <div id="route122-preview" class="route122-preview" hidden aria-label="Aktuelle Etappe mit Foto und Reisetagen"></div>
       <div class="route-story-ideas" id="route-story-ideas" hidden
         aria-label="Vorhandene Aktivitäten, Restaurants und Ideen für diese Stadt">
         <div class="route-story-ideas-top">
@@ -493,6 +493,7 @@ function mapPanel(ctx, full = false) {
         <button type="button" class="route-story-ideas-toggle" data-action="route-story-ideas-toggle"
           aria-controls="route-story-ideas" aria-expanded="false" aria-label="Ortsideen anzeigen"
           title="Ortsideen ein- oder ausblenden" hidden>${icon('compass')}<span>Ideen</span></button>
+        <button type="button" data-action="route122-toggle" aria-expanded="false" aria-controls="route122-preview" title="Fotovorschau" aria-label="Fotovorschau ein- oder ausblenden">Fotos</button>
         <button type="button" class="route-story-pause" data-action="route-story-pause"
           aria-label="Animation pausieren">${icon('pause')}<span>Pause</span></button>
         <button type="button" data-action="route-story-speed" title="Abspielgeschwindigkeit" aria-label="Abspielgeschwindigkeit ändern">1×</button>
