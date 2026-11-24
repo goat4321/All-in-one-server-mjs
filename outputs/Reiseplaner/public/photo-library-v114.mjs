@@ -168,7 +168,7 @@ export {PHOTO_GROUPS_V118,PHOTO_CANDIDATE_COUNT_V118};
 // Native modal, one shared viewer for library, place and full day galleries.
 // No modal or additional image request until the person opens a photo.
 export function photoViewerEntriesV118(anchor){
- const group=anchor.closest('.photo114-grid,.place-gallery-grid,.day112-gallery,.photo119-rail,.photo119-map-rail');
+ const group=anchor.closest('.photo114-grid,.place-gallery-grid,.day112-gallery,.photo119-rail,.photo119-map-rail,.route123-hero');
  if(!group)return [];
  return [...group.querySelectorAll('.photo114-card>a,.place-gallery-item>a,.day112-photo>a,.photo119-item>a')].filter(a=>{
   const img=a.querySelector('img');return img&&!img.hidden&&!a.closest('.photo114-unavailable,.photo119-unavailable')&&img.getAttribute('src');
