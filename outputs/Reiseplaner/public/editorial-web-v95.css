@@ -2924,3 +2924,40 @@
   scroll-margin-top:169px;
  }
 }
+
+
+/* V104 / Trip planning overview: actual adopted ideas, not reservations. */
+.reference-travel-shell .day104-overview{
+ margin:0 0 16px;padding:clamp(14px,2vw,22px);
+ border:1px solid var(--e95-line);border-radius:18px;
+ background:var(--e95-paper);color:var(--e95-ink);min-width:0;
+}
+.reference-travel-shell .day104-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.reference-travel-shell .day104-heading h2{font-size:clamp(20px,2.4vw,29px);margin:0 0 5px;letter-spacing:-.035em}
+.reference-travel-shell .day104-heading p,.reference-travel-shell .day104-note{margin:0;color:var(--e95-secondary);font-size:12px;line-height:1.5}
+.reference-travel-shell .day104-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0}
+.reference-travel-shell .day104-metric{min-width:0;border-radius:12px;padding:12px;background:var(--e95-page);display:grid;gap:4px}
+.reference-travel-shell .day104-metric strong{font-size:clamp(20px,3vw,29px);font-weight:720;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.reference-travel-shell .day104-metric span{font-size:11px;line-height:1.4;color:var(--e95-secondary);overflow-wrap:anywhere}
+.reference-travel-shell .day104-next,.reference-travel-shell .day104-details>summary{min-height:44px;cursor:pointer;border-radius:11px;padding:10px 13px;font-size:12px;font-weight:650;box-sizing:border-box}
+.reference-travel-shell .day104-next{border:1px solid var(--e95-link);color:var(--e95-link);background:var(--e95-paper);text-align:left;max-width:100%;transition:background-color 180ms ease,transform 180ms ease}
+.reference-travel-shell .day104-next:hover{background:color-mix(in srgb,var(--e95-link) 7%,var(--e95-paper))}
+.reference-travel-shell .day104-next:active,.reference-travel-shell .day104-card:active{transform:scale(.98)}
+.reference-travel-shell .day104-details{margin-top:12px}
+.reference-travel-shell .day104-details>summary{background:var(--e95-page);color:var(--e95-ink)}
+.reference-travel-shell .day104-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,145px),1fr));gap:8px;margin-top:10px}
+.reference-travel-shell .day104-card{display:grid;align-content:start;gap:6px;text-align:left;min-width:0;min-height:105px;padding:12px;border:1px solid var(--e95-line);border-radius:12px;background:var(--e95-page);color:var(--e95-ink);cursor:pointer;transition:transform 190ms ease,border-color 190ms ease,background-color 190ms ease}
+.reference-travel-shell .day104-card:hover{border-color:var(--e95-link);transform:translateY(-2px)}
+.reference-travel-shell .day104-card[aria-current=date]{border-color:var(--e95-link);background:color-mix(in srgb,var(--e95-link) 9%,var(--e95-paper))}
+.reference-travel-shell .day104-card strong{font-size:13px;overflow-wrap:anywhere}
+.reference-travel-shell .day104-card small,.reference-travel-shell .day104-card span{font-size:11px;color:var(--e95-secondary);overflow-wrap:anywhere}
+.reference-travel-shell .day104-track{height:5px;overflow:hidden;border-radius:99px;background:var(--e95-line)}
+.reference-travel-shell .day104-track i{display:block;height:100%;width:var(--day104-progress);border-radius:inherit;background:#1469ca;transform-origin:left}
+@keyframes day104-fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes day104-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.reference-travel-shell .day104-details[open] .day104-card{animation:day104-enter 280ms cubic-bezier(.2,.75,.2,1) both;animation-delay:calc(var(--day104-step) * 18ms)}
+.reference-travel-shell .day104-details[open] .day104-track i{animation:day104-fill 480ms cubic-bezier(.2,.75,.2,1) both}
+.reference-travel-shell .day104-overview :is(button,summary):focus-visible{outline:3px solid var(--e95-focus);outline-offset:2px}
+@media(max-width:480px){.reference-travel-shell .day104-metric{padding:9px}.reference-travel-shell .day104-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.reference-travel-shell .day104-overview *{animation:none!important;transition:none!important;transform:none!important}}
+:root[data-motion=off] .reference-travel-shell .day104-overview *{animation:none!important;transition:none!important;transform:none!important}
