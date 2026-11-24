@@ -48,7 +48,7 @@ export function renderDayNavigatorV101(ctx){
   +'<div class="day101-progress-meter" role="progressbar" aria-label="Übernommene Tagesideen" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+s.percent+'">'
   +'<i style="width:'+s.percent+'%"></i></div>'
   +'<p>'+s.activeCount+' selbst eingeplante Aktivitäten · '+s.rideCount+' vorläufige Fahrten · keine automatisch bestätigten Buchungen</p>'
-  +'</section>';
+  +'</section>'+renderTripDayCoverageV104(ctx);
 }
 
 /** A functional period-filtered board. No fake clock times or automatic edits. */
@@ -118,4 +118,65 @@ export function renderSwissDayExperienceV101(ctx){
   +'<div class="day101-facts">'+factsHtml+'</div>'
   +'<div class="day101-official"><strong>Bestehende offizielle Quellen</strong><div>'+sources+'</div></div>'
   +'</details></section>';
+}
+
+/** V104: read-only planning coverage across the current variant.
+ * Optional ideas never prevent a day from having all core ideas adopted.
+ * A transfer or a day without core ideas is not an incomplete activity day.
+ */
+export function tripDayCoverageV104(ctx){
+ const plans=ctx?.trip?.dayPlansV32??[];
+ if(!plans.length||!ctx.dayPlan||ctx.dayPlan.tripId!==ctx.trip.id||
+    ctx.dayPlan.date!==ctx.date||!plans.some(p=>p.date===ctx.date))return null;
+ const selectedByDate=new Map();
+ for(const item of ctx.active??[]){
+  if(item.kind!=='activity'||item.removed)continue;
+  const date=localParts(item.start,item.zone).date??item.date;
+  if(!selectedByDate.has(date))selectedByDate.set(date,new Set());
+  selectedByDate.get(date).add(item.id);
+ }
+ const rows=plans.filter(p=>p.tripId===ctx.trip.id).map((plan,index)=>{
+  const ids=selectedByDate.get(plan.date)??new Set();
+  const core=[...new Set(plan.slots.filter(s=>!s.optional).map(s=>s.id))];
+  const optional=[...new Set(plan.slots.filter(s=>s.optional&&!core.includes(s.id)).map(s=>s.id))];
+  const adopted=core.filter(id=>ids.has(id)).length;
+  return {date:plan.date,index:index+1,city:ctx.cities?.[plan.city]?.name??plan.city,
+   core:core.length,adopted,optionalAdopted:optional.filter(id=>ids.has(id)).length,
+   active:ids.size,rides:(plan.rides?.length??0)+(plan.overnightArrivals?.length??0),
+   current:plan.date===ctx.date,open:adopted<core.length};
+ });
+ if(!rows.length||!rows.some(r=>r.current))return null;
+ const current=rows.findIndex(row=>row.current);
+ const order=[...rows.slice(current+1),...rows.slice(0,current)];
+ return {rows,openDays:rows.filter(row=>row.open).length,
+  adoptedDays:rows.filter(row=>row.core>0&&!row.open).length,
+  transferDays:rows.filter(row=>row.rides>0).length,
+  nextOpen:order.find(row=>row.open)??null};
+}
+export function renderTripDayCoverageV104(ctx){
+ const m=tripDayCoverageV104(ctx);
+ if(!m)return '';
+ const next=m.nextOpen;
+ const cards=m.rows.map((r,index)=>{
+  const percent=r.core?Math.round(100*r.adopted/r.core):0;
+  const status=r.core?r.adopted+' / '+r.core+' Hauptideen':'Keine Hauptideen vorgesehen';
+  return '<button type="button" class="day104-card" data-action="day-plan-go" data-value="'+esc(r.date)+'"'
+   +(r.current?' aria-current="date"':'')
+   +' style="--day104-step:'+Math.min(index,12)+';--day104-progress:'+percent+'%">'
+   +'<small>TAG '+r.index+' · '+esc(shortDay(r.date))+'</small><strong>'+esc(r.city)+'</strong>'
+   +'<span>'+status+'</span>'
+   +(r.core?'<span class="day104-track" aria-hidden="true"><i></i></span>':'')
+   +'<span>'+r.active+' Aktivitäten'+(r.optionalAdopted?' · '+r.optionalAdopted+' optionale Ideen':'')+'</span>'
+   +(r.rides?'<span>'+r.rides+' vorläufige Transfers / Ankünfte</span>':'')+'</button>';
+ }).join('');
+ const metric=(n,label)=>'<div class="day104-metric"><strong>'+n+'</strong><span>'+label+'</span></div>';
+ return '<section class="day104-overview" aria-label="Planungsüberblick der Reise">'
+  +'<div class="day104-heading"><div><h2>Deine Reise im Überblick</h2>'
+  +'<p>'+m.rows.length+' Reisetage · Hauptideen und vorläufige Transfers</p></div>'
+  +(next?'<button type="button" class="day104-next" data-action="day-plan-go" data-value="'+esc(next.date)+'">Zum nächsten offenen Tag · '+esc(shortDay(next.date))+'</button>':'')
+  +'</div><div class="day104-metrics">'+metric(m.adoptedDays,'Tage mit allen Hauptideen')
+  +metric(m.openDays,'Tage mit offenen Hauptideen')+metric(m.transferDays,'Tage mit Transfers / Ankünften')+'</div>'
+  +'<p class="day104-note">Die Kategorien können sich überschneiden. Optionale Ideen und eigene Einträge sind separat; nichts davon bestätigt eine Buchung oder die tatsächliche Durchführung.</p>'
+  +'<details class="day104-details"><summary>Alle '+m.rows.length+' Tage und ihren Planungsstand anzeigen</summary>'
+  +'<div class="day104-grid">'+cards+'</div></details></section>';
 }
