@@ -2984,3 +2984,68 @@
 @media(max-width:480px){.reference-travel-shell .day105-controls>span{flex-basis:100%}.reference-travel-shell .day105-move{flex:1 1 0;min-width:44px}}
 @media(prefers-reduced-motion:reduce){.reference-travel-shell :is(.day105-move,.event-card[draggable=true]){transition:none!important;transform:none!important}}
 :root[data-motion=off] .reference-travel-shell :is(.day105-move,.event-card[draggable=true]){transition:none!important;transform:none!important}
+
+/* V106–V110: coherent day studio, constrained to existing travel theme. */
+.reference-travel-shell :is(.day110-intro,.day110-budget,.day110-alternatives,.day110-player){
+ min-width:0;border:1px solid var(--e95-line);border-radius:18px;background:var(--e95-paper);
+ color:var(--e95-ink);padding:clamp(14px,2.2vw,22px);margin:0 0 14px;display:grid;gap:12px;
+}
+.reference-travel-shell :is(.day110-intro,.day110-budget,.day110-alternatives,.day110-player) header small{
+ color:var(--e95-link);font-size:10px;letter-spacing:.09em;font-weight:720;
+}
+.reference-travel-shell :is(.day110-intro,.day110-budget,.day110-alternatives,.day110-player) :is(h2,h3){
+ margin:4px 0;letter-spacing:-.035em;font-size:clamp(20px,2.5vw,28px);line-height:1.15;
+}
+.reference-travel-shell :is(.day110-intro,.day110-budget,.day110-alternatives,.day110-player) p{
+ color:var(--e95-secondary);font-size:12px;line-height:1.55;margin:0;overflow-wrap:anywhere;
+}
+.reference-travel-shell :is(.day110-intro,.day110-alternatives,.day110-player) button{
+ min-height:44px;min-width:44px;padding:8px 12px;border:1px solid var(--e95-line);
+ border-radius:11px;background:var(--e95-page);color:var(--e95-ink);font-weight:630;
+ font-size:12px;cursor:pointer;transition:background-color 180ms ease,border-color 180ms ease,transform 160ms ease;
+}
+.reference-travel-shell :is(.day110-intro,.day110-alternatives,.day110-player) button:not(:disabled):hover{border-color:var(--e95-link)}
+.reference-travel-shell :is(.day110-intro,.day110-alternatives,.day110-player) button:not(:disabled):active{transform:scale(.98)}
+.reference-travel-shell :is(.day110-intro,.day110-alternatives,.day110-player) button:disabled{opacity:.5;cursor:default}
+.reference-travel-shell :is(.day110-intro,.day110-budget,.day110-alternatives,.day110-player) :is(button,summary):focus-visible{
+ outline:3px solid var(--e95-focus);outline-offset:2px;
+}
+.reference-travel-shell .day110-primary{justify-self:start;background:#1469ca!important;color:white!important;border-color:#1469ca!important;display:inline-flex;align-items:center;gap:8px}
+.reference-travel-shell .day110-primary svg{width:17px;height:17px}
+.reference-travel-shell .day110-budget-totals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.reference-travel-shell .day110-budget-totals>div{display:grid;gap:4px;background:var(--e95-page);border-radius:12px;padding:12px;min-width:0}
+.reference-travel-shell .day110-budget-totals small{font-size:11px;color:var(--e95-secondary);overflow-wrap:anywhere}
+.reference-travel-shell .day110-budget-totals strong{font-size:clamp(16px,2vw,24px);font-weight:710;letter-spacing:-.035em;overflow-wrap:anywhere}
+.reference-travel-shell :is(.day110-budget,.day110-alternatives,.day110-player) summary{
+ cursor:pointer;min-height:44px;padding:11px 12px;background:var(--e95-page);border-radius:10px;font-size:12px;font-weight:650;
+}
+.reference-travel-shell .day110-budget-rows{display:grid;gap:4px;padding:8px 0}
+.reference-travel-shell .day110-budget-rows>div{display:flex;justify-content:space-between;flex-wrap:wrap;gap:5px;padding:9px;border-bottom:1px solid var(--e95-line);font-size:12px}
+.reference-travel-shell .day110-budget-rows>div span{color:var(--e95-secondary)}
+.reference-travel-shell .day110-backup{display:grid;gap:6px;background:var(--e95-page);border-radius:12px;padding:12px}
+.reference-travel-shell .day110-backup strong{font-size:13px}
+.reference-travel-shell :is(.day110-alternatives,.day110-player) ul{display:grid;gap:7px;padding:8px 0;margin:0;list-style:none}
+.reference-travel-shell :is(.day110-alternatives,.day110-player) li{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:8px;border-bottom:1px solid var(--e95-line);font-size:12px}
+.reference-travel-shell .day110-player{padding:12px;margin:0 0 10px;scroll-margin-top:170px}
+.reference-travel-shell .day110-player h3{font-size:21px}
+.reference-travel-shell :is(.day110-mode,.day110-player-actions){display:flex;flex-wrap:wrap;gap:5px}
+.reference-travel-shell .day110-mode button[aria-pressed=true],.reference-travel-shell .day110-player-actions [data-action=day110-play]{background:#1469ca;color:#fff;border-color:#1469ca}
+.reference-travel-shell .day110-status{min-height:36px}
+.reference-travel-shell .day110-track{height:5px;border-radius:99px;background:var(--e95-line);overflow:hidden}
+.reference-travel-shell .day110-track i{display:block;width:0;height:100%;border-radius:inherit;background:#1469ca;transition:width 340ms cubic-bezier(.2,.75,.2,1)}
+.reference-travel-shell .day110-stops{display:flex;gap:7px;overflow-x:auto;max-width:100%;min-width:0;padding:3px 3px 8px;scroll-snap-type:x proximity}
+.reference-travel-shell .day110-stop{flex:0 0 min(215px,80%);display:flex;align-items:flex-start;gap:8px;text-align:left;scroll-snap-align:start}
+.reference-travel-shell .day110-stop>span:last-child{display:grid;gap:4px;min-width:0}
+.reference-travel-shell .day110-stop strong{font-size:12px;overflow-wrap:anywhere}
+.reference-travel-shell .day110-stop small{font-size:10px;color:var(--e95-secondary);overflow-wrap:anywhere}
+.reference-travel-shell .day110-index,.day110-map-pin{display:grid;place-items:center;flex:none;width:27px;height:27px;border-radius:50%;background:#1469ca;color:white;font-size:12px;font-weight:750;border:2px solid white;box-shadow:0 1px 6px #0004}
+.reference-travel-shell .day110-stop[data-located=false] .day110-index{background:#6d7785}
+.reference-travel-shell .day110-stop[aria-pressed=true]{border-color:var(--e95-link);background:color-mix(in srgb,var(--e95-link) 10%,var(--e95-paper))}
+.day110-map-icon .day110-map-pin{box-sizing:border-box;transition:transform 220ms ease,box-shadow 220ms ease}
+.day110-map-icon.day110-current .day110-map-pin{transform:scale(1.25);box-shadow:0 0 0 5px #1469ca38,0 2px 8px #0004}
+.day110-position-dot{filter:drop-shadow(0 1px 3px #0005)}
+@keyframes day110-arrive{from{opacity:.4;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+#app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter :is(.day110-intro,.day110-budget,.day110-alternatives){animation:day110-arrive 360ms cubic-bezier(.2,.75,.2,1) both}
+@media(max-width:480px){.reference-travel-shell .day110-budget-totals>div{padding:8px}.reference-travel-shell .day110-mode button{flex:1 1 auto}.reference-travel-shell .day110-player-actions button{padding:8px 9px}}
+@media(prefers-reduced-motion:reduce){.reference-travel-shell :is(.day110-intro,.day110-budget,.day110-alternatives,.day110-player),.reference-travel-shell .day110-player *,.day110-map-pin{animation:none!important;transition:none!important;transform:none!important}}
+:root[data-motion=off] .reference-travel-shell :is(.day110-intro,.day110-budget,.day110-alternatives,.day110-player),:root[data-motion=off] .reference-travel-shell .day110-player *,:root[data-motion=off] .day110-map-pin{animation:none!important;transition:none!important;transform:none!important}
