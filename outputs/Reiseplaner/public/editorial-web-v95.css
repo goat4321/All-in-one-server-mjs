@@ -3216,3 +3216,46 @@ dialog.photo118-viewer::backdrop{background:#000b}
 @media(max-width:350px){.reference-travel-shell .photo114-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.reference-travel-shell .photo114-group summary:before,.reference-travel-shell .photo114-card img{transition:none!important}}
 :root[data-motion=off] .reference-travel-shell .photo114-group summary:before,:root[data-motion=off] .reference-travel-shell .photo114-card img{transition:none!important}
+
+/* V119: the itinerary is a visual story, not an archive of separate photos. */
+.reference-travel-shell .editorial-journey-hero[data-photo=true]{min-height:clamp(490px,57vw,720px)}
+.reference-travel-shell .day-editorial-hero[data-photo=true]{min-height:clamp(340px,43vw,550px)!important}
+.reference-travel-shell :is(.editorial-journey-media,.day-editorial-media)>img{object-fit:cover;object-position:center}
+.reference-travel-shell .photo119-story{margin:clamp(22px,4vw,40px) 0;min-width:0}
+.reference-travel-shell .photo119-story header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
+.reference-travel-shell .photo119-story header small{font-size:11px;font-weight:650;letter-spacing:.08em;color:var(--e95-link)}
+.reference-travel-shell .photo119-story h3{font-size:clamp(23px,3.3vw,34px);line-height:1.12;letter-spacing:-.035em;margin:5px 0 0;font-weight:650}
+.reference-travel-shell .photo119-controls{display:flex;gap:6px;flex-shrink:0}
+.reference-travel-shell .photo119-controls button{width:44px;height:44px;padding:0;border:1px solid var(--e95-line);border-radius:50%;background:var(--e95-paper);color:var(--e95-ink);font:600 26px/1 system-ui;cursor:pointer}
+.reference-travel-shell .photo119-rail,.photo119-map-rail{display:flex;gap:16px;overflow-x:auto;max-width:100%;min-width:0;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain;scrollbar-width:thin;padding:4px 4px 10px;box-sizing:border-box}
+.reference-travel-shell .photo119-rail .photo119-item{flex:0 0 clamp(220px,42%,390px)}
+.photo119-item{margin:0;min-width:0;scroll-snap-align:start}
+.photo119-item>a{display:block;overflow:hidden;border-radius:16px;background:var(--e95-paper,#24252a);aspect-ratio:16/10;cursor:zoom-in}
+.photo119-item img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 220ms ease}
+.photo119-item>a:hover img{transform:scale(1.025)}
+.photo119-item figcaption{font-size:12px;line-height:1.4;overflow-wrap:anywhere;padding:7px 2px 0;color:var(--e95-secondary,inherit)}
+.photo119-item figcaption strong{display:block;font-size:15px;color:var(--e95-ink,inherit);font-weight:600}
+.photo119-item figcaption small{display:block;font-size:11px}
+.photo119-item figcaption a{display:inline-flex;align-items:center;min-height:44px;min-width:44px;margin-right:8px}
+.photo119-item>a:focus-visible,.photo119-controls button:focus-visible,.photo119-rail:focus-visible{outline:3px solid #4c9aff;outline-offset:2px}
+.photo119-item img[hidden],.day112-photo img[hidden]{display:none!important}
+.photo119-unavailable>a:after{content:'Foto derzeit nicht erreichbar · Quelle öffnen';display:grid;place-items:center;text-align:center;min-height:70px;font-size:12px;padding:8px}
+.reference-travel-shell .day111-photo.day112-large .day112-gallery:not(.is-compact){display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;max-width:100%;overscroll-behavior-inline:contain}
+.reference-travel-shell .day111-photo.day112-large .day112-gallery:not(.is-compact)>.day112-photo{flex:0 0 min(82%,420px);scroll-snap-align:start}
+.reference-travel-shell .day111-photo.day112-large .day112-gallery:not(.is-compact)>.day112-photo:only-child{flex-basis:100%}
+.photo119-map-rail{width:100%;max-width:280px;padding:0 0 4px;gap:8px}
+.photo119-map-rail>.photo119-item{flex:0 0 100%}
+.photo119-map-rail .photo119-item>a{border-radius:10px;aspect-ratio:16/10}
+.photo119-map-rail .photo119-item figcaption strong{font-size:12px}
+.reference-travel-shell .map-selected-place>.photo119-map-rail{width:124px;max-width:124px;align-self:start}
+.reference-travel-shell .map-selected-place>.photo119-map-rail .photo119-item figcaption strong{display:none}
+.reference-travel-shell .map-selected-place>.photo119-map-rail .photo119-item figcaption small{font-size:10px}
+@media(max-width:600px){
+ .reference-travel-shell .day-editorial-hero[data-photo=true]{min-height:330px!important}
+ .reference-travel-shell .editorial-journey-hero[data-photo=true]{min-height:470px!important}
+ .reference-travel-shell .photo119-rail .photo119-item{flex-basis:82%;min-width:0}
+ .reference-travel-shell .photo119-story header{align-items:center}
+ .reference-travel-shell .map-selected-place>.photo119-map-rail{width:96px;max-width:96px}
+}
+@media(prefers-reduced-motion:reduce){.photo119-item img,.day112-photo img{transition:none!important;transform:none!important}}
+:root[data-motion=off] :is(.photo119-item,.day112-photo) img{transition:none!important;transform:none!important}
