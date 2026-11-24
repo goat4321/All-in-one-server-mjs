@@ -829,6 +829,7 @@ function options(ctx, lodging) {
   const advanced=filters.slice(3).map(([id,label])=>
     chip('option-filter',label,optionFilter===id,id)).join('');
   return browseHero(ctx,lodging?'lodging':'discover',list.length)
+    +renderPhotoLibraryV114(ctx,{day:true})
     +browseToolbar(ctx,{kind:lodging?'lodging':'discover',total:found.length,
        filtered:list.length})
     +'<div class="hub-result-settings"><div class="hub-quick-filters">'+quick
@@ -1047,7 +1048,7 @@ function food(ctx) {
          +btn('browse-more','Weitere '+Math.min(24,shown.length-(ctx.browseLimit??24))
            +' Orte anzeigen','plus','','primary')+'</div>':'')
     +(marketFirst?'':marketPrices);
-  return visualBrowse + '<details class="hub-food-planning"'
+  return visualBrowse + renderPhotoLibraryV114(ctx,{day:true}) + '<details class="hub-food-planning"'
     +(ctx.browseMealsOpen?' open':'')+'><summary>'
     +icon('calendar')+' Tagesmenüs, Einkaufswarenkorb & detaillierte Preisrecherche'
     +icon('chevron')+'</summary><div class="hub-food-planning-content">'
@@ -1162,6 +1163,7 @@ function rail(ctx) {
     day.assumed2027 ? status('Fahrplan 2027 nicht bestätigt','warn') : status('Manuell prüfen')
   ]);
   return heading('Bahn & Interrail', trip.title, btn('add-rail', 'Verbindung ergänzen', 'plus'))
+    +renderPhotoLibraryV114(ctx,{day:true})
     + '<div class="stat-grid">' + stat('Reisetage im Entwurf', pass.days.length + ' / ' + state.pass.days, pass.days.map(d => dateText(d).slice(0, 6)).join(' · '))
     + stat('Reservierungen bekannt', money(reservations), priced.length + ' Referenzen · keine Verfügbarkeitszusage')
     + stat('Pass + bekannte Reservierungen', state.pass.cost == null && !state.pass.purchased ? 'Passpreis offen' : money((state.pass.purchased ? 0 : state.pass.cost * people.length) + reservations), 'Zwischensumme')
