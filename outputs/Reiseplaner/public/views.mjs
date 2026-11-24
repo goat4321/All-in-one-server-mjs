@@ -36,6 +36,7 @@ import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
   mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview,dayPlanQuickBar} from './day-plans-ui.mjs';
 import {timelineMovesV105} from './day-plans-logic.mjs';
+import {renderPhotoLibraryV114} from './photo-library-v114.mjs';
 import {renderSwiss14DayOverviewV100} from './swiss-14-day-overview-v100.mjs';
 import {renderDayNavigatorV101,renderSwissDayExperienceV101} from './day-experience-v101.mjs';
 import {renderDayJumpV103,renderDayReturnV103} from './day-navigation-v103.mjs';
@@ -728,6 +729,7 @@ function overview(ctx) {
     +'<div class="destination-filmstrip" aria-label="Reiseorte mit Quellenfotos">'+destinationCards+'</div></div></section>'
     +overviewRoute+'</div>'
     +renderSwiss14DayOverviewV100(ctx)
+    +renderPhotoLibraryV114(ctx)
     + '<div class="editorial-research-heading"><small>DEINE VORBEREITUNG</small>'
     +'<h2>Alles Wichtige. Klar geordnet.</h2>'
     +'<p>Hinweise, Tagesideen und Quellen bleiben vollständig verfügbar –'
