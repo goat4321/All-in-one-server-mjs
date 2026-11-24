@@ -749,7 +749,9 @@ try{
    const current=story.querySelector('[aria-current=location]');
    const status=story.querySelector('[data-journey121-status]')?.textContent;
    const box=chapters[index].getBoundingClientRect();
-   const result={count:chapters.length,current:current?.dataset.journey121Index===String(index),status:status===(index+1)+' / '+chapters.length,visible:box.top>=0&&box.top<innerHeight,overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth)};
+   const nav=story.querySelector('.journey121-nav');
+   const dates=[...story.querySelectorAll('.journey121-days button')];
+   const result={count:chapters.length,current:current?.dataset.journey121Index===String(index),status:status===(index+1)+' / '+chapters.length,visible:box.top>=nav.getBoundingClientRect().bottom-2&&box.top<innerHeight,passed:chapters.slice(0,index).every(c=>c.classList.contains('journey121-passed')),dateTargets:dates.length>0&&dates.every(b=>b.getBoundingClientRect().height>=44),overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth)};
    if(previous===undefined)delete document.documentElement.dataset.motion;else document.documentElement.dataset.motion=previous;
    return result;
   }.toString()+')()');
@@ -761,7 +763,7 @@ try{
   }
  }
  console.log('V121_STORY_AUDIT '+JSON.stringify(storyAudit));
- assert.ok(storyAudit.every(s=>!s.missing&&s.count>0&&s.current&&s.status&&s.visible&&s.overflow<=1));
+ assert.ok(storyAudit.every(s=>!s.missing&&s.count>0&&s.current&&s.status&&s.visible&&s.passed&&s.dateTargets&&s.overflow<=1));
  if(output)await writeFile(join(output,'v121-story-audit.json'),JSON.stringify(storyAudit,null,2));
  console.log('PASS V88 lab snapshots: seven pages × three widths × light/dark/reduced-motion');
 }finally{
