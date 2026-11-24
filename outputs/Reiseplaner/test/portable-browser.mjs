@@ -407,6 +407,15 @@ try {
     assert.equal(await js('document.querySelector("#route-story-ideas")?.hidden'),true);
   }
   await screenshot('30-v74-translucent-route-animation-1440.png');
+  await click('#route-story-player [data-action=route-story-seek][data-value="1"]');
+  await until(()=>js('document.querySelector("#route-story-player")?.dataset.status==="paused"'),'V122 manual seek pauses the map story');
+  assert.equal(await js('document.querySelector("#route-story-count").textContent.split(" / ")[0]'),'2');
+  await click('#route-story-player [data-action=route122-toggle]');
+  assert.ok(await js('(()=>{const p=document.querySelector("#route-story-player"),v=document.querySelector("#route122-preview");return p.dataset.photoExpanded==="true"&&!v.hidden&&v.querySelector(".route122-copy strong")?.textContent===p.querySelector("#route-story-city").textContent})()'),
+    'V122 expanded photo scene and selected map city remain synchronized');
+  await screenshot('30-v122-synchronized-route-preview-1440.png');
+  await click('#route-story-player [data-action=route122-toggle]');
+  assert.equal(await js('document.querySelector("#route122-preview").hidden'),true);
   await click('#route-story-player [data-action=route-story-stop]');
   await until(()=>js('document.querySelector("#route-story-player")?.hidden===true'),
     'V74 player closes and returns control of map to the user');
