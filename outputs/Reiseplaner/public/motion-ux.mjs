@@ -10,6 +10,7 @@ const REVEAL_TARGETS=[
   '.editorial-journey-hero','.cockpit-welcome','.overview-start',
   '.editorial-research-heading','.cockpit-route-surface',
   '.reference-map-intro','.hub-hero','.hub-toolbar',
+  '.photo119-story',
   '.hub-results-title','.page-head','.data-page-heading',
   '.data-checks','.timeline-panel','.day-editorial-hero'
 ].join(',');
@@ -97,6 +98,8 @@ export function createMotionController(doc){
     // Leaflet and MapLibre map surfaces must never be transformed.
     if(changed&&ctx?.page!=='map')container.querySelector?.('main.workspace')
       ?.classList.add('motion-scene-enter');
+    // The live map stays stationary; only its independent introductory chrome reveals.
+    if(changed&&ctx?.page==='map')container.querySelector?.('.reference-map-intro')?.classList.add('motion120-map-intro');
     if(typeof view?.IntersectionObserver!=='function')return;
     const structural=changed
       ?Array.from(container.querySelectorAll(REVEAL_TARGETS)).slice(0,12):[];
