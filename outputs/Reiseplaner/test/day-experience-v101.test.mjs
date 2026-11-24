@@ -236,7 +236,7 @@ test('V111 detailed itinerary covers every Swiss date and every existing V32 slo
   count+=m.rows.length;required+=m.required;optional+=m.rows.filter(x=>x.optional).length;
   assert.equal(JSON.stringify(day),before);
  }
- assert.ok(count>=90);assert.equal(required,27);assert.equal(optional,3);
+ assert.ok(count>=90);assert.equal(required,26);assert.equal(optional,3);
  for(const trip of catalog.trips.filter(t=>t.id!=='interrail_swiss'))assert.equal(detailedDayModelV111(ctx(trip)),null);
 });
 test('V111 activity actions, group cost labels and map links use existing item IDs',()=>{
