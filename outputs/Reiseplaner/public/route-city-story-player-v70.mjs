@@ -2,7 +2,7 @@ import {storyPointBetween,storyProgress} from './route-city-story-v70.mjs';
 
 // Deliberate pause in each city so the arrival and successive symbols can
 // be perceived before the route continues. Durations are animations, not ETAs.
-const STAY_MS=5200;
+export const STAY_MS=5200;
 const TRAVEL_MS=1350;
 const BURST_DIRECTIONS=[
   [-82,-69],[82,-69],[-108,5],[108,10],[-40,100],
@@ -66,6 +66,7 @@ export class RouteCityStoryPlayer{
   const stop=this.stops[this.index]??null;
   const next=this.stops[this.index+1]??null;
   return {status:this.status,phase:this.phase,index:this.index,total:this.stops.length,
+   phaseProgress:this.status==='complete'?1:Math.max(0,Math.min(1,this.elapsed/(this.phase==='dwell'?STAY_MS:TRAVEL_MS))),
    cityId:stop?.id??null,name:stop?.name??'',symbol:stop?.symbol??'🧭',
    description:stop?.description??'',nextName:next?.name??'',
    progress:storyProgress(this.index,this.part,this.stops),speed:this.speed,
