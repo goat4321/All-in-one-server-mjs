@@ -3259,3 +3259,26 @@ dialog.photo118-viewer::backdrop{background:#000b}
 }
 @media(prefers-reduced-motion:reduce){.photo119-item img,.day112-photo img{transition:none!important;transform:none!important}}
 :root[data-motion=off] :is(.photo119-item,.day112-photo) img{transition:none!important;transform:none!important}
+
+/* V120: consistent editorial photo language across overview, itinerary and map. */
+.reference-travel-shell [data-photo120-crop=architecture] :is(.editorial-journey-media,.day-editorial-media,.destination-cover)>img,
+.reference-travel-shell :is(.photo119-item,.day112-photo)[data-photo120-crop=architecture] img{object-position:50% 34%}
+.reference-travel-shell [data-photo120-crop=landscape] :is(.editorial-journey-media,.day-editorial-media,.destination-cover)>img,
+.reference-travel-shell :is(.photo119-item,.day112-photo)[data-photo120-crop=landscape] img{object-position:50% 57%}
+.reference-travel-shell .photo119-rail{scroll-padding-inline:4px}
+.reference-travel-shell .photo119-rail .photo119-item>a{aspect-ratio:16/10;border-radius:16px}
+.reference-travel-shell .photo119-rail .photo119-item:only-child{flex-basis:min(100%,420px)}
+.reference-travel-shell .photo119-rail .photo119-item figcaption{padding-top:9px}
+.reference-travel-shell .photo119-story header{gap:16px}
+.reference-travel-shell .map-selected-place>.photo119-map-rail .photo119-item figcaption a{margin-right:0;font-size:11px}
+.reference-travel-shell .map-selected-place>.photo119-map-rail .photo119-item figcaption small{overflow-wrap:anywhere}
+.reference-travel-shell .photo119-item>a,.reference-travel-shell .day112-photo>a{position:relative}
+.photo119-item.photo119-unavailable>a,.day112-photo.photo119-unavailable>a{display:grid;place-items:center;min-height:72px;background:var(--e95-page,#f3f3f5)}
+.photo119-item.photo119-unavailable>a:after,.day112-photo.photo119-unavailable>a:after{content:'Foto nicht verfügbar · Quelle öffnen';color:var(--e95-ink,inherit);font-size:12px;padding:10px}
+@media(max-width:600px){
+ .reference-travel-shell .photo119-rail .photo119-item{flex-basis:85%}
+ .reference-travel-shell .photo119-rail .photo119-item>a{border-radius:14px;aspect-ratio:4/3}
+ .reference-travel-shell .photo119-story header{align-items:flex-end}
+ .reference-travel-shell .day-editorial-hero[data-photo=true]{min-height:clamp(300px,78vw,420px)!important}
+ .reference-travel-shell .editorial-journey-hero[data-photo=true]{min-height:clamp(410px,112vw,490px)!important}
+}
