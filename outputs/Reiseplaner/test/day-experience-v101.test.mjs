@@ -4,7 +4,8 @@ import {readFile} from 'node:fs/promises';
 import {loadCatalog} from '../lib/catalog.mjs';
 import {
  dayExperienceStatsV101,renderDayNavigatorV101,
- swissDayExperienceModelV101,renderSwissDayExperienceV101
+ swissDayExperienceModelV101,renderSwissDayExperienceV101,
+ tripDayCoverageV104,renderTripDayCoverageV104
 } from '../public/day-experience-v101.mjs';
 import {SWISS_DAY_EDITORIAL_V85} from '../public/swiss-day-editorial-v85.mjs';
 
@@ -104,4 +105,50 @@ test('V101 period selection only changes visibility and remains variant-scoped',
  assert.match(css,/@keyframes day101-card-enter/);
  assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
  assert.match(css,/:root\[data-motion=off\]/);
+});
+
+test('V104 covers all variants and never treats zero-core or optional-only days as open',()=>{
+ let days=0;
+ for(const trip of catalog.trips){
+  const input=ctx(trip);
+  const m=tripDayCoverageV104(input);
+  assert.ok(m,trip.id);
+  assert.equal(m.rows.length,trip.dayPlansV32.length);
+  assert.equal(m.rows.filter(r=>r.current).length,1);
+  assert.equal(m.openDays,m.rows.filter(r=>r.core>0).length);
+  assert.equal(m.adoptedDays,0);
+  assert.equal(m.transferDays,trip.dayPlansV32.filter(p=>p.rides?.length||p.overnightArrivals?.length).length);
+  const html=renderTripDayCoverageV104(input);
+  assert.equal((html.match(/class="day104-card"/g)??[]).length,m.rows.length);
+  assert.match(renderDayNavigatorV101(input),/day104-overview/);
+  days+=m.rows.length;
+ }
+ assert.equal(days,46);
+ for(const date of ['2027-09-10','2027-09-14']){
+  const row=tripDayCoverageV104(ctx(swiss,date)).rows.find(r=>r.current);
+  assert.equal(row.core,0);assert.equal(row.open,false);
+  assert.ok(row.rides>0);
+ }
+});
+test('V104 counts unique active core ideas on the correct date and skips optional or removed items',()=>{
+ const date='2027-09-11',input=ctx(swiss,date);
+ const core=input.dayPlan.slots.filter(s=>!s.optional);
+ assert.ok(core.length>0);
+ const active=core.map(s=>({id:s.id,kind:'activity',start:null,date}));
+ const optional=input.dayPlan.slots.find(s=>s.optional);
+ const extra=optional?[{id:optional.id,kind:'activity',start:null,date}]:[];
+ const before=JSON.stringify(input.trip.dayPlansV32);
+ const m=tripDayCoverageV104({...input,active:[...active,...active,...extra,
+  {id:'removed',kind:'activity',date,removed:true},
+  {id:'train',kind:'transport',date}]});
+ const row=m.rows.find(r=>r.current);
+ assert.equal(row.adopted,row.core);assert.equal(row.open,false);
+ assert.equal(row.active,new Set([...active,...extra].map(x=>x.id)).size);
+ assert.equal(row.optionalAdopted,extra.length);
+ assert.equal(m.adoptedDays,1);
+ assert.notEqual(m.nextOpen?.date,date);
+ const moved=tripDayCoverageV104({...input,active:active.map(x=>({...x,date:'2027-09-12'}))});
+ assert.equal(moved.rows.find(r=>r.current).adopted,0);
+ assert.equal(JSON.stringify(input.trip.dayPlansV32),before);
+ assert.equal(tripDayCoverageV104({...input,date:'2028-01-01'}),null);
 });
