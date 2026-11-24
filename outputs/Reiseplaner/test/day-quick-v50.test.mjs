@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {quickDayTargetDates,quickDayEdit} from '../public/day-quick-edits-v50.mjs';
+import {timelineMovesV105,timelineReorderV105} from '../public/day-plans-logic.mjs';
+import {dayEntries} from '../public/model.mjs';
 
 const paris={id:'a',kind:'activity',city:'paris',name:'Paris event',selected:false,
  start:null,booked:false,locked:false,removed:false,duration:null};
@@ -84,4 +86,53 @@ test('Swiss optional day trips are allowed only on matching city dates or explic
    'Allow travel-day alternatives only if the actual researched day draft names the place');
  assert.equal(quickDayEdit(swissWithDayplan,'b','2027-09-01').ok,false);
  assert.equal(quickDayEdit(swissWithDayplan,'b','2027-09-02').ok,true);
+});
+
+const freeActivity=(id,order,extra={})=>({id,order,kind:'activity',city:'paris',date:base.date,start:null,end:null,...extra});
+function timelineContext(rows){
+ const day=dayEntries(rows,base.date);
+ return {...base,day,fullDay:day,state:{edits:{b:{duration:50},fixed:{name:'Preserved'}}}};
+}
+test('V105 moves multiple untimed activities by changing only order and preserves other edits',()=>{
+ const rows=[freeActivity('a',101),freeActivity('b',101),freeActivity('c',103)];
+ const input=timelineContext(rows);
+ assert.deepEqual(timelineMovesV105(input,'a'),{previous:null,next:'b'});
+ const result=timelineReorderV105(input,'a','c');
+ assert.equal(result.ok,true);
+ assert.deepEqual(result.ids,['b','c','a']);
+ assert.deepEqual(result.edits.fixed,{name:'Preserved'});
+ assert.equal(result.edits.b.duration,50);
+ for(const id of ['a','b','c']){
+  assert.ok(Number.isFinite(result.edits[id].order));
+  assert.equal('start' in result.edits[id],false);
+  assert.equal('date' in result.edits[id],false);
+ }
+ const reordered=dayEntries(rows.map(row=>({...row,...result.edits[row.id]})),base.date);
+ assert.deepEqual(reordered.map(row=>row.id),result.ids);
+ assert.deepEqual(input.state.edits,{b:{duration:50},fixed:{name:'Preserved'}});
+});
+test('V105 rejects protected, timed, meal and other-city activities, including hidden full-day barriers',()=>{
+ const rows=[freeActivity('timed',100,{start:'2027-09-01T08:00:00Z',zone:'Europe/Paris'}),
+  freeActivity('a',101),freeActivity('b',102),freeActivity('fixed',103,{booked:true}),
+  freeActivity('c',104),freeActivity('foreign',105,{city:'barcelona'}),
+  freeActivity('d',106),freeActivity('meal',107,{mealSlot:'lunch'}),freeActivity('e',108)];
+ const input=timelineContext(rows);
+ for(const id of ['timed','fixed','c','foreign','d','meal','e','missing','a']){
+  assert.equal(timelineReorderV105(input,'a',id).ok,false,id);
+ }
+ assert.equal(timelineReorderV105(input,'fixed','b').ok,false);
+ const filtered={...input,day:input.day.filter(row=>row.city==='paris')};
+ assert.equal(timelineReorderV105(filtered,'c','d').ok,false);
+ const valid=timelineReorderV105(input,'b','a');
+ assert.equal(valid.ok,true);
+ assert.equal('order' in valid.edits.fixed,false);
+ const after=dayEntries(rows.map(row=>({...row,...valid.edits[row.id]})),base.date);
+ assert.deepEqual(after.map(row=>row.id),['timed','b','a','fixed','c','foreign','d','meal','e']);
+});
+test('V105 declines reordering when equal protected boundary orders leave no safe interval',()=>{
+ const rows=[freeActivity('left',100,{locked:true}),freeActivity('a',100),
+  freeActivity('b',100),freeActivity('right',100,{locked:true})];
+ const input=timelineContext(rows);
+ assert.deepEqual(timelineMovesV105(input,'a'),{previous:null,next:null});
+ assert.equal(timelineReorderV105(input,'a','b').ok,false);
 });
