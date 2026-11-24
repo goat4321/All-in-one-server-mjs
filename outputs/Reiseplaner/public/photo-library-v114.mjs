@@ -198,7 +198,10 @@ export function installPhotoViewerV118(doc){
  const show=()=>{
   const a=entries[index],original=a.querySelector('img'),img=viewer.querySelector('img');
   img.hidden=false;viewer.querySelector('.photo118-stage p').hidden=true;
-  img.alt=original.alt;img.src=original.getAttribute('src');
+  img.alt=original.alt;
+  const raw=original.getAttribute('src');
+  // Use the existing attributed Commons asset at a larger resolution only in the viewer.
+  img.src=/^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\//.test(raw)?raw.replace(/\?width=\d+$/,'?width=1440'):raw;
   const cap=viewer.querySelector('.photo118-caption');cap.replaceChildren();
   const fig=a.closest('figure'),caption=fig?.querySelector('figcaption');
   if(caption){const clone=caption.cloneNode(true);clone.querySelectorAll('button').forEach(b=>b.remove());const div=doc.createElement('div');div.append(...clone.childNodes);cap.append(div);}
@@ -238,11 +241,14 @@ if(typeof document!=='undefined'){
  const observer=typeof IntersectionObserver==='function'?new IntersectionObserver(entries=>{
   for(const entry of entries)if(entry.isIntersecting){
    const img=entry.target;observer.unobserve(img);
+   if(revealed.has(img))continue;
+   revealed.add(img);
    if(img.isConnected&&img.naturalWidth&&!reduced()&&typeof img.animate==='function')img.animate([{opacity:.72,transform:'scale(1.015)'},{opacity:1,transform:'scale(1)'}],{duration:280,easing:'ease-out'});
   }
  },{threshold:.15}):null;
  const selector='.photo119-item img,.day112-photo img';
- const observe=img=>{if(img.matches?.(selector)&&img.complete&&img.naturalWidth)observer?.observe(img);};
+ const revealed=new WeakSet();
+ const observe=img=>{if(img.matches?.(selector)&&img.complete&&img.naturalWidth&&!revealed.has(img))observer?.observe(img);};
  document.addEventListener('load',e=>observe(e.target),true);
  document.addEventListener('error',e=>{
   const img=e.target;if(!img.matches?.(selector))return;
@@ -250,6 +256,12 @@ if(typeof document!=='undefined'){
  },true);
  if(observer&&typeof MutationObserver==='function'){
   const scan=node=>{if(node.nodeType!==1)return;observe(node);node.querySelectorAll(selector).forEach(observe);};
-  new MutationObserver(records=>{for(const r of records)for(const node of r.addedNodes)scan(node);}).observe(document.body,{childList:true,subtree:true});
+  new MutationObserver(records=>{
+   for(const r of records){
+    for(const node of r.removedNodes)if(node.nodeType===1&&!node.isConnected){if(node.matches(selector))observer.unobserve(node);node.querySelectorAll(selector).forEach(img=>observer.unobserve(img));}
+    for(const node of r.addedNodes)scan(node);
+   }
+  }).observe(document.body,{childList:true,subtree:true});
+  document.querySelectorAll(selector).forEach(observe);
  }
 }
