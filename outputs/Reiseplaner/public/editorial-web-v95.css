@@ -2961,3 +2961,26 @@
 @media(max-width:480px){.reference-travel-shell .day104-metric{padding:9px}.reference-travel-shell .day104-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.reference-travel-shell .day104-overview *{animation:none!important;transition:none!important;transform:none!important}}
 :root[data-motion=off] .reference-travel-shell .day104-overview *{animation:none!important;transition:none!important;transform:none!important}
+
+/* V105 / accessible timeline ordering, no animation of the live map. */
+.reference-travel-shell .day105-controls{
+ display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin-top:9px;padding-top:8px;
+ border-top:1px solid var(--e95-line);min-width:0;
+}
+.reference-travel-shell .day105-controls>span{font-size:11px;color:var(--e95-secondary);margin-right:auto}
+.reference-travel-shell .day105-move{
+ display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:44px;min-width:44px;
+ border:1px solid var(--e95-line);border-radius:10px;padding:6px 9px;
+ background:var(--e95-paper);color:var(--e95-link);font-size:11px;font-weight:650;
+ cursor:pointer;transition:background-color 180ms ease,transform 180ms ease,border-color 180ms ease;
+}
+.reference-travel-shell .day105-move:disabled{opacity:.48;cursor:default}
+.reference-travel-shell .day105-move:not(:disabled):hover{border-color:var(--e95-link);background:var(--e95-page)}
+.reference-travel-shell .day105-move:not(:disabled):active{transform:scale(.96)}
+.reference-travel-shell .day105-move:focus-visible{outline:3px solid var(--e95-focus);outline-offset:2px}
+.reference-travel-shell .event-card[draggable=true]{cursor:grab;transition:opacity 180ms ease,box-shadow 180ms ease}
+.reference-travel-shell .event-card.day105-dragging{opacity:.45;cursor:grabbing}
+.reference-travel-shell .event-card.day105-drop-target{outline:2px solid var(--e95-link);outline-offset:2px;background:var(--e95-page)}
+@media(max-width:480px){.reference-travel-shell .day105-controls>span{flex-basis:100%}.reference-travel-shell .day105-move{flex:1 1 0;min-width:44px}}
+@media(prefers-reduced-motion:reduce){.reference-travel-shell :is(.day105-move,.event-card[draggable=true]){transition:none!important;transform:none!important}}
+:root[data-motion=off] .reference-travel-shell :is(.day105-move,.event-card[draggable=true]){transition:none!important;transform:none!important}
