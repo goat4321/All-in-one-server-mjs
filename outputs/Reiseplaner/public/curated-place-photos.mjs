@@ -799,3 +799,17 @@ export function curatedAdditionalPhotosV113(item){
   subjectDisclaimer:description+' · kein Beleg für September 2027'
  }));
 }
+
+/** V114: expose each existing catalog photograph once, preserving all city associations. */
+export function curatedLibraryV114(){
+ const unique=new Map();
+ for(const row of images){
+  const key=row.file.replaceAll('_',' ').normalize('NFC').toLowerCase();
+  const existing=unique.get(key);
+  if(existing){if(!existing.cities.includes(row.city))existing.cities.push(row.city);continue;}
+  unique.set(key,{file:row.file,cities:[row.city],name:row.file.replace(/\.[^.]+$/,'').replaceAll('_',' '),
+   url:'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(row.file)+'?width=960',
+   sourceUrl:row.sourceUrl,credit:row.credit,licenseUrl:row.licenseUrl??null,subjectDisclaimer:row.subjectDisclaimer??null});
+ }
+ return [...unique.values()];
+}
