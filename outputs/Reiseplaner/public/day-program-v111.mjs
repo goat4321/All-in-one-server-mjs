@@ -1,7 +1,7 @@
 import {esc,icon,btn,urlLink} from './ui.mjs';
 import {localParts,groupPrice,priceForParty,money} from './model.mjs';
 import {dayPlanCandidates} from './day-plans-logic.mjs';
-import {placeThumbnailHtml} from './place-profile.mjs';
+import {itineraryPhotoHtmlV112} from './place-profile.mjs';
 import {SWISS_DAY_EDITORIAL_V85} from './swiss-day-editorial-v85.mjs';
 
 // Clock windows are OUR planning proposals, not venue hours or train times.
@@ -133,7 +133,11 @@ export function detailedDayModelV111(ctx){
  const items=new Map((ctx.all??[]).map(x=>[x.id,x]));
  const pending=new Set(dayPlanCandidates(ctx,{includeOptional:true}).map(s=>s.id));
  const selected=new Set((ctx.active??[]).filter(x=>x.kind==='activity'&&!x.removed&&(localParts(x.start,x.zone).date??x.date)===ctx.date).map(x=>x.id));
- const rows=program.map((row,index)=>{
+ const existing=new Set(program.map(r=>r.id).filter(Boolean));
+ const extra=ctx.dayPlan.slots.filter(s=>!existing.has(s.id)).map(s=>({
+  id:s.id,type:'activity',time:'Alternative · separat wählen',detail:'Vorhandene zusätzliche Routenoption. Nicht mit der Hauptwanderung kombinieren; Dauer, Schwierigkeit, Wetter und Wegfreigabe prüfen.'
+ }));
+ const rows=[...program,...extra].map((row,index)=>{
   const slot=slots.get(row.id),item=items.get(row.id);
   if(row.id&&!slot)throw Error('V111 fehlende V32-Aktivität: '+ctx.date+' '+row.id);
   return {...row,index:index+1,slot,item,title:slot?.name??row.title,minutes:slot?.minutes??row.minutes,
@@ -152,7 +156,8 @@ export function renderDetailedDayV111(ctx){
   const price=r.item?priceForParty(r.item,ctx.people??[]):null;
   const cents=groupPrice(price,ctx.people?.length??0);
   const cost=r.slot?(cents==null?'Kosten offen':money(cents,price.currency)+' · Gruppenreferenz'):'';
-  const photo=r.item?placeThumbnailHtml(r.item,ctx):'';
+  const photo=r.item?itineraryPhotoHtmlV112(r.item,ctx):
+   ['transfer','lodging'].includes(r.type)?itineraryPhotoHtmlV112({id:ctx.date+':'+r.index,city:ctx.dayPlan.city,name:r.title,kind:'context'},ctx):'';
   const transfer=r.type==='transfer'?'<div class="day111-transfer-evidence">'
    +[...m.overnight,...m.transfers].map(t=>'<p>'+esc(t.from??'Ankunft')+' → '+esc(t.to)+' · Archiv '+esc(t.departure??'offen')+' – '+esc(t.arrival??'offen')+' · 2027 ungeprüft</p>').join('')+'</div>':'';
   const actions=r.slot?'<div class="day111-actions">'
@@ -163,7 +168,7 @@ export function renderDetailedDayV111(ctx){
    +'<div class="day111-time"><strong>'+esc(r.time)+'</strong><small>'+esc(r.minutes!=null?r.minutes+' Min. Planwert':'Flexibel')+'</small></div>'
    +'<span class="day111-node" aria-hidden="true">'+icon(icons[r.type])+'</span>'
    +'<article class="day111-card"><div class="day111-card-main"><div class="day111-copy"><small>'+esc(labels[r.type])+(r.optional?' · OPTION':'')+'</small><h3>'+esc(r.title)+'</h3><p>'+esc(r.detail)+'</p>'
-   +(cost?'<span class="day111-cost">'+esc(cost)+'</span>':'')+'</div>'+(photo?'<div class="day111-photo">'+photo+'</div>':'')+'</div>'+transfer+actions+'</article></li>';
+   +(cost?'<span class="day111-cost">'+esc(cost)+'</span>':'')+'</div>'+(photo?'<div class="day111-photo day112-large">'+photo+'</div>':'')+'</div>'+transfer+actions+'</article></li>';
  }).join('');
  return '<section class="day111-program" id="day111-program" tabindex="-1" aria-label="Detaillierter Tagesplan">'
   +'<header class="day111-header"><small>TAG '+(ctx.trip.dayPlansV32.findIndex(d=>d.date===ctx.date)+1)+' · DETAILPROGRAMM</small><h2>'+esc(ctx.dayPlan.title)+'</h2><p>Konkrete Reihenfolge von Frühstück bis Rückkehr. Uhrzeitfenster sind unsere unverbindlichen Vorschläge; Fahrtzeiten und Öffnung werden dadurch nicht bestätigt.</p></header>'
