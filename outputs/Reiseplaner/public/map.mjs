@@ -716,7 +716,7 @@ export class TripMap {
     }
   }
 
-  playCityStory(trip,cities,items=[],activeIds=new Set()){
+  playCityStory(trip,cities,items=[],activeIds=new Set(),{immersive=false}={}){
     const stops=buildCityArrivalScenes(storyCityStops(trip,cities),items,activeIds);
     if(stops.length<2)return false;
     this.map.invalidateSize({pan:false});
@@ -725,7 +725,7 @@ export class TripMap {
       paddingTopLeft:[48,142],paddingBottomRight:[48,162],
       maxZoom:8,animate:false,
     });
-    return this.cityStory.play(stops);
+    return this.cityStory.play(stops.map(s=>({...s,previewDays:(trip.dayPlansV32??[]).filter(d=>d.city===s.id).length})),{immersive});
   }
 
   pauseCityStory(){return this.cityStory.pause();}
