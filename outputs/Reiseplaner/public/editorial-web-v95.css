@@ -3098,3 +3098,32 @@
 }
 @media(prefers-reduced-motion:reduce){.reference-travel-shell .day111-card{transition:none!important}}
 :root[data-motion=off] .reference-travel-shell .day111-card{transition:none!important}
+
+/* V112: credited imagery, lightweight compact cards, reserved aspect ratios. */
+.reference-travel-shell .day112-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:8px;min-width:0;width:100%}
+.reference-travel-shell .day112-photo{display:block;margin:0;min-width:0;overflow:hidden}
+.reference-travel-shell .day112-photo>a{display:block;border-radius:12px;overflow:hidden}
+.reference-travel-shell .day112-photo img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:var(--e95-page);border-radius:10px;transition:transform 240ms ease}
+.reference-travel-shell .day112-photo>a:hover img{transform:scale(1.035)}
+.reference-travel-shell .day112-photo figcaption,.reference-travel-shell .day112-photo-credit{display:block;font-size:9px;line-height:1.35;color:var(--e95-secondary);overflow-wrap:anywhere;margin-top:4px}
+.reference-travel-shell .day112-photo figcaption a{font-size:10px}
+.reference-travel-shell .day111-photo.day112-large{flex:0 1 38%;max-width:38%;min-width:0;overflow:visible}
+.reference-travel-shell .day111-photo.day112-large .day112-gallery{grid-template-columns:1fr}
+.reference-travel-shell .day111-photo.day112-large .day112-photo img{aspect-ratio:4/3}
+.reference-travel-shell .day112-gallery.is-compact{display:block}
+.reference-travel-shell .day104-card .day112-photo img{aspect-ratio:16/9}
+.reference-travel-shell .swiss-14-day-card .day112-photo img{aspect-ratio:16/9}
+.reference-travel-shell .day101-period-card .day112-photo img{aspect-ratio:16/9}
+.reference-travel-shell .swiss-today-step .day112-photo img{aspect-ratio:16/9}
+.reference-travel-shell .day110-stop .day112-gallery{margin:0 0 4px}
+.reference-travel-shell .day110-stop .day112-photo img{aspect-ratio:16/9}
+.reference-travel-shell .day110-alternatives li>.day112-gallery{flex:0 0 100px;max-width:100px}
+@media(max-width:600px){
+ .reference-travel-shell .day111-card-main{flex-wrap:wrap}
+ .reference-travel-shell .day111-card-main .day111-copy{flex:1 1 100%}
+ .reference-travel-shell .day111-photo.day112-large{flex:1 1 100%;max-width:100%}
+ .reference-travel-shell .day111-photo.day112-large .day112-photo img{aspect-ratio:16/10}
+ .reference-travel-shell .day111-photo.day112-large .day112-gallery{grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr))}
+}
+@media(prefers-reduced-motion:reduce){.reference-travel-shell .day112-photo img{transition:none!important;transform:none!important}}
+:root[data-motion=off] .reference-travel-shell .day112-photo img{transition:none!important;transform:none!important}
