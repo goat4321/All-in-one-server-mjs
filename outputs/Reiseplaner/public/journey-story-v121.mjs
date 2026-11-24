@@ -24,11 +24,13 @@ export function renderJourneyStoryV121(ctx,options={}){
  +'<nav class="journey121-nav" aria-label="Städtekapitel"><div class="journey121-progress"><span data-journey121-status>1 / '+chapters.length+'</span><span class="journey121-track" aria-hidden="true"><i></i></span></div><div class="journey121-links">'+links+'</div></nav>'
  +'<div class="journey121-chapters">'+chapters.map((c,i)=>{
   const photo=c.editorial?.photo,item=c.editorial?.item;
-  const dateText=c.plans.length?c.plans.map(d=>shortDay(d.date)).join(' · '):'Tageszuordnung offen';
+  const dateText=c.plans.length?c.plans.length+' '+(c.plans.length===1?'geplanter Tag':'geplante Tage'):'Tageszuordnung offen';
+  const dayLinks=c.plans.map(d=>'<button type="button" data-action="day-plan-go" data-value="'+esc(d.date)+'" aria-label="Tagesplan '+esc(shortDay(d.date))+' öffnen">'+esc(shortDay(d.date))+'</button>').join('');
   return '<article class="journey121-chapter" id="journey121-'+i+'" data-journey121-chapter="'+i+'" tabindex="-1">'
    +'<div class="journey121-media photo119-rail">'+(photo?'<figure class="photo119-item" data-photo120-crop="'+photoCropV120(item,photo)+'"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(item.name+' Foto vergrößern')+'"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(photo.url)+'" alt="'+esc(item.name)+'"></a><figcaption><small>'+esc(photo.credit)+'</small> <a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a></figcaption></figure>':'<div class="journey121-no-photo">Kein zugeordnetes Ortsfoto</div>')+'</div>'
    +'<div class="journey121-copy"><small>ETAPPE '+String(i+1).padStart(2,'0')+' / '+chapters.length+'</small><h3>'+esc(c.name)+'</h3><p>'+esc(dateText)+'</p>'
-   +(c.activities.length?'<div class="journey121-ideas">'+c.activities.map(a=>'<button type="button" data-action="details" data-value="'+esc(a.id)+'">'+esc(a.name)+'</button>').join('')+'</div>':'')
+   +(dayLinks?'<div class="journey121-days" aria-label="Tage an diesem Reiseort">'+dayLinks+'</div>':'')
+   +(c.activities.length?'<h4 class="journey121-subtitle">Aktivitäten im Tagesentwurf</h4><div class="journey121-ideas">'+c.activities.map(a=>'<button type="button" data-action="details" data-value="'+esc(a.id)+'">'+esc(a.name)+'</button>').join('')+'</div>':'')
    +'<div class="journey121-actions">'+(c.plans.length?btn('day-plan-go','Tagesplan','calendar',c.plans[0].date,'primary'):btn('trip-city','Tagesplan','calendar',c.city,'primary'))+btn('journey121-map','Auf Karte','map',c.city)+'</div>'
    +'</div></article>'+(i<chapters.length-1?'<div class="journey121-connector"><span aria-hidden="true"></span><small>Weiter nach '+esc(chapters[i+1].name)+'</small></div>':'');
  }).join('')+'</div></section>';
@@ -36,27 +38,45 @@ export function renderJourneyStoryV121(ctx,options={}){
 export function mountJourneyStoryV121(root){
  const story=root?.querySelector('.journey121');if(!story)return;
  const win=story.ownerDocument.defaultView,chapters=[...story.querySelectorAll('[data-journey121-chapter]')],links=[...story.querySelectorAll('[data-journey121-index]')];
- const status=story.querySelector('[data-journey121-status]');
+ const status=story.querySelector('[data-journey121-status]'),nav=story.querySelector('.journey121-nav'),strip=story.querySelector('.journey121-links');
+ if(!chapters.length||!status||!nav||!strip)return;
+ let active=-1,frame=0,pinned=null;
+ const reduced=()=>story.ownerDocument.documentElement.dataset.motion==='off'||win.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const offset=()=>Math.max(0,root.querySelector('.reference-topbar')?.getBoundingClientRect().bottom??0,parseFloat(win.getComputedStyle(nav).top)||0)+nav.getBoundingClientRect().height+16;
  const activate=index=>{
+  if(index===active)return;
+  active=index;
   links.forEach((a,i)=>{if(i===index)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
   status.textContent=(index+1)+' / '+chapters.length;
   story.style.setProperty('--journey121-progress',String((index+1)/chapters.length));
-  chapters.forEach((c,i)=>c.classList.toggle('journey121-active',i===index));
+  chapters.forEach((c,i)=>{c.classList.toggle('journey121-active',i===index);c.classList.toggle('journey121-passed',i<index);});
+  const a=links[index],bounds=strip.getBoundingClientRect(),linkBounds=a.getBoundingClientRect();
+  if(linkBounds.left<bounds.left||linkBounds.right>bounds.right){
+   strip.scrollTo({left:strip.scrollLeft+linkBounds.left-bounds.left-(bounds.width-linkBounds.width)/2,behavior:reduced()?'instant':'smooth'});
+  }
  };
- let frame=0;
  const update=()=>{
-  frame=0;if(!story.isConnected){win.removeEventListener('scroll',schedule);win.removeEventListener('resize',schedule);return;}
-  const line=win.innerHeight*.42;
-  let active=0;for(let i=0;i<chapters.length;i++){if(chapters[i].getBoundingClientRect().top<=line)active=i;}
-  activate(active);
+  frame=0;if(!story.isConnected)return;
+  if(pinned!==null){
+   const distance=Math.abs(chapters[pinned].getBoundingClientRect().top-offset());
+   if(distance<=4){activate(pinned);pinned=null;return;}
+   return;
+  }
+  const line=Math.max(offset()+12,win.innerHeight*.42);
+  let index=0;for(let i=0;i<chapters.length;i++){if(chapters[i].getBoundingClientRect().top<=line)index=i;}
+  activate(index);
  };
  const schedule=()=>{if(!frame)frame=win.requestAnimationFrame(update);};
+ const interrupt=()=>{if(pinned!==null){pinned=null;schedule();}};
  story.addEventListener('click',e=>{
-  const a=e.target.closest('[data-journey121-index]');if(!a)return;
-  const chapter=chapters[Number(a.dataset.journey121Index)];if(!chapter)return;
-  e.preventDefault();const reduced=story.ownerDocument.documentElement.dataset.motion==='off'||win.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  chapter.scrollIntoView({block:'start',behavior:reduced?'instant':'smooth'});chapter.focus({preventScroll:true});
+  const a=e.target.closest('[data-journey121-index]');if(!a||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+  const index=Number(a.dataset.journey121Index),chapter=chapters[index];if(!chapter)return;
+  e.preventDefault();pinned=index;activate(index);
+  chapter.focus({preventScroll:true});
+  win.scrollTo({top:Math.max(0,win.scrollY+chapter.getBoundingClientRect().top-offset()),behavior:reduced()?'instant':'smooth'});schedule();
  });
- win.addEventListener('scroll',schedule,{passive:true});win.addEventListener('resize',schedule,{passive:true});activate(0);schedule();
- return ()=>{win.removeEventListener('scroll',schedule);win.removeEventListener('resize',schedule);if(frame)win.cancelAnimationFrame(frame);};
+ win.addEventListener('scroll',schedule,{passive:true});win.addEventListener('resize',schedule,{passive:true});
+ for(const type of ['wheel','touchstart','keydown'])win.addEventListener(type,interrupt,{passive:true});
+ activate(0);schedule();
+ return ()=>{win.removeEventListener('scroll',schedule);win.removeEventListener('resize',schedule);for(const type of ['wheel','touchstart','keydown'])win.removeEventListener(type,interrupt);if(frame)win.cancelAnimationFrame(frame);};
 }
