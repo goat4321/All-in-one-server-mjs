@@ -2,7 +2,7 @@ import {storyPointBetween,storyProgress} from './route-city-story-v70.mjs';
 
 // Deliberate pause in each city so the arrival and successive symbols can
 // be perceived before the route continues. Durations are animations, not ETAs.
-const STAY_MS=3050;
+const STAY_MS=5200;
 const TRAVEL_MS=1350;
 const BURST_DIRECTIONS=[
   [-82,-69],[82,-69],[-108,5],[108,10],[-40,100],
@@ -188,6 +188,19 @@ export class RouteCityStoryPlayer{
   this.cityMarkers[this.index]?.getElement()?.classList.remove('story-arrival-paused');
   this.status='playing';this.lastTime=null;this.emit();
   this.frame=requestAnimationFrame(this.tick);return true;
+ }
+ // Manual navigation uses the same state, marker and trail as autoplay.
+ seek(index){
+  if(!Number.isInteger(index)||index<0||index>=this.stops.length||this.status==='idle')return false;
+  if(this.frame!=null)cancelAnimationFrame(this.frame);
+  this.frame=null;this.lastTime=null;this.clearArrival();
+  for(const marker of this.cityMarkers)if(marker)this.layer.removeLayer(marker);
+  this.cityMarkers=[];this.revealed.clear();
+  this.index=index;this.part=0;this.phase='dwell';this.elapsed=0;this.status='paused';
+  if(index>0)this.reveal(index-1);
+  this.reveal(index);
+  this.cityMarkers[index]?.getElement()?.querySelector('.story-arrived-marker')?.classList.add('story-arrived-current');
+  this.draw();this.emit();return true;
  }
  setSpeed(speed){
   if(![1,1.5,2].includes(speed))return false;
