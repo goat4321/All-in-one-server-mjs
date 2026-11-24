@@ -7,6 +7,7 @@ import {journeyModelV110,dayMoveOptionsV110} from './day-journey-v110.mjs';
 import {readPreparationV102,togglePreparationV102,preparationTextV102} from './day-preparation-v102.mjs';
 import {quickDayEdit} from './day-quick-edits-v50.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
+import {mountPhotoLibraryV114} from './photo-library-v114.mjs';
 import { renderShell, mapDetail, mapSelectionPreview } from './views.mjs';
 import { TripMap } from './map.mjs';
 import {explorerCategory} from './map-explorer.mjs';
@@ -2450,6 +2451,7 @@ app.addEventListener('pointerout',event=>hoverAtlasCard(event,false));
 app.addEventListener('toggle',event=>{
   const detail=event.target;
   if(!detail.isConnected)return;
+  if(detail.matches('[data-photo114-group],[data-photo114-archive]')){if(detail.open)void mountPhotoLibraryV114(detail);return;}
   if(context?.page==='data'&&detail.matches('[data-data-section]')){
     const key=detail.dataset.dataSection;
     view.dataOpenSections=detail.open?[...new Set([...view.dataOpenSections,key])]
@@ -2500,6 +2502,7 @@ app.addEventListener('toggle',event=>{
 app.addEventListener('error',event=>{
   const image=event.target;
   if(!(image instanceof HTMLImageElement))return;
+  const photo114=image.closest('.photo114-card');if(photo114){image.hidden=true;photo114.classList.add('photo114-unavailable');return;}
   const frame=image.closest('.destination-cover,.place-thumbnail,.place-photo,.reference-intro-photo,.reference-discovery-image,.reference-hero-thumb,.editorial-journey-media,.hub-hero-art,.day-editorial-media');
   if(!frame||image.dataset.fallbackApplied)return;
   // The decorative backup failing must not hide a separately sourced
