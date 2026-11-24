@@ -225,7 +225,7 @@ function plan(ctx, name) {
     ${renderDayNavigatorV101(ctx)}
     ${renderDayJumpV103(ctx)}
     ${dayPlaces(ctx)}
-    ${renderDetailedDayV111(ctx)}
+    ${renderDetailedDayV111(ctx)||renderPhotoLibraryV114(ctx,{day:true})}
     ${renderSwissDayExperienceV101(ctx)}
     ${renderDayJourneyIntroV110(ctx)}
     ${renderDayBudgetV110(ctx)}
