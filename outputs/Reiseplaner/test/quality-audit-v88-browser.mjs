@@ -642,6 +642,41 @@ try{
    'Search action must remain inside its toolbar at 390px in food, lodging and discover');
  assert.ok(rows.filter(row=>row.reduce).every(row=>row.motionProbeSeconds<0.001),
   'Computed reduced-motion stylesheet must effectively suppress long animations');
+
+ // V118: actual native dialog and gallery navigation with local fixture images.
+ // No external image availability or license claim is made by this test.
+ await clickPage('overview');
+ const v118=await js('('+async function(){
+  const search=document.querySelector('[data-photo118-search]');
+  if(!search)return {missingSearch:true};
+  search.value='Burano';search.dispatchEvent(new Event('input',{bubbles:true}));
+  const filtered=[...search.closest('.photo114-library').querySelectorAll('[data-photo118-label]:not([hidden])')];
+  const filterOK=filtered.length>0&&filtered.every(el=>el.dataset.photo118Label.toLowerCase().includes('burano'));
+  search.value='';search.dispatchEvent(new Event('input',{bubbles:true}));
+  const fixture=document.createElement('div');fixture.className='photo114-grid';
+  const src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  for(let i=1;i<=2;i++){
+   const fig=document.createElement('figure');fig.className='photo114-card';
+   const a=document.createElement('a');a.href='#';const img=document.createElement('img');img.src=src;img.alt='Fixture '+i;
+   a.append(img);fig.append(a);const cap=document.createElement('figcaption');cap.textContent='Test '+i;fig.append(cap);fixture.append(fig);
+  }
+  document.body.append(fixture);
+  const first=fixture.querySelector('a');first.focus();first.click();
+  const dialog=document.querySelector('.photo118-viewer');
+  const opened=dialog?.open&&dialog.querySelector('[data-photo118-count]').textContent==='1 / 2';
+  dialog?.querySelector('[data-photo118-next]')?.click();
+  const next=dialog?.querySelector('[data-photo118-count]').textContent==='2 / 2'&&dialog.querySelector('img').alt==='Fixture 2'&&dialog.querySelector('[data-photo118-next]').disabled;
+  dialog?.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowLeft',bubbles:true}));
+  const back=dialog?.querySelector('[data-photo118-count]').textContent==='1 / 2';
+  const controls=dialog&&[...dialog.querySelectorAll('button')].every(b=>b.getBoundingClientRect().height>=44);
+  dialog?.querySelector('[data-photo118-close]')?.click();
+  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+  const closed=dialog&&!dialog.open&&document.activeElement===first;
+  fixture.remove();
+  return {filterOK,opened,next,back,controls,closed};
+ }.toString()+')()');
+ assert.deepEqual(v118,{filterOK:true,opened:true,next:true,back:true,controls:true,closed:true});
+ console.log('PASS V118 gallery search, native modal, keyboard navigation and focus restoration');
  console.log('PASS V88 lab snapshots: seven pages × three widths × light/dark/reduced-motion');
 }finally{
  socket?.close();
