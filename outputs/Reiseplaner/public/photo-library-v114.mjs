@@ -5,11 +5,23 @@ import {PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114} from './photo-manifest-v11
 
 import {PHOTO_GROUPS_V115,PHOTO_CANDIDATE_COUNT_V115} from './photo-manifest-v115.mjs';
 import {PHOTO_GROUPS_V116,PHOTO_CANDIDATE_COUNT_V116} from './photo-manifest-v116.mjs';
+import {PHOTO_GROUPS_V117,PHOTO_CANDIDATE_COUNT_V117} from './photo-manifest-v117.mjs';
 
 export const ALL_PHOTO_GROUPS_V115=[...PHOTO_GROUPS_V114.map(g=>({...g,key:g.city,cities:[g.city,...(g.city==='appenzell'?['wasserauen','seealpsee']:g.city==='kandersteg'?['oeschinensee']:[])]})),...PHOTO_GROUPS_V115];
 export const PHOTO_TOTAL_V115=()=>curatedLibraryV114().length+PHOTO_CANDIDATE_COUNT_V114+PHOTO_CANDIDATE_COUNT_V115;
 export const ALL_PHOTO_GROUPS_V116=[...ALL_PHOTO_GROUPS_V115,...PHOTO_GROUPS_V116];
 export const PHOTO_TOTAL_V116=()=>PHOTO_TOTAL_V115()+PHOTO_CANDIDATE_COUNT_V116;
+// Additional associations checked against the existing survey activity IDs.
+const v117Associations={
+ 'Louvre · Innenhof und Pyramide':{ids:['act-005']},
+ 'Eiffelturm · Architektur':{ids:['act-006']},
+ 'Burano · Kanäle':{ids:['act-041']},
+ 'Wasserauen · Tal und Berge':{cities:['wasserauen','appenzell'],ids:['act-045']},
+ 'Seealpsee · Seeufer':{cities:['seealpsee','appenzell'],ids:['act-045','act-046']},
+ 'Klöntal · Landschaft':{cities:['kloental','glarus'],ids:['act-047']},
+};
+export const ALL_PHOTO_GROUPS_V117=[...ALL_PHOTO_GROUPS_V116,...PHOTO_GROUPS_V117.map(g=>({...g,...v117Associations[g.title]}))];
+export const PHOTO_TOTAL_V117=()=>PHOTO_TOTAL_V116()+PHOTO_CANDIDATE_COUNT_V117;
 const norm=s=>String(s??'').replace(/^File:/i,'').replaceAll('_',' ').normalize('NFC').toLowerCase();
 const cache=new Map();
 export function photoMetadataUrlV114(files){
@@ -46,18 +58,18 @@ export function photoCardV114(p,{archive=false}={}){
 export function renderPhotoLibraryV114(ctx,{day=false}={}){
  const route=new Set(ctx.trip?.route??[]);
  const city=ctx.city??ctx.dayPlan?.city;
- const groups=ALL_PHOTO_GROUPS_V116.filter(g=>g.cities.some(c=>day?c===city:route.has(c)));
+ const groups=ALL_PHOTO_GROUPS_V117.filter(g=>g.cities.some(c=>day?c===city:route.has(c)));
  const archive=curatedLibraryV114();
  const relevant=archive.filter(p=>p.cities.some(c=>day?c===city:route.has(c)));
  if(day&&!groups.length&&!relevant.length)return '';
  const scopedCount=groups.reduce((n,g)=>n+g.files.length,0);
  const groupHtml=groups.map(groupMarkupV115).join('');
- const other=day?[]:ALL_PHOTO_GROUPS_V116.filter(g=>!groups.includes(g));
+ const other=day?[]:ALL_PHOTO_GROUPS_V117.filter(g=>!groups.includes(g));
  const others=other.length?'<details class="photo115-other"><summary>Weitere Reisevarianten · '+other.reduce((n,g)=>n+g.files.length,0)+' Bildreferenzen</summary>'+other.map(groupMarkupV115).join('')+'</details>':'';
  const existing=(day?relevant:archive);
  return '<section class="photo114-library" aria-label="Reise-Fotobibliothek"><header><small>ECHTE REISEFOTOS · WIKIMEDIA COMMONS</small><h2>'+(day?'Mehr Bilder zu diesem Reiseziel':'Die Reise in Bildern')+'</h2>'
  +'<p>'+scopedCount+' zusätzliche Bildreferenzen für '+(day?'diesen Ort':'diese Route')+' · '+existing.length+' unterschiedliche bestehende Archivfotos'+(!day?' aus allen Reisevarianten':'')+'. Neue Fotos erscheinen erst nach Abruf der Lizenzdaten.</p></header>'
- +(!day?'<p class="photo115-total"><strong>'+PHOTO_TOTAL_V116()+'</strong> unterschiedliche Dateireferenzen in allen Varianten · '+ALL_PHOTO_GROUPS_V116.length+' Motivsammlungen</p>':'')
+ +(!day?'<p class="photo115-total"><strong>'+PHOTO_TOTAL_V117()+'</strong> unterschiedliche Dateireferenzen in allen Varianten · '+ALL_PHOTO_GROUPS_V117.length+' Motivsammlungen</p>':'')
  +groupHtml+others
  +(existing.length?'<details class="photo114-group" data-photo114-archive="'+(day?esc(city):'all')+'"><summary><strong>Vorhandene Fotobibliothek</strong><span>'+existing.length+' Fotos</span></summary><div class="photo114-body"></div></details>':'')
  +'<p>Historische und kategorisierte Motive, keine Belege für Buchungen, Wetter oder Zugänglichkeit im Jahr 2027. Bilder werden erst beim Öffnen der Galerie geladen.</p></section>';
@@ -72,26 +84,41 @@ export async function mountPhotoLibraryV114(detail,fetcher=globalThis.fetch){
   body.innerHTML='<div class="photo114-grid">'+photos.map(p=>photoCardV114(p,{archive:true})).join('')+'</div>';
   body.dataset.loaded='true';return;
  }
- const group=ALL_PHOTO_GROUPS_V116.find(g=>g.key===detail.dataset.photo114Group);
+ const group=ALL_PHOTO_GROUPS_V117.find(g=>g.key===detail.dataset.photo114Group);
  if(!group)return;
- body.dataset.loading='true';body.textContent='Lizenzinformationen werden abgerufen …';
- try {
-  let promise=cache.get(group.key);
-  if(!promise){
-   promise=loadPhotoGroupV115(group,fetcher);
-   cache.set(group.key,promise);
-  }
-  const {photos,failedBatches}=await promise;
-  if(failedBatches)cache.delete(group.key);
-  if(!detail.isConnected)return;
-  body.innerHTML='<p>'+photos.length+' von '+group.files.length+' Dateien mit verwendbaren Lizenzdaten. Nicht passende oder unvollständige Angaben bleiben ausgeblendet.</p>'
-   +'<div class="photo114-grid">'+photos.map(p=>photoCardV114(p)).join('')+'</div>';
-  if(failedBatches)body.insertAdjacentHTML('afterbegin','<p>Ein Teil des Bildabrufs ist fehlgeschlagen. Galerie erneut öffnen, um noch einmal zu versuchen.</p>');
-  else body.dataset.loaded='true';
- }catch{
-  cache.delete(group.key);
-  if(detail.isConnected)body.textContent='Bildserver nicht erreichbar. Galerie schließen und erneut öffnen oder die Quellkategorie nutzen.';
- }finally{delete body.dataset.loading;}
+ // Load only a single 20-file metadata batch on open; additional batches
+ // require explicit interaction. Failed batches are retried, never skipped.
+ body.dataset.loaded='true';
+ body.innerHTML='<p class="photo114-progress" role="status"></p><div class="photo114-grid"></div><button type="button" class="photo114-more">Weitere Bilder laden</button>';
+ const status=body.querySelector('.photo114-progress');
+ const grid=body.querySelector('.photo114-grid');
+ const more=body.querySelector('.photo114-more');
+ let offset=0,accepted=0;
+ const next=async()=>{
+  if(more.disabled||offset>=group.files.length||!detail.isConnected)return;
+  more.disabled=true;
+  status.textContent='Lizenzinformationen werden abgerufen …';
+  const batch={...group,files:group.files.slice(offset,offset+20)};
+  const key=group.key+':'+offset;
+  try{
+   let promise=cache.get(key);
+   if(!promise){promise=loadPhotoGroupV115(batch,fetcher);cache.set(key,promise);}
+   const result=await promise;
+   if(result.failedBatches)throw Error('Bildabruf fehlgeschlagen');
+   if(!detail.isConnected)return;
+   grid.insertAdjacentHTML('beforeend',result.photos.map(p=>photoCardV114(p)).join(''));
+   accepted+=result.photos.length;
+   offset+=batch.files.length;
+   status.textContent=accepted+' Bilder mit verwendbaren Lizenzdaten · '+offset+' von '+group.files.length+' Referenzen geprüft. Motive nicht einzeln geprüft.';
+   more.hidden=offset>=group.files.length;
+   more.textContent='Weitere Bilder laden';
+  }catch{
+   cache.delete(key);
+   if(detail.isConnected){status.textContent='Bildabruf fehlgeschlagen. Diesen Abschnitt erneut versuchen.';more.textContent='Erneut versuchen';}
+  }finally{more.disabled=false;}
+ };
+ more.addEventListener('click',next);
+ await next();
 }
 export {PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114};
 
@@ -99,7 +126,7 @@ export {PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114};
 export function renderItemPhotoGroupV114(item){
  if(!item||item.kind!=='activity'||item.mealSlot)return '';
  const id=item.id?.replace(/^survey-v19:/,'');
- const groups=ALL_PHOTO_GROUPS_V116.filter(g=>g.cities.includes(item.city)&&g.ids.includes(id));
+ const groups=ALL_PHOTO_GROUPS_V117.filter(g=>g.cities.includes(item.city)&&g.ids.includes(id));
  return groups.map(groupMarkupV115).join('');
 
 }
@@ -125,3 +152,5 @@ export async function loadPhotoGroupV115(group,fetcher=globalThis.fetch){
 export {PHOTO_GROUPS_V115,PHOTO_CANDIDATE_COUNT_V115};
 
 export {PHOTO_GROUPS_V116,PHOTO_CANDIDATE_COUNT_V116};
+
+export {PHOTO_GROUPS_V117,PHOTO_CANDIDATE_COUNT_V117};
