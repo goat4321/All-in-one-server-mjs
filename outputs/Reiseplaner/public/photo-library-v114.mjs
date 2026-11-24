@@ -3,6 +3,10 @@ import {curatedLibraryV114} from './curated-place-photos.mjs';
 import {commonsResults} from './commons-photo-search.mjs';
 import {PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114} from './photo-manifest-v114.mjs';
 
+import {PHOTO_GROUPS_V115,PHOTO_CANDIDATE_COUNT_V115} from './photo-manifest-v115.mjs';
+
+export const ALL_PHOTO_GROUPS_V115=[...PHOTO_GROUPS_V114.map(g=>({...g,key:g.city,cities:[g.city,...(g.city==='appenzell'?['wasserauen','seealpsee']:g.city==='kandersteg'?['oeschinensee']:[])]})),...PHOTO_GROUPS_V115];
+export const PHOTO_TOTAL_V115=()=>curatedLibraryV114().length+PHOTO_CANDIDATE_COUNT_V114+PHOTO_CANDIDATE_COUNT_V115;
 const norm=s=>String(s??'').replace(/^File:/i,'').replaceAll('_',' ').normalize('NFC').toLowerCase();
 const cache=new Map();
 export function photoMetadataUrlV114(files){
@@ -39,18 +43,19 @@ export function photoCardV114(p,{archive=false}={}){
 export function renderPhotoLibraryV114(ctx,{day=false}={}){
  const route=new Set(ctx.trip?.route??[]);
  const city=ctx.city??ctx.dayPlan?.city;
- const groups=PHOTO_GROUPS_V114.filter(g=>day?g.city===city:route.has(g.city));
+ const groups=ALL_PHOTO_GROUPS_V115.filter(g=>g.cities.some(c=>day?c===city:route.has(c)));
  const archive=curatedLibraryV114();
  const relevant=archive.filter(p=>p.cities.some(c=>day?c===city:route.has(c)));
  if(day&&!groups.length&&!relevant.length)return '';
  const scopedCount=groups.reduce((n,g)=>n+g.files.length,0);
- const groupHtml=groups.map(g=>'<details class="photo114-group" data-photo114-group="'+esc(g.city)+'"><summary><strong>'+esc(g.title)+'</strong><span>'+g.files.length+' neue Bildreferenzen</span></summary>'
- +'<div class="photo114-body" aria-live="polite"><p>Beim Öffnen werden Quelle und Lizenz abgerufen.</p></div>'
- +'<p class="photo114-source">'+link('https://commons.wikimedia.org/wiki/Category:'+encodeURIComponent(g.category.replaceAll(' ','_')),'Wikimedia-Quellkategorie')+'</p></details>').join('');
+ const groupHtml=groups.map(groupMarkupV115).join('');
+ const other=day?[]:ALL_PHOTO_GROUPS_V115.filter(g=>!groups.includes(g));
+ const others=other.length?'<details class="photo115-other"><summary>Weitere Reisevarianten · '+other.reduce((n,g)=>n+g.files.length,0)+' Bildreferenzen</summary>'+other.map(groupMarkupV115).join('')+'</details>':'';
  const existing=(day?relevant:archive);
  return '<section class="photo114-library" aria-label="Reise-Fotobibliothek"><header><small>ECHTE REISEFOTOS · WIKIMEDIA COMMONS</small><h2>'+(day?'Mehr Bilder zu diesem Reiseziel':'Die Reise in Bildern')+'</h2>'
  +'<p>'+scopedCount+' zusätzliche Bildreferenzen für '+(day?'diesen Ort':'diese Route')+' · '+existing.length+' unterschiedliche bestehende Archivfotos'+(!day?' aus allen Reisevarianten':'')+'. Neue Fotos erscheinen erst nach Abruf der Lizenzdaten.</p></header>'
- +groupHtml
+ +(!day?'<p class="photo115-total"><strong>'+PHOTO_TOTAL_V115()+'</strong> unterschiedliche Dateireferenzen in allen Varianten · '+ALL_PHOTO_GROUPS_V115.length+' Motivsammlungen</p>':'')
+ +groupHtml+others
  +(existing.length?'<details class="photo114-group" data-photo114-archive="'+(day?esc(city):'all')+'"><summary><strong>Vorhandene Fotobibliothek</strong><span>'+existing.length+' Fotos</span></summary><div class="photo114-body"></div></details>':'')
  +'<p>Historische und kategorisierte Motive, keine Belege für Buchungen, Wetter oder Zugänglichkeit im Jahr 2027. Bilder werden erst beim Öffnen der Galerie geladen.</p></section>';
 }
@@ -64,24 +69,24 @@ export async function mountPhotoLibraryV114(detail,fetcher=globalThis.fetch){
   body.innerHTML='<div class="photo114-grid">'+photos.map(p=>photoCardV114(p,{archive:true})).join('')+'</div>';
   body.dataset.loaded='true';return;
  }
- const group=PHOTO_GROUPS_V114.find(g=>g.city===detail.dataset.photo114Group);
+ const group=ALL_PHOTO_GROUPS_V115.find(g=>g.key===detail.dataset.photo114Group);
  if(!group)return;
  body.dataset.loading='true';body.textContent='Lizenzinformationen werden abgerufen …';
  try {
-  let promise=cache.get(group.city);
+  let promise=cache.get(group.key);
   if(!promise){
-   promise=(async()=>{const response=await fetcher(photoMetadataUrlV114(group.files),{headers:{Accept:'application/json'},signal:AbortSignal.timeout(20000)});
-    if(!response.ok)throw Error('HTTP '+response.status);
-    return licensedGroupV114(group,await response.json());})();
-   cache.set(group.city,promise);
+   promise=loadPhotoGroupV115(group,fetcher);
+   cache.set(group.key,promise);
   }
-  const photos=await promise;
+  const {photos,failedBatches}=await promise;
+  if(failedBatches)cache.delete(group.key);
   if(!detail.isConnected)return;
   body.innerHTML='<p>'+photos.length+' von '+group.files.length+' Dateien mit verwendbaren Lizenzdaten. Nicht passende oder unvollständige Angaben bleiben ausgeblendet.</p>'
    +'<div class="photo114-grid">'+photos.map(p=>photoCardV114(p)).join('')+'</div>';
-  body.dataset.loaded='true';
+  if(failedBatches)body.insertAdjacentHTML('afterbegin','<p>Ein Teil des Bildabrufs ist fehlgeschlagen. Galerie erneut öffnen, um noch einmal zu versuchen.</p>');
+  else body.dataset.loaded='true';
  }catch{
-  cache.delete(group.city);
+  cache.delete(group.key);
   if(detail.isConnected)body.textContent='Bildserver nicht erreichbar. Galerie schließen und erneut öffnen oder die Quellkategorie nutzen.';
  }finally{delete body.dataset.loading;}
 }
@@ -95,3 +100,23 @@ export function renderItemPhotoGroupV114(item){
  if(!g)return '';
  return '<details class="photo114-group" data-photo114-group="'+esc(g.city)+'"><summary><strong>Weitere Bilder · '+esc(g.title)+'</strong><span>'+g.files.length+' Referenzen</span></summary><div class="photo114-body" aria-live="polite"><p>Lizenzdaten werden beim Öffnen abgerufen.</p></div><p class="photo114-source">'+link('https://commons.wikimedia.org/wiki/Category:'+encodeURIComponent(g.category.replaceAll(' ','_')),'Wikimedia-Quellkategorie')+'</p></details>';
 }
+
+function groupMarkupV115(g){
+ return '<details class="photo114-group" data-photo114-group="'+esc(g.key)+'"><summary><strong>'+esc(g.title)+'</strong><span>'+g.files.length+' Bildreferenzen</span></summary><div class="photo114-body" aria-live="polite"><p>Beim Öffnen werden Quelle und Lizenz abgerufen.</p></div><p class="photo114-source">'+link('https://commons.wikimedia.org/wiki/Category:'+encodeURIComponent(g.category.replaceAll(' ','_')),'Wikimedia-Quellkategorie')+'</p></details>';
+}
+/** At most 20 files per request, in sequence; retain successful batches on network errors. */
+export async function loadPhotoGroupV115(group,fetcher=globalThis.fetch){
+ const photos=[];let failedBatches=0;
+ for(let i=0;i<group.files.length;i+=20){
+  const batch={...group,files:group.files.slice(i,i+20)};
+  try{
+   const response=await fetcher(photoMetadataUrlV114(batch.files),{headers:{Accept:'application/json'},signal:AbortSignal.timeout(20000)});
+   if(!response.ok)throw Error('HTTP '+response.status);
+   const data=await response.json();if(data.error||!Array.isArray(data?.query?.pages))throw Error('Commons error');
+   photos.push(...licensedGroupV114(batch,data));
+  }catch{failedBatches++;}
+ }
+ if(failedBatches===Math.ceil(group.files.length/20))throw Error('Bildserver nicht erreichbar');
+ return {photos:[...new Map(photos.map(p=>[norm(p.name),p])).values()],failedBatches};
+}
+export {PHOTO_GROUPS_V115,PHOTO_CANDIDATE_COUNT_V115};
