@@ -3,6 +3,7 @@ import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './pub
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
 import {dayPlanDraftEdits,timelineReorderV105} from './day-plans-logic.mjs';
+import {journeyModelV110,dayMoveOptionsV110} from './day-journey-v110.mjs';
 import {readPreparationV102,togglePreparationV102,preparationTextV102} from './day-preparation-v102.mjs';
 import {quickDayEdit} from './day-quick-edits-v50.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
@@ -57,7 +58,7 @@ const view = {
   activityCategory:'all',activitySavedOnly:false,activityOrder:'source',activityEvidenceFilter:'all',
   browseFoodSavedOnly:false,browseMarketLoadingCity:null,browseMarketError:null,
   browseFilterOpen:false,browseResearchOpen:false,browseMealsOpen:false,browseFoodResearchOpen:false,
-  dayPlanOpen:false,dayPlanFocus:'all',hikePreviewId:null,mealSlot:'dinner',dataOpenSections:[],mapPinPicking:false,mapPinDraft:null,mapPinEditingId:null,mapPinsOpen:false,
+  dayJourneyMode:null,dayPlanOpen:false,dayPlanFocus:'all',hikePreviewId:null,mealSlot:'dinner',dataOpenSections:[],mapPinPicking:false,mapPinDraft:null,mapPinEditingId:null,mapPinsOpen:false,
   mapMotion: localStorage.getItem('reiseplan-map-motion')==='off'?'off':'auto',
   cityNavOpen:true,
   mapNearPointId: null, mapNearRadiusKm: 3,
@@ -244,7 +245,7 @@ function buildContext() {
   if (!detail && explorer) detail = [...explorer.placed, ...explorer.unlocated].find(i => i.id === view.selected) ?? null;
   const preview = view.timetablePreview;
   const timetablePreview = preview?.variantId === variant.id && preview.planDate === date && segments.some(s => s.key === preview.key) ? preview : null;
-  return {
+  const result={
     ...view, catalog, variant, variants: catalog.variants, trip, cities: catalog.cities, state, people, all, active, activeSet,
     budget: calculateBudget(active, state), day, fullDay, dates, date, city, cityForDay, dayCities, wholeDay, dayTravel, detail, hotelWalks, station,
     dayPlan:trip.dayPlansV32?.find(row=>row.date===date)??null,
@@ -257,6 +258,84 @@ function buildContext() {
     stops: stops.filter((item, i) => stops.indexOf(item) === i), segments, routes, conflictRoutes, saving, timetablePreview,
     options: all.filter(i => i.city === city && !activeSet.has(i.id) && !i.duplicateOf && !i.removed),
   };
+  result.dayJourney=view.page==='plan'&&!view.total&&view.dayJourneyMode?journeyModelV110(result,view.dayJourneyMode,(a,b)=>walks.get(walkKey(a.point,b.point))):null;
+  return result;
+}
+
+
+let day110Timer=null,day110Index=-1,day110Request=0;
+function day110Key(){return context?.dayJourney?[variant.id,context.date,context.dayJourney.mode].join('|'):null;}
+function pauseDay110(announce=true){
+ if(day110Timer!=null)clearInterval(day110Timer);
+ day110Timer=null;
+ currentMap?.stopDayJourneyMotion?.();
+ const status=app.querySelector('.day110-status');
+ if(announce&&status)status.textContent='Vorschau pausiert · kein Live-Standort';
+}
+function focusDay110(index,animate=true){
+ const m=context?.dayJourney;
+ if(!m||!Number.isInteger(index)||index<0||index>=m.stops.length)return false;
+ day110Index=index;
+ const stop=m.stops[index],leg=m.legs[index-1];
+ currentMap?.focusDayJourney(index,{animate});
+ const panel=app.querySelector('.day110-player');
+ if(!panel)return true;
+ panel.querySelectorAll('.day110-stop').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.value)===index)));
+ const active=panel.querySelector('.day110-stop[aria-pressed=true]');
+ const rail=panel.querySelector('.day110-stops');
+ if(active&&rail){
+  const a=active.getBoundingClientRect(),r=rail.getBoundingClientRect();
+  if(a.left<r.left)rail.scrollLeft-=r.left-a.left;
+  else if(a.right>r.right)rail.scrollLeft+=a.right-r.right;
+ }
+ const status=panel.querySelector('.day110-status');
+ if(status)status.textContent='Stopp '+(index+1)+' / '+m.stops.length+' · '+stop.name
+  +(stop.point?'':' · ohne belegten Pin')+(leg?.type==='routed'?' · Fußweg '+leg.minutes+' Min.':leg?.type==='schematic'?' · Luftlinie':leg?.type==='gap'?' · Weg offen':'');
+ const progress=panel.querySelector('.day110-track');
+ const pct=Math.round((index+1)/m.stops.length*100);
+ if(progress){progress.setAttribute('aria-valuenow',String(pct));progress.querySelector('i').style.width=pct+'%';}
+ return true;
+}
+function playDay110(){
+ const m=context?.dayJourney,key=day110Key();
+ if(!key||!m?.stops.length)return;
+ pauseDay110(false);focusDay110(day110Index<0||day110Index===m.stops.length-1?0:day110Index);
+ if(m.stops.length===1)return;
+ day110Timer=setInterval(()=>{
+  if(day110Key()!==key||day110Index>=m.stops.length-1){pauseDay110(false);return;}
+  focusDay110(day110Index+1);
+ },2100);
+}
+async function checkDay110Routes(){
+ const m=context?.dayJourney,key=day110Key();
+ if(!key)return;
+ const request=++day110Request;
+ pauseDay110(false);
+ const status=app.querySelector('.day110-status');
+ const legs=m.legs.filter(l=>l.type==='schematic').slice(0,8);
+ if(!legs.length)return;
+ if(status)status.textContent='Fußwege werden geprüft …';
+ const button=app.querySelector('[data-action=day110-route]');if(button)button.disabled=true;
+ let found=0;
+ for(const leg of legs){
+  if(request!==day110Request||key!==day110Key())return;
+  const a=m.stops[leg.from],b=m.stops[leg.to];
+  try{
+   const route=await api('/api/walk','POST',{points:[a.point,b.point]});
+   if(footpathMatchesStops(a,b,route)){walks.set(walkKey(a.point,b.point),route);found++;}
+  }catch{}
+ }
+ if(request!==day110Request||key!==day110Key())return;
+ render({restoreView:true,fetchRoutes:false});
+ const next=app.querySelector('.day110-status');
+ if(next)next.textContent=found+' von '+legs.length+' angefragten Fußwegen berechnet. Übrige Verbindungen bleiben schematisch.';
+}
+function openDay110(mode){
+ if(view.page!=='plan'||!context?.dayPlan)return;
+ day110Request++;day110Index=-1;
+ view.dayJourneyMode=mode==='saved'?'saved':'draft';view.mobile='map';
+ render({fetchRoutes:false});
+ app.querySelector('.day110-player')?.scrollIntoView({block:'start',behavior:'instant'});
 }
 
 function updateRouteStoryUi(state){
@@ -390,7 +469,7 @@ function paintMap(fit = false) {
       ?(context.day.find(i=>i.entryKey===context.selected)?.id??context.selected)
       :context.selected, timetablePreview: context.timetablePreview,
     explorer: context.explorer, dayRoute: context.dayRoute,
-    hikeRoute:hikingMapPreview(context),
+    hikeRoute:hikingMapPreview(context),dayJourney:context.dayJourney,
     dayPreview:context.page==='map'&&view.mapSimple
       &&context.explorer?.scope==='day'&&!context.day.some(x=>x.kind==='activity')
       &&context.dayPlan?.slots.length
@@ -469,6 +548,7 @@ function refreshViewportList() {
 
 function render({ restoreView = false, focusMap = false, fetchRoutes = true } = {}) {
   if (!variant) return;
+  pauseDay110(false);
   const previous = currentMap && restoreView ? [currentMap.map.getCenter(), currentMap.map.getZoom()] : null;
   const active = document.activeElement;
   const focusAction = app.contains(active) ? active.dataset?.action : null;
@@ -547,6 +627,7 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
           openMapPin(item,{...view.mapPinDraft,lat:point[0],lon:point[1]});
         },
         select: id => { selectPoint(id, false); },
+        dayJourneyStop:index=>{pauseDay110();focusDay110(index);},
         storyState:state=>updateRouteStoryUi(state),
         leg: index => action('leg', index), visitCity: id => action('city', id),
         routeStop: index => action('day-route-focus', String(index)),
@@ -564,6 +645,7 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
     currentMap.map.invalidateSize({pan:false});
     currentMap.element.classList.toggle('is-placing-pin',view.mapPinPicking);
     paintMap(!retained||!restoreView);
+    if(context.dayJourney){if(day110Index>=context.dayJourney.stops.length)day110Index=-1;if(day110Index>=0)focusDay110(day110Index,false);}
     if(!retained&&previous)
       currentMap.map.setView(previous[0],previous[1],{animate:false});
     if(focusMap)currentMap.focus(context.selected);
@@ -640,6 +722,7 @@ async function switchVariant(id) {
     variant = await api('/api/variant/' + encodeURIComponent(id));
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
+    view.dayJourneyMode=null;day110Index=-1;
     view.mapFrom = view.mapTo = view.mapRouteResult = null;
     view.mapNearPointId=null;view.mapViewportOnly=false;view.mapViewportBounds=null;view.mapSavedOnly=false;
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0; view.geocodeReview=null;
@@ -675,7 +758,7 @@ function refreshMarketsOnCityChange(cityId){
 function showCity(id, date, wholeDay = false) {
   if (!context.trip.route.includes(id)) return;
   if (id !== view.city || (date && date !== view.date)) {
-    view.dayPlanFocus='all';
+    view.dayPlanFocus='all';view.dayJourneyMode=null;day110Index=-1;
     view.mapPinPicking=false;view.mapPinDraft=null;view.mapPinEditingId=null;
     view.dayQueueIds = []; view.dayQueueRoutes = []; view.dayQueueStatus = ''; view.dayQueueFocus = 0;
   }
@@ -838,6 +921,7 @@ function changePage(page) {
   view.menu = false;
   view.optionFilter = 'all';
   if (page !== 'map') view.total = false;
+  if(page!=='plan'){view.dayJourneyMode=null;day110Index=-1;}
   if (page === 'map' && view.mapScope === 'trip') view.total = true;
   window.scrollTo({ top: 0, behavior: 'instant' });
   render();
@@ -1217,6 +1301,31 @@ async function action(name, value = '') {
       if(status)status.textContent=value==='all'?'Alle drei Abschnitte'
         :({morning:'Morgen',noon:'Mittag',evening:'Abend'}[value]+' ausgewählt');
       break;
+    }
+
+    case 'day110-open':
+    case 'day110-mode': openDay110(value);break;
+    case 'day110-close':
+      day110Request++;day110Index=-1;view.dayJourneyMode=null;render({fetchRoutes:false});break;
+    case 'day110-focus': pauseDay110(false);focusDay110(Number(value));break;
+    case 'day110-prev': pauseDay110(false);focusDay110(Math.max(0,day110Index-1));break;
+    case 'day110-next': pauseDay110(false);focusDay110(Math.min((ctx.dayJourney?.stops.length??0)-1,day110Index+1));break;
+    case 'day110-play': playDay110();break;
+    case 'day110-pause': pauseDay110();break;
+    case 'day110-route': await checkDay110Routes();break;
+    case 'day110-move-confirm': {
+      const pair=JSON.parse(value),option=dayMoveOptionsV110(ctx).find(x=>x.id===pair?.[0]&&x.date===pair?.[1]);
+      if(!option)break;
+      openDialog('Aktivität verschieben','<p>'+esc(option.name)+' auf '+esc(option.date)+' verschieben? Es wird kein neuer Termin gebucht.</p><div class="dialog-foot">'+btn('close','Abbrechen')+btn('day110-move-apply','Verschieben','check',value,'primary')+'</div>');
+      break;
+    }
+    case 'day110-move-apply': {
+      const pair=JSON.parse(value),option=dayMoveOptionsV110(ctx).find(x=>x.id===pair?.[0]&&x.date===pair?.[1]);
+      if(!option)break;
+      const draft=quickDayEdit(ctx,option.id,option.date,'move');
+      if(!draft.ok){say(draft.reason);break;}
+      await save({...ctx.state,edits:draft.edits},'Aktivität verschoben');
+      closeDialog();break;
     }
     case 'day-timeline-move': {
       const pair=JSON.parse(value);
