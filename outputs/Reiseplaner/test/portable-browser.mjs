@@ -1605,6 +1605,37 @@ try {
     'V105 undo restores rendered ordering');
   await cdp('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false});
 
+
+  // V110: actual day playback with synchronized timeline, map and variant isolation.
+  await showEditorialDay('2027-09-02',false);
+  const beforeJourney=JSON.stringify(store.current('interrail_swiss').state.edits);
+  await click('[data-action=day110-open]');
+  await until(()=>js('document.querySelector(".day110-player")&&document.querySelector(".day110-map-pin")'), 'V110 day route pins');
+  assert.equal(await js('document.querySelectorAll(".day110-stop").length'),3);
+  assert.ok(await js('document.querySelector(".day110-editorial").textContent.includes("Vollständiger Tagesablauf")'));
+  await click('[data-action=day110-focus][data-value="0"]');
+  await until(()=>js('document.querySelector(".day110-stop[aria-pressed=true]")?.dataset.value==="0"'),'V110 first stop');
+  await click('[data-action=day110-next]');
+  await until(()=>js('document.querySelector(".day110-stop[aria-pressed=true]")?.dataset.value==="1"'),'V110 next stop');
+  await click('[data-action=day110-play]');
+  await until(()=>js('document.querySelector(".day110-stop[aria-pressed=true]")?.dataset.value==="2"'),'V110 playback reaches last stop');
+  await click('[data-action=day110-pause]');
+  await click('[data-action=day110-mode][data-value=saved]');
+  await until(()=>js('document.querySelector("[data-action=day110-mode][data-value=saved]")?.getAttribute("aria-pressed")==="true"'),'V110 saved mode');
+  assert.equal(JSON.stringify(store.current('interrail_swiss').state.edits),beforeJourney);
+  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  await js('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+  assert.ok(await js('document.documentElement.scrollWidth<=innerWidth+3'),'V110 mobile no horizontal page overflow');
+  await screenshot('v110-day-journey-mobile.png');
+  await showEditorialDay('2027-09-10',false);
+  await click('[data-action=day110-open]');
+  await until(()=>js('document.querySelector(".day110-player")?.textContent.includes("Vorläufige Transfers")'),'V110 travel day remains detailed');
+  assert.ok(await js('document.querySelector(".day110-editorial").textContent.includes("Kandersteg")'));
+  await click('[data-action=day110-close]');
+  await until(()=>js('!document.querySelector(".day110-player")'),'V110 close route');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false});
+  console.log('PASS V110: map playback, timeline, mobile layout, travel day and read-only preview');
+
   await cdp('Page.navigate',{url:address+'&variant=interrail_classic'});
   await text('h1','Reiseübersicht');await openMeals();
   await text('.meal-day-slot[data-meal-slot=breakfast]','Noch keine Mahlzeit');
