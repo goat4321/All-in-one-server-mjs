@@ -389,28 +389,51 @@ export function editorialPhotoScoreV119(item,photo){
   +(/panoram|aussicht|trocad|eiffelturm|barceloneta|montju|canal royal|promenade des anglais|boccadasse|rialto|seealpsee|oeschinen|öschinen|eiger|klöntalersee|bachalpsee/i.test(name)?40:0)
   +(/panoram|blick|view|landscape|reflection/i.test(String(photo?.url??'')+' '+String(photo?.subjectDisclaimer??''))?10:0);
 }
-export function editorialCityPhotoV119(ctx,city,{day=false}={}){
+// Normalize Wikimedia title identity independently of requested thumbnail size.
+export function photoIdentityV120(photo){
+ const raw=String(photo?.sourceUrl??photo?.url??'');
+ try{
+  const u=new URL(raw);
+  if(u.hostname==='commons.wikimedia.org'){
+   const m=u.pathname.match(/^\/wiki\/(?:File:|Image:|Special:FilePath\/)(.+)$/i);
+   if(m)return 'commons:'+decodeURIComponent(m[1]).replaceAll('_',' ').normalize('NFC').toLowerCase();
+  }
+  u.hash='';return u.href;
+ }catch{return raw;}
+}
+// Motif-based crop guidance, not a manually verified focal point.
+export function photoCropV120(item,photo){
+ const motif=String(item?.name??'')+' '+String(photo?.subjectDisclaimer??'');
+ return /eiffelturm|trocad|sagrada|turm|tower|kirche|kathedrale/i.test(motif)?'architecture':
+  /seealpsee|oeschinen|öschinen|bachalpsee|klöntal|meer|strand|beach|panoram|eiger/i.test(motif)?'landscape':'balanced';
+}
+export function editorialCityPhotoV119(ctx,city,{day=false,exclude=[]}={}){
  const all=ctx.all??ctx.trip?.items??[];
  const slots=day?(ctx.dayPlan??ctx.trip?.dayPlansV32?.find(d=>d.date===ctx.date))?.slots??[]:[];
  const ids=new Set(slots.map(s=>s.id));
  const candidates=all.filter(i=>i.city===city&&i.kind==='activity'&&!i.mealSlot).flatMap(item=>{
-  const photo=curatedPlacePhoto(item);
-  return photo?[{item,photo,score:editorialPhotoScoreV119(item,photo)+(ids.has(item.id)?100:0)}]:[];
+  const photos=[curatedPlacePhoto(item),...curatedAdditionalPhotosV113(item)].filter(Boolean);
+  return photos.map(photo=>({item,photo,score:editorialPhotoScoreV119(item,photo)+(ids.has(item.id)?100:0)}));
  });
- return candidates.sort((a,b)=>b.score-a.score)[0]??null;
+ const ordered=candidates.sort((a,b)=>b.score-a.score);
+ const blocked=new Set(exclude);return ordered.find(x=>!blocked.has(photoIdentityV120(x.photo)))??ordered[0]??null;
 }
 export function editorialDayPhotosV119(ctx,rows=[]){
- const seen=new Set(),out=[];
+ const seen=new Set(),items=new Set(),primary=[],secondary=[];
  for(const row of rows){
   const item=row.item??row;
-  if(!item||item.kind!=='activity'||item.mealSlot)continue;
+  if(!item||item.kind!=='activity'||item.mealSlot||items.has(item.id))continue;
+  items.add(item.id);
   const photos=itineraryPhotosV112(item,ctx,{context:false}).sort((a,b)=>editorialPhotoScoreV119(item,b)-editorialPhotoScoreV119(item,a));
-  for(const photo of photos){
-   const key=photo.sourceUrl;
-   if(!key||seen.has(key))continue;
-   seen.add(key);out.push({item,photo});
-   if(out.length===6)return out;
-  }
+  photos.forEach((photo,i)=>(i===0?primary:secondary).push({item,photo}));
+ }
+ const out=[];
+ const hero=editorialCityPhotoV119(ctx,ctx.city??ctx.dayPlan?.city,{day:true})?.photo;
+ const heroKey=photoIdentityV120(hero);
+ const ordered=[...primary.filter(e=>photoIdentityV120(e.photo)!==heroKey),...secondary.filter(e=>photoIdentityV120(e.photo)!==heroKey),...primary.filter(e=>photoIdentityV120(e.photo)===heroKey)];
+ for(const entry of ordered){
+  const key=photoIdentityV120(entry.photo);if(!key||seen.has(key))continue;
+  seen.add(key);out.push(entry);if(out.length===6)break;
  }
  return out;
 }
@@ -423,7 +446,7 @@ export function editorialDayRailV119(ctx,rows=[]){
 }
 function photo119Figure(item,photo){
  const url=photo.curated?photo.url.replace(/\?width=960$/,'?width=640'):photo.url;
- return '<figure class="photo119-item"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(item.name+' Foto vergrößern')+'"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(url)+'" alt="'+esc(item.name)+'"></a><figcaption><strong>'+esc(item.name)+'</strong><small>'+esc(photo.credit)+'</small>'
+ return '<figure class="photo119-item" data-photo120-crop="'+photoCropV120(item,photo)+'"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(item.name+' Foto vergrößern')+'"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(url)+'" alt="'+esc(item.name)+'"></a><figcaption><strong>'+esc(item.name)+'</strong><small>'+esc(photo.credit)+'</small>'
   +(photo.subjectDisclaimer?'<small>'+esc(photo.subjectDisclaimer)+'</small>':'')
   +'<a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Quelle</a>'
   +(ccLicenseUrl(photo)?'<a href="'+esc(ccLicenseUrl(photo))+'" target="_blank" rel="noopener noreferrer">Lizenz</a>':'')+'</figcaption></figure>';
@@ -576,8 +599,8 @@ export function itineraryPhotoHtmlV112(item,ctx={}, {compact=false,context=true}
   const label=photo.contextualOnly?'Stadtmotiv · kein Objektfoto':photo.subjectDisclaimer??'Historisches / hinterlegtes Ortsfoto';
   const img='<img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(url)+'" alt="'+esc(photo.contextualOnly?'Stadtmotiv':item.name??'Ortsfoto')+'" title="'+esc(label+' · '+photo.credit)+'">';
   const credit='<small class="day112-photo-credit">'+esc((photo.contextualOnly?'Stadtmotiv · ':'')+photo.credit)+'</small>';
-  return compact?'<span class="day112-photo" data-photo-scope="'+esc(photo.photoScope??'stored')+'">'+img+credit+'</span>':
-   '<figure class="day112-photo" data-photo-scope="'+esc(photo.photoScope??'stored')+'"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Foto größer öffnen">'+img+'</a><figcaption>'+credit+' <a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Quelle</a>'
+  return compact?'<span class="day112-photo" data-photo120-crop="'+photoCropV120(item,photo)+'" data-photo-scope="'+esc(photo.photoScope??'stored')+'">'+img+credit+'</span>':
+   '<figure class="day112-photo" data-photo120-crop="'+photoCropV120(item,photo)+'" data-photo-scope="'+esc(photo.photoScope??'stored')+'"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Foto größer öffnen">'+img+'</a><figcaption>'+credit+' <a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Quelle</a>'
    +(ccLicenseUrl(photo)?' · <a href="'+esc(ccLicenseUrl(photo))+'" target="_blank" rel="noopener noreferrer">Lizenz</a>':'')+'</figcaption></figure>';
  };
  return '<span class="day112-gallery'+(compact?' is-compact':'')+'">'+(compact?photos.slice(0,1):photos).map(thumb).join('')+'</span>';
