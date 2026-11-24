@@ -7,7 +7,7 @@ export const PHOTO_GROUPS_V118=[
       "kandersteg",
       "oeschinensee"
     ],
-    "ids": [],
+    "ids": ["act-053","act-054"],
     "title": "Oeschinensee · See und Bergpanorama",
     "category": "Oeschinen Lake",
     "files": [
