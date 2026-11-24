@@ -3168,3 +3168,7 @@
 @media(max-width:350px){.reference-travel-shell .photo114-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.reference-travel-shell .photo114-card img{transition:none!important;transform:none!important}}
 :root[data-motion=off] .reference-travel-shell .photo114-card img{transition:none!important;transform:none!important}
+
+/* V114: keep small source/credit labels independently touchable on all sizes. */
+.reference-travel-shell .day112-photo figcaption a,.reference-travel-shell .photo114-card figcaption a,.reference-travel-shell .photo114-source a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 5px;box-sizing:border-box}
+.reference-travel-shell .photo114-group summary{min-height:44px;box-sizing:border-box}
