@@ -463,3 +463,19 @@ test('V121 city chapters follow all four actual routes and only link existing it
  }
  assert.equal(renderJourneyStoryV121({trip:{route:[]}}),'');
 });
+
+test('V121 chapter date controls expose every existing day without inventing a stay',()=>{
+ for(const trip of catalog.trips){
+  const input=ctx(trip),chapters=journeyChaptersV121(input);
+  const html=renderJourneyStoryV121(input);
+  for(const chapter of chapters){
+   const start=html.indexOf('id="journey121-'+chapter.index+'"');
+   const end=html.indexOf('</article>',start);
+   const block=html.slice(start,end);
+   const dateLinks=[...block.matchAll(/data-action="day-plan-go" data-value="([^"]+)" aria-label="Tagesplan /g)].map(m=>m[1]);
+   assert.deepEqual(dateLinks,chapter.plans.map(d=>d.date));
+   assert.match(block,/data-action="journey121-map"/);
+   if(chapter.plans.length)assert.match(block,/journey121-days/);
+  }
+ }
+});
