@@ -35,6 +35,7 @@ import {mapUnlocatedReview,mapUnverifiedPointsReview} from './map-unlocated-v39.
 import {browseHero,browseToolbar,browseItems,browseMatch,mapBrowseModes,
   mapBrowsePanel,foodTypeTabs,foodBrowseCards,browseOptionCard} from './browse-hub-v35.mjs';
 import {dayPlanPanel,dayPlanOverview,dayPlanQuickBar} from './day-plans-ui.mjs';
+import {timelineMovesV105} from './day-plans-logic.mjs';
 import {renderSwiss14DayOverviewV100} from './swiss-14-day-overview-v100.mjs';
 import {renderDayNavigatorV101,renderSwissDayExperienceV101} from './day-experience-v101.mjs';
 import {renderDayJumpV103,renderDayReturnV103} from './day-navigation-v103.mjs';
@@ -238,6 +239,9 @@ function plan(ctx, name) {
             ?'<div class="timeline-period '+period.key+'">'+icon(period.icon)+'<strong>'+period.title+'</strong></div>':'';
           const signal=planCostSignal(item,people.length);
           const pinned = selected === item.entryKey;
+          const moves=timelineMovesV105(ctx,item.id);
+          const movable=Boolean(moves.previous||moves.next);
+          const moveButton=(target,label,arrow)=>'<button type="button" class="day105-move" data-action="day-timeline-move" data-value="'+esc(JSON.stringify([item.id,target]))+'" aria-label="'+esc(item.name+' '+label)+'"'+(target?'':' disabled')+'>'+arrow+' <span>'+label+'</span></button>';
           const name = item.kind === 'transport' ? item.role + ' · ' + (item.role === 'Ankunft' ? item.arrival : item.departure)
             : item.role ? item.role + ' · ' + item.name : item.name;
           const duration = item.duration ? item.duration + ' Min. · ' : '';
@@ -245,7 +249,7 @@ function plan(ctx, name) {
           const line = place + (item.kind === 'transport' ? item.name + (item.mode === 'roadtrip' ? ' · Autofahrt' : ' · Entwurf')
             : duration + (item.tags?.slice(0, 2).join(' · ') || item.category || 'Geplant'));
           return periodLabel+`<article class="timeline-event"><time>${esc(item.time ?? 'Flexibel')}</time><div class="axis"><span class="number">${index + 1}</span></div>
-          <div class="event-card ${pinned ? 'selected' : ''}" data-event-id="${esc(item.id)}" ${!item.locked && !item.booked && item.kind !== 'transport' && item.kind !== 'lodging' ? 'draggable="true"' : ''}>
+          <div class="event-card ${pinned ? 'selected' : ''}" data-event-id="${esc(item.id)}" ${movable ? 'draggable="true"' : ''}>
           <button type="button" class="event-content" data-action="select" data-value="${esc(item.entryKey)}" aria-pressed="${pinned}">
           ${placeThumbnailHtml(item,ctx)}<div class="timeline-event-copy">
           <h3>${icon(categoryIcon(item))}${esc(name)} ${item.locked || item.booked ? icon('lock') : ''}</h3>
@@ -253,7 +257,8 @@ function plan(ctx, name) {
           <button type="button" class="mini-action" data-action="edit" data-value="${esc(item.id)}" aria-label="Bearbeiten: ${esc(item.name)}">${icon('edit')}</button>
           ${item.kind==='activity'&&!item.booked&&!item.locked
             ?'<button type="button" class="mini-action timeline-quick-remove" data-action="day-quick-remove" data-value="'+esc(item.id)+'" aria-label="Vom Tag entfernen: '+esc(item.name)+'">'+icon('close')+'</button>'
-            :''}</div></article>`
+            :''}
+          ${movable?'<div class="day105-controls"><span>Reihenfolge</span>'+moveButton(moves.previous,'nach oben','↑')+moveButton(moves.next,'nach unten','↓')+'</div>':''}</div></article>`
           + (after >= 0 ? connector(ctx.segments[after], routes[after], after, ctx.segments[after] === last && last.to.anchor ? 'Zur Unterkunft' : '', people.length) : '');
         }),
       ].join('') : empty('Dieser Tag ist noch offen', 'Ergänze einen Termin oder übernimm eine Option aus Entdecken.')}</div>
