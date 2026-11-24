@@ -699,6 +699,39 @@ try{
  }.toString()+')()');
  assert.deepEqual(v119,{scrolled:true,opened:true});
  console.log('PASS V119 editorial photo story controls and shared viewer');
+ // V120: inspect real itinerary photo crop geometry on three responsive widths.
+ await clickPage('plan');
+ await js('(async()=>{if(!document.querySelector(".photo119-story")){for(const day of [...document.querySelectorAll(".days [data-action=day]")].map(b=>b.dataset.value)){document.querySelector(".days [data-value=\\\""+day+"\\\"]")?.click();await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));if(document.querySelector(".photo119-story"))break;}}})()');
+ const photoAudit=[];
+ for(const width of [390,768,1440]){
+  await cdp('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:width===390});
+  const sample=await js('('+async function(){
+   const story=document.querySelector('.photo119-story');
+   if(!story)return {missing:true};
+   story.scrollIntoView({block:'start',behavior:'instant'});
+   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+   const rail=story.querySelector('.photo119-rail');
+   const images=[...rail.querySelectorAll('.photo119-item>a')];
+   const rect=rail.getBoundingClientRect();
+   return {count:images.length,railWidth:rect.width,viewport:innerWidth,
+    overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth),
+    ratios:images.map(a=>{const r=a.getBoundingClientRect();return r.width/r.height}),
+    crops:[...rail.querySelectorAll('[data-photo120-crop]')].map(x=>x.dataset.photo120Crop),
+    loaded:images.filter(a=>a.querySelector('img')?.naturalWidth>0).length};
+  }.toString()+')()');
+  photoAudit.push({width,...sample});
+  if(output&&!sample.missing){
+   await mkdir(output,{recursive:true});
+   const shot=await cdp('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
+   await writeFile(join(output,'v120-day-photos-'+width+'.png'),Buffer.from(shot.data,'base64'));
+  }
+ }
+ console.log('V120_PHOTO_AUDIT '+JSON.stringify(photoAudit));
+ assert.ok(photoAudit.every(s=>!s.missing&&s.count>0&&s.count<=6&&s.overflow<=1&&s.railWidth<=s.viewport));
+ assert.ok(photoAudit.every(s=>s.ratios.every(r=>Number.isFinite(r)&&r>=1.25&&r<=1.7)));
+ assert.ok(photoAudit.every(s=>s.crops.length===s.count&&s.crops.every(c=>['architecture','landscape','balanced'].includes(c))));
+ if(output)await writeFile(join(output,'v120-photo-audit.json'),JSON.stringify(photoAudit,null,2));
+
 
  console.log('PASS V88 lab snapshots: seven pages × three widths × light/dark/reduced-motion');
 }finally{
