@@ -40,6 +40,7 @@ import {renderSwiss14DayOverviewV100} from './swiss-14-day-overview-v100.mjs';
 import {renderDayNavigatorV101,renderSwissDayExperienceV101} from './day-experience-v101.mjs';
 import {renderDayJumpV103,renderDayReturnV103} from './day-navigation-v103.mjs';
 import {renderDayPreparationV102} from './day-preparation-v102.mjs';
+import {renderDayBudgetV110,renderDayAlternativesV110,renderDayJourneyIntroV110,renderDayJourneyControlsV110} from './day-journey-v110.mjs';
 import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
 import {swissLodgingSummaryV83,swissLodgingCompareV83,swissLodgingRailNoteV83} from './swiss-lodging-v83.mjs';
 import {swissDatedSearchBoardV84,swissRailPrecisionV84} from './swiss-dated-search-v84.mjs';
@@ -223,6 +224,9 @@ function plan(ctx, name) {
     ${renderDayJumpV103(ctx)}
     ${dayPlaces(ctx)}
     ${renderSwissDayExperienceV101(ctx)}
+    ${renderDayJourneyIntroV110(ctx)}
+    ${renderDayBudgetV110(ctx)}
+    ${renderDayAlternativesV110(ctx)}
     ${renderDayPreparationV102(ctx)}
     ${dayPlanQuickBar(ctx)}
     <div class="plan-grid" data-mobile="${mobile}">
@@ -423,6 +427,7 @@ function mapPanel(ctx, full = false) {
     ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
       + dateText(ctx.timetablePreview.route.date) + ' · ' + ctx.timetablePreview.route.line) + '</span>'
       + iconBtn('transit-clear', 'Fahrplanvorschau schließen', 'close') + '</div>' : ''}
+    ${ctx.page==='plan'?renderDayJourneyControlsV110(ctx,ctx.dayJourney):''}
     <div class="map-wrap" data-map-tone="${esc(ctx.mapTone)}"><div id="map" tabindex="0" aria-label="Verschiebbare Karte mit Zoom"></div>
     ${ctx.page==='map'?`<div class="map-fullscreen-ui"><div class="map-fullscreen-toolbar" role="toolbar" aria-label="Vollbildkarte steuern">
       <div class="map-fullscreen-brand"><small>REISEATLAS</small><strong>${esc(ctx.cities[ctx.city]?.name??ctx.city)}</strong></div>
