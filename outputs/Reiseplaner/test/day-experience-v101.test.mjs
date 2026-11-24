@@ -7,7 +7,7 @@ import {
  swissDayExperienceModelV101,renderSwissDayExperienceV101,
  tripDayCoverageV104,renderTripDayCoverageV104
 } from '../public/day-experience-v101.mjs';
-import {PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114,photoMetadataUrlV114,licensedGroupV114,renderPhotoLibraryV114,photoCardV114} from '../public/photo-library-v114.mjs';
+import {PHOTO_GROUPS_V115,PHOTO_CANDIDATE_COUNT_V115,ALL_PHOTO_GROUPS_V115,PHOTO_TOTAL_V115,loadPhotoGroupV115,PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114,photoMetadataUrlV114,licensedGroupV114,renderPhotoLibraryV114,photoCardV114} from '../public/photo-library-v114.mjs';
 import {curatedLibraryV114} from '../public/curated-place-photos.mjs';
 import {itineraryPhotosV112,itineraryPhotoHtmlV112,itineraryDayImageV112} from '../public/place-profile.mjs';
 import {SWISS_PROGRAM_V111,detailedDayModelV111,renderDetailedDayV111} from '../public/day-program-v111.mjs';
@@ -311,7 +311,7 @@ test('V114 120 new unique named photo references, all six destinations and over 
  }
  const overview=renderPhotoLibraryV114({trip:swiss,city:'paris'});
  assert.match(overview,/120 zusätzliche Bildreferenzen/);
- assert.equal((overview.match(/data-photo114-group=/g)??[]).length,6);
+ assert.equal((overview.match(/data-photo114-group=/g)??[]).length,ALL_PHOTO_GROUPS_V115.length);
 });
 test('V114 accepts only requested image titles with usable licenses and attribution',()=>{
  const g=PHOTO_GROUPS_V114[0],name=g.files[0];
@@ -323,4 +323,38 @@ test('V114 accepts only requested image titles with usable licenses and attribut
  assert.match(card,/loading="lazy"/);
  assert.match(card,/Motiv nicht einzeln geprüft/);
  assert.match(card,/creativecommons.org\/licenses\/by-sa\/4.0/);
+});
+
+test('V115 more than 500 unique file references, existing and new, available across four trips',()=>{
+ const norm=s=>s.replaceAll('_',' ').normalize('NFC').toLowerCase();
+ const refs=[...curatedLibraryV114().map(p=>p.file),...ALL_PHOTO_GROUPS_V115.flatMap(g=>g.files)];
+ assert.equal(PHOTO_CANDIDATE_COUNT_V115,296);
+ assert.equal(PHOTO_TOTAL_V115(),572);
+ assert.equal(new Set(refs.map(norm)).size,refs.length);
+ assert.equal(new Set(ALL_PHOTO_GROUPS_V115.map(g=>g.key)).size,13);
+ for(const trip of catalog.trips){
+  const html=renderPhotoLibraryV114({trip,city:trip.route[0]});
+  assert.match(html,/572/);
+  assert.equal((html.match(/data-photo114-group=/g)??[]).length,13);
+  assert.doesNotMatch(html,/<img /);
+ }
+ for(const city of ['genoa','venice','toulouse','narbonne','glarus','kloental','bachalpsee','grindelwald','wasserauen','seealpsee','oeschinensee']){
+  const html=renderPhotoLibraryV114({trip:swiss,city},{day:true});
+  assert.match(html,/data-photo114-group=/,city);
+ }
+});
+test('V115 metadata batches remain bounded and preserve successful results on partial failure',async()=>{
+ const g=PHOTO_GROUPS_V115.find(g=>g.city==='venice');
+ const calls=[];
+ const makePage=name=>({title:'File:'+name,imageinfo:[{mime:'image/jpeg',thumburl:'https://upload.wikimedia.org/wikipedia/commons/thumb/test/'+encodeURIComponent(name),descriptionurl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(name),extmetadata:{LicenseShortName:{value:'CC BY-SA 4.0'},LicenseUrl:{value:'https://creativecommons.org/licenses/by-sa/4.0/'},Artist:{value:'Test artist'}}}]});
+ const fetcher=async url=>{
+  const files=new URL(url).searchParams.get('titles').split('|').map(s=>s.slice(5));calls.push(files);
+  if(calls.length===2)return {ok:false,status:503};
+  return {ok:true,json:async()=>({query:{pages:files.map(makePage)}})};
+ };
+ const m=await loadPhotoGroupV115(g,fetcher);
+ assert.deepEqual(calls.map(a=>a.length),[20,20,10]);
+ assert.equal(m.failedBatches,1);assert.equal(m.photos.length,30);
+ assert.equal(new Set(m.photos.map(p=>p.name)).size,30);
+ await assert.rejects(()=>loadPhotoGroupV115(g,async()=>({ok:false,status:503})));
 });
