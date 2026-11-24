@@ -1,3 +1,4 @@
+import {renderPhotoLibraryV114} from './photo-library-v114.mjs';
 import {esc,icon,btn,urlLink} from './ui.mjs';
 import {localParts,groupPrice,priceForParty,money} from './model.mjs';
 import {dayPlanCandidates} from './day-plans-logic.mjs';
@@ -174,6 +175,6 @@ export function renderDetailedDayV111(ctx){
   +'<header class="day111-header"><small>TAG '+(ctx.trip.dayPlansV32.findIndex(d=>d.date===ctx.date)+1)+' · DETAILPROGRAMM</small><h2>'+esc(ctx.dayPlan.title)+'</h2><p>Konkrete Reihenfolge von Frühstück bis Rückkehr. Uhrzeitfenster sind unsere unverbindlichen Vorschläge; Fahrtzeiten und Öffnung werden dadurch nicht bestätigt.</p></header>'
   +'<div class="day111-summary"><span><strong>'+m.rows.length+'</strong> Ablaufpunkte</span><span><strong>'+m.required+'</strong> Hauptaktivitäten</span><span><strong>'+m.activityMinutes+'</strong> Min. Hauptideen</span><span><strong>'+m.adopted+'/'+m.required+'</strong> übernommen</span></div>'
   +'<div class="day111-top-actions">'+btn('day110-open','Tagesroute abspielen','map','draft','primary')+(m.pending?btn('day-plan-adopt',m.pending+' Hauptaktivitäten übernehmen','plus','','subtle'):'')+'</div>'
-  +'<ol class="day111-timeline">'+rows+'</ol>'
+  +'<ol class="day111-timeline">'+rows+'</ol>'+renderPhotoLibraryV114(ctx,{day:true})
   +'<details class="day111-notes"><summary>Alternative, Zeitpuffer &amp; Quellen</summary><p>'+esc(m.editorial?.alternative??'')+'</p><p>'+esc(m.editorial?.buffer??'')+'</p><div>'+((m.editorial?.sources??[]).map(([label,url])=>urlLink(url,label)).join(''))+'</div></details></section>';
 }
