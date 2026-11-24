@@ -3,7 +3,7 @@ import { explorerCategory, explorerDetail } from './map-explorer.mjs';
 import {markerProvenance,hasIndependentPointEvidence} from './poi-location-provenance.mjs';
 import { googleMapsSearchUrl, googleMapsDirectionsUrl, googleMapsSearchLabel, googleMapsLocationStatus } from './google-maps.mjs';
 import { esc, sourceList, urlLink } from './ui.mjs';
-import { curatedPlacePhoto,curatedCityBackdrop } from './curated-place-photos.mjs';
+import { curatedPlacePhoto,curatedCityBackdrop,curatedAdditionalPhotosV113 } from './curated-place-photos.mjs';
 import {commonsDefaultQuery,commonsWebSearchUrl} from './commons-photo-search.mjs';
 import {venueAlternativesHtml} from './venue-alternatives-v80.mjs';
 import { planCostSignal } from './visual-experience.mjs';
@@ -508,7 +508,7 @@ export function itineraryPhotosV112(item,ctx={}, {context=true}={}){
  const saved=ctx.state?.placePhotos?.[item.id];
  const own=(Array.isArray(saved)?saved:saved?[saved]:[]).filter(p=>p&&/^https:\/\//.test(p.url??'')&&/^https:\/\//.test(p.sourceUrl??'')&&typeof p.credit==='string'&&p.credit.trim());
  const curated=curatedPlacePhoto(item);
- const photos=[...own,...(curated?[curated]:[])];
+ const photos=[...own,...(curated?[curated]:[]),...curatedAdditionalPhotosV113(item)];
  if(!photos.length&&context){
   const bg=curatedCityBackdrop(item);if(bg)photos.push(bg);
  }
@@ -518,7 +518,7 @@ export function itineraryPhotoHtmlV112(item,ctx={}, {compact=false,context=true}
  const photos=itineraryPhotosV112(item,ctx,{context});
  if(!photos.length)return '';
  const thumb=(photo)=>{
-  const url=photo.curated||photo.contextualOnly?photo.url.replace(/\?width=960$/,'?width='+ (compact?360:720)):photo.url;
+  const url=photo.curated||photo.contextualOnly?photo.url.replace(/\?width=960$/,'?width='+ (compact?480:960)):photo.url;
   const label=photo.contextualOnly?'Stadtmotiv · kein Objektfoto':photo.subjectDisclaimer??'Historisches / hinterlegtes Ortsfoto';
   const img='<img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(url)+'" alt="'+esc(photo.contextualOnly?'Stadtmotiv':item.name??'Ortsfoto')+'" title="'+esc(label+' · '+photo.credit)+'">';
   const credit='<small class="day112-photo-credit">'+esc((photo.contextualOnly?'Stadtmotiv · ':'')+photo.credit)+'</small>';
