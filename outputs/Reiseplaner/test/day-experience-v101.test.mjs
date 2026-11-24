@@ -7,6 +7,7 @@ import {
  swissDayExperienceModelV101,renderSwissDayExperienceV101,
  tripDayCoverageV104,renderTripDayCoverageV104
 } from '../public/day-experience-v101.mjs';
+import {itineraryPhotosV112,itineraryPhotoHtmlV112,itineraryDayImageV112} from '../public/place-profile.mjs';
 import {SWISS_PROGRAM_V111,detailedDayModelV111,renderDetailedDayV111} from '../public/day-program-v111.mjs';
 import {journeyModelV110,dayBudgetV110,dayMoveOptionsV110,renderDayJourneyControlsV110} from '../public/day-journey-v110.mjs';
 import {dayEntries} from '../public/model.mjs';
@@ -236,7 +237,7 @@ test('V111 detailed itinerary covers every Swiss date and every existing V32 slo
   count+=m.rows.length;required+=m.required;optional+=m.rows.filter(x=>x.optional).length;
   assert.equal(JSON.stringify(day),before);
  }
- assert.ok(count>=90);assert.equal(required,26);assert.equal(optional,3);
+ assert.ok(count>=90);assert.equal(required,26);assert.equal(optional,swiss.dayPlansV32.flatMap(d=>d.slots).filter(s=>s.optional).length);
  for(const trip of catalog.trips.filter(t=>t.id!=='interrail_swiss'))assert.equal(detailedDayModelV111(ctx(trip)),null);
 });
 test('V111 activity actions, group cost labels and map links use existing item IDs',()=>{
@@ -249,4 +250,23 @@ test('V111 activity actions, group cost labels and map links use existing item I
  const day=ctx(swiss,'2027-09-04',{people:[{},{},{}],catalog,state:{edits:{},placePhotos:{}}});
  const optional=renderDetailedDayV111(day);
  assert.match(optional,/data-optional="true"/);assert.match(optional,/Option übernehmen/);
+});
+
+test('V112 source-backed image coverage for all 14 days, no false lodging photos or nested anchors',()=>{
+ for(const day of swiss.dayPlansV32){
+  const input=ctx(swiss,day.date,{people:[{},{},{}],catalog,state:{edits:{},placePhotos:{}}});
+  const cover=itineraryDayImageV112(input,day.date);
+  assert.match(cover,/loading="lazy"/,day.date);
+  assert.doesNotMatch(cover,/<a\s/);
+  const html=renderDetailedDayV111(input);
+  assert.match(html,/day112-gallery/,day.date);
+ }
+ const lodging={id:'unknown-lodging',kind:'lodging',city:'paris',name:'Unbekannte Unterkunft'};
+ const imgs=itineraryPhotosV112(lodging);
+ assert.equal(imgs.length,1);assert.equal(imgs[0].contextualOnly,true);
+ assert.match(itineraryPhotoHtmlV112(lodging),/Stadtmotiv/);
+ assert.match(itineraryPhotoHtmlV112(lodging),/Quelle/);
+ assert.deepEqual(itineraryPhotosV112(lodging,{}, {context:false}),[]);
+ const saved={url:'https://example.org/photo.jpg',sourceUrl:'https://example.org/source',credit:'Test CC BY 4.0'};
+ assert.equal(itineraryPhotosV112(lodging,{state:{placePhotos:{[lodging.id]:[saved,saved]}}}).length,1);
 });
