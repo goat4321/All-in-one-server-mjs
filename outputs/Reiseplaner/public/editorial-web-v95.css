@@ -3329,3 +3329,14 @@ dialog.photo118-viewer::backdrop{background:#000b}
 }
 @media(prefers-reduced-motion:reduce){.journey121-track i,.journey121-connector span:after{transition:none!important}}
 :root[data-motion=off] :is(.journey121-track i,.journey121-connector span:after){transition:none!important}
+
+/* V121.1 — the route reader is also a practical day navigator. */
+.reference-travel-shell .journey121-days{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 18px}
+.reference-travel-shell .journey121-days button{min-height:44px;padding:8px 12px;border:1px solid var(--e95-line);border-radius:10px;background:var(--e95-paper);color:var(--e95-link);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.reference-travel-shell .journey121-subtitle{font-size:12px;font-weight:650;margin:0;color:var(--e95-secondary)}
+.reference-travel-shell .journey121-days button:focus-visible{outline:3px solid var(--e95-link);outline-offset:2px}
+.reference-travel-shell .journey121-passed+.journey121-connector span:after{transform:scaleY(1)}
+.reference-travel-shell .journey121-links a:hover,.reference-travel-shell .journey121-days button:hover{background:var(--e95-page)}
+.reference-travel-shell .journey121-links a[aria-current=location]{box-shadow:inset 0 -2px var(--e95-link)}
+.reference-travel-shell .journey121-media .photo119-item figcaption{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+@media(max-width:760px){.reference-travel-shell .journey121-copy h3{font-size:clamp(30px,8vw,42px)}.reference-travel-shell .journey121-days button{flex:0 0 auto}}
