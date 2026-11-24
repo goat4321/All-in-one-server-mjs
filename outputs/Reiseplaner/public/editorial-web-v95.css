@@ -3379,3 +3379,17 @@ dialog.photo118-viewer::backdrop{background:#000b}
 .reference-travel-shell .route-story-player[data-photo-expanded=true] .route-story-eyebrow,
 .reference-travel-shell .route-story-player[data-photo-expanded=true] .route-story-disclaimer{position:static!important;width:auto!important;height:auto!important;clip:auto!important;margin:0!important;white-space:normal!important;overflow:visible!important}
 @media(max-width:650px){.reference-travel-shell .route-story-player[data-photo-expanded=true]{width:calc(100% - 18px)!important;max-height:min(58dvh,430px,calc(100% - 18px))!important}}
+
+/* V122.1 — the full scene stays optional; the compact map controls remain small. */
+.reference-travel-shell .route122-phase-track{display:none;height:3px;background:#ffffff30;border-radius:4px;overflow:hidden}
+.reference-travel-shell .route122-phase-track i{display:block;height:100%;width:0;background:#bfead5}
+.reference-travel-shell .route-story-player:not([data-photo-expanded=true]) .route122-step{display:none!important}
+.reference-travel-shell .route-story-player[data-photo-expanded=true] .route122-phase-track{display:block}
+.reference-travel-shell .route122-day-label{display:block;color:#d0e8de;font-size:12px;margin:3px 0}
+.reference-travel-shell .route122-dates button[aria-current=date]{background:#bfead5;color:#14372e;border-color:#bfead5;font-weight:650}
+.reference-travel-shell .route122-copy li button{background:none;border:0;color:#e0fff3;text-align:left;font:inherit;padding:6px 0;min-height:44px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.reference-travel-shell .route122-travel strong{color:#fff;font-size:13px}
+.reference-travel-shell .route122-step:disabled{opacity:.35;cursor:default}
+.reference-travel-shell .route-story-player[data-photo-expanded=true] button.route-story-rail-dot{min-width:44px!important;min-height:44px!important}
+.reference-travel-shell .route-story-player[data-photo-expanded=true] .route-story-pause span{display:inline!important}
+.reference-travel-shell .route122-copy li button:focus-visible{outline:2px solid #fff;outline-offset:2px}
