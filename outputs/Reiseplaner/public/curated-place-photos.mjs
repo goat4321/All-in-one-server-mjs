@@ -776,3 +776,26 @@ export function curatedCityBackdrop(item){
   sourceUrl:x.sourceUrl,credit:x.credit,contextualOnly:true,
   photoScope:'city_backdrop',subjectDisclaimer:'Nur Stadtmotiv, kein Foto dieses Eintrags'};
 }
+
+
+/** Additional independently matched Commons photographs; primary IDs stay stable. */
+const extraPhotosV113=[
+ ['paris',/trocad[eé]ro/i,'Eiffel tower from trocadero.jpg','NonOmnisMoriar','3.0','2011-07-31','Blick vom Palais de Chaillot auf Trocadéro und Eiffelturm'],
+ ['barcelona',/^barceloneta\b/i,'Barceloneta Beach, Barcelona, Spain Nov 01, 2026 02-15-32 PM.jpeg','Zblace','4.0','2026-11-01','Strandansicht im November 2026'],
+ ['sete',/canal royal/i,'Sete pano port.jpg','Velvet','3.0',null,'Quai Général Durand vom Canal Royal aus'],
+ ['nice',/^promenade des anglais\b/i,'Promenade des Anglais in Nice.jpg','Staeiou','3.0',null,'Historische Ansicht der Promenade und des Strands'],
+ ['kandersteg',/oeschinensee|öschinensee|oeschinen/i,'Öschinensee Panorama.jpg','PhilippTillmann99','4.0',null,'Historisches Seepanorama, keine Aussage über aktuelle Wegbedingungen'],
+ ['appenzell',/\bseealpsee\b/i,'Seealpsee Lake reflections in Appenzel at dawn.jpg','Vavaloin','4.0',null,'Seealpsee bei Morgendämmerung, keine aktuelle Wetteraufnahme'],
+ ['seealpsee',/\bseealpsee\b/i,'Seealpsee Lake reflections in Appenzel at dawn.jpg','Vavaloin','4.0',null,'Seealpsee bei Morgendämmerung, keine aktuelle Wetteraufnahme']
+];
+export function curatedAdditionalPhotosV113(item){
+ if(!item||item.kind!=='activity'||item.category==='food'||item.mealSlot)return [];
+ return extraPhotosV113.filter(([city,pattern])=>city===item.city&&pattern.test(item.name??'')).map(([, ,file,author,version,date,description])=>({
+  url:'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(file)+'?width=960',
+  sourceUrl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(file.replaceAll(' ','_')),
+  credit:author+' · CC BY-SA '+version+' · CSS-Bildausschnitt',
+  licenseUrl:'https://creativecommons.org/licenses/by-sa/'+version+'/',
+  licensedBy:'Wikimedia Commons',curated:true,photoScope:'object_historic',photographed:date,
+  subjectDisclaimer:description+' · kein Beleg für September 2027'
+ }));
+}
