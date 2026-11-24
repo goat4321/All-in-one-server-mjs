@@ -46,7 +46,7 @@ import {renderDayBudgetV110,renderDayAlternativesV110,renderDayJourneyIntroV110,
 import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
 import {swissLodgingSummaryV83,swissLodgingCompareV83,swissLodgingRailNoteV83} from './swiss-lodging-v83.mjs';
 import {swissDatedSearchBoardV84,swissRailPrecisionV84} from './swiss-dated-search-v84.mjs';
-import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml, editorialCityPhotoV119, editorialDayRailV119, mapPhotoRailV119 } from './place-profile.mjs';
+import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml, editorialCityPhotoV119, editorialDayRailV119, mapPhotoRailV119, photoIdentityV120, photoCropV120 } from './place-profile.mjs';
 import { dayPeriod,planCostSignal } from './visual-experience.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
@@ -203,9 +203,10 @@ function plan(ctx, name) {
   const anchor = ctx.stops.find(item => item.anchor);
   const first = ctx.segments[0];
   const last = ctx.segments.at(-1);
-  const dayHeroPhoto=editorialCityPhotoV119(ctx,city,{day:true})?.photo??null;
+  const dayEditorial=editorialCityPhotoV119(ctx,city,{day:true});
+  const dayHeroPhoto=dayEditorial?.photo??null;
   return `<section class="hero day-editorial-hero ${city === 'barcelona' ? 'photo' : ''}"
-      data-photo="${dayHeroPhoto?'true':'false'}">
+      data-photo="${dayHeroPhoto?'true':'false'}" data-photo120-crop="${photoCropV120(dayEditorial?.item,dayHeroPhoto)}">
     ${dayHeroPhoto?'<div class="day-editorial-media" aria-hidden="true"><img src="'
       +esc(dayHeroPhoto.url.replace(/\?width=960$/,'?width=1440'))+'" loading="eager" fetchpriority="high" decoding="async"'
       +' referrerpolicy="no-referrer" alt=""></div>':''}
@@ -631,10 +632,13 @@ function overview(ctx) {
   ];
   // Source-scoped destination imagery: never substitute a random hotel/provider
   // picture. Commons license credit and source stay visible with every photo.
+  const heroEditorial=trip.route.map(id=>editorialCityPhotoV119(ctx,id)).find(Boolean);
+  const usedPhotoIds=new Set(heroEditorial?[photoIdentityV120(heroEditorial.photo)]:[]);
   const destinationCards=[...new Set(trip.route)].slice(0,9).map(id=>{
-    const editorial=editorialCityPhotoV119(ctx,id);
+    const editorial=editorialCityPhotoV119(ctx,id,{exclude:[...usedPhotoIds]});
+    if(editorial)usedPhotoIds.add(photoIdentityV120(editorial.photo));
     const photoItem=editorial?.item,photo=editorial?.photo;
-    return '<article class="destination-card"><button type="button" data-action="trip-city" data-value="'+esc(id)+'">'
+    return '<article class="destination-card" data-photo120-crop="'+photoCropV120(photoItem,photo)+'"><button type="button" data-action="trip-city" data-value="'+esc(id)+'">'
       +'<span class="destination-cover">'
       +'<span class="destination-placeholder" aria-hidden="true">'+destinationIllustration(id)+'</span>'
       +(photo?'<img src="'+esc(photo.url)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="'+esc(photoItem.name)+'">':'')
@@ -668,7 +672,7 @@ function overview(ctx) {
   // V95 editorial entry: one genuinely sourced destination photo, never an
   // invented image or an unrelated photo of a hotel. The rest stays in
   // the complete, accessible planning sections below.
-  const heroPhoto=trip.route.map(id=>editorialCityPhotoV119(ctx,id)).find(Boolean)?.photo??null;
+  const heroPhoto=heroEditorial?.photo??null;
   const uniqueDestinations=[...new Set(trip.route)];
   const firstCity=uniqueDestinations[0],lastCity=uniqueDestinations.at(-1);
   const heroRouteText=uniqueDestinations.length>1
@@ -676,7 +680,7 @@ function overview(ctx) {
       +esc(ctx.cities[lastCity]?.name??'Europa')+'.'
     :esc(ctx.cities[firstCity]?.name??'Deine Reise')+'.';
   const editorialHero='<section class="editorial-journey-hero" data-photo="'
-    +(heroPhoto?'true':'false')+'" aria-label="Deine Reise im Überblick">'
+    +(heroPhoto?'true':'false')+'" data-photo120-crop="'+photoCropV120(heroEditorial?.item,heroPhoto)+'" aria-label="Deine Reise im Überblick">'
     +'<div class="editorial-journey-media" aria-hidden="true">'
     +(heroPhoto?'<img src="'+esc(heroPhoto.url.replace(/\?width=960$/,'?width=1440'))+'" alt="" loading="eager" fetchpriority="high"'
       +' decoding="async" referrerpolicy="no-referrer">':'')
