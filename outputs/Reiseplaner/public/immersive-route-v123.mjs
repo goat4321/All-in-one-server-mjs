@@ -9,20 +9,23 @@ export const exactPreviewPointV123=item=>{
  &&!['sourced_area_center','provider_reported_unverified'].includes(item.locationReferenceV07?.precision)
  &&item.pointPrecision!=='unverified_or_not_single_location'?p:null;
 };
+const stopCache=new WeakMap();
 export function immersiveSceneV123(ctx,state){
  const day=routePreviewDayV122(ctx,state);
  const days=(ctx?.trip?.dayPlansV32??[]).filter(d=>d.city===state?.cityId);
- const all=new Map((ctx?.all??ctx?.trip?.items??[]).map(i=>[i.id,i]));
- const stops=(day?.slots??[]).flatMap(s=>{
-  const item=all.get(s.id);
+ let cache=stopCache.get(ctx);if(!cache){cache={all:new Map((ctx?.all??ctx?.trip?.items??[]).map(i=>[i.id,i])),days:new Map()};stopCache.set(ctx,cache);}
+ const dayKey=state?.cityId+'|'+(day?.date??'');
+ let stops=cache.days.get(dayKey);
+ if(!stops){stops=(day?.slots??[]).flatMap(s=>{
+  const item=cache.all.get(s.id);
   if(!item||item.removed||item.duplicateOf||item.city!==state.cityId||item.kind!=='activity'||item.mealSlot||s.optional&&!ctx.activeSet?.has(s.id))return [];
   return [{id:s.id,name:item.name,period:periods[s.period]??'Flexibel',minutes:Number.isFinite(s.minutes)?s.minutes:null,point:exactPreviewPointV123(item)}];
- });
+ });cache.days.set(dayKey,stops);}
  const progress=Math.max(0,Math.min(1,Number(state?.phaseProgress)||0));
  const dayIndex=Math.max(0,days.indexOf(day));
  const local=Math.max(0,Math.min(1,progress*days.length-dayIndex));
  const index=state?.phase==='travel'?-1:Math.min(stops.length-1,Math.floor(local*stops.length));
- return {day,days,stops,index,stop:stops[index]??null,key:[state?.index,state?.cityId,state?.phase,day?.date,index].join('|')};
+ return {day,days,stops,index,stop:stops[index]??null,contentKey:[state?.index,state?.cityId,state?.phase,day?.date].join('|'),key:[state?.index,state?.cityId,state?.phase,day?.date,index].join('|')};
 }
 export function immersiveHtmlV123(ctx,state,scene=immersiveSceneV123(ctx,state)){
  const model=routePreviewModelV122(ctx,state);if(!model)return '';
