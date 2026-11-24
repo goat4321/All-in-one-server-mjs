@@ -3,6 +3,7 @@ import {localParts,money,categories} from './model.mjs';
 import {footpathMatchesStops} from './route-studio.mjs';
 import {quickDayTargetDates} from './day-quick-edits-v50.mjs';
 import {dayPlanCandidates} from './day-plans-logic.mjs';
+import {itineraryPhotoHtmlV112} from './place-profile.mjs';
 import {SWISS_DAY_EDITORIAL_V85} from './swiss-day-editorial-v85.mjs';
 
 const periods={morning:'Vormittag',noon:'Mittag',afternoon:'Nachmittag',evening:'Abend'};
@@ -106,7 +107,7 @@ export function renderDayAlternativesV110(ctx){
  return '<section class="day110-alternatives"><header><small>FLEXIBEL PLANEN</small><h2>Plan B &amp; Tageswechsel</h2></header>'
   +(m.editorial?'<div class="day110-backup"><strong>Bei Regen, Verspätung oder Erschöpfung</strong><p>'+esc(m.editorial.alternative)+'</p><strong>Zeitpuffer</strong><p>'+esc(m.editorial.buffer)+'</p></div>':'')
   +(m.optional.length?'<details><summary>'+m.optional.length+' optionale Ideen ansehen</summary><ul>'
-   +m.optional.map(s=>'<li><span>'+esc(s.name)+'</span>'+(s.canAdd?'<button type="button" data-action="day-plan-add" data-value="'+esc(s.id)+'">Übernehmen</button>':'')+'</li>').join('')+'</ul></details>':'')
+   +m.optional.map(s=>'<li>'+itineraryPhotoHtmlV112((ctx.all??[]).find(x=>x.id===s.id),ctx,{compact:true})+'<span>'+esc(s.name)+'</span>'+(s.canAdd?'<button type="button" data-action="day-plan-add" data-value="'+esc(s.id)+'">Übernehmen</button>':'')+'</li>').join('')+'</ul></details>':'')
   +(moves.length?'<details><summary>Flexible Aktivitäten auf andere Tage verschieben</summary><ul>'+moves.map(x=>
     '<li><span>'+esc(x.name)+' · passender Tag '+esc(shortDay(x.date))+'</span><button type="button" data-action="day110-move-confirm" data-value="'+esc(JSON.stringify([x.id,x.date]))+'">Verschieben…</button></li>').join('')+'</ul><p>Nur ortsbezogen passende Tage, keine automatische Streckenoptimierung oder Terminverschiebung.</p></details>':'')
   +'</section>';
@@ -122,7 +123,7 @@ export function renderDayJourneyIntroV110(ctx){
 export function renderDayJourneyControlsV110(ctx,model){
  if(!model)return '';
  const list=model.stops.map(s=>'<button type="button" class="day110-stop" data-action="day110-focus" data-value="'+s.index+'" aria-pressed="false" data-located="'+Boolean(s.point)+'">'
-  +'<span class="day110-index">'+s.ordinal+'</span><span><small>'+esc(s.time)+'</small><strong>'+esc(s.name)+'</strong><small>'
+  +'<span class="day110-index">'+s.ordinal+'</span><span>'+itineraryPhotoHtmlV112((ctx.all??[]).find(x=>x.id===s.sourceId)??{id:s.id,name:s.name,city:s.city,kind:'context'},ctx,{compact:true})+'<small>'+esc(s.time)+'</small><strong>'+esc(s.name)+'</strong><small>'
   +esc((s.minutes!=null?s.minutes+' Min. Planzeit · ':'')+(s.transfer?'Transfer · 2027 ungeprüft':s.selected?'Im Plan':'Vorschlag')+(s.point?'':' · Kein genauer Pin'))+'</small></span></button>').join('');
  return '<section class="day110-player" aria-label="Tagesroute abspielen"><header><small>PLANVORSCHAU · KEIN LIVE-STANDORT</small><h3>Tageszeitachse</h3><p>'+model.located+' / '+model.stops.length+' Stopps mit vorhandenem Punkt</p></header>'
   +'<div class="day110-mode" role="group" aria-label="Datenquelle"><button type="button" data-action="day110-mode" data-value="draft" aria-pressed="'+(model.mode==='draft')+'">Tagesvorschlag</button><button type="button" data-action="day110-mode" data-value="saved" aria-pressed="'+(model.mode==='saved')+'">Mein Plan</button><button type="button" data-action="day110-close">Normale Karte</button></div>'
