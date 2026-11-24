@@ -1304,6 +1304,12 @@ async function action(name, value = '') {
       break;
     }
 
+    case 'day111-map-stop': {
+      openDay110('draft');
+      const index=context?.dayJourney?.stops.findIndex(s=>s.sourceId===value)??-1;
+      if(index>=0)focusDay110(index);
+      break;
+    }
     case 'day110-open':
     case 'day110-mode': openDay110(value);break;
     case 'day110-close':
