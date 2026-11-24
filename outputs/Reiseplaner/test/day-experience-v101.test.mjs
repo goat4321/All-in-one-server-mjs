@@ -7,6 +7,7 @@ import {
  swissDayExperienceModelV101,renderSwissDayExperienceV101,
  tripDayCoverageV104,renderTripDayCoverageV104
 } from '../public/day-experience-v101.mjs';
+import {SWISS_PROGRAM_V111,detailedDayModelV111,renderDetailedDayV111} from '../public/day-program-v111.mjs';
 import {journeyModelV110,dayBudgetV110,dayMoveOptionsV110,renderDayJourneyControlsV110} from '../public/day-journey-v110.mjs';
 import {dayEntries} from '../public/model.mjs';
 import {SWISS_DAY_EDITORIAL_V85} from '../public/swiss-day-editorial-v85.mjs';
@@ -211,4 +212,41 @@ test('V110 cross-day proposals exclude booked, timed and meal entries',()=>{
  const date='2027-09-02',input=ctx(swiss,date),base={id:'free',name:'Test',kind:'activity',city:'paris',date,start:null,end:null};
  const m=dayMoveOptionsV110({...input,dates:['2027-09-01',date,'2027-09-03'],cityForDay:d=>d==='2027-09-03'?'barcelona':'paris',fullDay:[base,{...base,id:'locked',locked:true},{...base,id:'meal',mealSlot:'lunch'},{...base,id:'timed',start:'2027-09-02T09:00:00Z'}]});
  assert.deepEqual(m,[{id:'free',name:'Test',date:'2027-09-01'}]);
+});
+
+test('V111 detailed itinerary covers every Swiss date and every existing V32 slot exactly once',()=>{
+ let count=0,required=0,optional=0;
+ const dates=swiss.dayPlansV32.map(d=>d.date);
+ assert.deepEqual(Object.keys(SWISS_PROGRAM_V111),dates);
+ for(const day of swiss.dayPlansV32){
+  const input=ctx(swiss,day.date,{people:[{},{},{}],catalog,state:{edits:{},placePhotos:{}}});
+  const before=JSON.stringify(day);
+  const m=detailedDayModelV111(input);
+  assert.ok(m.rows.length>=6,day.date);
+  assert.deepEqual(m.rows.filter(x=>x.slot).map(x=>x.id).sort(),day.slots.map(x=>x.id).sort());
+  assert.equal(m.activityMinutes,day.estimatedActivityMinutes);
+  assert.ok(m.rows.some(x=>x.type==='meal'));
+  assert.ok(m.rows.some(x=>['connection','pause','lodging'].includes(x.type)));
+  for(const row of m.rows){
+   const match=/^(\\d{2}):(\\d{2})–(\\d{2}):(\\d{2})$/.exec(row.time);
+   if(match&&row.minutes!=null)assert.equal((+match[3]*60+ +match[4])-(+match[1]*60+ +match[2]),row.minutes,day.date+' '+row.title);
+  }
+  if(day.rides.length){assert.ok(m.rows.some(x=>x.type==='transfer'));assert.ok(m.rows.every(x=>!/^\\d{2}:/.test(x.time)));}
+  if(['2027-09-10','2027-09-14'].includes(day.date))assert.equal(m.required,0);
+  count+=m.rows.length;required+=m.required;optional+=m.rows.filter(x=>x.optional).length;
+  assert.equal(JSON.stringify(day),before);
+ }
+ assert.ok(count>=90);assert.equal(required,27);assert.equal(optional,3);
+ for(const trip of catalog.trips.filter(t=>t.id!=='interrail_swiss'))assert.equal(detailedDayModelV111(ctx(trip)),null);
+});
+test('V111 activity actions, group cost labels and map links use existing item IDs',()=>{
+ const input=ctx(swiss,'2027-09-02',{people:[{},{},{}],catalog,state:{edits:{},placePhotos:{}}});
+ const html=renderDetailedDayV111(input);
+ assert.match(html,/09:45–10:35/);assert.match(html,/data-action="day111-map-stop"/);
+ assert.match(html,/data-value="survey-v19:act-001"/);
+ assert.match(html,/unverbindlichen Vorschläge/);
+ assert.match(html,/Mittagspause/);
+ const day=ctx(swiss,'2027-09-04',{people:[{},{},{}],catalog,state:{edits:{},placePhotos:{}}});
+ const optional=renderDetailedDayV111(day);
+ assert.match(optional,/data-optional="true"/);assert.match(optional,/Option übernehmen/);
 });
