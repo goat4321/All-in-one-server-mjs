@@ -4,9 +4,12 @@ import {commonsResults} from './commons-photo-search.mjs';
 import {PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114} from './photo-manifest-v114.mjs';
 
 import {PHOTO_GROUPS_V115,PHOTO_CANDIDATE_COUNT_V115} from './photo-manifest-v115.mjs';
+import {PHOTO_GROUPS_V116,PHOTO_CANDIDATE_COUNT_V116} from './photo-manifest-v116.mjs';
 
 export const ALL_PHOTO_GROUPS_V115=[...PHOTO_GROUPS_V114.map(g=>({...g,key:g.city,cities:[g.city,...(g.city==='appenzell'?['wasserauen','seealpsee']:g.city==='kandersteg'?['oeschinensee']:[])]})),...PHOTO_GROUPS_V115];
 export const PHOTO_TOTAL_V115=()=>curatedLibraryV114().length+PHOTO_CANDIDATE_COUNT_V114+PHOTO_CANDIDATE_COUNT_V115;
+export const ALL_PHOTO_GROUPS_V116=[...ALL_PHOTO_GROUPS_V115,...PHOTO_GROUPS_V116];
+export const PHOTO_TOTAL_V116=()=>PHOTO_TOTAL_V115()+PHOTO_CANDIDATE_COUNT_V116;
 const norm=s=>String(s??'').replace(/^File:/i,'').replaceAll('_',' ').normalize('NFC').toLowerCase();
 const cache=new Map();
 export function photoMetadataUrlV114(files){
@@ -43,18 +46,18 @@ export function photoCardV114(p,{archive=false}={}){
 export function renderPhotoLibraryV114(ctx,{day=false}={}){
  const route=new Set(ctx.trip?.route??[]);
  const city=ctx.city??ctx.dayPlan?.city;
- const groups=ALL_PHOTO_GROUPS_V115.filter(g=>g.cities.some(c=>day?c===city:route.has(c)));
+ const groups=ALL_PHOTO_GROUPS_V116.filter(g=>g.cities.some(c=>day?c===city:route.has(c)));
  const archive=curatedLibraryV114();
  const relevant=archive.filter(p=>p.cities.some(c=>day?c===city:route.has(c)));
  if(day&&!groups.length&&!relevant.length)return '';
  const scopedCount=groups.reduce((n,g)=>n+g.files.length,0);
  const groupHtml=groups.map(groupMarkupV115).join('');
- const other=day?[]:ALL_PHOTO_GROUPS_V115.filter(g=>!groups.includes(g));
+ const other=day?[]:ALL_PHOTO_GROUPS_V116.filter(g=>!groups.includes(g));
  const others=other.length?'<details class="photo115-other"><summary>Weitere Reisevarianten · '+other.reduce((n,g)=>n+g.files.length,0)+' Bildreferenzen</summary>'+other.map(groupMarkupV115).join('')+'</details>':'';
  const existing=(day?relevant:archive);
  return '<section class="photo114-library" aria-label="Reise-Fotobibliothek"><header><small>ECHTE REISEFOTOS · WIKIMEDIA COMMONS</small><h2>'+(day?'Mehr Bilder zu diesem Reiseziel':'Die Reise in Bildern')+'</h2>'
  +'<p>'+scopedCount+' zusätzliche Bildreferenzen für '+(day?'diesen Ort':'diese Route')+' · '+existing.length+' unterschiedliche bestehende Archivfotos'+(!day?' aus allen Reisevarianten':'')+'. Neue Fotos erscheinen erst nach Abruf der Lizenzdaten.</p></header>'
- +(!day?'<p class="photo115-total"><strong>'+PHOTO_TOTAL_V115()+'</strong> unterschiedliche Dateireferenzen in allen Varianten · '+ALL_PHOTO_GROUPS_V115.length+' Motivsammlungen</p>':'')
+ +(!day?'<p class="photo115-total"><strong>'+PHOTO_TOTAL_V116()+'</strong> unterschiedliche Dateireferenzen in allen Varianten · '+ALL_PHOTO_GROUPS_V116.length+' Motivsammlungen</p>':'')
  +groupHtml+others
  +(existing.length?'<details class="photo114-group" data-photo114-archive="'+(day?esc(city):'all')+'"><summary><strong>Vorhandene Fotobibliothek</strong><span>'+existing.length+' Fotos</span></summary><div class="photo114-body"></div></details>':'')
  +'<p>Historische und kategorisierte Motive, keine Belege für Buchungen, Wetter oder Zugänglichkeit im Jahr 2027. Bilder werden erst beim Öffnen der Galerie geladen.</p></section>';
@@ -69,7 +72,7 @@ export async function mountPhotoLibraryV114(detail,fetcher=globalThis.fetch){
   body.innerHTML='<div class="photo114-grid">'+photos.map(p=>photoCardV114(p,{archive:true})).join('')+'</div>';
   body.dataset.loaded='true';return;
  }
- const group=ALL_PHOTO_GROUPS_V115.find(g=>g.key===detail.dataset.photo114Group);
+ const group=ALL_PHOTO_GROUPS_V116.find(g=>g.key===detail.dataset.photo114Group);
  if(!group)return;
  body.dataset.loading='true';body.textContent='Lizenzinformationen werden abgerufen …';
  try {
@@ -96,9 +99,9 @@ export {PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114};
 export function renderItemPhotoGroupV114(item){
  if(!item||item.kind!=='activity'||item.mealSlot)return '';
  const id=item.id?.replace(/^survey-v19:/,'');
- const g=PHOTO_GROUPS_V114.find(g=>g.city===item.city&&g.ids.includes(id));
- if(!g)return '';
- return '<details class="photo114-group" data-photo114-group="'+esc(g.city)+'"><summary><strong>Weitere Bilder · '+esc(g.title)+'</strong><span>'+g.files.length+' Referenzen</span></summary><div class="photo114-body" aria-live="polite"><p>Lizenzdaten werden beim Öffnen abgerufen.</p></div><p class="photo114-source">'+link('https://commons.wikimedia.org/wiki/Category:'+encodeURIComponent(g.category.replaceAll(' ','_')),'Wikimedia-Quellkategorie')+'</p></details>';
+ const groups=ALL_PHOTO_GROUPS_V116.filter(g=>g.cities.includes(item.city)&&g.ids.includes(id));
+ return groups.map(groupMarkupV115).join('');
+
 }
 
 function groupMarkupV115(g){
@@ -120,3 +123,5 @@ export async function loadPhotoGroupV115(group,fetcher=globalThis.fetch){
  return {photos:[...new Map(photos.map(p=>[norm(p.name),p])).values()],failedBatches};
 }
 export {PHOTO_GROUPS_V115,PHOTO_CANDIDATE_COUNT_V115};
+
+export {PHOTO_GROUPS_V116,PHOTO_CANDIDATE_COUNT_V116};
