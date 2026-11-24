@@ -105,3 +105,25 @@ test('V122 manual seek resets interpolation and uses the existing player rather 
  assert.equal(player.drawn,2);assert.equal(player.emitted,2);
  assert.deepEqual([...player.revealed],[1,2]);assert.equal(player.seek(3),false);
 });
+
+test('V122 day progression is bounded by the actual playback phase and uses only the active day slots',async()=>{
+ const {routePreviewDayV122,routePreviewModelV122,routePreviewHtmlV122}=await import('../public/route-preview-v122.mjs');
+ const items=[{id:'a',kind:'activity',city:'paris',name:'Museum A'},{id:'b',kind:'activity',city:'paris',name:'Museum B'}];
+ const days=[{city:'paris',date:'2027-09-01',slots:[{id:'a'}]},{city:'paris',date:'2027-09-02',slots:[{id:'b'}]}];
+ const ctx={trip:{route:['paris','barcelona'],items,dayPlansV32:days},all:items,cities:{paris:{name:'Paris'},barcelona:{name:'Barcelona'}}};
+ const state={cityId:'paris',index:0,phase:'dwell',routeOverview:[{id:'paris'},{id:'barcelona'}]};
+ assert.equal(routePreviewDayV122(ctx,{...state,phaseProgress:-1}),days[0]);
+ assert.equal(routePreviewDayV122(ctx,{...state,phaseProgress:.49}),days[0]);
+ assert.equal(routePreviewDayV122(ctx,{...state,phaseProgress:.5}),days[1]);
+ assert.equal(routePreviewDayV122(ctx,{...state,phaseProgress:2}),days[1]);
+ assert.equal(routePreviewDayV122(ctx,{...state,phase:'travel',phaseProgress:0}),days[1]);
+ assert.deepEqual(routePreviewModelV122(ctx,{...state,phaseProgress:.5}).activities.map(i=>i.id),['b']);
+ const html=routePreviewHtmlV122(ctx,{...state,phaseProgress:.5});
+ assert.match(html,/data-route122-day="2027-09-02"/);
+ assert.match(html,/data-value="2027-09-02" aria-current="date"/);
+ assert.match(html,/data-action="details" data-value="b"/);
+ assert.doesNotMatch(html,/Museum A/);
+ assert.match(routePreviewHtmlV122(ctx,{...state,phase:'travel'}),/Weiter nach Barcelona/);
+ assert.match(routePreviewHtmlV122(ctx,{...state,phase:'travel'}),/Fahrtzeit offen/);
+ assert.equal(routePreviewDayV122(ctx,{...state,cityId:'barcelona'}),null);
+});
