@@ -381,11 +381,64 @@ export function placeImageHtml(item,ctx={}, {small=false}={}) {
     +contextCredit+'</div>';
 }
 
+
+/** Editorial priority is a motif heuristic, not an independently reviewed quality rating. */
+export function editorialPhotoScoreV119(item,photo){
+ const name=String(item?.name??'');
+ return (photo?.contextualOnly?-100:0)+(photo?.curated?20:0)
+  +(/panoram|aussicht|trocad|eiffelturm|barceloneta|montju|canal royal|promenade des anglais|boccadasse|rialto|seealpsee|oeschinen|öschinen|eiger|klöntalersee|bachalpsee/i.test(name)?40:0)
+  +(/panoram|blick|view|landscape|reflection/i.test(String(photo?.url??'')+' '+String(photo?.subjectDisclaimer??''))?10:0);
+}
+export function editorialCityPhotoV119(ctx,city,{day=false}={}){
+ const all=ctx.all??ctx.trip?.items??[];
+ const slots=day?(ctx.dayPlan??ctx.trip?.dayPlansV32?.find(d=>d.date===ctx.date))?.slots??[]:[];
+ const ids=new Set(slots.map(s=>s.id));
+ const candidates=all.filter(i=>i.city===city&&i.kind==='activity'&&!i.mealSlot).flatMap(item=>{
+  const photo=curatedPlacePhoto(item);
+  return photo?[{item,photo,score:editorialPhotoScoreV119(item,photo)+(ids.has(item.id)?100:0)}]:[];
+ });
+ return candidates.sort((a,b)=>b.score-a.score)[0]??null;
+}
+export function editorialDayPhotosV119(ctx,rows=[]){
+ const seen=new Set(),out=[];
+ for(const row of rows){
+  const item=row.item??row;
+  if(!item||item.kind!=='activity'||item.mealSlot)continue;
+  const photos=itineraryPhotosV112(item,ctx,{context:false}).sort((a,b)=>editorialPhotoScoreV119(item,b)-editorialPhotoScoreV119(item,a));
+  for(const photo of photos){
+   const key=photo.sourceUrl;
+   if(!key||seen.has(key))continue;
+   seen.add(key);out.push({item,photo});
+   if(out.length===6)return out;
+  }
+ }
+ return out;
+}
+export function editorialDayRailV119(ctx,rows=[]){
+ const entries=editorialDayPhotosV119(ctx,rows);
+ if(!entries.length)return '';
+ return '<section class="photo119-story" aria-label="Tagesmotive"><header><div><small>DEIN TAG IN BILDERN</small><h3>Was dich unterwegs erwartet</h3></div>'
+  +'<div class="photo119-controls"><button type="button" data-photo119-scroll="-1" aria-label="Fotos zurück">‹</button><button type="button" data-photo119-scroll="1" aria-label="Weitere Fotos">›</button></div></header>'
+  +'<div class="photo119-rail" tabindex="0" aria-label="Tagesfotos horizontal durchblättern">'+entries.map(({item,photo})=>photo119Figure(item,photo)).join('')+'</div></section>';
+}
+function photo119Figure(item,photo){
+ const url=photo.curated?photo.url.replace(/\?width=960$/,'?width=640'):photo.url;
+ return '<figure class="photo119-item"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(item.name+' Foto vergrößern')+'"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(url)+'" alt="'+esc(item.name)+'"></a><figcaption><strong>'+esc(item.name)+'</strong><small>'+esc(photo.credit)+'</small>'
+  +(photo.subjectDisclaimer?'<small>'+esc(photo.subjectDisclaimer)+'</small>':'')
+  +'<a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Quelle</a>'
+  +(ccLicenseUrl(photo)?'<a href="'+esc(ccLicenseUrl(photo))+'" target="_blank" rel="noopener noreferrer">Lizenz</a>':'')+'</figcaption></figure>';
+}
+export function mapPhotoRailV119(item,ctx={}){
+ const photos=itineraryPhotosV112(item,ctx,{context:false});
+ if(!photos.length)return '';
+ return '<div class="photo119-map-rail" aria-label="Ortsfotos">'+photos.map(p=>photo119Figure(item,p)).join('')+'</div>';
+}
+
 export function placePopupHtml(item,ctx={}) {
   const p=placeProfileModel(item,ctx);
   if(!p)return '';
   return '<div class="place-map-popup">'
-    +placeImageHtml(item,ctx,{small:true})
+    + (mapPhotoRailV119(item,ctx)||placeImageHtml(item,ctx,{small:true}))
     +'<div class="place-map-popup-body"><span class="place-profile-eyebrow">'+esc(p.facts[0][1])+'</span>'
     +'<strong>'+esc(p.name)+'</strong>'
     +'<p><b>Preisstufe:</b> '+esc(p.priceTier.tier)+' · '+esc(p.priceTier.amount)+'</p>'
