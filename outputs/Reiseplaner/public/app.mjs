@@ -3,6 +3,7 @@ import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './pub
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
 import {mountJourneyStoryV121} from './journey-story-v121.mjs';
+import {routePreviewHtmlV122} from './route-preview-v122.mjs';
 import {dayPlanDraftEdits,timelineReorderV105} from './day-plans-logic.mjs';
 import {journeyModelV110,dayMoveOptionsV110} from './day-journey-v110.mjs';
 import {readPreparationV102,togglePreparationV102,preparationTextV102} from './day-preparation-v102.mjs';
@@ -348,7 +349,10 @@ function updateRouteStoryUi(state){
   const panel=app.querySelector('#route-story-player');
   if(!panel)return;
   panel.hidden=!visible;panel.dataset.status=status;
-  if(!visible)return;
+  if(!visible){panel.dataset.previewKey='';return;}
+  const preview=panel.querySelector('#route122-preview');
+  const previewKey=[state.index,state.cityId,state.phase].join('|');
+  if(preview&&panel.dataset.previewKey!==previewKey){preview.innerHTML=routePreviewHtmlV122(context,state);panel.dataset.previewKey=previewKey;}
   const write=(selector,value)=>{
     const el=panel.querySelector(selector);
     if(el&&el.textContent!==String(value))el.textContent=String(value);
@@ -404,7 +408,8 @@ function updateRouteStoryUi(state){
   if(rail&&panel.dataset.routeKey!==route.map(x=>x.id).join('|')){
     const fragment=document.createDocumentFragment();
     for(const [i,stop] of route.entries()){
-      const dot=document.createElement('span');
+      const dot=document.createElement('button');
+      dot.type='button';dot.dataset.action='route-story-seek';dot.dataset.value=String(i);
       dot.className='route-story-rail-dot';
       dot.title=(i+1)+'. '+stop.name;
       dot.setAttribute('aria-label',(i+1)+'. '+stop.name);
@@ -420,6 +425,7 @@ function updateRouteStoryUi(state){
     for(const [i,node] of [...rail.children].entries()){
       node.classList.toggle('complete',i<state.index);
       node.classList.toggle('current',i===state.index);
+      if(i===state.index)node.setAttribute('aria-current','step');else node.removeAttribute('aria-current');
     }
     panel.dataset.railIndex=railKey;
   }
@@ -1846,12 +1852,19 @@ async function action(name, value = '') {
       if(view.mapFullscreenDrawer)app.querySelector('#map-search')?.focus({preventScroll:true});
       else app.querySelector('.map-fullscreen-drawer-toggle')?.focus({preventScroll:true});
       break;
+    case 'route122-launch':
+      view.total=true;view.mapScope='trip';changePage('map');
+      await action('route-story-play');break;
+    case 'route-story-seek':
+      if(view.page==='map'&&/^\d+$/.test(value))currentMap?.seekCityStory(Number(value));
+      break;
     case 'route-story-play':
       if(view.page!=='map')break;
       // A fresh playback always begins as a tiny map overlay; the user may
       // explicitly expand city details while the playback is in a city.
       if(app.querySelector('#route-story-player')){
         app.querySelector('#route-story-player').dataset.expanded='false';
+        app.querySelector('#route-story-player').dataset.previewKey='';
       }
       if(!view.total||view.mapScope!=='trip'){
         view.mapScope='trip';view.total=true;view.mapSavedOnly=false;
