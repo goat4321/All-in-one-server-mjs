@@ -2,7 +2,7 @@ import { dailyBudgetDefaults } from './daily-budget.mjs';
 import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './public-geocode-eligibility.mjs';
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
-import {dayPlanDraftEdits} from './day-plans-logic.mjs';
+import {dayPlanDraftEdits,timelineReorderV105} from './day-plans-logic.mjs';
 import {readPreparationV102,togglePreparationV102,preparationTextV102} from './day-preparation-v102.mjs';
 import {quickDayEdit} from './day-quick-edits-v50.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
@@ -849,6 +849,17 @@ async function withEdit(item, edit, message) {
   await save({ ...state, edits: { ...state.edits, [item.id]: { ...state.edits[item.id], ...edit } } }, message);
 }
 
+async function moveTimelineV105(fromId,toId,restoreFocus=false){
+  if(view.page!=='plan'||saving||loading)return;
+  const result=timelineReorderV105(context,fromId,toId);
+  if(!result.ok){say(result.reason);return;}
+  await save({...context.state,edits:result.edits},'Reihenfolge geändert');
+  if(restoreFocus){
+    const card=[...app.querySelectorAll('.event-card[data-event-id]')].find(node=>node.dataset.eventId===fromId);
+    (card?.querySelector('.day105-move:not(:disabled)')??card?.querySelector('.event-content'))?.focus({preventScroll:true});
+  }
+}
+
 async function reorder(fromId, toId) {
   const from = context.day.find(i => i.id === fromId);
   const to = context.day.find(i => i.id === toId);
@@ -1205,6 +1216,12 @@ async function action(name, value = '') {
       const status=board.querySelector('.day101-filter-status');
       if(status)status.textContent=value==='all'?'Alle drei Abschnitte'
         :({morning:'Morgen',noon:'Mittag',evening:'Abend'}[value]+' ausgewählt');
+      break;
+    }
+    case 'day-timeline-move': {
+      const pair=JSON.parse(value);
+      if(Array.isArray(pair)&&pair.length===2&&pair.every(id=>typeof id==='string'))
+        await moveTimelineV105(pair[0],pair[1],true);
       break;
     }
     case 'day-plan-go':
@@ -2557,25 +2574,47 @@ app.addEventListener('submit', async event => {
     render();
   } catch (e) { error.textContent = e.message; button.disabled = false; }
 });
+function clearTimelineDragV105(){
+  dragged=null;
+  app.querySelectorAll('.day105-dragging,.day105-drop-target').forEach(node=>
+    node.classList.remove('day105-dragging','day105-drop-target'));
+}
+function canDropTimelineV105(target){
+  return Boolean(dragged&&target&&context&&view.page==='plan'&&!saving&&!loading
+    &&dragged.variant===variant.id&&dragged.date===context.date
+    &&timelineReorderV105(context,dragged.id,target.dataset.eventId).ok);
+}
 app.addEventListener('dragstart', event => {
-  const target = event.target.closest('[draggable=true]');
-  if (!target) return;
-  dragged = target.dataset.eventId;
-  event.dataTransfer.setData('text/plain', dragged);
-  event.dataTransfer.effectAllowed = 'move';
+  const target=event.target.closest('.event-card[draggable=true]');
+  if(!target||!event.dataTransfer)return;
+  dragged={id:target.dataset.eventId,variant:variant.id,date:context.date};
+  event.dataTransfer.setData('text/plain',dragged.id);
+  event.dataTransfer.effectAllowed='move';
+  target.classList.add('day105-dragging');
 });
 app.addEventListener('dragover', event => {
-  if (dragged && event.target.closest('[draggable=true]')) event.preventDefault();
+  const target=event.target.closest('.event-card[draggable=true]');
+  app.querySelectorAll('.day105-drop-target').forEach(node=>{if(node!==target)node.classList.remove('day105-drop-target');});
+  if(canDropTimelineV105(target)){
+    event.preventDefault();
+    if(event.dataTransfer)event.dataTransfer.dropEffect='move';
+    target.classList.add('day105-drop-target');
+  }
+});
+app.addEventListener('dragleave',event=>{
+  const target=event.target.closest('.day105-drop-target');
+  if(target&&!target.contains(event.relatedTarget))target.classList.remove('day105-drop-target');
 });
 app.addEventListener('drop', event => {
-  const target = event.target.closest('[draggable=true]');
-  if (!dragged || !target) return;
+  const target=event.target.closest('.event-card[draggable=true]');
+  const allowed=canDropTimelineV105(target);
+  const source=dragged?.id;
+  clearTimelineDragV105();
+  if(!allowed)return;
   event.preventDefault();
-  const to = target.dataset.eventId;
-  if (to !== dragged) void reorder(dragged, to).catch(error => say(error.message));
-  dragged = null;
+  void moveTimelineV105(source,target.dataset.eventId).catch(error=>say(error.message));
 });
-app.addEventListener('dragend', () => { dragged = null; });
+app.addEventListener('dragend',clearTimelineDragV105);
 matchMedia('(max-width:910px)').addEventListener('change', () => render());
 window.addEventListener('resize',()=>requestAnimationFrame(revealDayRouteFocus));
 
