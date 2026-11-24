@@ -46,7 +46,7 @@ import {renderDayBudgetV110,renderDayAlternativesV110,renderDayJourneyIntroV110,
 import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
 import {swissLodgingSummaryV83,swissLodgingCompareV83,swissLodgingRailNoteV83} from './swiss-lodging-v83.mjs';
 import {swissDatedSearchBoardV84,swissRailPrecisionV84} from './swiss-dated-search-v84.mjs';
-import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml } from './place-profile.mjs';
+import { placeQuickFacts, placeProfileHtml, placeImageHtml, placeThumbnailHtml, editorialCityPhotoV119, editorialDayRailV119 } from './place-profile.mjs';
 import { dayPeriod,planCostSignal } from './visual-experience.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { lodgingPriceInsight, lodgingPriceMeter } from './price-insights.mjs';
@@ -203,13 +203,11 @@ function plan(ctx, name) {
   const anchor = ctx.stops.find(item => item.anchor);
   const first = ctx.segments[0];
   const last = ctx.segments.at(-1);
-  const dayHeroItem=(ctx.all??[]).find(item=>item.city===city&&item.kind==='activity'
-    &&curatedPlacePhoto(item));
-  const dayHeroPhoto=dayHeroItem?curatedPlacePhoto(dayHeroItem):null;
+  const dayHeroPhoto=editorialCityPhotoV119(ctx,city,{day:true})?.photo??null;
   return `<section class="hero day-editorial-hero ${city === 'barcelona' ? 'photo' : ''}"
       data-photo="${dayHeroPhoto?'true':'false'}">
     ${dayHeroPhoto?'<div class="day-editorial-media" aria-hidden="true"><img src="'
-      +esc(dayHeroPhoto.url)+'" loading="eager" decoding="async"'
+      +esc(dayHeroPhoto.url.replace(/\?width=960$/,'?width=1440'))+'" loading="eager" fetchpriority="high" decoding="async"'
       +' referrerpolicy="no-referrer" alt=""></div>':''}
     <div class="hero-copy"><p class="hero-tag">${icon('pin')} ${esc(ctx.cities[city].country === 'ES' ? 'Spanien' : new Intl.DisplayNames('de', { type: 'region' }).of(ctx.cities[city].country))}</p>
     <h1>${esc(name)}</h1><div class="hero-meta"><span>${icon('calendar')} ${esc(longDay(date))}</span>
@@ -225,7 +223,7 @@ function plan(ctx, name) {
     ${renderDayNavigatorV101(ctx)}
     ${renderDayJumpV103(ctx)}
     ${dayPlaces(ctx)}
-    ${renderDetailedDayV111(ctx)||renderPhotoLibraryV114(ctx,{day:true})}
+    ${renderDetailedDayV111(ctx)||(editorialDayRailV119(ctx,day)+renderPhotoLibraryV114(ctx,{day:true}))}
     ${renderSwissDayExperienceV101(ctx)}
     ${renderDayJourneyIntroV110(ctx)}
     ${renderDayBudgetV110(ctx)}
@@ -634,8 +632,8 @@ function overview(ctx) {
   // Source-scoped destination imagery: never substitute a random hotel/provider
   // picture. Commons license credit and source stay visible with every photo.
   const destinationCards=[...new Set(trip.route)].slice(0,9).map(id=>{
-    const photoItem=ctx.all.find(item=>item.city===id&&item.kind==='activity'&&curatedPlacePhoto(item));
-    const photo=photoItem?curatedPlacePhoto(photoItem):null;
+    const editorial=editorialCityPhotoV119(ctx,id);
+    const photoItem=editorial?.item,photo=editorial?.photo;
     return '<article class="destination-card"><button type="button" data-action="trip-city" data-value="'+esc(id)+'">'
       +'<span class="destination-cover">'
       +'<span class="destination-placeholder" aria-hidden="true">'+destinationIllustration(id)+'</span>'
@@ -670,11 +668,7 @@ function overview(ctx) {
   // V95 editorial entry: one genuinely sourced destination photo, never an
   // invented image or an unrelated photo of a hotel. The rest stays in
   // the complete, accessible planning sections below.
-  const heroCityId=trip.route.find(id=>(ctx.all??[]).some(item=>
-    item.city===id&&item.kind==='activity'&&curatedPlacePhoto(item)))??trip.route[0];
-  const heroItem=(ctx.all??[]).find(item=>item.city===heroCityId
-    &&item.kind==='activity'&&curatedPlacePhoto(item));
-  const heroPhoto=heroItem?curatedPlacePhoto(heroItem):null;
+  const heroPhoto=trip.route.map(id=>editorialCityPhotoV119(ctx,id)).find(Boolean)?.photo??null;
   const uniqueDestinations=[...new Set(trip.route)];
   const firstCity=uniqueDestinations[0],lastCity=uniqueDestinations.at(-1);
   const heroRouteText=uniqueDestinations.length>1
@@ -684,7 +678,7 @@ function overview(ctx) {
   const editorialHero='<section class="editorial-journey-hero" data-photo="'
     +(heroPhoto?'true':'false')+'" aria-label="Deine Reise im Überblick">'
     +'<div class="editorial-journey-media" aria-hidden="true">'
-    +(heroPhoto?'<img src="'+esc(heroPhoto.url)+'" alt="" loading="eager"'
+    +(heroPhoto?'<img src="'+esc(heroPhoto.url.replace(/\?width=960$/,'?width=1440'))+'" alt="" loading="eager" fetchpriority="high"'
       +' decoding="async" referrerpolicy="no-referrer">':'')
     +'</div><div class="editorial-journey-copy">'
     +'<span class="editorial-journey-eyebrow">DEINE REISE · '
