@@ -99,7 +99,8 @@ test('V71 animation respects reduced-motion and distinguishes decorative orbit f
  ]);
  assert.match(player,/animation|arrivalBurstIcon/);
  assert.match(player,/BURST_DIRECTIONS/);
- assert.match(player,/const STAY_MS=3050/);
+ const {STAY_MS}=await import('../public/route-city-story-player-v70.mjs');
+ assert.ok(STAY_MS>=3050&&STAY_MS<=10000,'arrival must remain readable without an excessive dwell');
  assert.match(player,/this\.clearArrival\(\)/);
  assert.match(player,/reducedMotion\(\)/);
  assert.match(player,/this\.arrive\(this\.index\)/);
