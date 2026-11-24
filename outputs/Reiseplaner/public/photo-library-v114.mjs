@@ -168,10 +168,10 @@ export {PHOTO_GROUPS_V118,PHOTO_CANDIDATE_COUNT_V118};
 // Native modal, one shared viewer for library, place and full day galleries.
 // No modal or additional image request until the person opens a photo.
 export function photoViewerEntriesV118(anchor){
- const group=anchor.closest('.photo114-grid,.place-gallery-grid,.day112-gallery');
+ const group=anchor.closest('.photo114-grid,.place-gallery-grid,.day112-gallery,.photo119-rail,.photo119-map-rail');
  if(!group)return [];
- return [...group.querySelectorAll('.photo114-card>a,.place-gallery-item>a,.day112-photo>a')].filter(a=>{
-  const img=a.querySelector('img');return img&&!img.hidden&&!a.closest('.photo114-unavailable')&&img.getAttribute('src');
+ return [...group.querySelectorAll('.photo114-card>a,.place-gallery-item>a,.day112-photo>a,.photo119-item>a')].filter(a=>{
+  const img=a.querySelector('img');return img&&!img.hidden&&!a.closest('.photo114-unavailable,.photo119-unavailable')&&img.getAttribute('src');
  });
 }
 export function installPhotoViewerV118(doc){
@@ -210,7 +210,15 @@ export function installPhotoViewerV118(doc){
  const step=delta=>{const n=index+delta;if(n>=0&&n<entries.length){index=n;show();}};
  doc.addEventListener('click',e=>{
   if(e.defaultPrevented||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
-  const a=e.target.closest?.('.photo114-card>a,.place-gallery-item>a,.day112-photo>a');if(!a)return;
+  const control=e.target.closest?.('[data-photo119-scroll]');
+  if(control){
+   const rail=control.closest('.photo119-story')?.querySelector('.photo119-rail');
+   if(rail){e.preventDefault();const reduced=doc.documentElement.dataset.motion==='off'||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const card=rail.querySelector('.photo119-item');
+    rail.scrollBy({left:Number(control.dataset.photo119Scroll)*(card?card.getBoundingClientRect().width+16:rail.clientWidth),behavior:reduced?'instant':'smooth'});}
+   return;
+  }
+  const a=e.target.closest?.('.photo114-card>a,.place-gallery-item>a,.day112-photo>a,.photo119-item>a');if(!a)return;
   const list=photoViewerEntriesV118(a);if(!list.includes(a))return;
   e.preventDefault();entries=list;index=list.indexOf(a);trigger=a;
   viewer??=create();show();if(!viewer.open)viewer.showModal();viewer.querySelector('[data-photo118-close]').focus();
@@ -223,4 +231,25 @@ export function installPhotoViewerV118(doc){
   section.querySelector('.photo118-search-status').textContent=q?count+' passende Motivsammlungen':'';
  });
 }
-if(typeof document!=='undefined')installPhotoViewerV118(document);
+if(typeof document!=='undefined'){
+ installPhotoViewerV118(document);
+ // Fade in only loaded images that actually enter the viewport; no hidden content on unsupported browsers.
+ const reduced=()=>document.documentElement.dataset.motion==='off'||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+ const observer=typeof IntersectionObserver==='function'?new IntersectionObserver(entries=>{
+  for(const entry of entries)if(entry.isIntersecting){
+   const img=entry.target;observer.unobserve(img);
+   if(img.isConnected&&img.naturalWidth&&!reduced()&&typeof img.animate==='function')img.animate([{opacity:.72,transform:'scale(1.015)'},{opacity:1,transform:'scale(1)'}],{duration:280,easing:'ease-out'});
+  }
+ },{threshold:.15}):null;
+ const selector='.photo119-item img,.day112-photo img';
+ const observe=img=>{if(img.matches?.(selector)&&img.complete&&img.naturalWidth)observer?.observe(img);};
+ document.addEventListener('load',e=>observe(e.target),true);
+ document.addEventListener('error',e=>{
+  const img=e.target;if(!img.matches?.(selector))return;
+  img.hidden=true;img.closest('figure,.day112-photo')?.classList.add('photo119-unavailable');
+ },true);
+ if(observer&&typeof MutationObserver==='function'){
+  const scan=node=>{if(node.nodeType!==1)return;observe(node);node.querySelectorAll(selector).forEach(observe);};
+  new MutationObserver(records=>{for(const r of records)for(const node of r.addedNodes)scan(node);}).observe(document.body,{childList:true,subtree:true});
+ }
+}
