@@ -3367,3 +3367,15 @@ dialog.photo118-viewer::backdrop{background:#000b}
  .reference-travel-shell .route-story-stoprail{overflow-x:auto}
  .reference-travel-shell button.route-story-rail-dot{min-width:28px;min-height:28px}
 }
+
+/* V122 expanded view is opt-in from the compact map, open on overview launch. */
+.reference-travel-shell #route122-preview[hidden]{display:none!important}
+.reference-travel-shell .route-story-player[data-photo-expanded=true]{width:min(540px,calc(100% - 24px))!important;max-height:min(62dvh,480px,calc(100% - 24px))!important;overflow-y:auto!important;gap:9px!important;padding:12px!important;background:rgba(14,42,35,.94)!important}
+.reference-travel-shell .route-story-player[data-photo-expanded=true] .route-story-actions{flex-wrap:wrap!important}
+.reference-travel-shell .route-story-player[data-photo-expanded=true] .route-story-actions button{min-height:44px!important;min-width:44px!important}
+.reference-travel-shell .route-story-player button.route-story-rail-dot{position:relative;flex:1 1 0!important;width:auto!important;height:24px!important;min-height:24px!important;min-width:24px!important;border-radius:5px}
+.reference-travel-shell .route-story-stoprail{overflow-x:auto}
+.reference-travel-shell .route-story-player[data-photo-expanded=true] .route-story-heading small,
+.reference-travel-shell .route-story-player[data-photo-expanded=true] .route-story-eyebrow,
+.reference-travel-shell .route-story-player[data-photo-expanded=true] .route-story-disclaimer{position:static!important;width:auto!important;height:auto!important;clip:auto!important;margin:0!important;white-space:normal!important;overflow:visible!important}
+@media(max-width:650px){.reference-travel-shell .route-story-player[data-photo-expanded=true]{width:calc(100% - 18px)!important;max-height:min(58dvh,430px,calc(100% - 18px))!important}}
