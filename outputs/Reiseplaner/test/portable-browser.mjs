@@ -414,6 +414,14 @@ try {
   assert.ok(await js('(()=>{const p=document.querySelector("#route-story-player"),v=document.querySelector("#route122-preview");return p.dataset.photoExpanded==="true"&&!v.hidden&&v.querySelector(".route122-copy strong")?.textContent===p.querySelector("#route-story-city").textContent})()'),
     'V122 expanded photo scene and selected map city remain synchronized');
   await screenshot('30-v122-synchronized-route-preview-1440.png');
+  await click('#route-story-player [data-action=route122-prev]');
+  assert.equal(await js('document.querySelector("#route-story-count").textContent.split(" / ")[0]'),'1');
+  assert.equal(await js('document.querySelector("#route-story-player").dataset.status'),'paused');
+  assert.ok(await js('(()=>{const p=document.querySelector("#route-story-player");const s=p.querySelector(".route122-scene");return s.querySelector(".route122-copy strong").textContent===p.querySelector("#route-story-city").textContent&&(!s.dataset.route122Day||s.querySelector("[aria-current=date]").dataset.value===s.dataset.route122Day)})()'),
+    'V122 previous scene updates both the city and current day');
+  await click('#route-story-player [data-action=route122-next]');
+  assert.equal(await js('document.querySelector("#route-story-count").textContent.split(" / ")[0]'),'2');
+  assert.equal(await js('document.querySelector("#route-story-player").dataset.status'),'paused');
   await click('#route-story-player [data-action=route122-toggle]');
   assert.equal(await js('document.querySelector("#route122-preview").hidden'),true);
   await click('#route-story-player [data-action=route-story-stop]');
