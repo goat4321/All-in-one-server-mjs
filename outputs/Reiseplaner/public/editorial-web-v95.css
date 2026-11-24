@@ -3127,3 +3127,16 @@
 }
 @media(prefers-reduced-motion:reduce){.reference-travel-shell .day112-photo img{transition:none!important;transform:none!important}}
 :root[data-motion=off] .reference-travel-shell .day112-photo img{transition:none!important;transform:none!important}
+
+/* V113: bigger photography, not narrow thumbnails in primary day cards. */
+.reference-travel-shell .day111-card-main{flex-direction:column;gap:12px}
+.reference-travel-shell .day111-card-main .day111-copy{flex:1 1 auto;width:100%}
+.reference-travel-shell .day111-photo.day112-large{width:100%;max-width:100%;flex:1 1 auto}
+.reference-travel-shell .day111-photo.day112-large .day112-gallery{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px}
+.reference-travel-shell .day111-photo.day112-large .day112-photo img{aspect-ratio:16/10;max-height:440px;object-fit:cover;border-radius:14px}
+.reference-travel-shell .swiss-14-day-card .day112-photo img,.reference-travel-shell .day101-period-card .day112-photo img{aspect-ratio:4/3}
+.reference-travel-shell .day110-stop{flex-basis:min(260px,86%)}
+@media(max-width:600px){
+ .reference-travel-shell .day111-photo.day112-large .day112-gallery{grid-template-columns:1fr}
+ .reference-travel-shell .day111-photo.day112-large .day112-photo img{aspect-ratio:4/3;max-height:none}
+}
