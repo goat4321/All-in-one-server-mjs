@@ -9,7 +9,7 @@ import {
 } from '../public/day-experience-v101.mjs';
 import {ALL_PHOTO_GROUPS_V118,PHOTO_TOTAL_V118,PHOTO_GROUPS_V118,PHOTO_CANDIDATE_COUNT_V118,PHOTO_GROUPS_V116,PHOTO_CANDIDATE_COUNT_V116,ALL_PHOTO_GROUPS_V116,PHOTO_TOTAL_V116,renderItemPhotoGroupV114,PHOTO_GROUPS_V115,PHOTO_CANDIDATE_COUNT_V115,ALL_PHOTO_GROUPS_V115,PHOTO_TOTAL_V115,loadPhotoGroupV115,PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114,photoMetadataUrlV114,licensedGroupV114,renderPhotoLibraryV114,photoCardV114} from '../public/photo-library-v114.mjs';
 import {curatedLibraryV114} from '../public/curated-place-photos.mjs';
-import {itineraryPhotosV112,itineraryPhotoHtmlV112,itineraryDayImageV112} from '../public/place-profile.mjs';
+import {itineraryPhotosV112,itineraryPhotoHtmlV112,itineraryDayImageV112,editorialCityPhotoV119,editorialDayPhotosV119,editorialDayRailV119,mapPhotoRailV119,editorialPhotoScoreV119} from '../public/place-profile.mjs';
 import {SWISS_PROGRAM_V111,detailedDayModelV111,renderDetailedDayV111} from '../public/day-program-v111.mjs';
 import {journeyModelV110,dayBudgetV110,dayMoveOptionsV110,renderDayJourneyControlsV110} from '../public/day-journey-v110.mjs';
 import {dayEntries} from '../public/model.mjs';
@@ -398,4 +398,29 @@ test('V118 adds 100 unique file candidates and 3 source collections without chan
  assert.match(overview,/data-photo118-search/);
  assert.match(overview,/2172/);
  assert.doesNotMatch(overview,/<img /);
+});
+
+test('V119 editorial photographs stay city-specific and prefer scenic motifs over incidental subjects',()=>{
+ const scenic={name:'Seealpsee Panorama'},other={name:'Museum'};
+ const photo={curated:true,url:'https://example.org/image.jpg'};
+ assert.ok(editorialPhotoScoreV119(scenic,photo)>editorialPhotoScoreV119(other,photo));
+ assert.ok(editorialPhotoScoreV119(scenic,{...photo,contextualOnly:true})<editorialPhotoScoreV119(other,photo));
+ for(const city of new Set(swiss.route)){
+  const result=editorialCityPhotoV119({all:swiss.items},city);
+  if(result){assert.equal(result.item.city,city);assert.equal(result.item.kind,'activity');assert.ok(result.photo.sourceUrl);assert.ok(result.photo.credit);}
+ }
+ assert.equal(editorialCityPhotoV119({all:swiss.items},'unknown-city'),null);
+});
+test('V119 day rail is bounded, source-specific, deduplicated and does not introduce city stand-ins',()=>{
+ const rows=swiss.items.filter(i=>i.kind==='activity');
+ const input={all:swiss.items,state:{placePhotos:{}}};
+ const entries=editorialDayPhotosV119(input,[...rows,...rows]);
+ assert.ok(entries.length>0&&entries.length<=6);
+ assert.equal(new Set(entries.map(e=>e.photo.sourceUrl)).size,entries.length);
+ assert.ok(entries.every(e=>!e.photo.contextualOnly&&e.photo.credit&&e.photo.sourceUrl));
+ const html=editorialDayRailV119(input,rows);
+ assert.match(html,/photo119-rail/);assert.match(html,/data-photo119-scroll/);assert.match(html,/loading="lazy"/);
+ assert.equal(editorialDayRailV119(input,[{kind:'lodging',city:'paris',name:'Unknown hotel'}]),'');
+ assert.equal(mapPhotoRailV119({kind:'lodging',city:'paris',name:'Unknown hotel'},input),'');
+ assert.match(mapPhotoRailV119(entries[0].item,input),/photo119-map-rail/);
 });
