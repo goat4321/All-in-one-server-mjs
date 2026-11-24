@@ -2,6 +2,7 @@ import { dailyBudgetDefaults } from './daily-budget.mjs';
 import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './public-geocode-eligibility.mjs';
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
+import {mountJourneyStoryV121} from './journey-story-v121.mjs';
 import {dayPlanDraftEdits,timelineReorderV105} from './day-plans-logic.mjs';
 import {journeyModelV110,dayMoveOptionsV110} from './day-journey-v110.mjs';
 import {readPreparationV102,togglePreparationV102,preparationTextV102} from './day-preparation-v102.mjs';
@@ -34,6 +35,7 @@ import { chooseItem, closeDialog, deadlineForm, editItem, editPass, editPeople, 
 const app = document.querySelector('#app');
 const toast = document.querySelector('#toast');
 const motion = createMotionController(document);
+let unmountJourneyStory;
 let catalog, variant, currentMap, context, toastTimer, undo, revisionToken = 0, dragged, timetableSearch;
 let saving = false, loading = false;
 let commonsPhotoPick = null;
@@ -584,7 +586,9 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   document.documentElement.dataset.theme = view.theme;
   document.documentElement.dataset.motion = view.mapMotion;
   document.body.classList.toggle('map-fullscreen-active',view.page==='map'&&view.mapFullscreen);
+  unmountJourneyStory?.();
   app.innerHTML = renderShell(context);
+  unmountJourneyStory=mountJourneyStoryV121(app);
   const replacement=app.querySelector('#map');
   if(mapNode&&replacement){
     replacement.replaceWith(mapNode);
@@ -1235,6 +1239,11 @@ async function action(name, value = '') {
     case 'city':
       if (view.page === 'map') { view.mapScope = 'city'; view.total = false; }
       showCity(value); break;
+    case 'journey121-map':
+      if(!context.trip.route.includes(value))break;
+      view.page='map';view.mapScope='city';view.total=false;view.mapFullscreen=false;view.mapFullscreenDrawer=false;
+      view.mapSearch='';view.mapGroup='all';view.mapSavedOnly=false;
+      showCity(value);window.scrollTo({top:0,behavior:'instant'});break;
     case 'trip-city':
       if (!context.trip.route.includes(value)) break;
       view.page='plan';view.total=false;
@@ -2435,8 +2444,12 @@ document.addEventListener('click',event=>{
   // map, keyboard, programmatic navigation or browser-wide scrolling.
   const reduced=document.documentElement.dataset.motion==='off'
     ||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  target.scrollIntoView({block:'start',behavior:reduced?'instant':'smooth'});
   target.focus?.({preventScroll:true});
+  const header=app.querySelector('.reference-topbar');
+  const nav=app.querySelector('.day103-navigation');
+  const offset=Math.max(header?.getBoundingClientRect().bottom??0,0)+(nav?.getBoundingClientRect().height??0)+12;
+  const top=window.scrollY+target.getBoundingClientRect().top-offset;
+  window.scrollTo({top:Math.max(0,top),behavior:reduced?'instant':'smooth'});
 });
 // Two-way visual focus, without re-rendering Leaflet or changing the selected
 // POI, bookings or map viewport. Clustered markers may not have DOM elements.
