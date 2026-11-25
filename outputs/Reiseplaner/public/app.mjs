@@ -3,7 +3,7 @@ import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './pub
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
 import {mountJourneyStoryV121} from './journey-story-v121.mjs';
-import {immersiveSceneV123,immersiveHtmlV123,previewDayTargetsV124,upcomingPhotoV124,formatPreviewTimeV124} from './immersive-route-v123.mjs';
+import {immersiveSceneV123,immersiveHtmlV123,previewDayTargetsV124,upcomingPhotoV124,formatPreviewTimeV124,previewStopTargetV124} from './immersive-route-v123.mjs';
 import {routePreviewHtmlV122,routePreviewDayV122} from './route-preview-v122.mjs';
 import {dayPlanDraftEdits,timelineReorderV105} from './day-plans-logic.mjs';
 import {journeyModelV110,dayMoveOptionsV110} from './day-journey-v110.mjs';
@@ -346,10 +346,14 @@ function openDay110(mode){
 
 // Only one upcoming photo is requested at a time; no catalogue-wide prefetch.
 const route124Preloaded=new Map();
+let route124PendingPhoto=null;
+function clearRoutePreloadV124(){if(route124PendingPhoto){route124PendingPhoto.onload=route124PendingPhoto.onerror=null;route124PendingPhoto.removeAttribute('src');route124PendingPhoto=null;}route124Preloaded.clear();}
 function preloadRoutePhotoV124(url){
  const connection=navigator.connection;
  if(!url||route124Preloaded.has(url)||connection?.saveData||/^(slow-2g|2g)$/.test(connection?.effectiveType??''))return;
- const img=new Image();img.referrerPolicy='no-referrer';img.decoding='async';img.fetchPriority='low';
+ if(route124PendingPhoto){route124PendingPhoto.onload=route124PendingPhoto.onerror=null;route124Preloaded.delete(route124PendingPhoto.getAttribute('src'));route124PendingPhoto.removeAttribute('src');}
+ const img=new Image();route124PendingPhoto=img;
+ img.onload=img.onerror=()=>{if(route124PendingPhoto===img)route124PendingPhoto=null;};img.referrerPolicy='no-referrer';img.decoding='async';img.fetchPriority='low';
  route124Preloaded.set(url,img);if(route124Preloaded.size>6)route124Preloaded.delete(route124Preloaded.keys().next().value);
  img.src=url;
 }
@@ -361,20 +365,20 @@ function updateRouteStoryUi(state){
   const previousStatus=panel.dataset.status;
   panel.hidden=!visible;panel.dataset.status=status;
   if(view.routeImmersive&&status==='paused'&&previousStatus==='playing')currentMap?.map.stop();
-  if(!visible){panel.dataset.previewKey='';panel.dataset.immersiveKey='';panel.dataset.immersiveContent='';panel.dataset.cameraKey='';route124Preloaded.clear();return;}
+  if(!visible){panel.dataset.previewKey='';panel.dataset.immersiveKey='';panel.dataset.immersiveContent='';panel.dataset.cameraKey='';clearRoutePreloadV124();return;}
   const immersive=panel.querySelector('#route123-preview');
   if(immersive){immersive.hidden=!view.routeImmersive;
    if(view.routeImmersive){
     const scene=immersiveSceneV123(context,state);
     const range=panel.querySelector('#route124-time'),clock=panel.querySelector('#route124-clock'),picker=panel.querySelector('#route124-day');
-    if(range&&range.dataset.dragging!=='true'){range.max=String(Math.max(1,Math.ceil(state.previewDuration??0)));range.value=String(Math.round(state.previewTime??0));if(clock)clock.textContent=formatPreviewTimeV124(state.previewTime)+' / '+formatPreviewTimeV124(state.previewDuration);}
+    if(range&&range.dataset.dragging!=='true'){const max=String(Math.max(1,Math.ceil(state.previewDuration??0))),value=String(Math.round(state.previewTime??0)),label=formatPreviewTimeV124(state.previewTime)+' / '+formatPreviewTimeV124(state.previewDuration);if(range.max!==max)range.max=max;if(range.value!==value)range.value=value;if(clock&&clock.textContent!==label){clock.textContent=label;range.setAttribute('aria-valuetext',label+' Vorschauzeit');}}
     const pickerKey=context.variant.id+'|'+state.index;
     if(picker&&picker.dataset.key!==pickerKey){const targets=previewDayTargetsV124(context,state);picker.replaceChildren(new Option('Reisetag auswählen',''));for(const d of targets)picker.add(new Option(d.date+' · '+(context.cities[d.city]?.name??d.city),d.date));picker.disabled=!targets.length;picker.dataset.key=pickerKey;}
     if(picker&&picker.value!==(scene.day?.date??''))picker.value=scene.day?.date??'';
     if(panel.dataset.immersiveKey!==scene.key){
      panel.dataset.immersiveKey=scene.key;
      if(panel.dataset.immersiveContent!==scene.contentKey){immersive.innerHTML=immersiveHtmlV123(context,state,scene);panel.dataset.immersiveContent=scene.contentKey;preloadRoutePhotoV124(upcomingPhotoV124(context,state,scene));}
-     else immersive.querySelectorAll('.route123-timeline li').forEach((row,index)=>{if(index===scene.index)row.setAttribute('aria-current','step');else row.removeAttribute('aria-current');});
+     else immersive.querySelectorAll('.route123-timeline li').forEach((row,index)=>{if(index===scene.index)row.setAttribute('aria-current','step');else row.removeAttribute('aria-current');row.querySelector('.route124-stop-seek')?.setAttribute('aria-pressed',String(index===scene.index));});
      const map=currentMap?.map,point=context.cities[state.cityId]?.point;
      const next=context.cities[state.routeOverview?.[state.index+1]?.id]?.point;
      const animate=motion.enabled()&&state.status==='playing';
@@ -637,7 +641,7 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   else{oldMap?.destroy();currentMap=null}
   document.documentElement.dataset.theme = view.theme;
   document.documentElement.dataset.motion = view.mapMotion;
-  if(view.page!=='map'||!view.mapFullscreen)view.routeImmersive=false;
+  if(view.page!=='map'||!view.mapFullscreen){view.routeImmersive=false;clearRoutePreloadV124();}
   document.body.classList.toggle('map-fullscreen-active',view.page==='map'&&view.mapFullscreen);
   document.body.classList.toggle('route123-active',view.routeImmersive);
   unmountJourneyStory?.();
@@ -779,6 +783,7 @@ async function switchVariant(id) {
   view.mapPinPicking=false;view.mapPinDraft=null;view.mapPinEditingId=null;
   try {
     currentMap?.stopCityStory();
+    if(view.routeImmersive){view.routeImmersive=false;view.mapFullscreen=false;view.mapFullscreenDrawer=false;}
     variant = await api('/api/variant/' + encodeURIComponent(id));
     localStorage.setItem('reiseplan-variant', id);
     view.city = view.date = view.selected = view.wholeDay = null;
@@ -1924,6 +1929,12 @@ async function action(name, value = '') {
       if(expanded&&currentMap)updateRouteStoryUi(currentMap.storyState());
       panel.querySelector('[data-action=route122-toggle]')?.setAttribute('aria-expanded',String(expanded));break;
     }
+    case 'route124-stop': {
+      if(!view.routeImmersive||!/^\d+$/.test(value))break;
+      const state=currentMap?.storyState();if(!state||state.status==='idle')break;
+      const target=previewStopTargetV124(state,immersiveSceneV123(context,state),Number(value));
+      if(target!==null)currentMap.seekCityStoryTime(target);break;
+    }
     case 'route122-prev':
     case 'route122-next': {
       const s=currentMap?.storyState();if(s&&s.status!=='idle')currentMap.seekCityStory(s.index+(name==='route122-prev'?-1:1));break;
@@ -2687,6 +2698,12 @@ document.addEventListener('keydown',event=>{
     event.preventDefault();
     void action('explorer-search').catch(error=>say(error.message));
   }
+});
+app.addEventListener('keydown',event=>{
+ if(!view.routeImmersive||event.target.id!=='route124-time')return;
+ const delta={ArrowLeft:-1000,ArrowDown:-1000,ArrowRight:1000,ArrowUp:1000,PageDown:-5000,PageUp:5000}[event.key];
+ if(delta===undefined&&event.key!=='Home'&&event.key!=='End')return;
+ event.preventDefault();const range=event.target;delete range.dataset.dragging;currentMap?.seekCityStoryTime(event.key==='Home'?0:event.key==='End'?Number(range.max):Math.max(0,Math.min(Number(range.max),Number(range.value)+delta)));
 });
 app.addEventListener('input',event=>{
   if(event.target.id==='route124-time'&&view.routeImmersive){const range=event.target;range.dataset.dragging='true';currentMap?.pauseCityStory();const clock=app.querySelector('#route124-clock');if(clock)clock.textContent=formatPreviewTimeV124(Number(range.value))+' / '+formatPreviewTimeV124(Number(range.max));return;}
