@@ -58,7 +58,7 @@ export function previewStopTargetV124(state,scene,index){
  if(!row||dayIndex<0||!Number.isInteger(index)||index<0||index>=scene.stops.length)return null;
  return row.start+row.dwell*(dayIndex+(index+.5)/scene.stops.length)/scene.days.length;
 }
-export const previewPhotoUrlV124=photo=>photo?.url?.replace(/\?width=960$/,'?width=1440')??null;
+export const previewPhotoUrlV124=photo=>photo?.url?.replace(/\?width=960$/,'?width=1280')??null;
 export function upcomingPhotoV124(ctx,state,scene){
  const nextDay=scene.days[scene.days.indexOf(scene.day)+1];
  const city=nextDay?state.cityId:state.routeOverview?.[state.index+1]?.id;

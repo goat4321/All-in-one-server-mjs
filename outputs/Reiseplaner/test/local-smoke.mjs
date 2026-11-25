@@ -28,6 +28,11 @@ try{
   assert.equal(data.variants.length>=4,true,'Mindestens vier lokale Varianten');
   const page=await fetch(base+'/');
   assert.equal(page.status,200,'HTML-Startseite erreichbar');
+  const csp=page.headers.get('content-security-policy');
+  const directive=name=>csp.split(';').map(s=>s.trim()).find(s=>s.startsWith(name+' ')).split(/\s+/).slice(1);
+  for(const host of ['https://commons.wikimedia.org','https://upload.wikimedia.org','https://thumb.wikimedia.org'])assert.ok(directive('img-src').includes(host),'Wikimedia image host '+host);
+  assert.ok(directive('connect-src').includes('https://commons.wikimedia.org'),'Commons metadata must not be blocked by CSP');
+  assert.ok(!directive('img-src').includes('https:'),'Do not widen CSP to arbitrary image hosts');
   assert.match(await page.text(),/<html/i);
   const css=await fetch(base+'/styles.css');
   assert.equal(css.status,200,'Stylesheet erreichbar');

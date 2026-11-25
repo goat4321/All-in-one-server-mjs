@@ -34,7 +34,7 @@ export function photoMetadataUrlV114(files){
  if(!Array.isArray(files)||!files.length||files.length>20)throw Error('Ungültige Fotogruppe');
  const u=new URL('https://commons.wikimedia.org/w/api.php');
  u.search=new URLSearchParams({action:'query',format:'json',formatversion:'2',titles:files.map(f=>'File:'+f).join('|'),
- prop:'imageinfo',iiprop:'url|mime|extmetadata',iiurlwidth:'800',
+ prop:'imageinfo',iiprop:'url|mime|extmetadata',iiurlwidth:'960',
  iiextmetadatafilter:'LicenseShortName|LicenseUrl|Artist|Attribution|Credit|Copyrighted|Restrictions',origin:'*'}).toString();
  return u.toString();
 }
@@ -43,7 +43,7 @@ export function licensedGroupV114(group,data){
  const pages=(data?.query?.pages??[]).filter(p=>permitted.has(norm(p.title)));
  // The existing Commons validator requires attribution, approved license, image MIME and source.
  const rows=commonsResults({query:{pages}}).filter(p=>{
-  try {return new URL(p.url).hostname==='upload.wikimedia.org'&&
+  try {return ['upload.wikimedia.org','thumb.wikimedia.org'].includes(new URL(p.url).hostname)&&
    ['creativecommons.org','www.creativecommons.org'].includes(new URL(p.licenseUrl).hostname);}
   catch{return false;}
  });
@@ -53,7 +53,7 @@ export function licensedGroupV114(group,data){
 const link=(url,label)=>'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>';
 const licenseFrom=p=>p.licenseUrl??(p.credit?.match(/CC (BY-SA|BY) ([234]\.0|2\.5)/i)?'https://creativecommons.org/licenses/'+p.credit.match(/CC (BY-SA|BY) ([234]\.0|2\.5)/i)[1].toLowerCase()+'/'+p.credit.match(/CC (BY-SA|BY) ([234]\.0|2\.5)/i)[2]+'/':null);
 export function photoCardV114(p,{archive=false}={}){
- const image=p.url.replace(/\?width=960$/,'?width=640');
+ const image=p.url.replace(/\?width=960$/,'?width=500');
  const license=licenseFrom(p);
  return '<figure class="photo114-card"><a href="'+esc(p.sourceUrl)+'" target="_blank" rel="noopener noreferrer" aria-label="Foto in der Galerie vergrößern">'
  +'<img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(image)+'" alt="'+esc(p.name)+'"></a>'
@@ -204,7 +204,7 @@ export function installPhotoViewerV118(doc){
   img.alt=original.alt;
   const raw=original.getAttribute('src');
   // Use the existing attributed Commons asset at a larger resolution only in the viewer.
-  img.src=/^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\//.test(raw)?raw.replace(/\?width=\d+$/,'?width=1440'):raw;
+  img.src=/^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\//.test(raw)?raw.replace(/\?width=\d+$/,'?width=1280'):raw;
   const cap=viewer.querySelector('.photo118-caption');cap.replaceChildren();
   const fig=a.closest('figure'),caption=fig?.querySelector('figcaption');
   if(caption){const clone=caption.cloneNode(true);clone.querySelectorAll('button').forEach(b=>b.remove());const div=doc.createElement('div');div.append(...clone.childNodes);cap.append(div);}

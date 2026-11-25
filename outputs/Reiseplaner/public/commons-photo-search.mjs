@@ -16,7 +16,7 @@ export function commonsSearchUrl(query){
   u.search=new URLSearchParams({
     action:'query',format:'json',formatversion:'2',generator:'search',
     gsrnamespace:'6',gsrlimit:'16',gsrsearch:q+' filetype:bitmap',
-    prop:'imageinfo',iiprop:'url|mime|extmetadata',iiurlwidth:'880',
+    prop:'imageinfo',iiprop:'url|mime|extmetadata',iiurlwidth:'960',
     iiextmetadatafilter:'LicenseShortName|LicenseUrl|Artist|Attribution|Credit|Copyrighted|Restrictions',
     origin:'*',
   }).toString();

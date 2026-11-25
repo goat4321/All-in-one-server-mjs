@@ -445,7 +445,7 @@ export function editorialDayRailV119(ctx,rows=[]){
   +'<div class="photo119-rail" tabindex="0" aria-label="Tagesfotos horizontal durchblättern">'+entries.map(({item,photo})=>photo119Figure(item,photo)).join('')+'</div></section>';
 }
 function photo119Figure(item,photo){
- const url=photo.curated?photo.url.replace(/\?width=960$/,'?width=640'):photo.url;
+ const url=photo.curated?photo.url.replace(/\?width=960$/,'?width=500'):photo.url;
  return '<figure class="photo119-item" data-photo120-crop="'+photoCropV120(item,photo)+'"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(item.name+' Foto vergrößern')+'"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(url)+'" alt="'+esc(item.name)+'"></a><figcaption><strong>'+esc(item.name)+'</strong><small>'+esc(photo.credit)+'</small>'
   +(photo.subjectDisclaimer?'<small>'+esc(photo.subjectDisclaimer)+'</small>':'')
   +'<a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Quelle</a>'
@@ -596,7 +596,7 @@ export function itineraryPhotoHtmlV112(item,ctx={}, {compact=false,context=true}
  const photos=itineraryPhotosV112(item,ctx,{context});
  if(!photos.length)return '';
  const thumb=(photo)=>{
-  const url=photo.curated||photo.contextualOnly?photo.url.replace(/\?width=960$/,'?width='+ (compact?480:960)):photo.url;
+  const url=photo.curated||photo.contextualOnly?photo.url.replace(/\?width=960$/,'?width='+ (compact?500:960)):photo.url;
   const label=photo.contextualOnly?'Stadtmotiv · kein Objektfoto':photo.subjectDisclaimer??'Historisches / hinterlegtes Ortsfoto';
   const img='<img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(url)+'" alt="'+esc(photo.contextualOnly?'Stadtmotiv':item.name??'Ortsfoto')+'" title="'+esc(label+' · '+photo.credit)+'">';
   const credit='<small class="day112-photo-credit">'+esc((photo.contextualOnly?'Stadtmotiv · ':'')+photo.credit)+'</small>';

@@ -31,7 +31,7 @@ export function explorerPhotoV125(ctx,scene,fallback=null){
  if(photo)return {item:activity.item,photo,contextual:false};
  return fallback?.photo&&fallback.item&&/^https:\/\//.test(fallback.photo.url??'')&&/^https:\/\//.test(fallback.photo.sourceUrl??'')&&fallback.photo.credit?{...fallback,contextual:true}:null;
 }
-export const explorerPhotoUrlV125=(photo,width=960)=>photo?.url?.replace(/\?width=960$/,'?width='+width)??null;
+export const explorerPhotoUrlV125=(photo,width=960)=>photo?.url?.replace(/\?width=960$/,'?width='+([20,40,60,120,250,330,500,960,1280,1920,3840].find(w=>w>=width)??3840))??null;
 export function explorerMediaHtmlV125(ctx,scene,fallback){
  const entry=explorerPhotoV125(ctx,scene,fallback),activity=explorerActivityV125(ctx,scene.stop);
  const {item,photo,contextual}=entry??{};

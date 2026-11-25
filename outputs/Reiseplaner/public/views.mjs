@@ -210,7 +210,7 @@ function plan(ctx, name) {
   return `<section class="hero day-editorial-hero ${city === 'barcelona' ? 'photo' : ''}"
       data-photo="${dayHeroPhoto?'true':'false'}" data-photo120-crop="${photoCropV120(dayEditorial?.item,dayHeroPhoto)}">
     ${dayHeroPhoto?'<div class="day-editorial-media" aria-hidden="true"><img src="'
-      +esc(dayHeroPhoto.url.replace(/\?width=960$/,'?width=1440'))+'" loading="eager" fetchpriority="high" decoding="async"'
+      +esc(dayHeroPhoto.url.replace(/\?width=960$/,'?width=1280'))+'" loading="eager" fetchpriority="high" decoding="async"'
       +' referrerpolicy="no-referrer" alt=""></div>':''}
     <div class="hero-copy"><p class="hero-tag">${icon('pin')} ${esc(ctx.cities[city].country === 'ES' ? 'Spanien' : new Intl.DisplayNames('de', { type: 'region' }).of(ctx.cities[city].country))}</p>
     <h1>${esc(name)}</h1><div class="hero-meta"><span>${icon('calendar')} ${esc(longDay(date))}</span>
@@ -694,7 +694,7 @@ function overview(ctx) {
   const editorialHero='<section class="editorial-journey-hero" data-photo="'
     +(heroPhoto?'true':'false')+'" data-photo120-crop="'+photoCropV120(heroEditorial?.item,heroPhoto)+'" aria-label="Deine Reise im Überblick">'
     +'<div class="editorial-journey-media" aria-hidden="true">'
-    +(heroPhoto?'<img src="'+esc(heroPhoto.url.replace(/\?width=960$/,'?width=1440'))+'" alt="" loading="eager" fetchpriority="high"'
+    +(heroPhoto?'<img src="'+esc(heroPhoto.url.replace(/\?width=960$/,'?width=1280'))+'" alt="" loading="eager" fetchpriority="high"'
       +' decoding="async" referrerpolicy="no-referrer">':'')
     +'</div><div class="editorial-journey-copy">'
     +'<span class="editorial-journey-eyebrow">DEINE REISE · '
