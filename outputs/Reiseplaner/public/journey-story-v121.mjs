@@ -12,7 +12,7 @@ export function journeyChaptersV121(ctx,{exclude=[]}={}){
   const editorial=editorialCityPhotoV119(ctx,city,{exclude:[...seen]});
   if(editorial)seen.add(photoIdentityV120(editorial.photo));
   const ids=new Set(plans.flatMap(d=>(d.slots??[]).map(s=>s.id)));
-  const activities=all.filter(i=>ids.has(i.id)&&i.city===city&&i.kind==='activity'&&!i.mealSlot);
+  const activities=all.filter(i=>ids.has(i.id)&&i.city===city&&i.kind==='activity'&&!i.mealSlot&&!i.removed&&!i.duplicateOf);
   return {city,index,name:ctx.cities?.[city]?.name??city,plans,activities:activities.slice(0,3),editorial};
  });
 }
@@ -21,7 +21,7 @@ export function renderJourneyStoryV121(ctx,options={}){
  if(!chapters.length)return '';
  const links=chapters.map((c,i)=>'<a href="#journey121-'+i+'" data-journey121-index="'+i+'"'+(i===0?' aria-current="location"':'')+'><span>'+String(i+1).padStart(2,'0')+'</span>'+esc(c.name)+'</a>').join('');
  return '<section class="journey121" aria-label="Reisegeschichte"><header class="journey121-heading"><small>DEINE ROUTE · KAPITEL</small><h2>Eine Reise. '+chapters.length+' Reiseziele.</h2><p>Entdecke die Orte in der Reihenfolge deiner Reisevariante. Alle Tagesideen bleiben unverbindliche Planvorschläge.</p></header>'
- +'<nav class="journey121-nav" aria-label="Städtekapitel"><div class="journey121-progress"><span data-journey121-status>1 / '+chapters.length+'</span><span class="journey121-track" aria-hidden="true"><i></i></span></div><div class="journey121-links">'+links+'</div></nav>'
+ +'<nav class="journey121-nav" aria-label="Städtekapitel"><div class="journey121-progress"><span data-journey121-status>1 / '+chapters.length+'</span><span class="journey121-track" role="progressbar" aria-label="Reisekapitel" aria-valuemin="0" aria-valuemax="'+chapters.length+'" aria-valuenow="1"><i></i></span></div><div class="journey121-links">'+links+'</div></nav>'
  +'<div class="journey121-chapters">'+chapters.map((c,i)=>{
   const photo=c.editorial?.photo,item=c.editorial?.item;
   const dateText=c.plans.length?c.plans.length+' '+(c.plans.length===1?'geplanter Tag':'geplante Tage'):'Tageszuordnung offen';
@@ -38,9 +38,10 @@ export function renderJourneyStoryV121(ctx,options={}){
 export function mountJourneyStoryV121(root){
  const story=root?.querySelector('.journey121');if(!story)return;
  const win=story.ownerDocument.defaultView,chapters=[...story.querySelectorAll('[data-journey121-chapter]')],links=[...story.querySelectorAll('[data-journey121-index]')];
- const status=story.querySelector('[data-journey121-status]'),nav=story.querySelector('.journey121-nav'),strip=story.querySelector('.journey121-links');
+ const status=story.querySelector('[data-journey121-status]'),nav=story.querySelector('.journey121-nav'),strip=story.querySelector('.journey121-links'),track=story.querySelector('.journey121-track');
  if(!chapters.length||!status||!nav||!strip)return;
- let active=-1,frame=0,pinned=null;
+ let active=-1,frame=0,pinned=null,settleTimer=null;
+ const clearPin=()=>{pinned=null;if(settleTimer!==null){win.clearTimeout(settleTimer);settleTimer=null;}};
  const reduced=()=>story.ownerDocument.documentElement.dataset.motion==='off'||win.matchMedia('(prefers-reduced-motion: reduce)').matches;
  const offset=()=>Math.max(0,root.querySelector('.reference-topbar')?.getBoundingClientRect().bottom??0,parseFloat(win.getComputedStyle(nav).top)||0)+nav.getBoundingClientRect().height+16;
  const activate=index=>{
@@ -48,6 +49,7 @@ export function mountJourneyStoryV121(root){
   active=index;
   links.forEach((a,i)=>{if(i===index)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
   status.textContent=(index+1)+' / '+chapters.length;
+  track?.setAttribute('aria-valuenow',String(index+1));
   story.style.setProperty('--journey121-progress',String((index+1)/chapters.length));
   chapters.forEach((c,i)=>{c.classList.toggle('journey121-active',i===index);c.classList.toggle('journey121-passed',i<index);});
   const a=links[index],bounds=strip.getBoundingClientRect(),linkBounds=a.getBoundingClientRect();
@@ -59,7 +61,7 @@ export function mountJourneyStoryV121(root){
   frame=0;if(!story.isConnected)return;
   if(pinned!==null){
    const distance=Math.abs(chapters[pinned].getBoundingClientRect().top-offset());
-   if(distance<=4){activate(pinned);pinned=null;return;}
+   if(distance<=4){activate(pinned);clearPin();return;}
    return;
   }
   const line=Math.max(offset()+12,win.innerHeight*.42);
@@ -67,16 +69,23 @@ export function mountJourneyStoryV121(root){
   activate(index);
  };
  const schedule=()=>{if(!frame)frame=win.requestAnimationFrame(update);};
- const interrupt=()=>{if(pinned!==null){pinned=null;schedule();}};
+ const interrupt=()=>{if(pinned!==null){clearPin();schedule();}};
+ const settle=()=>{if(pinned!==null){clearPin();schedule();}};
+ const resize=()=>{clearPin();schedule();};
  story.addEventListener('click',e=>{
   const a=e.target.closest('[data-journey121-index]');if(!a||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
   const index=Number(a.dataset.journey121Index),chapter=chapters[index];if(!chapter)return;
-  e.preventDefault();pinned=index;activate(index);
+  e.preventDefault();clearPin();pinned=index;activate(index);
   chapter.focus({preventScroll:true});
-  win.scrollTo({top:Math.max(0,win.scrollY+chapter.getBoundingClientRect().top-offset()),behavior:reduced()?'instant':'smooth'});schedule();
+  const oldMargin=chapter.style.scrollMarginTop;
+  chapter.style.scrollMarginTop=offset()+'px';
+  chapter.scrollIntoView({block:'start',inline:'nearest',behavior:reduced()?'instant':'smooth'});
+  chapter.style.scrollMarginTop=oldMargin;
+  // Bound the lock even if scrolling is clamped at the end of a short page.
+  settleTimer=win.setTimeout(settle,1000);schedule();
  });
- win.addEventListener('scroll',schedule,{passive:true});win.addEventListener('resize',schedule,{passive:true});
+ win.addEventListener('scroll',schedule,{passive:true});win.addEventListener('resize',resize,{passive:true});win.addEventListener('scrollend',settle,{passive:true});
  for(const type of ['wheel','touchstart','keydown'])win.addEventListener(type,interrupt,{passive:true});
  activate(0);schedule();
- return ()=>{win.removeEventListener('scroll',schedule);win.removeEventListener('resize',schedule);for(const type of ['wheel','touchstart','keydown'])win.removeEventListener(type,interrupt);if(frame)win.cancelAnimationFrame(frame);};
+ return ()=>{win.removeEventListener('scroll',schedule);win.removeEventListener('resize',resize);win.removeEventListener('scrollend',settle);clearPin();for(const type of ['wheel','touchstart','keydown'])win.removeEventListener(type,interrupt);if(frame)win.cancelAnimationFrame(frame);};
 }

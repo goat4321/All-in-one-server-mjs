@@ -26,7 +26,8 @@ const SCROLL_TARGETS=[
   // V99 editorial chapters: reveal as they actually reach the reader.
   '.swiss-editorial-head','.hub-market-access','.hub-food-planning',
   '.day-plan-quick-bar','.stay-swiss-research',
-  '.data-disclosure','.cockpit-reference.section','.day110-budget','.day110-alternatives','.day126-hikes'
+  '.data-disclosure','.cockpit-reference.section','.day110-budget','.day110-alternatives','.day126-hikes',
+  '.journey121-chapter','.day111-row[data-kind=activity]'
 ].join(',');
 const MAX_SCROLL_REVEALS=42;
 const scrollIdentity=(node,index)=>{
@@ -35,7 +36,7 @@ const scrollIdentity=(node,index)=>{
     ??node.querySelector?.('[data-action][data-value]')?.dataset?.value
     ??node.querySelector?.('h3')?.textContent?.trim()
     ??node.querySelector?.('strong')?.textContent?.trim()??index;
-  return String(node.className??'item')+'|'+String(identity);
+  return String(node.className??'item').split(/\s+/).filter(c=>!c.startsWith('motion-')).join(' ')+'|'+String(identity);
 };
 const IMAGE_TARGETS=[
   '.destination-cover img','.reference-discovery-image img',
@@ -119,7 +120,8 @@ export function createMotionController(doc){
     ];
     if(!entries.length)return;
     const pending=new Map(entries.map(entry=>[entry.node,entry]));
-    observer=new view.IntersectionObserver(items=>{
+    const localObserver=new view.IntersectionObserver(items=>{
+      if(observer!==localObserver)return;
       for(const item of items)if(item.isIntersecting){
         const entry=pending.get(item.target);
         if(!entry)continue;
@@ -129,10 +131,11 @@ export function createMotionController(doc){
         if(entry.kind==='motion-revealed')
           completedReveals.add(scrollIdentity(item.target,entry.index));
         item.target.classList.add(entry.kind);
-        observer?.unobserve(item.target);
+        localObserver.unobserve(item.target);
         pending.delete(item.target);
       }
     },{root:null,rootMargin:'0px 0px -45px 0px',threshold:.08});
+    observer=localObserver;
     for(const entry of entries){
       entry.node.style.setProperty('--motion-delay',motionStagger(entry.index)+'ms');
       observer.observe(entry.node);

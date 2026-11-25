@@ -701,10 +701,13 @@ function overview(ctx) {
     +'<div class="editorial-journey-facts"><span>'+uniqueDestinations.length+' Reiseorte</span>'
     +'<span>'+ctx.people.length+' Reisende</span></div>'
     +'<div class="editorial-journey-actions">'
+    +'<div class="journey130-action-group" role="group" aria-label="Reise planen">'
     +btn('page','Tagesplan öffnen','calendar','plan','primary')
-    +btn('show-route','Route entdecken','arrow','','subtle')
+    +btn('show-route','Route entdecken','arrow','','subtle')+'</div>'
+    +'<div class="journey130-action-group journey130-watch" role="group" aria-label="Reise erleben">'
+    +'<span class="journey130-action-label">REISE ERLEBEN</span>'
     +btn('route123-launch','Reisekino starten','play','','subtle')
-    +btn('route125-launch','Reise-Explorer öffnen','map','','subtle')
+    +btn('route125-launch','Reise-Explorer öffnen','map','','subtle')+'</div>'
     +'<details class="journey129-more"><summary>Weitere Vorschau</summary>'+btn('route122-launch','Kompakte Reisevorschau','play','','subtle')+'</details>'
     +'</div></div>'
     +(heroPhoto?'<a class="editorial-journey-credit" href="'

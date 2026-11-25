@@ -169,7 +169,7 @@ export function renderDetailedDayV111(ctx){
    +'<div class="day111-time"><strong>'+esc(r.time)+'</strong><small>'+esc(r.minutes!=null?r.minutes+' Min. Planwert':'Flexibel')+'</small></div>'
    +'<span class="day111-node" aria-hidden="true">'+icon(icons[r.type])+'</span>'
    +'<article class="day111-card"><div class="day111-card-main"><div class="day111-copy"><small>'+esc(labels[r.type])+(r.optional?' · OPTION':'')+'</small><h3>'+esc(r.title)+'</h3><p>'+esc(r.detail)+'</p>'
-   +(cost?'<span class="day111-cost">'+esc(cost)+'</span>':'')+'</div>'+(photo?'<div class="day111-photo day112-large">'+photo+'</div>':'')+'</div>'+transfer+actions+'</article></li>';
+   +(cost?'<span class="day111-cost" aria-label="Kostenreferenz">'+esc(cost)+'</span>':'')+'</div>'+(photo?'<div class="day111-photo day112-large">'+photo+'</div>':'')+'</div>'+transfer+actions+'</article></li>';
  }).join('');
  return '<section class="day111-program" id="day111-program" tabindex="-1" aria-label="Detaillierter Tagesplan">'
   +'<header class="day111-header"><small>TAG '+(ctx.trip.dayPlansV32.findIndex(d=>d.date===ctx.date)+1)+' · DETAILPROGRAMM</small><h2>'+esc(ctx.dayPlan.title)+'</h2><p>Konkrete Reihenfolge von Frühstück bis Rückkehr. Uhrzeitfenster sind unsere unverbindlichen Vorschläge; Fahrtzeiten und Öffnung werden dadurch nicht bestätigt.</p></header>'

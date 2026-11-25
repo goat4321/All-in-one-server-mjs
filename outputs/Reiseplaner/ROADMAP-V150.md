@@ -21,3 +21,7 @@ Arbeitsumfang pro Phase: zusammenhängende Analyse, Implementierung, Tests und K
 5. Phase erst nach bestätigter Abnahme als abgeschlossen bezeichnen.
 
 Designreferenzen: goat4321/apple-design-skill, insbesondere accessibility.md, layout.md, typography.md, color.md, motion.md, dark-mode.md, buttons.md und materials.md. Web-Anpassung, keine Behauptung nativer Apple-HIG-Konformität.
+
+## Umsetzungsstand
+- V126–128: Implementierung mit seekbarer Tagesroute, berechneten Fußwegen und GPX-Profilen; CI auf Basis a588637 bestätigt.
+- V129–131: gemeinsame Reiseoberflächen, getrennte Planungs-/Erlebnisaktionen, robuste Kapitelnavigation, größere Tageskarten und reduzierte Bewegung. Neue Abnahme ausstehend.

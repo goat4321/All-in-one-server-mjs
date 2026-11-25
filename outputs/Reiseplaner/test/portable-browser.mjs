@@ -90,6 +90,9 @@ try {
   await cdp('Page.enable');
   await cdp('Page.navigate', { url: address });
   await text('h1', 'Reiseübersicht');
+  assert.equal(await js('document.querySelectorAll(".journey130-action-group").length'),2,'V130 separates planning from exploration');
+  assert.ok(await js('Array.from(document.querySelectorAll(".journey130-action-group button")).every(b=>b.getBoundingClientRect().height>=44)'),'V130 overview touch targets');
+  assert.ok(await js('document.querySelector(".journey121-track").getAttribute("aria-valuemax")===String(document.querySelectorAll(".journey121-chapter").length)'),'V131 chapter progress has a real accessible total');
   assert.ok(await js('(() => {const quick=document.querySelector(".overview-start")?.getBoundingClientRect(),other=document.querySelector(".cockpit-layout")?.getBoundingClientRect();return quick&&other&&quick.top<other.top&&quick.height>=70})()'),
     'The home screen shows the large quick-start actions before technical dashboards');
   assert.equal(await js('document.querySelectorAll(".overview-quick-card").length'),4,
@@ -1718,6 +1721,7 @@ try {
   await js('(()=>{const r=document.querySelector("#day126-time");r.value="0";r.dispatchEvent(new Event("input",{bubbles:true}));})()');
   assert.equal(await js('document.querySelector(".day110-stop[aria-pressed=true]")?.dataset.value'),'0');
   await screenshot('v126-day-journey-scrubber.png');
+  assert.ok(await js('(()=>{const p=document.querySelector(".day126-timeline");return p&&p.scrollWidth<=p.clientWidth+2})()'),'V131 day controls fit the available column');
   await click('[data-action=day110-mode][data-value=saved]');
   await until(()=>js('document.querySelector("[data-action=day110-mode][data-value=saved]")?.getAttribute("aria-pressed")==="true"'),'V110 saved mode');
   assert.equal(JSON.stringify(store.current('interrail_swiss').state.edits),beforeJourney);

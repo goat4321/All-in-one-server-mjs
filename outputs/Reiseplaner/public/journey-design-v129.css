@@ -48,3 +48,61 @@ body.route123-active .reference-travel-shell .route123-timeline li[aria-current=
 .route125-map-pin>.route125-pin-number,.route125-map-pin>img{grid-area:1/1}
 .route125-map-pin>img{position:relative;z-index:1}
 .route125-map-pin>img[hidden]{display:none!important}
+
+/* V130–131: one consistent editorial rhythm for route chapters, plan cards
+   and cinema. No new layout constraints on the live map or general tables. */
+:root{--journey130-space:clamp(16px,2.5vw,32px);--journey130-control:44px;--journey130-radius:20px}
+.reference-travel-shell .journey130-action-group{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;min-width:0;max-width:100%}
+.reference-travel-shell .editorial-journey-actions{display:grid;justify-items:center;gap:12px}
+.reference-travel-shell .journey130-action-label{flex-basis:100%;font-size:.6875rem;font-weight:650;letter-spacing:.09em;text-align:center}
+.reference-travel-shell .journey130-watch{padding-top:12px;border-top:1px solid currentColor;border-top-color:color-mix(in srgb,currentColor 28%,transparent)}
+.reference-travel-shell .editorial-journey-actions .journey129-more>summary{margin-inline:auto}
+.reference-travel-shell .editorial-journey-hero[data-photo=true] .journey130-watch .button.subtle{background:#16212dd9;border-color:#ffffff85;color:#fff}
+.reference-travel-shell .editorial-journey-hero[data-photo=true] .journey129-more>summary{color:#fff;text-shadow:0 1px 4px #000}
+.reference-travel-shell .editorial-journey-credit{max-width:calc(100% - 32px);overflow-wrap:anywhere}
+.reference-travel-shell .journey121-heading{max-width:64ch}
+.reference-travel-shell .journey121-nav{border-radius:16px;padding:10px 14px 8px}
+.reference-travel-shell .journey121-progress{font-size:.8125rem}
+.reference-travel-shell .journey121-links a{font-size:.875rem;min-height:var(--journey130-control)}
+.reference-travel-shell .journey121-links a[aria-current=location]{outline:1px solid var(--e95-line);outline-offset:-1px}
+.reference-travel-shell .journey121-chapter{gap:var(--journey130-space)}
+.reference-travel-shell .journey121-media .photo119-item>a{border-radius:var(--journey130-radius)}
+.reference-travel-shell .journey121-copy p{font-size:1rem;line-height:1.55;max-width:58ch}
+.reference-travel-shell .journey121-subtitle{font-size:.875rem;line-height:1.45}
+.reference-travel-shell .journey121-ideas button,.reference-travel-shell .journey121-days button{font-size:.875rem;line-height:1.4;overflow-wrap:anywhere;max-width:100%}
+.reference-travel-shell .journey121-actions{gap:8px}
+.reference-travel-shell .journey121-actions .button{white-space:normal;text-align:center}
+.reference-travel-shell .day111-program{padding:clamp(14px,2.6vw,30px);border-radius:var(--journey130-radius);background:var(--e95-page)}
+.reference-travel-shell .day111-header p{max-width:68ch;font-size:.9375rem}
+.reference-travel-shell .day111-summary{gap:8px}
+.reference-travel-shell .day111-summary>span{background:var(--e95-paper);padding:12px;line-height:1.4;font-size:.8125rem}
+.reference-travel-shell .day111-summary strong{font-size:clamp(1.25rem,2.5vw,1.75rem)}
+.reference-travel-shell .day111-card{padding:clamp(12px,1.7vw,20px);border-radius:16px}
+.reference-travel-shell .day111-row[data-kind=activity] .day111-card{background:var(--e95-paper)}
+.reference-travel-shell .day111-copy h3{font-size:clamp(1.0625rem,1.5vw,1.375rem);line-height:1.25}
+.reference-travel-shell .day111-copy p{font-size:.9375rem;line-height:1.55}
+.reference-travel-shell .day111-time strong{font-size:.875rem;line-height:1.35}
+.reference-travel-shell .day111-time small,.reference-travel-shell .day111-cost,.reference-travel-shell .day111-actions>span{font-size:.8125rem;line-height:1.45}
+.reference-travel-shell .day111-actions .button{min-height:var(--journey130-control);white-space:normal}
+.reference-travel-shell .day111-card:focus-within{border-color:var(--e95-focus)}
+.reference-travel-shell .day111-notes summary{font-size:.875rem;line-height:1.45}
+.reference-travel-shell .day111-photo .day112-photo-credit,.reference-travel-shell .day111-photo figcaption{font-size:.6875rem;line-height:1.4}
+@media(max-width:760px){
+ .reference-travel-shell .editorial-journey-hero{height:auto;padding-bottom:70px}
+ .reference-travel-shell .journey130-action-group{gap:6px;width:100%}
+ .reference-travel-shell .journey130-action-group .button{flex:1 1 auto;white-space:normal;max-width:100%;line-height:1.35}
+ .reference-travel-shell .journey121-nav{padding:8px 10px}
+ .reference-travel-shell .journey121-copy p{font-size:.9375rem}
+ .reference-travel-shell .day111-card-main{flex-wrap:wrap}
+ .reference-travel-shell .day111-copy{flex-basis:100%}
+ .reference-travel-shell .day111-photo.day112-large{max-width:100%;flex:1 1 100%}
+ .reference-travel-shell .day111-actions .button{flex:1 1 auto}
+}
+@media(max-width:350px){.reference-travel-shell .journey130-action-group .button{flex-basis:100%}}
+@media(hover:hover) and (pointer:fine){
+ .reference-travel-shell .journey121-links a,.reference-travel-shell .journey121-ideas button,.reference-travel-shell .journey121-days button{transition:background-color 180ms var(--e95-ease),border-color 180ms var(--e95-ease)}
+ .reference-travel-shell .journey121-ideas button:hover{border-color:var(--e95-link)}
+}
+@media(prefers-reduced-motion:reduce){.reference-travel-shell :is(.journey121-links a,.journey121-ideas button,.journey121-days button){transition:none!important}}
+:root[data-motion=off] .reference-travel-shell :is(.journey121-links a,.journey121-ideas button,.journey121-days button){transition:none!important}
+@media(prefers-contrast:more){.reference-travel-shell :is(.day111-card,.journey121-nav,.journey121-ideas button){border-color:var(--e95-ink)}}
