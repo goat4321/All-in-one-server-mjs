@@ -209,3 +209,11 @@ body.route123-active .reference-travel-shell .route123-timeline li[aria-current=
   :root:not([data-motion=off]) :is(.activity-category-chip,.activity-evidence-chip,.photo114-more,.day135-actions button,.photo118-toolbar button,.rail-review-step .button):not(:disabled):hover{transform:translateY(-1px)}
  }
 }
+
+/* V152: cancel an in-flight reveal when the user turns motion off. */
+:root[data-motion=off] #app :is(.rail-card,.rail-review-step,.stat,.group-vote-item,.photo114-group,.day135-row,.split > .panel).motion-scroll-revealed,
+:root[data-motion=off] .photo118-viewer img.motion-photo-loaded{animation:none!important}
+@media(prefers-reduced-motion:reduce){
+ #app :is(.rail-card,.rail-review-step,.stat,.group-vote-item,.photo114-group,.day135-row,.split > .panel).motion-scroll-revealed,
+ .photo118-viewer img.motion-photo-loaded{animation:none!important}
+}

@@ -782,6 +782,7 @@ try{
   }
  }
  // Verify actual CSS animation and the two independent reduced-motion controls.
+ await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
  const motion152=await js('('+async function(){
   const root=document.documentElement,old=root.dataset.motion;
   const card=document.createElement('article');card.className='rail-card motion-scroll-revealed';
@@ -793,8 +794,20 @@ try{
   card.remove();return {normal,off,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches};
  }.toString()+')()');
  console.log('V152_MOTION '+JSON.stringify(motion152));
- if(!motion152.reduced)assert.equal(motion152.normal,'journey152-rise');
+ assert.equal(motion152.reduced,false);
+ assert.equal(motion152.normal,'journey152-rise');
  assert.equal(motion152.off,'none');
+ await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+ const reduced152=await js('('+function(){
+  const root=document.documentElement,old=root.dataset.motion;
+  root.dataset.motion='auto';
+  const card=document.createElement('article');card.className='rail-card motion-scroll-revealed';
+  document.querySelector('#app .workspace').append(card);
+  const name=getComputedStyle(card).animationName;card.remove();
+  if(old===undefined)delete root.dataset.motion;else root.dataset.motion=old;
+  return name;
+ }.toString()+')()');
+ assert.equal(reduced152,'none');
  console.log('V150_RESPONSIVE_MATRIX '+JSON.stringify(matrix));
  if(output)await writeFile(join(output,'v150-responsive-matrix.json'),JSON.stringify(matrix,null,2));
  const problems=matrix.filter(r=>r.overflow>3||r.active!==r.page||Math.abs(r.viewport-r.width)>1);
