@@ -43,3 +43,8 @@ body.route123-active .reference-travel-shell .route123-timeline li[aria-current=
 }
 @media(prefers-reduced-motion:reduce){.reference-travel-shell .journey129-more>summary:before{transition:none}}
 :root[data-motion=off] .reference-travel-shell .journey129-more>summary:before{transition:none}
+
+/* Keep numbered activity pins usable even before loading or after a remote photo fails. */
+.route125-map-pin>.route125-pin-number,.route125-map-pin>img{grid-area:1/1}
+.route125-map-pin>img{position:relative;z-index:1}
+.route125-map-pin>img[hidden]{display:none!important}

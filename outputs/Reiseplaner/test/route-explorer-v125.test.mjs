@@ -12,18 +12,26 @@ test('V125 uses activity photos, excludes contextual-only photos and labels fall
  assert.equal(explorerPhotoV125(ctx,scene).item,a);
  assert.equal(explorerPhotoV125(ctx,{...scene,stop:stops[1]},{item:a,photo}).contextual,true);
  assert.equal(upcomingActivityPhotoV125(ctx,scene),null);
+ assert.equal(explorerPhotoV125(ctx,{...scene,stop:stops[1]},{item:a,photo:{...photo,credit:''}}),null);
  const html=explorerMediaHtmlV125(ctx,scene,null);
  assert.match(html,/&lt;Museum&gt;/);assert.match(html,/60 Min/);assert.match(html,/CHF/);assert.match(html,/pro Person/);assert.match(html,/Testbeschreibung/);
  assert.doesNotMatch(html,/<Museum>/);
 });
 test('V125 only creates markers for stops with points, and removes them during transfers',()=>{
  assert.equal(explorerMarkerRowsV125(ctx,scene).length,1);
- let added=0,removed=0,seek=-1,handler;
+ let added=0,removed=0,seek=-1,handler,iconHtml;
  const layer={addTo(){added++;return this},clearLayers(){}};
  const map={removeLayer(){removed++}};
- const leaflet={layerGroup:()=>layer,divIcon:o=>o,marker:()=>({addTo(){return this},on(_,fn){handler=fn},getElement(){return null},setZIndexOffset(){}})};
+ const leaflet={layerGroup:()=>layer,divIcon:o=>{iconHtml=o.html;return o;},marker:()=>({addTo(){return this},on(_,fn){handler=fn},getElement(){return null},setZIndexOffset(){}})};
  syncExplorerMarkersV125(map,leaflet,ctx,scene,{phase:'dwell'},i=>seek=i);handler();assert.equal(seek,0);
+ assert.match(iconHtml,/class="route125-pin-number" aria-hidden="true">1<\/span>/);
  syncExplorerMarkersV125(map,leaflet,ctx,scene,{phase:'dwell'},()=>{});assert.equal(added,1);
  syncExplorerMarkersV125(map,leaflet,ctx,scene,{phase:'travel'},()=>{});assert.equal(removed,1);
  clearExplorerMarkersV125(map);assert.equal(removed,1);
+});
+
+test('V125 rejects invalid marker coordinates even if scene input is malformed',()=>{
+ for(const point of [[0,0],[91,8],[47,181],[NaN,8],[47],['47',8],null]){
+  assert.equal(explorerMarkerRowsV125(ctx,{...scene,stops:[{...stops[0],point}]}).length,0);
+ }
 });

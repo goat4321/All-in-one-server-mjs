@@ -29,7 +29,7 @@ export function explorerPhotoV125(ctx,scene,fallback=null){
  const activity=explorerActivityV125(ctx,scene.stop);
  const photo=activity?.photos[0];
  if(photo)return {item:activity.item,photo,contextual:false};
- return fallback?.photo&&fallback.item&&/^https:\/\//.test(fallback.photo.url??'')&&/^https:\/\//.test(fallback.photo.sourceUrl??'')?{...fallback,contextual:true}:null;
+ return fallback?.photo&&fallback.item&&/^https:\/\//.test(fallback.photo.url??'')&&/^https:\/\//.test(fallback.photo.sourceUrl??'')&&fallback.photo.credit?{...fallback,contextual:true}:null;
 }
 export const explorerPhotoUrlV125=(photo,width=960)=>photo?.url?.replace(/\?width=960$/,'?width='+width)??null;
 export function explorerMediaHtmlV125(ctx,scene,fallback){
@@ -50,7 +50,7 @@ export function explorerMediaHtmlV125(ctx,scene,fallback){
 export function explorerMarkerRowsV125(ctx,scene){
  const seen=new Set(),rows=[];
  for(const [index,stop] of scene.stops.entries()){
-  if(!stop.point||seen.has(stop.id))continue;
+  if(!Array.isArray(stop.point)||stop.point.length!==2||!stop.point.every(Number.isFinite)||Math.abs(stop.point[0])>90||Math.abs(stop.point[1])>180||!stop.point.some(Boolean)||seen.has(stop.id))continue;
   const activity=explorerActivityV125(ctx,stop);if(!activity)continue;
   seen.add(stop.id);rows.push({index,id:stop.id,name:stop.name,point:stop.point,photo:activity.photos[0]??null});
   if(rows.length===12)break;
@@ -75,7 +75,7 @@ export function syncExplorerMarkersV125(map,leaflet,ctx,scene,state,onSeek){
   const photoLimit=connection?.saveData||/^(slow-2g|2g)$/.test(connection?.effectiveType??'')?0:8;
   for(const row of explorerMarkerRowsV125(ctx,scene)){
    const url=row.photo&&photos<photoLimit?explorerPhotoUrlV125(row.photo,160):null;if(url)photos++;
-   const html='<span class="route125-map-pin">'+(url?'<img src="'+esc(url)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">':'<span aria-hidden="true">'+(row.index+1)+'</span>')+'</span>';
+   const html='<span class="route125-map-pin"><span class="route125-pin-number" aria-hidden="true">'+(row.index+1)+'</span>'+(url?'<img src="'+esc(url)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">':'')+'</span>';
    const marker=leaflet.marker(row.point,{icon:leaflet.divIcon({className:'route125-map-marker',html,iconSize:[48,48],iconAnchor:[24,48]}),keyboard:true,title:row.name,alt:row.name,zIndexOffset:3200}).addTo(record.layer);
    marker.on('click',()=>onSeek(row.index));record.markers.push({marker,index:row.index});
   }
