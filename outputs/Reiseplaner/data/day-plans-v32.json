@@ -1,0 +1,1198 @@
+{
+  "version": "v32",
+  "generatedOn": "2026-11-14",
+  "sourceLists": [
+    "data/trips.json",
+    "data/transport.json",
+    "data/accommodations.json",
+    "data/research-v02/day-suggestions-v02.json",
+    "data/research-v19-survey-first/activities.json",
+    "https://www.oeschinensee.ch/tarife-fahrplan/"
+  ],
+  "disclaimer": "NUR UNVERBINDLICHE TAGESVORSCHLÄGE. Keine automatisch ausgewählten Termine, Buchungen, Zugverbindungen, Wegzeiten oder Preise. Zeitfenster (Morgen/Nachmittag/Abend) sind relative Vorschläge ohne bestätigte Startzeiten. Kandidaten mit optional=true werden nicht automatisch übernommen.",
+  "plans": [
+    {
+      "id": "interrail_classic:2027-09-01",
+      "tripId": "interrail_classic",
+      "date": "2027-09-01",
+      "city": "paris",
+      "title": "Paris ankommen & Seineufer",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-002",
+          "optional": false,
+          "minutes": 80
+        },
+        {
+          "period": "evening",
+          "activityId": "act-007",
+          "optional": false,
+          "minutes": 100
+        }
+      ],
+      "notes": "Nach Zugfahrt nur lockeres Programm; Unterkunft ist ungebuchte Option.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-02",
+      "tripId": "interrail_classic",
+      "date": "2027-09-02",
+      "city": "paris",
+      "title": "Paris: Aussicht, Montmartre & Canal",
+      "pace": "stadt",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-001",
+          "optional": false,
+          "minutes": 50
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-003",
+          "optional": false,
+          "minutes": 110
+        },
+        {
+          "period": "evening",
+          "activityId": "act-004",
+          "optional": false,
+          "minutes": 90
+        }
+      ],
+      "notes": "Wege quer durch die Stadt zusätzlich einplanen; Louvre bleibt optional.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-03",
+      "tripId": "interrail_classic",
+      "date": "2027-09-03",
+      "city": "barcelona",
+      "title": "Barcelona ankommen & Meer",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-009",
+          "optional": false,
+          "minutes": 150
+        },
+        {
+          "period": "evening",
+          "activityId": "act-015",
+          "optional": false,
+          "minutes": 90
+        }
+      ],
+      "notes": "Nach der Zugankunft erst Gepäck/Check-in, anschließend flexibel ans Meer.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-04",
+      "tripId": "interrail_classic",
+      "date": "2027-09-04",
+      "city": "barcelona",
+      "title": "Strand, Park & möglicher Clubabend",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-010",
+          "optional": false,
+          "minutes": 75
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-008",
+          "optional": false,
+          "minutes": 150
+        },
+        {
+          "period": "evening",
+          "activityId": "act-016",
+          "optional": true,
+          "minutes": 180
+        }
+      ],
+      "notes": "Club optional; Eintritt, Alter, Öffnung und Rückweg vorab prüfen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-05",
+      "tripId": "interrail_classic",
+      "date": "2027-09-05",
+      "city": "barcelona",
+      "title": "Barcelona: Aussicht & Montjuïc",
+      "pace": "stadt",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-011",
+          "optional": false,
+          "minutes": 100
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-014",
+          "optional": false,
+          "minutes": 130
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-012",
+          "optional": true,
+          "minutes": 95
+        }
+      ],
+      "notes": "Sagrada Família nur als Alternative, nie als automatisch gebuchtes Ticket.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-06",
+      "tripId": "interrail_classic",
+      "date": "2027-09-06",
+      "city": "sete",
+      "title": "Sète: Ankommen am Hafen",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-019",
+          "optional": false,
+          "minutes": 80
+        },
+        {
+          "period": "evening",
+          "activityId": "act-020",
+          "optional": false,
+          "minutes": 85
+        }
+      ],
+      "notes": "Zuganschluss und Check-in vor Ortsrunde einplanen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-07",
+      "tripId": "interrail_classic",
+      "date": "2027-09-07",
+      "city": "sete",
+      "title": "Sète: Strand und Aussicht",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-017",
+          "optional": false,
+          "minutes": 180
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-018",
+          "optional": false,
+          "minutes": 130
+        },
+        {
+          "period": "evening",
+          "activityId": "act-022",
+          "optional": false,
+          "minutes": 90
+        }
+      ],
+      "notes": "Sonnenschutz, Hitze und Wasserbedingungen berücksichtigen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-08",
+      "tripId": "interrail_classic",
+      "date": "2027-09-08",
+      "city": "nice",
+      "title": "Nizza: Strandpromenade & Altstadt",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-023",
+          "optional": false,
+          "minutes": 125
+        },
+        {
+          "period": "evening",
+          "activityId": "act-025",
+          "optional": false,
+          "minutes": 120
+        }
+      ],
+      "notes": "Späte Zugankunft; nur leichte Abendrunde als Standard.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-09",
+      "tripId": "interrail_classic",
+      "date": "2027-09-09",
+      "city": "nice",
+      "title": "Nizza: Küste, Ausblick, Hafen",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-026",
+          "optional": false,
+          "minutes": 160
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-024",
+          "optional": false,
+          "minutes": 90
+        },
+        {
+          "period": "evening",
+          "activityId": "act-028",
+          "optional": false,
+          "minutes": 75
+        }
+      ],
+      "notes": "Ausflug nach Villefranche abhängig von Nahverkehr, Wetter und Strandsituation.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-10",
+      "tripId": "interrail_classic",
+      "date": "2027-09-10",
+      "city": "genoa",
+      "title": "Genua: Hafen & Altstadt",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-034",
+          "optional": false,
+          "minutes": 110
+        },
+        {
+          "period": "evening",
+          "activityId": "act-035",
+          "optional": false,
+          "minutes": 115
+        }
+      ],
+      "notes": "Nach Ankunft Unterkunft/Wege prüfen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-11",
+      "tripId": "interrail_classic",
+      "date": "2027-09-11",
+      "city": "genoa",
+      "title": "Genua: Boccadasse & Panorama",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-030",
+          "optional": false,
+          "minutes": 130
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-031",
+          "optional": false,
+          "minutes": 100
+        },
+        {
+          "period": "evening",
+          "activityId": "act-033",
+          "optional": false,
+          "minutes": 70
+        }
+      ],
+      "notes": "Genügend Zeit für Küstenwege und Erholung offenlassen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-12",
+      "tripId": "interrail_classic",
+      "date": "2027-09-12",
+      "city": "venice",
+      "title": "Venedig: Rialto & Cannaregio",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-037",
+          "optional": false,
+          "minutes": 130
+        },
+        {
+          "period": "evening",
+          "activityId": "act-038",
+          "optional": false,
+          "minutes": 110
+        }
+      ],
+      "notes": "Wasserbus-/Zugangskosten nur mit bestätigten Quellen einplanen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-13",
+      "tripId": "interrail_classic",
+      "date": "2027-09-13",
+      "city": "venice",
+      "title": "Venedig: Lagune & Lido",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-041",
+          "optional": true,
+          "minutes": 240
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-040",
+          "optional": false,
+          "minutes": 160
+        },
+        {
+          "period": "evening",
+          "activityId": "act-043",
+          "optional": false,
+          "minutes": 100
+        }
+      ],
+      "notes": "Inselrunde ist eine Alternative und bedarf eigener Fähr-/Preisprüfung.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_classic:2027-09-14",
+      "tripId": "interrail_classic",
+      "date": "2027-09-14",
+      "city": "venice",
+      "title": "Heimreise nach München",
+      "pace": "rueckreise",
+      "slots": [],
+      "notes": "Keine festen Besichtigungen vor der geplanten Rückfahrt ansetzen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-01",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-01",
+      "city": "paris",
+      "title": "Paris ankommen & Seineufer",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-002",
+          "optional": false,
+          "minutes": 80
+        },
+        {
+          "period": "evening",
+          "activityId": "act-007",
+          "optional": false,
+          "minutes": 100
+        }
+      ],
+      "notes": "Nach Zugfahrt nur lockeres Programm; Unterkunft ist ungebuchte Option.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-02",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-02",
+      "city": "paris",
+      "title": "Paris: Aussicht, Montmartre & Canal",
+      "pace": "stadt",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-001",
+          "optional": false,
+          "minutes": 50
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-003",
+          "optional": false,
+          "minutes": 110
+        },
+        {
+          "period": "evening",
+          "activityId": "act-004",
+          "optional": false,
+          "minutes": 90
+        }
+      ],
+      "notes": "Wege quer durch die Stadt zusätzlich einplanen; Louvre bleibt optional.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-03",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-03",
+      "city": "barcelona",
+      "title": "Barcelona ankommen & Meer",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-009",
+          "optional": false,
+          "minutes": 150
+        },
+        {
+          "period": "evening",
+          "activityId": "act-015",
+          "optional": false,
+          "minutes": 90
+        }
+      ],
+      "notes": "Nach der Zugankunft erst Gepäck/Check-in, anschließend flexibel ans Meer.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-04",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-04",
+      "city": "barcelona",
+      "title": "Strand, Park & möglicher Clubabend",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-010",
+          "optional": false,
+          "minutes": 75
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-008",
+          "optional": false,
+          "minutes": 150
+        },
+        {
+          "period": "evening",
+          "activityId": "act-016",
+          "optional": true,
+          "minutes": 180
+        }
+      ],
+      "notes": "Club optional; Eintritt, Alter, Öffnung und Rückweg vorab prüfen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-05",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-05",
+      "city": "barcelona",
+      "title": "Barcelona: Aussicht & Montjuïc",
+      "pace": "stadt",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-011",
+          "optional": false,
+          "minutes": 100
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-014",
+          "optional": false,
+          "minutes": 130
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-012",
+          "optional": true,
+          "minutes": 95
+        }
+      ],
+      "notes": "Sagrada Família nur als Alternative, nie als automatisch gebuchtes Ticket.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-06",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-06",
+      "city": "sete",
+      "title": "Sète: Ankommen am Hafen",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-019",
+          "optional": false,
+          "minutes": 80
+        },
+        {
+          "period": "evening",
+          "activityId": "act-020",
+          "optional": false,
+          "minutes": 85
+        }
+      ],
+      "notes": "Zuganschluss und Check-in vor Ortsrunde einplanen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-07",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-07",
+      "city": "sete",
+      "title": "Sète: Strand und Aussicht",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-017",
+          "optional": false,
+          "minutes": 180
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-018",
+          "optional": false,
+          "minutes": 130
+        },
+        {
+          "period": "evening",
+          "activityId": "act-022",
+          "optional": false,
+          "minutes": 90
+        }
+      ],
+      "notes": "Sonnenschutz, Hitze und Wasserbedingungen berücksichtigen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-08",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-08",
+      "city": "nice",
+      "title": "Nizza: Strandpromenade & Altstadt",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-023",
+          "optional": false,
+          "minutes": 125
+        },
+        {
+          "period": "evening",
+          "activityId": "act-025",
+          "optional": false,
+          "minutes": 120
+        }
+      ],
+      "notes": "Späte Zugankunft; nur leichte Abendrunde als Standard.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-09",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-09",
+      "city": "nice",
+      "title": "Nizza: Küste, Ausblick, Hafen",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-026",
+          "optional": false,
+          "minutes": 160
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-024",
+          "optional": false,
+          "minutes": 90
+        },
+        {
+          "period": "evening",
+          "activityId": "act-028",
+          "optional": false,
+          "minutes": 75
+        }
+      ],
+      "notes": "Ausflug nach Villefranche abhängig von Nahverkehr, Wetter und Strandsituation.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-10",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-10",
+      "city": "kandersteg",
+      "title": "Großer Reisetag nach Kandersteg",
+      "pace": "reise",
+      "slots": [],
+      "notes": "Lange, unbestätigte Bahnverbindung; keine zusätzlichen Attraktionen fest vorsehen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-11",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-11",
+      "city": "kandersteg",
+      "title": "Oeschinensee: Gondel & Seeufer",
+      "pace": "berge",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-053",
+          "optional": false,
+          "minutes": 210
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-054",
+          "optional": false,
+          "minutes": 95
+        },
+        {
+          "period": "evening",
+          "activityId": "act-055",
+          "optional": true,
+          "minutes": 80
+        }
+      ],
+      "notes": "2027er Gondel-Sommerbetrieb veröffentlicht, Fahrten/Wetter/Zugang weiterhin prüfen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false,
+      "reference": {
+        "url": "https://www.oeschinensee.ch/tarife-fahrplan/",
+        "note": "Veröffentlichter Sommerbetrieb 24.04.–19.09.2027 08:30–18:00 Uhr; kein Ticket- oder Wetterbeleg."
+      }
+    },
+    {
+      "id": "interrail_swiss:2027-09-12",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-12",
+      "city": "appenzell",
+      "title": "Kandersteg → Appenzell, Ortsrunde",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "evening",
+          "activityId": "act-044",
+          "optional": false,
+          "minutes": 100
+        }
+      ],
+      "notes": "Erst nach der geplanten Nachmittagsankunft Stadt erkunden.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-13",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-13",
+      "city": "appenzell",
+      "title": "Wasserauen & Seealpsee",
+      "pace": "berge",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-045",
+          "optional": false,
+          "minutes": 185
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-046",
+          "optional": false,
+          "minutes": 90
+        }
+      ],
+      "notes": "Wanderung wetterabhängig; Wanderzeit und Schwierigkeitsgrad prüfen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_swiss:2027-09-14",
+      "tripId": "interrail_swiss",
+      "date": "2027-09-14",
+      "city": "appenzell",
+      "title": "Rückfahrt nach München",
+      "pace": "rueckreise",
+      "slots": [],
+      "notes": "Keine fixen Zusatzziele vor der geplanten Heimfahrt.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_august:2027-08-17",
+      "tripId": "interrail_august",
+      "date": "2027-08-17",
+      "city": "paris",
+      "title": "Paris-Stopp vor dem Nachtzug",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-002",
+          "optional": false,
+          "minutes": 80
+        }
+      ],
+      "notes": "München–Paris und Nachtzug Paris–Toulouse nur als Referenz; abends Puffer für Bahnhofwechsel.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_august:2027-08-18",
+      "tripId": "interrail_august",
+      "date": "2027-08-18",
+      "city": "barcelona",
+      "title": "Barcelona nach Nachtzug/Umstieg",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-009",
+          "optional": false,
+          "minutes": 150
+        },
+        {
+          "period": "evening",
+          "activityId": "act-015",
+          "optional": false,
+          "minutes": 90
+        }
+      ],
+      "notes": "Toulouse–Narbonne–Barcelona mit Anschlüssen: Tagesleistung bewusst gering halten.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_august:2027-08-19",
+      "tripId": "interrail_august",
+      "date": "2027-08-19",
+      "city": "barcelona",
+      "title": "Barcelona: Sportstrand und Aussicht",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-010",
+          "optional": false,
+          "minutes": 75
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-008",
+          "optional": false,
+          "minutes": 150
+        },
+        {
+          "period": "evening",
+          "activityId": "act-011",
+          "optional": false,
+          "minutes": 100
+        }
+      ],
+      "notes": "Langer freier Tag, bei Hitze und Erschöpfung kürzen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_august:2027-08-20",
+      "tripId": "interrail_august",
+      "date": "2027-08-20",
+      "city": "sete",
+      "title": "Sète: Kanäle & Fischerviertel",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-019",
+          "optional": false,
+          "minutes": 80
+        },
+        {
+          "period": "evening",
+          "activityId": "act-020",
+          "optional": false,
+          "minutes": 85
+        }
+      ],
+      "notes": "Ankunft nach Bahnwechsel in Narbonne; Unterkunft zuerst.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_august:2027-08-21",
+      "tripId": "interrail_august",
+      "date": "2027-08-21",
+      "city": "sete",
+      "title": "Sète: Strandtag und Mont Saint-Clair",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-017",
+          "optional": false,
+          "minutes": 180
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-018",
+          "optional": false,
+          "minutes": 130
+        },
+        {
+          "period": "evening",
+          "activityId": "act-022",
+          "optional": false,
+          "minutes": 90
+        }
+      ],
+      "notes": "Wetter-/Hitzepuffer und Baderegeln beachten.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_august:2027-08-22",
+      "tripId": "interrail_august",
+      "date": "2027-08-22",
+      "city": "nice",
+      "title": "Nizza nach Marseille-Umstieg",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-023",
+          "optional": false,
+          "minutes": 125
+        },
+        {
+          "period": "evening",
+          "activityId": "act-025",
+          "optional": false,
+          "minutes": 120
+        }
+      ],
+      "notes": "Zwei Bahnabschnitte: Rückweg und Abendgestaltung flexibel.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_august:2027-08-23",
+      "tripId": "interrail_august",
+      "date": "2027-08-23",
+      "city": "nice",
+      "title": "Nizza: Villefranche und Aussicht",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-026",
+          "optional": false,
+          "minutes": 160
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-024",
+          "optional": false,
+          "minutes": 90
+        },
+        {
+          "period": "evening",
+          "activityId": "act-028",
+          "optional": false,
+          "minutes": 75
+        }
+      ],
+      "notes": "Wegzeiten und Wetter sind noch zu prüfen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_august:2027-08-24",
+      "tripId": "interrail_august",
+      "date": "2027-08-24",
+      "city": "genoa",
+      "title": "Genua: Hafen und Boccadasse",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-034",
+          "optional": false,
+          "minutes": 110
+        },
+        {
+          "period": "evening",
+          "activityId": "act-030",
+          "optional": false,
+          "minutes": 130
+        }
+      ],
+      "notes": "Umstieg in Ventimiglia; Besichtigungszeit abhängig von Ankunft.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_august:2027-08-25",
+      "tripId": "interrail_august",
+      "date": "2027-08-25",
+      "city": "venice",
+      "title": "Venedig: Rialto und Abendgassen",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-037",
+          "optional": false,
+          "minutes": 130
+        },
+        {
+          "period": "evening",
+          "activityId": "act-038",
+          "optional": false,
+          "minutes": 110
+        }
+      ],
+      "notes": "Umstieg Milano Centrale; Abends Zeitpuffer.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_august:2027-08-26",
+      "tripId": "interrail_august",
+      "date": "2027-08-26",
+      "city": "venice",
+      "title": "Venedig: Inseln, Lido, Abend",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-041",
+          "optional": true,
+          "minutes": 240
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-040",
+          "optional": false,
+          "minutes": 160
+        },
+        {
+          "period": "evening",
+          "activityId": "act-043",
+          "optional": false,
+          "minutes": 100
+        }
+      ],
+      "notes": "Inseln nur bei passender Wasserbusverbindung und gewähltem Budget.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "interrail_august:2027-08-27",
+      "tripId": "interrail_august",
+      "date": "2027-08-27",
+      "city": "venice",
+      "title": "Frühe Rückreise München",
+      "pace": "rueckreise",
+      "slots": [],
+      "notes": "Keine festgelegten Aktivitäten vor der frühen Rückfahrt.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "swiss_lakes:2027-09-05",
+      "tripId": "swiss_lakes",
+      "date": "2027-09-05",
+      "city": "appenzell",
+      "title": "Appenzell: Anreise & Altstadt",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-044",
+          "optional": false,
+          "minutes": 100
+        }
+      ],
+      "notes": "Mietwagenberechtigung und tatsächliche Fahrzeit für die Gruppe offen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "swiss_lakes:2027-09-06",
+      "tripId": "swiss_lakes",
+      "date": "2027-09-06",
+      "city": "appenzell",
+      "title": "Seealpsee: Wanderung & Uferpause",
+      "pace": "berge",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-045",
+          "optional": false,
+          "minutes": 185
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-046",
+          "optional": false,
+          "minutes": 90
+        }
+      ],
+      "notes": "Ab Wasserauen wandern; kein Sportprogramm zusätzlich erzwingen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "swiss_lakes:2027-09-07",
+      "tripId": "swiss_lakes",
+      "date": "2027-09-07",
+      "city": "glarus",
+      "title": "Klöntalersee: Uferweg und Picknick",
+      "pace": "wasser",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-047",
+          "optional": false,
+          "minutes": 190
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-048",
+          "optional": false,
+          "minutes": 90
+        }
+      ],
+      "notes": "Fahrt ab Appenzell und anschließend Glarus: Puffer für Straßen/Wetter.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "swiss_lakes:2027-09-08",
+      "tripId": "swiss_lakes",
+      "date": "2027-09-08",
+      "city": "grindelwald",
+      "title": "Grindelwald First & Bachalpsee",
+      "pace": "berge",
+      "slots": [
+        {
+          "period": "afternoon",
+          "activityId": "act-049",
+          "optional": false,
+          "minutes": 130
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-050",
+          "optional": false,
+          "minutes": 170
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-052",
+          "optional": true,
+          "minutes": 65
+        }
+      ],
+      "notes": "Gondel, First Flyer und Bergwanderung sind wetter-/betriebsabhängig und nicht gebucht.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "swiss_lakes:2027-09-09",
+      "tripId": "swiss_lakes",
+      "date": "2027-09-09",
+      "city": "kandersteg",
+      "title": "Grindelwald & Kandersteg",
+      "pace": "reise",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-051",
+          "optional": false,
+          "minutes": 85
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-055",
+          "optional": false,
+          "minutes": 80
+        }
+      ],
+      "notes": "Fahrt zwischen beiden Orten mit Planzeiten, Verkehrslage offen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    },
+    {
+      "id": "swiss_lakes:2027-09-10",
+      "tripId": "swiss_lakes",
+      "date": "2027-09-10",
+      "city": "kandersteg",
+      "title": "Oeschinensee: See und Panorama",
+      "pace": "berge",
+      "slots": [
+        {
+          "period": "morning",
+          "activityId": "act-053",
+          "optional": false,
+          "minutes": 210
+        },
+        {
+          "period": "afternoon",
+          "activityId": "act-054",
+          "optional": false,
+          "minutes": 95
+        }
+      ],
+      "notes": "Gondel-Sommerbetrieb am 10.09.2027 grundsätzlich im veröffentlichten Fenster; Wetter, Ticket und Wegzustand prüfen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false,
+      "reference": {
+        "url": "https://www.oeschinensee.ch/tarife-fahrplan/",
+        "note": "Veröffentlichter Sommerbetrieb 24.04.–19.09.2027 08:30–18:00 Uhr; kein Ticket- oder Wetterbeleg."
+      }
+    },
+    {
+      "id": "swiss_lakes:2027-09-11",
+      "tripId": "swiss_lakes",
+      "date": "2027-09-11",
+      "city": "kandersteg",
+      "title": "Rückreise nach München",
+      "pace": "rueckreise",
+      "slots": [],
+      "notes": "Abfahrt nach Plan am Morgen; keine festen Wanderungen ergänzen.",
+      "status": "proposal_not_selected",
+      "verified2027Bookings": false
+    }
+  ]
+}

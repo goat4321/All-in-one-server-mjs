@@ -1,0 +1,170 @@
+/* v70 — animated, schematic city-to-city story; clear hierarchy around the map. */
+.reference-travel-shell .route-story-launch{
+  display:inline-flex;align-items:center;gap:6px;justify-content:center;
+  padding:7px 11px;min-height:36px;border:1px solid #c0ddca;
+  color:#16593d;background:#e4f5e9;border-radius:11px;
+  font-size:.77rem;font-weight:790;white-space:nowrap;
+  transition:background .17s ease,transform .17s ease
+}
+.reference-travel-shell .route-story-launch:hover{
+  background:#cde9d7;transform:translateY(-1px)
+}
+.reference-travel-shell .route-story-launch .ui-icon{height:17px;width:17px}
+:root[data-theme=dark] .reference-travel-shell .route-story-launch{
+  color:#d6f7e4;background:#294e3b;border-color:#3f7b57
+}
+.reference-travel-shell .map-story-toolbar-play{
+  display:inline-flex;align-items:center;gap:7px;padding:8px 11px;
+  min-height:36px;background:#185e42;color:white;border:1px solid #185e42;
+  border-radius:10px;font-weight:780;font-size:.76rem;white-space:nowrap
+}
+.reference-travel-shell .map-story-toolbar-play:hover{background:#0f4831}
+.reference-travel-shell .map-story-toolbar-play .ui-icon{height:17px;width:17px}
+
+/* Progressive line and the physical-looking traveler point exist only in
+   the map's isolated Leaflet overlay, never as pretend track geometry. */
+.story-traveler-icon,.story-arrived-icon{background:none!important;border:0!important}
+.story-traveler-dot{position:relative;display:grid;place-items:center;width:38px;height:38px}
+.story-traveler-dot::before{content:"";position:absolute;inset:1px;border-radius:50%;
+  background:#13a97956;border:1px solid #ffffff9e;
+  animation:storyTravelerBreathe 1.5s ease-in-out infinite}
+.story-traveler-dot>span{position:relative;display:block;width:19px;height:19px;
+  border-radius:50%;background:#007d63;border:4px solid white;
+  box-shadow:0 2px 15px #102e2ce0,0 0 0 3px #0aac85a0}
+@keyframes storyTravelerBreathe{
+  0%,100%{transform:scale(.85);opacity:.58}
+  50%{transform:scale(1.1);opacity:1}
+}
+.story-arrived-marker{display:flex;flex-direction:column;align-items:center;
+  width:96px;pointer-events:none;gap:4px;animation:storyPlacePop .5s cubic-bezier(.2,1.5,.3,1) both}
+.story-arrived-symbol{display:grid;place-items:center;width:50px;height:50px;
+  font-size:27px;line-height:1;border-radius:17px;
+  border:2px solid #ffffffeb;background:#fafef8;
+  box-shadow:0 5px 23px #072b2675}
+.story-arrived-marker strong{
+  display:block;max-width:96px;overflow:hidden;text-overflow:ellipsis;
+  padding:3px 7px;border-radius:9px;background:#153c32ed;
+  color:white;font-size:.69rem;line-height:1.15;white-space:nowrap;
+  box-shadow:0 2px 9px #12352866;letter-spacing:0
+}
+@keyframes storyPlacePop{
+  0%{opacity:0;transform:translateY(12px) scale(.58)}
+  58%{opacity:1}
+  76%{transform:translateY(-4px) scale(1.08)}
+  100%{opacity:1;transform:none}
+}
+/* Visually subdued information, but all source/provenance controls are retained. */
+.reference-travel-shell .map-legend-disclosure{
+  margin:7px 10px;border:1px solid var(--line);border-radius:11px;
+  background:var(--paper);color:var(--muted);overflow:hidden
+}
+.reference-travel-shell .map-legend-disclosure>summary{
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  min-height:37px;padding:7px 12px;list-style:none;font-size:.74rem;font-weight:700
+}
+.reference-travel-shell .map-legend-disclosure>summary::-webkit-details-marker{display:none}
+.reference-travel-shell .map-legend-disclosure>summary>.ui-icon{
+  width:15px;height:15px;color:var(--green)
+}
+.reference-travel-shell .map-legend-disclosure>summary small{margin-left:auto;font-size:.66rem}
+.reference-travel-shell .map-legend-disclosure[open]>.map-legend{
+  border-top:1px solid var(--line);padding:9px!important
+}
+.reference-travel-shell .map-legend-disclosure>summary:hover{
+  background:var(--light);color:var(--green)
+}
+
+/* A single compact card replaces the usual pile of map callouts during playback. */
+.route-story-player[hidden]{display:none!important}
+.reference-travel-shell .route-story-player{
+  position:absolute;z-index:1060;
+  bottom:15px;left:50%;transform:translateX(-50%);
+  width:min(480px,calc(100% - 26px));
+  display:grid;gap:10px;padding:15px 17px 12px;
+  color:#f0fff6;background:linear-gradient(132deg,#133c30f5,#0b302ce9);
+  border:1px solid #a3e3c166;border-radius:19px;
+  box-shadow:0 12px 35px #0b2723a8;backdrop-filter:blur(18px);
+  pointer-events:auto;isolation:isolate
+}
+.reference-travel-shell .route-story-leading{display:grid;grid-template-columns:47px 1fr auto;
+  align-items:center;gap:10px;min-width:0}
+.route-story-symbol{display:grid;place-items:center;width:46px;height:46px;
+  border-radius:13px;background:#ffffff1f;font-size:26px;line-height:1}
+.route-story-heading{display:grid;gap:1px;min-width:0}
+.route-story-eyebrow{font-size:.56rem;letter-spacing:.11em;font-weight:810;color:#a2e1c8}
+.route-story-heading strong{font-size:1.05rem;font-weight:830;line-height:1.2;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.route-story-heading small{font-size:.7rem;color:#bde0cd;line-height:1.3}
+.route-story-count{background:#ffffff18;padding:5px 8px;border-radius:10px;
+  font-size:.76rem;font-weight:800;white-space:nowrap}
+.route-story-progress{position:relative;height:5px;overflow:hidden;border-radius:20px;
+  background:#ffffff33}
+.route-story-progress span{position:absolute;inset:0 auto 0 0;width:0;
+  background:linear-gradient(90deg,#a7ebc8,#67d9b6);border-radius:20px}
+.route-story-actions{display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-width:0}
+.route-story-actions>span{flex:1;min-width:90px;color:#c1e7d6;
+  font-size:.7rem;line-height:1.3}
+.route-story-actions button{display:inline-flex;align-items:center;justify-content:center;
+  gap:5px;min-height:32px;padding:6px 10px;font-size:.7rem;font-weight:760;
+  background:#ffffff1b;color:#f5fffb;border:1px solid #ffffff34;border-radius:9px}
+.route-story-actions button:hover{background:#ffffff36}
+.route-story-actions button:focus-visible{outline:2px solid white;outline-offset:2px}
+.route-story-actions button:disabled{opacity:.55}
+.route-story-actions button[hidden]{display:none!important}
+.route-story-actions button .ui-icon{height:15px;width:15px}
+.route-story-actions .route-story-pause{background:#bfead5;color:#103d2f;border-color:#bfead5}
+.route-story-actions .route-story-pause:hover{background:white}
+.route-story-disclaimer{font-size:.59rem!important;color:#bcddce!important;
+  line-height:1.3;margin:0}
+.reference-travel-shell .route-story-player[data-status=complete]{
+  background:linear-gradient(135deg,#19503c,#13382f)
+}
+body.route-story-active .reference-travel-shell .map-atlas-hud,
+body.route-story-active .reference-travel-shell .map-place-switches,
+body.route-story-active .reference-travel-shell .map-selection-preview,
+body.route-story-active .reference-travel-shell .reference-preview-map-note{
+  visibility:hidden!important;pointer-events:none!important
+}
+body.route-story-active .reference-travel-shell .map-hint{display:none!important}
+
+/* Fullscreen already has room for the route card; keep search accessible. */
+.reference-travel-shell .map-fullscreen-mode .route-story-player{
+  bottom:calc(18px + env(safe-area-inset-bottom))!important
+}
+.reference-travel-shell .map-fullscreen-mode.fullscreen-drawer-open .route-story-player{
+  opacity:.12;pointer-events:none
+}
+@media(max-width:1000px){
+ .reference-travel-shell .map-story-toolbar-play{padding:7px 9px}
+ .reference-travel-shell .map-story-toolbar-play span{display:none}
+}
+@media(max-width:650px){
+ .reference-travel-shell .route-story-launch{width:35px;min-width:35px;
+  padding:7px!important}
+ .reference-travel-shell .route-story-launch span{display:none}
+ .reference-travel-shell .route-story-player{
+   padding:11px 12px 10px;gap:7px;border-radius:15px;
+   bottom:9px;width:calc(100% - 18px)
+ }
+ .route-story-leading{gap:7px!important;grid-template-columns:39px 1fr auto!important}
+ .route-story-symbol{height:39px;width:39px;font-size:23px}
+ .route-story-heading strong{font-size:.95rem}
+ .route-story-heading small{font-size:.67rem}
+ .route-story-count{font-size:.69rem;padding:4px 6px}
+ .route-story-actions>span{width:100%;flex-basis:100%;font-size:.66rem}
+ .route-story-actions button{min-height:34px;flex:1;font-size:.67rem;padding:5px 6px}
+ .route-story-actions .route-story-pause{flex:1.5}
+ .route-story-disclaimer{font-size:.55rem!important}
+ .reference-travel-shell .map-fullscreen-mode .route-story-player{
+  bottom:calc(10px + env(safe-area-inset-bottom))!important
+ }
+ .reference-travel-shell .map-fullscreen-mode .map-story-toolbar-play{
+   min-width:33px;padding:6px;border-radius:8px
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .story-traveler-dot::before,.story-arrived-marker{animation:none!important}
+ .reference-travel-shell .route-story-launch{transition:none}
+}
+:root[data-motion=off] .story-traveler-dot::before,
+:root[data-motion=off] .story-arrived-marker{animation:none!important}

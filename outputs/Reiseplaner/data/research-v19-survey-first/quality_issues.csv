@@ -1,0 +1,25 @@
+id;severity;scope;issue;action;source_id
+Q01;high;all;2027 train timetables and seat availability cannot be confirmed for Aug/Sep 2027;"Refresh SNCF/DB/ÖBB/SBB when sales open; do not present invented times";sncf_sales
+Q02;high;all;No booking or purchase confirmation exists in retrieved source;Keep all proposals unbooked and unselected;tripsy
+Q03;high;lodging;Room/bed layout for 3/4 adults not confirmed;Check chosen room explicitly at provider checkout;booking
+Q04;high;lodging;Prices may omit local charges or change after search;Check final fees, cancellation, taxes and housekeeping;booking
+Q05;high;ir-august;Travel-day count when changing trains after a night train depends on boarding time;"Implement night-train pass-day test; no obsolete 19:00 rule";interrail_day
+Q06;high;swiss-week;Rental car conditions for drivers aged 18 not checked;Verify license tenure, minimum age, cross-border, deposits and insurance before cost modelling;tripsy
+Q07;high;swiss-week;Swiss co-travelers are not identified as K/C in the Tripsy trip;"Keep the three other Switzerland travelers unknown; do not copy the Interrail-group survey to them";survey
+Q08;medium;survey;Lodging 60, 50 and about 30 EUR are soft individual values not hard group budget;Use city-based total optimization and transparent budget tradeoffs;survey
+Q09;medium;data;"All proposals are new options; Tripsy original event IDs not imported in full in this package";"Never overwrite original trips with this seed; use separate migration namespace";tripsy
+Q10;medium;mapping;Activity POI coordinates not independently verified;Do not render activity as precise pin until geocoded and validated;tripsy
+Q11;medium;venice;2027 access fee depends on official dates and exemptions;Check official Venice portal before selecting Mestre vs center;venice_access
+Q12;medium;venice;Rolling Venice 72h bundled transport must not be costed as a paid sightseeing ticket;Attach to local transport expense once and compare 48h and single fares;venice_rolling
+Q13;medium;first;First gondola from-price is not a guaranteed return fare;Get roundtrip for relevant age/date, keep CHF and ticket scope;first
+Q14;medium;oeschinensee;"Summer 2027 operating hours published; day ticket price and slot not established";Reserve slot/pricing separately from hours;oeschi
+Q15;medium;genoa;Nervi parks may temporarily close;Check official park closure notices near travel date;genoa_nervi
+Q16;medium;all;Exact trip-specific hotel transfer durations were not independently routed;Only calculate with routing provider after coords verified;booking
+Q17;medium;ir-swiss;Swiss-variant stay dates lack matching fresh 3-person hotel research;Do not reuse 4-person Swiss-week quotes or classic coastal quotes for changed dates;booking
+Q18;medium;ir-august;August trip accommodation dates differ from September;"Search new dated room offers; never transplant September prices";booking
+Q19;medium;activities;Several city activity concepts not independently verified on venue-specific websites;Require source+hours review before confirmed state;paris_tourism
+Q20;medium;money;No CHF/EUR FX rate sourced at saved date;Keep currencies separate until verified rate;oeschi
+Q21;medium;group;Two group members prefer one special experience for extra 30 EUR, one prefers split;"Model choice as tradeoff; no automatic upgrade for all";survey
+Q22;medium;survey;"0/5 interest does not necessarily mean veto; blank no-go answers are unknown";Model low-interest and explicit veto separately;survey
+Q23;medium;swiss-week;Some hiking routes require weather, restrictions, and safety checks;Do not assume all lake paths open or swimming safe;swiss_mobility
+Q24;medium;venues;Specific club events and alcohol venue admission rules unverified;Check event ages and transit, prefer optional choice;barcelona_tourism

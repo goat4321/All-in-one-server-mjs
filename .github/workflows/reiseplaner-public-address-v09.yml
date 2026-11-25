@@ -1,0 +1,33 @@
+name: "Reiseplaner - OSM-Hausnummernabgleich (manueller Kandidatenbericht)"
+# No unattended geocoding, no auto-promoting guessed buildings, no git push.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: outputs/Reiseplaner
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Syntax und vorhandene Nachweise prüfen
+        run: |
+          node --check scripts/public-address-geo-v09.mjs
+          node --test test/public-address-v09.test.mjs test/address-consistency.test.mjs
+      - name: Ausschließlich veröffentlichte Hausadressen abgleichen
+        run: node scripts/public-address-geo-v09.mjs
+      - name: Nicht automatisch übernommene Kandidaten bereitstellen
+        uses: actions/upload-artifact@v4
+        with:
+          name: hausadressen-kandidaten-erneute-pruefung
+          path: outputs/Reiseplaner/data/research-v09/address-candidates.json
+          if-no-files-found: error
+          retention-days: 14

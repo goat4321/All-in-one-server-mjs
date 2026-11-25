@@ -1,0 +1,75 @@
+name: Reiseplaner · Import geprüfter Koordinaten v0.6
+# One-time, explicit import only. Never repeat artifact imports on every PR update.
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  import-geodata:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with: { node-version: '24' }
+      - uses: actions/download-artifact@v4
+        with:
+          name: osm-photon-geocoded-points-v06
+          run-id: 43391214152
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: outputs/Reiseplaner/data/research-v06
+      - name: Correct two wrong same-name hotel matches using independent address evidence
+        working-directory: outputs/Reiseplaner
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+          const file='./data/research-v06/geocoded-points.json';
+          const data=JSON.parse(await readFile(file,'utf8'));
+          if(data.schema!=='osm_photon_geocoded_v06'||data.points.length!==53)throw Error('Unexpected source file');
+          const fixes=[
+            {id:'research:bcom_250976',city:'paris',point:[48.88248,2.34977],
+             sourceUrl:'https://www.cybevasion.fr/hotel-altona-paris-h357.html',
+             note:'Hôtel Altona: 166 rue du Faubourg Poissonnière, 75010 Paris; original same-name map candidate was elsewhere in Paris.'},
+            {id:'research:bcom_66280',city:'kandersteg',point:[46.4964872,7.6743328],
+             sourceUrl:'https://yellowpages.swiss/location.cfm?company=Hotel-Alpina-Kandersteg&key=37888',
+             note:'Hotel Alpina: Aeussere Dorfstrasse 92, 3718 Kandersteg; original OSM candidate belonged to Hotel Alpina Adelboden.'},
+          ];
+          for(const fix of fixes) {
+            const row=data.points.find(p=>p.id===fix.id&&p.city===fix.city);
+            if(!row)throw Error('Missing correction '+fix.id);
+            row.rejectedPhotonCandidate={point:row.point,osmRef:row.osmRef,
+              reason:'wrong same-name location, independently checked against provider address'};
+            row.point=fix.point;
+            row.sourceUrl=fix.sourceUrl;
+            row.confidence='verified_external_coordinates';
+            row.isCentroid=false;
+            row.locationDescription=fix.note;
+            delete row.osmRef;
+          }
+          data.manualCorrections=fixes.map(x=>({id:x.id,city:x.city,
+            coordinateSource:x.sourceUrl,note:x.note}));
+          data.method+=' Two wrong same-name hotel matches were corrected using independently published addresses/coordinates.';
+          await writeFile(file,JSON.stringify(data,null,2)+'\n');
+          console.log('GEODATA_IMPORT',JSON.stringify({accepted:data.points.length,
+            corrected:data.manualCorrections.length,review:data.review.length,
+            unmatched:data.unmatched.length,skipped:data.skipped.length}));
+          NODE
+      - name: Validate coordinate source integration and safety
+        working-directory: outputs/Reiseplaner
+        run: npm run test:portable
+      - name: Commit complete reviewed source report to PR branch
+        env:
+          GH_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add outputs/Reiseplaner/data/research-v06/geocoded-points.json
+          git commit -m "data: add 53 sourced map locations and 237 unresolved place audits"
+          git push origin "HEAD:${GH_HEAD_REF}"

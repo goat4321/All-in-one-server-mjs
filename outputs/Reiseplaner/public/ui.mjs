@@ -1,3 +1,4 @@
+import { googleMapsSearchUrl, googleMapsSearchLabel } from './google-maps.mjs';
 import { allocate, groupPrice, localParts, money } from './model.mjs';
 
 const paths = {
@@ -28,14 +29,23 @@ const paths = {
   lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/>',
   menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
   arrow:'<path d="M3 12h17m-6-6 6 6-6 6"/>',
+  'arrow-left':'<path d="M21 12H4m6-6-6 6 6 6"/>',
+  'arrow-right':'<path d="M3 12h17m-6-6 6 6-6 6"/>',
   compare:'<path d="M4 20h16M7 17V8m5 9V3m5 14v-6"/>',
   bookmark:'<path d="M6 4h12v17l-6-4-6 4z"/>',
   check:'<path d="m5 12 4 4L19 6"/>',
   alert:'<path d="m12 3 10 18H2L12 3zm0 6v5m0 3h.01"/>',
+  copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
   download:'<path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/>',
   upload:'<path d="M12 15V3M7 8l5-5 5 5M4 17v4h16v-4"/>',
   external:'<path d="M13 4h7v7m0-7-9 9m7-1v7H5V6h7"/>',
   reset:'<path d="M5 10a8 8 0 1 1 2 8M5 4v6h6"/>',
+  play:'<path d="M8 5v14l11-7z"/>',
+  pause:'<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>',
+  'arrow-up':'<path d="M12 20V4m-6 6 6-6 6 6"/>',
+  'arrow-down':'<path d="M12 4v16m-6-6 6 6 6-6"/>',
+  shuffle:'<path d="m4 4 3 0 11 16m-4-4 4 4 4-4M4 20h3l4-6m3-4 4-6 4 4m0-4v6"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
   target:'<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/>',
   beach:'<path d="M3 11a9 9 0 0 1 18 0H3zm9 0v8m-8 2h16M12 3v2"/>',
 };
@@ -91,6 +101,19 @@ export function sourceList(item, sources) {
   const rows = (item.source ?? []).flatMap(id => sources[id] ? [sources[id]] : []);
   const links = rows.map(s => '<li>' + (urlLink(s.url, s.publisher) || esc(s.publisher)) + (s.accessed_on ? ' · ' + esc(dateText(s.accessed_on)) : '') + '</li>');
   if (item.website && !rows.some(s => s.url === item.website)) links.push('<li>' + urlLink(item.website, 'Ort / Quelle öffnen') + '</li>');
+  const googleMaps = googleMapsSearchUrl(item);
+  if (googleMaps) links.push('<li>' + urlLink(googleMaps, googleMapsSearchLabel(item))
+    + ' · Kartensuche, kein bestätigter Standortnachweis</li>');
+  if (item.geoEvidence?.url) links.push('<li>' + urlLink(item.geoEvidence.url, item.geoEvidence.source + ' · Koordinatenquelle')
+    + ' · ' + esc(item.geoEvidence.confidence === 'street_address_match'
+      ? 'Name und Straßenadresse abgeglichen'
+      : item.geoEvidence.confidence === 'verified_external_coordinates'
+      ? 'Unabhängig anhand veröffentlichter Geodaten geprüft'
+      : item.geoEvidence.confidence === 'reviewed_osm_named_location'
+      ? 'OSM-Namens-/Ortsabgleich manuell geprüft'
+      : 'Eindeutiger OSM-POI-Name')
+    + ' · ' + esc(item.geoEvidence.isCentroid ? 'Objektmittelpunkt (Eingang nicht bestätigt)' : 'POI-Punkt')
+    + '</li>');
   if (item.importSource) links.push('<li>' + esc(item.importSource.file + ' · ' + item.importSource.provider + ' · ' + dateText(item.importSource.date.slice(0, 10))) + '</li>');
   return '<div class="chips">' + status(item.origin ?? 'manuell') + status(item.verification ?? 'ungeprüft', 'warn') + '</div>'
     + (links.length ? '<ul class="sources-list">' + links.join('') + '</ul>' : '<small>Quellenlink offen.</small>');
@@ -101,3 +124,6 @@ export function timeText(item) {
   const end = localParts(item.end, item.endZone ?? item.zone);
   return (start.time ?? 'offen') + ' → ' + (end.time ?? 'offen') + (end.date && end.date !== start.date ? ' · ' + dateText(end.date) : '');
 }
+
+export const table = (labels, rows) => '<div class="table-wrap panel"><table><thead><tr>' + labels.map(l => '<th scope="col">' + esc(l) + '</th>').join('')
+  + '</tr></thead><tbody>' + rows.map(cells => '<tr>' + cells.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>';

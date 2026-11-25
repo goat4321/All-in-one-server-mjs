@@ -1,0 +1,80 @@
+{
+  "schema": "ign_public_address_manual_review_v45",
+  "observedOn": "2026-11-15",
+  "officialSource": "https://data.geopf.fr/geocodage/search",
+  "documentationUrl": "https://cartes.gouv.fr/aide/fr/guides-utilisateur/utiliser-les-services-de-la-geoplateforme/geocodage/",
+  "policy": "Nur veröffentlichte Adressen, exakte Straße + Hausnummer + Postleitzahl, in Sète; keine Airbnb-Wunschlisten und keine automatische Übernahme von nur straßenbasierten Treffern.",
+  "queried": 7,
+  "confirmedAddressPoints": 1,
+  "unmatched": 6,
+  "items": [
+    {
+      "id": "research:bcom_4032998",
+      "name": "Le Pouffre maison de pêcheur",
+      "address": "85 Grande Rue Haute, 34200 Sète, France",
+      "status": "single_strict_public_address_candidate",
+      "point": [
+        43.398442,
+        3.694451
+      ],
+      "banId": "34301_0850_00085",
+      "confidenceNote": "Genau eine passende BAN-Hausnummer; gesonderter Eingang nicht verifiziert.",
+      "operatorSource": "https://www.lepouffre.com/contact/",
+      "officialCandidateQuery": "https://data.geopf.fr/geocodage/search?q=85%20Grande%20Rue%20Haute%2C%2034200%20S%C3%A8te%2C%20France&index=address&limit=6"
+    },
+    {
+      "id": "research:bcom_16577964",
+      "name": "Charmant T2 avec terrasse au coeur de Sète",
+      "address": "Rue de la Liberté 21, 34200 Sète, France",
+      "status": "no_strict_public_address_match",
+      "point": null,
+      "reason": "Nur Straßenebene; keine exakte Hausnummer 21.",
+      "officialCandidateQuery": "https://data.geopf.fr/geocodage/search?q=Rue%20de%20la%20Libert%C3%A9%2021%2C%2034200%20S%C3%A8te%2C%20France&index=address&limit=6"
+    },
+    {
+      "id": "research:bcom_4231096",
+      "name": "L'Eternel Estivant",
+      "address": "Promenade Jean-Baptiste Marty 26, 34200 Sète, France",
+      "status": "no_strict_public_address_match",
+      "point": null,
+      "reason": "Nur Straßenebene; keine exakte Hausnummer 26.",
+      "officialCandidateQuery": "https://data.geopf.fr/geocodage/search?q=Promenade%20Jean-Baptiste%20Marty%2026%2C%2034200%20S%C3%A8te%2C%20France&index=address&limit=6"
+    },
+    {
+      "id": "research:bcom_4664508",
+      "name": "LOFT COCON EN PLEIN CENTRE DE SETE",
+      "address": "Rue Pierre Semard 42bis, 34200 Sète, France",
+      "status": "no_strict_public_address_match",
+      "point": null,
+      "reason": "Kein exakt verifizierter Adresspunkt 42 bis; Straßentreffer genügt nicht.",
+      "officialCandidateQuery": "https://data.geopf.fr/geocodage/search?q=Rue%20Pierre%20Semard%2042bis%2C%2034200%20S%C3%A8te%2C%20France&index=address&limit=6"
+    },
+    {
+      "id": "research:bcom_12902044",
+      "name": "Appartement au cœur de la Marina",
+      "address": "Rue du Grand Large 8, 34200 Sète, France",
+      "status": "no_strict_public_address_match",
+      "point": null,
+      "reason": "Nur Straßenebene; keine exakte Hausnummer 8.",
+      "officialCandidateQuery": "https://data.geopf.fr/geocodage/search?q=Rue%20du%20Grand%20Large%208%2C%2034200%20S%C3%A8te%2C%20France&index=address&limit=6"
+    },
+    {
+      "id": "research:bcom_9923338",
+      "name": "Jolie maison de pêcheur - La Pointe Courte",
+      "address": "Rue de la Pétanque 11, 34200 Sète, France",
+      "status": "no_strict_public_address_match",
+      "point": null,
+      "reason": "Nur Straßenebene; keine exakte Hausnummer 11.",
+      "officialCandidateQuery": "https://data.geopf.fr/geocodage/search?q=Rue%20de%20la%20P%C3%A9tanque%2011%2C%2034200%20S%C3%A8te%2C%20France&index=address&limit=6"
+    },
+    {
+      "id": "research:bcom_10404998",
+      "name": "Maison quartier pointe-courte à Sète",
+      "address": "Traverse des Rameurs 19, 34200 Sète, France",
+      "status": "no_strict_public_address_match",
+      "point": null,
+      "reason": "Nur Straßenebene; keine exakte Hausnummer 19.",
+      "officialCandidateQuery": "https://data.geopf.fr/geocodage/search?q=Traverse%20des%20Rameurs%2019%2C%2034200%20S%C3%A8te%2C%20France&index=address&limit=6"
+    }
+  ]
+}

@@ -1,0 +1,1030 @@
+{
+  "schema": "individual_activity_recheck_v20",
+  "observedOn": "2026-11-14",
+  "status": "Individual source audit; only sourced POI points promoted; visit exact time and 2027 bookings not inferred",
+  "sourceAtlas": "Previous project OSM/Photon evidence plus publicly inspected operator/tourism sites",
+  "count": 57,
+  "withSourcedPoint": 45,
+  "withSpecificPublicEvidence": 24,
+  "items": [
+    {
+      "id": "act-001",
+      "city": "paris",
+      "name": "Trocadéro – Blick auf den Eiffelturm",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.openstreetmap.org/node/1697202142",
+      "specificFactVerified": true,
+      "point": [
+        48.862,
+        2.28873
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Benannter OSM-Aussichtspunkt Esplanade du Trocadéro (tourism=viewpoint). Orientierungspunkt für den Eiffelturmblick; Wege, Treffpunkt und Zugang nicht durch den Punkt garantiert.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://www.openstreetmap.org/node/1697202142",
+      "isCentroid": false
+    },
+    {
+      "id": "act-002",
+      "city": "paris",
+      "name": "Seineufer zwischen Île de la Cité und Louvre",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://parisjetaime.com/",
+      "specificFactVerified": false,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
+      "researchStatus": "general_portal_or_concept_only"
+    },
+    {
+      "id": "act-003",
+      "city": "paris",
+      "name": "Montmartre und Sacré-Cœur Außenbereich",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.openstreetmap.org/node/6539363621",
+      "specificFactVerified": true,
+      "point": [
+        48.8827758,
+        2.3442687
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "isCentroid": false,
+      "geoSourceUrl": "https://www.openstreetmap.org/node/6539363621",
+      "geoNote": "OSM-POI",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-004",
+      "city": "paris",
+      "name": "Canal Saint-Martin mit Bäckerei-Picknick",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.openstreetmap.org/relation/1164565",
+      "specificFactVerified": true,
+      "point": [
+        48.8689561,
+        2.3671691
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.openstreetmap.org/relation/1164565",
+      "geoNote": "OSM-Objektzentrum, nicht zwingend Eingang",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-005",
+      "city": "paris",
+      "name": "Louvre – Kurzbesuch falls Interesse",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.louvre.fr/en/visit/hours-admission",
+      "specificFactVerified": true,
+      "point": [
+        48.86059,
+        2.33765
+      ],
+      "pointPrecision": "building_area_reference",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/fr/37337018",
+      "geoNote": "Museumsgebäude, nicht der genaue Sicherheits- oder Besuchereingang.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Freier Louvre-Zutritt nur unter 18 oder unter 26 mit EWR-Staatsangehörigkeit bzw. qualifiziertem EWR-Wohnsitznachweis; sonst EWR 22 €, Nicht-EWR 32 € (ab 14.01.2026). Kostenloser Zeitfensterplatz empfohlen.",
+      "priceOverride": {
+        "kind": "conditional",
+        "amountCents": null,
+        "currency": "EUR",
+        "scope": "person",
+        "sourceUrl": "https://www.louvre.fr/en/visit/hours-admission"
+      }
+    },
+    {
+      "id": "act-006",
+      "city": "paris",
+      "name": "Eiffelturm – Treppen bis Etage 2",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.toureiffel.paris/sites/default/files/2026-10/tarifs_2027_en.pdf",
+      "specificFactVerified": true,
+      "point": [
+        48.85826,
+        2.2945
+      ],
+      "pointPrecision": "tower_footprint",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/24855630/Map",
+      "geoNote": "Eiffelturm-Gebäudepunkt aus OpenStreetMap; Aufgang und Zutrittskontrolle separat.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Ab 11.01.2027 12–24 Jahre: Treppe bis Etage 2 7,60 €; Erwachsene 15,20 €. Reservierung im offiziellen Ticketshop; neue 2027-Preisliste.",
+      "priceOverride": {
+        "kind": "published_2027",
+        "amountCents": 760,
+        "currency": "EUR",
+        "scope": "person",
+        "ageMin": 12,
+        "ageMax": 24,
+        "validFrom": "2027-01-11",
+        "sourceUrl": "https://www.toureiffel.paris/sites/default/files/2026-10/tarifs_2027_en.pdf"
+      }
+    },
+    {
+      "id": "act-007",
+      "city": "paris",
+      "name": "Quartier Latin – Streetfood und Abendrunde",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://parisjetaime.com/",
+      "specificFactVerified": false,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "researchStatus": "general_portal_or_concept_only"
+    },
+    {
+      "id": "act-008",
+      "city": "barcelona",
+      "name": "Bogatell Beach – Strand und lockerer Sport",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.bcnsostenible.cat/en/web/punt/platja-del-bogatell-1",
+      "specificFactVerified": true,
+      "point": [
+        41.394412310187,
+        2.2071448944703
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.bcnsostenible.cat/en/web/punt/platja-del-bogatell-1",
+      "geoNote": "Orientierungspunkt des Bogatell-Strandabschnitts; konkrete Schwimm-/Sportstelle variabel.",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-009",
+      "city": "barcelona",
+      "name": "Barceloneta – schwimmen und Sonnenuntergang",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://mapcarta.com/25260254",
+      "specificFactVerified": true,
+      "point": [
+        41.38083,
+        2.19375
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/25260254",
+      "geoNote": "Geografischer Referenzpunkt des Strandes Platja de la Barceloneta. Kein bestimmter Treffpunkt und keine Badezone verifiziert.",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-010",
+      "city": "barcelona",
+      "name": "Parc de la Ciutadella – Picknick",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.openstreetmap.org/relation/271463",
+      "specificFactVerified": true,
+      "point": [
+        41.388416,
+        2.1862546
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.openstreetmap.org/relation/271463",
+      "geoNote": "Area/path centre from OpenStreetMap; not a confirmed accessible entry point",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-011",
+      "city": "barcelona",
+      "name": "Bunkers del Carmel / Turó de la Rovira – Aussicht",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.bcnsostenible.cat/web/punt/turo-de-la-rovira",
+      "specificFactVerified": true,
+      "point": [
+        41.41954973566,
+        2.1626962769684
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "isCentroid": false,
+      "geoSourceUrl": "https://www.bcnsostenible.cat/web/punt/turo-de-la-rovira",
+      "geoNote": "Quelle des Stadtportals bestätigt Turó de la Rovira: Aussichtsterrasse; Öffnungs-/Zugangslage 2027 separat prüfen.",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-012",
+      "city": "barcelona",
+      "name": "Sagrada Família – Innenbesuch als Option",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://sagradafamilia.org/en/prices?inheritRedirect=true",
+      "specificFactVerified": true,
+      "point": [
+        41.4032029,
+        2.1748507
+      ],
+      "pointPrecision": "building_area_reference",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.bcnsostenible.cat/en/web/punt/sagrada-familia",
+      "geoNote": "Barcelona+Sostenible veröffentlicht die Lage; Seitenfeld 'Latitude' enthält fälschlich die Längengradzahl. Reihenfolge nach geografischer Plausibilität korrigiert.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Sagrada Família Unter-30-Standardbesuch 24 € inklusive Audioguide-App, Stand 2026. Basistarif 26 €; 2027er Eintrittszeit muss separat gebucht werden.",
+      "priceOverride": {
+        "kind": "current_tariff_not_2027_guaranteed",
+        "amountCents": 2400,
+        "currency": "EUR",
+        "scope": "person",
+        "sourceUrl": "https://sagradafamilia.org/en/prices?inheritRedirect=true"
+      }
+    },
+    {
+      "id": "act-013",
+      "city": "barcelona",
+      "name": "Park Güell – regulärer Ticketbereich",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://parkguell.barcelona/en/planning-your-visit/prices-and-times",
+      "specificFactVerified": true,
+      "point": [
+        41.413440276946,
+        2.1531292711639
+      ],
+      "pointPrecision": "park_area_reference",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.bcnsostenible.cat/en/web/punt/park-gueell",
+      "geoNote": "Offizieller Parkbezug Carrer d'Olot; Flächenpunkt, nicht der gebuchte Einlass.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Park Güell allgemeiner Ticketbereich 18 € laut Stadt; Ticket-Zeitfenster, einmaliger Zutritt, 30 Minuten Einlassfenster; nicht als 2027er Checkout bestätigt.",
+      "priceOverride": {
+        "kind": "current_tariff_not_2027_guaranteed",
+        "amountCents": 1800,
+        "currency": "EUR",
+        "scope": "person",
+        "sourceUrl": "https://parkguell.barcelona/en/planning-your-visit/prices-and-times"
+      }
+    },
+    {
+      "id": "act-014",
+      "city": "barcelona",
+      "name": "Montjuïc – Aussicht und Grünanlagen",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.openstreetmap.org/node/2509826686",
+      "specificFactVerified": true,
+      "point": [
+        41.36668,
+        2.16946
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Benannter OSM-Aussichtspunkt Mirador de l’Alcalde am Montjuïc. Einzelner öffentlicher Aussichtspunkt als Startanker; NICHT die Lage der gesamten Grünanlagen oder eine bereits berechnete Route.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://www.openstreetmap.org/node/2509826686",
+      "isCentroid": false
+    },
+    {
+      "id": "act-015",
+      "city": "barcelona",
+      "name": "Poblenou – Cafés und Straßen erkunden",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.barcelonaturisme.com/",
+      "specificFactVerified": false,
+      "point": [
+        41.4028473,
+        2.1988557
+      ],
+      "pointPrecision": "sourced_public_street_reference",
+      "geoNote": "Offiziell publizierter Orientierungsort Rambla del Poblenou für Café- und Straßenrunde. NICHT ein bestimmtes Lokal oder die gesamte Stadtteilroute.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.barcelonabusturistic.cat/es/la-rambla-del-poblenou"
+    },
+    {
+      "id": "act-016",
+      "city": "barcelona",
+      "name": "Optionaler Clubabend Barcelona",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.barcelonaturisme.com/",
+      "specificFactVerified": false,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "researchStatus": "general_portal_or_concept_only"
+    },
+    {
+      "id": "act-017",
+      "city": "sete",
+      "name": "Plage de la Corniche – langer Strandtag",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.openstreetmap.org/way/183957370",
+      "specificFactVerified": true,
+      "point": [
+        43.3935197,
+        3.6670289
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.openstreetmap.org/way/183957370",
+      "geoNote": "OSM-Objektzentrum, nicht zwingend Eingang",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-018",
+      "city": "sete",
+      "name": "Mont Saint-Clair – Aussicht und Wanderung",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.openstreetmap.org/node/518577471",
+      "specificFactVerified": true,
+      "point": [
+        43.402219,
+        3.6844029
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "isCentroid": false,
+      "geoSourceUrl": "https://www.openstreetmap.org/node/518577471",
+      "geoNote": "OSM-POI",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-019",
+      "city": "sete",
+      "name": "Canal Royal – Hafenrunde",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://de.tourisme-sete.com/le-cadre-royal.html",
+      "specificFactVerified": true,
+      "point": [
+        43.40324,
+        3.69723
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://de.tourisme-sete.com/le-cadre-royal.html",
+      "geoNote": "GPS 'Le Cadre Royal' des Tourismusbüros Sète als Orientierung am Canal Royal. Nicht identisch mit allen Kanälen, Hafenwegen oder einem konkreten Treffpunkt.",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-020",
+      "city": "sete",
+      "name": "Pointe Courte – ruhiges Fischerviertel",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.openstreetmap.org/way/457483163",
+      "specificFactVerified": true,
+      "point": [
+        43.413359,
+        3.6924743
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.openstreetmap.org/way/457483163",
+      "geoNote": "Area/path centre from OpenStreetMap; not a confirmed accessible entry point",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-021",
+      "city": "sete",
+      "name": "Stand-up-Paddling oder Kajak als Wahloption",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.tourisme-sete.com/",
+      "specificFactVerified": false,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "researchStatus": "general_portal_or_concept_only"
+    },
+    {
+      "id": "act-022",
+      "city": "sete",
+      "name": "Strandpicknick mit regionalen Spezialitäten",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.tourisme-sete.com/",
+      "specificFactVerified": false,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "researchStatus": "general_portal_or_concept_only"
+    },
+    {
+      "id": "act-023",
+      "city": "nice",
+      "name": "Promenade des Anglais und Stadtstrand",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.openstreetmap.org/relation/2369320",
+      "specificFactVerified": true,
+      "point": [
+        43.6859892,
+        7.2374765
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.openstreetmap.org/relation/2369320",
+      "geoNote": "OSM-Objektzentrum, nicht zwingend Eingang",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-024",
+      "city": "nice",
+      "name": "Colline du Château – Aussicht",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.explorenicecotedazur.com/culture/parc-de-la-colline-du-chateau/",
+      "specificFactVerified": true,
+      "point": [
+        43.69465,
+        7.2799
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Benannter OSM-Aussichtspunkt Colline du Château (tourism=viewpoint). Einzelner Aussichtspunkt im Park, NICHT jeder Zugang, Parkeingang oder der vollständige Rundgang.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Tourismusamt Nizza bestätigt für 01.04.–30.09.2027 täglich 08:30–20:00 Uhr und freien Eintritt; Ausnahmen bei Sperrung möglich.",
+      "priceOverride": {
+        "kind": "published_2027",
+        "amountCents": 0,
+        "currency": "EUR",
+        "scope": "person",
+        "sourceUrl": "https://www.explorenicecotedazur.com/culture/parc-de-la-colline-du-chateau/"
+      },
+      "publishedHours2027": "2027-04-01/2027-09-30 · täglich 08:30–20:00",
+      "geoSourceUrl": "https://www.openstreetmap.org/node/24630083",
+      "isCentroid": false
+    },
+    {
+      "id": "act-025",
+      "city": "nice",
+      "name": "Vieux-Nice – Markt und kleine Gassen",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.explorenicecotedazur.com/evenement/marche-aux-fruits-legumes-et-maree-du-cours-saleya/",
+      "specificFactVerified": true,
+      "point": [
+        43.69568,
+        7.27494
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Benannter OSM-Marktpunkt Marché du Cours Saleya als öffentlicher Startanker für Vieux-Nice. NICHT die Route durch alle Altstadtgassen oder ein individueller Laden. Der touristische Marktplan nennt Di–So 06:00–13:30 für 2026; Öffnung 2027 gesondert prüfen.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://www.openstreetmap.org/node/13160620542",
+      "isCentroid": false,
+      "detailUrl": "https://www.explorenicecotedazur.com/evenement/marche-aux-fruits-legumes-et-maree-du-cours-saleya/",
+      "condition": "Cours-Saleya-Markt laut Tourismusamt für 2026 Di–So 06:00–13:30, freier Marktzugang; Montags Antiquitätenmarkt. Märkte/Öffnungszeiten und Marktstände für September 2027 erneut prüfen. Altstadtspaziergang ist nicht automatisch eine geführte Aktivität."
+    },
+    {
+      "id": "act-026",
+      "city": "nice",
+      "name": "Villefranche-sur-Mer – Plage des Marinières",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://ville-data.com/images/pdf/OUEST-3098.pdf",
+      "specificFactVerified": true,
+      "point": [
+        43.7067556,
+        7.3154667
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://ville-data.com/images/pdf/OUEST-3098.pdf",
+      "geoNote": "Plage des Marinières Referenzpunkt aus öffentlich dokumentierten GPS-Koordinaten der Kommune; Strandabschnitt, kein bestimmter Badeplatz.",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-027",
+      "city": "nice",
+      "name": "Èze – Dorf und Aussicht als Halbtag",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://jardinexotique-eze.fr/en/informations/",
+      "specificFactVerified": true,
+      "point": [
+        43.730885,
+        7.3570576
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Amtlich inventarisierte Ortslage des Jardin Exotique d’Èze als OPTIONALE Sehenswürdigkeit (GPS im Gartenregister). NICHT der exakte Kassen-/Garteneingang, kein Ortszentrum für den ganzen Èze-Dorfspaziergang; Garten kostet ggf. separat.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Èze-Dorfspaziergang ohne eigenen Eintritt; der Jardin Exotique ist eine getrennte optionale Sehenswürdigkeit. Laut offiziellem Garten: im September täglich 09:00–19:30, regulärer Erwachseneneintritt 10 €, Studierende mit Nachweis 6 €; Tarif gilt als Stand 2026, nicht garantiert für 2027.",
+      "detailUrl": "https://jardinexotique-eze.fr/en/informations/",
+      "priceReference": {
+        "amountCents": 1000,
+        "currency": "EUR",
+        "kind": "optional_independent_garden_ticket_current_rate_2026_not_in_plan",
+        "sourceUrl": "https://jardinexotique-eze.fr/en/informations/"
+      },
+      "geoSourceUrl": "https://pdn-patrimonia.unicaen.fr/iejp/france/inventaires/Provence-Alpes-Cote-dAzur/Alpes-Maritimes/2FRIEJP_INVAlpes-Maritimes.xml/FRIEJP_INVAlpes-Maritimes_J78.html",
+      "isCentroid": false
+    },
+    {
+      "id": "act-028",
+      "city": "nice",
+      "name": "Port Lympia – Abendrunde",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.explorenicecotedazur.com/culture/parc-de-la-colline-du-chateau/",
+      "specificFactVerified": false,
+      "point": [
+        43.69835,
+        7.28448
+      ],
+      "pointPrecision": "sourced_public_start_reference",
+      "geoNote": "Benannter Haltepunkt Port Lympia als öffentlich zugänglicher Ausgangspunkt der Hafenspazieridee. NICHT die gesamte Hafenpromenade, keine Schiffanlegestelle oder Privatadresse.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/fr/N7057879201"
+    },
+    {
+      "id": "act-029",
+      "city": "nice",
+      "name": "Indoor-Schwimmbad oder Kletterhalle bei Regen",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.explorenicecotedazur.com/culture/parc-de-la-colline-du-chateau/",
+      "specificFactVerified": false,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "researchStatus": "general_portal_or_concept_only"
+    },
+    {
+      "id": "act-030",
+      "city": "genoa",
+      "name": "Boccadasse und kleiner Strand",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.visitgenoa.it/de/node/29573",
+      "specificFactVerified": true,
+      "point": [
+        44.390444,
+        8.975534
+      ],
+      "pointPrecision": "tourism_office_place_point",
+      "isCentroid": false,
+      "geoSourceUrl": "https://www.visitgenoa.it/it/node/856",
+      "geoNote": "Offizielle VisitGenoa-Koordinate POINT(lon lat), genauer Strandzugang/Schwimmbereich offen.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Offizielles Stadtmarketing bestätigt Boccadasse als kleinen öffentlichen Strand mit Fischerdorf; strand-/badebedingungen tagesabhängig."
+    },
+    {
+      "id": "act-031",
+      "city": "genoa",
+      "name": "Corso Italia – 2,5 km Spaziergang",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/21375",
+      "specificFactVerified": false,
+      "point": [
+        44.39615,
+        8.94572
+      ],
+      "pointPrecision": "sourced_public_area_start_reference",
+      "geoNote": "Piazza Raffaele Rossetti als quellengestützter Start-/Orientierungspunkt am westlichen Abschnitt des Corso-Italia-Spaziergangs. NICHT die 2,5-km-Strecke, kein berechneter Wanderweg.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/W57966151"
+    },
+    {
+      "id": "act-032",
+      "city": "genoa",
+      "name": "Parchi di Nervi und Promenade Anita Garibaldi",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://mapcarta.com/36058328",
+      "specificFactVerified": true,
+      "point": [
+        44.38142,
+        9.045
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/36058328",
+      "geoNote": "Parchi di Nervi Parkzentrum für den geplanten Spaziergang; kein verbindlicher Eingang oder vollständiger Weg.",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-033",
+      "city": "genoa",
+      "name": "Spianata Castelletto – Hafenpanorama",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.visitgenoa.it/de/node/7693",
+      "specificFactVerified": true,
+      "point": [
+        44.411,
+        8.93335
+      ],
+      "pointPrecision": "tourism_office_viewpoint",
+      "isCentroid": false,
+      "geoSourceUrl": "https://www.visitgenoa.it/de/node/7693",
+      "geoNote": "VisitGenoa-Geopunkt des Aussichtsortes; realer Zugang separat.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Offizielle VisitGenoa-Koordinate POINT(8.93335 44.411); Aufzugsfahrt ggf. kostenpflichtig und nicht im 0-€-Aussichtspunkt enthalten."
+    },
+    {
+      "id": "act-034",
+      "city": "genoa",
+      "name": "Porto Antico – Wasserkante und Abend",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://portoantico.it/en/general-information/location-and-directions/",
+      "specificFactVerified": true,
+      "point": [
+        44.4083531,
+        8.924189
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "geoNote": "Öffentlich gelisteter Koordinaten-Referenzpunkt des Porto-Antico-Areals. NICHT jeder Kai, Eingang oder die genaue Spazierroute; der Punkt kann bei der Betreiberadresse liegen.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://www.opentourism.it/lang/IT/catalogo/dettaglio_catalogo/porto_antico_di_genova%2C1736.html",
+      "isCentroid": true
+    },
+    {
+      "id": "act-035",
+      "city": "genoa",
+      "name": "Altstadt und Focaccia-Verkostung",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/21375",
+      "specificFactVerified": false,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "researchStatus": "general_portal_or_concept_only"
+    },
+    {
+      "id": "act-036",
+      "city": "genoa",
+      "name": "Nervi-Küste – ruhiger Sportspaziergang",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.openstreetmap.org/way/646935859",
+      "specificFactVerified": true,
+      "point": [
+        44.381961,
+        9.0334361
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.openstreetmap.org/way/646935859",
+      "geoNote": "Area/path centre from OpenStreetMap; not a confirmed accessible entry point",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-037",
+      "city": "venice",
+      "name": "Rialtobrücke und Canal Grande zu Fuß",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://mapcarta.com/26951566",
+      "specificFactVerified": true,
+      "point": [
+        45.43804,
+        12.3359
+      ],
+      "pointPrecision": "bridge_area_reference",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/26951566",
+      "geoNote": "Rialtobrücke selbst; Spaziergang am Canal Grande hat keinen festen Anfang/Endpunkt.",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-038",
+      "city": "venice",
+      "name": "Cannaregio – ruhigere Abendroute",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
+      "specificFactVerified": false,
+      "point": [
+        45.44366,
+        12.32556
+      ],
+      "pointPrecision": "sourced_public_bridge_reference",
+      "geoNote": "Ponte delle Guglie als benannter Fußgängerbrücken-Startpunkt für eine Cannaregio-Runde. NICHT der vollständige Spaziergang oder eine genaue Restaurantadresse.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/W555651485"
+    },
+    {
+      "id": "act-039",
+      "city": "venice",
+      "name": "Fondamenta delle Zattere – Wasserblick",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://mapcarta.com/W342616318",
+      "specificFactVerified": true,
+      "point": [
+        45.43023,
+        12.32323
+      ],
+      "pointPrecision": "sourced_area_center",
+      "geoNote": "OSM-Geometrie Fondamenta Zattere al Ponte Longo, ihr Kartenrepräsentationspunkt. NICHT die gesamte Promenade, ihre Gehroute oder die exakte Position eines Anlegers.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://www.openstreetmap.org/way/342616318",
+      "isCentroid": true
+    },
+    {
+      "id": "act-040",
+      "city": "venice",
+      "name": "Lido di Venezia – Strandpause",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.visitlido.it/en/beaches/blue-moon-beach/",
+      "specificFactVerified": true,
+      "point": [
+        45.41425372193,
+        12.377187380404
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "GPS des öffentlich dokumentierten Strandbereichs Blue Moon am Lido als mögliche Strandpause. NICHT Lage des gesamten Lido-Strandes und keine Aussage, dass Beachclub-/Liegeangebote kostenlos oder 2027 buchbar wären.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Lido von Venedig: Strandnutzung ist teilweise öffentlich, Anfahrt in der Regel per ACTV. Rolling-Venice-Paket (6–29 Jahre) 33 € für 72 h mit Karte + Jugend-ÖPNV; nur bei tatsächlicher Nutzung separat zählen, einzelne Lido-Strandangebote kosten ggf. extra.",
+      "detailUrl": "https://actv.avmspa.it/en/content/venice-urban-services",
+      "geoSourceUrl": "https://atlantearchitetturacontemporanea.cultura.gov.it/en/stabilimento-blue-moon/",
+      "isCentroid": false
+    },
+    {
+      "id": "act-041",
+      "city": "venice",
+      "name": "Murano/Burano – Inselrunde",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://actv.avmspa.it/en/content/venice-urban-services",
+      "specificFactVerified": false,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Murano/Burano: Inseln sind keine pauschal kostenpflichtige Sehenswürdigkeit; ACTV-Vaporetto nach Fahrplan separat erforderlich. Für 6–29-Jährige ist eine Kombination Rolling Venice Karte 6 € + 72h ACTV 27 € (33 € gesamt, Stand 2026) offiziell dokumentiert. Nicht doppelt als Freizeit- und Transportkosten addieren.",
+      "detailUrl": "https://actv.avmspa.it/en/content/venice-urban-services"
+    },
+    {
+      "id": "act-042",
+      "city": "venice",
+      "name": "Stadt mit Rolling Venice Jugendticket erkunden",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://actv.avmspa.it/en/content/venice-urban-services-0",
+      "specificFactVerified": true,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Kein einzeln belegter Kartenpunkt aus überprüfter öffentlicher Quelle; separater POI-Abgleich erforderlich.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Rolling Venice 6 € Karte und ACTV 72h Jugendticket 27 € laut ACTV (Gesamt 33 €), Alter 6–29; darf nur als ÖPNV-Paket, nicht als Aktivitätseintritt behandelt werden.",
+      "priceReference": {
+        "amountCents": 3300,
+        "currency": "EUR",
+        "kind": "bundle_not_activity_2026",
+        "sourceUrl": "https://actv.avmspa.it/en/content/venice-urban-services-0"
+      }
+    },
+    {
+      "id": "act-043",
+      "city": "venice",
+      "name": "Lagunenrunde ohne Eintritt – Sonnenuntergang",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
+      "specificFactVerified": false,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "researchStatus": "general_portal_or_concept_only"
+    },
+    {
+      "id": "act-044",
+      "city": "appenzell",
+      "name": "Altstadt Appenzell mit lokalen Läden",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://mapcarta.com/W240765962",
+      "specificFactVerified": true,
+      "point": [
+        47.33087,
+        9.40965
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://mapcarta.com/W240765962",
+      "geoNote": "Rathaus Appenzell als Hauptgasse-/Altstadt-Orientierung; kein bestimmter Spaziergang-Einstieg und keine Route.",
+      "researchStatus": "existing_sourced_geo_reused"
+    },
+    {
+      "id": "act-045",
+      "city": "appenzell",
+      "name": "Wasserauen–Seealpsee leichte Fahrstraßenwanderung",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.appenzell.ch/de/alpstein/wandern/wandervorschlaege.html?cHash=622caf9161dfeec220ced130a23e232b&tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Btour%5D=39",
+      "specificFactVerified": true,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Flexible Wegstrecke, Strand-/Stadtbereich oder noch nicht festgelegter Anbieter; kein exakter Einzelpunkt.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Appenzellerland Tourismus veröffentlicht Wanderung Wasserauen–Seealpsee–Wasserauen: 7,34 km, 377 m Auf-/Abstieg, 2 h 30 Min., SAC T2. Weg und Wetter am Reisetag prüfen; keine garantierte reine Fahrstraßenwanderung.",
+      "routeReference": {
+        "distanceKm": 7.34,
+        "ascentM": 377,
+        "descentM": 377,
+        "durationMinutes": 150,
+        "difficulty": "T2 Bergwanderweg",
+        "sourceUrl": "https://www.appenzell.ch/de/alpstein/wandern/wandervorschlaege.html?cHash=622caf9161dfeec220ced130a23e232b&tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Btour%5D=39"
+      }
+    },
+    {
+      "id": "act-046",
+      "city": "appenzell",
+      "name": "Seealpsee – Picknick am Wasser",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.appenzell.ch/",
+      "specificFactVerified": false,
+      "point": [
+        47.269558,
+        9.401261
+      ],
+      "pointPrecision": "sourced_public_building_reference",
+      "geoNote": "Quellenbelegtes Berggasthaus Seealpsee am See als nachvollziehbarer Picknick-Orientierungspunkt. NICHT die ganze Uferstrecke oder der individuelle Picknickplatz; Zugang und Wege separat prüfen.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.deine-berge.de/POI/Hotel-Pension/Schweiz/Appenzeller-Alpen/Hoehe-1150m/3959/Berggasthaus-Seealpsee.html"
+    },
+    {
+      "id": "act-047",
+      "city": "glarus",
+      "name": "Klöntalersee – Uferroute",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://schweizmobil.ch/",
+      "specificFactVerified": false,
+      "point": [
+        47.03079,
+        9.0039
+      ],
+      "pointPrecision": "sourced_trail_start_reference",
+      "geoNote": "Publizierter Parkplatz-/Uferwegeinstieg Güntlenau am östlichen Klöntalersee. NICHT der Verlauf der Uferwanderung, kein routbarer vollständiger Wanderweg.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://parkandhike.ch/parkplatz/kloental/"
+    },
+    {
+      "id": "act-048",
+      "city": "glarus",
+      "name": "Rhodannenberg – Picknick",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://glarus.swiss/glarus/kloental/gaestelenkung.html",
+      "specificFactVerified": true,
+      "point": [
+        47.03587,
+        9.00518
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Benannter öffentlicher OSM-/Mapcarta-Punkt Rhodannenberg am Klöntalersee. Picknick-Orientierung, NICHT der genaue Uferzugang oder eine bestätigte freie Grillstelle.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://mapcarta.com/N421910429",
+      "isCentroid": false
+    },
+    {
+      "id": "act-049",
+      "city": "grindelwald",
+      "name": "First – Cliff Walk und Panorama",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/",
+      "specificFactVerified": true,
+      "point": [
+        46.6593101,
+        8.053271
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.openstreetmap.org/way/510863442",
+      "geoNote": "First Cliff Walk Weg-/Plattformzentrum; Einlass und Bergbahn prüfen.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Betreiber Jungfrau.ch beschreibt First auf 2166 m mit First Cliff Walk; die aktuell dynamisch dargestellten Firstbahntickets werden in der englischen Ansicht ab CHF 38, in der deutschsprachigen ab CHF 36 gezeigt. Kein exakter September-2027-Pass-/Rückfahrtpreis daraus ableitbar; konkrete Fahrt und Wetter prüfen.",
+      "priceReference": {
+        "amountCents": 3800,
+        "currency": "CHF",
+        "kind": "provider_from_price_only_not_trip_total",
+        "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/"
+      },
+      "detailUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/"
+    },
+    {
+      "id": "act-050",
+      "city": "grindelwald",
+      "name": "Bachalpsee – Wanderung ab First",
+      "reviewedOn": "2026-11-14",
+      "sourceUrl": "https://www.openstreetmap.org/relation/2192945",
+      "specificFactVerified": true,
+      "point": [
+        46.6695806,
+        8.0209533
+      ],
+      "pointPrecision": "sourced_object_area_center",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.openstreetmap.org/relation/2192945",
+      "geoNote": "Bachalpsee als Ziel- und Gebietsreferenz, nicht exakte Treffposition oder berechneter Wanderweg.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Bachalpsee-Wanderweg selber ohne separaten Eintritt, First-Gondel/ÖPNV nicht enthalten. Wetter/Schnee/Wegzustand prüfen."
+    },
+    {
+      "id": "act-051",
+      "city": "grindelwald",
+      "name": "Grindelwald Dorf – Eigerblick und Snack",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/",
+      "specificFactVerified": false,
+      "point": [
+        46.624375,
+        8.033506
+      ],
+      "pointPrecision": "sourced_orientation_point",
+      "geoNote": "Bahnhof Grindelwald als belegter Start- und Ankunftspunkt für einen frei wählbaren Dorfrundgang. NICHT der genaue Snackstand, ein Aussichtspunkt oder die gesamte Dorfroute.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.outdooractive.com/de/poi/jungfrau-region/bahnhof-grindelwald/1283975/"
+    },
+    {
+      "id": "act-052",
+      "city": "grindelwald",
+      "name": "First Flyer – optional und nur bei Wunsch",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/first-flyer/",
+      "specificFactVerified": true,
+      "point": [
+        46.65988,
+        8.05382
+      ],
+      "pointPrecision": "sourced_cableway_station_reference",
+      "geoNote": "Nachgewiesene Bergstation Grindel-First als Referenz für First Flyer (Betreiber bestätigt Fahrt First nach Schreckfeld: https://www.jungfrau.ch/en-gb/grindelwaldfirst/first-flyer/). NICHT der separat geprüfte konkrete Flyer-Einstieg oder der Verlauf des Stahlseils.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "condition": "Betreiber: First Flyer 35 CHF Erwachsener als Referenz, 35–125 kg Körpergewicht, wetterbedingte Schließung möglich, keine garantierten Zeitfenster. Gondelanreise zusätzlich.",
+      "priceReference": {
+        "amountCents": 3500,
+        "currency": "CHF",
+        "kind": "current_winter_or_season_unspecified_not_2027_total",
+        "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/first-flyer/"
+      },
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.bergbahnen.org/de/datenbank/seilbahn/581/"
+    },
+    {
+      "id": "act-053",
+      "city": "kandersteg",
+      "name": "Oeschinensee – Gondel und leichte Seeuferroute",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.oeschinen.ch/anreise/",
+      "specificFactVerified": true,
+      "point": [
+        46.501983,
+        7.696813
+      ],
+      "pointPrecision": "sourced_named_poi",
+      "geoNote": "Belegter Standort der Gondel-Talstation Kandersteg–Oeschinensee als Startpunkt. NICHT die Oeschinensee-Uferposition, Bergstation oder eine vollständige Wanderroute.",
+      "researchStatus": "specific_public_evidence_checked",
+      "condition": "Betreiber 2027 Gondel Sommerbetrieb 24.04.–19.09. täglich 08:30–18:00; Preistabelle 2026 40 CHF reguläre Berg- und Talfahrt während Hochsaison 15.06.–21.09., NICHT garantierter 2027-Tarif. Reservierungspflicht der Bergfahrt 2026 beachten, 2027 Regel prüfen.",
+      "priceReference": {
+        "amountCents": 4000,
+        "currency": "CHF",
+        "kind": "2026_high_season_return_not_2027",
+        "sourceUrl": "https://www.oeschinensee.ch/tarife-fahrplan/"
+      },
+      "publishedHours2027": "2027-04-24/2027-09-19 · täglich 08:30–18:00",
+      "geoSourceUrl": "https://www.outdooractive.com/de/poi/kandersteg/gondelbahn-kandersteg-oeschinensee/43483658/",
+      "isCentroid": false
+    },
+    {
+      "id": "act-054",
+      "city": "kandersteg",
+      "name": "Oeschinensee – Pause am See",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.oeschinensee.ch/en/tarife-fahrplan/",
+      "specificFactVerified": false,
+      "point": [
+        46.497737,
+        7.714634
+      ],
+      "pointPrecision": "sourced_public_building_reference",
+      "geoNote": "Veröffentlichte Koordinate Berghaus am Oeschinensee als Orientierung für die See-Pause. NICHT der gesamte See, das Ufer, die Seilbahnstation oder ein garantierter Seezugang.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://www.outdooractive.com/r/43484396"
+    },
+    {
+      "id": "act-055",
+      "city": "kandersteg",
+      "name": "Kandersteg – ruhiger Dorfnachmittag",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.oeschinensee.ch/en/tarife-fahrplan/",
+      "specificFactVerified": false,
+      "point": [
+        46.49553,
+        7.671342
+      ],
+      "pointPrecision": "sourced_public_station_reference",
+      "geoNote": "Publizierter Bahnhof Kandersteg als Start- und Ankunftsort für einen frei gestalteten Dorfnachmittag. NICHT das konkrete Café, ein Aussichtspunkt oder der gesamte Dorfspaziergang.",
+      "researchStatus": "sourced_public_orientation_anchor_checked",
+      "isCentroid": true,
+      "geoSourceUrl": "https://geofinder.ch/28509"
+    },
+    {
+      "id": "act-056",
+      "city": "montpellier",
+      "name": "Altstadt Montpellier – nur falls Alternativstopp gewählt",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.montpellier-tourisme.fr/pratique/contact-et-horaires/",
+      "specificFactVerified": true,
+      "point": null,
+      "pointPrecision": "unverified_or_not_single_location",
+      "geoNote": "Öffentlich dokumentierter Flächenpunkt Place de la Comédie als zukünftiger Montpellier-Referenzanker. NICHT in aktive Reisekarten übernehmen: Montpellier fehlt bislang im Stadt-/Reiseroutenkatalog. Beim Hinzufügen des Alternativstopps separat freigeben.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": null,
+      "isCentroid": null,
+      "candidatePoint": [
+        43.6087,
+        3.88006
+      ],
+      "candidateGeoSourceUrl": "https://mapcarta.com/W80524864",
+      "candidatePrecision": "sourced_area_center",
+      "candidateIsCentroid": true,
+      "candidateStatus": "public_named_square_pending_optional_city_catalog"
+    },
+    {
+      "id": "act-057",
+      "city": "toulouse",
+      "name": "Toulouse – kurze Innenstadt bei Nachtzug-Anschluss",
+      "reviewedOn": "2026-11-15",
+      "sourceUrl": "https://www.toulouse-tourisme.com/nos-incontournables/le-capitole/",
+      "specificFactVerified": true,
+      "point": [
+        43.60446,
+        1.44344
+      ],
+      "pointPrecision": "sourced_area_center",
+      "geoNote": "Referenzpunkt der Place du Capitole für einen möglichen kurzen Toulouse-Stadtbesuch. NICHT die Lage des Nachtzug-Gleises, ein Bahnhof oder der garantierte Weg zum Anschluss. Reale Umstiegszeit und 2027-Fahrplan fehlen.",
+      "researchStatus": "specific_public_evidence_checked",
+      "geoSourceUrl": "https://mapcarta.com/24949508",
+      "isCentroid": true
+    }
+  ]
+}

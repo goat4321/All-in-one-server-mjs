@@ -1,0 +1,284 @@
+/* Phase 50: user screenshot accessibility repair.
+ * Some fixed light surfaces inherited --text/--muted/--green from dark mode,
+ * producing near-white text on cream cards. Repair at surface boundaries.
+ */
+.reference-travel-shell .reference-topbar,
+.reference-travel-shell .reference-map-intro,
+.reference-travel-shell .reference-discovery,
+.reference-travel-shell .reference-map-workspace>.map-panel>.panel-head,
+.reference-travel-shell .reference-stage-days,
+.reference-travel-shell .hub-option-card,
+.reference-travel-shell .hub-hero,
+.reference-travel-shell .day-plan-panel,
+.reference-travel-shell .day-plan-overview {
+ --text:#213b2d;
+ --muted:#506b5a;
+ --green:#1b6545;
+ --paper:#fffefa;
+ --line:#d9e5dc;
+ --accent:#e2f0e5;
+ --light:#f0f6ef;
+ color:var(--text);
+}
+.reference-travel-shell .reference-map-intro h1,
+.reference-travel-shell .reference-map-intro-copy,
+.reference-travel-shell .reference-map-intro-copy p,
+.reference-travel-shell .reference-map-intro .reference-map-eyebrow{
+ color:var(--text)!important;
+ opacity:1!important;
+ text-shadow:none!important;
+}
+.reference-travel-shell .reference-map-intro .reference-map-eyebrow{
+ color:#277652!important;
+}
+.reference-travel-shell .reference-map-intro p,
+.reference-travel-shell .reference-map-intro .simple-hero-hint{
+ color:#4b6655!important;
+}
+.reference-travel-shell .reference-map-intro{
+ background:linear-gradient(100deg,#fffefb 10%,#f0f7ef 48%,#366d54 100%);
+}
+.reference-travel-shell .reference-topbar button:not([aria-pressed=true]){
+ color:#3c5c48;opacity:1;
+}
+.reference-travel-shell .reference-discovery-head h2,
+.reference-travel-shell .reference-discovery-card strong,
+.reference-travel-shell .reference-discovery-title strong,
+.reference-travel-shell .reference-discovery-body,
+.reference-travel-shell .reference-discovery-body p,
+.reference-travel-shell .reference-discovery-euro,
+.reference-travel-shell .reference-discovery-head p{
+ color:#22372c!important;
+ opacity:1!important;
+}
+.reference-travel-shell .reference-discovery-card{
+ background:#fffefa;
+}
+.reference-travel-shell .reference-discovery-body p,
+.reference-travel-shell .reference-discovery-head p{
+ color:#526a59!important;
+}
+.reference-travel-shell .reference-discovery-actions a,
+.reference-travel-shell .reference-discovery-actions button{
+ opacity:1!important;
+}
+.reference-travel-shell .reference-map-workspace>.map-panel>.panel-head h2{
+ color:#1e3629!important;opacity:1!important;
+}
+.reference-travel-shell .reference-map-workspace>.map-panel>.panel-head p{
+ color:#4c6756!important;opacity:1!important;
+}
+.reference-travel-shell .reference-stage-days .map-scope-modes button:not([aria-pressed=true]){
+ color:#405e4b;opacity:1!important;
+}
+.reference-travel-shell .reference-map-workspace .map-source-indicator{
+ color:#455e4f;
+}
+/* Browser-generated tooltips: never split an ordinary place name into
+ * stacked individual letters in a narrow popup box. Raster tile labels
+ * supplied by OSM are images and cannot be overwritten via CSS. */
+.reference-travel-shell .leaflet-tooltip,
+.reference-travel-shell .map-poi-tooltip{
+ writing-mode:horizontal-tb!important;
+ text-orientation:mixed!important;
+ white-space:normal!important;
+ word-break:normal!important;
+ overflow-wrap:break-word!important;
+ min-width:92px;
+ max-width:min(280px,78vw);
+ line-height:1.35;
+ color:#1d3529!important;
+ background:#fffefa!important;
+ font-size:.78rem;
+}
+.reference-travel-shell .leaflet-tooltip>*{writing-mode:horizontal-tb!important;word-break:normal!important}
+/* One-click day planning alongside the existing 46 researched proposals. */
+.day-plan-today{
+ display:grid;gap:9px;border:1px solid #cadfd0;
+ border-radius:12px;background:#f4faf5;padding:11px 12px;
+}
+.day-plan-today-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:5px}
+.day-plan-today-head strong{font-size:.85rem;color:#234932}
+.day-plan-today-head small,.day-plan-today-empty{font-size:.73rem;color:#506b5a;margin:0}
+.day-plan-current-list{display:grid;gap:6px;list-style:none;padding:0;margin:0}
+.day-plan-current-row{
+ display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+ background:#fffefa;border:1px solid #e1eae2;border-radius:9px;
+ padding:8px 10px;
+}
+.day-plan-current-row strong{min-width:100px;flex:1 1 140px;line-height:1.3;font-size:.82rem}
+.day-plan-current-row small{color:#506b5a;font-size:.69rem}
+.day-plan-current-row .button{min-height:34px;border-radius:9px}
+.day-plan-protected{font-size:.67rem;color:#6b785e}
+.day-plan-stop .day-plan-item-actions{flex-wrap:wrap}
+.timeline-quick-remove{
+ flex:0 0 auto;color:#a64035!important;
+ border-left:1px solid var(--line,#dce5db);
+}
+.timeline-quick-remove:hover{background:#faeae8!important}
+.hub-quick-day{
+ display:flex;flex-wrap:wrap;align-items:end;gap:8px;
+ padding:10px 0 8px;border-top:1px solid #dce9df;
+}
+.hub-quick-day label{
+ display:grid;gap:3px;flex:1 1 150px;min-width:0;
+ font-size:.7rem;color:#415a4a;font-weight:740;
+}
+.hub-quick-day select{
+ max-width:100%;width:100%;height:36px;
+ background:#fffefa;color:#234431;border:1px solid #cbded0;
+ border-radius:9px;padding:5px 7px;font-size:.75rem;
+}
+.hub-quick-day>.button{flex:0 0 auto;min-height:36px}
+.hub-option-nightlife{
+ display:grid;gap:4px;padding:8px 10px;
+ border:1px solid #e0d4e6;border-radius:10px;background:#f8f3fa;
+ color:#3d3150;font-size:.71rem;line-height:1.4;
+}
+.hub-option-nightlife strong{font-size:.74rem;color:#473459}
+.activity-nightlife-guidance{
+ font-size:.76rem;line-height:1.45;color:#604a70;
+ max-width:66ch;margin-top:7px;
+}
+@media(max-width:760px){
+ .reference-travel-shell .reference-map-intro{background:linear-gradient(103deg,#fffefb 38%,#e8f5ec 100%)}
+ .reference-travel-shell .leaflet-tooltip{max-width:185px;min-width:75px}
+ .day-plan-current-row{align-items:start}
+ .day-plan-current-row .button{margin-left:auto}
+ .hub-quick-day>.button{flex:1 1 130px}
+}
+
+/* Phase 51: actual itinerary first, research detail below the fold. */
+.day-plan-quick-bar{
+ display:grid;gap:9px;margin:12px 0 15px;padding:12px 15px;
+ border:1px solid #c9ddcf;border-radius:17px;
+ background:linear-gradient(105deg,#f6fbf6,#fdfefb);
+ box-shadow:0 3px 12px #184b2e0c;
+ color:#203f2c;
+}
+.day-plan-quick-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.day-plan-quick-heading>div{display:grid;gap:2px;min-width:0}
+.day-plan-quick-heading small{font-size:.62rem;letter-spacing:.065em;font-weight:840;color:#377151}
+.day-plan-quick-heading strong{font-size:.93rem;line-height:1.25}
+.day-plan-quick-heading>span{font-size:.73rem;color:#4a6b58}
+.day-plan-quick-chips{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+.day-plan-quick-chip{
+ display:inline-flex;align-items:center;gap:6px;max-width:min(300px,100%);
+ border:1px solid #cfe2d2;border-radius:999px;background:#fffefa;
+ min-height:36px;padding:7px 11px;color:#1b6141;
+ font-size:.74rem;font-weight:750;text-align:left;
+ transition:background-color .14s,border-color .14s;
+}
+.day-plan-quick-chip:hover,.day-plan-quick-chip:focus-visible{
+ background:#e9f6ed;border-color:#7eb998;
+}
+.day-plan-quick-chip .ui-icon{flex:0 0 14px;width:14px;height:14px}
+.day-plan-quick-chip span{
+ min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.day-plan-quick-chip.is-added{
+ background:#e3f4e7;color:#215a3e;border-color:#a6d0b1;
+}
+.day-plan-quick-chip.is-added .ui-icon:last-child{color:#a84139}
+.day-plan-quick-empty{color:#52685a;font-size:.74rem}
+.day-plan-quick-bottom{display:flex;justify-content:flex-end}
+.day-plan-quick-bottom a{color:#1f6447;font-size:.71rem;font-weight:760;text-underline-offset:3px}
+#day-plan-draft-detail{scroll-margin-top:20px}
+
+/* Nightlife cards: do not show a generic city photograph as a picture of
+ * the club. Abstract placeholders and clear image provenance are preferable. */
+.hub-option-media .place-photo-placeholder>strong,
+.hub-option-media .place-photo-placeholder>small{
+ color:#fff!important;
+ text-shadow:0 2px 8px #0a3029a8;
+}
+.hub-option-media .place-photo-placeholder.photo-context .place-context-image{
+ filter:saturate(.7) brightness(.72);
+}
+.hub-option-media .place-photo-credit{
+ font-size:.6rem!important;line-height:1.3!important;max-width:80%;
+ background:#fffefaf5!important;color:#315843!important;
+ opacity:1!important;padding:4px 7px!important;
+}
+.hub-option-media .place-photo-credit a{color:#235c40!important}
+.hub-option-media .place-photo-placeholder:not(.photo-context){
+ background:radial-gradient(circle at 12% 82%,#accbb4 0,transparent 42%),
+ linear-gradient(125deg,#1e4f40,#447963 58%,#a4bb93);
+}
+.hub-option-media .place-photo-placeholder:not(.photo-context)>span{
+ font-size:2.4rem!important;color:#e2ffe9!important;
+}
+.hub-option-media .place-photo-placeholder:not(.photo-context)>strong{
+ font-size:.9rem!important;max-width:90%;text-align:center
+}
+.hub-official-nightlife{
+ border:1px solid #d6e5da;border-radius:12px;
+ padding:8px 10px;background:#f8fcf8;
+ color:#294737;font-size:.72rem;
+}
+.hub-official-nightlife summary{
+ cursor:pointer;font-weight:770;color:#266747;
+}
+.hub-official-nightlife>div{display:grid;gap:5px;padding-top:7px}
+.hub-official-nightlife p{margin:0;line-height:1.45}
+.hub-official-nightlife a{font-size:.72rem;color:#236746}
+@media(max-width:650px){
+ .day-plan-quick-bar{margin:10px 0;padding:10px 12px}
+ .day-plan-quick-chip{max-width:100%;flex:1 1 180px}
+ .day-plan-quick-heading strong{font-size:.85rem}
+}
+
+
+/* Phase 52: batch adoption remains optional and never implies booked events. */
+.day-plan-quick-bottom{align-items:center;flex-wrap:wrap;gap:8px 14px}
+.day-plan-batch-cta{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-right:auto}
+.day-plan-batch-cta .button{min-height:36px;font-size:.72rem;white-space:normal}
+.day-plan-batch-cta small{font-size:.68rem;color:#526d5d}
+@media(max-width:650px){
+ .day-plan-batch-cta{width:100%}
+ .day-plan-batch-cta .button{flex:1 1 170px}
+ .day-plan-quick-bottom>a{margin-left:auto}
+}
+
+/* Phase 52: moving an activity never hides the explicit remove action. */
+.hub-quick-day-actions{display:flex;gap:6px;flex-wrap:wrap;min-width:0}
+.hub-quick-day-actions>.button{min-height:35px;font-size:.71rem;padding:7px 10px}
+@media(max-width:650px){
+ .hub-quick-day-actions{width:100%}
+ .hub-quick-day-actions>.button{flex:1 1 125px}
+}
+
+/* Phase 52 visual QA: if an original club photograph is temporarily blocked,
+   give the user the REAL Commons source rather than an unrelated city credit. */
+.place-photo[data-image-unavailable=true]>.context-backup-credit{display:none!important}
+.place-photo[data-image-unavailable=true]>.place-specific-credit{
+ display:block!important;max-width:85%;background:#fffefaf1!important;
+ color:#315843!important;opacity:1!important;
+}
+.place-photo[data-image-unavailable=true]>.place-specific-credit a{color:#235e45!important}
+.place-photo-unavailable-source{
+ color:#fff;text-decoration:underline;text-underline-offset:2px;font-weight:760;
+}
+.place-photo-unavailable-source:hover,
+.place-photo-unavailable-source:focus-visible{color:#b6f5d3}
+
+/* Phase 52 final screenshot correction: separate image-loading help from
+   photographer/license credit, which otherwise overlapped in card footers. */
+.hub-option-card .place-photo[data-image-unavailable=true]>.place-photo-unavailable{
+ inset:50px 10px auto 10px!important;
+ max-width:calc(100% - 20px)!important;
+ width:auto;border-radius:9px;
+ line-height:1.45;padding:7px 9px;font-size:.68rem;
+}
+.hub-option-card .place-photo[data-image-unavailable=true]>.place-specific-credit{
+ max-width:calc(100% - 18px)!important;
+ bottom:7px!important;right:9px!important;
+ left:auto!important;line-height:1.2!important;
+}
+
+/* A source-link fallback already names the real venue; don't draw another
+   ghosted "Stadtmotiv / place name" behind the overlay. */
+.hub-option-card .place-photo[data-image-unavailable=true]
+ .place-photo-placeholder>strong,
+.hub-option-card .place-photo[data-image-unavailable=true]
+ .place-photo-placeholder>small{display:none!important}

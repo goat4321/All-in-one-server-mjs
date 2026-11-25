@@ -1,0 +1,38 @@
+{
+  "schema": "independent_address_reference_review_v49",
+  "reviewedOn": "2026-11-15",
+  "candidate": "research:bcom_4231096",
+  "city": "sete",
+  "decision": "accept_house_number_reference_not_rental_property_poi",
+  "address": "26 Promenade Jean-Baptiste Marty, 34200 Sète",
+  "publicPoint": [
+    43.396048,
+    3.695277
+  ],
+  "coordinateSource": {
+    "url": "https://immobilier.annuairefrancais.fr/sete/",
+    "name": "GUILLAUME RUGGIERO",
+    "siren": "751091828",
+    "fullCivicMatched": true,
+    "pointPublishedForDifferentBusiness": true
+  },
+  "secondaryCivicSource": {
+    "url": "https://www.pappers.fr/entreprise/central-bar-902013895",
+    "name": "LE MOLE / CENTRAL BAR",
+    "sameHouseNumber": true,
+    "coordinatesNotProvided": true
+  },
+  "operatorSource": "https://www.booking.com/hotel/fr/l-39-eternel-estivant.fr.html",
+  "caveats": [
+    "Both supporting businesses are distinct from holiday apartment.",
+    "Full street and house number were checked; holiday apartment unit and entrance were not.",
+    "No inference about floor, building entrance, disabled access, prices or availability in September 2027."
+  ],
+  "providerPoint": [
+    43.396066,
+    3.695215
+  ],
+  "providerPointDoesNotValidateAddress": true,
+  "reviewedBy": "manual-public-source-comparison",
+  "automaticGeocoderPromotion": false
+}

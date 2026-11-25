@@ -1,0 +1,481 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {loadCatalog} from '../lib/catalog.mjs';
+import {
+ dayExperienceStatsV101,renderDayNavigatorV101,
+ swissDayExperienceModelV101,renderSwissDayExperienceV101,
+ tripDayCoverageV104,renderTripDayCoverageV104
+} from '../public/day-experience-v101.mjs';
+import {ALL_PHOTO_GROUPS_V151,PHOTO_TOTAL_V151,ALL_PHOTO_GROUPS_V118,PHOTO_TOTAL_V118,PHOTO_GROUPS_V118,PHOTO_CANDIDATE_COUNT_V118,PHOTO_GROUPS_V116,PHOTO_CANDIDATE_COUNT_V116,ALL_PHOTO_GROUPS_V116,PHOTO_TOTAL_V116,renderItemPhotoGroupV114,PHOTO_GROUPS_V115,PHOTO_CANDIDATE_COUNT_V115,ALL_PHOTO_GROUPS_V115,PHOTO_TOTAL_V115,loadPhotoGroupV115,PHOTO_GROUPS_V114,PHOTO_CANDIDATE_COUNT_V114,photoMetadataUrlV114,licensedGroupV114,renderPhotoLibraryV114,photoCardV114} from '../public/photo-library-v114.mjs';
+import {journeyChaptersV121,renderJourneyStoryV121} from '../public/journey-story-v121.mjs';
+import {curatedLibraryV114} from '../public/curated-place-photos.mjs';
+import {itineraryPhotosV112,itineraryPhotoHtmlV112,itineraryDayImageV112,editorialCityPhotoV119,editorialDayPhotosV119,editorialDayRailV119,mapPhotoRailV119,editorialPhotoScoreV119,photoIdentityV120,photoCropV120} from '../public/place-profile.mjs';
+import {SWISS_PROGRAM_V111,detailedDayModelV111,renderDetailedDayV111} from '../public/day-program-v111.mjs';
+import {journeyModelV110,dayBudgetV110,dayMoveOptionsV110,renderDayJourneyControlsV110} from '../public/day-journey-v110.mjs';
+import {dayEntries} from '../public/model.mjs';
+import {SWISS_DAY_EDITORIAL_V85} from '../public/swiss-day-editorial-v85.mjs';
+
+const catalog=await loadCatalog();
+const swiss=catalog.trips.find(trip=>trip.id==='interrail_swiss');
+const ctx=(trip,date=trip.from,extra={})=>({
+ trip,date,cities:catalog.cities,all:trip.items,active:[],
+ activeSet:new Set(),dayPlan:trip.dayPlansV32?.find(d=>d.date===date),
+ dayPlanFocus:'all',...extra
+});
+
+test('V101 navigation covers all days of all four variants, with safe boundaries',()=>{
+ for(const trip of catalog.trips){
+  for(const [i,day] of trip.dayPlansV32.entries()){
+   const data=dayExperienceStatsV101(ctx(trip,day.date));
+   assert.ok(data,trip.id+' '+day.date);
+   assert.equal(data.index,i);
+   assert.equal(data.totalDays,trip.dayPlansV32.length);
+   assert.equal(data.previous,i?trip.dayPlansV32[i-1].date:null);
+   assert.equal(data.next,i+1<trip.dayPlansV32.length?trip.dayPlansV32[i+1].date:null);
+   const html=renderDayNavigatorV101(ctx(trip,day.date));
+   assert.match(html,/day101-navigator/);
+   assert.match(html,/day101-progress-meter/);
+   assert.ok(html.includes('TAG '+(i+1)+' VON '+trip.dayPlansV32.length));
+   assert.ok(html.includes('aria-valuenow="0"'));
+   if(!i)assert.match(html,/aria-label="Erster Reisetag"/);
+   if(i===trip.dayPlansV32.length-1)assert.match(html,/aria-label="Letzter Reisetag"/);
+  }
+ }
+});
+test('V101 Swiss plan is complete, sourced, and editable only through original items',()=>{
+ assert.equal(SWISS_DAY_EDITORIAL_V85.length,14);
+ for(const day of SWISS_DAY_EDITORIAL_V85){
+  const input=ctx(swiss,day.date);
+  const data=swissDayExperienceModelV101(input);
+  assert.ok(data,day.date);
+  assert.equal(data.blocks.length,3);
+  const html=renderSwissDayExperienceV101(input);
+  assert.equal((html.match(/class="day101-period-card"/g)??[]).length,3,day.date);
+  assert.equal((html.match(/class="day101-filter"/g)??[]).length,4,day.date);
+  assert.match(html,/day101-source-details/);
+  assert.match(html,/aria-live="polite"/);
+  assert.match(html,/Keine fixierten Uhrzeiten oder Buchungen/);
+  assert.ok(html.includes(day.sources[0][1].replaceAll('&','&amp;')),day.date);
+  for(const block of data.blocks){
+   assert.equal(block.slot?.id??null,block.activity?'survey-v19:'+block.activity:null);
+   if(block.canAdd)assert.ok(html.includes('data-action="day-plan-add" data-value="'+block.slot.id+'"'));
+  }
+ }
+});
+test('V101 pure travel days cannot invent optional activities',()=>{
+ for(const date of ['2027-09-10','2027-09-14']){
+  const input=ctx(swiss,date);
+  const data=swissDayExperienceModelV101(input);
+  assert.equal(input.dayPlan.slots.length,0);
+  assert.ok(data.blocks.every(block=>!block.slot&&!block.canAdd));
+  assert.doesNotMatch(renderSwissDayExperienceV101(input),/data-action="day-plan-add"/);
+ }
+});
+test('V101 actual selected items update day progress without new bookings',()=>{
+ const input=ctx(swiss,'2027-09-11');
+ const slot=input.dayPlan.slots.find(s=>s.id.startsWith('survey-v19:'));
+ assert.ok(slot,'Oeschinensee must have existing candidate');
+ const item=swiss.items.find(it=>it.id===slot.id);
+ const selected={...item,kind:'activity',date:input.date,start:null,
+  booked:false,locked:false,removed:false};
+ const populated={...input,active:[selected],activeSet:new Set([slot.id])};
+ const stats=dayExperienceStatsV101(populated);
+ assert.equal(stats.selected,1);
+ assert.equal(stats.percent,Math.round(100/input.dayPlan.slots.length));
+ const html=renderSwissDayExperienceV101(populated);
+ assert.ok(html.includes('data-action="day-quick-remove" data-value="'+slot.id+'"'));
+ assert.doesNotMatch(html,/data-action="day-plan-adopt"/);
+ const before=JSON.stringify(swiss.dayPlansV32);
+ renderDayNavigatorV101(populated);renderSwissDayExperienceV101(populated);
+ assert.equal(JSON.stringify(swiss.dayPlansV32),before);
+});
+test('V101 period selection only changes visibility and remains variant-scoped',async()=>{
+ const input=ctx(swiss,'2027-09-13',{dayPlanFocus:'evening'});
+ const html=renderSwissDayExperienceV101(input);
+ assert.equal((html.match(/class="day101-period-card"[^>]* hidden/g)??[]).length,2);
+ assert.match(html,/data-value="evening" aria-pressed="true"/);
+ assert.match(html,/Abend ausgewählt/);
+ for(const trip of catalog.trips.filter(trip=>trip.id!=='interrail_swiss')){
+  assert.equal(renderSwissDayExperienceV101(ctx(trip,trip.from)),'');
+  assert.equal(swissDayExperienceModelV101(ctx(trip,trip.from)),null);
+ }
+ const [views,app,css]=await Promise.all([
+  readFile(new URL('../public/views.mjs',import.meta.url),'utf8'),
+  readFile(new URL('../public/app.mjs',import.meta.url),'utf8'),
+  readFile(new URL('../public/editorial-web-v95.css',import.meta.url),'utf8')
+ ]);
+ assert.match(views,/renderDayNavigatorV101\(ctx\)/);
+ assert.match(views,/renderSwissDayExperienceV101\(ctx\)/);
+ assert.match(app,/case 'day-plan-focus'/);
+ assert.match(app,/view\.dayPlanFocus='all'/);
+ assert.match(css,/@keyframes day101-card-enter/);
+ assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
+ assert.match(css,/:root\[data-motion=off\]/);
+});
+
+test('V104 covers all variants and never treats zero-core or optional-only days as open',()=>{
+ let days=0;
+ for(const trip of catalog.trips){
+  const input=ctx(trip);
+  const m=tripDayCoverageV104(input);
+  assert.ok(m,trip.id);
+  assert.equal(m.rows.length,trip.dayPlansV32.length);
+  assert.equal(m.rows.filter(r=>r.current).length,1);
+  assert.equal(m.openDays,m.rows.filter(r=>r.core>0).length);
+  assert.equal(m.adoptedDays,0);
+  assert.equal(m.transferDays,trip.dayPlansV32.filter(p=>p.rides?.length||p.overnightArrivals?.length).length);
+  const html=renderTripDayCoverageV104(input);
+  assert.equal((html.match(/class="day104-card"/g)??[]).length,m.rows.length);
+  assert.match(renderDayNavigatorV101(input),/day104-overview/);
+  days+=m.rows.length;
+ }
+ assert.equal(days,46);
+ for(const date of ['2027-09-10','2027-09-14']){
+  const row=tripDayCoverageV104(ctx(swiss,date)).rows.find(r=>r.current);
+  assert.equal(row.core,0);assert.equal(row.open,false);
+  assert.ok(row.rides>0);
+ }
+});
+test('V104 counts unique active core ideas on the correct date and skips optional or removed items',()=>{
+ const date='2027-09-11',input=ctx(swiss,date);
+ const core=input.dayPlan.slots.filter(s=>!s.optional);
+ assert.ok(core.length>0);
+ const active=core.map(s=>({id:s.id,kind:'activity',start:null,date}));
+ const optional=input.dayPlan.slots.find(s=>s.optional);
+ const extra=optional?[{id:optional.id,kind:'activity',start:null,date}]:[];
+ const before=JSON.stringify(input.trip.dayPlansV32);
+ const m=tripDayCoverageV104({...input,active:[...active,...active,...extra,
+  {id:'removed',kind:'activity',date,removed:true},
+  {id:'train',kind:'transport',date}]});
+ const row=m.rows.find(r=>r.current);
+ assert.equal(row.adopted,row.core);assert.equal(row.open,false);
+ assert.equal(row.active,new Set([...active,...extra].map(x=>x.id)).size);
+ assert.equal(row.optionalAdopted,extra.length);
+ assert.equal(m.adoptedDays,1);
+ assert.notEqual(m.nextOpen?.date,date);
+ const moved=tripDayCoverageV104({...input,active:active.map(x=>({...x,date:'2027-09-12'}))});
+ assert.equal(moved.rows.find(r=>r.current).adopted,0);
+ assert.equal(JSON.stringify(input.trip.dayPlansV32),before);
+ assert.equal(tripDayCoverageV104({...input,date:'2028-01-01'}),null);
+});
+
+test('V110 all 46 day models, including all 42 Swiss editorial blocks, remain read-only',()=>{
+ let total=0,blocks=0;
+ for(const trip of catalog.trips)for(const d of trip.dayPlansV32){
+  const input=ctx(trip,d.date);
+  const before=JSON.stringify(d);
+  const m=journeyModelV110(input);
+  assert.ok(m);assert.equal(m.stops.length,d.slots.filter(s=>!s.optional).length);
+  assert.equal(m.legs.length,Math.max(0,m.stops.length-1));
+  const html=renderDayJourneyControlsV110(input,m);
+  assert.match(html,/KEIN LIVE-STANDORT/);
+  if(trip.id==='interrail_swiss'){
+   assert.equal(m.editorial.blocks.length,3);blocks+=3;
+   assert.match(html,/Vollständiger Tagesablauf/);
+   for(const b of m.editorial.blocks)assert.ok(html.includes(b.title.replaceAll('&','&amp;')));
+  }else assert.equal(m.editorial,null);
+  assert.equal(JSON.stringify(d),before);total++;
+ }
+ assert.equal(total,46);assert.equal(blocks,42);
+});
+test('V110 transfer endpoints are distinct and never presented as routed footpaths',()=>{
+ const date='2027-09-10',input=ctx(swiss,date);
+ const a={id:'rail',entryKey:'rail:Abfahrt',kind:'transport',role:'Abfahrt',name:'Nizza–Kandersteg',departure:'Nice',city:'nice',placeCity:'nice',point:[43.7,7.26],time:'08:00'};
+ const b={...a,entryKey:'rail:Ankunft',role:'Ankunft',arrival:'Kandersteg',placeCity:'kandersteg',point:[46.49,7.67],time:'20:00'};
+ const m=journeyModelV110({...input,fullDay:[a,b]});
+ assert.equal(m.stops.length,2);assert.equal(m.located,2);
+ assert.equal(m.legs[0].type,'transfer');assert.equal(m.legs[0].minutes,null);
+ assert.ok(m.stops.every(x=>x.transfer));
+ assert.match(renderDayJourneyControlsV110(input,m),/2027 ungeprüft/);
+});
+test('V110 only uses exact non-provider non-area POI positions; missing stop interrupts a route',()=>{
+ const date='2027-09-02',input=ctx(swiss,date),slots=input.dayPlan.slots.filter(s=>!s.optional);
+ assert.equal(slots.length,3);
+ const points=[[48.86,2.29],[48.87,2.30],[48.88,2.31]];
+ const source=slots.map((s,i)=>({id:s.id,kind:'activity',city:'paris',point:points[i],locationReferenceV07:{exactKnown:true}}));
+ const testCtx={...input,all:source};
+ const route={points:[points[0],points[1]],walkOnly:true,minutes:17};
+ const m=journeyModelV110(testCtx,'draft',(a,b)=>a.id===slots[0].id?route:null);
+ assert.equal(m.located,3);assert.equal(m.legs[0].type,'routed');assert.equal(m.legs[1].type,'schematic');
+ for(const precision of ['provider_reported_unverified','sourced_area_center']){
+  const broken=journeyModelV110({...testCtx,all:source.map((x,i)=>i===1?{...x,locationReferenceV07:{exactKnown:true,precision}}:x)});
+  assert.equal(broken.located,2);assert.ok(broken.legs.every(l=>l.type==='gap'));
+ }
+ const stale=journeyModelV110(testCtx,'draft',()=>({...route,points:[[0,1],[0,2]]}));
+ assert.ok(stale.legs.every(l=>l.type==='schematic'));
+});
+test('V110 budget uses each ledger row once, preserves unknown CHF and excludes undated trip costs',()=>{
+ const date='2027-09-02';
+ const rows=[{id:'a',date,category:'activity',euros:1200},{id:'b',date,category:'food',euros:null,original:900,currency:'CHF'},{id:'c',date,category:'food',euros:null},{id:'d',date:'2027-09-03',euros:4000},{id:'pass:interrail',euros:9000}];
+ const b=dayBudgetV110({date,people:[{},{},{}],budget:{rows}});
+ assert.equal(b.rows,3);assert.equal(b.eur,1200);assert.equal(b.known,1);assert.equal(b.unknown,2);
+ assert.equal(b.groups.find(g=>g.key==='food').other.CHF,900);
+});
+test('V110 cross-day proposals exclude booked, timed and meal entries',()=>{
+ const date='2027-09-02',input=ctx(swiss,date),base={id:'free',name:'Test',kind:'activity',city:'paris',date,start:null,end:null};
+ const m=dayMoveOptionsV110({...input,dates:['2027-09-01',date,'2027-09-03'],cityForDay:d=>d==='2027-09-03'?'barcelona':'paris',fullDay:[base,{...base,id:'locked',locked:true},{...base,id:'meal',mealSlot:'lunch'},{...base,id:'timed',start:'2027-09-02T09:00:00Z'}]});
+ assert.deepEqual(m,[{id:'free',name:'Test',date:'2027-09-01'}]);
+});
+
+test('V111 detailed itinerary covers every Swiss date and every existing V32 slot exactly once',()=>{
+ let count=0,required=0,optional=0;
+ const dates=swiss.dayPlansV32.map(d=>d.date);
+ assert.deepEqual(Object.keys(SWISS_PROGRAM_V111),dates);
+ for(const day of swiss.dayPlansV32){
+  const input=ctx(swiss,day.date,{people:[{},{},{}],catalog,state:{edits:{},placePhotos:{}}});
+  const before=JSON.stringify(day);
+  const m=detailedDayModelV111(input);
+  assert.ok(m.rows.length>=6,day.date);
+  assert.deepEqual(m.rows.filter(x=>x.slot).map(x=>x.id).sort(),day.slots.map(x=>x.id).sort());
+  assert.equal(m.activityMinutes,day.estimatedActivityMinutes);
+  assert.ok(m.rows.some(x=>x.type==='meal'));
+  assert.ok(m.rows.some(x=>['connection','pause','lodging'].includes(x.type)));
+  for(const row of m.rows){
+   const match=/^(\\d{2}):(\\d{2})–(\\d{2}):(\\d{2})$/.exec(row.time);
+   if(match&&row.minutes!=null)assert.equal((+match[3]*60+ +match[4])-(+match[1]*60+ +match[2]),row.minutes,day.date+' '+row.title);
+  }
+  if(day.rides.length){assert.ok(m.rows.some(x=>x.type==='transfer'));assert.ok(m.rows.every(x=>!/^\\d{2}:/.test(x.time)));}
+  if(['2027-09-10','2027-09-14'].includes(day.date))assert.equal(m.required,0);
+  count+=m.rows.length;required+=m.required;optional+=m.rows.filter(x=>x.optional).length;
+  assert.equal(JSON.stringify(day),before);
+ }
+ assert.ok(count>=90);assert.equal(required,26);assert.equal(optional,swiss.dayPlansV32.flatMap(d=>d.slots).filter(s=>s.optional).length);
+ for(const trip of catalog.trips.filter(t=>t.id!=='interrail_swiss'))assert.equal(detailedDayModelV111(ctx(trip)),null);
+});
+test('V111 activity actions, group cost labels and map links use existing item IDs',()=>{
+ const input=ctx(swiss,'2027-09-02',{people:[{},{},{}],catalog,state:{edits:{},placePhotos:{}}});
+ const html=renderDetailedDayV111(input);
+ assert.match(html,/09:45–10:35/);assert.match(html,/data-action="day111-map-stop"/);
+ assert.match(html,/data-value="survey-v19:act-001"/);
+ assert.match(html,/unverbindlichen Vorschläge/);
+ assert.match(html,/Mittagspause/);
+ const day=ctx(swiss,'2027-09-04',{people:[{},{},{}],catalog,state:{edits:{},placePhotos:{}}});
+ const optional=renderDetailedDayV111(day);
+ assert.match(optional,/data-optional="true"/);assert.match(optional,/Option übernehmen/);
+});
+
+test('V112 source-backed image coverage for all 14 days, no false lodging photos or nested anchors',()=>{
+ for(const day of swiss.dayPlansV32){
+  const input=ctx(swiss,day.date,{people:[{},{},{}],catalog,state:{edits:{},placePhotos:{}}});
+  const cover=itineraryDayImageV112(input,day.date);
+  assert.match(cover,/loading="lazy"/,day.date);
+  assert.doesNotMatch(cover,/<a\s/);
+  const html=renderDetailedDayV111(input);
+  assert.match(html,/day112-gallery/,day.date);
+ }
+ const lodging={id:'unknown-lodging',kind:'lodging',city:'paris',name:'Unbekannte Unterkunft'};
+ const imgs=itineraryPhotosV112(lodging);
+ assert.equal(imgs.length,1);assert.equal(imgs[0].contextualOnly,true);
+ assert.match(itineraryPhotoHtmlV112(lodging),/Stadtmotiv/);
+ assert.match(itineraryPhotoHtmlV112(lodging),/Quelle/);
+ assert.deepEqual(itineraryPhotosV112(lodging,{}, {context:false}),[]);
+ const saved={url:'https://example.org/photo.jpg',sourceUrl:'https://example.org/source',credit:'Test CC BY 4.0'};
+ assert.equal(itineraryPhotosV112(lodging,{state:{placePhotos:{[lodging.id]:[saved,saved]}}}).length,1);
+});
+
+test('V113 six new licensed pictures extend the itinerary without changing primary photos',()=>{
+ const ids=['act-001','act-009','act-019','act-023','act-053','act-045'];
+ for(const id of ids){
+  const item=swiss.items.find(x=>x.id==='survey-v19:'+id);
+  assert.ok(item,id);
+  const photos=itineraryPhotosV112(item,{}, {context:false});
+  assert.ok(photos.length>=2,id+' should show two different photos');
+  assert.equal(new Set(photos.map(p=>p.url)).size,photos.length);
+  const extra=photos.at(-1);
+  assert.match(extra.licenseUrl,/^https:\/\/creativecommons\.org\/licenses\/by-sa\//);
+  assert.match(extra.sourceUrl,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+  const html=itineraryPhotoHtmlV112(item);
+  assert.match(html,/CSS-Bildausschnitt/);
+  assert.ok((html.match(/<figure /g)??[]).length>=2,id);
+ }
+});
+
+test('V114 120 new unique named photo references, all six destinations and over 100 existing archive photographs',()=>{
+ const normalized=s=>s.replaceAll('_',' ').normalize('NFC').toLowerCase();
+ const all=PHOTO_GROUPS_V114.flatMap(g=>g.files);
+ assert.equal(PHOTO_CANDIDATE_COUNT_V114,120);
+ assert.equal(new Set(all.map(normalized)).size,120);
+ const library=curatedLibraryV114();
+ assert.ok(library.length>=100);
+ assert.equal(new Set(library.map(p=>normalized(p.file))).size,library.length);
+ const old=new Set(library.map(p=>normalized(p.file)));
+ assert.ok(all.every(f=>!old.has(normalized(f))));
+ assert.deepEqual(PHOTO_GROUPS_V114.map(g=>g.city),['paris','barcelona','sete','nice','kandersteg','appenzell']);
+ for(const g of PHOTO_GROUPS_V114){
+  const url=new URL(photoMetadataUrlV114(g.files));
+  assert.equal(url.hostname,'commons.wikimedia.org');
+  assert.equal(url.searchParams.get('titles').split('|').length,20);
+  const html=renderPhotoLibraryV114({trip:swiss,city:g.city},{day:true});
+  assert.ok(html.includes(ALL_PHOTO_GROUPS_V151.filter(x=>x.cities.includes(g.city)).reduce((n,x)=>n+x.files.length,0)+' zusätzliche Bildreferenzen'));
+  assert.doesNotMatch(html,/<img /,'gallery remains lazy until opened');
+ }
+ const overview=renderPhotoLibraryV114({trip:swiss,city:'paris'});
+ assert.ok(overview.includes(ALL_PHOTO_GROUPS_V151.filter(g=>g.cities.some(c=>swiss.route.includes(c))).reduce((n,g)=>n+g.files.length,0)+' zusätzliche Bildreferenzen'));
+ assert.equal((overview.match(/data-photo114-group=/g)??[]).length,ALL_PHOTO_GROUPS_V151.length);
+});
+test('V114 accepts only requested image titles with usable licenses and attribution',()=>{
+ const g=PHOTO_GROUPS_V114[0],name=g.files[0];
+ const item=(file,over={})=>({title:'File:'+file,imageinfo:[{mime:'image/jpeg',thumburl:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/test.jpg/800px-test.jpg',descriptionurl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(file),extmetadata:{LicenseShortName:{value:'CC BY-SA 4.0'},LicenseUrl:{value:'https://creativecommons.org/licenses/by-sa/4.0/'},Artist:{value:'Example photographer'},...over}}]});
+ const rows=licensedGroupV114(g,{query:{pages:[item(name),item(g.files[1],{Restrictions:{value:'restricted'}}),item(g.files[2],{LicenseShortName:{value:'All rights reserved'}}),item('Unrelated.jpg')]}});
+ assert.equal(rows.length,1);assert.equal(rows[0].name,name);
+ assert.equal(rows[0].identityVerified,false);
+ const card=photoCardV114(rows[0]);
+ assert.match(card,/loading="lazy"/);
+ assert.match(card,/Motiv nicht einzeln geprüft/);
+ assert.match(card,/creativecommons.org\/licenses\/by-sa\/4.0/);
+});
+
+test('V115 more than 500 unique file references, existing and new, available across four trips',()=>{
+ const norm=s=>s.replaceAll('_',' ').normalize('NFC').toLowerCase();
+ const refs=[...curatedLibraryV114().map(p=>p.file),...ALL_PHOTO_GROUPS_V115.flatMap(g=>g.files)];
+ assert.equal(PHOTO_CANDIDATE_COUNT_V115,296);
+ assert.equal(PHOTO_TOTAL_V115(),572);
+ assert.equal(new Set(refs.map(norm)).size,refs.length);
+ assert.equal(new Set(ALL_PHOTO_GROUPS_V115.map(g=>g.key)).size,13);
+ for(const trip of catalog.trips){
+  const html=renderPhotoLibraryV114({trip,city:trip.route[0]});
+  assert.ok(html.includes(String(PHOTO_TOTAL_V151())));
+  assert.equal((html.match(/data-photo114-group=/g)??[]).length,ALL_PHOTO_GROUPS_V151.length);
+  assert.doesNotMatch(html,/<img /);
+ }
+ for(const city of ['genoa','venice','toulouse','narbonne','glarus','kloental','bachalpsee','grindelwald','wasserauen','seealpsee','oeschinensee']){
+  const html=renderPhotoLibraryV114({trip:swiss,city},{day:true});
+  assert.match(html,/data-photo114-group=/,city);
+ }
+});
+test('V115 metadata batches remain bounded and preserve successful results on partial failure',async()=>{
+ const g=PHOTO_GROUPS_V115.find(g=>g.city==='venice');
+ const calls=[];
+ const makePage=name=>({title:'File:'+name,imageinfo:[{mime:'image/jpeg',thumburl:'https://upload.wikimedia.org/wikipedia/commons/thumb/test/'+encodeURIComponent(name),descriptionurl:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(name),extmetadata:{LicenseShortName:{value:'CC BY-SA 4.0'},LicenseUrl:{value:'https://creativecommons.org/licenses/by-sa/4.0/'},Artist:{value:'Test artist'}}}]});
+ const fetcher=async url=>{
+  const files=new URL(url).searchParams.get('titles').split('|').map(s=>s.slice(5));calls.push(files);
+  if(calls.length===2)return {ok:false,status:503};
+  return {ok:true,json:async()=>({query:{pages:files.map(makePage)}})};
+ };
+ const m=await loadPhotoGroupV115(g,fetcher);
+ assert.deepEqual(calls.map(a=>a.length),[20,20,10]);
+ assert.equal(m.failedBatches,1);assert.equal(m.photos.length,30);
+ assert.equal(new Set(m.photos.map(p=>p.name)).size,30);
+ await assert.rejects(()=>loadPhotoGroupV115(g,async()=>({ok:false,status:503})));
+});
+
+test('V116 adds exactly 500 distinct listed image references and integrates all 27 collections',()=>{
+ const norm=s=>s.replaceAll('_',' ').normalize('NFC').toLowerCase();
+ const earlier=[...curatedLibraryV114().map(p=>p.file),...ALL_PHOTO_GROUPS_V115.flatMap(g=>g.files)].map(norm);
+ const added=PHOTO_GROUPS_V116.flatMap(g=>g.files).map(norm);
+ assert.equal(PHOTO_CANDIDATE_COUNT_V116,500);
+ assert.equal(new Set(added).size,500);
+ const old=new Set(earlier);
+ assert.ok(added.every(file=>!old.has(file)));
+ assert.equal(PHOTO_TOTAL_V116(),1072);
+ assert.equal(ALL_PHOTO_GROUPS_V116.length,27);
+ assert.equal(new Set(ALL_PHOTO_GROUPS_V116.map(g=>g.key)).size,27);
+ for(const trip of catalog.trips){
+  const html=renderPhotoLibraryV114({trip,city:trip.route[0]});
+  assert.ok(html.includes(String(PHOTO_TOTAL_V151())));
+  assert.equal((html.match(/data-photo114-group=/g)??[]).length,ALL_PHOTO_GROUPS_V151.length);
+  assert.doesNotMatch(html,/<img /);
+ }
+ const montmartre=swiss.items.find(x=>x.id==='survey-v19:act-003');
+ const html=renderItemPhotoGroupV114(montmartre);
+ assert.equal((html.match(/data-photo114-group=/g)??[]).length,2);
+ assert.match(html,/Aussicht vom Montmartre/);
+ assert.equal(renderItemPhotoGroupV114({...montmartre,kind:'lodging'}),'');
+});
+
+test('V118 adds 100 unique file candidates and 3 source collections without changing historical counts',()=>{
+ const norm=s=>s.replaceAll('_',' ').normalize('NFC').toLowerCase();
+ const files=[...curatedLibraryV114().map(p=>p.file),...ALL_PHOTO_GROUPS_V118.flatMap(g=>g.files)];
+ assert.equal(PHOTO_CANDIDATE_COUNT_V118,100);
+ assert.equal(PHOTO_GROUPS_V118.length,3);
+ assert.equal(PHOTO_TOTAL_V118(),2172);
+ assert.equal(files.length,2172);
+ assert.equal(new Set(files.map(norm)).size,2172);
+ assert.equal(ALL_PHOTO_GROUPS_V118.length,46);
+ const html=renderPhotoLibraryV114({trip:swiss,city:'kandersteg'},{day:true});
+ assert.match(html,/Oeschinensee · See und Bergpanorama/);
+ const overview=renderPhotoLibraryV114({trip:swiss});
+ assert.match(overview,/data-photo118-search/);
+ assert.ok(overview.includes(String(PHOTO_TOTAL_V151())));
+ assert.doesNotMatch(overview,/<img /);
+});
+
+test('V119 editorial photographs stay city-specific and prefer scenic motifs over incidental subjects',()=>{
+ const scenic={name:'Seealpsee Panorama'},other={name:'Museum'};
+ const photo={curated:true,url:'https://example.org/image.jpg'};
+ assert.ok(editorialPhotoScoreV119(scenic,photo)>editorialPhotoScoreV119(other,photo));
+ assert.ok(editorialPhotoScoreV119(scenic,{...photo,contextualOnly:true})<editorialPhotoScoreV119(other,photo));
+ for(const city of new Set(swiss.route)){
+  const result=editorialCityPhotoV119({all:swiss.items},city);
+  if(result){assert.equal(result.item.city,city);assert.equal(result.item.kind,'activity');assert.ok(result.photo.sourceUrl);assert.ok(result.photo.credit);}
+ }
+ assert.equal(editorialCityPhotoV119({all:swiss.items},'unknown-city'),null);
+});
+test('V119 day rail is bounded, source-specific, deduplicated and does not introduce city stand-ins',()=>{
+ const rows=swiss.items.filter(i=>i.kind==='activity');
+ const input={all:swiss.items,state:{placePhotos:{}}};
+ const entries=editorialDayPhotosV119(input,[...rows,...rows]);
+ assert.ok(entries.length>0&&entries.length<=6);
+ assert.equal(new Set(entries.map(e=>e.photo.sourceUrl)).size,entries.length);
+ assert.ok(entries.every(e=>!e.photo.contextualOnly&&e.photo.credit&&e.photo.sourceUrl));
+ const html=editorialDayRailV119(input,rows);
+ assert.match(html,/photo119-rail/);assert.match(html,/data-photo119-scroll/);assert.match(html,/loading="lazy"/);
+ assert.equal(editorialDayRailV119(input,[{kind:'lodging',city:'paris',name:'Unknown hotel'}]),'');
+ assert.equal(mapPhotoRailV119({kind:'lodging',city:'paris',name:'Unknown hotel'},input),'');
+ assert.match(mapPhotoRailV119(entries[0].item,input),/photo119-map-rail/);
+});
+
+test('V120 normalizes Commons identities, prefers alternate city photos and keeps a bounded diverse story',()=>{
+ const a={sourceUrl:'https://commons.wikimedia.org/wiki/File:Example_photo.jpg',url:'https://commons.wikimedia.org/wiki/Special:FilePath/Example_photo.jpg?width=960'};
+ const b={sourceUrl:'https://commons.wikimedia.org/wiki/File:Example%20photo.jpg#details'};
+ assert.equal(photoIdentityV120(a),photoIdentityV120(b));
+ assert.equal(photoCropV120({name:'Eiffelturm'},a),'architecture');
+ assert.equal(photoCropV120({name:'Oeschinensee'},a),'landscape');
+ assert.equal(photoCropV120({name:'Museum'},a),'balanced');
+ const input={all:swiss.items,city:'paris',state:{placePhotos:{}}};
+ const first=editorialCityPhotoV119(input,'paris');
+ assert.ok(first);
+ const next=editorialCityPhotoV119(input,'paris',{exclude:[photoIdentityV120(first.photo)]});
+ assert.ok(next);assert.notEqual(photoIdentityV120(first.photo),photoIdentityV120(next.photo));
+ const rows=swiss.items.filter(i=>i.kind==='activity'&&i.city==='paris');
+ const entries=editorialDayPhotosV119(input,rows);
+ assert.ok(entries.length>0&&entries.length<=6);
+ assert.equal(new Set(entries.map(e=>photoIdentityV120(e.photo))).size,entries.length);
+ assert.match(editorialDayRailV119(input,rows),/data-photo120-crop=/);
+});
+
+test('V121 city chapters follow all four actual routes and only link existing itinerary days and activities',()=>{
+ for(const trip of catalog.trips){
+  const input=ctx(trip),chapters=journeyChaptersV121(input);
+  assert.deepEqual(chapters.map(c=>c.city),[...new Set(trip.route)]);
+  const html=renderJourneyStoryV121(input);
+  assert.equal((html.match(/data-journey121-chapter=/g)??[]).length,chapters.length);
+  assert.equal((html.match(/data-action="journey121-map"/g)??[]).length,chapters.length);
+  for(const c of chapters){
+   assert.deepEqual(c.plans,trip.dayPlansV32.filter(d=>d.city===c.city));
+   const ids=new Set(c.plans.flatMap(d=>d.slots.map(s=>s.id)));
+   assert.ok(c.activities.length<=3&&c.activities.every(a=>ids.has(a.id)&&a.city===c.city));
+   if(c.editorial){assert.equal(c.editorial.item.city,c.city);assert.ok(c.editorial.photo.credit&&c.editorial.photo.sourceUrl);}
+   assert.ok(html.includes('id="journey121-'+c.index+'"'));
+  }
+  assert.equal((html.match(/class="journey121-connector"/g)??[]).length,Math.max(0,chapters.length-1));
+ }
+ assert.equal(renderJourneyStoryV121({trip:{route:[]}}),'');
+});
+
+test('V121 chapter date controls expose every existing day without inventing a stay',()=>{
+ for(const trip of catalog.trips){
+  const input=ctx(trip),chapters=journeyChaptersV121(input);
+  const html=renderJourneyStoryV121(input);
+  for(const chapter of chapters){
+   const start=html.indexOf('id="journey121-'+chapter.index+'"');
+   const end=html.indexOf('</article>',start);
+   const block=html.slice(start,end);
+   const dateLinks=[...block.matchAll(/data-action="day-plan-go" data-value="([^"]+)" aria-label="Tagesplan /g)].map(m=>m[1]);
+   assert.deepEqual(dateLinks,chapter.plans.map(d=>d.date));
+   assert.match(block,/data-action="journey121-map"/);
+   if(chapter.plans.length)assert.match(block,/journey121-days/);
+  }
+ }
+});

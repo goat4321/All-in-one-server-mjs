@@ -1,0 +1,411 @@
+
+/* Phase 39: Unlocated places are kept in an honest review section, not
+   disguised as location pins on the map. Native details is keyboard friendly. */
+.map-unlocated-review{border:1px solid #bfd7cb;border-radius:18px;
+ background:linear-gradient(120deg,#f7faf5,#eef5ef);
+ overflow:hidden;box-shadow:0 2px 12px #164a2820;margin:12px 0}
+.map-unlocated-review>summary{display:flex;align-items:center;gap:12px;
+ cursor:pointer;padding:15px 18px;list-style:none;outline-offset:-4px}
+.map-unlocated-review>summary::-webkit-details-marker{display:none}
+.map-unlocated-summary-icon{width:38px;height:38px;flex:0 0 38px;border-radius:14px;
+ display:grid;place-items:center;background:#d8ede0;color:#286b4a}
+.map-unlocated-summary-icon .ui-icon{width:19px;height:19px}
+.map-unlocated-review>summary>span:nth-child(2){display:grid;gap:3px;min-width:0}
+.map-unlocated-review>summary strong{font-size:.9rem;color:#224b38}
+.map-unlocated-review>summary small{font-size:.72rem;color:#657e70;line-height:1.45}
+.map-unlocated-chevron{margin-left:auto;transition:transform .2s}
+.map-unlocated-review[open] .map-unlocated-chevron{transform:rotate(90deg)}
+.map-unlocated-body{padding:1px 17px 17px}
+.map-unlocated-body>p{font-size:.76rem;line-height:1.6;color:#526f5d;margin:6px 0 12px}
+.map-unlocated-breakdowns{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.map-unlocated-breakdown{padding:6px 9px;background:#fff;border-radius:999px;
+ border:1px solid #d3e5d8;font-size:.7rem;color:#375d49}
+.map-unlocated-switch{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:13px}
+.map-unlocated-switch small{font-size:.69rem;color:#617a69;line-height:1.5}
+.map-unlocated-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.map-unlocated-record{background:#fff;border:1px solid #e1eae3;border-radius:14px;
+ padding:12px;display:grid;gap:7px;min-width:0}
+.map-unlocated-record-head{display:flex;align-items:center;justify-content:space-between;
+ gap:10px;flex-wrap:wrap;color:#507464}
+.map-unlocated-kind{display:inline-flex;align-items:center;gap:5px;font-size:.66rem;
+ font-weight:740;color:#52715d}
+.map-unlocated-kind .ui-icon{width:14px;height:14px}
+.map-unlocated-record-head>small{font-size:.65rem}
+.map-unlocated-record>strong{font-size:.78rem;line-height:1.45;color:#243d30}
+.map-unlocated-record>p{font-size:.69rem;line-height:1.55;color:#627367;margin:0}
+.map-unlocated-actions{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto}
+.map-unlocated-actions .button{font-size:.67rem;padding:7px 9px}
+.map-unlocated-more{font-weight:690}
+.map-unlocated-footer{margin-top:12px}
+:root[data-theme=dark] .map-unlocated-review{background:#1c3029;border-color:#365449}
+:root[data-theme=dark] .map-unlocated-review>summary strong,
+:root[data-theme=dark] .map-unlocated-record>strong{color:#e0eee2}
+:root[data-theme=dark] .map-unlocated-record{background:#1d3028;border-color:#365449}
+:root[data-theme=dark] .map-unlocated-breakdown{background:#294438;border-color:#4f7060;color:#e6f2e6}
+:root[data-theme=dark] .map-unlocated-review>summary small,
+:root[data-theme=dark] .map-unlocated-body>p,
+:root[data-theme=dark] .map-unlocated-switch small,
+:root[data-theme=dark] .map-unlocated-record>p{color:#b7d0c1}
+@media(max-width:680px){.map-unlocated-grid{grid-template-columns:1fr}
+ .map-unlocated-review>summary{padding:12px}
+ .map-unlocated-body{padding:0 12px 13px}}
+@media(prefers-reduced-motion:reduce){.map-unlocated-chevron{transition:none}}
+:root[data-motion=off] .map-unlocated-chevron{transition:none}
+
+.map-unlocated-record>.map-unlocated-next{color:#365f49;font-size:.69rem;line-height:1.45}
+:root[data-theme=dark] .map-unlocated-record>.map-unlocated-next{color:#add6bb}
+
+/* Phase 41: progressive geolocation review. A real table, not fake map pins. */
+.map-unlocated-facets{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;
+ padding:3px 0 10px;margin-bottom:8px}
+.map-unlocated-facets>.chip-button{flex-shrink:0;font-size:.69rem;min-height:32px;white-space:nowrap}
+.map-unlocated-search{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:4px 0 8px}
+.map-unlocated-search>input{flex:1 1 190px;min-width:0;min-height:37px;
+ border:1px solid #b9d2c4;border-radius:10px;padding:9px 12px;
+ background:var(--surface,#fff);color:inherit;font:inherit;font-size:.77rem}
+.map-unlocated-search>input:focus-visible{outline:3px solid #82bb9e;outline-offset:1px}
+.map-unlocated-count{color:#526e5f;font-size:.72rem;margin:0 0 12px}
+.map-unlocated-pagination{display:flex;justify-content:center;margin:13px 0}
+.map-unlocated-empty{padding:10px 12px;background:#ffffff85;border-radius:9px}
+.map-unlocated-grid{margin-bottom:13px}
+@media(max-width:620px){
+ .map-unlocated-search>input{flex-basis:100%}
+ .map-unlocated-facets>.chip-button{font-size:.66rem}
+}
+:root[data-theme=dark] .map-unlocated-count{color:#a8cbb7}
+:root[data-theme=dark] .map-unlocated-search>input{background:#1d3028;border-color:#40634e}
+:root[data-theme=dark] .map-unlocated-empty{background:#263d32}
+
+/* External OSM review is an intentional hyperlink, never an automatic pin. */
+.map-unlocated-actions>a.button{display:inline-flex;gap:5px;align-items:center;
+ text-decoration:none;line-height:1.2}
+.map-unlocated-actions>a.button .ui-icon{width:14px;height:14px}
+
+/* Phase 41: the geolocation work queue belongs BELOW the map workspace.
+   It must not increase the sticky map-panel height or hide the day-route studio. */
+.workspace>.map-unlocated-review{position:relative;clear:both;width:100%;
+ margin:17px 0 20px;scroll-margin-top:72px}
+.workspace>.map-unlocated-review[open]{overflow:visible}
+.workspace>.map-unlocated-review .map-unlocated-grid{
+ grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.workspace>.map-unlocated-review .map-unlocated-record{min-height:155px}
+@media(max-width:1080px){
+ .workspace>.map-unlocated-review .map-unlocated-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:650px){
+ .workspace>.map-unlocated-review{margin:12px 0 17px}
+ .workspace>.map-unlocated-review .map-unlocated-grid{grid-template-columns:1fr}
+ .workspace>.map-unlocated-review .map-unlocated-record{min-height:0}
+}
+
+/* Phase 42: visually distinguish existing but unverified pins from unlocated ideas. */
+.workspace>.map-evidence-review{margin-top:12px;background:linear-gradient(135deg,#fbfaf6,#f6f2e9);
+ border-color:#eadbc4}
+.map-evidence-review .map-unlocated-summary-icon{background:#f6e9cb;color:#85602c}
+.map-evidence-facets{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;
+ scrollbar-width:thin}
+.map-evidence-facets .chip-button{white-space:nowrap;flex-shrink:0;font-size:.7rem}
+.map-evidence-record[data-source-quality=provider]{border-left:4px dotted #9b83a5}
+.map-evidence-record[data-source-quality=unverified]{border-left:4px solid #9ca8a0}
+:root[data-theme=dark] .workspace>.map-evidence-review{background:#2d2b23;border-color:#6c6042}
+:root[data-theme=dark] .map-evidence-review .map-unlocated-summary-icon{
+ background:#554629;color:#f2d698}
+
+
+/* V43 mobile visual review: fixed-on-map search controls previously covered
+ * the selected-place card. On phones put them in normal flow, AFTER the map
+ * and BEFORE the selected place. No sticky overlay and no hidden controls. */
+@media(max-width:650px){
+ .reference-travel-shell .map-wrap>.map-place-switches{
+   position:relative;top:auto;bottom:auto;left:auto;right:auto;
+   max-width:none;width:auto;margin:0;padding:10px 10px 3px;
+   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+   align-items:center;gap:7px;z-index:2;pointer-events:auto;
+   background:var(--paper)
+ }
+ .reference-travel-shell .map-wrap>.map-place-switches:not(:has(.market-toggle)){
+   grid-template-columns:1fr
+ }
+ .reference-travel-shell .map-wrap>.map-place-switches>.point-overview-toggle,
+ .reference-travel-shell .map-wrap>.map-place-switches>.market-toggle{
+   min-width:0;width:100%;min-height:40px;justify-content:center;
+   font-size:.69rem;line-height:1.3;white-space:normal;padding:7px 6px;
+   box-shadow:none;border:1px solid var(--line);background:var(--light)
+ }
+ .reference-travel-shell .map-wrap>.map-place-switches>.market-status{
+   grid-column:1/-1;text-align:center
+ }
+ .map-evidence-review .map-evidence-search{
+   display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center
+ }
+ .map-evidence-review .map-evidence-search>input{
+   width:100%;min-width:0;flex-basis:auto;grid-column:1;grid-row:1
+ }
+ .map-evidence-review .map-evidence-search>[data-action=map-evidence-search]{
+   grid-column:2;grid-row:1;white-space:nowrap
+ }
+ .map-evidence-review .map-evidence-search>[data-action=map-evidence-clear]{
+   grid-column:1/-1;justify-self:start
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .map-wrap>.map-place-switches button:hover{
+   transform:none!important
+ }
+}
+
+/* Narrow map labels must not become a single-line banner across a phone. */
+.map-wrap .leaflet-tooltip.map-poi-tooltip{
+ max-width:min(260px,calc(100vw - 34px));white-space:normal;
+ overflow-wrap:anywhere;line-height:1.35;text-align:center;
+ font-size:.73rem;padding:6px 9px;border-radius:9px
+}
+
+
+/* V46: documentary address evidence is useful even when no exact pin exists.
+   The work queue stays a compact list, not an overlay on the mobile map. */
+.map-unlocated-record>.map-unlocated-public-address{
+ background:var(--light,#f3f7f0);border:1px solid var(--line,#dbe6dc);
+ border-radius:9px;padding:8px 10px;color:var(--text,#284536);
+ overflow-wrap:anywhere;font-size:.7rem;line-height:1.45;
+}
+.map-unlocated-public-address strong{font-weight:740}
+.map-unlocated-record>.map-unlocated-source-note{
+ font-size:.7rem;color:var(--muted,#526c5c);min-width:0;
+}
+.map-unlocated-source-note>summary{
+ cursor:pointer;padding:5px 0;font-size:.7rem;font-weight:700;
+ color:inherit;outline-offset:2px;
+}
+.map-unlocated-source-note>p{margin:3px 0 5px;line-height:1.52;overflow-wrap:anywhere}
+.map-unlocated-source-note[open]{border-top:1px solid var(--line,#dce5df)}
+.map-unlocated-actions a[href*="google.com/maps/search"]{white-space:normal}
+@media(max-width:650px){
+ .map-unlocated-record>.map-unlocated-public-address{padding:7px 9px}
+ .map-unlocated-actions{gap:6px}
+}
+
+
+.map-unlocated-record>.map-unlocated-address-warning{
+ margin:0;padding:6px 9px;border-left:3px solid #be8a46;
+ background:#fff3dc;border-radius:0 8px 8px 0;
+ color:#795621;font-size:.69rem;line-height:1.45;
+}
+:root[data-theme=dark] .map-unlocated-record>.map-unlocated-address-warning{
+ background:#493927;color:#f2daa7;border-color:#d4aa68;
+}
+
+
+/* V46.2: published-address research is a streamlined evidence ledger,
+ * not a masonry grid of repetitive cards. All sources remain available. */
+.workspace>.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-grid{
+ display:grid;grid-template-columns:1fr;gap:0;
+ border-top:1px solid var(--line,#d8e4db);
+}
+.workspace>.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record{
+ display:grid;grid-template-columns:minmax(190px,.8fr) minmax(270px,1.6fr);
+ align-items:start;column-gap:22px;row-gap:5px;
+ padding:13px 7px;background:transparent;box-shadow:none;
+ border:0;border-bottom:1px solid var(--line,#d8e4db);
+ border-radius:0;min-height:0;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record-head{
+ grid-column:1;grid-row:1;justify-content:flex-start;gap:7px 12px;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record>strong{
+ grid-column:1;grid-row:2;font-size:.84rem;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-public-address{
+ grid-column:2;grid-row:1 / span 2;align-self:center;
+ margin:0;border-color:var(--line,#dce5df);background:var(--paper,#fff);
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-address-warning{
+ grid-column:2;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-source-note,
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-actions{
+ grid-column:1 / -1;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-source-note>summary{
+ font-size:.67rem;padding:3px 0;opacity:.85;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-actions{
+ margin-top:0;align-items:center;gap:7px;
+}
+.map-unlocated-extra-actions{min-width:0}
+.map-unlocated-extra-actions>summary{
+ cursor:pointer;list-style:none;display:inline-flex;align-items:center;
+ border:1px solid var(--line,#d3e3d7);border-radius:8px;
+ padding:8px 10px;background:var(--light,#eef5ee);
+ font-size:.69rem;font-weight:700;color:var(--muted,#456850);
+}
+.map-unlocated-extra-actions>summary::-webkit-details-marker{display:none}
+.map-unlocated-extra-actions>summary::after{content:" ▾";padding-left:5px}
+.map-unlocated-extra-actions[open]{flex-basis:100%}
+.map-unlocated-extra-actions[open]>summary::after{content:" ▴"}
+.map-unlocated-extra-links{display:flex;flex-wrap:wrap;gap:7px;padding:9px 0 4px}
+.map-unlocated-extra-actions>summary:focus-visible{outline:3px solid #77b499;outline-offset:2px}
+@media(max-width:760px){
+ .workspace>.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record{
+  grid-template-columns:minmax(0,1fr);gap:7px;padding:12px 2px;
+ }
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record-head,
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-record>strong,
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-public-address,
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-address-warning,
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-source-note,
+ .map-unlocated-review[data-filter="sourced-address"] .map-unlocated-actions{
+   grid-column:1;grid-row:auto;
+ }
+}
+
+/* Phase 47 · A useful coordinate audit shows the saved point AND a separate
+ * public POI search, without representing the pin as verified geometry. */
+.workspace>.map-evidence-review .map-unlocated-grid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+}
+.map-evidence-review .map-evidence-record{
+ padding:12px 13px;gap:6px;border-radius:12px;
+}
+.map-evidence-position{
+ display:inline-flex;align-items:center;overflow-wrap:anywhere;
+ background:var(--light,#f1f6f1);border:1px dashed var(--line,#bccfc3);
+ border-radius:8px;padding:6px 9px;font-variant-numeric:tabular-nums;
+ font-size:.67rem!important;color:var(--muted,#496a58)!important;
+}
+.map-evidence-review .map-unlocated-actions{align-items:center}
+.map-evidence-source-links{min-width:0;flex-basis:100%}
+.map-evidence-source-links>summary{
+ display:inline-flex;align-items:center;gap:5px;
+ padding:6px 9px;border:1px solid var(--line,#d5e4d8);border-radius:8px;
+ background:var(--light,#f3f7f4);color:var(--muted,#365b49);
+ font-size:.68rem;font-weight:700;cursor:pointer;
+}
+.map-evidence-source-links>summary::after{content:" ▾"}
+.map-evidence-source-links[open]>summary::after{content:" ▴"}
+.map-evidence-source-links>summary:focus-visible{
+ outline:3px solid #73b79d;outline-offset:2px;
+}
+.map-evidence-review-links{display:flex;gap:7px;flex-wrap:wrap;padding:9px 0 6px}
+.map-evidence-source-links>small{
+ font-size:.66rem;color:var(--muted,#536c5c);line-height:1.45;
+}
+:root[data-theme=dark] .map-evidence-position{
+ background:#294238;border-color:#597565;color:#c2e2cc!important;
+}
+@media(max-width:880px){
+ .workspace>.map-evidence-review .map-unlocated-grid{grid-template-columns:1fr}
+ .map-evidence-review .map-evidence-record{padding:11px 12px}
+}
+
+
+/* Phase 48: compact source link in the selected map place preview. */
+.map-selected-location-source{
+ display:block;line-height:1.35;font-size:.67rem;color:var(--muted,#617567);
+}
+.map-selected-location-source a{
+ color:var(--link,#167557);font-weight:720;text-underline-offset:2px;
+}
+.map-selected-location-source a:focus-visible{
+ outline:2px solid #66a989;outline-offset:3px;border-radius:3px;
+}
+:root[data-theme=dark] .map-selected-location-source a{color:#a4e6c6}
+@media(max-width:650px){
+ .map-selected-location-source{font-size:.65rem;line-height:1.4}
+}
+
+
+/* Phase 48: historical provider hints reconciled with newly sourced POIs.
+   Distances compare two stored references; they do not verify a doorway. */
+.provider-location-item.has-independent-point{
+ border-color:var(--line,#b6cbbb);
+ background:var(--paper,#fff);
+}
+.provider-location-item.has-independent-point .provider-location-status{
+ color:var(--green,#276b50);
+}
+.provider-location-difference{
+ padding:7px 9px;border-left:3px solid #74a58d;
+ border-radius:0 7px 7px 0;background:var(--light,#eff6f1);
+ font-variant-numeric:tabular-nums;line-height:1.5;
+}
+:root[data-theme=dark] .provider-location-item.has-independent-point{
+ background:#1e3429;border-color:#46745e;
+}
+:root[data-theme=dark] .provider-location-item.has-independent-point .provider-location-status{
+ color:#b7e7c9;
+}
+:root[data-theme=dark] .provider-location-difference{
+ background:#294638;border-color:#75b592;
+}
+
+
+/* Source reconciliation V48: disclose conflicting civic/ZIP references
+   without falsely treating an inherited provider address as confirmed. */
+.provider-location-address-warning{
+ padding:8px 10px;margin:2px 0;border-left:3px solid #c39250;
+ border-radius:0 8px 8px 0;background:var(--warm,#fff4df);
+ color:var(--warn,#825a26);font-size:.72rem;line-height:1.5;
+}
+.provider-location-history{margin:0;padding:0;min-width:0}
+.provider-location-panel .provider-location-history>summary{
+ padding:2px 0;color:var(--muted,#5b6e61);
+ font-size:.69rem;font-weight:690;outline-offset:2px;
+}
+.provider-location-history>p{margin:5px 0;color:var(--muted,#5c6e60)}
+:root[data-theme=dark] .provider-location-address-warning{
+ background:#483823;color:#f0c886;border-color:#d7a55b;
+}
+
+/* Phase 49: distance is a cross-check, not an entrance or property certification. */
+.provider-location-difference[data-distance-state="conflict"]{
+ background:var(--warm,#fff2e0);border-left-color:#bb6a40;color:#7c4023;
+}
+.provider-location-difference[data-distance-state="review"]{
+ background:var(--warm,#fff5df);border-left-color:#c19a51;color:#755b29;
+}
+.provider-location-item .row-actions a{
+ max-width:100%;overflow-wrap:anywhere;
+}
+:root[data-theme=dark] .provider-location-difference[data-distance-state="conflict"]{
+ background:#482f29;color:#f4b79a;
+}
+:root[data-theme=dark] .provider-location-difference[data-distance-state="review"]{
+ background:#433b28;color:#f1d4a2;
+}
+
+/* Phase 49: a compact, optional per-object evidence task for 14 addresses.
+ * Keep the sourced-address ledger readable rather than adding card clutter. */
+.map-unlocated-next-check{min-width:0;font-size:.7rem;line-height:1.45}
+.map-unlocated-next-check>summary{
+ cursor:pointer;display:inline-flex;align-items:center;
+ font-size:.7rem;font-weight:720;color:var(--muted,#416a52);
+ padding:5px 0;list-style:none;
+}
+.map-unlocated-next-check>summary::before{content:"+";font-weight:900;padding-right:7px}
+.map-unlocated-next-check[open]>summary::before{content:"−"}
+.map-unlocated-next-check>summary::-webkit-details-marker{display:none}
+.map-unlocated-next-check>summary:focus-visible{outline:2px solid #75b79a;outline-offset:3px}
+.map-unlocated-next-check>p{padding:4px 0 6px;margin:0;max-width:75ch}
+.map-unlocated-next-check>small{font-size:.65rem;color:var(--muted,#6b7b72)}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-next-check{grid-column:1/-1}
+
+/* Phase 49: only unresolved identity/ZIP/POI conflicts get a priority line. */
+.map-unlocated-review-urgency{
+ border-left:3px solid #b6753d;padding:5px 9px;margin:1px 0 4px;
+ background:var(--warm,#fff3e4);color:#7b4b27;
+ border-radius:0 7px 7px 0;font-size:.7rem;line-height:1.45;
+}
+.map-unlocated-record[data-review-priority="critical"] .map-unlocated-review-urgency{
+ border-left-color:#aa5144;
+}
+.map-unlocated-review[data-filter="sourced-address"] .map-unlocated-review-urgency{
+ grid-column:1/-1;grid-row:auto;
+}
+:root[data-theme=dark] .map-unlocated-review-urgency{
+ background:#453226;color:#f6d9b6;
+}
+:root[data-theme=dark] .map-unlocated-record[data-review-priority="critical"] .map-unlocated-review-urgency{
+ border-left-color:#ee987f;
+}

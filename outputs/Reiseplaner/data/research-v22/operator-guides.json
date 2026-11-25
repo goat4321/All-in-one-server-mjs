@@ -1,0 +1,1068 @@
+{
+  "reviewedOn": "2026-11-14",
+  "schema": "operator_guides_v22",
+  "note": "Operator/tourism facts; do not treat 2026 tariff or descriptive info as 2027 availability",
+  "total": 57,
+  "entries": [
+    {
+      "id": "act-003",
+      "city": "paris",
+      "title": "Sacré-Cœur und Montmartre",
+      "summary": "Die Basilika Sacré-Cœur ist täglich für Besucher geöffnet und der Innenraum ohne Eintritt zugänglich. Der Kuppelaufstieg ist ein separates, kostenpflichtiges Angebot.",
+      "highlights": [
+        "Basilika 06:30–22:30 Uhr laut Betreiber",
+        "Kirchenraum kostenlos",
+        "Denkmal und Montmartre-Aussichtsbereich getrennt betrachten"
+      ],
+      "practical": "Die Basilika ist eine aktive Kirche: während Gottesdiensten Ruhe und fotografische Beschränkungen beachten. Kuppelpreise separat vor Ort prüfen.",
+      "sourceUrl": "https://www.sacre-coeur-montmartre.com/en/info-and-visits/practical-information/hours-and-directions/",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_info",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-005",
+      "city": "paris",
+      "title": "Louvre – Museumsbesuch",
+      "summary": "Das Louvre-Museum ist dienstags geschlossen. Mittwoch und Freitag ist nach veröffentlichtem Regelplan bis 21 Uhr geöffnet, an den anderen regulären Tagen bis 18 Uhr.",
+      "highlights": [
+        "Einlass auch bei kostenfreiem Eintritt am besten mit Zeitfenster",
+        "Unter 26 mit EWR-Staatsangehörigkeit oder nachgewiesenem qualifizierten Wohnsitz kostenlos",
+        "Regulärer EWR-Tarif 22 €, außerhalb EWR 32 € ab Januar 2026"
+      ],
+      "practical": "Fotoausweis bzw. Aufenthaltstitel mitnehmen. Die Ermäßigung gilt nicht allein aufgrund eines beliebigen Wohnsitzhinweises oder ohne entsprechende Berechtigung.",
+      "sourceUrl": "https://www.louvre.fr/en/visit/tickets-and-prices",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-006",
+      "city": "paris",
+      "title": "Eiffelturm – Treppen bis zweite Etage",
+      "summary": "Für Besuche ab dem 11. Januar 2027 hat die Eiffelturm-Verwaltung eine neue Preisliste angekündigt. Der Jugendpreis für den Treppenaufstieg bis zur zweiten Etage liegt bei 7,60 € (12–24 Jahre).",
+      "highlights": [
+        "Treppenticket bis Etage 2 statt Aufzug",
+        "12–24 Jahre 7,60 € und Erwachsene 15,20 € ab 11.01.2027",
+        "Treppen-Eintrittskarten werden seit 29.09.2026 mit Vorabreservierung verkauft"
+      ],
+      "practical": "Reservierung, wetterbedingte Einschränkungen, Sicherheitskontrolle und eventuelle Änderungen am Besuchstag separat prüfen.",
+      "sourceUrl": "https://www.toureiffel.paris/en/rates-opening-times",
+      "reviewedOn": "2026-11-14",
+      "validity": "published_2027_tariff",
+      "price2027Confirmed": true,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-011",
+      "city": "barcelona",
+      "title": "Turó de la Rovira – Bunkers del Carmel",
+      "summary": "Der historische Aussichtspunkt bewahrt Reste einer Flugabwehrbatterie aus dem spanischen Bürgerkrieg. Die Stadt Barcelona veröffentlicht die Öffnung des archäologischen Außenbereichs im Sommer vom 1. Mai bis 30. September täglich 09:00–19:30 Uhr bei freiem Eintritt.",
+      "highlights": [
+        "Außenanlage 01.05.–30.09. täglich 09:00–19:30 Uhr",
+        "Eintritt zur Außenanlage kostenlos",
+        "Ausstellungs-/Museumsbereich hat einen eigenen eingeschränkten Plan"
+      ],
+      "practical": "Nach 19:30 Uhr ist das archäologische Gelände geschlossen – kein allgemein frei zugänglicher Sunset-Spot bis spät nachts. Bei Abendplanung unbedingt das Zeitfenster berücksichtigen.",
+      "sourceUrl": "https://guia.barcelona.cat/en/detall/museu-d-historia-de-barcelona-turo-de-la-rovira_99400267435.html",
+      "reviewedOn": "2026-11-14",
+      "validity": "published_seasonal_hours_not_2027_booking",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-012",
+      "city": "barcelona",
+      "title": "Sagrada Família – Basilika",
+      "summary": "Das normale Basisticket umfasst Basilika, Museum und Audioguide-App; die Türme sind nicht enthalten. Laut aktuell veröffentlichtem Betreibertarif kostet es regulär 26 € und für unter 30-Jährige 24 €.",
+      "highlights": [
+        "Unter 30: 24 € mit Nachweis (Tarifstand 2026)",
+        "Regulär 26 € (Tarifstand 2026)",
+        "Audioguide-App und eigene Kopfhörer mitbringen",
+        "Standard-Audioguide etwa 45 Minuten"
+      ],
+      "practical": "Zeitgebundenen Einlass buchen, App vorab installieren; Tickets für die Türme wären ein anderes Produkt. Die 2026er Preise sind keine Garantie für September 2027.",
+      "sourceUrl": "https://sagradafamilia.org/en/sagrada-familia-ticket",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-013",
+      "city": "barcelona",
+      "title": "Park Güell – Monumentalbereich",
+      "summary": "Der offizielle Basiseintritt zum Park Güell kostet laut aktuellem Angebot 18 €. Das Ticket umfasst die Parkanlage mit monumentalen und grünen Bereichen und wird mit Zeitfenster online verkauft.",
+      "highlights": [
+        "18 € regulärer Eintritt nach veröffentlichtem 2026er Tarif",
+        "Eintritt nur zum gebuchten Zeitfenster",
+        "Nach der angegebenen Uhrzeit maximal 30 Minuten zur Zutrittskontrolle",
+        "Nach Verlassen des Parks ist Wiedereintritt nicht vorgesehen"
+      ],
+      "practical": "Touristen-Zeitfenster unterscheiden sich von Zeiten für Anwohner. Ticketkategorie und September-2027-Tarif beim tatsächlichen Kauf prüfen.",
+      "sourceUrl": "https://parkguell.barcelona/en/buy-tickets",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-024",
+      "city": "nice",
+      "title": "Colline du Château – Schlossbergpark",
+      "summary": "Der städtische Park über der Altstadt bietet Aussichtspunkte auf die Bucht von Nizza und den Hafen. Die Stadt gibt für die Sommersaison vom 1. April bis 31. Oktober täglich 08:30–20:00 Uhr an.",
+      "highlights": [
+        "Saisonale Parkzeit 01.04.–31.10. täglich 08:30–20:00 Uhr",
+        "Aussichts- und Fußwege im Park",
+        "Lage oberhalb von Altstadt und Hafen"
+      ],
+      "practical": "Der Park schließt im Sommer um 20 Uhr; nicht als jederzeit geöffnete Nachtplattform planen. Etwaige saisonale Abweichungen kurz vor der Reise kontrollieren.",
+      "sourceUrl": "https://www.nice.fr/lieux/parc-de-la-colline-du-chateau/",
+      "reviewedOn": "2026-11-14",
+      "validity": "published_seasonal_hours_not_2027_booking",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-027",
+      "city": "nice",
+      "title": "Èze – Aussicht und optionale Gartenanlage",
+      "summary": "Der Spaziergang durch Èze-Village ist unabhängig vom optionalen Eintritt zum Jardin Exotique. Für den Garten nennt die Betreiberseite im September regulär 09:00–19:30 Uhr.",
+      "highlights": [
+        "Dorf und Aussicht getrennt vom Garten-Ticket",
+        "Jardin Exotique: veröffentlichter Referenzpreis 10 €",
+        "Studierende: 6 € mit Nachweis als veröffentlichte Ermäßigung"
+      ],
+      "practical": "Die Gartenpreise gelten als Referenz, nicht als verbindlicher Reisetarif 2027. Nur bei tatsächlicher Entscheidung für den Garten extra ins Budget aufnehmen.",
+      "sourceUrl": "https://jardinexotique-eze.fr/en/informations/",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-032",
+      "city": "genoa",
+      "title": "Parchi di Nervi und Passeggiata Anita Garibaldi",
+      "summary": "Die historische Parklandschaft von Nervi liegt an der östlichen Küste von Genua. Die etwa zwei Kilometer lange Anita-Garibaldi-Promenade führt unmittelbar an der felsigen Küste entlang.",
+      "highlights": [
+        "Küstenpromenade etwa 2 km",
+        "Parks mit alten Villen und botanischen Bereichen",
+        "Zum Spazierengehen oder lockeren Joggen geeignet"
+      ],
+      "practical": "Die promenade führt über ein längeres Gebiet; eine einzelne Koordinate steht nicht für Anfang, Ende oder jeden möglichen Abstieg zum Wasser.",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/1951",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-033",
+      "city": "genoa",
+      "title": "Spianata Castelletto – Aussicht über Genua",
+      "summary": "Die Aussichtsterrasse liegt hoch über Genuas historischem Zentrum und bietet einen Überblick über den Alten Hafen. Vom Piazza Portello erreicht man sie mit einem historischen Jugendstil-Aufzug.",
+      "highlights": [
+        "Panorama auf Altstadt, Hafen und Dächer",
+        "Historischer Aufzug ab Piazza Portello",
+        "Terrasse statt kostenpflichtiger Aussichtsplattform"
+      ],
+      "practical": "Aufzugbetrieb und konkreten Nahverkehrstarif getrennt prüfen; die Betreiberbeschreibung belegt keinen gültigen 2027er Fahrpreis.",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/21752",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-034",
+      "city": "genoa",
+      "title": "Porto Antico – Alter Hafen",
+      "summary": "Der Alte Hafen von Genua wurde 1992 nach Entwürfen von Renzo Piano umgestaltet und ist heute ein öffentliches Freizeit- und Ausgehviertel mit Gastronomie, Meerblick und verschiedenen Attraktionen.",
+      "highlights": [
+        "Magazzini del Cotone und Hafenpromenade",
+        "Im Gebiet liegen Aquarium, Biosfera und Bigo",
+        "Eintritt zu separaten Attraktionen nicht durch einen allgemeinen Hafenspaziergang enthalten"
+      ],
+      "practical": "Hafenspaziergang und kostenpflichtige Einrichtungen getrennt kalkulieren. Veranstaltungen und Angebote hängen vom konkreten Reisetag ab.",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/21381",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-037",
+      "city": "venice",
+      "title": "Rialtobrücke und Canal Grande",
+      "summary": "Die zwischen 1588 und 1592 nach einem Entwurf von Antonio da Ponte errichtete Rialtobrücke spannt sich über den Canal Grande. Sie verbindet die Einkaufsstraßen in Richtung Markusplatz mit der Umgebung des Rialtomarktes.",
+      "highlights": [
+        "48 m lange Steinbrücke laut Venezia Unica",
+        "Historische Verbindung über den Canal Grande",
+        "Fußspaziergang ohne eigene Eintrittsreservierung für die Brücke"
+      ],
+      "practical": "An Hauptbesuchszeiten kann es voll sein. Ein Canal-Grande-Bootsticket ist nicht automatisch im kostenlosen Brückenspaziergang enthalten.",
+      "sourceUrl": "https://www.veneziaunica.it/en/things-to-do-in-venice/monuments-and-theatres/rialto-bridge",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-040",
+      "city": "venice",
+      "title": "Lido di Venezia – Strand",
+      "summary": "Für eine Lido-Fahrt kommt je nach gewählter Route ein ACTV-Vaporetto in Frage. Das offizielle Jugendpaket Rolling Venice mit 72-Stunden-ÖPNV kostet als veröffentlichte Referenz 33 € für 6–29-Jährige.",
+      "highlights": [
+        "ACTV-ÖPNV-Paket 72 Stunden mit Rolling Venice: 33 € (Tarifreferenz)",
+        "Strandabschnitte mit eigenen Leistungen können separat kosten"
+      ],
+      "practical": "ACTV-Preis ist ein Verkehrspass und kein separater Strandpreis. Bereits im Transitbudget gezählte Pässe nicht nochmals pro Aktivität ansetzen.",
+      "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-041",
+      "city": "venice",
+      "title": "Murano und Burano – Inselbesuch",
+      "summary": "Für die Inselrunde sind Fähr-/Vaporetto-Verbindungen relevant. Der offizielle Anbieter nennt 9,50 € für eine einzelne 75-Minuten-ACTV-Fahrt und 33 € für das Rolling-Venice-Jugendpaket samt 72-Stunden-ÖPNV.",
+      "highlights": [
+        "ACTV-Einzelticket 75 Minuten: veröffentlichte Referenz 9,50 €",
+        "Rolling Venice inkl. 72 Stunden: 33 € für 6–29 Jahre",
+        "Dauer und mögliche Umstiege für die Inseln separat planen"
+      ],
+      "practical": "Ticketgültigkeit der tatsächlich gewünschten Inselverbindungen vor Kauf prüfen; derselbe Pass nicht mehrfach im Budget erfassen. Keine 2027-Fahrzeit daraus ableiten.",
+      "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-042",
+      "city": "venice",
+      "title": "Rolling Venice – Jugendticket",
+      "summary": "Das 72-Stunden-ÖPNV-Kombipaket mit Rolling-Venice-Rabattkarte richtet sich laut offizieller Auskunft an Reisende zwischen 6 und 29 Jahren. Genannter Paketpreis: 33 €.",
+      "highlights": [
+        "Rolling Venice Card und 72-Stunden-ACTV-Ticket gemeinsam im Paket",
+        "Zielgruppe 6–29 Jahre",
+        "Paketpreis Referenz 33 €"
+      ],
+      "practical": "Der Preis gehört in die Verkehrsplanung. Vor Ort oder beim Onlinekauf aktuelle Gültigkeit, Zonen und exakte Reisedaten prüfen; kein automatisch gekauftes Ticket.",
+      "sourceUrl": "https://tripplanner.veneziaunica.it/en/content/vaporetto",
+      "reviewedOn": "2026-11-14",
+      "validity": "general_operator_2026_tariff",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-049",
+      "city": "grindelwald",
+      "title": "First – Cliff Walk",
+      "summary": "Grindelwald-First liegt auf rund 2.166 Metern. Laut Bahnbetreiber führt der First Cliff Walk über eine 45 Meter lange Brückenkonstruktion mit Panoramablick und benötigt ungefähr 20 Minuten.",
+      "highlights": [
+        "First Cliff Walk: circa 20 Minuten",
+        "45 m Fußgängerbrücke am Cliff Walk",
+        "Bergstation First ungefähr 2166 m über Meer"
+      ],
+      "practical": "Die veröffentlichte Attraktionsbeschreibung ist kein Ticket; Gondel, Sicherheitsbedingungen und wetterbedingte Sperrungen am Reisetag prüfen.",
+      "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-050",
+      "city": "grindelwald",
+      "title": "Bachalpsee – Wanderung ab First",
+      "summary": "Von der Bergstation First zum Bachalpsee führt ein markierter Bergweg. Der Betreiber nennt ungefähr eine Stunde für den Hinweg und zwei Stunden insgesamt für Hin- und Rückweg.",
+      "highlights": [
+        "Bachalpsee-Höhe etwa 2265 m laut Betreiber",
+        "Gehzeit von First etwa 1 Stunde je Richtung",
+        "2 Stunden Gesamtwanderzeit als Betreiber-Orientierung"
+      ],
+      "practical": "Rutschige oder geschlossene Wege sowie Schnee- und Wetterbedingungen vor Ort prüfen. Gondelkosten sind separat und dürfen nicht doppelt erfasst werden.",
+      "sourceUrl": "https://www.jungfrau.ch/en-gb/grindelwaldfirst/lake-bachalpsee/",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-053",
+      "city": "kandersteg",
+      "title": "Oeschinensee – Gondel und See",
+      "summary": "Die Oeschinensee-Gondelbahn steigt von Kandersteg rund 480 Höhenmeter zur Bergstation auf. Der Betreiber veröffentlicht bereits für 2027 einen Sommerbetrieb vom 24. April bis 19. September täglich 08:30–18:00 Uhr und danach ab 20. September Herbstzeiten bis 17 Uhr.",
+      "highlights": [
+        "24.04.–19.09.2027 Gondel täglich 08:30–18:00 Uhr",
+        "Ab 20.09.2027 bis 07.11. täglich 08:30–17:00 Uhr",
+        "Anreise ab Kandersteg, am See sind Wege je nach Saisonlage unterschiedlich nutzbar"
+      ],
+      "practical": "Die vorab veröffentlichten Betriebszeiten können durch Wetter oder Wartung abweichen. Der Preis für die Gondel am konkreten Reisetag ist damit nicht bestätigt.",
+      "sourceUrl": "https://www.oeschinensee.ch/tarife-fahrplan/",
+      "reviewedOn": "2026-11-14",
+      "validity": "published_2027_season",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-044",
+      "city": "appenzell",
+      "title": "Altstadt Appenzell – offizieller Dorfrundgang",
+      "summary": "Der autofreie Dorfkern von Appenzell zeichnet sich durch bunt bemalte Häuser, schmiedeeiserne Aushängeschilder und die traditionelle Hauptgasse aus. Das Tourismusbüro führt einen Rundgang zu den historischen Fassaden, dem Landsgemeindeplatz und der Löwen-Drogerie auf.",
+      "highlights": [
+        "Hauptgasse mit Fassadenmalereien und Dorfläden",
+        "Landsgemeindeplatz mit traditionsreicher Landsgemeinde",
+        "Kostenloser öffentlicher Dorfrundgang laut aktuellem Betreiberplan dienstags, im Sommer zusätzlich donnerstags",
+        "Treffpunkt für die öffentliche Führung bei der Tourist Information, Hauptgasse 38"
+      ],
+      "practical": "Der kostenlose Rundgang dauert nach aktuellem Plan ungefähr eine Stunde, Start 10:15 Uhr und maximal sechs Einzelgäste je Anmeldung. Termine im September 2027 unbedingt nachprüfen; ein selbstständiger Rundgang ist davon unabhängig.",
+      "sourceUrl": "https://www.appenzell.ch/de/dorf-appenzell/sehens-wuerdigkeiten/oeffentliche-dorffuehrung.html",
+      "validity": "recurring_tour_schedule_not_2027_confirmed",
+      "reviewedOn": "2026-11-14",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-045",
+      "city": "appenzell",
+      "title": "Wasserauen–Seealpsee – Rundweg als zusätzliche Referenz",
+      "summary": "Der Seealpsee ist ab Wasserauen erreichbar. Appenzellerland Tourismus dokumentiert eine Rundwanderung über Hüttentobel, die Alpen Klein und Gross Hütten, den Seealpsee und auf einem Gütersträsschen zurück nach Wasserauen. Diese Runde ist nicht automatisch identisch mit dem kürzeren geplanten Hin-und-Rückweg auf der Fahrstraße.",
+      "highlights": [
+        "Offizielle Rundwanderung 7,34 km, Auf- und Abstieg jeweils 377 m",
+        "Zeitbedarf ungefähr 2 Stunden 30 Minuten laut Tourismusverband",
+        "Schwierigkeit leicht auf SAC-Bergwanderskala T2, ausdrücklich ein Bergweg",
+        "Start und Ziel Wasserauen; offizielle Runde über Hüttentobel"
+      ],
+      "practical": "Die beschriebene T2-Rundtour ist eine separate Wegvariante. Eine Planung ausschließlich über die Fahrstraße braucht eigene Distanz-, Steigungs- und Wegzeitprüfung. Bergschuhe, aktuellen Wegstatus, Wetter und etwaige Sperrungen beachten.",
+      "sourceUrl": "https://www.appenzell.ch/de/alpstein/wandern/wandervorschlaege.html?cHash=622caf9161dfeec220ced130a23e232b&tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Btour%5D=39",
+      "validity": "operator_route_alternative_not_original_farm_road",
+      "reviewedOn": "2026-11-14",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-046",
+      "city": "appenzell",
+      "title": "Seealpsee – Seeufer und Einkehr",
+      "summary": "Am Seealpsee verläuft ein Uferweg durch die Berglandschaft des Alpsteins. Appenzellerland Tourismus erwähnt im Bereich des Sees mehrere Berggasthäuser und eine Ruderbootmöglichkeit, jedoch keinen pauschalen Preis oder eine garantierte Verfügbarkeit für September 2027.",
+      "highlights": [
+        "Seeufer als Rastplatz auf einer Wanderung ab Wasserauen",
+        "Berggasthaus Seealpsee und Berggasthaus Forelle als Einkehrmöglichkeiten",
+        "Ruderbootfahrten werden als saisonale Option genannt"
+      ],
+      "practical": "Wasserzustand, Badebedingungen, Bootsbetrieb, Öffnung der Gasthäuser und Preise vor Ort prüfen; aus der allgemeinen touristischen Beschreibung folgt weder garantierter Badezugang noch ein gebuchter Platz.",
+      "sourceUrl": "https://www.appenzell.ch/de/alpstein/wandern/wandervorschlaege.html?cHash=622caf9161dfeec220ced130a23e232b&tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Btour%5D=39",
+      "validity": "tourism_descriptive_reference",
+      "reviewedOn": "2026-11-14",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-002",
+      "city": "paris",
+      "title": "Seineufer – Quai de Montebello als konkreter Teilabschnitt",
+      "summary": "Der Quai de Montebello verläuft am linken Seineufer zwischen Petit Pont und Pont de l’Archevêché und bietet einen direkten Blick auf den Chorbereich von Notre-Dame. Die touristische Quelle beschreibt diesen Abschnitt ausdrücklich; sie verifiziert nicht die komplette geplante Route bis zum Louvre.",
+      "highlights": [
+        "Quai de Montebello befindet sich im 5. Arrondissement",
+        "Pont au Double ist Fußgängern und Radfahrern vorbehalten",
+        "Blick auf Notre-Dame und Übergang zur Île de la Cité"
+      ],
+      "practical": "Der Quai ist nur ein beispielhafter Abschnitt einer längeren Seine-Spaziergangsidee. Gehstrecke und Brücken bis Louvre erst bei genauer Wegplanung berechnen.",
+      "sourceUrl": "https://parisjetaime.com/transport/quai-de-montebello-p1987",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-004",
+      "city": "paris",
+      "title": "Canal Saint-Martin – Spaziergang und Picknick",
+      "summary": "Das Pariser Fremdenverkehrsamt hat am 1. Oktober 2026 einen Spaziergang ab der Métrostation Jacques Bonsergent entlang Rue de Lancry und Quai de Valmy bis zum Parc de la Villette beschrieben. Der öffentliche Kanalufer-Spaziergang ist nicht mit der separat angebotenen kostenpflichtigen Bootsfahrt zu verwechseln.",
+      "highlights": [
+        "Startempfehlung Jacques Bonsergent und Rue de Lancry",
+        "Quai de Valmy und Schleuse Récollets als interessante Abschnitte",
+        "Square Villemin mit Wiesen, Spielplätzen und Picknickmöglichkeiten",
+        "Kanal insgesamt 4,5 km lang, davon circa 2 km unterirdisch"
+      ],
+      "practical": "Die in der Quelle genannten beaufsichtigten Schwimmfenster betreffen das Jahr 2026 und sind kein erlaubtes Canal-Schwimmen im September 2027. Picknick/Spaziergang erfordern kein Canauxrama-Bootsticket.",
+      "sourceUrl": "https://parisjetaime.com/ger/artikel/paris-ist-kosmopolitisch-a920",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-007",
+      "city": "paris",
+      "title": "Quartier Latin – studentisches Viertel und Streetfood",
+      "summary": "Paris je t’aime beschreibt einen historischen Spaziergang von Fontaine Saint-Michel über Boulevard Saint-Michel und die Sorbonne bis zur Umgebung von Panthéon und Institut du monde arabe. Das Quartier Latin ist ein offenes Stadtviertel mit Cafés, Restaurants, Buchhandlungen und Universitätsgebäuden.",
+      "highlights": [
+        "Quartier Latin links der Seine im 5. Arrondissement",
+        "Fontaine Saint-Michel als klarer Einstiegspunkt",
+        "Rue Saint-André des Arts und Rue de la Huchette mit Gastronomie",
+        "Sorbonne und römische Überreste in der näheren Umgebung"
+      ],
+      "practical": "Der Viertelspaziergang selbst ist ohne Ticket möglich. Preise und Öffnungszeiten der ausgesuchten Essensbetriebe sowie Öffnungszeiten der einzelnen Museen sind keine Eigenschaft des ganzen Viertels.",
+      "sourceUrl": "https://parisjetaime.com/ger/artikel/zeitloses-paris%20-a897",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-025",
+      "city": "nice",
+      "title": "Vieux-Nice – Cours-Saleya-Markt am Vormittag",
+      "summary": "Die offizielle Tourismusorganisation nennt den Obst-, Gemüse- und Fischmarkt am Cours Saleya von Dienstag bis Sonntag mit einem veröffentlichten 2026er Zeitfenster von 06:00 bis 13:30 Uhr. Montags wird stattdessen ein regelmäßig veranstalteter Antiquitätenmarkt beschrieben.",
+      "highlights": [
+        "2026: Lebensmittelmarkt Dienstag bis Sonntag 06:00–13:30 Uhr",
+        "Markt im Cours Saleya, 06300 Nice, Zugang kostenfrei",
+        "Montags Antiquitätenmarkt als anderes Angebot",
+        "Marktverkaufspreise hängen vom jeweiligen Händler ab"
+      ],
+      "practical": "Ein Rundgang nach 14 Uhr ist weiterhin als Altstadtspaziergang möglich, aber nicht als sicher geöffneter Wochenmarkt. 2027er Marktzeiten, einzelne Händler und eventuelle Sondertage erneut prüfen.",
+      "sourceUrl": "https://www.explorenicecotedazur.com/evenement/marche-aux-fruits-legumes-et-maree-du-cours-saleya/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-030",
+      "city": "genoa",
+      "title": "Boccadasse – historischer Küstenort",
+      "summary": "VisitGenoa beschreibt Boccadasse als kleines ehemaliges Fischerdorf mit bunten Fassaden, Booten, Felsabschnitten und einem Kieselstrand am Ende des Corso Italia. Die öffentliche Promenade und die benachbarten Gastronomiebetriebe werden getrennt betrachtet.",
+      "highlights": [
+        "Über die Corso-Italia-Promenade erreichbar",
+        "Kleiner, kieseliger Strand im historischen Dorf",
+        "Küstenlage und Aussicht am Capo Santa Chiara",
+        "Einzelne Restaurants und Badeeinrichtungen können eigene Preise haben"
+      ],
+      "practical": "Keine Gewähr für freie Bade-/Liegeflächen, ruhige See oder bestimmte Restaurantpreise. Der Strand ist klein und der Besuch zur Hauptzeit oft stärker frequentiert.",
+      "sourceUrl": "https://www.visitgenoa.it/de/node/29573",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-031",
+      "city": "genoa",
+      "title": "Corso Italia – Meerespromenade und Laufstrecke",
+      "summary": "Die offizielle Tourismusorganisation beschreibt Corso Italia als weitläufige Promenade im Küstenviertel Albaro, die nach Boccadasse führt. Sie wird ausdrücklich auch zum Joggen und Inlineskaten genutzt; entlang des Wegs liegen gastronomische Angebote und Strandbäder.",
+      "highlights": [
+        "Läufer- und Spazierroute an der Küste Genuas",
+        "Verbindung in Richtung Boccadasse",
+        "Unterwegs Bars, Restaurants und private Strandbäder",
+        "Geeignete Kulisse für lockeren Sport bei gutem Wetter"
+      ],
+      "practical": "Die Angabe „2,5 km“ im ursprünglichen Ideen-Titel ist noch kein amtlich bestätigter Abschnitt: Länge hängt von konkreten Start- und Endpunkten ab. Strandbad- und Gastronomiekosten separat behandeln.",
+      "sourceUrl": "https://www.visitgenoa.it/de/node/25415",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-035",
+      "city": "genoa",
+      "title": "Genuas Altstadt – Gassen und Focaccia",
+      "summary": "VisitGenoa führt mehrere historische Stadtspaziergänge durch die Caruggi-Gassen, die Palazzi dei Rolli und zur Kathedrale San Lorenzo. Typische Focaccia ist ein gastronomischer Bestandteil des Besuchs, aber kein im Spaziergang enthaltener Komplettpreis.",
+      "highlights": [
+        "Palazzi dei Rolli als UNESCO-Welterbe im historischen Zentrum",
+        "Caruggi-Gassen und kleine Piazzette",
+        "Möglicher Weg zur Kathedrale San Lorenzo und zum Porto Antico",
+        "Bäckereien bieten Focaccia vor Ort zum individuellen Verkauf"
+      ],
+      "practical": "Einzelführungen oder Palast-Innenbesuche können Eintritt kosten. Für Focaccia keine pauschalen Menü-Endpreise behaupten; konkrete Bäckerei und aktuelle Preisliste auswählen.",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/21427",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-036",
+      "city": "genoa",
+      "title": "Nervi-Küste – Lauf- und Spazierweg am Meer",
+      "summary": "Die offizielle Tourismusinformation beschreibt die Küstenpromenade Passeggiata Anita Garibaldi bei Nervi ausdrücklich als besonders aussichtsreich, etwa zwei Kilometer lang und mit Blick auf Felsen und Meer. Das Gelände eignet sich zum Spazieren, bei passender Eignung auch zum Laufen.",
+      "highlights": [
+        "Anita-Garibaldi-Promenade circa 2 km entlang der Steilküste",
+        "Felsige Küstenlage mit blauem Meer und mediterraner Vegetation",
+        "Ausgangspunkt und Rückweg nach exakter ÖPNV-Anreise wählen"
+      ],
+      "practical": "Die zwei Kilometer beschreiben die Promenade, nicht die gesamte Anreise oder alle als „Nervi-Küste“ bezeichneten Wege. Meerzugänge und Badebedingungen sind separat zu beurteilen.",
+      "sourceUrl": "https://www.visitgenoa.it/en/node/1811",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-052",
+      "city": "grindelwald",
+      "title": "First Flyer – Geschwindigkeit und Zugangsvoraussetzungen",
+      "summary": "Der Betreiber beschreibt den First Flyer als 800 Meter lange Seilrutsche von First nach Schreckfeld mit bis zu 84 km/h und einem Höhenabstand von stellenweise ungefähr 50 Metern über den Alpweiden. Das Mindest-/Höchstgewicht liegt bei 35–125 Kilogramm.",
+      "highlights": [
+        "800 m Stahlseil First–Schreckfeld",
+        "Bis zu vier Teilnehmer zeitgleich",
+        "Zulässiges Körpergewicht 35–125 kg",
+        "Betreiberreferenz aktuell CHF 35 Erwachsene und CHF 26 für Kinder 6–15",
+        "Erlebnisdauer circa zehn Minuten laut Betreiber"
+      ],
+      "practical": "Kein festes Zeitfenster bei Andrang; Betreiber rät zur frühen Nutzung bis Mittag. Wetterbedingte Sperren möglich. First-Flyer-Ticket und First-Gondeltransport sind getrennte Leistungen, keine 2027er Buchungsbestätigung.",
+      "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwaldfirst/first-flieger/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_operator_reference_2026_unbooked_2027_unknown",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-008",
+      "city": "barcelona",
+      "title": "Bogatell Beach – Strand und Sport",
+      "summary": "Der städtische Reiseführer Barcelonas führt die Platja del Bogatell im Bezirk Sant Martí am Passeig Marítim del Bogatell 80. Er weist auf die rauchfreien städtischen Strände sowie eine spezielle, nur zu eigenen Zeiten verfügbare Badeassistenz für Menschen mit Mobilitätseinschränkungen hin.",
+      "highlights": [
+        "Bogatell Beach liegt im Stadtteil Poblenou / Sant Martí",
+        "Städtisches Rauchverbot an den Stränden seit 30. Juli 2022, mit benannten Ausnahmen für Saisonbars",
+        "Badeassistenzzeiten aus dem Stadtführer gelten ausschließlich für die Assistenzleistung – nicht als allgemeine Strandöffnungszeiten"
+      ],
+      "practical": "Die angegebenen Badeassistenzzeiten dürfen nicht als Strand-Schließzeit verwendet werden. Für Sportanlagen, Strandwache, Duschen, Wasserbedingungen und konkrete Saison 2027 werden getrennte Nachweise benötigt.",
+      "sourceUrl": "https://guia.barcelona.cat/en/detall/bogatell-beach_92168143754.html",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-019",
+      "city": "sete",
+      "title": "Canal Royal – Hafenrunde durch das Zentrum",
+      "summary": "Die Tourismusorganisation des Archipel de Thau beschreibt den Canal Royal als zentrales Element von Sète. Kanäle und Brücken prägen die Innenstadt, an den Ufern befinden sich Restaurants, historische Boote und Zugänge zu den maritimen Vierteln.",
+      "highlights": [
+        "Canal Royal als zentrale Wasserachse der Innenstadt",
+        "Fußgänger-Spaziergang entlang der Kanal-Ufer",
+        "Fischerboote, Terrassen und Zugbrücken als Ortsmerkmale",
+        "Separat angebotene Kanalrundfahrten sind eigene gebührenpflichtige Leistungen"
+      ],
+      "practical": "Ein Spaziergang auf dem Ufer ist keine gebuchte Kanalfahrt. Die im Ort angebotene 45-Minuten-Bootstour ist eine getrennte Option mit aktuellen Preisen und 2027er Betriebszeiten, die noch zu prüfen sind.",
+      "sourceUrl": "https://www.archipel-thau.com/de/ein-archipel-aus-gemeinden/sete/die-highlights-von-sete/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-020",
+      "city": "sete",
+      "title": "Pointe Courte – Fischerviertel an der Lagune",
+      "summary": "Die offizielle Tourismusinformation beschreibt Pointe Courte als früheres Fischerviertel von Sète mit kleinen, niedrig gebauten Häusern und pastellfarbenen Fassaden am Wasser. Der Ort wurde durch Agnès Vardas Film bekannt.",
+      "highlights": [
+        "Historisches Viertel mit Lagunenfischerei-Tradition",
+        "Niedrige Häuser mit pastellfarbenen Fassaden",
+        "Fotospaziergang durch öffentliche Gassen statt kostenpflichtiger Sehenswürdigkeit",
+        "Der Stadtteil ist ein zusammenhängendes Gebiet, kein einzelner Eingang"
+      ],
+      "practical": "Die Fischerei ist Teil des realen Alltags: Privatgrundstücke und Bewohner respektieren. Keine ungesicherten Angaben zu geöffneten Betrieben, Touren oder einem festen Eintritt erfinden.",
+      "sourceUrl": "https://www.archipel-thau.com/de/ein-archipel-aus-gemeinden/sete/die-highlights-von-sete/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-026",
+      "city": "nice",
+      "title": "Villefranche-sur-Mer – Plage des Marinières",
+      "summary": "Die offizielle Tourismusorganisation nennt die Plage des Marinières als größten Strand von Villefranche-sur-Mer mit kostenlosem Zugang und einer Sommer-Sicherheitsaufsicht. TER-Züge aus Nice halten am Bahnhof Villefranche-sur-Mer in der Nähe des Orts.",
+      "highlights": [
+        "Großer öffentlicher Strand an der Promenade des Marinières",
+        "Offizielle Tourismusseite: Zugang kostenlos",
+        "Badeaufsicht nur in der jeweiligen Sommersaison",
+        "TER-Anreise aus Nizza möglich, ohne daraus eine konkrete 2027-Abfahrtszeit abzuleiten"
+      ],
+      "practical": "Freier Strandzugang bedeutet keine Garantie für freie Liegen, Barleistungen oder sichere Schwimmbedingungen. Für September 2027 Badeaufsicht, Wetter, Wassertemperatur, Zugverbindung und Rückfahrt separat prüfen.",
+      "sourceUrl": "https://www.explorenicecotedazur.com/structure/plage-des-marinieres/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-028",
+      "city": "nice",
+      "title": "Port Lympia – Hafenabend und optionaler Küstenweg",
+      "summary": "Nice Côte d’Azur Tourisme beschreibt den Port Lympia als Beginn eines längeren Küstenwegs, der Richtung Villefranche-sur-Mer führt. Die offizielle Referenzroute bis zum Port de la Darse umfasst ungefähr sechs Kilometer und etwa 2 Stunden 30 Minuten für die einfache Strecke.",
+      "highlights": [
+        "Port Lympia als Startpunkt des Sentier du Littoral Richtung Villefranche",
+        "Offizielle lange Küstenweg-Referenz: 6 km und rund 2h30 für eine Richtung",
+        "Der im Reiseplan gedachte kurze Hafenabend ist eine andere, deutlich kleinere Aktivität"
+      ],
+      "practical": "Nicht die 6-km-Strecke oder 2h30 in den kurzen Port-Lympia-Abendspaziergang übernehmen. Küstenweg nur als separate wetter- und wegezustandsabhängige Zusatzoption behandeln.",
+      "sourceUrl": "https://www.explorenicecotedazur.com/sortir/randonnees/sentiers-du-littoral/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-047",
+      "city": "glarus",
+      "title": "Klöntalersee – Uferweg und optionale lange Runde",
+      "summary": "Schweiz Tourismus beschreibt den Klöntalersee als Ausflugsgebiet mit Bade- und Picknickbereichen. Für eine vollständige Seeumrundung nennt die Informationsseite eine Zeit von ungefähr vier Stunden; das ist nicht automatisch der Umfang der ursprünglich vorgesehenen kurzen Uferroute.",
+      "highlights": [
+        "Klöntalersee mit Blick auf Glärnisch und Dejenstogg",
+        "Seeufer, Picknick und einzelne Badebereiche",
+        "Eine komplette Runde um den See dauert laut Tourismusreferenz ungefähr vier Stunden",
+        "Campingbereiche Güntlenau und Vorauen mit teils saisonalem SUP-/Kanuverleih"
+      ],
+      "practical": "Die vierstündige Seeumrundung ist nur eine eigenständige optionale lange Route. Ein kurzer Uferspaziergang und ein SUP-Ausflug sind andere Leistungen. Zustand der Wege, Badewetter, Verleihpreise und Saison 2027 prüfen.",
+      "sourceUrl": "https://www.myswitzerland.com/de-de/reiseziele/kloentalersee/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-048",
+      "city": "glarus",
+      "title": "Rhodannenberg – Seeufer-Picknick",
+      "summary": "Rhodannenberg liegt am Klöntalersee und ist Ausgangs-/Endbereich von dokumentierten Trails. Schweiz Tourismus beschreibt ein weit umfangreicheres Trailrunning-Angebot mit 21 Kilometern, 1.142 Höhenmetern und Start/Ziel Rhodannenberg – diese Tour ist mit dem hier geplanten kurzen Picknick nicht gleichzusetzen.",
+      "highlights": [
+        "Rhodannenberg als Ausgangspunkt am Klöntalersee",
+        "21-km-Trailrunning-Rundtour gehört zu einer separaten Sportaktivität",
+        "Das Seeufer lässt sich unabhängig vom langen Trail für eine Pause nutzen"
+      ],
+      "practical": "Für ein Picknick weder die 21 km noch 1.142 Höhenmeter als Pflicht-Wanderung darstellen. Essen/Verpflegung und mögliche Saisonregeln werden beim konkreten Besuch geprüft.",
+      "sourceUrl": "https://www.myswitzerland.com/de-at/erlebnisse/route/trail-run-kloentalersee/",
+      "reviewedOn": "2026-11-14",
+      "validity": "public_tourism_reference_2026_september_2027_unverified",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-001",
+      "city": "paris",
+      "title": "Trocadéro – Aussicht auf den Eiffelturm",
+      "summary": "Die Esplanade du Trocadéro liegt beim Palais de Chaillot gegenüber dem Eiffelturm. Unterhalb führen öffentliche Gartenwege zum Warschauer Brunnen mit 20 Wasserkanonen, seitlich befinden sich weitere Grünanlagen.",
+      "highlights": [
+        "Place du Trocadéro, 75016 Paris",
+        "Esplanade als Fotostandort mit Blick auf die andere Seine-Seite",
+        "Jardins du Trocadéro als anschließender Spazierweg",
+        "Museen des Palais de Chaillot sind eigene Eintrittsangebote"
+      ],
+      "practical": "Für eine Foto- oder Abendrunde benötigt man kein Ticket des Eiffelturms. Veranstaltungssperrungen, Sicherheitsmaßnahmen und Brunnensaison am Besuchstag prüfen.",
+      "sourceUrl": "https://parisjetaime.com/ger/transportmittel/le-trocadero-et-son-esplanade-p1900",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_tourism_place_details",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-009",
+      "city": "barcelona",
+      "title": "Barceloneta – öffentlicher Strand",
+      "summary": "Barcelonas offizielle Tourismusorganisation beschreibt die Barceloneta als traditionellen Stadtstrand des Fischerviertels mit Angeboten wie Duschen, Toiletten, Rettungs- und Strandservice sowie separaten Mietmöglichkeiten.",
+      "highlights": [
+        "Historischer Strandbereich La Barceloneta",
+        "Separate Mietangebote für Sonnenliegen und Schirme",
+        "Espai de Mar bietet behindertengerechte Einrichtungen und je nach Betrieb Surfbretter/Paddelmaterial",
+        "Strandrestaurants und Tavernen sind einzelne Anbieter"
+      ],
+      "practical": "Die offiziellen Serviceangebote sind keine 2027-Verfügbarkeit: Rettungsaufsicht, Wassertemperatur, Wetter, Ausleihe und Sonnenuntergang am Reisetag prüfen.",
+      "sourceUrl": "https://bid.barcelonaturisme.com/wv3/en/page/3495/barceloneta-beach.html",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_tourism_descriptive_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-010",
+      "city": "barcelona",
+      "title": "Parc de la Ciutadella – Picknick und Parkwege",
+      "summary": "Der städtische Park wurde Ende des 19. Jahrhunderts als erste ausdrücklich öffentliche Grünanlage Barcelonas gestaltet. Er besitzt eine monumentale Kaskade, große Bäume, einen See mit Ruderbooten, Wege und Skulpturen.",
+      "highlights": [
+        "Passeig de Picasso 21, Barcelona",
+        "Städtischer Plan: täglich ab 07:00 Uhr bis zum Einbruch der Dämmerung",
+        "Monumentaler Wasserfall und See",
+        "Zoo und Bootsausleihe sind getrennte Leistungen"
+      ],
+      "practical": "Die Parköffnungszeit bis zur Dämmerung gilt nicht für einzelne Boote, Museumshäuser oder Zoo. Keine frei erfundenen Eintritts- und Ausleihpreise für den Parkbesuch ansetzen.",
+      "sourceUrl": "https://guia.barcelona.cat/en/detall/-parc-de-la-ciutadella_92086011921.html",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_municipal_park_hours",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-014",
+      "city": "barcelona",
+      "title": "Montjuïc – Aussicht und Grünflächen",
+      "summary": "Der Hügel Montjuïc vereint große Parks und Gärten, Museumsgebäude, die Anlagen der Weltausstellung 1929 und die Sportstätten der Olympischen Spiele 1992. Seine einzelnen Einrichtungen haben unterschiedliche Eintritts- und Öffnungsregeln.",
+      "highlights": [
+        "Museu Nacional d’Art de Catalunya am Palau Nacional",
+        "Olympischer Ring mit Estadi Lluís Companys und Palau Sant Jordi",
+        "Botanische Gärten und verschiedene frei zugängliche Spazierwege",
+        "Fundació Miró und andere Museen sind eigenständig zu buchende Besuche"
+      ],
+      "practical": "Montjuïc ist ein großes Stadtgebiet, kein einzelnes 24-Stunden-Ticket oder ein exakt gleicher Kartenpunkt für alle Gärten. Eine konkrete Aussichtsroute erst mit Start und Ziel festlegen.",
+      "sourceUrl": "https://bid.barcelonaturisme.com/wv3/en/page/3473/parc-de-montjuic.html",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_tourism_area_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-015",
+      "city": "barcelona",
+      "title": "Poblenou – Cafés und Industriearchitektur",
+      "summary": "Poblenou entwickelte sich aus dem Industrieviertel Sant Martí; im Gebiet Rambla del Poblenou und rund um ehemalige Fabrikbauten entstanden Cafés, Wohngebäude, Kunst- und Designarbeitsplätze.",
+      "highlights": [
+        "Rambla del Poblenou mit Cafés und Fußwegen",
+        "Frühere Textilfabriken und Industriearchitektur etwa bei Can Felipa",
+        "22@-Stadtentwicklungsgebiet im Norden des Strands",
+        "Straßenspaziergang ohne einheitliches Einlassticket"
+      ],
+      "practical": "Der Viertelname ist kein einzelner Treffpunkt oder bezifferbarer Restaurantpreis. Vor der Reise konkret ein Café und die Route auswählen, Preise des jeweiligen Betriebs prüfen.",
+      "sourceUrl": "https://bid.barcelonaturisme.com/wv3/en/page/432/poblenou.html",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_tourism_area_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-016",
+      "city": "barcelona",
+      "title": "Barcelona – optionaler Clubabend",
+      "summary": "Die Stadt Barcelona führt öffentlich zugängliche Verzeichniseinträge von Nachtclubs. Als reines Beispiel ist der Club Moog im Raval mit Adresse Carrer de l’Arc del Teatre 3 verzeichnet; für Veranstaltungsabende im November 2026 zeigte die Stadt Eintrittspreise zwischen 5 und 20 Euro an.",
+      "highlights": [
+        "Beispiel: Moog, Carrer Arc del Teatre 3 im Raval",
+        "Beispiel-Veranstaltung November 2026: Eintritt 5–20 €",
+        "Jeder Clubabend benötigt eine eigene Event- und Altersprüfung",
+        "Kein Club ist bisher für die Gruppe ausgewählt oder gebucht"
+      ],
+      "practical": "Beispielbetrieb und November-2026-Eintritt dürfen nicht als September-2027-Angebot gelten. Mindestalter, Einlasspolitik, Veranstaltungsdatum und ÖPNV-Heimfahrt erst bei konkreter Auswahl prüfen.",
+      "sourceUrl": "https://guia.barcelona.cat/en/detall/sessions-al-moog-mes-de-novembre_99400788905.html",
+      "reviewedOn": "2026-11-14",
+      "validity": "example_operator_not_selected_no_2027_ticket",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-017",
+      "city": "sete",
+      "title": "Plage de la Corniche – Strandtag",
+      "summary": "Das regionale Fremdenverkehrsamt beschreibt die Plage de la Corniche an der Corniche de Neuburg als zwei geschützte Sandbuchten mit je ungefähr 200 Metern Strandfläche, Zugang über Rampe und separat ausgewiesener Wassersportzone.",
+      "highlights": [
+        "Corniche de Neuburg, 34200 Sète",
+        "Zugang zum öffentlichen Strand laut Tourismusbüro kostenlos",
+        "Zwei geschützte Sandbuchten von je etwa 200 m",
+        "Saisonale Badeaufsicht, öffentliche Duschen und Toiletten als ausgewiesene Ausstattung"
+      ],
+      "practical": "Öffentliche Strandfläche nicht mit kostenpflichtiger Sportausrüstung oder Gastronomie gleichsetzen. Aufsicht, Wetter, Badeverbote und Saisonleistungen im September 2027 kontrollieren.",
+      "sourceUrl": "https://www.archipel-thau.com/mon-sejour/que-faire/toutes-les-activites/plage-de-la-corniche-sete-fr-6264662/",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_tourism_beach_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-018",
+      "city": "sete",
+      "title": "Mont Saint-Clair – Panorama über Sète",
+      "summary": "Der 175 Meter hohe Mont Saint-Clair bietet verschiedene Aussichtspunkte über Stadt, Hafen, Mittelmeer und Lagune. Das Tourismusamt verweist auf die Kapelle Notre-Dame-de-la-Salette und die Geschichte des Hügels.",
+      "highlights": [
+        "Höhe 175 Meter laut regionalem Tourismusbüro",
+        "Aussicht über Hafen und Küste",
+        "Kapelle Notre-Dame-de-la-Salette am Gipfelbereich",
+        "Steigung und genaue Fußroute abhängig vom Startpunkt"
+      ],
+      "practical": "Ein Panoramaeintrag ersetzt keine nachgewiesene Gehroute oder einen genauen Aussichtseingang. Höhenmeter und Zeit je gewähltem Aufstieg, Hitzeschutz und saisonale Wege prüfen.",
+      "sourceUrl": "https://www.archipel-thau.com/de/ein-archipel-aus-gemeinden/sete/was-gibt-es-in-sete-zu-sehen/tafel-13-der-mont-saint-clair-vom-hafen-aus-gesehen/",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_tourism_geographic_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-021",
+      "city": "sete",
+      "title": "SUP oder Kajak – Anbieterbeispiel Kayakmed",
+      "summary": "Das lokale Fremdenverkehrsamt führt Kayakmed Base Mer als konkreten Anbieter für Kajak, Stand-up-Paddling, Pirogen und geführte Entdeckungstouren auf See, Lagune oder in den Kanälen von Sète.",
+      "highlights": [
+        "Kayakmed Base Mer als recherchierter Betreiber – noch nicht gewählt",
+        "Regionale Öffnungsreferenz 04.04.–27.09.2026",
+        "Veröffentlichte Tagesöffnungen 09:00–12:00 und 14:00–17:00 als 2026er Werte",
+        "Materialmiete, geführte Tour und Standort sind getrennte Angebote"
+      ],
+      "practical": "Es wurde weder ein bestimmter Kurs noch ein 2027-Termin, Gruppenpreis oder eine Kajakmiete gebucht. Anbieterwahl, Sicherheitsbedingungen, Schwimmfähigkeit, Wind, Saison und Preis erneut prüfen.",
+      "sourceUrl": "https://www.archipel-thau.com/de/mein-aufenthalt/was-man-im-thau-archipel-unternehmen-kann/alle-aktivitaten/kayakmed-base-mer-sete-de-6264914/",
+      "reviewedOn": "2026-11-14",
+      "validity": "example_operator_not_selected_no_2027_session",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-022",
+      "city": "sete",
+      "title": "Picknick mit regionalen Spezialitäten – Halles de Sète",
+      "summary": "Das Fremdenverkehrsamt nennt die Halles de Sète als zentralen Lebensmittelmarkt mit tielles sétoises, frischen Waren und Erzeugnissen aus dem Étang de Thau. Die Hallen können als Einkaufsstopp vor einem Strandpicknick dienen.",
+      "highlights": [
+        "Halles de Sète, Rue Gambetta, 34200 Sète",
+        "Tourismusreferenz: täglich 07:00–14:00 Uhr",
+        "Tielle sétoise als regionale Spezialität",
+        "Preise hängen vom Stand und der Menge für die Gruppe ab"
+      ],
+      "practical": "Ein Einkauf in den Markthallen ist weder das Picknick selbst noch ein fertiges Menü. Keine fiktiven Endpreise, und keine Öffnung der Markthallen am Abend annehmen.",
+      "sourceUrl": "https://www.archipel-thau.com/nos-communes/larchipel-de-thau/blog/la-route-des-halles/",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_tourism_market_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-023",
+      "city": "nice",
+      "title": "Promenade des Anglais – Meeresspaziergang und Stadtstrand",
+      "summary": "Die offizielle Tourismusorganisation beschreibt die Promenade des Anglais als rund sieben Kilometer lange Küstenpromenade an der Baie des Anges, genutzt zum Gehen, Laufen, Radfahren und zur Aussicht auf die Kiesstrände.",
+      "highlights": [
+        "Uferpromenade über rund sieben Kilometer",
+        "Zahlreiche öffentliche Abschnitte mit Kiesstrand",
+        "Bekannte blaue Stühle und Blick auf die Baie des Anges",
+        "Die geplante Kurzrunde ist nicht zwingend die vollständige Promenade"
+      ],
+      "practical": "Der öffentliche Küstenweg ist nicht mit privaten Strandclubs oder einem kostenpflichtigen Strandplatz gleichzusetzen. Laufstrecke erst durch konkrete Start-/Endpunkte bestimmen.",
+      "sourceUrl": "https://www.explorenicecotedazur.com/culture/promenade-des-anglais/",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_tourism_walking_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-029",
+      "city": "nice",
+      "title": "Regenoption: Indoor-Bad statt unbestimmter Sportidee",
+      "summary": "Für einen Regentag nennt das Fremdenverkehrsamt das Centre Jean Bouin mit öffentlichem Olympiabecken von 50 mal 21 Metern und einem kleineren Becken von 15 mal 8 Metern. Für den Hallenbadbesuch gelten eigene Badevorschriften.",
+      "highlights": [
+        "Piscine couverte Jean Bouin als konkretes recherchiertes Beispiel",
+        "Olympiabecken 50 m × 21 m",
+        "Badekappe nach Betreiberbeschreibung obligatorisch",
+        "Badeshorts und Bermudas laut Standortinformation nicht erlaubt"
+      ],
+      "practical": "Dieser Ort ist nur ein Vorschlag unter mehreren Indoor-Optionen. Der 2026er Gebäudeplan ist keine bestätigte September-2027-Schwimmzeit und keine Gewähr für einen geöffneten Besucherbereich. Eintritt separat neu prüfen.",
+      "sourceUrl": "https://www.explorenicecotedazur.com/structure/piscine-couverte-jean-bouin/",
+      "reviewedOn": "2026-11-14",
+      "validity": "example_operator_not_selected_2027_unconfirmed",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-038",
+      "city": "venice",
+      "title": "Cannaregio – ruhiger Abendspaziergang",
+      "summary": "Venezia Unica stellt eine offizielle Route durch Cannaregio beginnend im historischen jüdischen Ghetto vor. Der Weg führt über Fondamenta degli Ormesini und Campo della Misericordia, wo sich verschiedene Bacari und kleine Osterien befinden.",
+      "highlights": [
+        "Historisches jüdisches Ghetto als Einstieg",
+        "Fondamenta degli Ormesini als Uferstraße mit Bacari",
+        "Campo della Misericordia und historische Gebäude",
+        "Frei wählbarer Stadtteilspaziergang ohne einheitlichen Eintritt"
+      ],
+      "practical": "Der gesamte von Venezia Unica veröffentlichte Stadtrundgang umfasst weitere Viertel; eine kurze Abendroute muss getrennt abgesteckt werden. Synagogen und Museumsinnenräume haben eigene Besuchsregeln.",
+      "sourceUrl": "https://www.veneziaunica.it/en/things-to-do-in-venice/itineraries/cannaregio-authenticity-and-traditions",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_city_tourism_route_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-039",
+      "city": "venice",
+      "title": "Fondamenta delle Zattere – Blick auf die Giudecca",
+      "summary": "Die offizielle venezianische Tourismusplattform beschreibt die Fondamenta delle Zattere als lange Uferpromenade im Stadtteil Dorsoduro von San Basilio bis zur Punta della Dogana mit freiem Blick über den Giudecca-Kanal.",
+      "highlights": [
+        "Uferweg im Stadtteil Dorsoduro",
+        "Venezia-Unica-Route von San Basilio bis Punta della Dogana",
+        "Ausblick zur Insel Giudecca, im weiteren Verlauf Richtung San Giorgio Maggiore",
+        "Namensherkunft von historischen Holzflößen ('zattere')"
+      ],
+      "practical": "Der Fußweg am Wasser ist keine Gondel- oder Vaporettofahrt. Andere Gebäude und Restaurants haben eigene Eintritts-/Öffnungsbedingungen; nicht pauschal als 24-Stunden-Erlebnis planen.",
+      "sourceUrl": "https://www.veneziaunica.it/it/cosa-fare-a-venezia/itinerari/dorsoduro-sestiere-d-arte",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_city_tourism_route_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-043",
+      "city": "venice",
+      "title": "Lagunen-Sonnenuntergang – freier Spaziergang",
+      "summary": "Als mögliche kostenlose Abendrunde beschreibt VisitVenezia eine Kombination aus Ponte dell’Accademia, Punta della Dogana und der Uferpromenade Fondamenta delle Zattere mit Blick auf den Canale della Giudecca.",
+      "highlights": [
+        "Punta della Dogana als Panoramablick auf das Markusbecken",
+        "Uferpromenade Zattere mit Blick auf die Giudecca",
+        "Öffentliche Fußwege ohne zusätzlich gebuchte Bootstour"
+      ],
+      "practical": "Der konkrete Sonnenuntergang variiert mit Datum, Blickrichtung und Wetter. Foto- oder Spazierroute nur nach gewählten Orten ausweisen; ein Touristenvorschlag ist keine bestätigte Uhrzeit.",
+      "sourceUrl": "https://www.visitvenezia.eu/en/venetianity/walk-venice/venice-at-sunset-7-panoramic-viewpoints-",
+      "reviewedOn": "2026-11-14",
+      "validity": "tourism_inspiration_not_fixed_itinerary",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-051",
+      "city": "grindelwald",
+      "title": "Grindelwald Dorf – Panorama unterhalb des Eigers",
+      "summary": "Die offizielle Jungfrau-Website beschreibt Grindelwald als Bergdorf am Fuß der Eigernordwand und Ausgangspunkt für First, Kleine Scheidegg, Männlichen, Pfingstegg und weitere Ausflüge.",
+      "highlights": [
+        "Dorf Grindelwald als Ausgangspunkt der Jungfrau-Region",
+        "Blick auf die Eigernordwand",
+        "Verschiedene Bergbahnen starten von getrennten Haltestellen",
+        "Spaziergang durch das Dorf ohne pauschal gekauftes Bergbahnticket"
+      ],
+      "practical": "Nicht das Dorf mit dem First-Kliffrundweg oder der Gondelstation gleichsetzen. Für einen Snack oder Café-Stopp konkreten Betreiber auswählen.",
+      "sourceUrl": "https://www.jungfrau.ch/de-ch/grindelwald/",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_operator_area_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-054",
+      "city": "kandersteg",
+      "title": "Oeschinensee – kurze Uferpause",
+      "summary": "Der Gondelbetreiber unterscheidet die direkte, breite Wegverbindung C von der Bergstation zum Seeufer ausdrücklich von den anspruchsvolleren Bergtouren. Für die Direttissima gibt der Betreiber rund 20 Minuten bis zum See an.",
+      "highlights": [
+        "Direttissima C: Bergstation zum Seeufer circa 20 Minuten",
+        "Breiter Kies-/teils Asphaltweg, nach Betreiberinformation auch für Kinderwagen geeignet",
+        "Panoramaweg D als andere Option",
+        "Heuberg- und Oberbärgli-Wanderungen sind erheblich anspruchsvollere Routen"
+      ],
+      "practical": "Die 20 Minuten sind eine Orientierungszeit für die Verbindung ab Bergstation, nicht für den Seeaufenthalt oder den Abstieg ab Dorf. Jeweiligen Live-Wegstatus, Felssturzabsperrungen und letzte Talfahrt prüfen.",
+      "sourceUrl": "https://www.oeschinensee.ch/wandern/",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_operator_walk_description",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-055",
+      "city": "kandersteg",
+      "title": "Kandersteg – Dorfrunde bei gutem Wetter",
+      "summary": "Der örtliche Tourismusverband dokumentiert einen kurzen Verbindungsweg vom Bahnhof Kandersteg über die Bahnhofstraße und an beiden Kirchen vorbei zur Gondel-Talstation Oeschinen. Die veröffentlichte Strecke ist 1,1 Kilometer lang.",
+      "highlights": [
+        "Bahnhof Kandersteg als verlässlicher Einstiegspunkt",
+        "Referenzwanderung bis Gondel-Talstation: 1,1 km",
+        "Auf dem Weg reformierte und katholische Kirche",
+        "Offizielle Wegangabe: sehr geringe Höhendifferenz von ungefähr 27 m"
+      ],
+      "practical": "Die dokumentierten 1,1 Kilometer betreffen ausschließlich Bahnhof–Oeschinen-Talstation, nicht einen kompletten unabhängigen Dorfrundweg. Eine andere Route muss separat vermessen werden.",
+      "sourceUrl": "https://adelboden-lenk-kandersteg.ch/aktivitaeten/tour/detail/bahnhof-kandersteg-talstation-gondelbahn-oeschinen",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_regional_tourism_short_route_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-056",
+      "city": "montpellier",
+      "title": "Montpellier – Altstadt als optionaler Zwischenstopp",
+      "summary": "Das Office de Tourisme Montpellier beschreibt die weitgehend fußgängerfreundliche Altstadt L’Écusson mit mittelalterlichen Gassen zwischen Place de la Comédie und Place du Peyrou. Dort liegen historische Plätze und Straßenzüge.",
+      "highlights": [
+        "Place de la Comédie als zentraler Treffpunkt mit Straßenbahnanschluss",
+        "Altstadt L’Écusson mit kleinen Gassen und Plätzen",
+        "Place Saint-Roch, Place Sainte-Anne, Arc de Triomphe als mögliche Stationen",
+        "Eigenständiger öffentlicher Spaziergang statt obligatorischer zweistündiger Führung"
+      ],
+      "practical": "Montpellier ist in deinem Reiseplan nur ein Alternativstopp, kein gebuchtes Zugziel. Nur bei tatsächlicher Routenumstellung werden Zeiten, Gepäckweg und Verbindung relevant.",
+      "sourceUrl": "https://www.montpellier-tourisme.fr/decouvrir/millenaire/quartiers-emblematiques-de-montpellier/l-ecusson-centre-historique/",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_tourism_alternative_city_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    },
+    {
+      "id": "act-057",
+      "city": "toulouse",
+      "title": "Toulouse – kurzer Capitole-Stopp bei Nachtzug-Anschluss",
+      "summary": "Die offizielle Stadt-Tourismusorganisation beschreibt die Place du Capitole mit dem neoklassizistischen Rathaus- und Theatergebäude als Mittelpunkt der historischen Innenstadt. Die U-Bahn-Haltestelle Capitole liegt in der Nähe.",
+      "highlights": [
+        "Place du Capitole als klarer zentraler Orientierungsort",
+        "Rathaus und Théâtre du Capitole in einem Gebäude",
+        "Innenräume und Salle des Illustres sind nicht jederzeit besuchbar",
+        "Öffentliche Stadtplätze nicht mit geführten Museumsbesuchen gleichsetzen"
+      ],
+      "practical": "Ein solcher Zwischenstopp ist nur sinnvoll, wenn Ankunfts- und Nachtzug-Abfahrtszeit 2027 tatsächlich passen. Keine Zugsicherung, Fahrplanbestätigung oder Gepäckaufbewahrung aus der Stadtbeschreibung ableiten.",
+      "sourceUrl": "https://www.toulouse-tourisme.com/de/activite/le-capitole/",
+      "reviewedOn": "2026-11-14",
+      "validity": "official_tourism_optional_transfer_reference",
+      "price2027Confirmed": false,
+      "bookingConfirmed": false,
+      "photoRightsProvided": false
+    }
+  ]
+}

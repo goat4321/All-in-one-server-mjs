@@ -3,10 +3,13 @@ import { readFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 import { promisify } from 'node:util';
-import { gunzip } from 'node:zlib';
+import { createHash } from 'node:crypto';
+import { gunzip, gzip } from 'node:zlib';
 import { loadCatalog, distanceKm } from './lib/catalog.mjs';
+import {fetchSupermarkets} from './lib/supermarket-source.mjs';
 import { InputError, openStore } from './lib/store.mjs';
 import { routeTransit } from './lib/transit-route.mjs';
+import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './public/public-geocode-eligibility.mjs';
 
 const publicDir = new URL('./public/', import.meta.url);
 const types = {
@@ -16,13 +19,22 @@ const types = {
 };
 const maxBody = 2_000_000;
 const decompress = promisify(gunzip);
+const compress = promisify(gzip);
 const json = (res, value, status = 200) => {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
   res.end(JSON.stringify(value));
 };
 
+function acceptsGzip(header) {
+  const encodings = String(header ?? '').split(',').map(value => value.trim().split(';').map(part => part.trim()));
+  const requested = encodings.find(([name]) => name.toLowerCase() === 'gzip') ?? encodings.find(([name]) => name === '*');
+  const quality = requested?.find(part => /^q=/i.test(part));
+  const q = quality == null ? 1 : Number(quality.slice(2));
+  return Boolean(requested && q > 0 && q <= 1);
+}
+
 async function readJson(req) {
-  if (!req.headers['content-type']?.toLowerCase().startsWith('application/json')) throw new InputError('JSON erwartet.', 415);
+  if (req.headers['content-type']?.split(';',1)[0].trim().toLowerCase() !== 'application/json') throw new InputError('JSON erwartet.', 415);
   let size = 0;
   const parts = [];
   for await (const chunk of req) {
@@ -30,8 +42,11 @@ async function readJson(req) {
     if (size > maxBody) throw new InputError('Datei oder Änderung zu groß.', 413);
     parts.push(chunk);
   }
-  try { return JSON.parse(Buffer.concat(parts).toString('utf8')); }
+  let value;
+  try { value = JSON.parse(Buffer.concat(parts).toString('utf8')); }
   catch { throw new InputError('Ungültiges JSON.'); }
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new InputError('Ein JSON-Objekt wird erwartet.');
+  return value;
 }
 
 function validateCoordinates(values) {
@@ -49,6 +64,42 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
     database = fileURLToPath(new URL('./private/reiseplan.sqlite', import.meta.url));
   }
   const store = openStore(database, catalog);
+  // Only content-addressed public resources, never API or personal data.
+  // Bound retained and pending inputs by bytes and entries; changing a file
+  // changes its ETag, so development edits cannot return a stale payload.
+  const gzipCache = new Map();
+  let gzipCacheWeight = 0;
+  const gzipBudget = 12 * 1024 * 1024;
+  async function gzipStatic(etag, content) {
+    const hit = gzipCache.get(etag);
+    if (hit) {
+      gzipCache.delete(etag);
+      gzipCache.set(etag, hit);
+      return hit.promise;
+    }
+    const weight = content.length * 2 + 1024;
+    if (weight > gzipBudget) return compress(content);
+    // Do not evict in-flight entries: concurrent requests share compression.
+    for (const [key, entry] of gzipCache) {
+      if (gzipCacheWeight + weight <= gzipBudget && gzipCache.size < 128) break;
+      if (entry.pending) continue;
+      gzipCache.delete(key);
+      gzipCacheWeight -= entry.weight;
+    }
+    if (gzipCacheWeight + weight > gzipBudget || gzipCache.size >= 128) return compress(content);
+    const entry = {weight, pending:true, promise:null};
+    gzipCacheWeight += weight;
+    gzipCache.set(etag, entry);
+    entry.promise = compress(content).then(payload => {
+      entry.pending = false;
+      return payload;
+    }, error => {
+      gzipCache.delete(etag);
+      gzipCacheWeight -= weight;
+      throw error;
+    });
+    return entry.promise;
+  }
   const bundle = await readFile(new URL('./data/pilot-walks.json', import.meta.url), 'utf8')
     .then(JSON.parse).catch(() => ({}));
   const known = new Map(Object.entries(bundle));
@@ -131,6 +182,86 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
     return task;
   }
 
+
+  // Single user-initiated search only: no autocomplete, background bulk
+  // geocoding or map-centre substitution. Nominatim 1 request/second and cache.
+  const geocodeCache=new Map();
+  let geocodeQueue=Promise.resolve(), lastGeocode=0;
+  async function geocode(input) {
+    const {variantId,itemId}=input??{};
+    if(typeof variantId!=='string' || variantId.length>150 || typeof itemId!=='string' || itemId.length>180)
+      throw new InputError('Variante und Ort müssen angegeben werden.');
+    const current=store.current(variantId);
+    const item=[...current.trip.items,...current.imported,...current.state.manual]
+      .find(x=>x.id===itemId && x.address && x.city && !x.booked);
+    if(!item)throw new InputError('Nur vorhandene, ungebuchte Ortsadressen dürfen abgeglichen werden.',404);
+    // Enforce the same conflict restrictions on the server. Merely hiding the
+    // lookup button in a client is not a sufficient protection.
+    if(!publicGeocodeLookupAllowed(item))
+      throw new InputError(publicGeocodeLookupBlockedReason(item),409);
+    if(typeof item.address!=='string' || item.address.length>200)throw new InputError('Die Adresse ist für die Geokodierung ungeeignet.');
+    const city=catalog.cities[item.city];
+    if(!city?.point)throw new InputError('Stadtkoordinate für Plausibilitätsprüfung fehlt.');
+    const key=item.city+'|'+item.address.trim().toLowerCase();
+    const cached=()=>({...geocodeCache.get(key),name:item.name,address:item.address,city:item.city});
+    if(geocodeCache.has(key))return cached();
+    if(!upstream)throw new InputError('Online-Adressprüfung deaktiviert. Kartenposition kann weiterhin manuell ergänzt werden.',503);
+    const task=geocodeQueue.then(async()=>{
+      if(geocodeCache.has(key))return cached();
+      await new Promise(resolve=>setTimeout(resolve,Math.max(0,1250-(Date.now()-lastGeocode))));
+      lastGeocode=Date.now();
+      const url='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=3&addressdetails=1&q='
+        +encodeURIComponent(item.address);
+      let rows=[];
+      try {
+        const response=await fetcher(url,{signal:AbortSignal.timeout(7000),headers:{
+          'User-Agent':'Naol-Reiseplaner/1.0 (https://github.com/goat4321/All-in-one-server-mjs)',
+          'Accept':'application/json','Accept-Language':'de'
+        }});
+        if(!response.ok)throw new Error('Provider '+response.status);
+        rows=await response.json();
+        if(!Array.isArray(rows))throw new Error('Unbekanntes Anbieterformat');
+      }catch(e){throw new InputError('Online-Adressprüfung ist nicht erreichbar. Bestehende Daten bleiben unverändert.',503);}
+      const candidates=rows.filter(r=>r && [r.lat,r.lon].every(v=>(typeof v==='number'||(typeof v==='string'&&v.trim()!==''))&&Number.isFinite(Number(v))) && Math.abs(Number(r.lat))<=90 && Math.abs(Number(r.lon))<=180)
+        .map(r=>({displayName:String(r.display_name??'').slice(0,300),
+          point:[Number(r.lat),Number(r.lon)],osmType:String(r.osm_type??''),
+          osmId:String(r.osm_id??'')}))
+        .filter(r=>distanceKm(city.point,r.point)<=35).slice(0,3);
+      const value={name:item.name,address:item.address,city:item.city,candidates,
+        source:'OpenStreetMap Nominatim · einzelne nutzerinitiierte Suche',
+        warning:'Vorschläge können nahe Gebäuden oder Straßen liegen. Vor Übernahme Eingang und Name prüfen.'};
+      if(geocodeCache.size>=150)geocodeCache.clear();
+      geocodeCache.set(key,value);
+      return value;
+    });
+    geocodeQueue=task.catch(()=>{});
+    return task;
+  }
+
+  const marketCache=new Map();
+  let marketQueue=Promise.resolve();
+  let lastMarketQuery=0;
+  async function supermarkets(cityId){
+    const place=catalog.cities[cityId];
+    if(!place||!Array.isArray(place.point)
+      ||!catalog.trips.some(trip=>trip.route.includes(cityId)))
+      throw new InputError('Unbekannter Reiseort.',404);
+    const hit=marketCache.get(cityId);
+    if(hit&&Date.now()-hit.t<86400000)return {...hit.data,cached:true};
+    if(!upstream)throw new InputError('Supermarktsuche offline: bitte später erneut versuchen.',503);
+    const work=marketQueue.then(async()=>{
+      const cached=marketCache.get(cityId);
+      if(cached&&Date.now()-cached.t<86400000)return {...cached.data,cached:true};
+      await new Promise(resolve=>setTimeout(resolve,Math.max(0,1800-(Date.now()-lastMarketQuery))));
+      lastMarketQuery=Date.now();
+      const data=await fetchSupermarkets(cityId,place.point,{fetcher});
+      marketCache.set(cityId,{t:Date.now(),data});
+      return data;
+    });
+    marketQueue=work.catch(()=>{});
+    return work;
+  }
+
   const server = createServer(async (req, res) => {
     const localHost = req.headers.host;
     if (!/^(?:localhost|127\.0\.0\.1)(?::\d{1,5})?$/.test(localHost ?? '')) return json(res, { error: 'Lokaler Host erforderlich.' }, 403);
@@ -141,10 +272,31 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'DENY');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://tile.openstreetmap.org https://basemaps.cartocdn.com https://wms.geo.admin.ch; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
+    res.setHeader('Content-Security-Policy',
+      "default-src 'self'; "+
+      "script-src 'self' https://unpkg.com https://cdn.jsdelivr.net 'sha256-VwxUbM8Aa6fXOFgyj+XuKWSCSgp5VLJbBskEKbQGEKw='; "+
+      "style-src 'self' 'unsafe-inline' https://unpkg.com; "+
+      "img-src 'self' data: blob: https://commons.wikimedia.org https://upload.wikimedia.org https://thumb.wikimedia.org https://tiles.openfreemap.org https://tile.openstreetmap.org https://wms.geo.admin.ch; "+
+      "connect-src 'self' https://commons.wikimedia.org https://tiles.openfreemap.org https://unpkg.com https://cdn.jsdelivr.net; "+
+      "worker-src blob:; font-src 'self' data: https://tiles.openfreemap.org https://unpkg.com; "+
+      "object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
     try {
       const pathname = new URL(req.url, origin).pathname;
-      if (pathname === '/api/bootstrap' && req.method === 'GET') return json(res, { ...catalog, transitSchedules, variants: store.list() });
+      if(pathname==='/api/supermarkets'&&req.method==='GET'){
+        const cityId=new URL(req.url,origin).searchParams.get('city')??'';
+        if(!/^[a-z_-]{2,30}$/.test(cityId))throw new InputError('Ungültiger Stadtparameter.');
+        return json(res,await supermarkets(cityId));
+      }
+      if (pathname === '/api/bootstrap' && req.method === 'GET') {
+        const content = Buffer.from(JSON.stringify({ ...catalog, transitSchedules, variants: store.list() }));
+        const compressed = acceptsGzip(req.headers['accept-encoding']);
+        const payload = compressed ? await compress(content) : content;
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store',
+          Vary: 'Accept-Encoding', 'Content-Length': payload.length, ...(compressed ? { 'Content-Encoding': 'gzip' } : {}) });
+        res.end(payload);
+        return;
+      }
+      if (pathname === '/api/geocode' && req.method === 'POST') return json(res, await geocode(await readJson(req)));
       if (pathname === '/api/transit' && req.method === 'POST') return json(res, await transit(await readJson(req)));
       if (pathname === '/api/walk' && req.method === 'POST') {
         const { points, cachedOnly } = await readJson(req);
@@ -153,7 +305,9 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
       const match = pathname.match(/^\/api\/variant\/([\w:%-]+)(?:\/(import|copy))?$/);
       if (match) {
         const [, encoded, action] = match;
-        const id = decodeURIComponent(encoded);
+        let id;
+        try { id = decodeURIComponent(encoded); }
+        catch { throw new InputError('Ungültige Varianten-ID.'); }
         if (!action && req.method === 'GET') {
           const { trip, ...value } = store.current(id);
           return json(res, { ...value, logs: store.logs(id) });
@@ -175,9 +329,21 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
       const ext = path.split('.').at(-1);
       if (!file.href.startsWith(publicDir.href) || !types[ext]) return json(res, { error: 'Datei nicht gefunden.' }, 404);
       const content = await readFile(file);
-      res.writeHead(200, { 'Content-Type': types[ext], 'Content-Length': content.length,
-        'Cache-Control': path.startsWith('vendor/') ? 'public, max-age=604800' : 'no-cache' });
-      res.end(req.method === 'HEAD' ? undefined : content);
+      const etag = 'W/"' + createHash('sha256').update(content).digest('hex') + '"';
+      const compressible = ['html','css','js','mjs','json','geojson'].includes(ext) && content.length >= 1024;
+      const headers = { 'Content-Type': types[ext], ETag: etag,
+        'Cache-Control': path.startsWith('vendor/') ? 'public, max-age=604800' : 'no-cache',
+        ...(compressible ? { Vary: 'Accept-Encoding' } : {}) };
+      const validators = String(req.headers['if-none-match'] ?? '').split(',').map(v=>v.trim().replace(/^W\//,''));
+      if (validators.includes('*') || validators.includes(etag.slice(2))) {
+        res.writeHead(304, headers);
+        res.end();
+        return;
+      }
+      const zipped = compressible && acceptsGzip(req.headers['accept-encoding']);
+      const payload = zipped ? await gzipStatic(etag, content) : content;
+      res.writeHead(200, { ...headers, 'Content-Length': payload.length, ...(zipped ? { 'Content-Encoding': 'gzip' } : {}) });
+      res.end(req.method === 'HEAD' ? undefined : payload);
     } catch (error) {
       const status = error.status ?? (error.code === 'ENOENT' ? 404 : 500);
       if (status === 500) console.error(error);

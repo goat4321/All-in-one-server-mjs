@@ -1,0 +1,2031 @@
+{
+  "schema": "rail_and_food_individual_review_v20",
+  "observedOn": "2026-11-14",
+  "count": {
+    "transport": 29,
+    "food": 40,
+    "foodWithDirectIndoorOption": 7,
+    "foodWithPreviousVendorReferences": 9
+  },
+  "railSalesReference": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+  "transport": [
+    {
+      "id": "tr-ir-classic-01",
+      "tripId": "ir-classic",
+      "from": "munich",
+      "to": "paris",
+      "plannedDate": "2027-09-01",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": 1900,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.bahn.de/",
+        "https://www.sncf-connect.com/en-en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-classic-02",
+      "tripId": "ir-classic",
+      "from": "paris",
+      "to": "barcelona",
+      "plannedDate": "2027-09-03",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": 3500,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.sncf-connect.com/en-en",
+        "https://www.renfe.com/es/en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-classic-03",
+      "tripId": "ir-classic",
+      "from": "barcelona",
+      "to": "sete",
+      "plannedDate": "2027-09-06",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.renfe.com/es/en",
+        "https://www.sncf-connect.com/en-en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-classic-04",
+      "tripId": "ir-classic",
+      "from": "sete",
+      "to": "nice",
+      "plannedDate": "2027-09-08",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.sncf-connect.com/en-en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-classic-05",
+      "tripId": "ir-classic",
+      "from": "nice",
+      "to": "genoa",
+      "plannedDate": "2027-09-10",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.sncf-connect.com/en-en",
+        "https://www.trenitalia.com/en.html"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-classic-06",
+      "tripId": "ir-classic",
+      "from": "genoa",
+      "to": "venice",
+      "plannedDate": "2027-09-12",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.trenitalia.com/en.html"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-classic-07",
+      "tripId": "ir-classic",
+      "from": "venice",
+      "to": "munich",
+      "plannedDate": "2027-09-14",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.trenitalia.com/en.html",
+        "https://www.bahn.de/"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-swiss-01",
+      "tripId": "ir-swiss",
+      "from": "munich",
+      "to": "paris",
+      "plannedDate": "2027-09-01",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": 1900,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.bahn.de/",
+        "https://www.sncf-connect.com/en-en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-swiss-02",
+      "tripId": "ir-swiss",
+      "from": "paris",
+      "to": "barcelona",
+      "plannedDate": "2027-09-03",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": 3500,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.sncf-connect.com/en-en",
+        "https://www.renfe.com/es/en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-swiss-03",
+      "tripId": "ir-swiss",
+      "from": "barcelona",
+      "to": "sete",
+      "plannedDate": "2027-09-06",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.renfe.com/es/en",
+        "https://www.sncf-connect.com/en-en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-swiss-04",
+      "tripId": "ir-swiss",
+      "from": "sete",
+      "to": "nice",
+      "plannedDate": "2027-09-08",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.sncf-connect.com/en-en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-swiss-05",
+      "tripId": "ir-swiss",
+      "from": "nice",
+      "to": "kandersteg",
+      "plannedDate": "2027-09-10",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.sncf-connect.com/en-en",
+        "https://www.sbb.ch/en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-swiss-06",
+      "tripId": "ir-swiss",
+      "from": "kandersteg",
+      "to": "appenzell",
+      "plannedDate": "2027-09-12",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.sbb.ch/en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-swiss-07",
+      "tripId": "ir-swiss",
+      "from": "appenzell",
+      "to": "munich",
+      "plannedDate": "2027-09-14",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.sbb.ch/en",
+        "https://www.bahn.de/"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-august-01",
+      "tripId": "ir-august",
+      "from": "munich",
+      "to": "paris",
+      "plannedDate": "2027-08-17",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": 1900,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.bahn.de/",
+        "https://www.sncf-connect.com/en-en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-august-02",
+      "tripId": "ir-august",
+      "from": "paris",
+      "to": "toulouse",
+      "plannedDate": "2027-08-17",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.sncf-connect.com/en-en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-august-03",
+      "tripId": "ir-august",
+      "from": "toulouse",
+      "to": "barcelona",
+      "plannedDate": "2027-08-18",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.renfe.com/es/en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-august-04",
+      "tripId": "ir-august",
+      "from": "barcelona",
+      "to": "sete",
+      "plannedDate": "2027-08-20",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.renfe.com/es/en",
+        "https://www.sncf-connect.com/en-en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-august-05",
+      "tripId": "ir-august",
+      "from": "sete",
+      "to": "nice",
+      "plannedDate": "2027-08-22",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.sncf-connect.com/en-en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-august-06",
+      "tripId": "ir-august",
+      "from": "nice",
+      "to": "genoa",
+      "plannedDate": "2027-08-24",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.sncf-connect.com/en-en",
+        "https://www.trenitalia.com/en.html"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-august-07",
+      "tripId": "ir-august",
+      "from": "genoa",
+      "to": "venice",
+      "plannedDate": "2027-08-25",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.trenitalia.com/en.html"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-ir-august-08",
+      "tripId": "ir-august",
+      "from": "venice",
+      "to": "munich",
+      "plannedDate": "2027-08-27",
+      "mode": "rail",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": "EUR",
+      "operatorLinks": [
+        "https://www.trenitalia.com/en.html",
+        "https://www.bahn.de/"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Stand 14.11.2026: SNCF TGV bis 02.07.2027 geöffnet, Intercités häufig nur bis 31.03.; keine Freigabe dieser September-Verbindung. Unterschiedliche nationale Buchungsfenster möglich.",
+      "interrailReference": "Sitzplatzreservierung zusätzlich zum Pass prüfen; die ausgewiesene Gebühr ist eine historische Referenz, keine 2027er Buchung.",
+      "rejectionReason": "Reisetag bekannt, aber keine bestätigte Zuggattung/Zugnummer, Fahrplanzeit, reservierbare Sitze, gültiger Endpreis.",
+      "nextAction": "Ab Fahrplan-/Verkaufsstart für genaues Datum und Gruppengröße Betreiberverbindung und Passreservierungsplätze prüfen",
+      "sourceIds": [
+        "tripsy",
+        "sncf_sales",
+        "interrail_res"
+      ]
+    },
+    {
+      "id": "tr-swiss-week-01",
+      "tripId": "swiss-week",
+      "from": "munich",
+      "to": "appenzell",
+      "plannedDate": "2027-09-05",
+      "mode": "car",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": null,
+      "operatorLinks": [
+        "https://www.bahn.de/",
+        "https://www.sbb.ch/en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Für Autofahrt nicht relevant; 2027 Mietwagen/Parkplätze/Treibstoff offen",
+      "interrailReference": "Autofahrt zählt nicht als Interrail-Reisetag.",
+      "rejectionReason": "Keine bestätigte Fahrzeit/Treibstoff-/Park-/Mietwagenausgabe für die datierte Autofahrt.",
+      "nextAction": "Fahrzeug, Fahrer, Startzeit und Route separat bestätigen",
+      "sourceIds": [
+        "tripsy"
+      ]
+    },
+    {
+      "id": "tr-swiss-week-02",
+      "tripId": "swiss-week",
+      "from": "appenzell",
+      "to": "wasserauen",
+      "plannedDate": "2027-09-06",
+      "mode": "car",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": null,
+      "operatorLinks": [
+        "https://www.sbb.ch/en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Für Autofahrt nicht relevant; 2027 Mietwagen/Parkplätze/Treibstoff offen",
+      "interrailReference": "Autofahrt zählt nicht als Interrail-Reisetag.",
+      "rejectionReason": "Keine bestätigte Fahrzeit/Treibstoff-/Park-/Mietwagenausgabe für die datierte Autofahrt.",
+      "nextAction": "Fahrzeug, Fahrer, Startzeit und Route separat bestätigen",
+      "sourceIds": [
+        "tripsy"
+      ]
+    },
+    {
+      "id": "tr-swiss-week-03",
+      "tripId": "swiss-week",
+      "from": "appenzell",
+      "to": "glarus",
+      "plannedDate": "2027-09-07",
+      "mode": "car",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": null,
+      "operatorLinks": [
+        "https://www.sbb.ch/en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Für Autofahrt nicht relevant; 2027 Mietwagen/Parkplätze/Treibstoff offen",
+      "interrailReference": "Autofahrt zählt nicht als Interrail-Reisetag.",
+      "rejectionReason": "Keine bestätigte Fahrzeit/Treibstoff-/Park-/Mietwagenausgabe für die datierte Autofahrt.",
+      "nextAction": "Fahrzeug, Fahrer, Startzeit und Route separat bestätigen",
+      "sourceIds": [
+        "tripsy"
+      ]
+    },
+    {
+      "id": "tr-swiss-week-04",
+      "tripId": "swiss-week",
+      "from": "glarus",
+      "to": "grindelwald",
+      "plannedDate": "2027-09-08",
+      "mode": "car",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": null,
+      "operatorLinks": [
+        "https://www.sbb.ch/en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Für Autofahrt nicht relevant; 2027 Mietwagen/Parkplätze/Treibstoff offen",
+      "interrailReference": "Autofahrt zählt nicht als Interrail-Reisetag.",
+      "rejectionReason": "Keine bestätigte Fahrzeit/Treibstoff-/Park-/Mietwagenausgabe für die datierte Autofahrt.",
+      "nextAction": "Fahrzeug, Fahrer, Startzeit und Route separat bestätigen",
+      "sourceIds": [
+        "tripsy"
+      ]
+    },
+    {
+      "id": "tr-swiss-week-05",
+      "tripId": "swiss-week",
+      "from": "grindelwald",
+      "to": "kandersteg",
+      "plannedDate": "2027-09-09",
+      "mode": "car",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": null,
+      "operatorLinks": [
+        "https://www.sbb.ch/en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Für Autofahrt nicht relevant; 2027 Mietwagen/Parkplätze/Treibstoff offen",
+      "interrailReference": "Autofahrt zählt nicht als Interrail-Reisetag.",
+      "rejectionReason": "Keine bestätigte Fahrzeit/Treibstoff-/Park-/Mietwagenausgabe für die datierte Autofahrt.",
+      "nextAction": "Fahrzeug, Fahrer, Startzeit und Route separat bestätigen",
+      "sourceIds": [
+        "tripsy"
+      ]
+    },
+    {
+      "id": "tr-swiss-week-06",
+      "tripId": "swiss-week",
+      "from": "kandersteg",
+      "to": "oeschinensee",
+      "plannedDate": "2027-09-10",
+      "mode": "car",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": null,
+      "operatorLinks": [
+        "https://www.sbb.ch/en"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Für Autofahrt nicht relevant; 2027 Mietwagen/Parkplätze/Treibstoff offen",
+      "interrailReference": "Autofahrt zählt nicht als Interrail-Reisetag.",
+      "rejectionReason": "Keine bestätigte Fahrzeit/Treibstoff-/Park-/Mietwagenausgabe für die datierte Autofahrt.",
+      "nextAction": "Fahrzeug, Fahrer, Startzeit und Route separat bestätigen",
+      "sourceIds": [
+        "tripsy"
+      ]
+    },
+    {
+      "id": "tr-swiss-week-07",
+      "tripId": "swiss-week",
+      "from": "kandersteg",
+      "to": "munich",
+      "plannedDate": "2027-09-11",
+      "mode": "car",
+      "reviewedOn": "2026-11-14",
+      "timetableVerified2027": false,
+      "departure": null,
+      "arrival": null,
+      "trainNumber": null,
+      "ticketPriceCents": null,
+      "bookableConfirmed": false,
+      "reservationConfirmed": false,
+      "reservationReferenceCents": null,
+      "reservationReferenceCurrency": null,
+      "operatorLinks": [
+        "https://www.sbb.ch/en",
+        "https://www.bahn.de/"
+      ],
+      "salesSourceUrl": "https://www.sncf-connect.com/en-en/article/the-opening-of-ticket-sales-for-winter-and-spring-summer-2027",
+      "salesWindowFact": "Für Autofahrt nicht relevant; 2027 Mietwagen/Parkplätze/Treibstoff offen",
+      "interrailReference": "Autofahrt zählt nicht als Interrail-Reisetag.",
+      "rejectionReason": "Keine bestätigte Fahrzeit/Treibstoff-/Park-/Mietwagenausgabe für die datierte Autofahrt.",
+      "nextAction": "Fahrzeug, Fahrer, Startzeit und Route separat bestätigen",
+      "sourceIds": [
+        "tripsy"
+      ]
+    }
+  ],
+  "food": [
+    {
+      "id": "food-paris-supermarket_cook",
+      "city": "paris",
+      "kind": "supermarket_cook",
+      "originalIdea": "Gemeinsamer Einkauf und kochen, wenn Küche nachgewiesen",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Supermarkt-Einkauf, Portionsmengen, Küche und konkretes Warenkorbbudget nicht an einen Anbieter/Ort gebunden",
+      "nextAction": "Küchenart und 3-/4-Personen-Warenkorb erst nach Unterkunftsauswahl kalkulieren"
+    },
+    {
+      "id": "food-paris-regional_takeaway",
+      "city": "paris",
+      "kind": "regional_takeaway",
+      "originalIdea": "Regionale günstige Spezialität / Take-away",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [
+        {
+          "id": "food-v03-001",
+          "name": "PLAN B PARIS",
+          "sourceUrl": "https://www.google.com/maps/search/?api=1&query=PLAN%20B%20PARIS%203%20Rue%20de%20Compi%C3%A8gne%2C%2075010%20Paris%2C%20France",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-002",
+          "name": "Quick Gare du Nord",
+          "sourceUrl": "https://deliveroo.fr/fr/menu/paris/10eme-gare-du-nord/quick-paris-gare-du-nord",
+          "sampleMenu": [
+            {
+              "name": "Menu Giant",
+              "cents": 1150,
+              "kind": "delivery_complete_menu"
+            },
+            {
+              "name": "Menu Long Bacon",
+              "cents": 1195,
+              "kind": "delivery_complete_menu"
+            },
+            {
+              "name": "Menu Giant Max",
+              "cents": 1320,
+              "kind": "delivery_complete_menu"
+            }
+          ],
+          "sampleType": "delivery_menu_only",
+          "asOf": "Liefermenü, Live-Webansicht 13.11.2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-003",
+          "name": "Les Cafés San José",
+          "sourceUrl": "https://www.google.com/maps/search/?api=1&query=Les%20Caf%C3%A9s%20San%20Jos%C3%A9%2013%20Rue%20de%20Paradis%2C%2075010%20Paris%2C%20France",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-004",
+          "name": "Terminus Nord",
+          "sourceUrl": "https://www.terminusnord.com/menus-carte/",
+          "sampleMenu": [
+            {
+              "name": "Mittag 2 Gänge, Mo–Fr",
+              "cents": 2450,
+              "kind": "fixed_menu"
+            },
+            {
+              "name": "Mittag 3 Gänge, Mo–Fr",
+              "cents": 2950,
+              "kind": "fixed_menu"
+            },
+            {
+              "name": "Brasserie 3 Gänge, Abend/Wochenende",
+              "cents": 3950,
+              "kind": "fixed_menu"
+            }
+          ],
+          "sampleType": "operator_menu",
+          "asOf": "Onlinekarte November 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        }
+      ],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Regionale Speise nicht spezifiziert; die beigefügten konkreten Gastrobetriebe sind unabhängig recherchierte Alternativen, keine bestätigte passende 2027-Menübestellung",
+      "nextAction": "Konkretes Gericht / Restaurant wählen; Zutaten oder Menü inklusive Getränk/Service bei Betreiber bestätigen"
+    },
+    {
+      "id": "food-paris-evening_group",
+      "city": "paris",
+      "kind": "evening_group",
+      "originalIdea": "Spaziergang und gemeinsamer Abend am Wasser oder Aussichtspunkt",
+      "originalPriceCents": 0,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "free_public_activity_only_no_food_or_travel_included",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Allgemeiner kostenloser Spazier-/Aussichtsvorschlag ohne festen Treffpunkt, eventuelle ÖPNV-/Verzehrkosten nicht enthalten",
+      "nextAction": "Treffpunkt, Wetter und Rückfahrt festlegen; 0-€-Status gilt nur für öffentlichen Außenraum."
+    },
+    {
+      "id": "food-paris-rainy_active",
+      "city": "paris",
+      "kind": "rainy_active",
+      "originalIdea": "Indoor-Sportaktivität bei Regen, konkrete Einrichtung noch zu recherchieren",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [
+        "indoor-arkose-paris"
+      ],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Es gibt nun konkrete Betreiber mit veröffentlichtem historischen Tarif; Öffnung 2027, Eignung/Material vor Planung prüfen",
+      "nextAction": "Eine der verlinkten Indoor-Alternativen für den konkreten Reisetag wählen und aktuelles Angebot prüfen"
+    },
+    {
+      "id": "food-barcelona-supermarket_cook",
+      "city": "barcelona",
+      "kind": "supermarket_cook",
+      "originalIdea": "Gemeinsamer Einkauf und kochen, wenn Küche nachgewiesen",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Supermarkt-Einkauf, Portionsmengen, Küche und konkretes Warenkorbbudget nicht an einen Anbieter/Ort gebunden",
+      "nextAction": "Küchenart und 3-/4-Personen-Warenkorb erst nach Unterkunftsauswahl kalkulieren"
+    },
+    {
+      "id": "food-barcelona-regional_takeaway",
+      "city": "barcelona",
+      "kind": "regional_takeaway",
+      "originalIdea": "Regionale günstige Spezialität / Take-away",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [
+        {
+          "id": "food-v03-005",
+          "name": "La Plata",
+          "sourceUrl": "https://vdvermut.es/bar-la-plata/",
+          "sampleMenu": [
+            {
+              "name": "Pincho de butifarra",
+              "cents": 250,
+              "kind": "dish"
+            },
+            {
+              "name": "Pescadito frito",
+              "cents": 350,
+              "kind": "dish"
+            },
+            {
+              "name": "Pan con tomate",
+              "cents": 300,
+              "kind": "dish"
+            }
+          ],
+          "sampleType": "independent_visit_2026",
+          "asOf": "Restaurantbesuch August 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-006",
+          "name": "Sagradas Tapas",
+          "sourceUrl": "https://www.sagradastapas.com/nuestra-carta/",
+          "sampleMenu": [
+            {
+              "name": "Patatas bravas",
+              "cents": 510,
+              "kind": "dish"
+            },
+            {
+              "name": "Croquetas de pollo",
+              "cents": 620,
+              "kind": "dish"
+            },
+            {
+              "name": "Paella de marisco",
+              "cents": 810,
+              "kind": "dish"
+            }
+          ],
+          "sampleType": "operator_menu",
+          "asOf": "Onlinekarte November 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-007",
+          "name": "Taller de Tapas Sant Josep Oriol",
+          "sourceUrl": "https://panel.refoodlution.com/preview/618",
+          "sampleMenu": [
+            {
+              "name": "Gazpacho",
+              "cents": 650,
+              "kind": "dish"
+            },
+            {
+              "name": "Cod fritters mit Aioli",
+              "cents": 900,
+              "kind": "dish"
+            },
+            {
+              "name": "Gebackene Dorade",
+              "cents": 1900,
+              "kind": "dish"
+            }
+          ],
+          "sampleType": "restaurant_menu_platform",
+          "asOf": "Digitale Karte 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        }
+      ],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Regionale Speise nicht spezifiziert; die beigefügten konkreten Gastrobetriebe sind unabhängig recherchierte Alternativen, keine bestätigte passende 2027-Menübestellung",
+      "nextAction": "Konkretes Gericht / Restaurant wählen; Zutaten oder Menü inklusive Getränk/Service bei Betreiber bestätigen"
+    },
+    {
+      "id": "food-barcelona-evening_group",
+      "city": "barcelona",
+      "kind": "evening_group",
+      "originalIdea": "Spaziergang und gemeinsamer Abend am Wasser oder Aussichtspunkt",
+      "originalPriceCents": 0,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "free_public_activity_only_no_food_or_travel_included",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Allgemeiner kostenloser Spazier-/Aussichtsvorschlag ohne festen Treffpunkt, eventuelle ÖPNV-/Verzehrkosten nicht enthalten",
+      "nextAction": "Treffpunkt, Wetter und Rückfahrt festlegen; 0-€-Status gilt nur für öffentlichen Außenraum."
+    },
+    {
+      "id": "food-barcelona-rainy_active",
+      "city": "barcelona",
+      "kind": "rainy_active",
+      "originalIdea": "Indoor-Sportaktivität bei Regen, konkrete Einrichtung noch zu recherchieren",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [
+        "indoor-sharma-barcelona"
+      ],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Es gibt nun konkrete Betreiber mit veröffentlichtem historischen Tarif; Öffnung 2027, Eignung/Material vor Planung prüfen",
+      "nextAction": "Eine der verlinkten Indoor-Alternativen für den konkreten Reisetag wählen und aktuelles Angebot prüfen"
+    },
+    {
+      "id": "food-sete-supermarket_cook",
+      "city": "sete",
+      "kind": "supermarket_cook",
+      "originalIdea": "Gemeinsamer Einkauf und kochen, wenn Küche nachgewiesen",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Supermarkt-Einkauf, Portionsmengen, Küche und konkretes Warenkorbbudget nicht an einen Anbieter/Ort gebunden",
+      "nextAction": "Küchenart und 3-/4-Personen-Warenkorb erst nach Unterkunftsauswahl kalkulieren"
+    },
+    {
+      "id": "food-sete-regional_takeaway",
+      "city": "sete",
+      "kind": "regional_takeaway",
+      "originalIdea": "Regionale günstige Spezialität / Take-away",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [
+        {
+          "id": "food-v03-008",
+          "name": "Miam's d'ici et d'ailleurs",
+          "sourceUrl": "https://restaurantguru.com/Miams-Dici-et-Dailleurs-Sete/menu",
+          "sampleMenu": [
+            {
+              "name": "Poulet façon tagine",
+              "cents": 1500,
+              "kind": "dish"
+            },
+            {
+              "name": "Miam bœuf",
+              "cents": 2000,
+              "kind": "dish"
+            },
+            {
+              "name": "Miam de la mer",
+              "cents": 1900,
+              "kind": "dish"
+            }
+          ],
+          "sampleType": "operator_uploaded_third_party_menu",
+          "asOf": "Vom Eigentümer hochgeladene Sommerkarte 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-009",
+          "name": "Le Monte Christo",
+          "sourceUrl": "https://www.tourisme-occitanie.com/fr/fiche/restauration/le-monte-christo-sete_TFORESLAR034FS001R7/",
+          "sampleMenu": [
+            {
+              "name": "Gruppenmenü 2027 ab",
+              "cents": 2800,
+              "kind": "group_menu_per_person"
+            }
+          ],
+          "sampleType": "tourism_2027_group_offer",
+          "asOf": "Offizielles Regionalportal: Menügruppe 2027",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-010",
+          "name": "Chez François",
+          "sourceUrl": "https://www.google.com/maps/search/?api=1&query=Chez%20Fran%C3%A7ois%208%20Quai%20G%C3%A9n%C3%A9ral%20Durand%2C%2034200%20S%C3%A8te%2C%20France",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        }
+      ],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Regionale Speise nicht spezifiziert; die beigefügten konkreten Gastrobetriebe sind unabhängig recherchierte Alternativen, keine bestätigte passende 2027-Menübestellung",
+      "nextAction": "Konkretes Gericht / Restaurant wählen; Zutaten oder Menü inklusive Getränk/Service bei Betreiber bestätigen"
+    },
+    {
+      "id": "food-sete-evening_group",
+      "city": "sete",
+      "kind": "evening_group",
+      "originalIdea": "Spaziergang und gemeinsamer Abend am Wasser oder Aussichtspunkt",
+      "originalPriceCents": 0,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "free_public_activity_only_no_food_or_travel_included",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Allgemeiner kostenloser Spazier-/Aussichtsvorschlag ohne festen Treffpunkt, eventuelle ÖPNV-/Verzehrkosten nicht enthalten",
+      "nextAction": "Treffpunkt, Wetter und Rückfahrt festlegen; 0-€-Status gilt nur für öffentlichen Außenraum."
+    },
+    {
+      "id": "food-sete-rainy_active",
+      "city": "sete",
+      "kind": "rainy_active",
+      "originalIdea": "Indoor-Sportaktivität bei Regen, konkrete Einrichtung noch zu recherchieren",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [
+        "indoor-fonquerne-sete"
+      ],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Es gibt nun konkrete Betreiber mit veröffentlichtem historischen Tarif; Öffnung 2027, Eignung/Material vor Planung prüfen",
+      "nextAction": "Eine der verlinkten Indoor-Alternativen für den konkreten Reisetag wählen und aktuelles Angebot prüfen"
+    },
+    {
+      "id": "food-nice-supermarket_cook",
+      "city": "nice",
+      "kind": "supermarket_cook",
+      "originalIdea": "Gemeinsamer Einkauf und kochen, wenn Küche nachgewiesen",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Supermarkt-Einkauf, Portionsmengen, Küche und konkretes Warenkorbbudget nicht an einen Anbieter/Ort gebunden",
+      "nextAction": "Küchenart und 3-/4-Personen-Warenkorb erst nach Unterkunftsauswahl kalkulieren"
+    },
+    {
+      "id": "food-nice-regional_takeaway",
+      "city": "nice",
+      "kind": "regional_takeaway",
+      "originalIdea": "Regionale günstige Spezialität / Take-away",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [
+        {
+          "id": "food-v03-011",
+          "name": "Chez Palmyre",
+          "sourceUrl": "https://fr.gaultmillau.com/fr/restaurants/chez-palmyre",
+          "sampleMenu": [
+            {
+              "name": "Menü à la carte / Formel",
+              "cents": 2200,
+              "kind": "fixed_menu"
+            }
+          ],
+          "sampleType": "guide_price_snapshot_2026",
+          "asOf": "Gault&Millau 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-012",
+          "name": "Cantina de la Bourse",
+          "sourceUrl": "https://www.google.com/maps/search/?api=1&query=Cantina%20de%20la%20Bourse%207%20Place%20Saint-Fran%C3%A7ois%2C%2006300%20Nice%2C%20France",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-013",
+          "name": "Popote Bistrot",
+          "sourceUrl": "https://www.tripadvisor.fr/Restaurant_Review-g187234-d6468837-Reviews-Popote_Bistrot-Nice_French_Riviera_Cote_d_Azur_Provence_Alpes_Cote_d_Azur.html",
+          "sampleMenu": [
+            {
+              "name": "Brunch Popote",
+              "cents": 2200,
+              "kind": "fixed_menu"
+            },
+            {
+              "name": "Salade César",
+              "cents": 1600,
+              "kind": "dish"
+            },
+            {
+              "name": "Salade Burrata",
+              "cents": 1400,
+              "kind": "dish"
+            }
+          ],
+          "sampleType": "third_party_menu",
+          "asOf": "Plattform-Menü November 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        }
+      ],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Regionale Speise nicht spezifiziert; die beigefügten konkreten Gastrobetriebe sind unabhängig recherchierte Alternativen, keine bestätigte passende 2027-Menübestellung",
+      "nextAction": "Konkretes Gericht / Restaurant wählen; Zutaten oder Menü inklusive Getränk/Service bei Betreiber bestätigen"
+    },
+    {
+      "id": "food-nice-evening_group",
+      "city": "nice",
+      "kind": "evening_group",
+      "originalIdea": "Spaziergang und gemeinsamer Abend am Wasser oder Aussichtspunkt",
+      "originalPriceCents": 0,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "free_public_activity_only_no_food_or_travel_included",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Allgemeiner kostenloser Spazier-/Aussichtsvorschlag ohne festen Treffpunkt, eventuelle ÖPNV-/Verzehrkosten nicht enthalten",
+      "nextAction": "Treffpunkt, Wetter und Rückfahrt festlegen; 0-€-Status gilt nur für öffentlichen Außenraum."
+    },
+    {
+      "id": "food-nice-rainy_active",
+      "city": "nice",
+      "kind": "rainy_active",
+      "originalIdea": "Indoor-Sportaktivität bei Regen, konkrete Einrichtung noch zu recherchieren",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [
+        "indoor-jean-bouin-nice"
+      ],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Es gibt nun konkrete Betreiber mit veröffentlichtem historischen Tarif; Öffnung 2027, Eignung/Material vor Planung prüfen",
+      "nextAction": "Eine der verlinkten Indoor-Alternativen für den konkreten Reisetag wählen und aktuelles Angebot prüfen"
+    },
+    {
+      "id": "food-genoa-supermarket_cook",
+      "city": "genoa",
+      "kind": "supermarket_cook",
+      "originalIdea": "Gemeinsamer Einkauf und kochen, wenn Küche nachgewiesen",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Supermarkt-Einkauf, Portionsmengen, Küche und konkretes Warenkorbbudget nicht an einen Anbieter/Ort gebunden",
+      "nextAction": "Küchenart und 3-/4-Personen-Warenkorb erst nach Unterkunftsauswahl kalkulieren"
+    },
+    {
+      "id": "food-genoa-regional_takeaway",
+      "city": "genoa",
+      "kind": "regional_takeaway",
+      "originalIdea": "Regionale günstige Spezialität / Take-away",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [
+        {
+          "id": "food-v03-014",
+          "name": "Ristorante Zimino",
+          "sourceUrl": "https://www.mycia.it/menu/genova/zimino-NrKsLNUoZ",
+          "sampleMenu": [
+            {
+              "name": "Minestrone alla genovese",
+              "cents": 550,
+              "kind": "dish"
+            },
+            {
+              "name": "Lasagne al pesto",
+              "cents": 650,
+              "kind": "dish"
+            },
+            {
+              "name": "Ravioli di borragine",
+              "cents": 650,
+              "kind": "dish"
+            }
+          ],
+          "sampleType": "third_party_menu_date_unconfirmed",
+          "asOf": "Onlinekarte, Gültigkeit unbestätigt",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-015",
+          "name": "Cavour modo21",
+          "sourceUrl": "https://glovoapp.com/it/it/genova/stores/cavour-modo-21-gen",
+          "sampleMenu": [
+            {
+              "name": "Trofie al pesto (Lieferung)",
+              "cents": 1080,
+              "kind": "delivery"
+            },
+            {
+              "name": "Pansoti in Walnusssauce (Lieferung)",
+              "cents": 960,
+              "kind": "delivery"
+            },
+            {
+              "name": "Penne all’arrabbiata (Lieferung)",
+              "cents": 420,
+              "kind": "delivery"
+            }
+          ],
+          "sampleType": "delivery_menu_only",
+          "asOf": "Glovo-Bestellkarte November 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-016",
+          "name": "Pastificio Artigianale di Canneto",
+          "sourceUrl": "https://www.pastificioartigianaledicanneto.it/menu-e-street-food/",
+          "sampleMenu": [
+            {
+              "name": "Lasagne ragù/pesto",
+              "cents": 800,
+              "kind": "dish"
+            },
+            {
+              "name": "Gefüllte Pasta klein",
+              "cents": 700,
+              "kind": "dish"
+            },
+            {
+              "name": "Gefüllte Pasta groß",
+              "cents": 1100,
+              "kind": "dish"
+            }
+          ],
+          "sampleType": "operator_menu",
+          "asOf": "Offizielle Karte 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        }
+      ],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Regionale Speise nicht spezifiziert; die beigefügten konkreten Gastrobetriebe sind unabhängig recherchierte Alternativen, keine bestätigte passende 2027-Menübestellung",
+      "nextAction": "Konkretes Gericht / Restaurant wählen; Zutaten oder Menü inklusive Getränk/Service bei Betreiber bestätigen"
+    },
+    {
+      "id": "food-genoa-evening_group",
+      "city": "genoa",
+      "kind": "evening_group",
+      "originalIdea": "Spaziergang und gemeinsamer Abend am Wasser oder Aussichtspunkt",
+      "originalPriceCents": 0,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "free_public_activity_only_no_food_or_travel_included",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Allgemeiner kostenloser Spazier-/Aussichtsvorschlag ohne festen Treffpunkt, eventuelle ÖPNV-/Verzehrkosten nicht enthalten",
+      "nextAction": "Treffpunkt, Wetter und Rückfahrt festlegen; 0-€-Status gilt nur für öffentlichen Außenraum."
+    },
+    {
+      "id": "food-genoa-rainy_active",
+      "city": "genoa",
+      "kind": "rainy_active",
+      "originalIdea": "Indoor-Sportaktivität bei Regen, konkrete Einrichtung noch zu recherchieren",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [
+        "indoor-fpx-genoa"
+      ],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Es gibt nun konkrete Betreiber mit veröffentlichtem historischen Tarif; Öffnung 2027, Eignung/Material vor Planung prüfen",
+      "nextAction": "Eine der verlinkten Indoor-Alternativen für den konkreten Reisetag wählen und aktuelles Angebot prüfen"
+    },
+    {
+      "id": "food-venice-supermarket_cook",
+      "city": "venice",
+      "kind": "supermarket_cook",
+      "originalIdea": "Gemeinsamer Einkauf und kochen, wenn Küche nachgewiesen",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Supermarkt-Einkauf, Portionsmengen, Küche und konkretes Warenkorbbudget nicht an einen Anbieter/Ort gebunden",
+      "nextAction": "Küchenart und 3-/4-Personen-Warenkorb erst nach Unterkunftsauswahl kalkulieren"
+    },
+    {
+      "id": "food-venice-regional_takeaway",
+      "city": "venice",
+      "kind": "regional_takeaway",
+      "originalIdea": "Regionale günstige Spezialität / Take-away",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [
+        {
+          "id": "food-v03-017",
+          "name": "Al Mercà",
+          "sourceUrl": "https://www.tripadvisor.it/Restaurant_Review-g187870-d1009506-Reviews-Al_Merca-Venice_Veneto.html",
+          "sampleMenu": [
+            {
+              "name": "Cicchetto (angegebener Stückpreis)",
+              "cents": 200,
+              "kind": "cicchetto"
+            }
+          ],
+          "sampleType": "individual_customer_receipt_reference_2026",
+          "asOf": "Gästebericht März 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-018",
+          "name": "Bar All'Arco",
+          "sourceUrl": "https://entrtn.com/en/venice/allarco/",
+          "sampleMenu": [
+            {
+              "name": "Baccalà mantecato Cicchetto",
+              "cents": 250,
+              "kind": "dish"
+            },
+            {
+              "name": "Sarde in saor Cicchetto",
+              "cents": 250,
+              "kind": "dish"
+            },
+            {
+              "name": "Gamberi in saor Cicchetto",
+              "cents": 300,
+              "kind": "dish"
+            }
+          ],
+          "sampleType": "independent_menu_guide",
+          "asOf": "Guide-Speisekarte November 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-019",
+          "name": "Bacarino",
+          "sourceUrl": "https://www.google.com/maps/search/?api=1&query=Bacarino%20Salizada%20San%20Giovanni%20Grisostomo%205755%2C%2030121%20Venezia%20VE%2C%20Italy",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        }
+      ],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Regionale Speise nicht spezifiziert; die beigefügten konkreten Gastrobetriebe sind unabhängig recherchierte Alternativen, keine bestätigte passende 2027-Menübestellung",
+      "nextAction": "Konkretes Gericht / Restaurant wählen; Zutaten oder Menü inklusive Getränk/Service bei Betreiber bestätigen"
+    },
+    {
+      "id": "food-venice-evening_group",
+      "city": "venice",
+      "kind": "evening_group",
+      "originalIdea": "Spaziergang und gemeinsamer Abend am Wasser oder Aussichtspunkt",
+      "originalPriceCents": 0,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "free_public_activity_only_no_food_or_travel_included",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Allgemeiner kostenloser Spazier-/Aussichtsvorschlag ohne festen Treffpunkt, eventuelle ÖPNV-/Verzehrkosten nicht enthalten",
+      "nextAction": "Treffpunkt, Wetter und Rückfahrt festlegen; 0-€-Status gilt nur für öffentlichen Außenraum."
+    },
+    {
+      "id": "food-venice-rainy_active",
+      "city": "venice",
+      "kind": "rainy_active",
+      "originalIdea": "Indoor-Sportaktivität bei Regen, konkrete Einrichtung noch zu recherchieren",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [
+        "indoor-nuotove-mestre"
+      ],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Es gibt nun konkrete Betreiber mit veröffentlichtem historischen Tarif; Öffnung 2027, Eignung/Material vor Planung prüfen",
+      "nextAction": "Eine der verlinkten Indoor-Alternativen für den konkreten Reisetag wählen und aktuelles Angebot prüfen"
+    },
+    {
+      "id": "food-appenzell-supermarket_cook",
+      "city": "appenzell",
+      "kind": "supermarket_cook",
+      "originalIdea": "Gemeinsamer Einkauf und kochen, wenn Küche nachgewiesen",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Supermarkt-Einkauf, Portionsmengen, Küche und konkretes Warenkorbbudget nicht an einen Anbieter/Ort gebunden",
+      "nextAction": "Küchenart und 3-/4-Personen-Warenkorb erst nach Unterkunftsauswahl kalkulieren"
+    },
+    {
+      "id": "food-appenzell-regional_takeaway",
+      "city": "appenzell",
+      "kind": "regional_takeaway",
+      "originalIdea": "Regionale günstige Spezialität / Take-away",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [
+        {
+          "id": "food-v03-020",
+          "name": "s'plätzli",
+          "sourceUrl": "https://www.google.com/maps/search/?api=1&query=s'pl%C3%A4tzli%20Hauptgasse%2015%2C%209050%20Appenzell%2C%20Switzerland",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-021",
+          "name": "Restaurant AZADI",
+          "sourceUrl": "https://www.just-eat.ch/speisekarte/azadi-bistro",
+          "sampleMenu": [
+            {
+              "name": "Schawarma-Teller",
+              "cents": 2000,
+              "kind": "delivery"
+            },
+            {
+              "name": "Kebab-Teller",
+              "cents": 1800,
+              "kind": "delivery"
+            },
+            {
+              "name": "Spaghetti Bolognese",
+              "cents": 1800,
+              "kind": "delivery"
+            }
+          ],
+          "sampleType": "delivery_menu_only",
+          "asOf": "Just Eat-Karte November 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-022",
+          "name": "Bäckerei Drei Könige",
+          "sourceUrl": "https://www.drei-koenig.ch/",
+          "sampleMenu": [
+            {
+              "name": "Tagesmenü mit Salat und Fleischkäse",
+              "cents": 2350,
+              "kind": "fixed_menu"
+            },
+            {
+              "name": "Vegi-Menü mit Salat und Ofenkartoffel",
+              "cents": 2000,
+              "kind": "fixed_menu"
+            },
+            {
+              "name": "Tagessuppe",
+              "cents": 950,
+              "kind": "dish"
+            }
+          ],
+          "sampleType": "operator_daily_menu",
+          "asOf": "Tagesangebot 13.11.2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-023",
+          "name": "Restaurant Maatplatz",
+          "sourceUrl": "https://www.google.com/maps/search/?api=1&query=Restaurant%20Maatplatz%20Kronengarten%202%2C%209050%20Appenzell%2C%20Switzerland",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        }
+      ],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Regionale Speise nicht spezifiziert; die beigefügten konkreten Gastrobetriebe sind unabhängig recherchierte Alternativen, keine bestätigte passende 2027-Menübestellung",
+      "nextAction": "Konkretes Gericht / Restaurant wählen; Zutaten oder Menü inklusive Getränk/Service bei Betreiber bestätigen"
+    },
+    {
+      "id": "food-appenzell-evening_group",
+      "city": "appenzell",
+      "kind": "evening_group",
+      "originalIdea": "Spaziergang und gemeinsamer Abend am Wasser oder Aussichtspunkt",
+      "originalPriceCents": 0,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "free_public_activity_only_no_food_or_travel_included",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Allgemeiner kostenloser Spazier-/Aussichtsvorschlag ohne festen Treffpunkt, eventuelle ÖPNV-/Verzehrkosten nicht enthalten",
+      "nextAction": "Treffpunkt, Wetter und Rückfahrt festlegen; 0-€-Status gilt nur für öffentlichen Außenraum."
+    },
+    {
+      "id": "food-appenzell-rainy_active",
+      "city": "appenzell",
+      "kind": "rainy_active",
+      "originalIdea": "Indoor-Sportaktivität bei Regen, konkrete Einrichtung noch zu recherchieren",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Für diesen Ort fehlt noch ein einzeln geprüfter Indoor-Sportanbieter und dessen 2027er Eintrittspreis.",
+      "nextAction": "Passende Halle/Bad im Ort mit Anbieterpreis und Öffnungszeiten recherchieren"
+    },
+    {
+      "id": "food-glarus-supermarket_cook",
+      "city": "glarus",
+      "kind": "supermarket_cook",
+      "originalIdea": "Gemeinsamer Einkauf und kochen, wenn Küche nachgewiesen",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Supermarkt-Einkauf, Portionsmengen, Küche und konkretes Warenkorbbudget nicht an einen Anbieter/Ort gebunden",
+      "nextAction": "Küchenart und 3-/4-Personen-Warenkorb erst nach Unterkunftsauswahl kalkulieren"
+    },
+    {
+      "id": "food-glarus-regional_takeaway",
+      "city": "glarus",
+      "kind": "regional_takeaway",
+      "originalIdea": "Regionale günstige Spezialität / Take-away",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Regionale Speise nicht spezifiziert; die beigefügten konkreten Gastrobetriebe sind unabhängig recherchierte Alternativen, keine bestätigte passende 2027-Menübestellung",
+      "nextAction": "Konkretes Gericht / Restaurant wählen; Zutaten oder Menü inklusive Getränk/Service bei Betreiber bestätigen"
+    },
+    {
+      "id": "food-glarus-evening_group",
+      "city": "glarus",
+      "kind": "evening_group",
+      "originalIdea": "Spaziergang und gemeinsamer Abend am Wasser oder Aussichtspunkt",
+      "originalPriceCents": 0,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "free_public_activity_only_no_food_or_travel_included",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Allgemeiner kostenloser Spazier-/Aussichtsvorschlag ohne festen Treffpunkt, eventuelle ÖPNV-/Verzehrkosten nicht enthalten",
+      "nextAction": "Treffpunkt, Wetter und Rückfahrt festlegen; 0-€-Status gilt nur für öffentlichen Außenraum."
+    },
+    {
+      "id": "food-glarus-rainy_active",
+      "city": "glarus",
+      "kind": "rainy_active",
+      "originalIdea": "Indoor-Sportaktivität bei Regen, konkrete Einrichtung noch zu recherchieren",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Für diesen Ort fehlt noch ein einzeln geprüfter Indoor-Sportanbieter und dessen 2027er Eintrittspreis.",
+      "nextAction": "Passende Halle/Bad im Ort mit Anbieterpreis und Öffnungszeiten recherchieren"
+    },
+    {
+      "id": "food-grindelwald-supermarket_cook",
+      "city": "grindelwald",
+      "kind": "supermarket_cook",
+      "originalIdea": "Gemeinsamer Einkauf und kochen, wenn Küche nachgewiesen",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Supermarkt-Einkauf, Portionsmengen, Küche und konkretes Warenkorbbudget nicht an einen Anbieter/Ort gebunden",
+      "nextAction": "Küchenart und 3-/4-Personen-Warenkorb erst nach Unterkunftsauswahl kalkulieren"
+    },
+    {
+      "id": "food-grindelwald-regional_takeaway",
+      "city": "grindelwald",
+      "kind": "regional_takeaway",
+      "originalIdea": "Regionale günstige Spezialität / Take-away",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [
+        {
+          "id": "food-v03-024",
+          "name": "QRAFTwerk",
+          "sourceUrl": "https://qraftwerk.ch/",
+          "sampleMenu": [
+            {
+              "name": "Bio Naturriegel, Online-Shop",
+              "cents": 390,
+              "kind": "retail_product"
+            }
+          ],
+          "sampleType": "operator_retail_price_not_cafe_menu",
+          "asOf": "Webshop-Preise November 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-025",
+          "name": "Café 3692",
+          "sourceUrl": "https://speisekarte.menu/restaurants/grindelwald/cafe-3692-m-kaufmann/menu",
+          "sampleMenu": [
+            {
+              "name": "Alpen-Cappuccino",
+              "cents": 700,
+              "kind": "beverage"
+            }
+          ],
+          "sampleType": "third_party_menu",
+          "asOf": "Speisekartenplattform, gelesen 13.11.2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-026",
+          "name": "Tea n Take Away",
+          "sourceUrl": "https://speisekarte.menu/restaurants/grindelwald/tea-n-take-away/menu",
+          "sampleMenu": [
+            {
+              "name": "Pizza Margherita",
+              "cents": 1300,
+              "kind": "dish"
+            },
+            {
+              "name": "Pizza Salami",
+              "cents": 1500,
+              "kind": "dish"
+            },
+            {
+              "name": "Pizza Quattro Formaggi",
+              "cents": 1600,
+              "kind": "dish"
+            }
+          ],
+          "sampleType": "third_party_menu",
+          "asOf": "Menüplattform November 2026",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-027",
+          "name": "Eiger Bean The Coffee Roastery",
+          "sourceUrl": "https://www.google.com/maps/search/?api=1&query=Eiger%20Bean%20The%20Coffee%20Roastery%20Dorfstrasse%20195%2C%203818%20Grindelwald%2C%20Switzerland",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        }
+      ],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Regionale Speise nicht spezifiziert; die beigefügten konkreten Gastrobetriebe sind unabhängig recherchierte Alternativen, keine bestätigte passende 2027-Menübestellung",
+      "nextAction": "Konkretes Gericht / Restaurant wählen; Zutaten oder Menü inklusive Getränk/Service bei Betreiber bestätigen"
+    },
+    {
+      "id": "food-grindelwald-evening_group",
+      "city": "grindelwald",
+      "kind": "evening_group",
+      "originalIdea": "Spaziergang und gemeinsamer Abend am Wasser oder Aussichtspunkt",
+      "originalPriceCents": 0,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "free_public_activity_only_no_food_or_travel_included",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Allgemeiner kostenloser Spazier-/Aussichtsvorschlag ohne festen Treffpunkt, eventuelle ÖPNV-/Verzehrkosten nicht enthalten",
+      "nextAction": "Treffpunkt, Wetter und Rückfahrt festlegen; 0-€-Status gilt nur für öffentlichen Außenraum."
+    },
+    {
+      "id": "food-grindelwald-rainy_active",
+      "city": "grindelwald",
+      "kind": "rainy_active",
+      "originalIdea": "Indoor-Sportaktivität bei Regen, konkrete Einrichtung noch zu recherchieren",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [
+        "indoor-sportzentrum-grindelwald-pool",
+        "indoor-sportzentrum-grindelwald-boulder"
+      ],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Es gibt nun konkrete Betreiber mit veröffentlichtem historischen Tarif; Öffnung 2027, Eignung/Material vor Planung prüfen",
+      "nextAction": "Eine der verlinkten Indoor-Alternativen für den konkreten Reisetag wählen und aktuelles Angebot prüfen"
+    },
+    {
+      "id": "food-kandersteg-supermarket_cook",
+      "city": "kandersteg",
+      "kind": "supermarket_cook",
+      "originalIdea": "Gemeinsamer Einkauf und kochen, wenn Küche nachgewiesen",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Supermarkt-Einkauf, Portionsmengen, Küche und konkretes Warenkorbbudget nicht an einen Anbieter/Ort gebunden",
+      "nextAction": "Küchenart und 3-/4-Personen-Warenkorb erst nach Unterkunftsauswahl kalkulieren"
+    },
+    {
+      "id": "food-kandersteg-regional_takeaway",
+      "city": "kandersteg",
+      "kind": "regional_takeaway",
+      "originalIdea": "Regionale günstige Spezialität / Take-away",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [
+        {
+          "id": "food-v03-028",
+          "name": "Cafe Rauber Supermarket",
+          "sourceUrl": "https://www.google.com/maps/search/?api=1&query=Cafe%20Rauber%20Supermarket%20%C3%84ussere%20Dorfstrasse%2057%2C%203718%20Kandersteg%2C%20Switzerland",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-029",
+          "name": "Tea Room Marmotte",
+          "sourceUrl": "https://www.google.com/maps/search/?api=1&query=Tea%20Room%20Marmotte%20Innere%20Dorfstrasse%2019%2C%203718%20Kandersteg%2C%20Switzerland",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        },
+        {
+          "id": "food-v03-030",
+          "name": "Restaurant Schweizerhof",
+          "sourceUrl": "https://www.google.com/maps/search/?api=1&query=Restaurant%20Schweizerhof%20Bahnhofstrasse%201%2C%203718%20Kandersteg%2C%20Switzerland",
+          "selection": "not_selected_not_a_confirmed_fulfillment_of_general_idea"
+        }
+      ],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Regionale Speise nicht spezifiziert; die beigefügten konkreten Gastrobetriebe sind unabhängig recherchierte Alternativen, keine bestätigte passende 2027-Menübestellung",
+      "nextAction": "Konkretes Gericht / Restaurant wählen; Zutaten oder Menü inklusive Getränk/Service bei Betreiber bestätigen"
+    },
+    {
+      "id": "food-kandersteg-evening_group",
+      "city": "kandersteg",
+      "kind": "evening_group",
+      "originalIdea": "Spaziergang und gemeinsamer Abend am Wasser oder Aussichtspunkt",
+      "originalPriceCents": 0,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "free_public_activity_only_no_food_or_travel_included",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Allgemeiner kostenloser Spazier-/Aussichtsvorschlag ohne festen Treffpunkt, eventuelle ÖPNV-/Verzehrkosten nicht enthalten",
+      "nextAction": "Treffpunkt, Wetter und Rückfahrt festlegen; 0-€-Status gilt nur für öffentlichen Außenraum."
+    },
+    {
+      "id": "food-kandersteg-rainy_active",
+      "city": "kandersteg",
+      "kind": "rainy_active",
+      "originalIdea": "Indoor-Sportaktivität bei Regen, konkrete Einrichtung noch zu recherchieren",
+      "originalPriceCents": null,
+      "reviewedOn": "2026-11-14",
+      "newIndoorCandidateIds": [],
+      "relatedFoodVenueReferences": [],
+      "priceStatus": "no_confirmed_provider_meal_checkout",
+      "noAutomaticReplacement": true,
+      "noBooking": true,
+      "reason": "Für diesen Ort fehlt noch ein einzeln geprüfter Indoor-Sportanbieter und dessen 2027er Eintrittspreis.",
+      "nextAction": "Passende Halle/Bad im Ort mit Anbieterpreis und Öffnungszeiten recherchieren"
+    }
+  ]
+}

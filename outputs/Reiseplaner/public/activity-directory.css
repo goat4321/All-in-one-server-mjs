@@ -1,0 +1,61 @@
+/* Dedicated activity explorer; same card system as lodging and food. */
+.activity-directory{display:grid;gap:18px;min-width:0}
+.activity-filter-panel{background:var(--surface,#fff);border:1px solid rgba(46,80,63,.12);
+ border-radius:20px;padding:18px 20px;display:grid;gap:13px;min-width:0}
+.activity-filter-header{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.activity-filter-header small{font-size:.63rem;letter-spacing:.12em;font-weight:800;color:#37775a}
+.activity-filter-header h2{font-size:1.22rem;margin:4px 0}
+.activity-filter-header p{font-size:.79rem;line-height:1.6;color:var(--muted,#64736a);max-width:67ch}
+.activity-order{display:flex;gap:8px;align-items:center;font-size:.73rem;font-weight:700}
+.activity-order select{border:1px solid rgba(47,81,61,.16);border-radius:10px;
+ padding:9px 11px;background:var(--surface,#fff);color:inherit}
+.activity-filter-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin;padding:1px 0 6px}
+.activity-category-chip{display:flex;align-items:center;gap:7px;white-space:nowrap;
+ flex:none;border:1px solid rgba(62,96,74,.18);border-radius:999px;
+ padding:9px 13px;color:inherit;background:var(--surface,#fff);
+ cursor:pointer;font:600 .74rem/1.3 inherit;transition:background .2s,box-shadow .2s,transform .2s}
+.activity-category-chip small{opacity:.72;font-size:.7rem}
+.activity-category-chip[aria-pressed=true]{background:#e0f2e6;border-color:#74b68d;color:#215f42}
+.activity-category-chip:focus-visible{outline:3px solid #2c9e79;outline-offset:2px}
+.activity-result-count{margin:0;font-size:.75rem;color:var(--muted,#64736a)}
+.activity-card-grid{align-items:stretch}
+.activity-card-grid .hub-option-card{height:100%}
+:root[data-theme=dark] .activity-filter-panel{background:#1b2925;border-color:#ffffff21}
+:root[data-theme=dark] .activity-category-chip{background:#26362f;border-color:#ffffff24}
+:root[data-theme=dark] .activity-category-chip[aria-pressed=true]{background:#23553f;color:#def5e5}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .activity-category-chip:hover{transform:translateY(-2px);box-shadow:0 6px 15px #17392a12}
+}
+@media(max-width:910px){
+ .mobile-dock{grid-template-columns:repeat(6,minmax(0,1fr))}
+ .mobile-dock button{font-size:.62rem;min-width:0;padding:5px 1px}
+ .activity-filter-panel{padding:14px}
+ .activity-filter-header{align-items:start}
+}
+@media(max-width:390px){.mobile-dock button{font-size:.56rem}}
+@media(prefers-reduced-motion:reduce){.activity-category-chip{transition:none!important}}
+:root[data-motion=off] .activity-category-chip{transition:none!important}
+
+/* Phase 39: source-evidence filters use compact scrolling pills, not more cards. */
+.activity-evidence-header{display:flex;justify-content:space-between;flex-wrap:wrap;
+ align-items:baseline;gap:8px;color:var(--muted,#64736a)}
+.activity-evidence-header small{font-size:.65rem;font-weight:850;letter-spacing:.11em;
+ color:#397355}
+.activity-evidence-header span{font-size:.72rem;line-height:1.45}
+.activity-evidence-chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:thin;
+ padding:2px 0 8px}
+.activity-evidence-chip{flex:none;white-space:nowrap;background:transparent;color:inherit;
+ padding:8px 11px;border:1px solid #c9d9cc;border-radius:999px;cursor:pointer;
+ font:600 .72rem/1.2 inherit;transition:background .17s,border-color .17s,transform .17s}
+.activity-evidence-chip small{font-size:.68rem;opacity:.65;margin-left:4px}
+.activity-evidence-chip[aria-pressed=true]{background:#e1f0e5;border-color:#8cbb9a;
+ color:#205a3d}
+.activity-evidence-chip:focus-visible{outline:3px solid #288a5a;outline-offset:2px}
+:root[data-theme=dark] .activity-evidence-chip{border-color:#40614c}
+:root[data-theme=dark] .activity-evidence-chip[aria-pressed=true]{
+ background:#25573c;color:#e4f4e9}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .activity-evidence-chip:hover{transform:translateY(-1px)}
+}
+@media(prefers-reduced-motion:reduce){.activity-evidence-chip{transition:none!important}}
+:root[data-motion=off] .activity-evidence-chip{transition:none!important}

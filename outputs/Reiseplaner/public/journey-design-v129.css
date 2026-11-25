@@ -1,0 +1,276 @@
+/* V129 — web adaptation of Apple HIG hierarchy, motion, contrast and hit areas.
+   Scoped to journey components. Content remains opaque; no new visual dependencies. */
+:root{--journey129-radius:18px;--journey129-gap:12px;--journey129-surface:var(--e95-paper);--journey129-text:var(--e95-ink);--journey129-muted:var(--e95-secondary);--journey129-accent:var(--e95-link)}
+body.route123-active{--journey129-cinema:#17241f;--journey129-cinema-panel:#20322b;--journey129-cinema-line:#ffffff30;--journey129-cinema-text:#f5f7f6;--journey129-cinema-muted:#cbdad3;--journey129-cinema-accent:#bfead5}
+.reference-travel-shell .editorial-journey-actions{align-items:flex-start;gap:10px}
+.reference-travel-shell .journey129-more{min-width:0;max-width:100%;flex-basis:100%;color:inherit}
+.reference-travel-shell .journey129-more>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;width:fit-content}
+.reference-travel-shell .journey129-more>summary:before{content:'›';font-size:20px;transition:transform 160ms var(--e95-ease)}
+.reference-travel-shell .journey129-more[open]>summary:before{transform:rotate(90deg)}
+.reference-travel-shell .journey129-more>.button{margin-top:4px}
+.reference-travel-shell :is(.day126-timeline,.day126-hikes,.day110-budget,.day110-alternatives){border-radius:var(--journey129-radius);box-shadow:none}
+.reference-travel-shell .day126-timeline{padding:clamp(12px,2vw,20px);gap:var(--journey129-gap);color:var(--journey129-text)}
+.reference-travel-shell .day126-summary span{line-height:1.45;border:1px solid var(--e95-line);font-size:.8125rem}
+.reference-travel-shell .day126-scene h3{font-size:clamp(1.2rem,2.3vw,1.75rem);font-weight:680;line-height:1.18;letter-spacing:-.035em}
+.reference-travel-shell .day126-scene p,.reference-travel-shell .day126-timeline>p{font-size:.875rem;line-height:1.5;color:var(--journey129-muted)}
+.reference-travel-shell .day126-scene button{padding:9px 14px;border:1px solid var(--e95-line);border-radius:12px;background:var(--e95-page);color:var(--journey129-accent);font-weight:600;text-align:left}
+.reference-travel-shell .day126-timeline input:focus-visible,.reference-travel-shell .journey129-more summary:focus-visible,.reference-travel-shell .day126-scene button:focus-visible{outline:3px solid var(--e95-focus);outline-offset:3px}
+body.route123-active .reference-travel-shell .map-fullscreen-mode .route-story-player{background:var(--journey129-cinema)!important}
+body.route123-active .reference-travel-shell :is(.route123-topline,.route-story-actions){background:var(--journey129-cinema)!important}
+body.route123-active .reference-travel-shell :is(.route125-activity,.route124-scrubber){background:var(--journey129-cinema-panel);border-color:var(--journey129-cinema-line);border-radius:var(--journey129-radius)}
+body.route123-active .reference-travel-shell .route123-heading h2{font-size:clamp(1.75rem,4vw,3.25rem);font-weight:680;color:var(--journey129-cinema-text)}
+body.route123-active .reference-travel-shell :is(.route125-activity details p,.route123-heading p,.route123-note,.route123-transfer){color:var(--journey129-cinema-muted);font-size:.875rem;line-height:1.5}
+body.route123-active .reference-travel-shell .route125-facts span{font-size:.8125rem;line-height:1.4;color:var(--journey129-cinema-text)}
+body.route123-active .reference-travel-shell .route124-scrubber select{font-size:1rem}
+body.route123-active .reference-travel-shell .route125-activity summary{font-weight:600;font-size:.875rem}
+body.route123-active .reference-travel-shell .route123-timeline li{padding:8px 10px}
+body.route123-active .reference-travel-shell .route123-timeline li[aria-current=step]{border-inline-start-width:3px}
+.journey129-photo-error{display:grid;place-items:center;min-height:100%;padding:16px;text-align:center;color:inherit;font-size:.875rem}
+@media(hover:hover) and (pointer:fine){
+ .reference-travel-shell :is(.day126-scene button,.route125-activity button,.journey129-more summary){transition:opacity 160ms var(--e95-ease),border-color 160ms var(--e95-ease)}
+ .reference-travel-shell :is(.day126-scene button,.route125-activity button,.journey129-more summary):hover{opacity:.83}
+}
+.reference-travel-shell :is(.day126-scene button,.route125-activity button,.journey129-more summary):active{opacity:.7}
+@media(max-width:760px){
+ .reference-travel-shell .day126-timeline{padding:12px}
+ .reference-travel-shell .day126-summary span{flex:1 1 115px}
+ body.route123-active .reference-travel-shell .route125-activity{padding:12px}
+ body.route123-active .reference-travel-shell .route125-facts span{flex:1 1 115px}
+}
+@media(prefers-contrast:more){
+ .reference-travel-shell :is(.day126-timeline,.day126-hikes,.day126-summary span,.day126-scene button){border-color:var(--e95-ink)}
+ body.route123-active .reference-travel-shell :is(.route125-activity,.route124-scrubber){border-color:var(--journey129-cinema-text)}
+}
+@media(prefers-reduced-motion:reduce){.reference-travel-shell .journey129-more>summary:before{transition:none}}
+:root[data-motion=off] .reference-travel-shell .journey129-more>summary:before{transition:none}
+
+/* Keep numbered activity pins usable even before loading or after a remote photo fails. */
+.route125-map-pin>.route125-pin-number,.route125-map-pin>img{grid-area:1/1}
+.route125-map-pin>img{position:relative;z-index:1}
+.route125-map-pin>img[hidden]{display:none!important}
+
+/* V130–131: one consistent editorial rhythm for route chapters, plan cards
+   and cinema. No new layout constraints on the live map or general tables. */
+:root{--journey130-space:clamp(16px,2.5vw,32px);--journey130-control:44px;--journey130-radius:20px}
+.reference-travel-shell .journey130-action-group{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;min-width:0;max-width:100%}
+.reference-travel-shell .editorial-journey-actions{display:grid;justify-items:center;gap:12px}
+.reference-travel-shell .journey130-action-label{flex-basis:100%;font-size:.6875rem;font-weight:650;letter-spacing:.09em;text-align:center}
+.reference-travel-shell .journey130-watch{padding-top:12px;border-top:1px solid currentColor;border-top-color:color-mix(in srgb,currentColor 28%,transparent)}
+.reference-travel-shell .editorial-journey-actions .journey129-more>summary{margin-inline:auto}
+.reference-travel-shell .editorial-journey-hero[data-photo=true] .journey130-watch .button.subtle{background:#16212dd9;border-color:#ffffff85;color:#fff}
+.reference-travel-shell .editorial-journey-hero[data-photo=true] .journey129-more>summary{color:#fff;text-shadow:0 1px 4px #000}
+.reference-travel-shell .editorial-journey-credit{max-width:calc(100% - 32px);overflow-wrap:anywhere}
+.reference-travel-shell .journey121-heading{max-width:64ch}
+.reference-travel-shell .journey121-nav{border-radius:16px;padding:10px 14px 8px}
+.reference-travel-shell .journey121-progress{font-size:.8125rem}
+.reference-travel-shell .journey121-links a{font-size:.875rem;min-height:var(--journey130-control)}
+.reference-travel-shell .journey121-links a[aria-current=location]{outline:1px solid var(--e95-line);outline-offset:-1px}
+.reference-travel-shell .journey121-chapter{gap:var(--journey130-space)}
+.reference-travel-shell .journey121-media .photo119-item>a{border-radius:var(--journey130-radius)}
+.reference-travel-shell .journey121-copy p{font-size:1rem;line-height:1.55;max-width:58ch}
+.reference-travel-shell .journey121-subtitle{font-size:.875rem;line-height:1.45}
+.reference-travel-shell .journey121-ideas button,.reference-travel-shell .journey121-days button{font-size:.875rem;line-height:1.4;overflow-wrap:anywhere;max-width:100%}
+.reference-travel-shell .journey121-actions{gap:8px}
+.reference-travel-shell .journey121-actions .button{white-space:normal;text-align:center}
+.reference-travel-shell .day111-program{padding:clamp(14px,2.6vw,30px);border-radius:var(--journey130-radius);background:var(--e95-page)}
+.reference-travel-shell .day111-header p{max-width:68ch;font-size:.9375rem}
+.reference-travel-shell .day111-summary{gap:8px}
+.reference-travel-shell .day111-summary>span{background:var(--e95-paper);padding:12px;line-height:1.4;font-size:.8125rem}
+.reference-travel-shell .day111-summary strong{font-size:clamp(1.25rem,2.5vw,1.75rem)}
+.reference-travel-shell .day111-card{padding:clamp(12px,1.7vw,20px);border-radius:16px}
+.reference-travel-shell .day111-row[data-kind=activity] .day111-card{background:var(--e95-paper)}
+.reference-travel-shell .day111-copy h3{font-size:clamp(1.0625rem,1.5vw,1.375rem);line-height:1.25}
+.reference-travel-shell .day111-copy p{font-size:.9375rem;line-height:1.55}
+.reference-travel-shell .day111-time strong{font-size:.875rem;line-height:1.35}
+.reference-travel-shell .day111-time small,.reference-travel-shell .day111-cost,.reference-travel-shell .day111-actions>span{font-size:.8125rem;line-height:1.45}
+.reference-travel-shell .day111-actions .button{min-height:var(--journey130-control);white-space:normal}
+.reference-travel-shell .day111-card:focus-within{border-color:var(--e95-focus)}
+.reference-travel-shell .day111-notes summary{font-size:.875rem;line-height:1.45}
+.reference-travel-shell .day111-photo .day112-photo-credit,.reference-travel-shell .day111-photo figcaption{font-size:.6875rem;line-height:1.4}
+@media(max-width:760px){
+ .reference-travel-shell .editorial-journey-hero{height:auto;padding-bottom:70px}
+ .reference-travel-shell .journey130-action-group{gap:6px;width:100%}
+ .reference-travel-shell .journey130-action-group .button{flex:1 1 auto;white-space:normal;max-width:100%;line-height:1.35}
+ .reference-travel-shell .journey121-nav{padding:8px 10px}
+ .reference-travel-shell .journey121-copy p{font-size:.9375rem}
+ .reference-travel-shell .day111-card-main{flex-wrap:wrap}
+ .reference-travel-shell .day111-copy{flex-basis:100%}
+ .reference-travel-shell .day111-photo.day112-large{max-width:100%;flex:1 1 100%}
+ .reference-travel-shell .day111-actions .button{flex:1 1 auto}
+}
+@media(max-width:350px){.reference-travel-shell .journey130-action-group .button{flex-basis:100%}}
+@media(hover:hover) and (pointer:fine){
+ .reference-travel-shell .journey121-links a,.reference-travel-shell .journey121-ideas button,.reference-travel-shell .journey121-days button{transition:background-color 180ms var(--e95-ease),border-color 180ms var(--e95-ease)}
+ .reference-travel-shell .journey121-ideas button:hover{border-color:var(--e95-link)}
+}
+@media(prefers-reduced-motion:reduce){.reference-travel-shell :is(.journey121-links a,.journey121-ideas button,.journey121-days button){transition:none!important}}
+:root[data-motion=off] .reference-travel-shell :is(.journey121-links a,.journey121-ideas button,.journey121-days button){transition:none!important}
+@media(prefers-contrast:more){.reference-travel-shell :is(.day111-card,.journey121-nav,.journey121-ideas button){border-color:var(--e95-ink)}}
+
+/* V132–137: responsive map controls and a read-only summary with explicit edits. */
+.reference-travel-shell .map-fullscreen-categories .map132-density{white-space:nowrap;min-height:44px}
+.reference-travel-shell .day135-inspector{min-width:0;padding:clamp(14px,2.6vw,26px);margin:18px 0;border:1px solid var(--e95-line);background:var(--e95-page);border-radius:20px}
+.day135-inspector header small{color:var(--e95-link);font-size:11px;letter-spacing:.08em;font-weight:650}
+.day135-inspector h2{font-size:clamp(24px,3vw,34px);letter-spacing:-.035em;margin:6px 0}
+.day135-inspector p,.day135-inspector li{font-size:.875rem;color:var(--e95-secondary);line-height:1.5;overflow-wrap:anywhere}
+.day135-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:8px;margin:12px 0}
+.day135-metrics span{background:var(--e95-paper);border-radius:12px;padding:12px;font-size:.8125rem;overflow-wrap:anywhere}
+.day135-metrics strong{display:block;font-size:clamp(17px,2.1vw,23px);letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.day135-inspector summary{min-height:44px;cursor:pointer;display:flex;align-items:center;gap:8px;font-weight:600;font-size:.875rem}
+.day135-inspector summary:before{content:'›';font-size:20px}
+.day135-inspector details[open]>summary:before{transform:rotate(90deg)}
+.day135-warnings,.day135-edit{border-top:1px solid var(--e95-line);margin-top:8px}
+.day135-row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 0;border-top:1px solid var(--e95-line);overflow-wrap:anywhere}
+.day135-row small{display:block;color:var(--e95-secondary);font-size:.8125rem}
+.day135-actions{display:flex;flex-wrap:wrap;gap:6px}
+.day135-actions button{min-height:44px;min-width:44px;background:var(--e95-paper);color:var(--e95-ink);border:1px solid var(--e95-line);border-radius:10px;padding:7px 11px;font:inherit;font-size:.8125rem;cursor:pointer}
+.day135-actions button:disabled{opacity:.45;cursor:default}
+.day135-inspector :is(button,summary):focus-visible{outline:3px solid var(--e95-focus);outline-offset:2px}
+@media(max-width:600px){.day135-actions{width:100%}.day135-actions button{flex:1 1 auto}}
+
+/* V138–140: additional attributed photos remain opt-in. */
+.route138-extra{margin-top:8px;color:var(--journey129-cinema-text,#fff)}
+.route138-extra summary{min-height:44px;cursor:pointer;display:flex;align-items:center;gap:8px;font-weight:600;font-size:.875rem}
+.route138-extra summary:before{content:'›';font-size:20px}
+.route138-extra[open]>summary:before{transform:rotate(90deg)}
+.route138-extra .photo119-map-rail{max-width:100%;scroll-padding-inline:4px}
+.route138-extra .photo119-item{flex:0 0 84%}
+.route138-extra summary:focus-visible{outline:2px solid #bfead5;outline-offset:3px}
+
+/* V141–143: small screens, touch and keyboard-safe modal geometry. */
+@media(max-width:650px){
+ dialog{box-sizing:border-box;max-width:calc(100% - 24px);max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain}
+ dialog :is(input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea){font-size:16px;max-width:100%;min-width:0}
+ dialog .form-grid{grid-template-columns:minmax(0,1fr)}
+ dialog .dialog-foot>*{max-width:100%;white-space:normal}
+ .table-wrap{max-width:100%;overscroll-behavior-inline:contain}
+ .day135-row>*{min-width:0;max-width:100%}
+}
+@media(max-width:430px){
+ .reference-travel-shell .day135-actions{min-width:0}
+ .reference-travel-shell .day135-actions button{min-width:44px;max-width:100%;white-space:normal}
+ dialog .dialog-head,dialog .dialog-body{padding-inline:12px}
+ dialog .dialog-head>*{min-width:0;overflow-wrap:anywhere}
+}
+@media(pointer:coarse){
+ dialog .dialog-foot button,dialog .dialog-head .icon-btn{min-height:44px;min-width:44px}
+}
+@media(max-height:500px) and (orientation:landscape){
+ dialog{max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px);overflow:auto}
+}
+
+/* V152 — cohesive travel motion, compositor-friendly; no transforms on the
+   live map, no continuous background effects, no hidden initial content. */
+@keyframes journey152-rise{
+ from{opacity:.76;transform:translate3d(0,10px,0)}
+ to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes journey152-photo{
+ from{opacity:.65}
+ to{opacity:1}
+}
+@keyframes journey152-bar{
+ from{transform:scaleX(.15)}
+ to{transform:scaleX(1)}
+}
+@keyframes journey152-detail{
+ from{opacity:.8;transform:translate3d(0,5px,0)}
+ to{opacity:1;transform:translate3d(0,0,0)}
+}
+@media(prefers-reduced-motion:no-preference){
+ :root:not([data-motion=off]) #app :is(.rail-card,.rail-review-step,.stat,.group-vote-item,.photo114-group,.day135-row,.split > .panel).motion-scroll-revealed{
+  animation:journey152-rise 360ms cubic-bezier(.22,.8,.22,1) backwards;
+  animation-delay:var(--motion-delay,0ms);
+ }
+ :root:not([data-motion=off]) #app :is(.photo114-card,.photo119-item,.day112-photo,.place-gallery-item) img.motion-photo-loaded,
+ :root:not([data-motion=off]) .photo118-viewer img.motion-photo-loaded{
+  animation:journey152-photo 320ms ease-out both;
+ }
+ :root:not([data-motion=off]) #app :is(.photo114-group,.day135-inspector details,.data-disclosure)[open]>:is(.photo114-body,.day135-row,.data-disclosure-body){
+  animation:journey152-detail 230ms cubic-bezier(.22,.8,.22,1) both;
+ }
+ :root:not([data-motion=off]) #app :is(.motion-revealed,.motion-scroll-revealed) :is(.bar-track,.group-vote-bar)>span{
+  transform-origin:left center;animation:journey152-bar 520ms cubic-bezier(.22,.8,.22,1) both;
+ }
+ :root:not([data-motion=off]) :is(.photo114-card,.photo119-item,.day112-photo,.place-gallery-item)>a img{
+  transition:transform 360ms cubic-bezier(.22,.8,.22,1);
+ }
+ :root:not([data-motion=off]) :is(.photo114-card,.photo119-item,.day112-photo,.place-gallery-item)>a{
+  overflow:hidden;
+ }
+ :root:not([data-motion=off]) :is(.activity-category-chip,.activity-evidence-chip,.photo114-more,.day135-actions button,.photo118-toolbar button,.rail-review-step .button){
+  transition:transform 160ms cubic-bezier(.22,.8,.22,1),background-color 180ms ease,border-color 180ms ease;
+ }
+ :root:not([data-motion=off]) :is(.activity-category-chip,.activity-evidence-chip,.photo114-more,.day135-actions button,.photo118-toolbar button,.rail-review-step .button):not(:disabled):active{
+  transform:scale(.97);
+ }
+ @media(hover:hover) and (pointer:fine){
+  :root:not([data-motion=off]) :is(.photo114-card,.photo119-item,.day112-photo,.place-gallery-item)>a:hover img{transform:scale(1.035)}
+  :root:not([data-motion=off]) :is(.activity-category-chip,.activity-evidence-chip,.photo114-more,.day135-actions button,.photo118-toolbar button,.rail-review-step .button):not(:disabled):hover{transform:translateY(-1px)}
+ }
+}
+
+/* V152: cancel an in-flight reveal when the user turns motion off. */
+:root[data-motion=off] #app :is(.rail-card,.rail-review-step,.stat,.group-vote-item,.photo114-group,.day135-row,.split > .panel).motion-scroll-revealed,
+:root[data-motion=off] .photo118-viewer img.motion-photo-loaded{animation:none!important}
+@media(prefers-reduced-motion:reduce){
+ #app :is(.rail-card,.rail-review-step,.stat,.group-vote-item,.photo114-group,.day135-row,.split > .panel).motion-scroll-revealed,
+ .photo118-viewer img.motion-photo-loaded{animation:none!important}
+}
+
+/* V153: navigational continuity. Only the active marker moves, not the
+   buttons, text, map, sticky header or full page layout. */
+@keyframes nav153-indicator{
+ from{transform:translate3d(var(--nav153-x,0px),var(--nav153-y,0px),0);opacity:.35}
+ to{transform:translate3d(0,0,0);opacity:1}
+}
+@keyframes nav153-drawer{
+ from{transform:translate3d(-100%,0,0);opacity:.8}
+ to{transform:translate3d(0,0,0);opacity:1}
+}
+@keyframes nav153-page{
+ from{opacity:.72}
+ to{opacity:1}
+}
+@keyframes nav153-title{
+ from{opacity:.75;transform:translate3d(0,8px,0)}
+ to{opacity:1;transform:translate3d(0,0,0)}
+}
+.reference-travel-shell :is(.reference-main-nav,.mobile-dock,.sidebar) [data-action=page][aria-current=page]{position:relative}
+.reference-travel-shell :is(.reference-main-nav,.mobile-dock) [data-action=page][aria-current=page]::after{
+ content:"";position:absolute;inset:auto 25% 2px;height:2px;border-radius:8px;background:currentColor;pointer-events:none;
+}
+.reference-travel-shell .sidebar .nav-btn[aria-current=page]::after{
+ content:"";position:absolute;inset:25% auto 25% 2px;width:3px;border-radius:6px;background:currentColor;pointer-events:none;
+}
+.reference-travel-shell :is(.sidebar-inner,.photo119-rail,.photo119-map-rail,.day112-gallery,.destination-filmstrip,.journey121-days,.map-day-rail-track){
+ overscroll-behavior-inline:contain;
+}
+.reference-travel-shell .sidebar-inner{overscroll-behavior-y:contain;scrollbar-width:thin}
+@media(prefers-reduced-motion:no-preference){
+ :root:not([data-motion=off]) #app .reference-travel-shell .nav153-selected::after{
+  animation:nav153-indicator 320ms cubic-bezier(.2,.78,.18,1) both;
+ }
+ :root:not([data-motion=off]) #app .reference-travel-shell>.sidebar.open.nav153-drawer-enter{
+  animation:nav153-drawer 280ms cubic-bezier(.2,.78,.18,1) both;
+ }
+ :root:not([data-motion=off]) #app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter{
+  animation:nav153-page 240ms ease-out backwards!important;
+ }
+ :root:not([data-motion=off]) #app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter>.page-head h1{
+  animation:nav153-title 320ms cubic-bezier(.2,.78,.18,1) both;
+ }
+ :root:not([data-motion=off]) #app .reference-travel-shell :is(.rail-card,.rail-review-step,.stat,.group-vote-item,.photo114-group,.day135-row,.split > .panel).motion-scroll-revealed{
+  animation:journey152-rise 360ms cubic-bezier(.22,.8,.22,1) backwards!important;
+  animation-delay:var(--motion-delay,0ms)!important;
+ }
+ :root:not([data-motion=off]) .reference-travel-shell :is(.nav-btn,.city-btn,.reference-main-nav button,.mobile-dock button){
+  transition:background-color 200ms ease,color 200ms ease,transform 160ms cubic-bezier(.2,.78,.18,1);
+ }
+ @media(hover:hover) and (pointer:fine){
+  :root:not([data-motion=off]) .reference-travel-shell .sidebar .nav-btn:not([aria-current=page]):hover{transform:translateX(3px)}
+ }
+}
+:root[data-motion=off] .nav153-selected::after,
+:root[data-motion=off] .nav153-drawer-enter{animation:none!important}
+@media(prefers-reduced-motion:reduce){.nav153-selected::after,.nav153-drawer-enter{animation:none!important}}

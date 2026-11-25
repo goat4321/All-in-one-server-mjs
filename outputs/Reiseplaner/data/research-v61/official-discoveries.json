@@ -1,0 +1,491 @@
+{
+  "meta": {
+    "package": "research-v61-operator-discoveries",
+    "checkedOn": "2026-11-16",
+    "entries": 16,
+    "reference": "Official museum, municipal and tourism sources. 2026 fares unless otherwise noted; never auto-book or auto-budget",
+    "year2027": "In diesem V61-Paket ist keine September-2027-Tagesöffnung oder Buchung bestätigt."
+  },
+  "entries": [
+    {
+      "id": "paris-bourdelle",
+      "city": "paris",
+      "name": "Musée Bourdelle",
+      "address": "18 rue Antoine-Bourdelle, 75015 Paris, Frankreich",
+      "description": "Ehemalige Ateliers des Bildhauers Antoine Bourdelle mit Skulpturenhallen und Gärten. Dauersammlung kostenlos; wenige Minuten von Montparnasse-Bienvenüe entfernt, aber größere Koffer sind nicht zugelassen.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Gratis",
+        "Regenprogramm"
+      ],
+      "openingReference": "Dienstag–Sonntag 10:00–18:00 Uhr, letzter Einlass regulär 17:15 Uhr; montags und an bestimmten Feiertagen geschlossen.",
+      "priceReference": "Dauersammlung kostenlos; Sonderausstellungen Betreiberstand 2026 12 € regulär bzw. 10 € für 18–26-Jährige mit Nachweis.",
+      "durationMinutes": 85,
+      "sourceUrl": "https://www.bourdelle.paris.fr/visiter/preparer-sa-visite/informations-pratiques",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Skulpturen von Antoine Bourdelle in ehemaligen Ateliers",
+          "Skulpturengärten und Hallen",
+          "Kostenfreie Dauersammlung"
+        ],
+        "visitTip": "Dauersammlung und kostenpflichtige Sonderausstellungen klar unterscheiden. Größere Reisetaschen vor der Anreise anderweitig unterbringen.",
+        "combineWith": "Montparnasse als separates Viertelprogramm",
+        "arrivalTip": "Für die genaue Museumsadresse einen Google-Maps-Suchlink öffnen; Nähe Montparnasse-Bienvenüe ersetzt keine Eingangskoordinate.",
+        "check2027": "Sonderausstellung, Einlassschluss und Nachweis für 18–26-Jahre-Tarife"
+      }
+    },
+    {
+      "id": "paris-liberation-museum",
+      "city": "paris",
+      "name": "Musée de la Libération de Paris",
+      "address": "4 avenue du Colonel Henri Rol-Tanguy, 75014 Paris, Frankreich",
+      "description": "Kostenloses Geschichtsmuseum zu Befreiung von Paris, Jean Moulin und General Leclerc gegenüber den Katakomben. Der historische Kommandoposten unter dem Museum ist nur über Treppen erreichbar; größere Taschen sind eingeschränkt.",
+      "tags": [
+        "Museum",
+        "Geschichte",
+        "Gratis",
+        "Regenprogramm"
+      ],
+      "openingReference": "Dienstag–Sonntag 10:00–18:00 Uhr, letzter Einlass 17:30 Uhr; montags sowie 1.1., 1.5. und 25.12. geschlossen.",
+      "priceReference": "Dauerausstellung kostenlos; Sonderausstellungen und Führungen können eigene Bedingungen haben.",
+      "durationMinutes": 85,
+      "sourceUrl": "https://www.museeliberation-leclerc-moulin.paris.fr/venir-au-musee/informations-pratiques",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Befreiung von Paris 1944",
+          "Jean Moulin und General Leclerc",
+          "Historischer Kommandoposten unter dem Museum"
+        ],
+        "visitTip": "Den Kommandoposten nicht als barrierefreie Station einplanen; der Zugang führt nach bisheriger Angabe über Treppen. Größere Taschen sind eingeschränkt.",
+        "combineWith": "Denfert-Rochereau und die Umgebung der Katakomben",
+        "arrivalTip": "Museum gegenüber den Katakomben; den Eingang über die veröffentlichte Adresse und die aktuelle Museumsseite identifizieren.",
+        "check2027": "Führungszugang zum Kommandoposten, mögliche Sonderausstellungen und Tagesöffnung"
+      }
+    },
+    {
+      "id": "barcelona-el-born",
+      "city": "barcelona",
+      "name": "El Born Centre de Cultura i Memòria",
+      "address": "Plaça Comercial 12, 08003 Barcelona, Spanien",
+      "description": "Historische Markthalle mit Ausgrabungen zur Stadt um 1700, mitten im Born-Viertel. Gebäude und Präsentationsbereich gratis; der Zugang zum archäologischen Bereich bzw. Sonderführungen ist nicht automatisch inklusive.",
+      "tags": [
+        "Kultur",
+        "Geschichte",
+        "Archäologie",
+        "Gratis"
+      ],
+      "openingReference": "März–Oktober Dienstag–Sonntag und Feiertage 10:00–20:00 Uhr; montags geschlossen, einzelne Feiertage ausgenommen.",
+      "priceReference": "Grundzugang zum Kulturzentrum gratis; archäologischer Rundgang/Führungen nicht pauschal enthalten.",
+      "durationMinutes": 65,
+      "sourceUrl": "https://guia.barcelona.cat/detall/el-born-centre-de-cultura-i-memoria_92086008839.html",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Historische Markthalle",
+          "Archäologische Stadtspuren aus der Zeit um 1700",
+          "Ausstellung zur Stadtgeschichte Barcelonas"
+        ],
+        "visitTip": "Kostenfreien Hallenzugang und eventuell separat gebuchte archäologische Rundgänge nicht gleichsetzen.",
+        "combineWith": "Spaziergang durch El Born und zum Parc de la Ciutadella",
+        "arrivalTip": "Im Born-Viertel gelegen; die publizierte Adresse für den Zugang benutzen statt eines geschätzten Kartenmarkers.",
+        "check2027": "Ob archäologische Führungen angeboten werden und welche Sprache, Preise oder Zeitfenster gelten"
+      }
+    },
+    {
+      "id": "barcelona-museu-maritim",
+      "city": "barcelona",
+      "name": "Museu Marítim de Barcelona",
+      "address": "Avinguda de les Drassanes s/n, 08001 Barcelona, Spanien",
+      "description": "Schifffahrtsmuseum in den historischen Königlichen Schiffswerften nahe Drassanes. Museumszugang umfasst nicht immer den Schoner Santa Eulàlia, dessen Besuch derzeit zeitweise ausgesetzt ist; sonntags nachmittags gratis.",
+      "tags": [
+        "Museum",
+        "Geschichte",
+        "Schiffe",
+        "Regenprogramm"
+      ],
+      "openingReference": "Betreiberstand 2026 täglich 10:00–20:00 Uhr, letzter Einlass 19:00 Uhr; spezielle Feiertagsschließungen.",
+      "priceReference": "Betreiberreferenz 2026: regulär 10 €, ermäßigt 5 € nur bei Berechtigung; sonntags ab 15:00 Uhr freier Museumseintritt, Schoner derzeit nicht verfügbar.",
+      "durationMinutes": 95,
+      "sourceUrl": "https://www.mmb.cat/en/visit/plan-your-visit/",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Historische königliche Schiffswerften",
+          "Ausstellungen zur Seefahrt",
+          "Ggf. kostenloser Besuch am Sonntagnachmittag"
+        ],
+        "visitTip": "Der Schoner Santa Eulàlia gehört nicht automatisch zur regulären Museumsbesichtigung. Bei geplanter Gratiszeit Einlass- und Wartesituation berücksichtigen.",
+        "combineWith": "Drassanes und Hafenbereich als separate Stadtspaziergänge",
+        "arrivalTip": "Nahe der Station Drassanes; die Museumsadresse und den tatsächlichen Eingang über die Betreiberseite prüfen.",
+        "check2027": "Sonntagsregel, Schoner-Zugänglichkeit, Sonderausstellungen und letzte Einlasszeit"
+      }
+    },
+    {
+      "id": "barcelona-cosmocaixa",
+      "city": "barcelona",
+      "name": "CosmoCaixa Barcelona",
+      "address": "Carrer d'Isaac Newton 26, 08022 Barcelona, Spanien",
+      "description": "Interaktives Wissenschaftsmuseum mit tropischem Regenwald, Geologie, Physik und Planetarium. Besonders für Technik- und Wissenschaftsinteressierte, aber im oberen Stadtteil Sant Gervasi außerhalb des Zentrums.",
+      "tags": [
+        "Wissenschaft",
+        "Technik",
+        "Interaktiv",
+        "Regenprogramm"
+      ],
+      "openingReference": "Laut Stadt Barcelona üblicherweise täglich 10:00–20:00 Uhr; an einigen Weihnachts-/Januartagen verkürzt oder geschlossen.",
+      "priceReference": "Betreiber-/Stadt-Tarifstand 2026: 8 € regulär, kostenlos bis 16 Jahre oder für bestimmte CaixaBank-Kunden; Planetarium/Workshops teils extra. 18 Jahre allein keine Gratisberechtigung.",
+      "durationMinutes": 135,
+      "sourceUrl": "https://guia.barcelona.cat/en/detall/cosmocaixa-barcelona_97042092100.html",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Interaktive Experimente und Wissenschaftsausstellungen",
+          "Tropischer Regenwaldbereich",
+          "Planetarium als mögliche Zusatzbuchung"
+        ],
+        "visitTip": "Mehr Anreisezeit als zu zentralen Altstadtzielen berücksichtigen. Planetarium und Workshops auf separate Preise und Zeitfenster prüfen.",
+        "combineWith": "Als eigener Wissenschaftsblock, statt kurzer Zwischenstopp im Zentrum",
+        "arrivalTip": "Im höher gelegenen Stadtteil Sant Gervasi; ÖPNV-Verbindung am konkreten Reisetag prüfen.",
+        "check2027": "Eintrittspreis für 18-Jährige, Zusatzprogramme, Betriebszeiten und mögliche Vorbuchung"
+      }
+    },
+    {
+      "id": "barcelona-laberint-horta",
+      "city": "barcelona",
+      "name": "Parc del Laberint d'Horta",
+      "address": "Passeig dels Castanyers 1, 08035 Barcelona, Spanien",
+      "description": "Historischer Park mit Heckenlabyrinth, Wassergärten und neoklassischer Gartenarchitektur. Ruhigere Alternative zum Stadtzentrum; Besucherzahl limitiert und kein Picknick bzw. Ballspielen im Labyrinthbereich.",
+      "tags": [
+        "Natur",
+        "Park",
+        "Fotospot",
+        "Gratiszeiten"
+      ],
+      "openingReference": "April–Oktober 10:00–20:00 Uhr, Schließung vom Tageslicht abhängig, letzter Ticketverkauf eine Stunde früher.",
+      "priceReference": "Stadt Barcelona 2026: 2,23 € regulär; mittwochs und sonntags kostenlos (begrenzte Besucherzahl). Am Eingang ausschließlich Kartenzahlung.",
+      "durationMinutes": 70,
+      "sourceUrl": "https://guia.barcelona.cat/detall/parc-del-laberint-d-horta_92086011952.html",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Historisches Heckenlabyrinth",
+          "Neoklassischer Garten und Wasseranlagen",
+          "Ruhigere Alternative zu Innenstadtzielen"
+        ],
+        "visitTip": "Die Kapazität ist begrenzt. Freie Eintrittstage ersetzen nicht die Einlasskontrolle; Picknick und Ballspiele im Labyrinthbereich vermeiden.",
+        "combineWith": "Einen separaten Spaziergang im Stadtteil Horta",
+        "arrivalTip": "Außerhalb des touristischen Zentrums; ÖPNV-Laufzeit und letzten Ticketverkauf einkalkulieren.",
+        "check2027": "Gratis-Mittwoch/Sonntag, Einlasslimit, Kartenzahlung und jahreszeitliche Schließzeit"
+      }
+    },
+    {
+      "id": "nice-massena",
+      "city": "nice",
+      "name": "Villa Masséna (Musée d'Art et d'Histoire)",
+      "address": "65 rue de France, 06000 Nice, Frankreich",
+      "description": "Belle-Époque-Villa mit Kunst und Geschichte der Côte d’Azur an der Promenade des Anglais, mit Garten und Innenausstellungen. Gut als wetterunabhängige Ergänzung beim Strandtag.",
+      "tags": [
+        "Museum",
+        "Geschichte",
+        "Belle Époque",
+        "Regenprogramm"
+      ],
+      "openingReference": "Mai–Oktober 10:00–18:00 Uhr, Dienstag geschlossen; an einzelnen Feiertagen abweichend.",
+      "priceReference": "Stadt Nice 2026: 10 € regulär, 8 € Gruppen ab 10; Studierende und unter 18-Jährige mit Nachweis gratis, nicht pauschal alle 18-Jährigen.",
+      "durationMinutes": 75,
+      "sourceUrl": "https://www.nice.fr/lieux/musee-massena/",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Belle-Époque-Architektur",
+          "Geschichte und Kunst der Côte d’Azur",
+          "Museumsräume und Garten"
+        ],
+        "visitTip": "Als wetterunabhängigen Kulturstopp mit einem Strand-/Promenadenbesuch kombinierbar; Dienstagsschließung beachten.",
+        "combineWith": "Promenade des Anglais und Küstenpromenade",
+        "arrivalTip": "Museum an der Promenade des Anglais; die veröffentlichte Besucheradresse verwenden, nicht die Parkfläche als genauen Eingang.",
+        "check2027": "Ermäßigungsvoraussetzungen mit 18 Jahren, Feiertagsöffnung und Sonderausstellungen"
+      }
+    },
+    {
+      "id": "nice-terra-amata",
+      "city": "nice",
+      "name": "Musée de Préhistoire Terra Amata",
+      "address": "25 boulevard Carnot, 06300 Nice, Frankreich",
+      "description": "Archäologiemuseum an einer frühen prähistorischen Fundstelle mit Alltagsspuren ehemaliger Bewohner an der Côte d’Azur. Kompakter Innenbesuch nahe Hafen und Mont Boron.",
+      "tags": [
+        "Museum",
+        "Archäologie",
+        "Geschichte",
+        "Regenprogramm"
+      ],
+      "openingReference": "Öffnung nach städtischem Museums-Saisonplan, einzelne Tage und Feiertage abweichend; vorab konkrete Besuchszeiten prüfen.",
+      "priceReference": "Stadt Nice 2026: 5 € Eintritt; reduzierte Gruppe ab 10 Personen 4 €. Unter 18 und Studierende mit Nachweis frei, Volljährige nicht automatisch gratis.",
+      "durationMinutes": 65,
+      "sourceUrl": "https://www.nice.fr/lieux/musee-terra-amata/",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Frühgeschichtlicher Fundplatz",
+          "Alltagsspuren früher Bewohner an der Côte d’Azur",
+          "Kompaktes archäologisches Museum"
+        ],
+        "visitTip": "Kurzer Museumsstopp als Schlechtwetteralternative; vorab Öffnungsplan prüfen, da Feiertage und Saisonabweichungen möglich sind.",
+        "combineWith": "Hafenviertel und weitere Ziele nahe Mont Boron",
+        "arrivalTip": "Am Hafenbereich der Stadt; Adresse und öffentlicher Museumszugang in Google Maps kontrollieren.",
+        "check2027": "Tatsächliche Museumsöffnung, Ticketpreis und Nachweise für freie Eintritte"
+      }
+    },
+    {
+      "id": "genoa-palazzo-reale",
+      "city": "genoa",
+      "name": "Palazzo Reale di Genova",
+      "address": "Via Balbi 10, 16126 Genova, Italien",
+      "description": "Historische Palastgemächer und Spiegelsaal nahe Bahnhof Genova Piazza Principe, gemeinsam mit Palazzo Spinola im Museumsticket. Hängender Garten derzeit wegen Bauarbeiten nicht zugänglich.",
+      "tags": [
+        "Museum",
+        "Geschichte",
+        "Palast",
+        "Jugendtarif"
+      ],
+      "openingReference": "Betreiber 2026: Dienstag 13:30–19:00 Uhr, Mittwoch–Samstag 09:00–19:00 Uhr, montags geschlossen; sonntags nur bei veröffentlichten Sonderöffnungen.",
+      "priceReference": "Betreiber 2026: 12 € regulär bzw. 2 € für EU-Bürger 18–25 (mit Nachweis), gilt für Palazzo Reale + Spinola; erste Sonntage teils gratis.",
+      "durationMinutes": 100,
+      "sourceUrl": "https://palazzorealegenova.cultura.gov.it/orari-e-biglietti/",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Historische Palastgemächer",
+          "Spiegelsaal",
+          "Kombinierter Museumsbesuch mit Palazzo Spinola möglich"
+        ],
+        "visitTip": "Hängenden Garten solange nicht einplanen, wie die Baumaßnahmen nicht offiziell aufgehoben sind. Sonntags nicht von regulärer Öffnung ausgehen.",
+        "combineWith": "Bahnhofsviertel Piazza Principe; Palazzo Spinola bei gültigem Ticket",
+        "arrivalTip": "In der Nähe Genova Piazza Principe; Museumsadresse vor dem Start in Maps prüfen.",
+        "check2027": "Gartenzugang, Wochenplan, Kombiticket und EU-Altersnachweise für reduzierte Tickets"
+      }
+    },
+    {
+      "id": "genoa-chiossone",
+      "city": "genoa",
+      "name": "Museo d'Arte Orientale Edoardo Chiossone",
+      "address": "Piazzale Giuseppe Mazzini 4, 16122 Genova, Italien",
+      "description": "Museum für japanische und ostasiatische Kunst am Villetta-di-Negro-Park. Interessant als Regenprogramm und günstiger Kulturstopp; Parklage oberhalb des Zentrums.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Japan",
+        "Jugendtarif"
+      ],
+      "openingReference": "Sommer-Referenz 2026: Dienstag–Freitag 09:00–19:00 Uhr, Samstag/Sonntag 10:00–19:30 Uhr; montags geschlossen. Sommer 2027 noch nicht veröffentlicht.",
+      "priceReference": "Stadtmuseen Genua 2026: 9 € regulär, 2 € für 18–25-Jährige; Ausstellungen können abweichende Preise haben.",
+      "durationMinutes": 80,
+      "sourceUrl": "https://www.museidigenova.it/it/museo-darte-orientale-e-chiossone",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Japanische und ostasiatische Kunst",
+          "Ausstellungsräume am Park Villetta di Negro",
+          "Kulturprogramm oberhalb des Zentrums"
+        ],
+        "visitTip": "Anstieg zur Parklage einkalkulieren und Öffnungsplan vor dem Besuch kontrollieren. Für Sonderausstellungen können andere Tarife gelten.",
+        "combineWith": "Villetta-di-Negro-Park bei geöffneten Wegen",
+        "arrivalTip": "Oberhalb des zentralen Stadtgebietes; Zugang zum Museum nicht mit einem allgemeinen Parkmarker gleichsetzen.",
+        "check2027": "Sommeröffnung, Ausstellungen und Ermäßigung für 18–25-Jährige"
+      }
+    },
+    {
+      "id": "venice-palazzo-grimani",
+      "city": "venice",
+      "name": "Museo di Palazzo Grimani",
+      "address": "Castello 4858, 30122 Venezia, Italien",
+      "description": "Renaissancepalast mit antik inspiriertem Innenhof und außergewöhnlichen Ausstellungsräumen nahe Santa Maria Formosa, zu Fuß von San Marco erreichbar.",
+      "tags": [
+        "Museum",
+        "Architektur",
+        "Geschichte",
+        "Jugendtarif"
+      ],
+      "openingReference": "Dienstag–Sonntag 10:00–19:00 Uhr, letzter Einlass 18:00 Uhr; montags regulär geschlossen.",
+      "priceReference": "Offizieller Betreiber 2026: 14 € regulär, 2 € ermäßigt von 18–25 Jahren; erste Sonntage und bestimmte Feiertage gratis. Bei EU-Bürgern 18–25 Ermäßigungsbedingungen/Ausweis prüfen.",
+      "durationMinutes": 85,
+      "sourceUrl": "https://museogrimani.cultura.gov.it/informazioni/",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Renaissancepalast",
+          "Antik inspiriert gestalteter Innenhof",
+          "Historische und wechselnde Ausstellungsräume"
+        ],
+        "visitTip": "Montag nicht als normalen Öffnungstag planen. Freie erste Sonntage und ermäßigte 18–25-Tickets benötigen eine erneute Prüfung.",
+        "combineWith": "Santa Maria Formosa und San Marco zu Fuß",
+        "arrivalTip": "Im Stadtteil Castello nahe Santa Maria Formosa; Fußweg und Besucheradresse nachprüfen.",
+        "check2027": "Ausstellungsbetrieb, Alters-/EU-Ermäßigung, letzter Einlass und Gratisaktionen"
+      }
+    },
+    {
+      "id": "venice-murano-glass",
+      "city": "venice",
+      "name": "Museo del Vetro Murano (Glasmuseum)",
+      "address": "Fondamenta Marco Giustinian 8, 30141 Murano, Venezia, Italien",
+      "description": "Glasmuseum auf Murano mit historischen Glaskunstwerken und Einblicken in venezianische Glasfertigung. Extra Vaporetto-Fahrt zur Insel nötig; keine pauschale Garantie für Live-Glasvorführung.",
+      "tags": [
+        "Museum",
+        "Handwerk",
+        "Design",
+        "Insel"
+      ],
+      "openingReference": "April–Oktober täglich 10:00–18:00 Uhr, letzter Einlass 17:00 Uhr; November–März 10:00–17:00 Uhr.",
+      "priceReference": "Betreiber 2026: 15 € regulär, 7,50 € ermäßigt für Schüler/Studierende 15–25 und andere Berechtigte; 18 Jahre allein nicht automatisch Studentenstatus. Vaporetto separat.",
+      "durationMinutes": 105,
+      "sourceUrl": "https://museovetro.visitmuve.it/de/besucherinformation/",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Historische Glasobjekte",
+          "Venezianische Glashandwerkstradition",
+          "Museumsbesuch auf Murano"
+        ],
+        "visitTip": "Die Vaporetto-Anreise ist ein eigener Zeit- und Kostenblock. Eine Live-Glasvorführung ist nicht Bestandteil jeder Museumsreservierung.",
+        "combineWith": "Murano-Inselspaziergang und separat geprüfte Vorführungen",
+        "arrivalTip": "Vaporetto-Verbindung nach Murano für den Reisetag wählen; Museumseingang auf der Insel separat nachsehen.",
+        "check2027": "Museums- und Vaporetto-Tickets, Saisonzeit und etwaige Live-Demonstrationen"
+      }
+    },
+    {
+      "id": "venice-ca-pesaro",
+      "city": "venice",
+      "name": "Ca’ Pesaro – Galleria Internazionale d'Arte Moderna",
+      "address": "Santa Croce 2076, 30135 Venezia, Italien",
+      "description": "Palastmuseum am Canal Grande mit moderner Kunst und integriertem Museum für orientalische Kunst. Gut als Regenprogramm; mit Vaporetto Linie 1 zur Haltestelle San Stae.",
+      "tags": [
+        "Museum",
+        "Kunst",
+        "Architektur",
+        "Regenprogramm"
+      ],
+      "openingReference": "April–Oktober Dienstag–Sonntag 10:00–18:00 Uhr, montags geschlossen, letzter Einlass 17:00 Uhr; Winter bis 17:00 Uhr.",
+      "priceReference": "MUVE 2026: 15 € regulär, 7,50 € für Schüler/Studierende 15–25 oder Rolling-Venice-Karte und andere Berechtigte; Altersnachweis allein kann ohne Schülerstatus nicht reichen.",
+      "durationMinutes": 100,
+      "sourceUrl": "https://capesaro.visitmuve.it/de/besucherinformation/",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Moderne Kunst in einem Palazzo am Canal Grande",
+          "Museum für orientalische Kunst",
+          "Historische Innenräume am Wasser"
+        ],
+        "visitTip": "Als Regenalternative geeignet. Studenten-/Rolling-Venice-Ermäßigungen nur mit tatsächlich erfüllten Bedingungen rechnen.",
+        "combineWith": "Museo Fortuny ausschließlich bei passender Kombiticket-Regel",
+        "arrivalTip": "Als Anreisehinweis ist San Stae (Vaporetto) in der bestehenden Betreiberreferenz genannt; Fußweg und Linie am Besuchstag prüfen.",
+        "check2027": "Kombitickets, Schülernachweis, Saisonöffnung und letzter Eintritt"
+      }
+    },
+    {
+      "id": "appenzell-alp-sigel",
+      "city": "appenzell",
+      "name": "Seilbahn Alp Sigel (Pfannenstiel)",
+      "address": "Pfannenstiel, 9058 Brülisau, Schweiz",
+      "description": "Kleine Gondelbahn zur Alp Sigel mit Panoramablick und Zugang zu Alpenwanderungen. Die Talstation liegt außerhalb von Appenzell bei Brülisau; bei gutem Wetter bedient, teils Selbstbedienung.",
+      "tags": [
+        "Bergbahn",
+        "Wandern",
+        "Aussicht",
+        "Natur"
+      ],
+      "openingReference": "Appenzellerland 2026: 1. Mai–1. November täglich 08:00–18:00 Uhr; 2027er Saison- und Tagesbetrieb noch offen.",
+      "priceReference": "Appenzellerland 2026: CHF 27 Retour, CHF 18 einfach Erwachsene, GA und Halbtax nicht gültig; 6–16-Jährige CHF 13,50 Retour.",
+      "durationMinutes": 110,
+      "sourceUrl": "https://www.appenzell.ch/de/service/verkehr.html?tx_wstourismus_tourismus%5Baction%5D=show&tx_wstourismus_tourismus%5Btraffic%5D=15",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Panorama auf der Alp Sigel",
+          "Seilbahnfahrt zum Ausgangspunkt alpiner Wege",
+          "Mögliche Wanderungen bei geeigneter Witterung"
+        ],
+        "visitTip": "Keine reguläre Innenstadtattraktion: Die Talstation liegt bei Brülisau/Pfannenstiel. Wetter und technischen Tagesbetrieb vor Abfahrt überprüfen; Halbtax/GA gelten laut 2026er Quelle nicht.",
+        "combineWith": "Alpwanderung nur nach aktueller Weg-, Wetter- und Betriebsprüfung",
+        "arrivalTip": "Talstation außerhalb Appenzells, daher Anreise einschließlich letzter ÖPNV-Strecke separat planen.",
+        "check2027": "Saisonstart, Wetterbetrieb, Fahrtpreis in CHF und letzte Talfahrt"
+      }
+    },
+    {
+      "id": "glarus-anna-goeldi",
+      "city": "glarus",
+      "name": "Anna Göldi Museum Ennenda",
+      "address": "Fabrikstrasse 9, 8755 Ennenda, Schweiz",
+      "description": "Museum zur Schweizer Geschichte, Rechtsstaatlichkeit und dem Schicksal von Anna Göldi, rund 15 Minuten Fußweg von Bahnhof Glarus oder Ennenda. Interessante wetterfeste Alternative zur Seenroute.",
+      "tags": [
+        "Museum",
+        "Geschichte",
+        "Regenprogramm",
+        "2027 Öffnung"
+      ],
+      "openingReference": "Museumsbetreiber veröffentlicht Saison 2026: 1. April–1. November, Mittwoch–Sonntag 13:30–18:00 Uhr; im Winter geschlossen. Für September 2027 liegt noch kein bestätigter Saison- oder Tagesplan vor.",
+      "priceReference": "Betreiberreferenz 2026: CHF 10 Erwachsene, CHF 5 Kinder 6–16; 18 Jahre grundsätzlich regulärer Tarif, Spezialpässe separat. 2027er Tarif neu prüfen.",
+      "durationMinutes": 70,
+      "sourceUrl": "https://www.annagoeldimuseum.ch/informationen/",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Schweizer Rechts- und Gesellschaftsgeschichte",
+          "Lebensgeschichte von Anna Göldi",
+          "Museum im Hänggiturm Ennenda"
+        ],
+        "visitTip": "Nur die Saison 2026 ist aus dem vorliegenden Betreiberbeleg bestätigt. Für 2027 vor der Anfahrt neu prüfen, ob geöffnet und welche Führungen stattfinden.",
+        "combineWith": "Glarus/Ennenda als kurze wetterunabhängige Etappe",
+        "arrivalTip": "Fußweg von Bahnhof Glarus oder Ennenda anhand von Maps planen; die Museumsadresse bleibt maßgeblich.",
+        "check2027": "Saisonzeit, Wochentag, CHF-Eintritt und Führungstermine"
+      }
+    },
+    {
+      "id": "glarus-berglistueber",
+      "city": "glarus",
+      "name": "Berglistüber-Wasserfall (Linthal)",
+      "address": "Bergli an der Klausenpassstrasse, 8783 Linthal, Schweiz",
+      "description": "Etwa 44 Meter hoher Wasserfall am Fätschbach bei Linthal, nur etwa fünf Minuten Fußweg vom Bergli-Parkplatz; der Zugang hinter dem Wasserfall ist aus Sicherheitsgründen nicht erlaubt. Für die Schweizroute ein möglicher Abstecher mit eigenem Fahrzeitbedarf.",
+      "tags": [
+        "Natur",
+        "Wasserfall",
+        "Spaziergang",
+        "Fotospot"
+      ],
+      "openingReference": "Naturziel ohne nachgewiesene feste Öffnungszeiten; nur bei sicherer Witterung und geöffneter Klausenpass-Zufahrt. September 2027 wetterabhängig.",
+      "priceReference": "Frei zugänglicher Naturpunkt, kein bekanntes Eintrittsticket. Anfahrt und eventuelle Park-/ÖV-Kosten nicht bestätigt.",
+      "durationMinutes": 45,
+      "sourceUrl": "https://www.myswitzerland.com/de-at/erlebnisse/berglistueber/",
+      "priceYear": "2026",
+      "special2027": null,
+      "visitorGuide": {
+        "highlights": [
+          "Wasserfall am Fätschbach",
+          "Kurzer Fußweg vom Bereich Bergli",
+          "Naturbeobachtung in alpinem Gelände"
+        ],
+        "visitTip": "Den Bereich hinter dem Wasserfall nicht betreten; Sperrungen und Rutschgefahr nach Regen beachten. Freier Zugang bedeutet nicht, dass Parken und Anfahrt kostenlos sind.",
+        "combineWith": "Nur als wetter- und anreiseabhängigen Abstecher der Glarusroute",
+        "arrivalTip": "Der bisherige Referenzpunkt ist der Bereich beim Bergli-Parkplatz, nicht ein bestätigter ungefährlicher Zugang hinter die Kaskade.",
+        "check2027": "Klausenpass-Zufahrt, Wetter-/Weglage und ÖPNV-/Parkkosten"
+      }
+    }
+  ]
+}

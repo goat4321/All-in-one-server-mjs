@@ -1,0 +1,88 @@
+/* V73: status, filter pills and search before the cartography, with one
+   simple and accessible mobile flow. Leaflet data and routes are unchanged. */
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel{
+ display:flex!important;flex-direction:column!important;min-width:0;
+ height:auto!important;min-height:0!important
+}
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel>.panel-head{
+ order:0;max-width:none!important;flex:0 0 auto
+}
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel>.map-context-summary{
+ order:1;flex:0 0 auto;border-top:0;
+ background:color-mix(in srgb,var(--paper) 96%,var(--light))
+}
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel>.map-wrap{
+ order:2;flex:0 0 auto!important;min-width:0
+}
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel>.reference-map-schedule-notice{order:3}
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel>.map-extra-details{order:4}
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel>.map-day-rail{order:5}
+.reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel>.route-city-showcase{order:6}
+.reference-travel-shell .map-active-filter{
+ appearance:none;cursor:pointer;min-height:34px;
+ max-width:min(270px,100%);padding:6px 9px;gap:6px;
+ transition:background-color .15s,border-color .15s
+}
+.reference-travel-shell .map-active-filter>span{
+ overflow:hidden;white-space:nowrap;text-overflow:ellipsis
+}
+.reference-travel-shell .map-active-filter>.ui-icon:last-child{
+ width:13px;height:13px;opacity:.78;flex:none;margin-left:2px
+}
+.reference-travel-shell .map-active-filter:hover{
+ background:#d8f2e2;border-color:#8ecaa6
+}
+.reference-travel-shell .map-active-filter:focus-visible,
+.reference-travel-shell .map-find-button:focus-visible,
+.reference-travel-shell .map-filter-clear:focus-visible,
+.reference-travel-shell .reference-stage-days .map-scope-modes button:focus-visible{
+ outline:3px solid #e0ad4e;outline-offset:2px
+}
+.reference-travel-shell .map-active-filters{max-width:100%;min-width:0;gap:6px}
+.reference-travel-shell .map-context-actions{flex-basis:250px}
+@media(min-width:1180px){
+ .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode){
+  grid-template-rows:minmax(110px,auto) minmax(0,auto) auto!important;
+  align-items:start!important
+ }
+ .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.map-panel{
+  align-self:start;overflow:visible!important
+ }
+ .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) #map{
+  height:clamp(485px,55dvh,535px)!important;
+  min-height:485px!important;max-height:535px!important
+ }
+ .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode)>.explorer-right{
+  max-height:710px!important;overflow-y:auto!important;scrollbar-gutter:stable
+ }
+}
+@media(min-width:651px) and (max-width:1179px){
+ .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) #map{
+  height:clamp(385px,48dvh,565px)!important;
+  min-height:385px!important;max-height:565px!important
+ }
+}
+@media(max-width:650px){
+ .reference-travel-shell .reference-map-workspace:not(.map-fullscreen-mode) #map{
+  height:clamp(405px,54dvh,535px)!important;
+  min-height:405px!important;max-height:535px!important
+ }
+ .reference-travel-shell .map-context-summary{padding:10px!important;gap:8px!important}
+ .reference-travel-shell .map-context-identity{flex-basis:100%}
+ .reference-travel-shell .map-context-kicker{font-size:.74rem}
+ .reference-travel-shell .map-context-actions{flex-basis:100%;gap:7px}
+ .reference-travel-shell .map-active-filters{flex-basis:100%}
+ .reference-travel-shell .map-active-filter{min-height:36px;max-width:100%}
+ .reference-travel-shell .map-find-button{
+  min-width:150px;min-height:44px;flex:1 1 150px
+ }
+ .reference-travel-shell .map-filter-clear{min-height:44px}
+ .reference-travel-shell .map-selected-place{max-width:100%;overflow-wrap:break-word}
+}
+:root[data-theme=dark] .reference-travel-shell .map-active-filter:hover{
+ background:#335a44;border-color:#69a47e
+}
+@media(prefers-reduced-motion:reduce){
+ .reference-travel-shell .map-active-filter{transition:none}
+}
+:root[data-motion=off] .reference-travel-shell .map-active-filter{transition:none}

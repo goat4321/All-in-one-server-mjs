@@ -1,0 +1,30 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {loadCatalog} from '../lib/catalog.mjs';
+import {railReviewModel,railReviewTimeline} from '../public/rail-review-timeline.mjs';
+const catalog=await loadCatalog();
+const classic=catalog.trips.find(t=>t.id==='interrail_classic');
+const swiss=catalog.trips.find(t=>t.id==='interrail_swiss');
+test('Classic seven-leg 2027 rail watchlist uses only source-marked review windows',()=>{
+ const ctx={catalog,trip:classic};
+ const rows=railReviewModel(ctx,'2026-11-13');
+ assert.equal(rows.length,7);
+ assert.ok(rows.every(row=>row.date.startsWith('2027-09-')));
+ assert.ok(rows.every(row=>!row.confirmedTimetable&&!row.confirmedFare));
+ assert.equal(rows[0].window,'2027-03-01');
+ assert.equal(rows[1].window,'2027-05-03');
+ assert.ok(rows.every(row=>row.status==='not_in_typical_window'));
+ assert.ok(rows.every(row=>/^https:\/\//.test(row.operatorUrl)));
+ const html=railReviewTimeline(ctx,'2026-11-13');
+ assert.match(html,/Bahn-Prüfzeitleiste 2027/);
+ assert.match(html,/7 \/ 7 Abschnitte offen/);
+ assert.match(html,/02\.07\.2027/);
+ assert.match(html,/data-action="rail-reminder"/);
+ assert.doesNotMatch(html,/Tickets sind erhältlich/);
+});
+test('Changing the as-of date changes only research status, not price or fare',()=>{
+ const rows=railReviewModel({catalog,trip:classic},'2027-06-01');
+ assert.ok(rows.some(r=>r.status==='check_operator_now'));
+ assert.ok(rows.every(r=>!r.confirmedTimetable&&!r.confirmedFare));
+ assert.ok(railReviewModel({catalog,trip:swiss},'2026-11-13').length>0);
+});

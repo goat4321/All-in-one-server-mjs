@@ -1,0 +1,523 @@
+{
+  "meta": {
+    "package": "research-v68-existing-place-guides",
+    "checkedOn": "2026-11-16",
+    "totalEntries": 37,
+    "context": "23 older individually operator-reviewed V50 entries plus 14 additional public sites; never change existing trip facts.",
+    "referenceLimit": "Historical info unless expressly published by official operator; no 2027 live booking or price inferred."
+  },
+  "entries": [
+    {
+      "id": "new_005",
+      "visitorGuide": {
+        "highlights": [
+          "Begrünte ehemalige Bahntrasse",
+          "Viadukte, Tunnel und Gartenwege"
+        ],
+        "visitTip": "Zugang und Aufzüge können gesperrt sein; die komplette Promenade ist ein längerer Fußweg.",
+        "combineWith": "Jardin de Reuilly und Bastille",
+        "arrivalTip": "Start bei Bastille oder Reuilly; mehrere öffentliche Zugänge.",
+        "check2027": "September-2027-Parkzeiten und Aufzüge"
+      },
+      "sourceUrl": "https://www.paris.fr/lieux/coulee-verte-rene-dumont-1772"
+    },
+    {
+      "id": "new_006",
+      "visitorGuide": {
+        "highlights": [
+          "Seine-Insel mit 850-m-Spazierweg",
+          "Kleine Freiheitsstatue und Fitnessgeräte"
+        ],
+        "visitTip": "Kostenloser Außenweg, aber Hochwasser und Wegsperren prüfen.",
+        "combineWith": "Pont de Bir-Hakeim und Champ de Mars",
+        "arrivalTip": "Zugang über Pont de Grenelle oder Pont de Bir-Hakeim.",
+        "check2027": "Wegzustand und Hochwasser"
+      },
+      "sourceUrl": "https://www.paris.fr/lieux/allee-des-cygnes-2875"
+    },
+    {
+      "id": "new_007",
+      "visitorGuide": {
+        "highlights": [
+          "Gallo-römische Arena",
+          "Städtischer Park im Quartier Latin"
+        ],
+        "visitTip": "Kostenloser Außenbesuch innerhalb der Parktorzeiten, nicht 24 Stunden geöffnet.",
+        "combineWith": "Jardin des Plantes",
+        "arrivalTip": "4 rue des Arènes als belegte Besucheradresse.",
+        "check2027": "September-2027-Parkzeiten"
+      },
+      "sourceUrl": "https://www.paris.fr/lieux/square-des-arenes-de-lutece-et-square-capitan-1760"
+    },
+    {
+      "id": "new_008",
+      "visitorGuide": {
+        "highlights": [
+          "Geschichte von Paris",
+          "Kostenlose Dauerausstellung",
+          "Offizielle Besucheradresse im Marais"
+        ],
+        "visitTip": "Dauerausstellung derzeit ohne Ticket und Reservierung kostenlos; Sonderausstellungen können kostenpflichtig sein. Zutrittsbedingungen 2027 neu prüfen.",
+        "combineWith": "Le Marais",
+        "arrivalTip": "23 rue Madame de Sévigné als offizielle Museumseingangsadresse.",
+        "check2027": "Ermäßigungen, Ausstellung und Reservierung"
+      },
+      "sourceUrl": "https://www.carnavalet.paris.fr/en"
+    },
+    {
+      "id": "new_009",
+      "visitorGuide": {
+        "highlights": [
+          "Kunst im Petit Palais",
+          "Innenhof und Garten",
+          "Museumsgarten ohne separates Eintrittsticket"
+        ],
+        "visitTip": "Dauersammlung und Garten sind laut Betreiber kostenfrei; Sonderausstellungen kosten extra. Öffnungs- und Sperrtage 2027 prüfen.",
+        "combineWith": "Pont Alexandre III",
+        "arrivalTip": "Avenue Winston-Churchill als öffentlicher Zugang.",
+        "check2027": "Sonderausstellungen und letzter Einlass"
+      },
+      "sourceUrl": "https://www.petitpalais.paris.fr/visiter/preparer-votre-visite"
+    },
+    {
+      "id": "new_010",
+      "visitorGuide": {
+        "highlights": [
+          "Immersive Lichtprojektionen",
+          "Wechselnde digitale Kunst"
+        ],
+        "visitTip": "Kein garantierter fester 2027-Ausstellungsplan; Ticketzeitfenster sind programmspezifisch.",
+        "combineWith": "Rue Saint-Maur",
+        "arrivalTip": "38 rue Saint-Maur, Paris; Anfahrt zum gewählten Slot planen.",
+        "check2027": "Programm, Altersrabatt und freie Plätze"
+      }
+    },
+    {
+      "id": "new_011",
+      "visitorGuide": {
+        "highlights": [
+          "Grünanlage mit Wiesen",
+          "Sport- und Tischtennisflächen"
+        ],
+        "visitTip": "Öffentlicher Park mit konkreten Torzeiten, nicht rund um die Uhr frei.",
+        "combineWith": "Montparnasse",
+        "arrivalTip": "2 rue Gazan ist eine veröffentlichte Parkadresse.",
+        "check2027": "September-2027-Torzeiten und Sperrungen"
+      }
+    },
+    {
+      "id": "new_012",
+      "visitorGuide": {
+        "highlights": [
+          "25-Meter-Schwimmbecken an der Seine",
+          "Öffentliches Bahnschwimmen"
+        ],
+        "visitTip": "Schulen und Vereine schränken freie Bahnen ein; vorher öffentliches Zeitfenster suchen.",
+        "combineWith": "Bibliothèque François-Mitterrand",
+        "arrivalTip": "Quai François Mauriac, Port de la Gare; Badeeingang separat prüfen.",
+        "check2027": "Öffentliche Schwimmzeiten, Preis und Hygienehinweise"
+      }
+    },
+    {
+      "id": "new_013",
+      "visitorGuide": {
+        "highlights": [
+          "Kultur- und Food-Halle",
+          "Wechselnde Abendveranstaltungen"
+        ],
+        "visitTip": "Freier Hallenzugang bedeutet keine garantierte Party oder kostenloses Konzert.",
+        "combineWith": "Bercy",
+        "arrivalTip": "81 rue du Charolais; letzte Einlasszeit beachten.",
+        "check2027": "Konzertkalender und Veranstaltungsregeln"
+      }
+    },
+    {
+      "id": "new_020",
+      "visitorGuide": {
+        "highlights": [
+          "Aussichtsplattform über Paris",
+          "Panorama erst nach Wiedereröffnung"
+        ],
+        "visitTip": "Betreiber nennt die Renovierungsschließung seit März 2026; nicht als sicheren Besuch einplanen.",
+        "combineWith": "Montparnasse ohne Terrassenticket",
+        "arrivalTip": "Turmgebiet nur als Ortsorientierung, nicht als geöffneten Eingang behandeln.",
+        "check2027": "Offizielle Wiedereröffnung und Ticketverkauf"
+      }
+    },
+    {
+      "id": "new_025",
+      "visitorGuide": {
+        "highlights": [
+          "Markthalle unter farbigem Dach",
+          "Lebensmittel und regionale Snacks"
+        ],
+        "visitTip": "Marktzeiten variieren je Wochentag und Saison, Preise je Stand.",
+        "combineWith": "El Born",
+        "arrivalTip": "Avinguda de Francesc Cambó 16 ist belegte Marktadresse.",
+        "check2027": "September-2027-Marktzeiten und Betriebsferien"
+      },
+      "sourceUrl": "https://guia.barcelona.cat/en/detall/_92086009448.html"
+    },
+    {
+      "id": "new_026",
+      "visitorGuide": {
+        "highlights": [
+          "Freier Tibidabo-Panoramabereich",
+          "Fahrgeschäfte gegen Extraticket",
+          "Panoramaareal laut Betreiber frei zugänglich"
+        ],
+        "visitTip": "Der Aussichtsteil ist ohne Parkeintritt erreichbar; historische Fahrgeschäfte und Standseilbahn haben eigene Tickets. Tagesbetrieb 2027 prüfen.",
+        "combineWith": "Tibidabo als Halbtagesausflug",
+        "arrivalTip": "Berglage außerhalb der Innenstadt, Rückfahrt prüfen.",
+        "check2027": "Tage mit Fahrgeschäften, Ticketstufen, Transport"
+      },
+      "sourceUrl": "https://tibidabo.cat/en/panoramic-area"
+    },
+    {
+      "id": "new_028",
+      "visitorGuide": {
+        "highlights": [
+          "Historische Festung",
+          "Blick über Barcelona und Hafen"
+        ],
+        "visitTip": "Museumszutritt, Sonntags-Gratiszeiten und Verkehrsmittel getrennt prüfen.",
+        "combineWith": "Montjuïc",
+        "arrivalTip": "Castell de Montjuïc; Hügelanfahrt und Eingang getrennt.",
+        "check2027": "2027-Tarif und kostenlose Zeitfenster"
+      },
+      "sourceUrl": "https://guia.barcelona.cat/en/detall/_99077121755.html"
+    },
+    {
+      "id": "new_029",
+      "visitorGuide": {
+        "highlights": [
+          "Monumentale Brunnenanlage",
+          "Musikshow nur nach Kalender"
+        ],
+        "visitTip": "Ein ausgeschalteter Brunnen ist keine laufende Lichtshow; Datum gesondert prüfen.",
+        "combineWith": "MNAC-Vorplatz",
+        "arrivalTip": "Plaça de Carles Buïgas 1 ist die Betreiberreferenz.",
+        "check2027": "Showkalender September 2027"
+      }
+    },
+    {
+      "id": "new_030",
+      "visitorGuide": {
+        "highlights": [
+          "MNAC-Kunstsammlungen",
+          "Aussicht vom Dach und Vorplatz",
+          "360-Grad-Blick von den Dachterrassen"
+        ],
+        "visitTip": "Für die Dachterrasse gibt es laut Museumsreferenz einen gesonderten Zugangstarif, der in regulären Museumstickets enthalten sein kann. Tarife 2027 prüfen.",
+        "combineWith": "Font Màgica",
+        "arrivalTip": "Palau Nacional auf dem Montjuïc, Aufstieg einplanen.",
+        "check2027": "Dachpreis, Ermäßigung und Öffnung"
+      },
+      "sourceUrl": "https://www.museunacional.cat/en/rooftop-viewpoint-0"
+    },
+    {
+      "id": "new_031",
+      "visitorGuide": {
+        "highlights": [
+          "Rosengarten",
+          "Wiesen und Wege"
+        ],
+        "visitTip": "Hauptrosenblüte eher vor September; Wege teils ansteigend.",
+        "combineWith": "Avinguda Diagonal",
+        "arrivalTip": "Avinguda Diagonal 706, mehrere Parkzugänge.",
+        "check2027": "Septemberöffnung, Pflege und Blütenstand"
+      },
+      "sourceUrl": "https://www.barcelona.cat/en/what-to-do-in-bcn/parks-and-gardens/parc-de-cervantes-92086010721"
+    },
+    {
+      "id": "new_033",
+      "visitorGuide": {
+        "highlights": [
+          "SUP- und Wassersportbasis",
+          "Kurse und Ausrüstungsverleih"
+        ],
+        "visitTip": "Strand ist öffentlich, Kurs- und Mietangebote aber nur nach Anbieterbestätigung.",
+        "combineWith": "Bogatell-Strand",
+        "arrivalTip": "Passeig Marítim del Bogatell 102 laut Stadt Barcelona.",
+        "check2027": "Wetter, Gruppenkurse, Preise und Reservierung"
+      }
+    },
+    {
+      "id": "new_041",
+      "visitorGuide": {
+        "highlights": [
+          "Historischer Meeresfriedhof",
+          "Paul-Valéry-Bezug und Meerblick"
+        ],
+        "visitTip": "Ruhiger Kulturort mit eigenen Zugangszeiten; Friedhofsregeln respektieren.",
+        "combineWith": "Musée Paul Valéry",
+        "arrivalTip": "Eingang im oberhalb der Küste gelegenen Friedhofsbereich recherchieren.",
+        "check2027": "Öffnungszeiten und Schließungen"
+      },
+      "sourceUrl": "https://de.tourisme-sete.com/friedhof-am-meer.html"
+    },
+    {
+      "id": "new_042",
+      "visitorGuide": {
+        "highlights": [
+          "Freilichttheater mit Meerpanorama",
+          "Kultur- und Konzertbetrieb"
+        ],
+        "visitTip": "Außenansicht ist möglich; Veranstaltungseintritt setzt ein separates Ticket voraus.",
+        "combineWith": "Musée de la Mer",
+        "arrivalTip": "Theatereingang separat von den benachbarten Aussichtspunkten prüfen.",
+        "check2027": "Programm, Einlass und Konzertkarten"
+      }
+    },
+    {
+      "id": "new_043",
+      "visitorGuide": {
+        "highlights": [
+          "MIAM-Ausstellungen",
+          "Zeitgenössische und ungewöhnliche Kunst",
+          "Museumsbesuch als wetterunabhängige Aktivität"
+        ],
+        "visitTip": "Der Betreiber nennt 2026 Dienstag bis Sonntag 10–18 Uhr, montags geschlossen; Sonderausstellungen und Zeiten für September 2027 neu prüfen.",
+        "combineWith": "Hafenkanäle von Sète",
+        "arrivalTip": "23 quai Maréchal de Lattre de Tassigny laut Betreiberquelle.",
+        "check2027": "Öffnung, Programme und Eintritt"
+      },
+      "sourceUrl": "https://miam.org/horaires-tarifs/"
+    },
+    {
+      "id": "new_044",
+      "visitorGuide": {
+        "highlights": [
+          "Spaziergang auf der 650-m-Mole",
+          "Kostenpflichtige Turmführung mit Aussicht"
+        ],
+        "visitTip": "Molenweg und Leuchtturmaufstieg trennen; Turmbesichtigung möglicherweise nur mit Buchung und vielen Treppen.",
+        "combineWith": "Hafen und Théâtre de la Mer",
+        "arrivalTip": "Treffpunkt vor dem Phare Saint-Louis am Ende der Mole.",
+        "check2027": "Führungstermine, Reservierung, Wetter und Turmtarif"
+      },
+      "sourceUrl": "https://en.tourisme-sete.com/phare-saint-louis-sete.html"
+    },
+    {
+      "id": "new_054",
+      "visitorGuide": {
+        "highlights": [
+          "Kostenlose grüne Stadtachse",
+          "Wasserspiegel und botanische Anlagen"
+        ],
+        "visitTip": "Parköffnung und Betrieb der Wasserspiele können voneinander abweichen.",
+        "combineWith": "Place Masséna",
+        "arrivalTip": "Avenue Félix Faure, mehrere Eingänge entlang der Strecke.",
+        "check2027": "2027-Sommerzeiten und Wasseranlagen"
+      },
+      "sourceUrl": "https://www.nice.fr/lieux/promenade-du-paillon/"
+    },
+    {
+      "id": "new_058",
+      "visitorGuide": {
+        "highlights": [
+          "MAMAC-Kunstsammlung",
+          "Mögliches ausgelagertes Kulturprogramm",
+          "Hauptgebäude wegen langjähriger Sanierung geschlossen"
+        ],
+        "visitTip": "Das Hauptgebäude ist nach Betreiberangabe seit 7. Januar 2024 für mehrjährige Renovierungsarbeiten geschlossen. Das ausgelagerte Programm findet an anderen Orten statt; vor 2027-Besuch den tatsächlichen Ausstellungsort prüfen.",
+        "combineWith": "Andere tatsächlich geöffnete Museen Nizzas",
+        "arrivalTip": "MAMAC-Gebäude ist nicht automatisch der Ort des Ausweichprogramms.",
+        "check2027": "Wiedereröffnung und Alternativstandort"
+      },
+      "sourceUrl": "https://www.mamac-nice.org/en/"
+    },
+    {
+      "id": "new_069",
+      "visitorGuide": {
+        "highlights": [
+          "Palazzi dei Rolli",
+          "Historische Via Garibaldi"
+        ],
+        "visitTip": "Kostenlose Straßenansicht von Museumseintritten in Palazzo Rosso/Bianco unterscheiden.",
+        "combineWith": "Piazza De Ferrari",
+        "arrivalTip": "Via Garibaldi hat mehrere eigenständige Palasteingänge.",
+        "check2027": "2027er Museumsöffnungen und Rolli Days"
+      },
+      "sourceUrl": "https://www.comune.genova.it/amministrazione/musei/musei-di-strada-nuova"
+    },
+    {
+      "id": "new_070",
+      "visitorGuide": {
+        "highlights": [
+          "Gestreifte Kathedralfassade",
+          "Historischer Kirchenraum"
+        ],
+        "visitTip": "Besichtigungen sind laut Erzbistum während Gottesdiensten unterbrochen.",
+        "combineWith": "Altstadt um San Lorenzo",
+        "arrivalTip": "Haupteingang der Cattedrale di San Lorenzo benutzen.",
+        "check2027": "Gottesdienste, Öffnung und ggf. Museumsbereich"
+      },
+      "sourceUrl": "https://www.chiesadigenova.it/cattedrale/"
+    },
+    {
+      "id": "new_072",
+      "visitorGuide": {
+        "highlights": [
+          "Panoramalift Il Bigo",
+          "Porto-Antico-Aussicht"
+        ],
+        "visitTip": "Liftfahrt ist nicht im normalen Hafenbesuch enthalten, Betreiberwetterregeln prüfen.",
+        "combineWith": "Aquarium-Vorplatz",
+        "arrivalTip": "Porto Antico, nicht Kreuzfahrtterminal.",
+        "check2027": "Betriebszeiten und 2027er Ticket"
+      }
+    },
+    {
+      "id": "new_080",
+      "visitorGuide": {
+        "highlights": [
+          "Ungewöhnliche Bücherregale und Gondel",
+          "Fototreppe am Kanal"
+        ],
+        "visitTip": "Fototreppe hat früheren Einlassschluss als Laden; bei Wasserstand oder Regen Schließung möglich.",
+        "combineWith": "Santa Maria Formosa",
+        "arrivalTip": "Calle Longa Santa Maria Formosa 5176b, Zugang respektieren.",
+        "check2027": "2027-Laden- und Treppenöffnung"
+      },
+      "sourceUrl": "https://www.libreriacqualta.it/en/contacts/"
+    },
+    {
+      "id": "new_082",
+      "visitorGuide": {
+        "highlights": [
+          "Historisches Kaufhausgebäude",
+          "Ehemalige Rialto-Dachterrasse"
+        ],
+        "visitTip": "Dachterrasse nach Kaufhaus-Schließung nicht als verfügbare Attraktion darstellen.",
+        "combineWith": "Rialto-Brücke als Alternativaussicht",
+        "arrivalTip": "Fondaco dei Tedeschi nur mit geprüftem offiziellem Zugang.",
+        "check2027": "Ob 2027 offizielle Reservierungen angeboten werden"
+      }
+    },
+    {
+      "id": "new_083",
+      "visitorGuide": {
+        "highlights": [
+          "Ehemalige venezianische Zollstation",
+          "Landspitze zwischen zwei Kanälen"
+        ],
+        "visitTip": "Kostenloser Außenblick ist nicht gleichbedeutend mit einem Ausstellungsticket.",
+        "combineWith": "Santa Maria della Salute",
+        "arrivalTip": "Dorsoduro 2 für das Museum, Außenzugang gesondert.",
+        "check2027": "Ausstellungen, Museumspreise und Außenwegsperren"
+      },
+      "sourceUrl": "https://www.veneziaunica.it/en/things-to-do-in-venice/museums/punta-della-dogana"
+    },
+    {
+      "id": "new_090",
+      "visitorGuide": {
+        "highlights": [
+          "Ebenalp und Wildkirchli",
+          "Alpsteinpanorama"
+        ],
+        "visitTip": "Seilbahnfahrt und anspruchsvollere Bergwege getrennt auf Sicherheit prüfen.",
+        "combineWith": "Berggasthaus Äscher bei offener Route",
+        "arrivalTip": "Von Wasserauen über die Ebenalpbahn.",
+        "check2027": "Letzte Talfahrt, Höhlenöffnung, Wetter"
+      }
+    },
+    {
+      "id": "new_091",
+      "visitorGuide": {
+        "highlights": [
+          "Hoher-Kasten-Seilbahn",
+          "Europa-Rundweg",
+          "Drehrestaurant mit einer Umdrehung pro Stunde"
+        ],
+        "visitTip": "Das Drehrestaurant dreht sich laut Betreiber einmal pro Stunde; Seilbahn, Wetter, Europa-Rundweg und Restaurantplätze getrennt für September 2027 prüfen.",
+        "combineWith": "Brülisau",
+        "arrivalTip": "Talstation außerhalb Appenzell-Zentrum.",
+        "check2027": "Wetter, letzte Talfahrt, Restaurantauslastung"
+      },
+      "sourceUrl": "https://www.hoherkasten.ch/entdecken/gastronomie/"
+    },
+    {
+      "id": "new_092",
+      "visitorGuide": {
+        "highlights": [
+          "Bobbahn Jakobsbad",
+          "Abfahrt nahe Kronberg-Talstation"
+        ],
+        "visitTip": "Bobbahn ist wetterabhängig und befindet sich nicht auf dem Berggipfel.",
+        "combineWith": "Kronberg-Bahn nur separat",
+        "arrivalTip": "St. Josefstrasse 2 bei Jakobsbad.",
+        "check2027": "September-2027-Bobbahnkalender und Trockentage"
+      }
+    },
+    {
+      "id": "new_093",
+      "visitorGuide": {
+        "highlights": [
+          "Appenzeller Käse",
+          "Schaukäserei und Verkostung",
+          "Käseherstellung und Einblick in den Käsekeller"
+        ],
+        "visitTip": "Der Betreiber nennt im aktuellen Angebot Käseherstellung täglich bis etwa 15 Uhr. Rundgang, Führungen und Eintrittspreise 2027 gesondert prüfen.",
+        "combineWith": "Appenzell-Dorf",
+        "arrivalTip": "Schaukäserei als konkretes Besucherziel statt Ortsmittelpunkt.",
+        "check2027": "Führungen, Eintritt und verfügbare Sprachen"
+      },
+      "sourceUrl": "https://www.schaukaeserei.ch/de/"
+    },
+    {
+      "id": "new_095",
+      "visitorGuide": {
+        "highlights": [
+          "Gletscherschlucht-Stege",
+          "Spiderweb über der Schlucht",
+          "Bis zu 300 Meter hohe Felswände und Spiderweb"
+        ],
+        "visitTip": "Stege und Tunnel führen durch die Schlucht; ein begehbares Netz hängt über dem Wasser. In der Regel von Mai bis November geöffnet, aber Zugang und Wetter für 2027 prüfen.",
+        "combineWith": "Grindelwald",
+        "arrivalTip": "Gletscherschlucht 1; früher Betreiberhinweis Bus 122.",
+        "check2027": "Saison 2027, Zutritt, Bus und Wetter"
+      },
+      "sourceUrl": "https://grindelwald.swiss/de/map/detail/gletscherschlucht-grindelwald-aaa98968-c9e4-4a2a-b871-8c25abefc234.html"
+    },
+    {
+      "id": "new_097",
+      "visitorGuide": {
+        "highlights": [
+          "Hallenbad und Sportzentrum",
+          "Wetterunabhängiges Sportprogramm"
+        ],
+        "visitTip": "Eishalle und Becken können unterschiedliche öffentliche Belegungen haben.",
+        "combineWith": "Grindelwald Ortszentrum",
+        "arrivalTip": "Sportzentrum im Ort; tatsächlichen Eingang kontrollieren.",
+        "check2027": "Freie Badebahnen, Öffnung und einzelne Tickets"
+      }
+    },
+    {
+      "id": "new_100",
+      "visitorGuide": {
+        "highlights": [
+          "Allmenalp-Seilbahn",
+          "Alpines Panorama"
+        ],
+        "visitTip": "Klettersteig ist nicht in der Seilbahnfahrt enthalten und erfordert Ausrüstung, Eignung und Wetterkontrolle.",
+        "combineWith": "Kandersteg",
+        "arrivalTip": "Talstation Allmenalp, letzte Talfahrt vorab prüfen.",
+        "check2027": "2027er Bahnsaison und sichere Wanderwege"
+      }
+    },
+    {
+      "id": "new_101",
+      "visitorGuide": {
+        "highlights": [
+          "Sunnbüel-Seilbahn",
+          "Alpine Landschaft Richtung Gemmipass"
+        ],
+        "visitTip": "Bahn-Saisonangaben erlauben keinen Schluss auf sicheren Gemmipass-Wanderweg.",
+        "combineWith": "Kandersteg und leichte Wege je nach Freigabe",
+        "arrivalTip": "Innere Dorfstrasse 219, Talstation Sunnbüel.",
+        "check2027": "Letzte Bergfahrt, Wind, Wegzustand und 2027-Ticket"
+      }
+    }
+  ]
+}

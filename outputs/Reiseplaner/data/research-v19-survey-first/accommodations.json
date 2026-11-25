@@ -1,0 +1,1582 @@
+{
+  "version": "2026-11-13-survey-first-v1",
+  "search_method": "Booking.com accommodations_search_v2: 1 room for 3 or 4 adults, exact 2027 dates",
+  "items": [
+    {
+      "id": "lod-001",
+      "destination_id": "paris",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Auberge de Jeunesse HI Paris Yves Robert",
+      "checkin": "2027-09-01",
+      "checkout": "2027-09-03",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 19760,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 3293
+      },
+      "location": {
+        "latitude": 48.888661,
+        "longitude": 2.362734,
+        "precision": "booking_provider_property_coordinate",
+        "area": "18. Arrondissement"
+      },
+      "kitchen": "shared",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/auberge-de-jeunesse-hi-paris-yves-robert.html",
+      "booking_url_context": {
+        "checkin": "2027-09-01",
+        "checkout": "2027-09-03",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-002",
+      "destination_id": "paris",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "hotelF1 Paris Porte de Châtillon",
+      "checkin": "2027-09-01",
+      "checkout": "2027-09-03",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 13992,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 2332
+      },
+      "location": {
+        "latitude": 48.82234,
+        "longitude": 2.316342,
+        "precision": "booking_provider_property_coordinate",
+        "area": "14. Arrondissement"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/hotelf1-paris-porte-de-chatillon-paris.html",
+      "booking_url_context": {
+        "checkin": "2027-09-01",
+        "checkout": "2027-09-03",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-003",
+      "destination_id": "paris",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "MEININGER Hotel Paris Porte de Vincennes",
+      "checkin": "2027-09-01",
+      "checkout": "2027-09-03",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 28590,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 4765
+      },
+      "location": {
+        "latitude": 48.844105,
+        "longitude": 2.413063,
+        "precision": "booking_provider_property_coordinate",
+        "area": "12. Arrondissement"
+      },
+      "kitchen": "shared",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/meininger-paris-porte-de-vincennes.html",
+      "booking_url_context": {
+        "checkin": "2027-09-01",
+        "checkout": "2027-09-03",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-004",
+      "destination_id": "paris",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Studio Paris Centre - Republique",
+      "checkin": "2027-09-01",
+      "checkout": "2027-09-03",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 26849,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 4475
+      },
+      "location": {
+        "latitude": 48.872688,
+        "longitude": 2.357921,
+        "precision": "booking_provider_property_coordinate",
+        "area": "10. Arrondissement"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/studio-paris-centre-republique.html",
+      "booking_url_context": {
+        "checkin": "2027-09-01",
+        "checkout": "2027-09-03",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-005",
+      "destination_id": "barcelona",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "HeyLola! Hostel",
+      "checkin": "2027-09-03",
+      "checkout": "2027-09-06",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 28590,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 3177
+      },
+      "location": {
+        "latitude": 41.373343,
+        "longitude": 2.165784,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Sants-Montjuïc"
+      },
+      "kitchen": "shared",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/es/heylola-hostel.html",
+      "booking_url_context": {
+        "checkin": "2027-09-03",
+        "checkout": "2027-09-06",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-006",
+      "destination_id": "barcelona",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "The Central House Barcelona Gracia",
+      "checkin": "2027-09-03",
+      "checkout": "2027-09-06",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 38859,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 4318
+      },
+      "location": {
+        "latitude": 41.3957,
+        "longitude": 2.158324,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Eixample"
+      },
+      "kitchen": "shared",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/es/rodama3n-barcelona-centre.html",
+      "booking_url_context": {
+        "checkin": "2027-09-03",
+        "checkout": "2027-09-06",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-007",
+      "destination_id": "barcelona",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Urbany Hostel Barcelona",
+      "checkin": "2027-09-03",
+      "checkout": "2027-09-06",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 37782,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 4198
+      },
+      "location": {
+        "latitude": 41.407078,
+        "longitude": 2.186472,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Sant Martí"
+      },
+      "kitchen": "shared",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/es/barcelona-urbany-hostel.html",
+      "booking_url_context": {
+        "checkin": "2027-09-03",
+        "checkout": "2027-09-06",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-008",
+      "destination_id": "barcelona",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Bird House",
+      "checkin": "2027-09-03",
+      "checkout": "2027-09-06",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 47982,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 5331
+      },
+      "location": {
+        "latitude": 41.381546,
+        "longitude": 2.159139,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Sant Antoni"
+      },
+      "kitchen": "shared",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/es/bird-house.html",
+      "booking_url_context": {
+        "checkin": "2027-09-03",
+        "checkout": "2027-09-06",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-009",
+      "destination_id": "sete",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Le Chic-Cadre Royal-Centre ville",
+      "checkin": "2027-09-06",
+      "checkout": "2027-09-08",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 17843,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 2974
+      },
+      "location": {
+        "latitude": 43.405214,
+        "longitude": 3.700129,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Centre"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/le-chic-cadre-royal-centre-ville.html",
+      "booking_url_context": {
+        "checkin": "2027-09-06",
+        "checkout": "2027-09-08",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-010",
+      "destination_id": "sete",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Charmant T2 avec terrasse et belle vue au coeur de Sète",
+      "checkin": "2027-09-06",
+      "checkout": "2027-09-08",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 17260,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 2877
+      },
+      "location": {
+        "latitude": 43.406748,
+        "longitude": 3.691504,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Centre"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/charming-two-rooms-appartment-with-terrace-and-view.html",
+      "booking_url_context": {
+        "checkin": "2027-09-06",
+        "checkout": "2027-09-08",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-011",
+      "destination_id": "sete",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Jolie maison de pêcheur - La Pointe Courte",
+      "checkin": "2027-09-06",
+      "checkout": "2027-09-08",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 22069,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 3678
+      },
+      "location": {
+        "latitude": 43.413023,
+        "longitude": 3.692292,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Pointe Courte"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/jolie-maison-de-pecheur-la-pointe-courte.html",
+      "booking_url_context": {
+        "checkin": "2027-09-06",
+        "checkout": "2027-09-08",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-012",
+      "destination_id": "sete",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "LOFT COCON EN PLEIN CENTRE DE SETE",
+      "checkin": "2027-09-06",
+      "checkout": "2027-09-08",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 21800,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 3633
+      },
+      "location": {
+        "latitude": 43.406051,
+        "longitude": 3.699402,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Centre"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/loft-cocon-en-plein-centre-de-sete.html",
+      "booking_url_context": {
+        "checkin": "2027-09-06",
+        "checkout": "2027-09-08",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-013",
+      "destination_id": "nice",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Greet Hotel Nice Aéroport Promenade des Anglais",
+      "checkin": "2027-09-08",
+      "checkout": "2027-09-10",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 27684,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 4614
+      },
+      "location": {
+        "latitude": 43.670153,
+        "longitude": 7.222309,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Arenas"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/greet-hotel-nice.html",
+      "booking_url_context": {
+        "checkin": "2027-09-08",
+        "checkout": "2027-09-10",
+        "adults": 3
+      },
+      "risk": "remote_location_possible_extra_transit",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-014",
+      "destination_id": "nice",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "B&B HOTEL Nice Stade Riviera",
+      "checkin": "2027-09-08",
+      "checkout": "2027-09-10",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 26208,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 4368
+      },
+      "location": {
+        "latitude": 43.699313,
+        "longitude": 7.189506,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Saint-Isidore"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/b-amp-b-nice-stade.html",
+      "booking_url_context": {
+        "checkin": "2027-09-08",
+        "checkout": "2027-09-10",
+        "adults": 3
+      },
+      "risk": "remote_location_possible_extra_transit",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-015",
+      "destination_id": "nice",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "2 spacious bedrooms near Riquier station!",
+      "checkin": "2027-09-08",
+      "checkout": "2027-09-10",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 33610,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 5602
+      },
+      "location": {
+        "latitude": 43.704963,
+        "longitude": 7.290426,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Riquier"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/2-spacious-bedrooms-near-riquier-station.html",
+      "booking_url_context": {
+        "checkin": "2027-09-08",
+        "checkout": "2027-09-10",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-016",
+      "destination_id": "nice",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "ibis budget Nice Californie Lenval",
+      "checkin": "2027-09-08",
+      "checkout": "2027-09-10",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 31854,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 5309
+      },
+      "location": {
+        "latitude": 43.689186,
+        "longitude": 7.240451,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Les Baumettes"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/fr/ibis-budget-nice-californie-lenval.html",
+      "booking_url_context": {
+        "checkin": "2027-09-08",
+        "checkout": "2027-09-10",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-017",
+      "destination_id": "genoa",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Ca' du Pitta- Old Town Genoa apartment",
+      "checkin": "2027-09-10",
+      "checkout": "2027-09-12",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 21810,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 3635
+      },
+      "location": {
+        "latitude": 44.40851,
+        "longitude": 8.93013,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Altstadt"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/it/ca-du-pitta-a-stay-in-the-heart-of-genoa.html",
+      "booking_url_context": {
+        "checkin": "2027-09-10",
+        "checkout": "2027-09-12",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-018",
+      "destination_id": "genoa",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "A due passi dalla Lanterna",
+      "checkin": "2027-09-10",
+      "checkout": "2027-09-12",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 15960,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 2660
+      },
+      "location": {
+        "latitude": 44.417374,
+        "longitude": 8.910259,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Hafen westlich"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/it/a-due-passi-dalla-lanterna.html",
+      "booking_url_context": {
+        "checkin": "2027-09-10",
+        "checkout": "2027-09-12",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-019",
+      "destination_id": "genoa",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Hotel Britannia",
+      "checkin": "2027-09-10",
+      "checkout": "2027-09-12",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 31530,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 5255
+      },
+      "location": {
+        "latitude": 44.416482,
+        "longitude": 8.923453,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Piazza Principe"
+      },
+      "kitchen": "shared",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/it/cit-hotel-britannia.html",
+      "booking_url_context": {
+        "checkin": "2027-09-10",
+        "checkout": "2027-09-12",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-020",
+      "destination_id": "genoa",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Le stanze della Lanterna",
+      "checkin": "2027-09-10",
+      "checkout": "2027-09-12",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 22400,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 3733
+      },
+      "location": {
+        "latitude": 44.408694,
+        "longitude": 8.943747,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Zentrum"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/it/le-stanze-della-lanterna.html",
+      "booking_url_context": {
+        "checkin": "2027-09-10",
+        "checkout": "2027-09-12",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-021",
+      "destination_id": "venice",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Ca' Mercati Mestre - Una camera",
+      "checkin": "2027-09-12",
+      "checkout": "2027-09-14",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 26483,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 4414
+      },
+      "location": {
+        "latitude": 45.485904,
+        "longitude": 12.227992,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Mestre Bahnhof"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/it/appartamento-x-vacanze-ca-mercati.html",
+      "booking_url_context": {
+        "checkin": "2027-09-12",
+        "checkout": "2027-09-14",
+        "adults": 3
+      },
+      "risk": "Mestre_to_Venice_transit_extra",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-022",
+      "destination_id": "venice",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Ca' Parco",
+      "checkin": "2027-09-12",
+      "checkout": "2027-09-14",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 32160,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 5360
+      },
+      "location": {
+        "latitude": 45.443231,
+        "longitude": 12.322632,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Cannaregio"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/it/ca-parco-venezia.html",
+      "booking_url_context": {
+        "checkin": "2027-09-12",
+        "checkout": "2027-09-14",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-023",
+      "destination_id": "venice",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Residenza Ca' Matta",
+      "checkin": "2027-09-12",
+      "checkout": "2027-09-14",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 33980,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 5663
+      },
+      "location": {
+        "latitude": 45.432631,
+        "longitude": 12.313054,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Dorsoduro"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/it/residenza-ca-39-matta.html",
+      "booking_url_context": {
+        "checkin": "2027-09-12",
+        "checkout": "2027-09-14",
+        "adults": 3
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-024",
+      "destination_id": "venice",
+      "trip_context": [
+        "ir-classic"
+      ],
+      "name": "Angela's Rooms - 10 minutes from VENICE",
+      "checkin": "2027-09-12",
+      "checkout": "2027-09-14",
+      "guests": 3,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 28400,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 4733
+      },
+      "location": {
+        "latitude": 45.480804,
+        "longitude": 12.263458,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Mestre"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/it/angelas-rooms.html",
+      "booking_url_context": {
+        "checkin": "2027-09-12",
+        "checkout": "2027-09-14",
+        "adults": 3
+      },
+      "risk": "Mestre_to_Venice_transit_extra",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-025",
+      "destination_id": "appenzell",
+      "trip_context": [
+        "swiss-week"
+      ],
+      "name": "Alte Metzg - Hostel",
+      "checkin": "2027-09-05",
+      "checkout": "2027-09-07",
+      "guests": 4,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 49796,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 6225
+      },
+      "location": {
+        "latitude": 47.331574,
+        "longitude": 9.411798,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Appenzell"
+      },
+      "kitchen": "shared",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/ch/alte-metzg-hostel-appenzell1.html",
+      "booking_url_context": {
+        "checkin": "2027-09-05",
+        "checkout": "2027-09-07",
+        "adults": 4
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-026",
+      "destination_id": "appenzell",
+      "trip_context": [
+        "swiss-week"
+      ],
+      "name": "Alte Metzg - Boutique Pension",
+      "checkin": "2027-09-05",
+      "checkout": "2027-09-07",
+      "guests": 4,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 56940,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 7118
+      },
+      "location": {
+        "latitude": 47.331574,
+        "longitude": 9.411798,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Appenzell"
+      },
+      "kitchen": "shared",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/ch/alte-metzg-boutique-pension.html",
+      "booking_url_context": {
+        "checkin": "2027-09-05",
+        "checkout": "2027-09-07",
+        "adults": 4
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-027",
+      "destination_id": "appenzell",
+      "trip_context": [
+        "swiss-week"
+      ],
+      "name": "Ferienwohnung Bärli Appenzell",
+      "checkin": "2027-09-05",
+      "checkout": "2027-09-07",
+      "guests": 4,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 75776,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 9472
+      },
+      "location": {
+        "latitude": 47.331258,
+        "longitude": 9.411205,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Appenzell"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/ch/ferienwohnung-barli-appenzell-appenzell.html",
+      "booking_url_context": {
+        "checkin": "2027-09-05",
+        "checkout": "2027-09-07",
+        "adults": 4
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-028",
+      "destination_id": "glarus",
+      "trip_context": [
+        "swiss-week"
+      ],
+      "name": "Hotel Post Glarnerhof",
+      "checkin": "2027-09-07",
+      "checkout": "2027-09-08",
+      "guests": 4,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 40053,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 10013
+      },
+      "location": {
+        "latitude": 47.039732,
+        "longitude": 9.070625,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Glarus"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/ch/post-glarnerhof.html",
+      "booking_url_context": {
+        "checkin": "2027-09-07",
+        "checkout": "2027-09-08",
+        "adults": 4
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-029",
+      "destination_id": "glarus",
+      "trip_context": [
+        "swiss-week"
+      ],
+      "name": "Hotel Rhodannenberg AG",
+      "checkin": "2027-09-07",
+      "checkout": "2027-09-08",
+      "guests": 4,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 51701,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 12925
+      },
+      "location": {
+        "latitude": 47.036295,
+        "longitude": 9.004961,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Klöntal"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/ch/rhodannenberg-ag.html",
+      "booking_url_context": {
+        "checkin": "2027-09-07",
+        "checkout": "2027-09-08",
+        "adults": 4
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-030",
+      "destination_id": "grindelwald",
+      "trip_context": [
+        "swiss-week"
+      ],
+      "name": "Hotel Eigerblick",
+      "checkin": "2027-09-08",
+      "checkout": "2027-09-09",
+      "guests": 4,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 34532,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 8633
+      },
+      "location": {
+        "latitude": 46.628783,
+        "longitude": 8.023343,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Grindelwald"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/ch/eigerblick.html",
+      "booking_url_context": {
+        "checkin": "2027-09-08",
+        "checkout": "2027-09-09",
+        "adults": 4
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-031",
+      "destination_id": "grindelwald",
+      "trip_context": [
+        "swiss-week"
+      ],
+      "name": "Naturfreunde Hostel Grindelwald",
+      "checkin": "2027-09-08",
+      "checkout": "2027-09-09",
+      "guests": 4,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 37433,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 9358
+      },
+      "location": {
+        "latitude": 46.628094,
+        "longitude": 8.033345,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Grindelwald"
+      },
+      "kitchen": "shared",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/ch/naturfreundehaus.html",
+      "booking_url_context": {
+        "checkin": "2027-09-08",
+        "checkout": "2027-09-09",
+        "adults": 4
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-032",
+      "destination_id": "grindelwald",
+      "trip_context": [
+        "swiss-week"
+      ],
+      "name": "Berggasthaus First - Only Accessible by Cable Car",
+      "checkin": "2027-09-08",
+      "checkout": "2027-09-09",
+      "guests": 4,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 42651,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 10663
+      },
+      "location": {
+        "latitude": 46.65989,
+        "longitude": 8.053923,
+        "precision": "booking_provider_property_coordinate",
+        "area": "First-Bergstation"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/ch/berggasthaus-first.html",
+      "booking_url_context": {
+        "checkin": "2027-09-08",
+        "checkout": "2027-09-09",
+        "adults": 4
+      },
+      "risk": "only_cable_car_access_and_late_arrival_check",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-033",
+      "destination_id": "kandersteg",
+      "trip_context": [
+        "swiss-week"
+      ],
+      "name": "Cute chalet in Kandersteg",
+      "checkin": "2027-09-09",
+      "checkout": "2027-09-11",
+      "guests": 4,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 48128,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 6016
+      },
+      "location": {
+        "latitude": 46.490177,
+        "longitude": 7.671138,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Kandersteg"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/ch/cute-chalet-in-kandersteg.html",
+      "booking_url_context": {
+        "checkin": "2027-09-09",
+        "checkout": "2027-09-11",
+        "adults": 4
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-034",
+      "destination_id": "kandersteg",
+      "trip_context": [
+        "swiss-week"
+      ],
+      "name": "Hotel Alpina",
+      "checkin": "2027-09-09",
+      "checkout": "2027-09-11",
+      "guests": 4,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 57979,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 7247
+      },
+      "location": {
+        "latitude": 46.499784,
+        "longitude": 7.67616,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Kandersteg"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/ch/alpina-kandersteg.html",
+      "booking_url_context": {
+        "checkin": "2027-09-09",
+        "checkout": "2027-09-11",
+        "adults": 4
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    },
+    {
+      "id": "lod-035",
+      "destination_id": "kandersteg",
+      "trip_context": [
+        "swiss-week"
+      ],
+      "name": "Alpen Chalet",
+      "checkin": "2027-09-09",
+      "checkout": "2027-09-11",
+      "guests": 4,
+      "rooms_requested": 1,
+      "price": {
+        "total_minor": 76425,
+        "currency": "EUR",
+        "quoted_for_exact_dates": true,
+        "quoted_on": "2026-11-13",
+        "price_type": "provider_search_quote_not_checkout_confirmed",
+        "taxes_and_local_fees_complete": null,
+        "per_guest_per_night_minor_rounded": 9553
+      },
+      "location": {
+        "latitude": 46.495637,
+        "longitude": 7.674014,
+        "precision": "booking_provider_property_coordinate",
+        "area": "Kandersteg"
+      },
+      "kitchen": "unknown",
+      "beds_for_group_verified": false,
+      "bathroom_private_verified": null,
+      "free_cancellation_verified": null,
+      "booking_status": "not_booked",
+      "selected": false,
+      "source_ids": [
+        "booking"
+      ],
+      "booking_url": "https://www.booking.com/hotel/ch/chalets-adler.html",
+      "booking_url_context": {
+        "checkin": "2027-09-09",
+        "checkout": "2027-09-11",
+        "adults": 4
+      },
+      "risk": "sleeping_configuration_unverified",
+      "availability_status": "provider_search_returned_candidate_recheck_at_checkout",
+      "provenance": "new_search_2026_11_13"
+    }
+  ],
+  "important": "Search prices are not a promise of bookability, sleeping layout, final local taxes, kitchen in booked unit or cancellation. Different trip dates require a fresh search."
+}

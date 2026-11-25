@@ -38,6 +38,28 @@ export const transitNetworks = {
 };
 
 export const transitFares = {
+  paris: {
+    ticket: 'Metro–Train–RER · Einzelfahrt (kein Bus/Tram)', single: 255,
+    pass: 1230, passName: 'Navigo Jour · Kalendertag',
+    details: 'Offizielle 2026er Referenz: 2,55 € je Metro/Train/RER-Fahrt, Navigo Jour 12,30 € (ohne Flughäfen). Einzeltickets für Bus/Tram kosten 2,05 €; Wechsel zwischen Bus und Metro kann zwei verschiedene Tickets erfordern. Pass-Vergleich nur bei vom Ticket abgedeckten Fahrten, Tarife 2027 offen.',
+    source: 'https://www.iledefrance-mobilites.fr/titres-et-tarifs/detail/forfait-navigo-jour',
+    singleSource: 'https://www.iledefrance-mobilites.fr/tarifs-titre-de-transport-en-commun-2026',
+    observedOn: '2026-11-13', validity: '2026 reference only',
+  },
+  barcelona: {
+    ticket: 'TMB Einzelfahrt 1 Zone', single: 290,
+    pass: 1200, passName: 'T-dia · 1 Zone',
+    details: '2026er Tarifreferenz: Einzelfahrschein 2,90 €, T-dia 12 € für eine Zone; T-casual mit zehn Einzelfahrten für eine Person kostet 13 €. Die T-casual darf NICHT von drei Personen geteilt werden. Flughafen-Metro L9 Sud benötigt ggf. Sondertarif 5,90 €. Tarifzonen und 2027er Gültigkeit prüfen.',
+    source: 'https://www.tmb.cat/en/barcelona-fares-metro-bus/transport-ticket-fares',
+    observedOn: '2026-11-13', validity: '2026 reference only',
+  },
+  sete: {
+    ticket: 'Sète-Bus · App/Bankkarte · 60 Minuten', single: 130,
+    pass: 500, passName: 'Ticket Journée · per App',
+    details: 'App/Bankkarte Einzelfahrt 1,30 € für 60 Min. mit Umstieg; beim Fahrer 1,60 €. Tageskarte per App 5 €, sonst 6 €. Nur im Netz Sète Agglopôle Mobilité; regionale SNCF-Züge separat. Stand November 2026, 2027-Tarife prüfen.',
+    source: 'https://www.mobilite.agglopole.fr/tarifs/',
+    observedOn: '2026-11-13', validity: '2026 reference only',
+  },
   nice: {
     ticket: 'Solo · 74 Minuten', single: 170, pass: 700, passName: 'Pass 24 heures',
     details: 'Ticketfenster pro Person innerhalb von 24 Stunden zählen. Umstiege innerhalb von 74 Minuten entsprechend den Tarifregeln. Aufladbare Karte, Flughafen-Sonderticket und TER separat prüfen.',
@@ -51,7 +73,7 @@ export const transitFares = {
   },
   venice: {
     ticket: 'ACTV 75 Minuten', single: 950, pass: 3500, passName: 'ACTV · 48 Stunden',
-    details: 'Vergleich für Vaporetto-Fahrten im selben 48-Stunden-Fenster. Fahrten innerhalb eines gültigen 75-Minuten-Tickets einmal zählen. Flughafenverkehr und Regionalzüge separat prüfen.',
+    details: '2026er Referenz: Vaporetto/Rete Unica 75 Min. 9,50 €, 24 h 25 €, 48 h 35 €. Reines Bus/Tram/People-Mover-Ticket 75 Min. kostet dagegen 1,50 € und gilt NICHT auf Vaporetti. Rolling-Venice-Paket (6–29 Jahre) mit 72 h kostet 33 €. Flughafenverkehr und Regionalzüge separat prüfen; 2027-Tarife offen.',
     source: 'https://muoversi.venezia.it/it/content/vaporetto',
   },
 };
