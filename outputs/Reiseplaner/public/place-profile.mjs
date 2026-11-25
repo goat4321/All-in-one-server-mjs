@@ -589,7 +589,8 @@ export function itineraryPhotosV112(item,ctx={}, {context=true}={}){
  if(!photos.length&&context){
   const bg=curatedCityBackdrop(item);if(bg)photos.push(bg);
  }
- return [...new Map(photos.map(p=>[p.url,p])).values()].slice(0,3);
+ const unique=new Map();for(const p of photos){const key=photoIdentityV120(p);if(key&&!unique.has(key))unique.set(key,p);}
+ return [...unique.values()].slice(0,3);
 }
 export function itineraryPhotoHtmlV112(item,ctx={}, {compact=false,context=true}={}){
  const photos=itineraryPhotosV112(item,ctx,{context});

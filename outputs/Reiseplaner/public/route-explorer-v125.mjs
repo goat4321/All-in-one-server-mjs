@@ -36,6 +36,7 @@ export function explorerMediaHtmlV125(ctx,scene,fallback){
  const entry=explorerPhotoV125(ctx,scene,fallback),activity=explorerActivityV125(ctx,scene.stop);
  const {item,photo,contextual}=entry??{};
  const title=activity?.item.name;
+ const extra=activity?.photos.slice(1,3)??[];
  const price=activity?.item.effectivePrice??activity?.item.price;
  let priceLabel='Preis offen';
  if(price&&Number.isSafeInteger(price.cents)&&price.cents>=0){
@@ -45,6 +46,7 @@ export function explorerMediaHtmlV125(ctx,scene,fallback){
  const duration=Number.isFinite(minutes)&&minutes>=0?minutes+' Min. · geplant':'Dauer offen';
  return '<div class="route125-media" data-photo120-crop="'+photoCropV120(item,photo)+'">'
   +(photo?'<figure class="photo119-item"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Ortsfoto vergrößern"><img src="'+esc(explorerPhotoUrlV125(photo))+'" alt="'+esc(item.name)+'" decoding="async" referrerpolicy="no-referrer"></a><figcaption><strong>'+esc(contextual?'Etappenmotiv · '+item.name:item.name)+'</strong><small>'+esc(photo.credit)+'</small>'+(photo.subjectDisclaimer?'<small>'+esc(photo.subjectDisclaimer)+'</small>':'')+' <a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a></figcaption></figure>':'<p class="route123-no-photo">Kein zugeordnetes Ortsfoto</p>')
+  +(extra.length?'<details class="route138-extra"><summary>Weitere Ortsbilder ('+extra.length+')</summary><div class="photo119-map-rail">'+extra.map(p=>'<figure class="photo119-item" data-photo120-crop="'+photoCropV120(activity.item,p)+'"><a href="'+esc(p.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Ortsfoto vergrößern"><img src="'+esc(explorerPhotoUrlV125(p,640))+'" alt="'+esc(activity.item.name)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a><figcaption><small>'+esc(p.credit)+'</small> '+(p.subjectDisclaimer?'<small>'+esc(p.subjectDisclaimer)+'</small>':'')+' <a href="'+esc(p.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a></figcaption></figure>').join('')+'</div></details>':'')
   +'</div>'+(activity?'<section class="route125-activity" aria-label="Aktuelle Aktivität"><small>AKTUELLER STOPP · '+esc(activity.stop.period)+'</small><h3>'+esc(title)+'</h3><div class="route125-facts"><span>'+esc(duration)+'</span><span>'+esc(priceLabel)+'</span></div><details><summary>Informationen zum Ort</summary><p>'+esc(activity.item.detail||activity.item.note||'Beschreibung noch offen')+'</p><p>'+esc(activity.item.address??'Adresse offen')+'</p><button type="button" data-action="details" data-value="'+esc(activity.item.id)+'">Vollständige Ortsdetails öffnen</button></details></section>':'');
 }
 export function explorerMarkerRowsV125(ctx,scene){

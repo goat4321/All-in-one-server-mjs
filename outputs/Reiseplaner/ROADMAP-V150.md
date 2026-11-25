@@ -25,3 +25,5 @@ Designreferenzen: goat4321/apple-design-skill, insbesondere accessibility.md, la
 ## Umsetzungsstand
 - V126–128: Implementierung mit seekbarer Tagesroute, berechneten Fußwegen und GPX-Profilen; CI auf Basis a588637 bestätigt.
 - V129–131: gemeinsame Reiseoberflächen, getrennte Planungs-/Erlebnisaktionen, robuste Kapitelnavigation, größere Tageskarten und reduzierte Bewegung. Neue Abnahme ausstehend.
+
+- V132–140: priorisierte, netzwerk- und viewportabhängige Marker; zusätzliche Vollbildsteuerung; Planungscheck mit sicheren Daueränderungen, Kosten je Währung und bestehenden Konflikthinweisen; motivbezogene Zusatzbilder, Quellen-Deduplizierung, Suchfunktion am Reisetag, begrenzter Metadaten-Cache. Abnahme ausstehend.

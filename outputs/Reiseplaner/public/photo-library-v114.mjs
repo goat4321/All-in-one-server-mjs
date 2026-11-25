@@ -28,6 +28,8 @@ export const ALL_PHOTO_GROUPS_V118=[...ALL_PHOTO_GROUPS_V117,...PHOTO_GROUPS_V11
 export const PHOTO_TOTAL_V118=()=>PHOTO_TOTAL_V117()+PHOTO_CANDIDATE_COUNT_V118;
 const norm=s=>String(s??'').replace(/^File:/i,'').replaceAll('_',' ').normalize('NFC').toLowerCase();
 const cache=new Map();
+const MAX_METADATA_CACHE_V138=32;
+function touchMetadataV138(key,promise){cache.delete(key);cache.set(key,promise);while(cache.size>MAX_METADATA_CACHE_V138)cache.delete(cache.keys().next().value);}
 export function photoMetadataUrlV114(files){
  if(!Array.isArray(files)||!files.length||files.length>20)throw Error('Ungültige Fotogruppe');
  const u=new URL('https://commons.wikimedia.org/w/api.php');
@@ -74,7 +76,7 @@ export function renderPhotoLibraryV114(ctx,{day=false}={}){
  return '<section class="photo114-library" aria-label="Reise-Fotobibliothek"><header><small>ECHTE REISEFOTOS · WIKIMEDIA COMMONS</small><h2>'+(day?'Mehr Bilder zu diesem Reiseziel':'Die Reise in Bildern')+'</h2>'
  +'<p>'+scopedCount+' zusätzliche Bildreferenzen für '+(day?'diesen Ort':'diese Route')+' · '+existing.length+' unterschiedliche bestehende Archivfotos'+(!day?' aus allen Reisevarianten':'')+'. Neue Fotos erscheinen erst nach Abruf der Lizenzdaten.</p></header>'
  +(!day?'<p class="photo115-total"><strong>'+PHOTO_TOTAL_V118()+'</strong> unterschiedliche Dateireferenzen in allen Varianten · '+ALL_PHOTO_GROUPS_V118.length+' Motivsammlungen</p>':'')
- +(!day?'<label class="photo118-search">Motiv suchen<input type="search" data-photo118-search placeholder="z. B. See, Paris, Hafen"></label><p class="photo118-search-status" role="status"></p>':'')+groupHtml+others
+ +'<label class="photo118-search">Motiv suchen<input type="search" data-photo118-search placeholder="z. B. See, Paris, Hafen"></label><p class="photo118-search-status" role="status"></p>'+groupHtml+others
  +(existing.length?'<details class="photo114-group" data-photo114-archive="'+(day?esc(city):'all')+'"><summary><strong>Vorhandene Fotobibliothek</strong><span>'+existing.length+' Fotos</span></summary><div class="photo114-body"></div></details>':'')
  +'<p>Historische und kategorisierte Motive, keine Belege für Buchungen, Wetter oder Zugänglichkeit im Jahr 2027. Bilder werden erst beim Öffnen der Galerie geladen.</p></section>';
 }
@@ -108,9 +110,10 @@ export async function mountPhotoLibraryV114(detail,fetcher=globalThis.fetch){
   status.textContent='Lizenzinformationen werden abgerufen …';
   const batch={...group,files:group.files.slice(offset,offset+20)};
   const key=group.key+':'+offset;
+  let promise=cache.get(key);
   try{
-   let promise=cache.get(key);
-   if(!promise){promise=loadPhotoGroupV115(batch,fetcher);cache.set(key,promise);}
+   if(!promise)promise=loadPhotoGroupV115(batch,fetcher);
+   touchMetadataV138(key,promise);
    const result=await promise;
    if(result.failedBatches)throw Error('Bildabruf fehlgeschlagen');
    if(!detail.isConnected)return;
@@ -121,7 +124,7 @@ export async function mountPhotoLibraryV114(detail,fetcher=globalThis.fetch){
    more.hidden=offset>=group.files.length;
    more.textContent='Weitere Bilder laden';
   }catch{
-   cache.delete(key);
+   if(cache.get(key)===promise)cache.delete(key);
    if(detail.isConnected){status.textContent='Bildabruf fehlgeschlagen. Diesen Abschnitt erneut versuchen.';more.textContent='Erneut versuchen';}
   }finally{more.disabled=false;}
  };
@@ -168,7 +171,7 @@ export {PHOTO_GROUPS_V118,PHOTO_CANDIDATE_COUNT_V118};
 // Native modal, one shared viewer for library, place and full day galleries.
 // No modal or additional image request until the person opens a photo.
 export function photoViewerEntriesV118(anchor){
- const group=anchor.closest('.photo114-grid,.place-gallery-grid,.day112-gallery,.photo119-rail,.photo119-map-rail,.route123-hero');
+ const group=anchor.closest('.route123-hero')??anchor.closest('.photo114-grid,.place-gallery-grid,.day112-gallery,.photo119-rail,.photo119-map-rail');
  if(!group)return [];
  return [...group.querySelectorAll('.photo114-card>a,.place-gallery-item>a,.day112-photo>a,.photo119-item>a')].filter(a=>{
   const img=a.querySelector('img');return img&&!img.hidden&&!a.closest('.photo114-unavailable,.photo119-unavailable')&&img.getAttribute('src');
@@ -228,8 +231,8 @@ export function installPhotoViewerV118(doc){
  });
  doc.addEventListener('input',e=>{
   if(!e.target.matches?.('[data-photo118-search]'))return;
-  const section=e.target.closest('.photo114-library'),q=e.target.value.trim().toLocaleLowerCase('de');
-  let count=0;for(const g of section.querySelectorAll('[data-photo118-label]')){g.hidden=!g.dataset.photo118Label.toLocaleLowerCase('de').includes(q);if(!g.hidden)count++;}
+  const section=e.target.closest('.photo114-library');if(!section)return;const normalize=s=>String(s??'').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLocaleLowerCase('de');const q=normalize(e.target.value.trim());
+  let count=0;for(const g of section.querySelectorAll('[data-photo118-label]')){g.hidden=!normalize(g.dataset.photo118Label).includes(q);if(!g.hidden)count++;}
   const other=section.querySelector('.photo115-other');if(other){other.hidden=!!q&&!other.querySelector('[data-photo118-label]:not([hidden])');if(q&&!other.hidden)other.open=true;}
   section.querySelector('.photo118-search-status').textContent=q?count+' passende Motivsammlungen':'';
  });
