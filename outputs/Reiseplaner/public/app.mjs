@@ -353,7 +353,7 @@ function preloadRoutePhotoV124(url){
  if(!url||route124Preloaded.has(url)||connection?.saveData||/^(slow-2g|2g)$/.test(connection?.effectiveType??''))return;
  if(route124PendingPhoto){route124PendingPhoto.onload=route124PendingPhoto.onerror=null;route124Preloaded.delete(route124PendingPhoto.getAttribute('src'));route124PendingPhoto.removeAttribute('src');}
  const img=new Image();route124PendingPhoto=img;
- img.onload=img.onerror=()=>{if(route124PendingPhoto===img)route124PendingPhoto=null;};img.referrerPolicy='no-referrer';img.decoding='async';img.fetchPriority='low';
+ img.onload=()=>{if(route124PendingPhoto===img)route124PendingPhoto=null;};img.onerror=()=>{if(route124PendingPhoto===img)route124PendingPhoto=null;route124Preloaded.delete(url);};img.referrerPolicy='no-referrer';img.decoding='async';img.fetchPriority='low';
  route124Preloaded.set(url,img);if(route124Preloaded.size>6)route124Preloaded.delete(route124Preloaded.keys().next().value);
  img.src=url;
 }
@@ -2550,11 +2550,15 @@ document.addEventListener('click',event=>{
   const header=app.querySelector('.reference-topbar');
   const nav=app.querySelector('.day103-navigation');
   // Use the settled sticky positions, not the header's pre-scroll document position.
+  if(nav?.querySelector('.day103-picker[open]'))nav.querySelector('.day103-picker').open=false;
   const headerHeight=header?.getBoundingClientRect().height??0;
   const stickyTop=nav?parseFloat(getComputedStyle(nav).top)||0:0;
   const offset=target===nav?headerHeight+12:Math.max(headerHeight,stickyTop)+(nav?.getBoundingClientRect().height??0)+12;
   const top=window.scrollY+target.getBoundingClientRect().top-offset;
   window.scrollTo({top:Math.max(0,top),behavior:reduced?'instant':'smooth'});
+  // After settling, correct only actual overlap with the sticky controls.
+  const correct=()=>{if(!target.isConnected)return;const r=target.getBoundingClientRect(),bottom=Math.max(header?.getBoundingClientRect().bottom??0,target===nav?0:nav?.getBoundingClientRect().bottom??0);if(r.top<bottom+8&&r.top>=-16)window.scrollBy({top:r.top-bottom-12,behavior:'instant'});};
+  if(reduced)requestAnimationFrame(correct);else window.addEventListener('scrollend',correct,{once:true});
 });
 // Two-way visual focus, without re-rendering Leaflet or changing the selected
 // POI, bookings or map viewport. Clustered markers may not have DOM elements.
@@ -2705,8 +2709,14 @@ app.addEventListener('keydown',event=>{
  if(delta===undefined&&event.key!=='Home'&&event.key!=='End')return;
  event.preventDefault();const range=event.target;delete range.dataset.dragging;currentMap?.seekCityStoryTime(event.key==='Home'?0:event.key==='End'?Number(range.max):Math.max(0,Math.min(Number(range.max),Number(range.value)+delta)));
 });
+let route124ScrubFrame=0;
+function scheduleRouteScrubV124(range){if(route124ScrubFrame)return;route124ScrubFrame=requestAnimationFrame(()=>{route124ScrubFrame=0;if(view.routeImmersive&&range.isConnected&&range.dataset.dragging==='true')currentMap?.seekCityStoryTime(Number(range.value));});}
+function finishRouteScrubV124(range){if(route124ScrubFrame){cancelAnimationFrame(route124ScrubFrame);route124ScrubFrame=0;}delete range.dataset.dragging;if(view.routeImmersive&&range.isConnected)currentMap?.seekCityStoryTime(Number(range.value));}
+app.addEventListener('pointercancel',event=>{if(event.target.id==='route124-time'&&event.target.dataset.dragging==='true')finishRouteScrubV124(event.target);});
+app.addEventListener('focusout',event=>{if(event.target.id==='route124-time'&&event.target.dataset.dragging==='true')finishRouteScrubV124(event.target);});
+app.addEventListener('focusin',event=>{if(view.routeImmersive&&event.target.id==='route124-day')currentMap?.pauseCityStory();});
 app.addEventListener('input',event=>{
-  if(event.target.id==='route124-time'&&view.routeImmersive){const range=event.target;range.dataset.dragging='true';currentMap?.pauseCityStory();const clock=app.querySelector('#route124-clock');if(clock)clock.textContent=formatPreviewTimeV124(Number(range.value))+' / '+formatPreviewTimeV124(Number(range.max));return;}
+  if(event.target.id==='route124-time'&&view.routeImmersive){const range=event.target;range.dataset.dragging='true';currentMap?.pauseCityStory();const clock=app.querySelector('#route124-clock');const label=formatPreviewTimeV124(Number(range.value))+' / '+formatPreviewTimeV124(Number(range.max));if(clock)clock.textContent=label;range.setAttribute('aria-valuetext',label+' Vorschauzeit');scheduleRouteScrubV124(range);return;}
   // Search the already-loaded catalog without another explicit submit.
   // A short debounce avoids rebuilding every card after each keystroke;
   // preserve the input focus and caret after rendering.
@@ -2738,7 +2748,7 @@ app.addEventListener('input',event=>{
   }
 });
 app.addEventListener('change', event => {
-  if(view.routeImmersive&&event.target.id==='route124-time'){delete event.target.dataset.dragging;currentMap?.seekCityStoryTime(Number(event.target.value));return;}
+  if(view.routeImmersive&&event.target.id==='route124-time'){finishRouteScrubV124(event.target);return;}
   if(view.routeImmersive&&event.target.id==='route124-day'){const state=currentMap?.storyState();if(!state)return;const target=previewDayTargetsV124(context,state).find(d=>d.date===event.target.value);if(target)currentMap.seekCityStoryTime(target.ms);return;}
   if(event.target.matches('[data-stay-facet]')&&context?.page==='lodging'){
     if(!event.target.checkValidity()){event.target.reportValidity();return;}
