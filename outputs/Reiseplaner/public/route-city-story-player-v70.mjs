@@ -145,6 +145,7 @@ export class RouteCityStoryPlayer{
     icon:travelerIcon(),interactive:false,keyboard:false,zIndexOffset:3000,
   }).addTo(this.layer);
   if(reducedMotion()){
+   if(this.immersive){this.status='paused';this.reveal(0);this.draw();this.emit();return true;}
    this.stops.forEach((_,i)=>this.reveal(i));
    this.index=this.stops.length-1;this.part=0;this.draw();
    this.status='complete';this.emit();return true;
@@ -195,7 +196,7 @@ export class RouteCityStoryPlayer{
  }
  resume(){
   if(this.status!=='paused')return false;
-  if(reducedMotion()){
+  if(reducedMotion()&&!this.immersive){
    this.clearArrival();
    this.stops.forEach((_,i)=>this.reveal(i));this.finish();return true;
   }
@@ -208,6 +209,11 @@ export class RouteCityStoryPlayer{
  seekTime(ms){
   const pos=timelinePositionV124(this.timeline??storyTimelineV124(this.stops,this.immersive),ms);
   if(!pos||this.status==='idle')return false;
+  // Scrubbing within one paused scene must not recreate Leaflet markers.
+  if(this.status==='paused'&&this.index===pos.index&&this.phase===pos.phase){
+   this.elapsed=pos.elapsed;const f=this.phase==='travel'?Math.max(0,Math.min(1,this.elapsed/TRAVEL_MS)):0;
+   this.part=f*f*(3-2*f);this.draw();this.emit();return true;
+  }
   return this.seek(pos.index,pos);
  }
  seek(index,position=null){
