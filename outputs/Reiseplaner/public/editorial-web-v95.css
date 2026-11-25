@@ -3462,3 +3462,27 @@ body.route123-active .route123-timeline li>span,body.route123-active .route123-t
 body.route123-active .route123-timeline .route124-stop-seek{border:1px solid #ffffff30;border-radius:8px;min-width:44px;text-align:center;padding:8px;font-size:12px}
 body.route123-active .route123-timeline .route124-stop-seek[aria-pressed=true]{background:#bfead5;color:#142c27}
 @media(max-width:760px){body.route123-active .reference-travel-shell .route124-scrubber{padding:6px 8px;gap:3px}}
+
+/* V125: shared cinema and manual explorer, bounded photo markers and compact facts. */
+.route125-media{animation:route125-reveal 220ms ease-out;min-width:0}
+@keyframes route125-reveal{from{opacity:.45}to{opacity:1}}
+.route125-media figcaption{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
+.route125-media figcaption strong{flex-basis:100%;color:#fff;font-size:12px}
+.route125-activity{margin:10px 0;padding:14px;border:1px solid #ffffff26;border-radius:16px;background:#ffffff09;overflow-wrap:anywhere}
+.route125-activity>small{font-size:10px;letter-spacing:.09em;color:#bfead5}
+.route125-activity h3{font-size:clamp(18px,2.4vw,26px);line-height:1.15;margin:6px 0 10px;color:#fff;letter-spacing:-.03em}
+.route125-facts{display:flex;flex-wrap:wrap;gap:6px}
+.route125-facts span{padding:6px 9px;border-radius:8px;background:#ffffff12;color:#e5f4ed;font-size:12px}
+.route125-activity details{margin-top:10px;border-top:1px solid #ffffff25}
+.route125-activity summary,.route125-activity button{min-height:44px;cursor:pointer;color:#fff;font:inherit}
+.route125-activity summary{padding:12px 0;font-size:13px}
+.route125-activity details p{font-size:13px;color:#d1e3dc;line-height:1.5}
+.route125-activity button{border:1px solid #ffffff40;background:#ffffff0d;border-radius:9px;padding:8px 12px}
+.route125-map-marker{background:none;border:0}
+.route125-map-pin{width:44px;height:44px;display:grid;place-items:center;overflow:hidden;border:3px solid white;border-radius:14px;background:#244b40;color:white;font-weight:700;box-shadow:0 2px 8px #102b2660;transition:transform 180ms,border-color 180ms}
+.route125-map-pin img{width:100%;height:100%;object-fit:cover}
+.route125-map-marker.is-current .route125-map-pin{border-color:#55d8ae;transform:scale(1.12)}
+.route125-map-marker:focus-visible .route125-map-pin{outline:3px solid #55d8ae;outline-offset:3px}
+@media(max-width:760px){.route125-activity{padding:10px}.route125-activity h3{font-size:19px}}
+@media(prefers-reduced-motion:reduce){.route125-media,.route125-map-pin{animation:none!important;transition:none!important}}
+:root[data-motion=off] .route125-media,:root[data-motion=off] .route125-map-pin{animation:none!important;transition:none!important}

@@ -424,7 +424,7 @@ function mapPanel(ctx, full = false) {
             +(ctx.explorer?.unlocated?.length??0)+' Ortsangaben ohne Pin'
           :'Kartenpunkte und Quellen in der Kartenansicht erkunden'}</p></div>
     <div class="inline">${ctx.page==='map'?'<button type="button" class="route-story-launch" data-action="route-story-play" title="Deine Reise als animierte Städtefolge ansehen">'+icon('play')+' <span>Route abspielen</span></button>':''}${ctx.page==='map'?'<button type="button" class="map-fullscreen-launch" data-action="map-fullscreen" aria-pressed="'+Boolean(ctx.mapFullscreen)+'">'
-      +icon('map')+' <span>Vollbildkarte</span></button><button type="button" class="route123-launch" data-action="route123-launch">'+icon('play')+' Reisekino</button>':''}${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div>${ctx.page==='map'?'<div class="map-local-actions">'+btn('map-pin-new','Eigener Pin','plus','','subtle')+btn('map-fullscreen','Vollbild','map','','subtle')+(ctx.dayRoute?.items.length?btn('day-route-open','Route ('+ctx.dayRoute.items.length+'/8)','walk','','subtle'):'')+'</div>':''}</div>
+      +icon('map')+' <span>Vollbildkarte</span></button><button type="button" class="route123-launch" data-action="route123-launch">'+icon('play')+' Reisekino</button><button type="button" class="route123-launch route125-launch" data-action="route125-launch">Reise-Explorer</button>':''}${iconBtn('fit', 'Kartenausschnitt zurücksetzen', 'target')}${iconBtn('layers', 'Weitere Kartenebenen', 'layers')}</div>${ctx.page==='map'?'<div class="map-local-actions">'+btn('map-pin-new','Eigener Pin','plus','','subtle')+btn('map-fullscreen','Vollbild','map','','subtle')+(ctx.dayRoute?.items.length?btn('day-route-open','Route ('+ctx.dayRoute.items.length+'/8)','walk','','subtle'):'')+'</div>':''}</div>
     ${ctx.mapPinPicking?'<p class="map-pin-picking" role="status">Punkt auf der Karte wählen. Name und Notiz bleiben erhalten. '+btn('map-pin-cancel','Zur Koordinateneingabe','edit')+'</p>':''}
     ${!full && !ctx.total && outside ? '<div class="alert" role="status">Kein gültiger Fahrplan für ' + esc(dateText(ctx.date)) + ' im lokalen Datenpaket. Die gespeicherte Referenz deckt nur ' + esc(dateText(timetable.from)) + '–' + esc(dateText(timetable.to)) + ' ab. Linien auf der Karte sind Orientierung, keine 2027er Echtzeitfahrten. ' + urlLink(transitPlanners[ctx.city], 'Betreiberplaner') + '</div>' : ''}
     ${!ctx.total && ctx.timetablePreview ? '<div class="map-preview"><span>' + esc('ÖPNV-Vorschau · '
@@ -471,7 +471,7 @@ function mapPanel(ctx, full = false) {
         </div>
         <span class="route-story-count" id="route-story-count">0 / 0</span>
       </div>
-      <div class="route123-topline"><span>REISEKINO · VORSCHAU</span><button type="button" data-action="route123-exit" aria-label="Reisekino beenden">Schließen ×</button></div>
+      <div class="route123-topline"><span>REISEKINO · EXPLORER</span><button type="button" data-action="route123-exit" aria-label="Reisekino beenden">Schließen ×</button></div>
       <div class="route124-scrubber"><label for="route124-time">Vorschauzeit <output id="route124-clock">0:00 / 0:00</output></label><input type="range" id="route124-time" min="0" max="1" step="1" value="0" aria-label="Position in der Reisevorschau"><label for="route124-day">Reisetag auswählen</label><select id="route124-day"><option value="">Tageszuordnung offen</option></select></div>
       <div id="route123-preview" hidden aria-label="Immersive Reiseszene"></div>
       <div id="route122-preview" class="route122-preview" hidden aria-label="Aktuelle Etappe mit Foto und Reisetagen"></div>
@@ -705,6 +705,7 @@ function overview(ctx) {
     +btn('show-route','Route entdecken','arrow','','subtle')
     +btn('route122-launch','Reisevorschau abspielen','play','','subtle')
     +btn('route123-launch','Reisekino starten','play','','subtle')
+    +btn('route125-launch','Reise-Explorer öffnen','map','','subtle')
     +'</div></div>'
     +(heroPhoto?'<a class="editorial-journey-credit" href="'
       +esc(heroPhoto.sourceUrl)+'" target="_blank" rel="noopener noreferrer">'

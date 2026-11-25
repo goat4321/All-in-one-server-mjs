@@ -1,4 +1,5 @@
 import {esc,shortDay} from './ui.mjs';
+import {explorerMediaHtmlV125} from './route-explorer-v125.mjs';
 import {routePreviewDayV122,routePreviewModelV122} from './route-preview-v122.mjs';
 import {photoCropV120,editorialCityPhotoV119} from './place-profile.mjs';
 const periods={morning:'Vormittag',noon:'Mittag',afternoon:'Nachmittag',evening:'Abend'};
@@ -29,14 +30,11 @@ export function immersiveSceneV123(ctx,state){
 }
 export function immersiveHtmlV123(ctx,state,scene=immersiveSceneV123(ctx,state)){
  const model=routePreviewModelV122(ctx,state);if(!model)return '';
- const {photo,item}=model.editorial??{};
  const title=ctx.cities?.[model.city]?.name??model.city;
  const travel=state.phase==='travel'&&model.next;
  const ref=model.reference;
  return '<section class="route123-scene" data-route123-key="'+esc(scene.key)+'">'
-  +'<div class="route123-hero" data-photo120-crop="'+photoCropV120(item,photo)+'">'
-  +(photo?'<figure class="photo119-item"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Ortsfoto vergrößern"><img src="'+esc(previewPhotoUrlV124(photo))+'" alt="'+esc(item.name)+'" decoding="async" referrerpolicy="no-referrer"></a><figcaption><small>'+esc(photo.credit)+'</small> <a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a></figcaption></figure>':'<p class="route123-no-photo">Kein zugeordnetes Ortsfoto</p>')
-  +'</div><div class="route123-heading"><small>'+esc(travel?'UNTERWEGS NACH '+(ctx.cities?.[model.next]?.name??model.next):'ETAPPE '+(state.index+1)+' / '+state.total)+'</small><h2>'+esc(title)+'</h2>'
+  +'<div class="route123-hero">'+explorerMediaHtmlV125(ctx,scene,model.editorial)+'</div><div class="route123-heading"><small>'+esc(travel?'UNTERWEGS NACH '+(ctx.cities?.[model.next]?.name??model.next):'ETAPPE '+(state.index+1)+' / '+state.total)+'</small><h2>'+esc(title)+'</h2>'
   +(scene.day?'<p>'+esc(shortDay(scene.day.date))+' · Tag '+(scene.days.indexOf(scene.day)+1)+' / '+scene.days.length+'</p>':'<p>Tageszuordnung offen</p>')+'</div>'
   +(travel?'<p class="route123-transfer">'+(ref?'Archivreferenz: '+esc(ref.from.date)+' '+esc(ref.from.time)+' → '+esc(ref.to.date)+' '+esc(ref.to.time)+' · '+ref.minutes+' Min. · aktueller Fahrplan offen':'Fahrtzeit offen · schematische Städteverbindung')+'</p>':'')
   +'<ol class="route123-timeline" aria-label="Tagesentwurf">'+scene.stops.map((s,i)=>'<li'+(i===scene.index?' aria-current="step"':'')+'><span>'+esc(s.period)+(s.minutes!==null?' · '+s.minutes+' Min.':'')+'</span><button type="button" data-action="details" data-value="'+esc(s.id)+'">'+esc(s.name)+'</button><button type="button" class="route124-stop-seek" data-action="route124-stop" data-value="'+i+'" aria-label="Zu '+esc(s.name)+' springen" aria-pressed="'+(i===scene.index)+'">Zum Stopp</button><small>'+(s.point?'Belegter Orts-Pin':'Position offen')+'</small></li>').join('')+'</ol>'
