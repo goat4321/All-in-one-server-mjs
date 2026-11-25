@@ -43,7 +43,7 @@ export function hikingMapPreview(ctx){
   ?hikingPreview(ctx,ctx.hikePreviewId):null;
 }
 const number=(value,digits=0)=>value===null?'offen':value.toLocaleString('de-DE',{maximumFractionDigits:digits});
-function profileHtml(trail){
+export function profileHtml(trail){
  if(!trail.segments)return '<p class="hike-missing">Kein GPX mit Höhenpunkten vorhanden; Länge und Höhenprofil offen.</p>';
  const metric=trailMetrics(trail.segments,{elevationsUsable:trail.elevationsUsable!==false});
  if(!metric.profile)return '<p class="hike-missing">GPX-Weglinie: '+number(metric.metres/1000,2)

@@ -1,4 +1,6 @@
 import {esc,icon,shortDay} from './ui.mjs';
+import {dayTimelineHtmlV126} from './day-route-player-v126.mjs';
+import {hikingOptions,profileHtml} from './hiking.mjs';
 import {localParts,money,categories} from './model.mjs';
 import {footpathMatchesStops} from './route-studio.mjs';
 import {quickDayTargetDates} from './day-quick-edits-v50.mjs';
@@ -45,7 +47,7 @@ export function journeyModelV110(ctx,mode='draft',cachedRoute=()=>null){
   if(!from.point||!to.point||from.city!==to.city)return {from:index,to:index+1,type:'gap',points:[],minutes:null};
   const route=cachedRoute(from,to);
   if(!from.transfer&&!to.transfer&&footpathMatchesStops(from,to,route)&&Number.isFinite(route.minutes)&&route.minutes>=0)
-   return {from:index,to:index+1,type:'routed',points:route.points,minutes:route.minutes};
+   return {from:index,to:index+1,type:'routed',points:route.points,minutes:route.minutes,metres:Number.isFinite(route.metres)&&route.metres>=0?route.metres:null};
   if(from.point[0]===to.point[0]&&from.point[1]===to.point[1])
    return {from:index,to:index+1,type:'same',points:[],minutes:null};
   return {from:index,to:index+1,type:from.transfer||to.transfer?'connection':'schematic',points:[from.point,to.point],minutes:null};
@@ -129,6 +131,8 @@ export function renderDayJourneyControlsV110(ctx,model){
   +'<div class="day110-mode" role="group" aria-label="Datenquelle"><button type="button" data-action="day110-mode" data-value="draft" aria-pressed="'+(model.mode==='draft')+'">Tagesvorschlag</button><button type="button" data-action="day110-mode" data-value="saved" aria-pressed="'+(model.mode==='saved')+'">Mein Plan</button><button type="button" data-action="day110-close">Normale Karte</button></div>'
   +'<div class="day110-player-actions"><button type="button" data-action="day110-prev"'+(!model.stops.length?' disabled':'')+'>←</button><button type="button" data-action="day110-play"'+(!model.stops.length?' disabled':'')+'>Abspielen</button><button type="button" data-action="day110-pause">Pause</button><button type="button" data-action="day110-next"'+(!model.stops.length?' disabled':'')+'>→</button><button type="button" data-action="day110-route"'+(!model.legs.some(l=>l.type==='schematic')?' disabled':'')+'>Fußwege prüfen</button></div>'
   +'<p class="day110-status" role="status" aria-live="polite">Wähle einen Stopp oder starte die Vorschau.</p><div class="day110-track" role="progressbar" aria-label="Abgespielte Stopps" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>'
+  +dayTimelineHtmlV126(model)
+  +(hikingOptions(ctx).length?'<details class="day126-hikes"><summary>Wanderungen und belegte Höhenprofile</summary>'+hikingOptions(ctx).map(t=>'<section><h4>'+esc(t.title)+'</h4>'+profileHtml(t)+'</section>').join('')+'</details>':'')
   +'<div class="day110-stops">'+(list||'<p>Keine Aktivitäten für diesen Tag vorgesehen bzw. gespeichert.</p>')+'</div>'
   +(model.transfers.length?'<details><summary>Vorläufige Transfers ('+model.transfers.length+')</summary><ul>'+model.transfers.map(t=>'<li>'+esc(t.from??'')+' → '+esc(t.to??'')+' · '+esc(t.departure??'Zeit offen')+' – '+esc(t.arrival??'Zeit offen')+' · 2027 ungeprüft</li>').join('')+'</ul></details>':'')
   +(model.editorial?'<details class="day110-editorial"><summary>Vollständiger Tagesablauf · Morgen, Mittag, Abend</summary><ol>'+model.editorial.blocks.map(b=>'<li><div><small>'+esc(periods[b.period]??b.period)+'</small><strong>'+esc(b.title)+'</strong><p>'+esc(b.detail)+'</p></div></li>').join('')+'</ol><p>'+esc(model.editorial.food)+'</p><p>'+esc(model.editorial.buffer)+'</p></details>':'')

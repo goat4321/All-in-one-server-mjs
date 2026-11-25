@@ -2,6 +2,7 @@ import { transitNetworks } from './transit.mjs';
 import { localParts } from './model.mjs';
 import { explorerCategory, explorerUnlocatedCityClusters } from './map-explorer.mjs';
 import { routeStudioModel, pointAlongRoute, routeDirectionAt } from './route-studio.mjs';
+import {routeSampleV126} from './day-route-player-v126.mjs';
 import { curatedPlacePhoto } from './curated-place-photos.mjs';
 import { installSoftVectorBasemap, fallbackRasterUrl, fallbackRasterOptions,
   vectorAttribution, basemapLabels } from './vector-basemap.mjs';
@@ -510,7 +511,7 @@ export class TripMap {
     if(!stop.point)return false;
     const leg=previous===index-1?this.dayJourney.legs[previous]:null;
     const points=leg?.points;
-    const canAnimate=animate&&!quietMotion()&&points?.length>=2;
+    const canAnimate=animate&&!quietMotion()&&leg?.type==='routed'&&points?.length>=2;
     this.journeyDot=L.circleMarker(canAnimate?points[0]:stop.point,{radius:6,color:'#fff',weight:2,
       fillColor:'#1469ca',fillOpacity:1,interactive:false,className:'day110-position-dot'}).addTo(this.features);
     this.map.panTo(stop.point,{animate:animate&&!quietMotion(),duration:.45});
@@ -527,6 +528,20 @@ export class TripMap {
       this.journeyFrame=requestAnimationFrame(tick);
     }
     this.journeyPins.get(index)?.openTooltip();
+    return true;
+  }
+
+  seekDayJourneyV126(position){
+    if(!this.dayJourney||!position)return false;
+    if(position.kind!=='walk'){
+      if(position.kind!=='stop'){
+        if(this.journeyDot){this.features.removeLayer(this.journeyDot);this.journeyDot=null;}
+      }else if(this.journeyFocus!==position.index||!this.journeyDot)this.focusDayJourney(position.index,{animate:false});
+      return true;
+    }
+    const p=routeSampleV126(position.leg?.points,position.fraction);if(!p)return false;
+    if(!this.journeyDot)this.journeyDot=L.circleMarker(p,{radius:6,color:'#fff',weight:2,fillColor:'#1469ca',fillOpacity:1,interactive:false,className:'day110-position-dot'}).addTo(this.features);
+    else this.journeyDot.setLatLng(p);
     return true;
   }
 

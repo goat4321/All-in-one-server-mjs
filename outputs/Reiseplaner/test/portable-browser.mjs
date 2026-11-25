@@ -1714,6 +1714,10 @@ try {
   await click('[data-action=day110-play]');
   await until(()=>js('document.querySelector(".day110-stop[aria-pressed=true]")?.dataset.value==="2"'),'V110 playback reaches last stop');
   await click('[data-action=day110-pause]');
+  assert.ok(await js('!!document.querySelector("#day126-time")&&!!document.querySelector(".day126-scene")'));
+  await js('(()=>{const r=document.querySelector("#day126-time");r.value="0";r.dispatchEvent(new Event("input",{bubbles:true}));})()');
+  assert.equal(await js('document.querySelector(".day110-stop[aria-pressed=true]")?.dataset.value'),'0');
+  await screenshot('v126-day-journey-scrubber.png');
   await click('[data-action=day110-mode][data-value=saved]');
   await until(()=>js('document.querySelector("[data-action=day110-mode][data-value=saved]")?.getAttribute("aria-pressed")==="true"'),'V110 saved mode');
   assert.equal(JSON.stringify(store.current('interrail_swiss').state.edits),beforeJourney);

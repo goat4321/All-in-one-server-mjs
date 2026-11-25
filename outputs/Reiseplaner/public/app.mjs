@@ -8,6 +8,7 @@ import {routePreviewHtmlV122,routePreviewDayV122} from './route-preview-v122.mjs
 import {explorerMediaHtmlV125,explorerFallbackV125,upcomingActivityPhotoV125,syncExplorerMarkersV125,clearExplorerMarkersV125} from './route-explorer-v125.mjs';
 import {dayPlanDraftEdits,timelineReorderV105} from './day-plans-logic.mjs';
 import {journeyModelV110,dayMoveOptionsV110} from './day-journey-v110.mjs';
+import {dayTimelineV126,dayPositionV126,dayStopTimeV126,daySceneHtmlV126} from './day-route-player-v126.mjs';
 import {readPreparationV102,togglePreparationV102,preparationTextV102} from './day-preparation-v102.mjs';
 import {quickDayEdit} from './day-quick-edits-v50.mjs';
 import { activeItems, alpineAccess, calculateBudget, dateRange, dayEntries, groceryBasket, localParts, minor, priceForParty, utcFromLocal } from './model.mjs';
@@ -270,19 +271,25 @@ function buildContext() {
 
 
 let day110Timer=null,day110Index=-1,day110Request=0;
+let day126Time=0,day126Model=null,day126Timeline=null,day126SceneKey='',day126LastFrame=null;
+function timelineDay126(){const m=context?.dayJourney;if(day126Model!==m){day126Model=m;day126Timeline=dayTimelineV126(m);day126SceneKey='';}return day126Timeline;}
+function updateDay126Clock(time){const timeline=timelineDay126(),range=app.querySelector('#day126-time'),clock=app.querySelector('#day126-clock');day126Time=Math.max(0,Math.min(timeline.duration,time));if(range)range.value=String(day126Time);const label=Math.floor(day126Time/1000)+' / '+Math.ceil(timeline.duration/1000)+' s';if(clock&&clock.textContent!==label)clock.textContent=label;}
+function updateDay126Scene(index){const panel=app.querySelector('#day126-scene');if(!panel)return;const key=day110Key()+'|'+index;if(day126SceneKey===key&&panel.hasChildNodes())return;day126SceneKey=key;panel.innerHTML=daySceneHtmlV126(context,context.dayJourney,index);}
 function day110Key(){return context?.dayJourney?[variant.id,context.date,context.dayJourney.mode].join('|'):null;}
 function pauseDay110(announce=true){
- if(day110Timer!=null)clearInterval(day110Timer);
- day110Timer=null;
+ if(day110Timer!=null)cancelAnimationFrame(day110Timer);
+ day110Timer=null;day126LastFrame=null;
  currentMap?.stopDayJourneyMotion?.();
  const status=app.querySelector('.day110-status');
  if(announce&&status)status.textContent='Vorschau pausiert · kein Live-Standort';
 }
-function focusDay110(index,animate=true){
+function focusDay110(index,animate=true,{keepClock=false}={}){
  const m=context?.dayJourney;
  if(!m||!Number.isInteger(index)||index<0||index>=m.stops.length)return false;
  day110Index=index;
  const stop=m.stops[index],leg=m.legs[index-1];
+ if(!keepClock)updateDay126Clock(dayStopTimeV126(timelineDay126(),index)??0);
+ updateDay126Scene(index);
  currentMap?.focusDayJourney(index,{animate});
  const panel=app.querySelector('.day110-player');
  if(!panel)return true;
@@ -302,16 +309,38 @@ function focusDay110(index,animate=true){
  if(progress){progress.setAttribute('aria-valuenow',String(pct));progress.querySelector('i').style.width=pct+'%';}
  return true;
 }
+function seekDay126(time){
+ const timeline=timelineDay126(),pos=dayPositionV126(timeline,time);if(!pos)return;
+ const prior=pos.kind==='stop'?pos.index:Math.max(0,pos.index-1);
+ if(day110Index!==prior)focusDay110(prior,false,{keepClock:true});
+ updateDay126Clock(pos.time);
+ currentMap?.seekDayJourneyV126(pos);
+ const status=app.querySelector('.day110-status');
+ if(status&&pos.kind!=='stop'){
+  const from=context.dayJourney.stops[pos.index-1]?.name,to=context.dayJourney.stops[pos.index]?.name;
+  const label=(pos.kind==='walk'?'Berechneter Fußweg · '+pos.leg.minutes+' Min.':pos.kind==='transfer'?'Transfer · Fahrplan offen':pos.kind==='same'?'Gleicher Ort':'Verbindung offen')+' · '+from+' → '+to;
+  if(status.textContent!==label)status.textContent=label;
+ }else if(status&&pos.kind==='stop'&&!status.textContent.startsWith('Stopp '+(pos.index+1)+' /')){
+  const stop=context.dayJourney.stops[pos.index];status.textContent='Stopp '+(pos.index+1)+' / '+context.dayJourney.stops.length+' · '+stop.name;
+ }
+}
 function playDay110(){
- const m=context?.dayJourney,key=day110Key();
- if(!key||!m?.stops.length)return;
- pauseDay110(false);focusDay110(day110Index<0||day110Index===m.stops.length-1?0:day110Index);
- if(m.stops.length===1)return;
- day110Timer=setInterval(()=>{
-  if(day110Key()!==key||day110Index>=m.stops.length-1){pauseDay110(false);return;}
-  focusDay110(day110Index+1);
-  if(day110Index===m.stops.length-1){clearInterval(day110Timer);day110Timer=null;}
- },2100);
+ const m=context?.dayJourney,key=day110Key();if(!key||!m?.stops.length)return;
+ const timeline=timelineDay126(),time=day126Time;
+ pauseDay110(false);
+ if(day110Index<0||time>=timeline.duration||day110Index===m.stops.length-1){focusDay110(0,false);}
+ else seekDay126(time);
+ if(!motion.enabled()){focusDay110(m.stops.length-1,false);updateDay126Clock(timeline.duration);return;}
+ let elapsed=day126Time;day126LastFrame=null;
+ const tick=now=>{
+  day110Timer=null;
+  if(day110Key()!==key||context?.dayJourney!==m){pauseDay110(false);return;}
+  if(day126LastFrame===null)day126LastFrame=now;
+  elapsed+=Math.max(0,Math.min(100,now-day126LastFrame));day126LastFrame=now;
+  seekDay126(elapsed);
+  if(elapsed<timeline.duration)day110Timer=requestAnimationFrame(tick);else day126LastFrame=null;
+ };
+ day110Timer=requestAnimationFrame(tick);
 }
 async function checkDay110Routes(){
  const m=context?.dayJourney,key=day110Key();
@@ -339,7 +368,7 @@ async function checkDay110Routes(){
 }
 function openDay110(mode){
  if(view.page!=='plan'||!context?.dayPlan)return;
- day110Request++;day110Index=-1;
+ day110Request++;day110Index=-1;day126Time=0;day126SceneKey='';
  view.dayJourneyMode=mode==='saved'?'saved':'draft';view.mobile='map';
  render({fetchRoutes:false});
  app.querySelector('.day110-player')?.scrollIntoView({block:'start',behavior:'instant'});
@@ -2729,6 +2758,7 @@ app.addEventListener('pointercancel',event=>{if(event.target.id==='route124-time
 app.addEventListener('focusout',event=>{if(event.target.id==='route124-time'&&event.target.dataset.dragging==='true')finishRouteScrubV124(event.target);});
 app.addEventListener('focusin',event=>{if(view.routeImmersive&&event.target.id==='route124-day')currentMap?.pauseCityStory();});
 app.addEventListener('input',event=>{
+  if(event.target.id==='day126-time'){pauseDay110(false);seekDay126(Number(event.target.value));return;}
   if(event.target.id==='route124-time'&&view.routeImmersive){const range=event.target;range.dataset.dragging='true';currentMap?.pauseCityStory();const clock=app.querySelector('#route124-clock');const label=formatPreviewTimeV124(Number(range.value))+' / '+formatPreviewTimeV124(Number(range.max));if(clock)clock.textContent=label;range.setAttribute('aria-valuetext',label+' Vorschauzeit');scheduleRouteScrubV124(range);return;}
   // Search the already-loaded catalog without another explicit submit.
   // A short debounce avoids rebuilding every card after each keystroke;

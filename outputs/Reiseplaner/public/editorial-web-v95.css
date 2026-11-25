@@ -3486,3 +3486,22 @@ body.route123-active .route123-timeline .route124-stop-seek[aria-pressed=true]{b
 @media(max-width:760px){.route125-activity{padding:10px}.route125-activity h3{font-size:19px}}
 @media(prefers-reduced-motion:reduce){.route125-media,.route125-map-pin{animation:none!important;transition:none!important}}
 :root[data-motion=off] .route125-media,:root[data-motion=off] .route125-map-pin{animation:none!important;transition:none!important}
+
+/* V126 day journey: native seek, bounded scene and measured-route facts. */
+.day126-timeline{display:grid;gap:10px;min-width:0;padding:12px;border:1px solid var(--e95-line);border-radius:16px;background:var(--e95-paper);margin:10px 0}
+.day126-timeline label{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:650}
+.day126-timeline output{font-variant-numeric:tabular-nums;color:var(--e95-secondary)}
+.day126-timeline input{width:100%;min-height:44px;accent-color:var(--e95-link);margin:0}
+.day126-summary{display:flex;flex-wrap:wrap;gap:6px}
+.day126-summary span{background:var(--e95-page);border-radius:8px;padding:6px 9px;font-size:12px}
+.day126-scene{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;overflow-wrap:anywhere;animation:route125-reveal 220ms ease-out}
+.day126-scene .day112-gallery{display:flex;max-width:100%;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px}
+.day126-scene .day112-photo{flex:0 0 min(240px,85%);scroll-snap-align:start}
+.day126-scene .day112-photo img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px}
+.day126-scene h3{font-size:clamp(18px,2vw,24px);margin:4px 0;letter-spacing:-.03em}
+.day126-scene p,.day126-timeline>p{font-size:12px;color:var(--e95-secondary);margin:4px 0}
+.day126-scene button,.day126-hikes summary{min-height:44px;cursor:pointer}
+.day126-hikes{margin:10px 0;padding:10px;border:1px solid var(--e95-line);border-radius:12px}
+.day126-hikes svg{width:100%;height:auto}
+@media(prefers-reduced-motion:reduce){.day126-scene{animation:none}}
+:root[data-motion=off] .day126-scene{animation:none}
