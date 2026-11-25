@@ -703,9 +703,9 @@ function overview(ctx) {
     +'<div class="editorial-journey-actions">'
     +btn('page','Tagesplan öffnen','calendar','plan','primary')
     +btn('show-route','Route entdecken','arrow','','subtle')
-    +btn('route122-launch','Reisevorschau abspielen','play','','subtle')
     +btn('route123-launch','Reisekino starten','play','','subtle')
     +btn('route125-launch','Reise-Explorer öffnen','map','','subtle')
+    +'<details class="journey129-more"><summary>Weitere Vorschau</summary>'+btn('route122-launch','Kompakte Reisevorschau','play','','subtle')+'</details>'
     +'</div></div>'
     +(heroPhoto?'<a class="editorial-journey-credit" href="'
       +esc(heroPhoto.sourceUrl)+'" target="_blank" rel="noopener noreferrer">'

@@ -12,7 +12,7 @@ const REVEAL_TARGETS=[
   '.reference-map-intro','.hub-hero','.hub-toolbar',
   '.photo119-story',
   '.hub-results-title','.page-head','.data-page-heading',
-  '.data-checks','.timeline-panel','.day-editorial-hero'
+  '.data-checks','.timeline-panel','.day-editorial-hero','.day110-intro','.day126-timeline'
 ].join(',');
 // V98: More motion appears when actual content scrolls into view, not every
 // time the user adjusts a search filter or a map marker. Never observe the
@@ -26,7 +26,7 @@ const SCROLL_TARGETS=[
   // V99 editorial chapters: reveal as they actually reach the reader.
   '.swiss-editorial-head','.hub-market-access','.hub-food-planning',
   '.day-plan-quick-bar','.stay-swiss-research',
-  '.data-disclosure','.cockpit-reference.section'
+  '.data-disclosure','.cockpit-reference.section','.day110-budget','.day110-alternatives','.day126-hikes'
 ].join(',');
 const MAX_SCROLL_REVEALS=42;
 const scrollIdentity=(node,index)=>{
@@ -40,7 +40,7 @@ const scrollIdentity=(node,index)=>{
 const IMAGE_TARGETS=[
   '.destination-cover img','.reference-discovery-image img',
   '.reference-intro-photo img','.reference-hero-thumb img',
-  '.inspector-cover-photo img','.place-photo img'
+  '.inspector-cover-photo img','.place-photo img','.route125-media img','.day126-scene img'
 ].join(',');
 
 export const motionEnabled=(preference='auto',reducedMotion=false)=>
@@ -58,7 +58,7 @@ export function createMotionController(doc){
   const canMove=()=>motionEnabled(doc.documentElement.dataset.motion,
     Boolean(view?.matchMedia?.('(prefers-reduced-motion: reduce)').matches));
   const imageReady=image=>{
-    if(!canMove()||!image.isConnected)return;
+    if(!canMove()||!image.isConnected||image.classList.contains('motion-photo-loaded'))return;
     image.classList.add('motion-photo-loaded');
   };
   // A single delegated load listener also catches modal images added AFTER
@@ -79,6 +79,9 @@ export function createMotionController(doc){
     }
     const host=photo.closest?.('.place-photo, .place-thumbnail, .hub-hero-art, .map-photo-disc');
     if(host){photo.hidden=true;host.classList.add('photo-load-failed');}
+    const journey=photo.closest?.('.route125-media figure,.day126-scene figure');
+    if(journey&&!journey.querySelector('.journey129-photo-error')){photo.hidden=true;const message=doc.createElement('span');message.className='journey129-photo-error';message.textContent='Foto momentan nicht verfügbar';photo.parentElement?.append(message);}
+    if(photo.closest?.('.route125-map-pin'))photo.hidden=true;
   },true);
   // Interactions must never change or intercept a control's click semantics.
   // V91: rely on native :active and :focus-visible feedback. Injecting a ripple
@@ -139,7 +142,7 @@ export function createMotionController(doc){
     if(!canMove())return;
     for(const image of container.querySelectorAll(IMAGE_TARGETS)){
       if(image.complete&&image.naturalWidth>0)imageReady(image);
-      else image.addEventListener('load',()=>imageReady(image),{once:true});
+      // The delegated capture listener handles future loads, including dynamic scenes.
     }
   };
   const animateSaved=(container,id)=>{

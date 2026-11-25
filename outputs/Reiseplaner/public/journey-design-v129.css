@@ -1,0 +1,45 @@
+/* V129 — web adaptation of Apple HIG hierarchy, motion, contrast and hit areas.
+   Scoped to journey components. Content remains opaque; no new visual dependencies. */
+:root{--journey129-radius:18px;--journey129-gap:12px;--journey129-surface:var(--e95-paper);--journey129-text:var(--e95-ink);--journey129-muted:var(--e95-secondary);--journey129-accent:var(--e95-link)}
+body.route123-active{--journey129-cinema:#17241f;--journey129-cinema-panel:#20322b;--journey129-cinema-line:#ffffff30;--journey129-cinema-text:#f5f7f6;--journey129-cinema-muted:#cbdad3;--journey129-cinema-accent:#bfead5}
+.reference-travel-shell .editorial-journey-actions{align-items:flex-start;gap:10px}
+.reference-travel-shell .journey129-more{min-width:0;max-width:100%;flex-basis:100%;color:inherit}
+.reference-travel-shell .journey129-more>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;width:fit-content}
+.reference-travel-shell .journey129-more>summary:before{content:'›';font-size:20px;transition:transform 160ms var(--e95-ease)}
+.reference-travel-shell .journey129-more[open]>summary:before{transform:rotate(90deg)}
+.reference-travel-shell .journey129-more>.button{margin-top:4px}
+.reference-travel-shell :is(.day126-timeline,.day126-hikes,.day110-budget,.day110-alternatives){border-radius:var(--journey129-radius);box-shadow:none}
+.reference-travel-shell .day126-timeline{padding:clamp(12px,2vw,20px);gap:var(--journey129-gap);color:var(--journey129-text)}
+.reference-travel-shell .day126-summary span{line-height:1.45;border:1px solid var(--e95-line);font-size:.8125rem}
+.reference-travel-shell .day126-scene h3{font-size:clamp(1.2rem,2.3vw,1.75rem);font-weight:680;line-height:1.18;letter-spacing:-.035em}
+.reference-travel-shell .day126-scene p,.reference-travel-shell .day126-timeline>p{font-size:.875rem;line-height:1.5;color:var(--journey129-muted)}
+.reference-travel-shell .day126-scene button{padding:9px 14px;border:1px solid var(--e95-line);border-radius:12px;background:var(--e95-page);color:var(--journey129-accent);font-weight:600;text-align:left}
+.reference-travel-shell .day126-timeline input:focus-visible,.reference-travel-shell .journey129-more summary:focus-visible,.reference-travel-shell .day126-scene button:focus-visible{outline:3px solid var(--e95-focus);outline-offset:3px}
+body.route123-active .reference-travel-shell .map-fullscreen-mode .route-story-player{background:var(--journey129-cinema)!important}
+body.route123-active .reference-travel-shell :is(.route123-topline,.route-story-actions){background:var(--journey129-cinema)!important}
+body.route123-active .reference-travel-shell :is(.route125-activity,.route124-scrubber){background:var(--journey129-cinema-panel);border-color:var(--journey129-cinema-line);border-radius:var(--journey129-radius)}
+body.route123-active .reference-travel-shell .route123-heading h2{font-size:clamp(1.75rem,4vw,3.25rem);font-weight:680;color:var(--journey129-cinema-text)}
+body.route123-active .reference-travel-shell :is(.route125-activity details p,.route123-heading p,.route123-note,.route123-transfer){color:var(--journey129-cinema-muted);font-size:.875rem;line-height:1.5}
+body.route123-active .reference-travel-shell .route125-facts span{font-size:.8125rem;line-height:1.4;color:var(--journey129-cinema-text)}
+body.route123-active .reference-travel-shell .route124-scrubber select{font-size:1rem}
+body.route123-active .reference-travel-shell .route125-activity summary{font-weight:600;font-size:.875rem}
+body.route123-active .reference-travel-shell .route123-timeline li{padding:8px 10px}
+body.route123-active .reference-travel-shell .route123-timeline li[aria-current=step]{border-inline-start-width:3px}
+.journey129-photo-error{display:grid;place-items:center;min-height:100%;padding:16px;text-align:center;color:inherit;font-size:.875rem}
+@media(hover:hover) and (pointer:fine){
+ .reference-travel-shell :is(.day126-scene button,.route125-activity button,.journey129-more summary){transition:opacity 160ms var(--e95-ease),border-color 160ms var(--e95-ease)}
+ .reference-travel-shell :is(.day126-scene button,.route125-activity button,.journey129-more summary):hover{opacity:.83}
+}
+.reference-travel-shell :is(.day126-scene button,.route125-activity button,.journey129-more summary):active{opacity:.7}
+@media(max-width:760px){
+ .reference-travel-shell .day126-timeline{padding:12px}
+ .reference-travel-shell .day126-summary span{flex:1 1 115px}
+ body.route123-active .reference-travel-shell .route125-activity{padding:12px}
+ body.route123-active .reference-travel-shell .route125-facts span{flex:1 1 115px}
+}
+@media(prefers-contrast:more){
+ .reference-travel-shell :is(.day126-timeline,.day126-hikes,.day126-summary span,.day126-scene button){border-color:var(--e95-ink)}
+ body.route123-active .reference-travel-shell :is(.route125-activity,.route124-scrubber){border-color:var(--journey129-cinema-text)}
+}
+@media(prefers-reduced-motion:reduce){.reference-travel-shell .journey129-more>summary:before{transition:none}}
+:root[data-motion=off] .reference-travel-shell .journey129-more>summary:before{transition:none}
