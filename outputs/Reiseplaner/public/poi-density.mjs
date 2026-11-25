@@ -34,3 +34,13 @@ export function groupPoiForDisplay(items,zoom,project,{mode='calm',focusedId=nul
  // Preserves the original data ordering and stable grouping across repaint.
  return buckets;
 }
+
+/** V132: prioritize selected, saved and planned places without mutating data. */
+export function prioritizedPoiV132(items,focusedId,savedIds=new Set()){
+ const rank=i=>{const id=i.explorerId??i.id;return (id===focusedId?8:0)+(savedIds.has(i.id)?4:0)+(i.selected?2:0);};
+ return [...items].sort((a,b)=>rank(b)-rank(a));
+}
+export function photoBudgetV132(policy,{width=Infinity,saveData=false,effectiveType=''}={}){
+ if(saveData||/^(slow-2g|2g)$/.test(effectiveType))return 0;
+ return Math.min(policy.photoLimit,width<600?6:width<1000?12:24);
+}

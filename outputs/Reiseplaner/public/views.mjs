@@ -457,6 +457,7 @@ function mapPanel(ctx, full = false) {
       ${[['all','Alle'],['activity','Aktivitäten'],['food','Essen'],['lodging','Unterkünfte'],['shop','Einkaufen']]
         .map(([id,label])=>'<button type="button" data-action="explorer-group" data-value="'+id
         +'" aria-pressed="'+(ctx.explorer?.group===id)+'">'+esc(label)+'</button>').join('')}
+      <button type="button" class="map132-density" data-action="map-density" data-value="${ctx.mapDensity==='detail'?'calm':'detail'}" aria-pressed="${ctx.mapDensity==='detail'}">${ctx.mapDensity==='detail'?'Detailansicht':'Ruhige Karte'}</button>
       <button type="button" class="map-fullscreen-bookmarks" data-action="explorer-saved-only"
         aria-pressed="${Boolean(ctx.explorer?.savedOnly)}">${icon('bookmark')}<span>Merkliste</span></button>
     </nav></div>`:''}

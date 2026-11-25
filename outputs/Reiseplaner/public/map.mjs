@@ -8,7 +8,7 @@ import { installSoftVectorBasemap, fallbackRasterUrl, fallbackRasterOptions,
   vectorAttribution, basemapLabels } from './vector-basemap.mjs';
 import { markerTier, validMapCoordinate, bubbleMarkup } from './photo-map-model.mjs';
 import {mapLegacyPinContent,mapIconForPlace,mapCategoryIcon} from './map-marker-icons-v64.mjs';
-import { groupPoiForDisplay, poiDensityPolicy } from './poi-density.mjs';
+import { groupPoiForDisplay, poiDensityPolicy, prioritizedPoiV132, photoBudgetV132 } from './poi-density.mjs';
 import {markerProvenance} from './poi-location-provenance.mjs';
 import {storyCityStops} from './route-city-story-v70.mjs';
 import {RouteCityStoryPlayer} from './route-city-story-player-v70.mjs';
@@ -556,6 +556,8 @@ export class TripMap {
     if (!this.poiItems?.length) return;
     const zoom=this.map.getZoom();
     const policy=poiDensityPolicy(zoom,this.poiDensity);
+    const network=globalThis.navigator?.connection;
+    const photoBudget=photoBudgetV132(policy,{width:this.element.clientWidth||Infinity,saveData:network?.saveData,effectiveType:network?.effectiveType});
     let photoBubbleCount=0;
     const shownPhotoCells=new Set();
     // Group only existing source-record points by screen-space density.
@@ -564,7 +566,7 @@ export class TripMap {
     // Keep all source records in poiItems for search, selection and fit bounds.
     const visible=this.map.getBounds?.().pad(.22);
     const onScreen=visible?this.poiItems.filter(item=>visible.contains(item.point)):this.poiItems;
-    const buckets=groupPoiForDisplay(onScreen,zoom,
+    const buckets=groupPoiForDisplay(prioritizedPoiV132(onScreen,this.poiFocused,this.poiSaved),zoom,
       point=>this.map.project(point,zoom),{
         mode:this.poiDensity,focusedId:this.poiFocused
       });
@@ -596,8 +598,10 @@ export class TripMap {
           .addTo(this.poiLayer).bindTooltip(labelNode(label+' · Zum Aufteilen anklicken'));
         marker.on('click',()=>{
           const before=this.map.getZoom();
-          this.map.fitBounds(items.map(x=>x.point),{padding:[50,50],maxZoom:Math.min(17,before+4),animate:false});
-          if(this.map.getZoom()<=before)this.map.setZoom(Math.min(17,before+2));
+          const bounds=L.latLngBounds(items.map(x=>x.point));
+          const next=Math.min(17,Math.max(before+1,Math.min(before+4,this.map.getBoundsZoom(bounds,false,[100,100]))));
+          this.map.stop();
+          this.map.setView(bounds.getCenter(),next,{animate:!quietMotion()&&next>before});
         });
         continue;
       }
@@ -606,16 +610,16 @@ export class TripMap {
         const category=item.explorerCategory??explorerCategory(item);
         const iconType=mapIconForPlace(item,category);
         const provenance=markerProvenance(item);
-        const photo=curatedPlacePhoto(item);
+        const photo=photoBudget>0&&zoom>=14.2?curatedPlacePhoto(item):null;
         const pixel=this.map.project(item.point,zoom);
         const photoCell=Math.floor(pixel.x/policy.photoCellPixels)
           +':'+Math.floor(pixel.y/policy.photoCellPixels);
         const allowedPhoto=Boolean(photo)&&!shownPhotoCells.has(photoCell)
-          &&photoBubbleCount<policy.photoLimit;
+          &&photoBubbleCount<photoBudget;
         const tier=markerTier(zoom,allowedPhoto,photoBubbleCount);
         if(tier==='photo'){photoBubbleCount++;shownPhotoCells.add(photoCell)}
         const content=bubbleMarkup({
-          id,name:item.name,category,photoUrl:tier==='photo'?photo?.url:null,
+          id,name:item.name,category,photoUrl:tier==='photo'?photo?.url?.replace(/\?width=960$/,'?width=320'):null,
           rating:item.rating??item.providerRating??null,
           saved:this.poiSaved?.has(item.id),tier,iconType,
         });
