@@ -36,6 +36,15 @@ try{
   const zipCss=await fetch(base+'/styles.css',{headers:{'Accept-Encoding':'gzip'}});
   assert.equal(zipCss.headers.get('Content-Encoding'),'gzip');
   assert.equal(await zipCss.text(),rawCssText);
+  const repeated=await Promise.all(Array.from({length:4},()=>fetch(base+'/styles.css',{headers:{'Accept-Encoding':'gzip'}})));
+  for(const response of repeated){
+    assert.equal(response.headers.get('Content-Encoding'),'gzip');
+    assert.equal(response.headers.get('Content-Length'),zipCss.headers.get('Content-Length'));
+    assert.equal(await response.text(),rawCssText);
+  }
+  const refusedGzip=await fetch(base+'/styles.css',{headers:{'Accept-Encoding':'gzip;q=0, *;q=1'}});
+  assert.equal(refusedGzip.headers.get('Content-Encoding'),null);
+  assert.equal(await refusedGzip.text(),rawCssText);
   const validator=rawCss.headers.get('etag');
   assert.ok(validator);
   const unchanged=await fetch(base+'/styles.css',{headers:{'If-None-Match':validator}});
@@ -49,6 +58,8 @@ try{
     const response=await fetch(base+'/api/walk',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(value)});
     assert.equal(response.status,400);
   }
+  const wrongType=await fetch(base+'/api/walk',{method:'POST',headers:{'Content-Type':'application/json-invalid'},body:'{}'});
+  assert.equal(wrongType.status,415);
   const module=await fetch(base+'/app.mjs');
   assert.equal(module.status,200,'App-Modul erreichbar');
   const malformed=await fetch(base+'/api/variant/%ZZ');

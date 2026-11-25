@@ -10,7 +10,7 @@ test('Single explicit known-address lookup is rate-limited, cacheable, and never
     return {ok:true,json:async()=>[{
       lat:'43.404',lon:'3.693',display_name:'21 Rue de la Liberté, Sète',
       osm_type:'node',osm_id:'987654321'
-    },{lat:'48.0',lon:'2.0',display_name:'Wrong city'}]};
+    },{lat:'48.0',lon:'2.0',display_name:'Wrong city'},null,{lat:null,lon:'3.693'},{lat:' ',lon:'3.693'},{lat:'100',lon:'3.693'}]};
   };
   const {server,store}=await createApp({database:':memory:',upstream:true,fetcher:fakeFetch});
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));

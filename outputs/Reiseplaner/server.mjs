@@ -34,7 +34,7 @@ function acceptsGzip(header) {
 }
 
 async function readJson(req) {
-  if (!req.headers['content-type']?.toLowerCase().startsWith('application/json')) throw new InputError('JSON erwartet.', 415);
+  if (req.headers['content-type']?.split(';',1)[0].trim().toLowerCase() !== 'application/json') throw new InputError('JSON erwartet.', 415);
   let size = 0;
   const parts = [];
   for await (const chunk of req) {
@@ -64,6 +64,42 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
     database = fileURLToPath(new URL('./private/reiseplan.sqlite', import.meta.url));
   }
   const store = openStore(database, catalog);
+  // Only content-addressed public resources, never API or personal data.
+  // Bound retained and pending inputs by bytes and entries; changing a file
+  // changes its ETag, so development edits cannot return a stale payload.
+  const gzipCache = new Map();
+  let gzipCacheWeight = 0;
+  const gzipBudget = 12 * 1024 * 1024;
+  async function gzipStatic(etag, content) {
+    const hit = gzipCache.get(etag);
+    if (hit) {
+      gzipCache.delete(etag);
+      gzipCache.set(etag, hit);
+      return hit.promise;
+    }
+    const weight = content.length * 2 + 1024;
+    if (weight > gzipBudget) return compress(content);
+    // Do not evict in-flight entries: concurrent requests share compression.
+    for (const [key, entry] of gzipCache) {
+      if (gzipCacheWeight + weight <= gzipBudget && gzipCache.size < 128) break;
+      if (entry.pending) continue;
+      gzipCache.delete(key);
+      gzipCacheWeight -= entry.weight;
+    }
+    if (gzipCacheWeight + weight > gzipBudget || gzipCache.size >= 128) return compress(content);
+    const entry = {weight, pending:true, promise:null};
+    gzipCacheWeight += weight;
+    gzipCache.set(etag, entry);
+    entry.promise = compress(content).then(payload => {
+      entry.pending = false;
+      return payload;
+    }, error => {
+      gzipCache.delete(etag);
+      gzipCacheWeight -= weight;
+      throw error;
+    });
+    return entry.promise;
+  }
   const bundle = await readFile(new URL('./data/pilot-walks.json', import.meta.url), 'utf8')
     .then(JSON.parse).catch(() => ({}));
   const known = new Map(Object.entries(bundle));
@@ -305,7 +341,7 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
         return;
       }
       const zipped = compressible && acceptsGzip(req.headers['accept-encoding']);
-      const payload = zipped ? await compress(content) : content;
+      const payload = zipped ? await gzipStatic(etag, content) : content;
       res.writeHead(200, { ...headers, 'Content-Length': payload.length, ...(zipped ? { 'Content-Encoding': 'gzip' } : {}) });
       res.end(req.method === 'HEAD' ? undefined : payload);
     } catch (error) {
