@@ -285,11 +285,18 @@ try{
    if(!target)return {missing:true};
    const before=target.classList.contains('motion-scroll-revealed');
    target.scrollIntoView({block:'center',inline:'center',behavior:'instant'});
-   await new Promise(resolve=>setTimeout(resolve,220));
+   // Wait for real intersection, then sample a deterministic animation time
+   // rather than depending on runner load or the exact scroll frame.
+   for(let i=0;i<30&&!target.classList.contains('motion-scroll-revealed');i++)
+     await new Promise(resolve=>requestAnimationFrame(resolve));
+   const animation=target.getAnimations().find(a=>a.animationName==='v98-card-arrive');
+   if(animation){animation.pause();animation.currentTime=120;}
    const style=getComputedStyle(target);
-   return {before,after:target.classList.contains('motion-scroll-revealed'),
+   const result={before,after:target.classList.contains('motion-scroll-revealed'),
      name:style.animationName,duration:parseFloat(style.animationDuration),
      translateY:new DOMMatrixReadOnly(style.transform).m42};
+   if(animation)animation.play();
+   return result;
  })()`);
  console.log('V98_SCROLL_PROBE '+JSON.stringify(v98ScrollProbe));
  assert.ok(!v98ScrollProbe.missing&&v98ScrollProbe.after

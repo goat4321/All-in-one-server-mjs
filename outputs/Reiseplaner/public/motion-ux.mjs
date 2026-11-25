@@ -112,10 +112,14 @@ export function createMotionController(doc){
     if(typeof view?.IntersectionObserver!=='function')return;
     const structural=changed
       ?Array.from(container.querySelectorAll(REVEAL_TARGETS)).slice(0,12):[];
-    const scrolling=Array.from(container.querySelectorAll(SCROLL_TARGETS))
-      .slice(0,MAX_SCROLL_REVEALS).map((node,index)=>({
-        node,key:scrollIdentity(node,index),index
-      })).filter(entry=>!completedReveals.has(entry.key));
+    // Large collapsed photo libraries cannot consume the budget before
+    // essential planning cards. Filter completed entries before the cap.
+    const candidates=Array.from(container.querySelectorAll(SCROLL_TARGETS))
+      .map((node,index)=>({node,key:scrollIdentity(node,index),index}))
+      .filter(entry=>!completedReveals.has(entry.key)&&!structural.includes(entry.node));
+    const gallery=entry=>Boolean(entry.node.matches?.('.photo114-group'));
+    const scrolling=[...candidates.filter(entry=>!gallery(entry)),...candidates.filter(gallery)]
+      .slice(0,MAX_SCROLL_REVEALS).map((entry,index)=>({...entry,delayIndex:index}));
     const entries=[
       ...structural.map((node,index)=>({
         node,key:'section:'+index,index,kind:'motion-revealed'
@@ -142,7 +146,7 @@ export function createMotionController(doc){
     },{root:null,rootMargin:'0px 0px -45px 0px',threshold:.08});
     observer=localObserver;
     for(const entry of entries){
-      entry.node.style.setProperty('--motion-delay',motionStagger(entry.index)+'ms');
+      entry.node.style.setProperty('--motion-delay',motionStagger(entry.delayIndex??entry.index)+'ms');
       observer.observe(entry.node);
     }
   };

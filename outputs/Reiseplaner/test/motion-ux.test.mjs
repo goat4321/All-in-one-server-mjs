@@ -206,3 +206,23 @@ test('V152 extends bounded motion to rail, budget, group, activity and image gal
  }
  assert.ok(selectors.every(s=>!s.includes('#map')&&!s.includes('.leaflet')));
 });
+
+import {navigationOffsetV153,captureRailsV153,restoreRailsV153} from '../public/navigation-motion-v153.mjs';
+test('V153 collapsed photo groups cannot displace core planning cards from bounded observation',()=>{
+ const observed=[];
+ class Observer{constructor(){}observe(n){observed.push(n)}disconnect(){}}
+ const node=(id,gallery)=>({dataset:{placeId:id},className:gallery?'photo114-group':'cockpit-progress-item',matches:s=>gallery&&s==='.photo114-group',style:{setProperty(){}},classList:{add(){}}});
+ const galleries=Array.from({length:64},(_,i)=>node('gallery-'+i,true)),card=node('planning',false);
+ const doc={documentElement:{dataset:{motion:'auto'}},defaultView:{matchMedia:()=>({matches:false}),IntersectionObserver:Observer},addEventListener(){}};
+ createMotionController(doc).reveal({querySelector(){return null},querySelectorAll(s){return s.startsWith('.editorial-journey-hero')?[]:[...galleries,card]}},{page:'overview'});
+ assert.equal(observed.length,42);assert.equal(observed[0],card);
+});
+test('V153 nav marker follows real page switches only, rail positions survive ordinary repaints',()=>{
+ assert.deepEqual(navigationOffsetV153({x:20,y:5,value:'map'},{x:120,y:5,value:'discover'}),{x:-100,y:0});
+ assert.equal(navigationOffsetV153({x:20,y:5,value:'map'},{x:120,y:5,value:'map'}),null);
+ assert.equal(navigationOffsetV153({x:0,y:0,value:'map'},{x:900,y:0,value:'plan'}),null);
+ const rail=left=>({className:'photo119-rail',scrollLeft:left,closest:()=>null});
+ const old=rail(178),next=rail(0);
+ const saved=captureRailsV153({querySelectorAll:()=>[old]});
+ restoreRailsV153({querySelectorAll:()=>[next]},saved);assert.equal(next.scrollLeft,178);
+});

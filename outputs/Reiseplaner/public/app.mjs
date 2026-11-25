@@ -1,7 +1,8 @@
 import { dailyBudgetDefaults } from './daily-budget.mjs';
 import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './public-geocode-eligibility.mjs';
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
-import {createMotionController} from './motion-ux.mjs';
+import {createMotionController,motionSceneKey} from './motion-ux.mjs';
+import {captureNavigationV153,restoreNavigationV153,captureRailsV153,restoreRailsV153} from './navigation-motion-v153.mjs';
 import {mountJourneyStoryV121} from './journey-story-v121.mjs';
 import {immersiveSceneV123,immersiveHtmlV123,previewDayTargetsV124,upcomingPhotoV124,formatPreviewTimeV124,previewStopTargetV124} from './immersive-route-v123.mjs';
 import {routePreviewHtmlV122,routePreviewDayV122} from './route-preview-v122.mjs';
@@ -668,9 +669,15 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   // through ordinary page rerenders. Previously every filter/day interaction
   // discarded the entire map, forcing another network/WebGL initialization.
   const oldMap=currentMap;
+  const previousScene=context?motionSceneKey(context):null;
+  const previousPage=context?.page;
+  const previousMenu=Boolean(app.querySelector('.sidebar.open'));
   const previousPlanKey=context?.page==='plan'?context.variant.id+'|'+context.date:null;
   const inspectorOpen=Boolean(app.querySelector('.day135-edit')?.open);
   context = buildContext();
+  const sameScene=previousScene===motionSceneKey(context);
+  const railPositions=sameScene?captureRailsV153(app):null;
+  const navigationBefore=previousPage!==context.page&&motion.enabled()?captureNavigationV153(app):null;
   const restoreInspector=inspectorOpen&&view.page==='plan'&&previousPlanKey===context.variant.id+'|'+context.date;
   if(view.dayQueueLoading&&!dayRouteGate.isCurrent(dayRouteRequest,context,view.dayQueueIds)){
     invalidateDayRoute();context.dayRoute.status=view.dayQueueStatus;
@@ -706,9 +713,14 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   }
   const sidebar = app.querySelector('.sidebar-inner');
   if (sidebar && sideScroll) sidebar.scrollTop = sideScroll;
+  if(railPositions)restoreRailsV153(app,railPositions);
+  if(motion.enabled()){
+    if(!previousMenu&&view.menu)app.querySelector('.sidebar.open')?.classList.add('nav153-drawer-enter');
+    if(navigationBefore)restoreNavigationV153(app,navigationBefore);
+  }
   const days = app.querySelector('.days');
   if (days) {
-    if (dateScroll && restoreView) days.scrollLeft = dateScroll;
+    if (dateScroll!=null && (restoreView||sameScene)) days.scrollLeft = dateScroll;
     else {
       const picked = days.querySelector('[aria-pressed=true]');
       if (picked) days.scrollLeft = Math.max(0, picked.offsetLeft - days.offsetLeft - 92);

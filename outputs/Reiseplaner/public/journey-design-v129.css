@@ -217,3 +217,60 @@ body.route123-active .reference-travel-shell .route123-timeline li[aria-current=
  #app :is(.rail-card,.rail-review-step,.stat,.group-vote-item,.photo114-group,.day135-row,.split > .panel).motion-scroll-revealed,
  .photo118-viewer img.motion-photo-loaded{animation:none!important}
 }
+
+/* V153: navigational continuity. Only the active marker moves, not the
+   buttons, text, map, sticky header or full page layout. */
+@keyframes nav153-indicator{
+ from{transform:translate3d(var(--nav153-x,0px),var(--nav153-y,0px),0);opacity:.35}
+ to{transform:translate3d(0,0,0);opacity:1}
+}
+@keyframes nav153-drawer{
+ from{transform:translate3d(-100%,0,0);opacity:.8}
+ to{transform:translate3d(0,0,0);opacity:1}
+}
+@keyframes nav153-page{
+ from{opacity:.72}
+ to{opacity:1}
+}
+@keyframes nav153-title{
+ from{opacity:.75;transform:translate3d(0,8px,0)}
+ to{opacity:1;transform:translate3d(0,0,0)}
+}
+.reference-travel-shell :is(.reference-main-nav,.mobile-dock,.sidebar) [data-action=page][aria-current=page]{position:relative}
+.reference-travel-shell :is(.reference-main-nav,.mobile-dock) [data-action=page][aria-current=page]::after{
+ content:"";position:absolute;inset:auto 25% 2px;height:2px;border-radius:8px;background:currentColor;pointer-events:none;
+}
+.reference-travel-shell .sidebar .nav-btn[aria-current=page]::after{
+ content:"";position:absolute;inset:25% auto 25% 2px;width:3px;border-radius:6px;background:currentColor;pointer-events:none;
+}
+.reference-travel-shell :is(.sidebar-inner,.photo119-rail,.photo119-map-rail,.day112-gallery,.destination-filmstrip,.journey121-days,.map-day-rail-track){
+ overscroll-behavior-inline:contain;
+}
+.reference-travel-shell .sidebar-inner{overscroll-behavior-y:contain;scrollbar-width:thin}
+@media(prefers-reduced-motion:no-preference){
+ :root:not([data-motion=off]) #app .reference-travel-shell .nav153-selected::after{
+  animation:nav153-indicator 320ms cubic-bezier(.2,.78,.18,1) both;
+ }
+ :root:not([data-motion=off]) #app .reference-travel-shell>.sidebar.open.nav153-drawer-enter{
+  animation:nav153-drawer 280ms cubic-bezier(.2,.78,.18,1) both;
+ }
+ :root:not([data-motion=off]) #app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter{
+  animation:nav153-page 240ms ease-out both!important;
+ }
+ :root:not([data-motion=off]) #app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter>.page-head h1{
+  animation:nav153-title 320ms cubic-bezier(.2,.78,.18,1) both;
+ }
+ :root:not([data-motion=off]) #app .reference-travel-shell :is(.rail-card,.rail-review-step,.stat,.group-vote-item,.photo114-group,.day135-row,.split > .panel).motion-scroll-revealed{
+  animation:journey152-rise 360ms cubic-bezier(.22,.8,.22,1) backwards!important;
+  animation-delay:var(--motion-delay,0ms)!important;
+ }
+ :root:not([data-motion=off]) .reference-travel-shell :is(.nav-btn,.city-btn,.reference-main-nav button,.mobile-dock button){
+  transition:background-color 200ms ease,color 200ms ease,transform 160ms cubic-bezier(.2,.78,.18,1);
+ }
+ @media(hover:hover) and (pointer:fine){
+  :root:not([data-motion=off]) .reference-travel-shell .sidebar .nav-btn:not([aria-current=page]):hover{transform:translateX(3px)}
+ }
+}
+:root[data-motion=off] .nav153-selected::after,
+:root[data-motion=off] .nav153-drawer-enter{animation:none!important}
+@media(prefers-reduced-motion:reduce){.nav153-selected::after,.nav153-drawer-enter{animation:none!important}}
