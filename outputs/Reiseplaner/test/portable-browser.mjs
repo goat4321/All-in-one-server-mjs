@@ -477,6 +477,8 @@ try {
     assert.ok(await js('document.querySelector(".route125-map-marker.is-current")'));
   }
   assert.ok(await js('document.querySelectorAll(".route125-map-marker").length<=12&&document.querySelectorAll(".route125-map-marker img").length<=8'));
+  const extraPhotos=await js('(()=>{const d=document.querySelector(".route138-extra");if(!d)return 0;d.open=true;return d.querySelectorAll(".photo119-item img[loading=lazy]").length})()');
+  assert.ok(extraPhotos<=2,'V140 bounded additional activity photos');
   await screenshot('31-v125-explorer-desktop.png');
   await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   await js('new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))');
@@ -1659,6 +1661,17 @@ try {
   await click('.day-plan-quick-bar [data-action=day-plan-adopt]');
   await until(()=>js('document.querySelectorAll(".day105-move:not(:disabled)").length>=2'),
     'V105 adopted activity suggestions expose movement controls');
+  assert.ok(await js('document.querySelector(".day135-inspector")?.textContent.includes("Planungscheck")'));
+  await js('document.querySelector(".day135-edit").open=true');
+  const durationPair=await js('JSON.parse(document.querySelector(".day135-actions [data-action=day135-duration]:not(:disabled)").dataset.value)');
+  const previousDuration=store.current('interrail_swiss').state.edits[durationPair[0]].duration;
+  const beforeDuration=JSON.stringify(store.current('interrail_swiss').state.edits);
+  await js('Array.from(document.querySelectorAll("[data-action=day135-duration]")).find(b=>b.dataset.value==='+JSON.stringify(JSON.stringify(durationPair))+').click()');
+  await until(()=>store.current('interrail_swiss').state.edits[durationPair[0]].duration===previousDuration+durationPair[1],'V135 explicit duration edit persists');
+  await until(()=>js('document.querySelector(".day135-edit")?.open===true'),'V135 duration editor stays open');
+  await click('.top-actions [data-action=undo]');
+  await until(()=>JSON.stringify(store.current('interrail_swiss').state.edits)===beforeDuration,'V135 undo restores previous duration');
+  await screenshot('v135-planning-check-mobile.png');
   const movePair=await js('JSON.parse(document.querySelector(".day105-move:not(:disabled)").dataset.value)');
   const rowIds=()=>js('Array.from(document.querySelectorAll(".timeline .event-card[data-event-id]"),e=>e.dataset.eventId)');
   const beforeOrder=await rowIds();

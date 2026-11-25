@@ -668,7 +668,10 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   // through ordinary page rerenders. Previously every filter/day interaction
   // discarded the entire map, forcing another network/WebGL initialization.
   const oldMap=currentMap;
+  const previousPlanKey=context?.page==='plan'?context.variant.id+'|'+context.date:null;
+  const inspectorOpen=Boolean(app.querySelector('.day135-edit')?.open);
   context = buildContext();
+  const restoreInspector=inspectorOpen&&view.page==='plan'&&previousPlanKey===context.variant.id+'|'+context.date;
   if(view.dayQueueLoading&&!dayRouteGate.isCurrent(dayRouteRequest,context,view.dayQueueIds)){
     invalidateDayRoute();context.dayRoute.status=view.dayQueueStatus;
   }
@@ -685,6 +688,7 @@ function render({ restoreView = false, focusMap = false, fetchRoutes = true } = 
   document.body.classList.toggle('route123-active',view.routeImmersive);
   unmountJourneyStory?.();
   app.innerHTML = renderShell(context);
+  if(restoreInspector){const details=app.querySelector('.day135-edit');if(details)details.open=true;}
   unmountJourneyStory=mountJourneyStoryV121(app);
   const replacement=app.querySelector('#map');
   if(mapNode&&replacement){

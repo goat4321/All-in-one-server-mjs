@@ -10,7 +10,7 @@ export function dayInspectorModelV135(ctx,warnings=[]){
   if(i.kind!=='activity'||i.removed||i.duplicateOf||i.mealSlot||seen.has(i.id))continue;
   seen.add(i.id);
   const mins=duration(i);if(mins===null)unknownDuration++;else minutes+=mins;
-  const price=i.effectivePrice??i.price,amount=groupPrice(price,ctx.people?.length??0);
+  const price=i.effectivePrice??i.price,count=ctx.people?.length??0,amount=count>0?groupPrice(price,count):null;
   if(amount===null||!Number.isSafeInteger(amount)||amount<0||!['EUR','CHF'].includes(price?.currency))unknownPrice++;
   else totals.set(price.currency,(totals.get(price.currency)??0)+amount);
   rows.push({id:i.id,name:i.name,minutes:mins,editable:editable(i)&&Boolean(ctx.activeSet?.has(i.id)),moves:timelineMovesV105(ctx,i.id)});
