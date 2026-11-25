@@ -3,7 +3,7 @@ import {publicGeocodeLookupAllowed,publicGeocodeLookupBlockedReason} from './pub
 import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
 import {mountJourneyStoryV121} from './journey-story-v121.mjs';
-import {immersiveSceneV123,immersiveHtmlV123} from './immersive-route-v123.mjs';
+import {immersiveSceneV123,immersiveHtmlV123,previewDayTargetsV124,upcomingPhotoV124,formatPreviewTimeV124} from './immersive-route-v123.mjs';
 import {routePreviewHtmlV122,routePreviewDayV122} from './route-preview-v122.mjs';
 import {dayPlanDraftEdits,timelineReorderV105} from './day-plans-logic.mjs';
 import {journeyModelV110,dayMoveOptionsV110} from './day-journey-v110.mjs';
@@ -344,27 +344,49 @@ function openDay110(mode){
  app.querySelector('.day110-player')?.scrollIntoView({block:'start',behavior:'instant'});
 }
 
+// Only one upcoming photo is requested at a time; no catalogue-wide prefetch.
+const route124Preloaded=new Map();
+function preloadRoutePhotoV124(url){
+ const connection=navigator.connection;
+ if(!url||route124Preloaded.has(url)||connection?.saveData||/^(slow-2g|2g)$/.test(connection?.effectiveType??''))return;
+ const img=new Image();img.referrerPolicy='no-referrer';img.decoding='async';img.fetchPriority='low';
+ route124Preloaded.set(url,img);if(route124Preloaded.size>6)route124Preloaded.delete(route124Preloaded.keys().next().value);
+ img.src=url;
+}
 function updateRouteStoryUi(state){
   const status=state?.status??'idle',visible=status!=='idle';
   document.body.classList.toggle('route-story-active',view.page==='map'&&visible);
   const panel=app.querySelector('#route-story-player');
   if(!panel)return;
+  const previousStatus=panel.dataset.status;
   panel.hidden=!visible;panel.dataset.status=status;
-  if(!visible){panel.dataset.previewKey='';panel.dataset.immersiveKey='';panel.dataset.immersiveContent='';return;}
+  if(view.routeImmersive&&status==='paused'&&previousStatus==='playing')currentMap?.map.stop();
+  if(!visible){panel.dataset.previewKey='';panel.dataset.immersiveKey='';panel.dataset.immersiveContent='';panel.dataset.cameraKey='';route124Preloaded.clear();return;}
   const immersive=panel.querySelector('#route123-preview');
   if(immersive){immersive.hidden=!view.routeImmersive;
    if(view.routeImmersive){
     const scene=immersiveSceneV123(context,state);
+    const range=panel.querySelector('#route124-time'),clock=panel.querySelector('#route124-clock'),picker=panel.querySelector('#route124-day');
+    if(range&&range.dataset.dragging!=='true'){range.max=String(Math.max(1,Math.ceil(state.previewDuration??0)));range.value=String(Math.round(state.previewTime??0));if(clock)clock.textContent=formatPreviewTimeV124(state.previewTime)+' / '+formatPreviewTimeV124(state.previewDuration);}
+    const pickerKey=context.variant.id+'|'+state.index;
+    if(picker&&picker.dataset.key!==pickerKey){const targets=previewDayTargetsV124(context,state);picker.replaceChildren(new Option('Reisetag auswählen',''));for(const d of targets)picker.add(new Option(d.date+' · '+(context.cities[d.city]?.name??d.city),d.date));picker.disabled=!targets.length;picker.dataset.key=pickerKey;}
+    if(picker&&picker.value!==(scene.day?.date??''))picker.value=scene.day?.date??'';
     if(panel.dataset.immersiveKey!==scene.key){
      panel.dataset.immersiveKey=scene.key;
-     if(panel.dataset.immersiveContent!==scene.contentKey){immersive.innerHTML=immersiveHtmlV123(context,state,scene);panel.dataset.immersiveContent=scene.contentKey;}
+     if(panel.dataset.immersiveContent!==scene.contentKey){immersive.innerHTML=immersiveHtmlV123(context,state,scene);panel.dataset.immersiveContent=scene.contentKey;preloadRoutePhotoV124(upcomingPhotoV124(context,state,scene));}
      else immersive.querySelectorAll('.route123-timeline li').forEach((row,index)=>{if(index===scene.index)row.setAttribute('aria-current','step');else row.removeAttribute('aria-current');});
      const map=currentMap?.map,point=context.cities[state.cityId]?.point;
      const next=context.cities[state.routeOverview?.[state.index+1]?.id]?.point;
      const animate=motion.enabled()&&state.status==='playing';
-     if(map&&point){map.stop();
-      if(state.phase==='travel'&&next){const options={padding:[70,70],maxZoom:9,animate,duration:.65};if(animate&&map.flyToBounds)map.flyToBounds([point,next],options);else map.fitBounds([point,next],options);}
-      else{const target=scene.stop?.point??point,zoom=scene.stop?.point?13:10;if(animate&&map.flyTo)map.flyTo(target,zoom,{duration:.65});else map.setView(target,zoom,{animate:false});}
+     if(map&&point){
+      const target=scene.stop?.point??point,zoom=scene.stop?.point?13:10;
+      const cameraKey=state.phase==='travel'&&next?'leg:'+point.join(',')+'>'+next.join(','):target.join(',')+'|'+zoom;
+      if(panel.dataset.cameraKey!==cameraKey||status==='paused'){
+       panel.dataset.cameraKey=cameraKey;map.stop();
+       if(state.phase==='travel'&&next){const options={padding:[54,54],maxZoom:9,animate,duration:.55};if(animate&&map.flyToBounds)map.flyToBounds([point,next],options);else map.fitBounds([point,next],options);}
+       else if(animate&&map.getZoom()===zoom)map.panTo(target,{animate:true,duration:.45,easeLinearity:.35});
+       else if(animate&&map.flyTo)map.flyTo(target,zoom,{duration:.65});else map.setView(target,zoom,{animate:false});
+      }
      }
     }
    }
@@ -2516,7 +2538,10 @@ document.addEventListener('click',event=>{
   target.focus?.({preventScroll:true});
   const header=app.querySelector('.reference-topbar');
   const nav=app.querySelector('.day103-navigation');
-  const offset=Math.max(header?.getBoundingClientRect().bottom??0,0)+(nav?.getBoundingClientRect().height??0)+12;
+  // Use the settled sticky positions, not the header's pre-scroll document position.
+  const headerHeight=header?.getBoundingClientRect().height??0;
+  const stickyTop=nav?parseFloat(getComputedStyle(nav).top)||0:0;
+  const offset=target===nav?headerHeight+12:Math.max(headerHeight,stickyTop)+(nav?.getBoundingClientRect().height??0)+12;
   const top=window.scrollY+target.getBoundingClientRect().top-offset;
   window.scrollTo({top:Math.max(0,top),behavior:reduced?'instant':'smooth'});
 });
@@ -2664,6 +2689,7 @@ document.addEventListener('keydown',event=>{
   }
 });
 app.addEventListener('input',event=>{
+  if(event.target.id==='route124-time'&&view.routeImmersive){const range=event.target;range.dataset.dragging='true';currentMap?.pauseCityStory();const clock=app.querySelector('#route124-clock');if(clock)clock.textContent=formatPreviewTimeV124(Number(range.value))+' / '+formatPreviewTimeV124(Number(range.max));return;}
   // Search the already-loaded catalog without another explicit submit.
   // A short debounce avoids rebuilding every card after each keystroke;
   // preserve the input focus and caret after rendering.
@@ -2695,6 +2721,8 @@ app.addEventListener('input',event=>{
   }
 });
 app.addEventListener('change', event => {
+  if(view.routeImmersive&&event.target.id==='route124-time'){delete event.target.dataset.dragging;currentMap?.seekCityStoryTime(Number(event.target.value));return;}
+  if(view.routeImmersive&&event.target.id==='route124-day'){const state=currentMap?.storyState();if(!state)return;const target=previewDayTargetsV124(context,state).find(d=>d.date===event.target.value);if(target)currentMap.seekCityStoryTime(target.ms);return;}
   if(event.target.matches('[data-stay-facet]')&&context?.page==='lodging'){
     if(!event.target.checkValidity()){event.target.reportValidity();return;}
     const key=event.target.dataset.stayFacet;
