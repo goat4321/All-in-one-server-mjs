@@ -3,7 +3,17 @@ import {storyPointBetween,storyProgress} from './route-city-story-v70.mjs';
 // Deliberate pause in each city so the arrival and successive symbols can
 // be perceived before the route continues. Durations are animations, not ETAs.
 export const STAY_MS=5200;
-const TRAVEL_MS=1350;
+export const TRAVEL_MS=1350;
+export const dwellMsV124=(stop,immersive=false)=>immersive?Math.max(STAY_MS,Math.min(30000,6000*(stop?.previewDays??1))):STAY_MS;
+export function storyTimelineV124(stops,immersive=false){
+ let start=0;return stops.map((stop,index)=>{const dwell=dwellMsV124(stop,immersive),travel=index<stops.length-1?TRAVEL_MS:0;const row={index,start,dwell,travel,end:start+dwell+travel};start=row.end;return row;});
+}
+export function timelinePositionV124(rows,ms){
+ if(!rows.length||!Number.isFinite(ms))return null;
+ const t=Math.max(0,Math.min(rows.at(-1).end,ms));
+ const row=rows.find(r=>t<r.end)??rows.at(-1),local=t-row.start;
+ return {index:row.index,phase:local>=row.dwell&&row.travel?'travel':'dwell',elapsed:local>=row.dwell&&row.travel?local-row.dwell:Math.min(local,row.dwell)};
+}
 const BURST_DIRECTIONS=[
   [-82,-69],[82,-69],[-108,5],[108,10],[-40,100],
 ];
@@ -62,11 +72,13 @@ export class RouteCityStoryPlayer{
   this.revealed=new Set();
   this.tick=this.tick.bind(this);
  }
- dwellDuration(){return this.immersive?Math.max(STAY_MS,Math.min(30000,6000*(this.stops[this.index]?.previewDays??1))):STAY_MS;}
+ dwellDuration(){return dwellMsV124(this.stops[this.index],this.immersive);}
  state(){
   const stop=this.stops[this.index]??null;
   const next=this.stops[this.index+1]??null;
+  const timeline=this.timeline??storyTimelineV124(this.stops,this.immersive),row=timeline[this.index];
   return {status:this.status,phase:this.phase,index:this.index,total:this.stops.length,
+   timeline,previewDuration:timeline.at(-1)?.end??0,previewTime:this.status==='complete'?(timeline.at(-1)?.end??0):(row?row.start+(this.phase==='travel'?row.dwell:0)+this.elapsed:0),
    phaseProgress:this.status==='complete'?1:Math.max(0,Math.min(1,this.elapsed/(this.phase==='dwell'?this.dwellDuration():TRAVEL_MS))),
    cityId:stop?.id??null,name:stop?.name??'',symbol:stop?.symbol??'🧭',
    description:stop?.description??'',nextName:next?.name??'',
@@ -122,6 +134,7 @@ export class RouteCityStoryPlayer{
   this.stops=stops.map(stop=>({...stop,point:[...stop.point],
    ideas:Array.isArray(stop.ideas)?stop.ideas.map(idea=>({...idea})):[]}));
   this.routeOverview=this.stops.map(stop=>({id:stop.id,name:stop.name}));
+  this.timeline=storyTimelineV124(this.stops,this.immersive);
   this.status='playing';this.index=0;this.part=0;this.phase='dwell';
   this.elapsed=0;this.lastTime=null;
   this.trail=L.polyline([this.stops[0].point],{
@@ -192,13 +205,19 @@ export class RouteCityStoryPlayer{
   this.frame=requestAnimationFrame(this.tick);return true;
  }
  // Manual navigation uses the same state, marker and trail as autoplay.
- seek(index){
+ seekTime(ms){
+  const pos=timelinePositionV124(this.timeline??storyTimelineV124(this.stops,this.immersive),ms);
+  if(!pos||this.status==='idle')return false;
+  return this.seek(pos.index,pos);
+ }
+ seek(index,position=null){
   if(!Number.isInteger(index)||index<0||index>=this.stops.length||this.status==='idle')return false;
   if(this.frame!=null)cancelAnimationFrame(this.frame);
   this.frame=null;this.lastTime=null;this.clearArrival();
   for(const marker of this.cityMarkers)if(marker)this.layer.removeLayer(marker);
   this.cityMarkers=[];this.revealed.clear();
-  this.index=index;this.part=0;this.phase='dwell';this.elapsed=0;this.status='paused';
+  this.index=index;this.phase=position?.phase??'dwell';this.elapsed=position?.elapsed??0;this.status='paused';
+  const f=this.phase==='travel'?Math.max(0,Math.min(1,this.elapsed/TRAVEL_MS)):0;this.part=f*f*(3-2*f);
   if(index>0)this.reveal(index-1);
   this.reveal(index);
   this.cityMarkers[index]?.getElement()?.querySelector('.story-arrived-marker')?.classList.add('story-arrived-current');
@@ -215,7 +234,7 @@ export class RouteCityStoryPlayer{
   this.stops=[];this.status='idle';this.index=0;this.part=0;
   this.phase='dwell';this.elapsed=0;
   this.dot=null;this.trail=null;this.burst=null;this.cityMarkers=[];
-  this.routeOverview=[];
+  this.routeOverview=[];this.timeline=[];
   if(!silent)this.emit();
  }
  destroy(){this.stop(true);this.map.removeLayer(this.layer);}
