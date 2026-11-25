@@ -32,3 +32,20 @@ test('Wikimedia requests use supported thumbnail widths',()=>{
  assert.equal(new URL(explorerPhotoUrlV125(p,160)).searchParams.get('width'),'250');
  assert.equal(new URL(previewPhotoUrlV124(p)).searchParams.get('width'),'1280');
 });
+
+import {ALL_PHOTO_GROUPS_V118,ALL_PHOTO_GROUPS_V151,PHOTO_TOTAL_V118,PHOTO_TOTAL_V151,renderPhotoLibraryV114} from '../public/photo-library-v114.mjs';
+import {PHOTO_GROUPS_V151,PHOTO_CANDIDATE_COUNT_V151} from '../public/photo-manifest-v151.mjs';
+import {curatedLibraryV114} from '../public/curated-place-photos.mjs';
+test('V151 additional photo candidates are distinct and included in the library',()=>{
+ const key=s=>s.replaceAll('_',' ').normalize('NFC').trim().toLowerCase();
+ const prior=new Set([...ALL_PHOTO_GROUPS_V118.flatMap(g=>g.files),...curatedLibraryV114().map(p=>p.file)].map(key));
+ const added=PHOTO_GROUPS_V151.flatMap(g=>g.files);
+ assert.equal(added.length,1000);
+ assert.equal(PHOTO_CANDIDATE_COUNT_V151,1000);
+ assert.equal(new Set(added.map(key)).size,added.length);
+ assert.ok(added.every(f=>!prior.has(key(f))&&/\.(?:jpe?g|png|webp)$/i.test(f)));
+ assert.equal(PHOTO_TOTAL_V151()-PHOTO_TOTAL_V118(),added.length);
+ assert.equal(ALL_PHOTO_GROUPS_V151.length-ALL_PHOTO_GROUPS_V118.length,PHOTO_GROUPS_V151.length);
+ const g=PHOTO_GROUPS_V151[0];
+ assert.ok(renderPhotoLibraryV114({trip:{route:[g.city]}}).includes(g.key));
+});
