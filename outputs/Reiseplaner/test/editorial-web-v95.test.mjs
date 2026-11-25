@@ -6,10 +6,10 @@ const [html,css,views,browse]=await Promise.all([
  load('public/index.html'),load('public/editorial-web-v95.css'),
  load('public/views.mjs'),load('public/browse-hub-v35.mjs')
 ]);
-test('V95 editorial is the final CSS layer, not an incompatible replacement',()=>{
+test('V95 editorial remains after V94 and before the V129 journey refinements',()=>{
  const sheets=[...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
- assert.deepEqual(sheets.slice(-3),[
-  '/calm-design-v91.css','/apple-visual-system-v94.css','/editorial-web-v95.css'
+ assert.deepEqual(sheets.slice(-4),[
+  '/calm-design-v91.css','/apple-visual-system-v94.css','/editorial-web-v95.css','/journey-design-v129.css'
  ]);
 });
 test('V95 homepage presents licensed image first and keeps journey planning',()=>{

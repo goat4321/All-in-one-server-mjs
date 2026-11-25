@@ -6,11 +6,11 @@ const [html,css,views,packageText]=await Promise.all([
  file('index.html'),file('apple-visual-system-v94.css'),file('views.mjs'),
  readFile(new URL('../package.json',import.meta.url),'utf8')
 ]);
-test('V94 visual system loads last, preserving older stylesheets',()=>{
+test('V94 visual system retains its intended cascade before V95 and V129',()=>{
  const sheets=[...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
- assert.equal(sheets.at(-1),'/editorial-web-v95.css');
- assert.equal(sheets.at(-2),'/apple-visual-system-v94.css');
- assert.equal(sheets.at(-3),'/calm-design-v91.css');
+ assert.deepEqual(sheets.slice(-4),[
+  '/calm-design-v91.css','/apple-visual-system-v94.css','/editorial-web-v95.css','/journey-design-v129.css'
+ ]);
  assert.equal(sheets.filter(x=>x.endsWith('.css')).length,new Set(sheets).size);
  assert.ok(packageText.includes('test/apple-visual-system-v94.test.mjs'));
 });
