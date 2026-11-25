@@ -470,10 +470,11 @@ export class TripMap {
 
 
   stopDayJourneyMotion(){
-    if(this.journeyFrame!=null)cancelAnimationFrame(this.journeyFrame);
+    const wasAnimating=this.journeyFrame!=null;
+    if(wasAnimating)cancelAnimationFrame(this.journeyFrame);
     this.journeyFrame=null;
     const stop=this.dayJourney?.stops[this.journeyFocus];
-    if(stop?.point&&this.journeyDot)this.journeyDot.setLatLng(stop.point);
+    if(wasAnimating&&stop?.point&&this.journeyDot)this.journeyDot.setLatLng(stop.point);
   }
 
   paintDayJourney(model){

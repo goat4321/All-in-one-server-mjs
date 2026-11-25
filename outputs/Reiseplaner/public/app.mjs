@@ -273,7 +273,7 @@ function buildContext() {
 let day110Timer=null,day110Index=-1,day110Request=0;
 let day126Time=0,day126Model=null,day126Timeline=null,day126SceneKey='',day126LastFrame=null;
 function timelineDay126(){const m=context?.dayJourney;if(day126Model!==m){day126Model=m;day126Timeline=dayTimelineV126(m);day126SceneKey='';}return day126Timeline;}
-function updateDay126Clock(time){const timeline=timelineDay126(),range=app.querySelector('#day126-time'),clock=app.querySelector('#day126-clock');day126Time=Math.max(0,Math.min(timeline.duration,time));if(range)range.value=String(day126Time);const label=Math.floor(day126Time/1000)+' / '+Math.ceil(timeline.duration/1000)+' s';if(clock&&clock.textContent!==label)clock.textContent=label;}
+function updateDay126Clock(time){const timeline=timelineDay126(),range=app.querySelector('#day126-time'),clock=app.querySelector('#day126-clock');day126Time=Math.max(0,Math.min(timeline.duration,time));if(range)range.value=String(day126Time);const label=Math.floor(day126Time/1000)+' / '+Math.ceil(timeline.duration/1000)+' s';if(clock&&clock.textContent!==label)clock.textContent=label;const progress=app.querySelector('.day110-track');const pct=Math.round(timeline.duration?day126Time/timeline.duration*100:0);if(progress&&progress.getAttribute('aria-valuenow')!==String(pct)){progress.setAttribute('aria-valuenow',String(pct));progress.querySelector('i').style.width=pct+'%';}}
 function updateDay126Scene(index){const panel=app.querySelector('#day126-scene');if(!panel)return;const key=day110Key()+'|'+index;if(day126SceneKey===key&&panel.hasChildNodes())return;day126SceneKey=key;panel.innerHTML=daySceneHtmlV126(context,context.dayJourney,index);}
 function day110Key(){return context?.dayJourney?[variant.id,context.date,context.dayJourney.mode].join('|'):null;}
 function pauseDay110(announce=true){
@@ -290,7 +290,7 @@ function focusDay110(index,animate=true,{keepClock=false}={}){
  const stop=m.stops[index],leg=m.legs[index-1];
  if(!keepClock)updateDay126Clock(dayStopTimeV126(timelineDay126(),index)??0);
  updateDay126Scene(index);
- currentMap?.focusDayJourney(index,{animate});
+ currentMap?.focusDayJourney(index,{animate:false});
  const panel=app.querySelector('.day110-player');
  if(!panel)return true;
  panel.querySelectorAll('.day110-stop').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.value)===index)));
@@ -305,7 +305,7 @@ function focusDay110(index,animate=true,{keepClock=false}={}){
  if(status)status.textContent='Stopp '+(index+1)+' / '+m.stops.length+' · '+stop.name
   +(stop.point?'':' · ohne belegten Pin')+(leg?.type==='routed'?' · Fußweg '+leg.minutes+' Min.':leg?.type==='transfer'?' · Transfer schematisch':leg?.type==='schematic'||leg?.type==='connection'?' · Luftlinie':leg?.type==='gap'?' · Weg offen':'');
  const progress=panel.querySelector('.day110-track');
- const pct=Math.round((index+1)/m.stops.length*100);
+ const pct=Math.round(timelineDay126().duration?day126Time/timelineDay126().duration*100:0);
  if(progress){progress.setAttribute('aria-valuenow',String(pct));progress.querySelector('i').style.width=pct+'%';}
  return true;
 }
@@ -2584,23 +2584,25 @@ document.addEventListener('click',event=>{
   const target=document.getElementById(link.hash.slice(1));
   if(!target)return;
   event.preventDefault();
-  // Scope smooth scrolling to explicit itinerary anchors; don't alter
-  // map, keyboard, programmatic navigation or browser-wide scrolling.
-  const reduced=document.documentElement.dataset.motion==='off'
-    ||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  target.focus?.({preventScroll:true});
+  // Use actual scroll ancestors and current header dimensions. A native
+  // anchor jump remains deterministic after resize and with reduced motion.
   const header=app.querySelector('.reference-topbar');
   const nav=app.querySelector('.day103-navigation');
-  // Use the settled sticky positions, not the header's pre-scroll document position.
   if(nav?.querySelector('.day103-picker[open]'))nav.querySelector('.day103-picker').open=false;
-  const headerHeight=header?.getBoundingClientRect().height??0;
-  const stickyTop=nav?parseFloat(getComputedStyle(nav).top)||0:0;
-  const offset=target===nav?headerHeight+12:Math.max(headerHeight,stickyTop)+(nav?.getBoundingClientRect().height??0)+12;
-  const top=window.scrollY+target.getBoundingClientRect().top-offset;
-  window.scrollTo({top:Math.max(0,top),behavior:reduced?'instant':'smooth'});
-  // After settling, correct only actual overlap with the sticky controls.
-  const correct=()=>{if(!target.isConnected)return;const r=target.getBoundingClientRect(),bottom=Math.max(header?.getBoundingClientRect().bottom??0,target===nav?0:nav?.getBoundingClientRect().bottom??0);if(r.top<bottom+8&&r.top>=-16)window.scrollBy({top:r.top-bottom-12,behavior:'instant'});};
-  if(reduced)requestAnimationFrame(correct);else window.addEventListener('scrollend',correct,{once:true});
+  target.focus?.({preventScroll:true});
+  const height=header?.getBoundingClientRect().height??0;
+  const sticky=nav?parseFloat(getComputedStyle(nav).top)||0:0;
+  const offset=target===nav?height+12:Math.max(height,sticky)+(nav?.getBoundingClientRect().height??0)+12;
+  const previous=target.style.scrollMarginTop;
+  target.style.scrollMarginTop=offset+'px';
+  target.scrollIntoView({block:'start',inline:'nearest',behavior:'instant'});
+  target.style.scrollMarginTop=previous;
+  requestAnimationFrame(()=>{
+   if(!target.isConnected)return;
+   const top=target.getBoundingClientRect().top;
+   const bottom=Math.max(header?.getBoundingClientRect().bottom??0,target===nav?0:nav?.getBoundingClientRect().bottom??0);
+   if(top<bottom+8&&top>=-16)window.scrollBy({top:top-bottom-12,behavior:'instant'});
+  });
 });
 // Two-way visual focus, without re-rendering Leaflet or changing the selected
 // POI, bookings or map viewport. Clustered markers may not have DOM elements.
