@@ -7,6 +7,7 @@ import {immersiveSceneV123,immersiveHtmlV123,previewDayTargetsV124,upcomingPhoto
 import {routePreviewHtmlV122,routePreviewDayV122} from './route-preview-v122.mjs';
 import {explorerMediaHtmlV125,explorerFallbackV125,upcomingActivityPhotoV125,syncExplorerMarkersV125,clearExplorerMarkersV125} from './route-explorer-v125.mjs';
 import {dayPlanDraftEdits,timelineReorderV105} from './day-plans-logic.mjs';
+import {editDayDurationV135} from './day-inspector-v135.mjs';
 import {journeyModelV110,dayMoveOptionsV110} from './day-journey-v110.mjs';
 import {dayTimelineV126,dayPositionV126,dayStopTimeV126,daySceneHtmlV126} from './day-route-player-v126.mjs';
 import {readPreparationV102,togglePreparationV102,preparationTextV102} from './day-preparation-v102.mjs';
@@ -1411,6 +1412,12 @@ async function action(name, value = '') {
       break;
     }
 
+    case 'day135-duration': {
+      if(view.page!=='plan')break;
+      const pair=JSON.parse(value),draft=editDayDurationV135(ctx,pair?.[0],pair?.[1]);
+      if(!draft.ok){say(draft.reason);break;}
+      await save({...ctx.state,edits:draft.edits},'Geplante Aufenthaltsdauer geändert');break;
+    }
     case 'day111-map-stop': {
       openDay110('draft');
       const index=context?.dayJourney?.stops.findIndex(s=>s.sourceId===value)??-1;

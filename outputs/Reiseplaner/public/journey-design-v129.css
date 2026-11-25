@@ -106,3 +106,24 @@ body.route123-active .reference-travel-shell .route123-timeline li[aria-current=
 @media(prefers-reduced-motion:reduce){.reference-travel-shell :is(.journey121-links a,.journey121-ideas button,.journey121-days button){transition:none!important}}
 :root[data-motion=off] .reference-travel-shell :is(.journey121-links a,.journey121-ideas button,.journey121-days button){transition:none!important}
 @media(prefers-contrast:more){.reference-travel-shell :is(.day111-card,.journey121-nav,.journey121-ideas button){border-color:var(--e95-ink)}}
+
+/* V132–137: responsive map controls and a read-only summary with explicit edits. */
+.reference-travel-shell .map-fullscreen-categories .map132-density{white-space:nowrap;min-height:44px}
+.reference-travel-shell .day135-inspector{min-width:0;padding:clamp(14px,2.6vw,26px);margin:18px 0;border:1px solid var(--e95-line);background:var(--e95-page);border-radius:20px}
+.day135-inspector header small{color:var(--e95-link);font-size:11px;letter-spacing:.08em;font-weight:650}
+.day135-inspector h2{font-size:clamp(24px,3vw,34px);letter-spacing:-.035em;margin:6px 0}
+.day135-inspector p,.day135-inspector li{font-size:.875rem;color:var(--e95-secondary);line-height:1.5;overflow-wrap:anywhere}
+.day135-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:8px;margin:12px 0}
+.day135-metrics span{background:var(--e95-paper);border-radius:12px;padding:12px;font-size:.8125rem;overflow-wrap:anywhere}
+.day135-metrics strong{display:block;font-size:clamp(17px,2.1vw,23px);letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.day135-inspector summary{min-height:44px;cursor:pointer;display:flex;align-items:center;gap:8px;font-weight:600;font-size:.875rem}
+.day135-inspector summary:before{content:'›';font-size:20px}
+.day135-inspector details[open]>summary:before{transform:rotate(90deg)}
+.day135-warnings,.day135-edit{border-top:1px solid var(--e95-line);margin-top:8px}
+.day135-row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 0;border-top:1px solid var(--e95-line);overflow-wrap:anywhere}
+.day135-row small{display:block;color:var(--e95-secondary);font-size:.8125rem}
+.day135-actions{display:flex;flex-wrap:wrap;gap:6px}
+.day135-actions button{min-height:44px;min-width:44px;background:var(--e95-paper);color:var(--e95-ink);border:1px solid var(--e95-line);border-radius:10px;padding:7px 11px;font:inherit;font-size:.8125rem;cursor:pointer}
+.day135-actions button:disabled{opacity:.45;cursor:default}
+.day135-inspector :is(button,summary):focus-visible{outline:3px solid var(--e95-focus);outline-offset:2px}
+@media(max-width:600px){.day135-actions{width:100%}.day135-actions button{flex:1 1 auto}}

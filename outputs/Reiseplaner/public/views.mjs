@@ -43,6 +43,7 @@ import {renderDayNavigatorV101,renderSwissDayExperienceV101} from './day-experie
 import {renderDayJumpV103,renderDayReturnV103} from './day-navigation-v103.mjs';
 import {renderDayPreparationV102} from './day-preparation-v102.mjs';
 import {renderDetailedDayV111} from './day-program-v111.mjs';
+import {renderDayInspectorV135} from './day-inspector-v135.mjs';
 import {renderDayBudgetV110,renderDayAlternativesV110,renderDayJourneyIntroV110,renderDayJourneyControlsV110} from './day-journey-v110.mjs';
 import {swissInterrailOverviewV82,swissInterrailRailV82} from './swiss-interrail-focus-v82.mjs';
 import {swissLodgingSummaryV83,swissLodgingCompareV83,swissLodgingRailNoteV83} from './swiss-lodging-v83.mjs';
@@ -228,6 +229,7 @@ function plan(ctx, name) {
     ${renderDetailedDayV111(ctx)||(editorialDayRailV119(ctx,day)+renderPhotoLibraryV114(ctx,{day:true}))}
     ${renderSwissDayExperienceV101(ctx)}
     ${renderDayJourneyIntroV110(ctx)}
+    ${renderDayInspectorV135(ctx,warnings)}
     ${renderDayBudgetV110(ctx)}
     ${renderDayAlternativesV110(ctx)}
     ${renderDayPreparationV102(ctx)}
