@@ -565,8 +565,8 @@ export class TripMap {
     // Marker DOM is the expensive layer: render only currently visible POIs.
     // Keep all source records in poiItems for search, selection and fit bounds.
     const visible=this.map.getBounds?.().pad(.22);
-    const onScreen=visible?this.poiItems.filter(item=>visible.contains(item.point)):this.poiItems;
-    const buckets=groupPoiForDisplay(prioritizedPoiV132(onScreen,this.poiFocused,this.poiSaved),zoom,
+    const onScreen=prioritizedPoiV132(visible?this.poiItems.filter(item=>visible.contains(item.point)):this.poiItems,this.poiFocused,this.poiSaved);
+    const buckets=groupPoiForDisplay(onScreen,zoom,
       point=>this.map.project(point,zoom),{
         mode:this.poiDensity,focusedId:this.poiFocused
       });
