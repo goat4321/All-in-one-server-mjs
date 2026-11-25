@@ -31,6 +31,24 @@ try{
   assert.match(await page.text(),/<html/i);
   const css=await fetch(base+'/styles.css');
   assert.equal(css.status,200,'Stylesheet erreichbar');
+  const rawCss=await fetch(base+'/styles.css',{headers:{'Accept-Encoding':'identity'}});
+  const rawCssText=await rawCss.text();
+  const zipCss=await fetch(base+'/styles.css',{headers:{'Accept-Encoding':'gzip'}});
+  assert.equal(zipCss.headers.get('Content-Encoding'),'gzip');
+  assert.equal(await zipCss.text(),rawCssText);
+  const validator=rawCss.headers.get('etag');
+  assert.ok(validator);
+  const unchanged=await fetch(base+'/styles.css',{headers:{'If-None-Match':validator}});
+  assert.equal(unchanged.status,304);
+  assert.equal(await unchanged.text(),'');
+  const head=await fetch(base+'/styles.css',{method:'HEAD',headers:{'Accept-Encoding':'identity'}});
+  assert.equal(head.headers.get('content-length'),rawCss.headers.get('content-length'));
+  assert.equal(await head.text(),'');
+  console.log('V144_STATIC_BYTES '+JSON.stringify({identity:Number(rawCss.headers.get('content-length')),gzip:Number(zipCss.headers.get('content-length'))}));
+  for(const value of [null,[],42,'invalid']){
+    const response=await fetch(base+'/api/walk',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(value)});
+    assert.equal(response.status,400);
+  }
   const module=await fetch(base+'/app.mjs');
   assert.equal(module.status,200,'App-Modul erreichbar');
   const malformed=await fetch(base+'/api/variant/%ZZ');

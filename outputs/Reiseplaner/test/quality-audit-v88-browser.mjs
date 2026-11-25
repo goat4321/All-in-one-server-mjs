@@ -765,6 +765,23 @@ try{
  console.log('V121_STORY_AUDIT '+JSON.stringify(storyAudit));
  assert.ok(storyAudit.every(s=>!s.missing&&s.count>0&&s.current&&s.status&&s.visible&&s.passed&&s.dateTargets&&s.overflow<=1));
  if(output)await writeFile(join(output,'v121-story-audit.json'),JSON.stringify(storyAudit,null,2));
+ // V147: record the extended viewport matrix independently of legacy assertions.
+ const matrix=[];
+ for(const width of [320,360,375,390,414,430,768,1024,1440,1920]){
+  const height=width<=430?844:900;
+  await cdp('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<=430});
+  for(const page of pageNames){
+   const transitionMs=await clickPage(page);
+   const sample=await js('('+function(){
+    const root=document.documentElement;
+    return {viewport:innerWidth,overflow:Math.max(0,root.scrollWidth-innerWidth),nodes:document.querySelectorAll('*').length};
+   }.toString()+')()');
+   matrix.push({width,height,page,transitionMs,...sample});
+  }
+ }
+ console.log('V147_RESPONSIVE_MATRIX '+JSON.stringify(matrix));
+ if(output)await writeFile(join(output,'v147-responsive-matrix.json'),JSON.stringify(matrix,null,2));
+ console.log('V147_OVERFLOW_FINDINGS '+JSON.stringify(matrix.filter(r=>r.overflow>3)));
  console.log('PASS V88 lab snapshots: seven pages × three widths × light/dark/reduced-motion');
 }finally{
  socket?.close();

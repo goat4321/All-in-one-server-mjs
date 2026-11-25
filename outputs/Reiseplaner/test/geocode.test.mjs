@@ -23,7 +23,9 @@ test('Single explicit known-address lookup is rate-limited, cacheable, and never
   try{
     const input={variantId:'interrail_classic',itemId:'research:bcom_16577964'};
     const before=store.current('interrail_classic').state;
-    const a=await request(input);
+    const [a,parallel]=await Promise.all([request(input),request(input)]);
+    assert.equal(parallel.status,200);
+    assert.equal(requests,1,'parallel identical requests share provider result');
     assert.equal(a.status,200);
     assert.equal(a.data.candidates.length,1);
     assert.deepEqual(a.data.candidates[0].point,[43.404,3.693]);

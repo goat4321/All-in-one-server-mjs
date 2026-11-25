@@ -3,6 +3,7 @@ import { readFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 import { promisify } from 'node:util';
+import { createHash } from 'node:crypto';
 import { gunzip, gzip } from 'node:zlib';
 import { loadCatalog, distanceKm } from './lib/catalog.mjs';
 import {fetchSupermarkets} from './lib/supermarket-source.mjs';
@@ -24,6 +25,14 @@ const json = (res, value, status = 200) => {
   res.end(JSON.stringify(value));
 };
 
+function acceptsGzip(header) {
+  const encodings = String(header ?? '').split(',').map(value => value.trim().split(';').map(part => part.trim()));
+  const requested = encodings.find(([name]) => name.toLowerCase() === 'gzip') ?? encodings.find(([name]) => name === '*');
+  const quality = requested?.find(part => /^q=/i.test(part));
+  const q = quality == null ? 1 : Number(quality.slice(2));
+  return Boolean(requested && q > 0 && q <= 1);
+}
+
 async function readJson(req) {
   if (!req.headers['content-type']?.toLowerCase().startsWith('application/json')) throw new InputError('JSON erwartet.', 415);
   let size = 0;
@@ -33,8 +42,11 @@ async function readJson(req) {
     if (size > maxBody) throw new InputError('Datei oder Änderung zu groß.', 413);
     parts.push(chunk);
   }
-  try { return JSON.parse(Buffer.concat(parts).toString('utf8')); }
+  let value;
+  try { value = JSON.parse(Buffer.concat(parts).toString('utf8')); }
   catch { throw new InputError('Ungültiges JSON.'); }
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new InputError('Ein JSON-Objekt wird erwartet.');
+  return value;
 }
 
 function validateCoordinates(values) {
@@ -155,9 +167,11 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
     const city=catalog.cities[item.city];
     if(!city?.point)throw new InputError('Stadtkoordinate für Plausibilitätsprüfung fehlt.');
     const key=item.city+'|'+item.address.trim().toLowerCase();
-    if(geocodeCache.has(key))return geocodeCache.get(key);
+    const cached=()=>({...geocodeCache.get(key),name:item.name,address:item.address,city:item.city});
+    if(geocodeCache.has(key))return cached();
     if(!upstream)throw new InputError('Online-Adressprüfung deaktiviert. Kartenposition kann weiterhin manuell ergänzt werden.',503);
     const task=geocodeQueue.then(async()=>{
+      if(geocodeCache.has(key))return cached();
       await new Promise(resolve=>setTimeout(resolve,Math.max(0,1250-(Date.now()-lastGeocode))));
       lastGeocode=Date.now();
       const url='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=3&addressdetails=1&q='
@@ -172,7 +186,7 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
         rows=await response.json();
         if(!Array.isArray(rows))throw new Error('Unbekanntes Anbieterformat');
       }catch(e){throw new InputError('Online-Adressprüfung ist nicht erreichbar. Bestehende Daten bleiben unverändert.',503);}
-      const candidates=rows.filter(r=>Number.isFinite(Number(r.lat))&&Number.isFinite(Number(r.lon)))
+      const candidates=rows.filter(r=>r && [r.lat,r.lon].every(v=>(typeof v==='number'||(typeof v==='string'&&v.trim()!==''))&&Number.isFinite(Number(v))) && Math.abs(Number(r.lat))<=90 && Math.abs(Number(r.lon))<=180)
         .map(r=>({displayName:String(r.display_name??'').slice(0,300),
           point:[Number(r.lat),Number(r.lon)],osmType:String(r.osm_type??''),
           osmId:String(r.osm_id??'')}))
@@ -239,11 +253,7 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
       }
       if (pathname === '/api/bootstrap' && req.method === 'GET') {
         const content = Buffer.from(JSON.stringify({ ...catalog, transitSchedules, variants: store.list() }));
-        const encodings = String(req.headers['accept-encoding'] ?? '').split(',').map(value => value.trim().split(';').map(part => part.trim()));
-        const requested = encodings.find(([name]) => name.toLowerCase() === 'gzip')
-          ?? encodings.find(([name]) => name === '*');
-        const quality = requested?.find(part => /^q=/i.test(part));
-        const compressed = Boolean(requested && (quality == null || Number(quality.slice(2)) > 0));
+        const compressed = acceptsGzip(req.headers['accept-encoding']);
         const payload = compressed ? await compress(content) : content;
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store',
           Vary: 'Accept-Encoding', 'Content-Length': payload.length, ...(compressed ? { 'Content-Encoding': 'gzip' } : {}) });
@@ -283,9 +293,21 @@ export async function createApp({ database, fetcher = fetch, upstream = true } =
       const ext = path.split('.').at(-1);
       if (!file.href.startsWith(publicDir.href) || !types[ext]) return json(res, { error: 'Datei nicht gefunden.' }, 404);
       const content = await readFile(file);
-      res.writeHead(200, { 'Content-Type': types[ext], 'Content-Length': content.length,
-        'Cache-Control': path.startsWith('vendor/') ? 'public, max-age=604800' : 'no-cache' });
-      res.end(req.method === 'HEAD' ? undefined : content);
+      const etag = 'W/"' + createHash('sha256').update(content).digest('hex') + '"';
+      const compressible = ['html','css','js','mjs','json','geojson'].includes(ext) && content.length >= 1024;
+      const headers = { 'Content-Type': types[ext], ETag: etag,
+        'Cache-Control': path.startsWith('vendor/') ? 'public, max-age=604800' : 'no-cache',
+        ...(compressible ? { Vary: 'Accept-Encoding' } : {}) };
+      const validators = String(req.headers['if-none-match'] ?? '').split(',').map(v=>v.trim().replace(/^W\//,''));
+      if (validators.includes('*') || validators.includes(etag.slice(2))) {
+        res.writeHead(304, headers);
+        res.end();
+        return;
+      }
+      const zipped = compressible && acceptsGzip(req.headers['accept-encoding']);
+      const payload = zipped ? await compress(content) : content;
+      res.writeHead(200, { ...headers, 'Content-Length': payload.length, ...(zipped ? { 'Content-Encoding': 'gzip' } : {}) });
+      res.end(req.method === 'HEAD' ? undefined : payload);
     } catch (error) {
       const status = error.status ?? (error.code === 'ENOENT' ? 404 : 500);
       if (status === 500) console.error(error);
