@@ -12,7 +12,8 @@ const REVEAL_TARGETS=[
   '.reference-map-intro','.hub-hero','.hub-toolbar',
   '.photo119-story',
   '.hub-results-title','.page-head','.data-page-heading',
-  '.data-checks','.timeline-panel','.day-editorial-hero','.day110-intro','.day126-timeline'
+  '.data-checks','.timeline-panel','.day-editorial-hero','.day110-intro','.day126-timeline',
+  '.activity-filter-panel','.rail-review-panel','.stat-grid','.group-vote-board','.photo114-library','.day135-inspector'
 ].join(',');
 // V98: More motion appears when actual content scrolls into view, not every
 // time the user adjusts a search filter or a map marker. Never observe the
@@ -27,7 +28,9 @@ const SCROLL_TARGETS=[
   '.swiss-editorial-head','.hub-market-access','.hub-food-planning',
   '.day-plan-quick-bar','.stay-swiss-research',
   '.data-disclosure','.cockpit-reference.section','.day110-budget','.day110-alternatives','.day126-hikes',
-  '.journey121-chapter','.day111-row[data-kind=activity]'
+  '.journey121-chapter','.day111-row[data-kind=activity]',
+  '.rail-card','.rail-review-step','.stat-grid .stat','.grid-cards .option-card',
+  '.group-vote-item','.photo114-group','.day135-row','.split > .panel'
 ].join(',');
 const MAX_SCROLL_REVEALS=42;
 const scrollIdentity=(node,index)=>{
@@ -41,7 +44,9 @@ const scrollIdentity=(node,index)=>{
 const IMAGE_TARGETS=[
   '.destination-cover img','.reference-discovery-image img',
   '.reference-intro-photo img','.reference-hero-thumb img',
-  '.inspector-cover-photo img','.place-photo img','.route125-media img','.day126-scene img'
+  '.inspector-cover-photo img','.place-photo img','.route125-media img','.day126-scene img',
+  '.photo114-card img','.photo119-item img','.day112-photo img','.place-gallery-item img',
+  '.photo118-viewer img','.editorial-journey-media img','.day-editorial-media img','.hub-hero-art img'
 ].join(',');
 
 export const motionEnabled=(preference='auto',reducedMotion=false)=>

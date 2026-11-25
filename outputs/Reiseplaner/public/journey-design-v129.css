@@ -158,3 +158,54 @@ body.route123-active .reference-travel-shell .route123-timeline li[aria-current=
 @media(max-height:500px) and (orientation:landscape){
  dialog{max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px);overflow:auto}
 }
+
+/* V152 — cohesive travel motion, compositor-friendly; no transforms on the
+   live map, no continuous background effects, no hidden initial content. */
+@keyframes journey152-rise{
+ from{opacity:.76;transform:translate3d(0,10px,0)}
+ to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes journey152-photo{
+ from{opacity:.65}
+ to{opacity:1}
+}
+@keyframes journey152-bar{
+ from{transform:scaleX(.15)}
+ to{transform:scaleX(1)}
+}
+@keyframes journey152-detail{
+ from{opacity:.8;transform:translate3d(0,5px,0)}
+ to{opacity:1;transform:translate3d(0,0,0)}
+}
+@media(prefers-reduced-motion:no-preference){
+ :root:not([data-motion=off]) #app :is(.rail-card,.rail-review-step,.stat,.group-vote-item,.photo114-group,.day135-row,.split > .panel).motion-scroll-revealed{
+  animation:journey152-rise 360ms cubic-bezier(.22,.8,.22,1) backwards;
+  animation-delay:var(--motion-delay,0ms);
+ }
+ :root:not([data-motion=off]) #app :is(.photo114-card,.photo119-item,.day112-photo,.place-gallery-item) img.motion-photo-loaded,
+ :root:not([data-motion=off]) .photo118-viewer img.motion-photo-loaded{
+  animation:journey152-photo 320ms ease-out both;
+ }
+ :root:not([data-motion=off]) #app :is(.photo114-group,.day135-inspector details,.data-disclosure)[open]>:is(.photo114-body,.day135-row,.data-disclosure-body){
+  animation:journey152-detail 230ms cubic-bezier(.22,.8,.22,1) both;
+ }
+ :root:not([data-motion=off]) #app :is(.motion-revealed,.motion-scroll-revealed) :is(.bar-track,.group-vote-bar)>span{
+  transform-origin:left center;animation:journey152-bar 520ms cubic-bezier(.22,.8,.22,1) both;
+ }
+ :root:not([data-motion=off]) :is(.photo114-card,.photo119-item,.day112-photo,.place-gallery-item)>a img{
+  transition:transform 360ms cubic-bezier(.22,.8,.22,1);
+ }
+ :root:not([data-motion=off]) :is(.photo114-card,.photo119-item,.day112-photo,.place-gallery-item)>a{
+  overflow:hidden;
+ }
+ :root:not([data-motion=off]) :is(.activity-category-chip,.activity-evidence-chip,.photo114-more,.day135-actions button,.photo118-toolbar button,.rail-review-step .button){
+  transition:transform 160ms cubic-bezier(.22,.8,.22,1),background-color 180ms ease,border-color 180ms ease;
+ }
+ :root:not([data-motion=off]) :is(.activity-category-chip,.activity-evidence-chip,.photo114-more,.day135-actions button,.photo118-toolbar button,.rail-review-step .button):not(:disabled):active{
+  transform:scale(.97);
+ }
+ @media(hover:hover) and (pointer:fine){
+  :root:not([data-motion=off]) :is(.photo114-card,.photo119-item,.day112-photo,.place-gallery-item)>a:hover img{transform:scale(1.035)}
+  :root:not([data-motion=off]) :is(.activity-category-chip,.activity-evidence-chip,.photo114-more,.day135-actions button,.photo118-toolbar button,.rail-review-step .button):not(:disabled):hover{transform:translateY(-1px)}
+ }
+}

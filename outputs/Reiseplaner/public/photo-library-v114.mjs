@@ -204,6 +204,7 @@ export function installPhotoViewerV118(doc){
  const show=()=>{
   const a=entries[index],original=a.querySelector('img'),img=viewer.querySelector('img');
   img.hidden=false;viewer.querySelector('.photo118-stage p').hidden=true;
+  img.classList.remove('motion-photo-loaded');
   img.alt=original.alt;
   const raw=original.getAttribute('src');
   // Use the existing attributed Commons asset at a larger resolution only in the viewer.

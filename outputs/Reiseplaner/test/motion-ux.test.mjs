@@ -188,3 +188,21 @@ test('V98 scroll reveals are optional when motion is disabled',()=>{
  assert.equal(calls,0);
  assert.equal(ctl.enabled(),false);
 });
+
+test('V152 extends bounded motion to rail, budget, group, activity and image galleries without animating map canvas',()=>{
+ const selectors=[],observed=[];
+ class Observer{
+  constructor(){}
+  observe(node){observed.push(node)}
+  disconnect(){}
+ }
+ const cards=Array.from({length:120},(_,i)=>({dataset:{placeId:String(i)},className:'rail-card',style:{setProperty(){}},classList:{add(){}}}));
+ const doc={documentElement:{dataset:{motion:'auto'}},defaultView:{matchMedia:()=>({matches:false}),IntersectionObserver:Observer},addEventListener(){}};
+ const ctl=createMotionController(doc);
+ ctl.reveal({querySelector(){return null},querySelectorAll(s){selectors.push(s);return s.startsWith('.editorial-journey-hero')?[]:cards}},{page:'rail'});
+ assert.equal(observed.length,42);
+ for(const name of ['.activity-filter-panel','.rail-review-panel','.stat-grid','.group-vote-board','.photo114-library','.rail-card','.group-vote-item','.day135-row']){
+  assert.ok(selectors.some(s=>s.includes(name)),name);
+ }
+ assert.ok(selectors.every(s=>!s.includes('#map')&&!s.includes('.leaflet')));
+});
