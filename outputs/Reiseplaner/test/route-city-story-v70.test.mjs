@@ -149,3 +149,32 @@ test('V123 immersive timeline follows the same day and phase clock; excludes opt
  const player=Object.assign(Object.create(RouteCityStoryPlayer.prototype),{stops:[{previewDays:3}],index:0,immersive:true});
  assert.equal(player.dwellDuration(),18000);player.immersive=false;assert.equal(player.dwellDuration(),STAY_MS);
 });
+
+test('V124 timeline round trips across stays, transfers and exact endpoints',async()=>{
+ const {storyTimelineV124,timelinePositionV124,TRAVEL_MS,RouteCityStoryPlayer}=await import('../public/route-city-story-player-v70.mjs');
+ const stops=[{id:'paris',previewDays:3},{id:'barcelona',previewDays:2},{id:'sete',previewDays:0}];
+ const rows=storyTimelineV124(stops,true);
+ assert.equal(rows[0].dwell,18000);assert.equal(rows[1].start,18000+TRAVEL_MS);
+ assert.deepEqual(timelinePositionV124(rows,18000),{index:0,phase:'travel',elapsed:0});
+ assert.deepEqual(timelinePositionV124(rows,rows[1].start),{index:1,phase:'dwell',elapsed:0});
+ assert.deepEqual(timelinePositionV124(rows,Infinity),null);
+ assert.deepEqual(timelinePositionV124(rows,-5),{index:0,phase:'dwell',elapsed:0});
+ assert.deepEqual(timelinePositionV124(rows,rows.at(-1).end+10),{index:2,phase:'dwell',elapsed:rows[2].dwell});
+ const player=Object.assign(Object.create(RouteCityStoryPlayer.prototype),{stops,timeline:rows,index:0,phase:'travel',status:'paused',elapsed:0,draw(){this.draws=(this.draws??0)+1;},emit(){},seek(){throw Error('same phase should not rebuild markers');}});
+ assert.equal(player.seekTime(18000+TRAVEL_MS/2),true);assert.equal(player.part,.5);assert.equal(player.draws,1);
+});
+test('V124 direct day and activity targets select the requested scene on the same clock',async()=>{
+ const {storyTimelineV124,timelinePositionV124}=await import('../public/route-city-story-player-v70.mjs');
+ const {previewDayTargetsV124,previewStopTargetV124,immersiveSceneV123,formatPreviewTimeV124}=await import('../public/immersive-route-v123.mjs');
+ const items=[{id:'a',city:'paris',kind:'activity',name:'A'},{id:'b',city:'paris',kind:'activity',name:'B'}];
+ const days=[{date:'2027-09-01',city:'paris',slots:[{id:'a'}]},{date:'2027-09-02',city:'paris',slots:[{id:'a'},{id:'b'}]},{date:'2027-09-03',city:'barcelona',slots:[]}];
+ const stops=[{id:'paris',previewDays:2},{id:'barcelona',previewDays:1}],timeline=storyTimelineV124(stops,true);
+ const ctx={trip:{route:['paris','barcelona'],dayPlansV32:days,items},all:items};
+ const base={index:0,cityId:'paris',phase:'dwell',routeOverview:stops,timeline,total:2};
+ const targets=previewDayTargetsV124(ctx,base);assert.equal(targets.length,3);
+ for(const t of targets){const p=timelinePositionV124(timeline,t.ms),state={...base,...p,cityId:stops[p.index].id,phaseProgress:p.elapsed/timeline[p.index].dwell};assert.equal(immersiveSceneV123(ctx,state).day.date,t.date);}
+ const scene=immersiveSceneV123(ctx,{...base,phaseProgress:.6});
+ const ms=previewStopTargetV124(base,scene,1),p=timelinePositionV124(timeline,ms);
+ assert.equal(immersiveSceneV123(ctx,{...base,...p,phaseProgress:p.elapsed/timeline[p.index].dwell}).stop.id,'b');
+ assert.equal(previewStopTargetV124(base,scene,99),null);assert.equal(formatPreviewTimeV124(65000),'1:05');
+});
