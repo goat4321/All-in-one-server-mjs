@@ -1,11 +1,11 @@
 import {esc} from './ui.mjs';
-import {itineraryPhotosV112,editorialPhotoScoreV119,photoCropV120,placeProfileModel} from './place-profile.mjs';
+import {itineraryPhotosV112,editorialPhotoScoreV119,photoCropV120,editorialCityPhotoV119} from './place-profile.mjs';
 import {money} from './model.mjs';
 
 const cache=new WeakMap();
 function entries(ctx){
  let data=cache.get(ctx);
- if(!data){data={items:new Map((ctx.all??ctx.trip?.items??[]).map(item=>[item.id,item])),photos:new Map()};cache.set(ctx,data);}
+ if(!data){data={items:new Map((ctx.all??ctx.trip?.items??[]).map(item=>[item.id,item])),photos:new Map(),fallbacks:new Map()};cache.set(ctx,data);}
  return data;
 }
 export function explorerActivityV125(ctx,stop){
@@ -17,6 +17,13 @@ export function explorerActivityV125(ctx,stop){
   data.photos.set(item.id,photos.sort((a,b)=>editorialPhotoScoreV119(item,b)-editorialPhotoScoreV119(item,a)));
  }
  return {item,photos:data.photos.get(item.id),stop};
+}
+export function explorerFallbackV125(ctx,state,scene){
+ const data=entries(ctx),key=scene.contentKey;
+ if(!data.fallbacks.has(key)){
+  data.fallbacks.set(key,editorialCityPhotoV119({...ctx,dayPlan:scene.day,date:scene.day?.date},state.cityId,{day:!!scene.day}));
+ }
+ return data.fallbacks.get(key);
 }
 export function explorerPhotoV125(ctx,scene,fallback=null){
  const activity=explorerActivityV125(ctx,scene.stop);
@@ -64,8 +71,10 @@ export function syncExplorerMarkersV125(map,leaflet,ctx,scene,state,onSeek){
   clearExplorerMarkersV125(map);
   record={ctx,key,layer:leaflet.layerGroup().addTo(map),markers:[]};mapState.set(map,record);
   let photos=0;
+  const connection=globalThis.navigator?.connection;
+  const photoLimit=connection?.saveData||/^(slow-2g|2g)$/.test(connection?.effectiveType??'')?0:8;
   for(const row of explorerMarkerRowsV125(ctx,scene)){
-   const url=row.photo&&photos<8?explorerPhotoUrlV125(row.photo,160):null;if(url)photos++;
+   const url=row.photo&&photos<photoLimit?explorerPhotoUrlV125(row.photo,160):null;if(url)photos++;
    const html='<span class="route125-map-pin">'+(url?'<img src="'+esc(url)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">':'<span aria-hidden="true">'+(row.index+1)+'</span>')+'</span>';
    const marker=leaflet.marker(row.point,{icon:leaflet.divIcon({className:'route125-map-marker',html,iconSize:[48,48],iconAnchor:[24,48]}),keyboard:true,title:row.name,alt:row.name,zIndexOffset:3200}).addTo(record.layer);
    marker.on('click',()=>onSeek(row.index));record.markers.push({marker,index:row.index});

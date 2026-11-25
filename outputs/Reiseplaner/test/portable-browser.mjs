@@ -458,6 +458,32 @@ try {
   await click('[data-action=route123-exit]');
   assert.ok(await js('!document.body.classList.contains("route123-active")&&!document.body.classList.contains("map-fullscreen-active")&&document.querySelector("#route-story-player").hidden'));
 
+  // V125 manual launch, activity facts and exact marker selection share the V124 clock.
+  await click('.map-panel>.panel-head [data-action=route125-launch]');
+  await until(()=>js('document.body.classList.contains("route123-active")&&document.querySelector("#route-story-player")?.dataset.status==="paused"'),'V125 manual explorer launches paused');
+  const activityFound=await js('(()=>{const p=document.querySelector("#route124-day");for(const o of [...p.options].filter(o=>o.value)){p.value=o.value;p.dispatchEvent(new Event("change",{bubbles:true}));if(document.querySelector(".route125-activity"))return true}return false})()');
+  assert.ok(activityFound,'V125 a planned activity must show its own facts');
+  await click('.route125-activity summary');
+  assert.ok(await js('document.querySelector(".route125-activity details").open'));
+  assert.ok(await js('document.querySelector(".route125-facts").textContent.length>0'));
+  const markerFound=await js('(()=>{const p=document.querySelector("#route124-day");for(const o of [...p.options].filter(o=>o.value)){p.value=o.value;p.dispatchEvent(new Event("change",{bubbles:true}));if(document.querySelector(".route125-map-marker"))return true}return false})()');
+  if(markerFound){
+    const markerName=await js('document.querySelector(".route125-map-marker").getAttribute("title")');
+    await click('.route125-map-marker');
+    assert.equal(await js('document.querySelector(".route125-activity h3").textContent'),markerName);
+    assert.ok(await js('document.querySelector(".route125-map-marker.is-current")'));
+  }
+  assert.ok(await js('document.querySelectorAll(".route125-map-marker").length<=12&&document.querySelectorAll(".route125-map-marker img").length<=8'));
+  await screenshot('31-v125-explorer-desktop.png');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  await js('new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))');
+  assert.ok(await js('(()=>{const p=document.querySelector("#route-story-player");return p.scrollWidth<=p.clientWidth+2})()'),'V125 facts and media fit the mobile explorer');
+  await screenshot('31-v125-explorer-mobile.png');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+  await click('[data-action=route123-exit]');
+  assert.equal(await js('document.querySelectorAll(".route125-map-marker").length'),0);
+
+
   assert.ok(await js('(() => { const m=document.querySelector(".reference-map-workspace>.map-panel")?.getBoundingClientRect(),a=document.querySelector(".reference-map-workspace>.explorer-right")?.getBoundingClientRect();return m&&a&&m.left>a.left&&m.width>a.width*1.12; })()'),
     'Reference layout uses compact agenda on left and wider interactive map on right');
   assert.ok(await js('Boolean(document.querySelector(".reference-map-intro h1"))'),

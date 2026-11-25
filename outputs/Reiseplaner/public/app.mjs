@@ -4,8 +4,8 @@ import { GUIDE_STEPS, guideStep } from './tutorial.mjs';
 import {createMotionController} from './motion-ux.mjs';
 import {mountJourneyStoryV121} from './journey-story-v121.mjs';
 import {immersiveSceneV123,immersiveHtmlV123,previewDayTargetsV124,upcomingPhotoV124,formatPreviewTimeV124,previewStopTargetV124} from './immersive-route-v123.mjs';
-import {routePreviewHtmlV122,routePreviewDayV122,routePreviewModelV122} from './route-preview-v122.mjs';
-import {explorerMediaHtmlV125,upcomingActivityPhotoV125,syncExplorerMarkersV125,clearExplorerMarkersV125} from './route-explorer-v125.mjs';
+import {routePreviewHtmlV122,routePreviewDayV122} from './route-preview-v122.mjs';
+import {explorerMediaHtmlV125,explorerFallbackV125,upcomingActivityPhotoV125,syncExplorerMarkersV125,clearExplorerMarkersV125} from './route-explorer-v125.mjs';
 import {dayPlanDraftEdits,timelineReorderV105} from './day-plans-logic.mjs';
 import {journeyModelV110,dayMoveOptionsV110} from './day-journey-v110.mjs';
 import {readPreparationV102,togglePreparationV102,preparationTextV102} from './day-preparation-v102.mjs';
@@ -348,6 +348,7 @@ function openDay110(mode){
 // Only one upcoming photo is requested at a time; no catalogue-wide prefetch.
 const route124Preloaded=new Map();
 let route124PendingPhoto=null;
+let route125ManualCamera=false;
 function clearRoutePreloadV124(){if(route124PendingPhoto){route124PendingPhoto.onload=route124PendingPhoto.onerror=null;route124PendingPhoto.removeAttribute('src');route124PendingPhoto=null;}route124Preloaded.clear();}
 function preloadRoutePhotoV124(url){
  const connection=navigator.connection;
@@ -381,7 +382,7 @@ function updateRouteStoryUi(state){
      if(panel.dataset.immersiveContent!==scene.contentKey){immersive.innerHTML=immersiveHtmlV123(context,state,scene);panel.dataset.immersiveContent=scene.contentKey;}
      else {
       const hero=immersive.querySelector('.route123-hero');
-      if(hero)hero.innerHTML=explorerMediaHtmlV125(context,scene,routePreviewModelV122(context,state)?.editorial);
+      if(hero)hero.innerHTML=explorerMediaHtmlV125(context,scene,explorerFallbackV125(context,state,scene));
       immersive.querySelectorAll('.route123-timeline li').forEach((row,index)=>{if(index===scene.index)row.setAttribute('aria-current','step');else row.removeAttribute('aria-current');row.querySelector('.route124-stop-seek')?.setAttribute('aria-pressed',String(index===scene.index));});
      }
      const root=immersive.querySelector('.route123-scene');if(root)root.dataset.route123Key=scene.key;
@@ -389,7 +390,7 @@ function updateRouteStoryUi(state){
      syncExplorerMarkersV125(currentMap?.map,window.L,context,scene,state,index=>{void action('route124-stop',String(index)).catch(error=>say(error.message));});
      const map=currentMap?.map,point=context.cities[state.cityId]?.point;
      const next=context.cities[state.routeOverview?.[state.index+1]?.id]?.point;
-     const animate=motion.enabled()&&state.status==='playing';
+     const animate=motion.enabled()&&(state.status==='playing'||route125ManualCamera);
      if(map&&point){
       const target=scene.stop?.point??point,zoom=scene.stop?.point?13:10;
       const cameraKey=state.phase==='travel'&&next?'leg:'+point.join(',')+'>'+next.join(','):target.join(',')+'|'+zoom;
@@ -1945,7 +1946,7 @@ async function action(name, value = '') {
       if(!view.routeImmersive||!/^\d+$/.test(value))break;
       const state=currentMap?.storyState();if(!state||state.status==='idle')break;
       const target=previewStopTargetV124(state,immersiveSceneV123(context,state),Number(value));
-      if(target!==null)currentMap.seekCityStoryTime(target);break;
+      if(target!==null){route125ManualCamera=true;try{currentMap.seekCityStoryTime(target);}finally{route125ManualCamera=false;}}break;
     }
     case 'route122-prev':
     case 'route122-next': {
@@ -2761,7 +2762,7 @@ app.addEventListener('input',event=>{
 });
 app.addEventListener('change', event => {
   if(view.routeImmersive&&event.target.id==='route124-time'){finishRouteScrubV124(event.target);return;}
-  if(view.routeImmersive&&event.target.id==='route124-day'){const state=currentMap?.storyState();if(!state)return;const target=previewDayTargetsV124(context,state).find(d=>d.date===event.target.value);if(target)currentMap.seekCityStoryTime(target.ms);return;}
+  if(view.routeImmersive&&event.target.id==='route124-day'){const state=currentMap?.storyState();if(!state)return;const target=previewDayTargetsV124(context,state).find(d=>d.date===event.target.value);if(target){route125ManualCamera=true;try{currentMap.seekCityStoryTime(target.ms);}finally{route125ManualCamera=false;}}return;}
   if(event.target.matches('[data-stay-facet]')&&context?.page==='lodging'){
     if(!event.target.checkValidity()){event.target.reportValidity();return;}
     const key=event.target.dataset.stayFacet;

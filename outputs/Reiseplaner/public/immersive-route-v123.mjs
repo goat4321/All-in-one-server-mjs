@@ -1,7 +1,7 @@
 import {esc,shortDay} from './ui.mjs';
 import {explorerMediaHtmlV125} from './route-explorer-v125.mjs';
 import {routePreviewDayV122,routePreviewModelV122} from './route-preview-v122.mjs';
-import {photoCropV120,editorialCityPhotoV119} from './place-profile.mjs';
+import {editorialCityPhotoV119} from './place-profile.mjs';
 const periods={morning:'Vormittag',noon:'Mittag',afternoon:'Nachmittag',evening:'Abend'};
 export const exactPreviewPointV123=item=>{
  const p=item?.point;
