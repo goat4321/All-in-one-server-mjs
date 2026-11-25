@@ -472,6 +472,7 @@ function mapPanel(ctx, full = false) {
         <span class="route-story-count" id="route-story-count">0 / 0</span>
       </div>
       <div class="route123-topline"><span>REISEKINO · VORSCHAU</span><button type="button" data-action="route123-exit" aria-label="Reisekino beenden">Schließen ×</button></div>
+      <div class="route124-scrubber"><label for="route124-time">Vorschauzeit <output id="route124-clock">0:00 / 0:00</output></label><input type="range" id="route124-time" min="0" max="1" step="1" value="0" aria-label="Position in der Reisevorschau"><label for="route124-day">Reisetag auswählen</label><select id="route124-day"><option value="">Tageszuordnung offen</option></select></div>
       <div id="route123-preview" hidden aria-label="Immersive Reiseszene"></div>
       <div id="route122-preview" class="route122-preview" hidden aria-label="Aktuelle Etappe mit Foto und Reisetagen"></div>
       <div class="route122-phase-track" aria-hidden="true"><i id="route122-phase-fill"></i></div>
