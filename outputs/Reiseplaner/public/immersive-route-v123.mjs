@@ -1,6 +1,6 @@
 import {esc,shortDay} from './ui.mjs';
 import {routePreviewDayV122,routePreviewModelV122} from './route-preview-v122.mjs';
-import {photoCropV120} from './place-profile.mjs';
+import {photoCropV120,editorialCityPhotoV119} from './place-profile.mjs';
 const periods={morning:'Vormittag',noon:'Mittag',afternoon:'Nachmittag',evening:'Abend'};
 export const exactPreviewPointV123=item=>{
  const p=item?.point;
@@ -35,11 +35,35 @@ export function immersiveHtmlV123(ctx,state,scene=immersiveSceneV123(ctx,state))
  const ref=model.reference;
  return '<section class="route123-scene" data-route123-key="'+esc(scene.key)+'">'
   +'<div class="route123-hero" data-photo120-crop="'+photoCropV120(item,photo)+'">'
-  +(photo?'<figure class="photo119-item"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Ortsfoto vergrößern"><img src="'+esc(photo.url.replace(/\?width=960$/,'?width=1440'))+'" alt="'+esc(item.name)+'" decoding="async" referrerpolicy="no-referrer"></a><figcaption><small>'+esc(photo.credit)+'</small> <a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a></figcaption></figure>':'<p class="route123-no-photo">Kein zugeordnetes Ortsfoto</p>')
+  +(photo?'<figure class="photo119-item"><a href="'+esc(photo.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Ortsfoto vergrößern"><img src="'+esc(previewPhotoUrlV124(photo))+'" alt="'+esc(item.name)+'" decoding="async" referrerpolicy="no-referrer"></a><figcaption><small>'+esc(photo.credit)+'</small> <a href="'+esc(photo.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Bildquelle</a></figcaption></figure>':'<p class="route123-no-photo">Kein zugeordnetes Ortsfoto</p>')
   +'</div><div class="route123-heading"><small>'+esc(travel?'UNTERWEGS NACH '+(ctx.cities?.[model.next]?.name??model.next):'ETAPPE '+(state.index+1)+' / '+state.total)+'</small><h2>'+esc(title)+'</h2>'
   +(scene.day?'<p>'+esc(shortDay(scene.day.date))+' · Tag '+(scene.days.indexOf(scene.day)+1)+' / '+scene.days.length+'</p>':'<p>Tageszuordnung offen</p>')+'</div>'
   +(travel?'<p class="route123-transfer">'+(ref?'Archivreferenz: '+esc(ref.from.date)+' '+esc(ref.from.time)+' → '+esc(ref.to.date)+' '+esc(ref.to.time)+' · '+ref.minutes+' Min. · aktueller Fahrplan offen':'Fahrtzeit offen · schematische Städteverbindung')+'</p>':'')
   +'<ol class="route123-timeline" aria-label="Tagesentwurf">'+scene.stops.map((s,i)=>'<li'+(i===scene.index?' aria-current="step"':'')+'><span>'+esc(s.period)+(s.minutes!==null?' · '+s.minutes+' Min.':'')+'</span><button type="button" data-action="details" data-value="'+esc(s.id)+'">'+esc(s.name)+'</button><small>'+(s.point?'Belegter Orts-Pin':'Position offen')+'</small></li>').join('')+'</ol>'
   +(scene.day?'<button type="button" class="route123-day-open" data-action="route123-day" data-value="'+esc(scene.day.date)+'">Detaillierte Tagesroute öffnen</button>':'')
   +'<p class="route123-note">Vorschau des Tagesentwurfs · keine Live-Position oder bestätigte Buchung.</p></section>';
+}
+
+export function previewDayTargetsV124(ctx,state){
+ const days=ctx?.trip?.dayPlansV32??[],route=state.routeOverview??[],timeline=state.timeline??[];
+ return days.flatMap(day=>{
+  const current=route[state.index]?.id===day.city?state.index:-1;
+  const index=current>=0?current:route.findIndex(s=>s.id===day.city);
+  const row=timeline[index];if(!row)return [];
+  const matching=days.filter(d=>d.city===day.city);
+  return [{date:day.date,city:day.city,ms:row.start+row.dwell*(matching.indexOf(day)+.001)/matching.length}];
+ });
+}
+export const previewPhotoUrlV124=photo=>photo?.url?.replace(/\?width=960$/,'?width=1440')??null;
+export function upcomingPhotoV124(ctx,state,scene){
+ const nextDay=scene.days[scene.days.indexOf(scene.day)+1];
+ const city=nextDay?state.cityId:state.routeOverview?.[state.index+1]?.id;
+ if(!city)return null;
+ const day=nextDay??(ctx.trip.dayPlansV32??[]).find(d=>d.city===city);
+ const editorial=editorialCityPhotoV119({...ctx,dayPlan:day,date:day?.date},city,{day:!!day});
+ return previewPhotoUrlV124(editorial?.photo);
+}
+export function formatPreviewTimeV124(ms){
+ const seconds=Math.max(0,Math.floor((Number(ms)||0)/1000));
+ return Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');
 }
