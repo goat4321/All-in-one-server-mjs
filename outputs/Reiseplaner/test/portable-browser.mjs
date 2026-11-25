@@ -435,6 +435,26 @@ try {
   assert.equal(await js('document.querySelector("#route-story-player").dataset.status'),'paused');
   assert.ok(await js('document.querySelector(".route123-heading h2").textContent===document.querySelector("#route-story-city").textContent'));
   await screenshot('31-v123-immersive-route-desktop.png');
+  // V124: real range events exercise the same seek clock, including final frame.
+  const scrub=await js('(()=>{const r=document.querySelector("#route124-time");r.value=String(Math.round(Number(r.max)*.5));r.dispatchEvent(new Event("input",{bubbles:true}));return Number(r.max)>1000})()');
+  assert.ok(scrub);
+  await js('new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))');
+  await js('(()=>{const r=document.querySelector("#route124-time");r.dispatchEvent(new Event("change",{bubbles:true}));})()');
+  assert.equal(await js('document.querySelector("#route-story-player").dataset.status'),'paused');
+  assert.ok(await js('(()=>{const r=document.querySelector("#route124-time");return Math.abs(Number(r.value)-Number(r.max)*.5)<2&&!r.dataset.dragging})()'));
+  const dateSelected=await js('(()=>{const p=document.querySelector("#route124-day");const o=[...p.options].filter(x=>x.value).at(-1);if(!o)return null;p.value=o.value;p.dispatchEvent(new Event("change",{bubbles:true}));return o.value})()');
+  assert.ok(dateSelected);
+  assert.equal(await js('document.querySelector("#route124-day").value'),dateSelected);
+  assert.ok(await js('document.querySelector(".route123-scene").dataset.route123Key.includes(document.querySelector("#route124-day").value)'));
+  await js('(()=>{const r=document.querySelector("#route124-time");r.dispatchEvent(new KeyboardEvent("keydown",{key:"Home",bubbles:true,cancelable:true}));})()');
+  assert.equal(await js('Number(document.querySelector("#route124-time").value)'),0);
+  await screenshot('31-v124-scrubber-desktop.png');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  await js('new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))');
+  assert.ok(await js('(()=>{const p=document.querySelector("#route-story-player").getBoundingClientRect(),m=document.querySelector("#map").getBoundingClientRect();return p.width<=innerWidth&&p.left>=0&&p.right<=innerWidth+1&&m.bottom<=p.top+8&&p.height>100})()'),'V124 mobile split map and cinema stay within the viewport');
+  await screenshot('31-v124-scrubber-mobile.png');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+
   await click('[data-action=route123-exit]');
   assert.ok(await js('!document.body.classList.contains("route123-active")&&!document.body.classList.contains("map-fullscreen-active")&&document.querySelector("#route-story-player").hidden'));
 
@@ -1268,7 +1288,7 @@ try {
   });
   assert.ok(await js('document.querySelectorAll(".day103-jump-links a").length===4'));
   await click('.day103-jump-links a[href="#day103-preparation"]');
-  await until(()=>js('(()=>{const e=document.querySelector("#day103-preparation"),h=document.querySelector(".reference-topbar");if(!e||!h)return false;const t=e.getBoundingClientRect().top;return t>=h.getBoundingClientRect().bottom&&t<200})()'),
+  await until(()=>js('(()=>{const e=document.querySelector("#day103-preparation"),h=document.querySelector(".reference-topbar");if(!e||!h)return false;const n=document.querySelector(".day103-navigation"),t=e.getBoundingClientRect().top,bottom=Math.max(h.getBoundingClientRect().bottom,n?.getBoundingClientRect().bottom??0);return t>=bottom-2&&t<Math.min(innerHeight,bottom+100)})()'),
     'V103 scroll-to-preparation stays visible below the sticky header');
   await screenshot('v103-interrail-schweiz-day-shortcuts-desktop.png');
   await click('.day101-navigation-button[data-value="2027-09-12"]');
