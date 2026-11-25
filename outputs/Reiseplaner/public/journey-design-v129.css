@@ -255,7 +255,7 @@ body.route123-active .reference-travel-shell .route123-timeline li[aria-current=
   animation:nav153-drawer 280ms cubic-bezier(.2,.78,.18,1) both;
  }
  :root:not([data-motion=off]) #app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter{
-  animation:nav153-page 240ms ease-out both!important;
+  animation:nav153-page 240ms ease-out backwards!important;
  }
  :root:not([data-motion=off]) #app .reference-travel-shell.is-content-page main.workspace.motion-scene-enter>.page-head h1{
   animation:nav153-title 320ms cubic-bezier(.2,.78,.18,1) both;

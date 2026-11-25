@@ -588,8 +588,8 @@ try{
    row.v98ScrollRevealDuration===null||row.v98ScrollRevealDuration<0.001),
    'V98 scroll reveal must respect the operating system reduced-motion setting');
  assert.ok(rows.some(row=>row.page==='overview'&&!row.reduce
-   &&row.v97SceneName==='v97-scene-in'&&row.v97SceneDuration>=0.2),
-   'V97 meaningful navigation must visibly animate the content scene');
+   &&row.v97SceneName==='nav153-page'&&row.v97SceneDuration>=0.2),
+   'V153 meaningful navigation must visibly animate the content scene without layout movement');
  assert.ok(rows.filter(row=>row.reduce).every(row=>
    row.v97SceneDuration===null||row.v97SceneDuration<0.001),
    'V97 whole-page transition must respect system reduced motion');
@@ -815,6 +815,19 @@ try{
   return name;
  }.toString()+')()');
  assert.equal(reduced152,'none');
+ await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+ await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
+ await clickPage('map');
+ await clickPage('discover');
+ const nav153=await js('('+function(){
+  const node=document.querySelector('.reference-main-nav [data-value=discover][aria-current=page]');
+  if(!node)return {missing:true};
+  return {active:node.classList.contains('nav153-selected'),name:getComputedStyle(node,'::after').animationName,
+   x:parseFloat(node.style.getPropertyValue('--nav153-x')),workspace:getComputedStyle(document.querySelector('main.workspace')).transform};
+ }.toString()+')()');
+ console.log('V153_NAVIGATION '+JSON.stringify(nav153));
+ assert.ok(nav153.active&&nav153.name==='nav153-indicator'&&Number.isFinite(nav153.x)&&Math.abs(nav153.x)>0);
+ assert.equal(nav153.workspace,'none');
  console.log('V150_RESPONSIVE_MATRIX '+JSON.stringify(matrix));
  if(output)await writeFile(join(output,'v150-responsive-matrix.json'),JSON.stringify(matrix,null,2));
  const problems=matrix.filter(r=>r.overflow>3||r.active!==r.page||Math.abs(r.viewport-r.width)>1);
